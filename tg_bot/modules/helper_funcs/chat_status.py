@@ -9,6 +9,9 @@ from tg_bot import DEL_CMDS, SUDO_USERS, WHITELIST_USERS
 def can_delete(chat: Chat, bot_id: int) -> bool:
     return chat.get_member(bot_id).can_delete_messages
 
+def sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
+    return user_id in SUDO_USERS or (member.status in ('administrator', 'creator'))
+
 
 def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if chat.type == 'private' \

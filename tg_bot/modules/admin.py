@@ -1,4 +1,5 @@
 import html
+import subprocess
 from typing import Optional, List
 
 from telegram import Message, Chat, Update, Bot, User
@@ -10,9 +11,22 @@ from telegram.utils.helpers import escape_markdown, mention_html
 
 from tg_bot import dispatcher
 from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin
+from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, sudo_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user
 from tg_bot.modules.log_channel import loggable
+
+@run_async
+@sudo_plus
+def gitpull(bot: Bot, update: Update):
+    subprocess.call(['gitpull.bat'])
+    update.effective_message.reply_text("Pulled all changes from remote. Please restart the bot to load all changes")
+
+@run_async
+@sudo_plus
+def restart(bot: Bot, update: Update):
+    subprocess.call(['start.bat'])
+    update.effective_message.reply_text("Starting a new instance and shutting down this instance")
+    exit(0)
 
 
 @run_async

@@ -30,71 +30,6 @@ ENUM_FUNC_MAP = {
     sql.Types.VIDEO.value: dispatcher.bot.send_video
 }
 
-WelcomeList = [
-    "{first} is Here!",
-    "Ready player {first}",
-    "Genos. {first} is here.",
-    "A wild {first} appeared.",
-    "{first} came in like a Lion!",
-    "{first} has joined your party.",
-    "{first} just joined. Can I get a heal?",
-    "{first} just joined the chat - asdgfhak!",
-    "{first} just joined. Everyone, look busy!",
-    "Welcome, {first}. Stay awhile and listen.",
-    "Welcome, {first}. We were expecting you ( ͡° ͜ʖ ͡°)",
-    "Welcome, {first}. We hope you brought pizza.",
-    "Welcome {first}. Leave your weapons by the door.",
-    "Swoooosh. {first} just landed.",
-    "Brace yourselves. {first} just joined the chat.",
-    "{first} just joined. Hide your bananas.",
-    "{first} just arrived. Seems OP - please nerf.",
-    "{first} just slid into the chat.",
-    "A {first} has spawned in the chat.",
-    "Big {first} showed up!",
-    "Where’s {first}? In the chat!",
-    "{first} hopped into the chat. Kangaroo!!",
-    "{first} just showed up. Hold my beer.",
-    "Challenger approaching - {first} has appeared!",
-    "It's a bird! It's a plane! Nevermind, it's just {first}.",
-    "It's {first}! Praise the sun! \o/",
-    "Never gonna give {first} up. Never gonna let {first} down.",
-    "Ha! {first} has joined! You activated my trap card!",
-    "Cheers, love! {first}'s here!",
-    "Hey! Listen! {first} has joined!",
-    "We've been expecting you {first}",
-    "It's dangerous to go alone, take {first}!",
-    "{first} has joined the chat! It's super effective!",
-    "Cheers, love! {first} is here!",
-    "{first} is here, as the prophecy foretold.",
-    "{first} has arrived. Party's over.",
-    "{first} is here to kick butt and chew bubblegum. And {first} is all out of gum.",
-    "Hello. Is it {first} you're looking for?",
-    "{first} has joined. Stay a while and listen!",
-    "Roses are red, violets are blue, {first} joined this chat with you"
-]
-
-GoodbyeList = [
-    "{first} will be missed.",
-    "{first} just went offline.",
-    "{first} has left the lobby.",
-    "{first} has left the clan.",
-    "{first} has left the game.",
-    "{first} has fled the area.",
-    "{first} is out of the running.",
-    "Nice knowing ya, {first}!",
-    "It was a fun time {first}.",
-    "We hope to you again soon, {first}.",
-    "I donut want to say goodbye, {first}.",
-    "Goodbye {first}! Guess who's gonna miss you :')",
-    "Goodbye {first}! It's gonna be lonely without ya.",
-    "Please don't leave me alone in this place, {first}!",
-    "Good luck finding better shitposters than us, {first}!",
-    "You know we're gonna miss you {first}. Right? Right? Right?",
-    "Congratulations, {first}! You're officially free of this mess.",
-    "{first}. You were an opponent worth fighting.",
-    "You're leaving, {first}? Yare Yare Daze.",
-]
-
 # do not async
 def send(update, message, keyboard, backup_message):
     try:
@@ -178,6 +113,9 @@ def new_member(bot: Bot, update: Update):
                 first_name = new_mem.first_name or "PersonWithNoName"  # edge case of empty name - occurs for some bugs.
 
                 if cust_welcome:
+                    if cust_welcome == sql.DEFAULT_WELCOME:
+                        cust_welcome = random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(first=first_name)
+                    LOGGER.info("Custom Message: {}".format(cust_welcome))
                     if new_mem.last_name:
                         fullname = "{} {}".format(first_name, new_mem.last_name)
                     else:
@@ -197,12 +135,13 @@ def new_member(bot: Bot, update: Update):
                     buttons = sql.get_welc_buttons(chat.id)
                     keyb = build_keyboard(buttons)
                 else:
-                    res = random.choice(WelcomeList).format(first=first_name)
+                    res = random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(first=first_name)
+                    LOGGER.info("res is {}".format(res))
                     keyb = []
 
                 keyboard = InlineKeyboardMarkup(keyb)
 
-                sent = send(update, res, keyboard, sql.DEFAULT_WELCOME.format(first=first_name))  # type: Optional[Message]
+                sent = send(update, res, keyboard, random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(first=first_name))  # type: Optional[Message]
 
         prev_welc = sql.get_clean_pref(chat.id)
         if prev_welc:
@@ -238,6 +177,8 @@ def left_member(bot: Bot, update: Update):
 
             first_name = left_mem.first_name or "PersonWithNoName"  # edge case of empty name - occurs for some bugs.
             if cust_goodbye:
+                if cust_goodbye == sql.DEFAULT_GOODBYE:
+                    cust_goodbye = random.choice(sql.DEFAULT_GOODBYE_MESSAGES).format(first=first_name)
                 if left_mem.last_name:
                     fullname = "{} {}".format(first_name, left_mem.last_name)
                 else:
@@ -258,12 +199,12 @@ def left_member(bot: Bot, update: Update):
                 keyb = build_keyboard(buttons)
 
             else:
-                res = sql.DEFAULT_GOODBYE
+                res = random.choice(sql.DEFAULT_GOODBYE_MESSAGES).format(first=first_name)
                 keyb = []
 
             keyboard = InlineKeyboardMarkup(keyb)
 
-            send(update, res, keyboard, sql.DEFAULT_GOODBYE)
+            send(update, res, keyboard, random.choice(sql.DEFAULT_GOODBYE_MESSAGES).format(first=first_name))
 
 
 @run_async
