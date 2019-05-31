@@ -1,5 +1,8 @@
 import html
 import subprocess
+import os
+import sys
+import psutil
 from typing import Optional, List
 
 from telegram import Message, Chat, Update, Bot, User
@@ -9,7 +12,7 @@ from telegram.ext import CommandHandler, Filters
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from tg_bot import dispatcher
+from tg_bot import dispatcher, LOGGER
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, sudo_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user
@@ -18,16 +21,20 @@ from tg_bot.modules.log_channel import loggable
 @run_async
 @sudo_plus
 def gitpull(bot: Bot, update: Update):
-    subprocess.call(['gitpull.bat'])
-    update.effective_message.reply_text("Pulled all changes from remote. Please restart the bot to load all changes")
+    update.effective_message.reply_text("Pulling all changes from remote. Please restart the bot to load all changes")
+    p = subprocess.Popen('git pull', stdout=subprocess.PIPE, shell=True)
+    msg = update.effective_message
+    msg.reply_text("Changes pulled. Restarting!")
+    os.system('restart.bat')
+    os.execv('start.bat', sys.argv)
 
 @run_async
 @sudo_plus
 def restart(bot: Bot, update: Update):
-    subprocess.call(['start.bat'])
     update.effective_message.reply_text("Starting a new instance and shutting down this instance")
-    exit(0)
-
+    os.system('restart.bat')
+    os.execv('start.bat', sys.argv)
+    
 
 @run_async
 @bot_admin
@@ -237,6 +244,9 @@ __mod_name__ = "Admin"
 PIN_HANDLER = CommandHandler("pin", pin, pass_args=True, filters=Filters.group)
 UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
 
+GITPULL_HANDLER = CommandHandler("gitpull", gitpull, filters=Filters.group)
+RESTART_HANDLER = CommandHandler("restart", restart, filters=Filters.group)
+
 INVITE_HANDLER = CommandHandler("invitelink", invite, filters=Filters.group)
 
 PROMOTE_HANDLER = CommandHandler("promote", promote, pass_args=True, filters=Filters.group)
@@ -246,6 +256,8 @@ ADMINLIST_HANDLER = DisableAbleCommandHandler("adminlist", adminlist, filters=Fi
 
 dispatcher.add_handler(PIN_HANDLER)
 dispatcher.add_handler(UNPIN_HANDLER)
+dispatcher.add_handler(GITPULL_HANDLER)
+dispatcher.add_handler(RESTART_HANDLER)
 dispatcher.add_handler(INVITE_HANDLER)
 dispatcher.add_handler(PROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)

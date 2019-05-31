@@ -9,8 +9,23 @@ from tg_bot import DEL_CMDS, SUDO_USERS, WHITELIST_USERS
 def can_delete(chat: Chat, bot_id: int) -> bool:
     return chat.get_member(bot_id).can_delete_messages
 
-def sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
-    return user_id in SUDO_USERS or (member.status in ('administrator', 'creator'))
+def sudo_plus(func):
+    @wraps(func)
+    def is_admin(bot: Bot, update: Update, *args, **kwargs):
+        user = update.effective_user  # type: Optional[User]
+        if user and is_user_admin(update.effective_chat, user.id):
+            return func(bot, update, *args, **kwargs)
+
+        elif not user:
+            pass
+
+        elif DEL_CMDS and " " not in update.effective_message.text:
+            update.effective_message.delete()
+
+        else:
+            update.effective_message.reply_text("Who dis non-admin telling me what to do? You want a punch?")
+
+    return is_admin
 
 
 def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
@@ -24,7 +39,9 @@ def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -
         member = chat.get_member(user_id)
     return member.status in ('administrator', 'creator')
 
-
+def is_sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
+    return user_id in SUDO_USERS or member.status in ('administrator', 'creator')
+    
 def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if chat.type == 'private' \
             or user_id in SUDO_USERS \
