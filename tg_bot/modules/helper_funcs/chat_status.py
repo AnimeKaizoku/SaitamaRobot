@@ -3,7 +3,7 @@ from typing import Optional
 
 from telegram import User, Chat, ChatMember, Update, Bot
 
-from tg_bot import DEL_CMDS, SUDO_USERS, WHITELIST_USERS
+from tg_bot import DEL_CMDS, SUDO_USERS, WHITELIST_USERS, DEV_USERS
 
 
 def can_delete(chat: Chat, bot_id: int) -> bool:
@@ -31,6 +31,7 @@ def sudo_plus(func):
 def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if chat.type == 'private' \
             or user_id in SUDO_USERS \
+            or user_id in DEV_USERS \
             or user_id in WHITELIST_USERS \
             or chat.all_members_are_administrators:
         return True
@@ -40,11 +41,12 @@ def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -
     return member.status in ('administrator', 'creator')
 
 def is_sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
-    return user_id in SUDO_USERS or member.status in ('administrator', 'creator')
-    
+    return user_id in SUDO_USERS or user_id in DEV_USERS or member.status in ('administrator', 'creator')
+
 def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if chat.type == 'private' \
             or user_id in SUDO_USERS \
+            or user_id in DEV_USERS \
             or chat.all_members_are_administrators:
         return True
 

@@ -11,7 +11,7 @@ from telegram import ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, WHITELIST_USERS, BAN_STICKER
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, DEV_USERS, WHITELIST_USERS, BAN_STICKER
 from tg_bot.__main__ import STATS, USER_INFO
 from tg_bot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
 from tg_bot.modules.helper_funcs.extraction import extract_user
@@ -400,14 +400,17 @@ def info(bot: Bot, update: Update, args: List[str]):
     if user.id == OWNER_ID:
         text += "\n\nThe Disaster level of this person is 'God'."
     else:
-        if user.id in SUDO_USERS:
-            text += "\nThe Disaster level of this person is 'Dragon'."
+        if user.id in DEV_USERS:
+            text += "\nThis member is part of the 'Hero Association'."
         else:
-            if user.id in SUPPORT_USERS:
-                text += "\nThe Disaster level of this person is 'Demon'."
+            if user.id in SUDO_USERS:
+                text += "\nThe Disaster level of this person is 'Dragon'."
+            else:
+                if user.id in SUPPORT_USERS:
+                    text+= "\nThe Disaster level of this person is 'Demon'."
 
-            if user.id in WHITELIST_USERS:
-                text += "\nYeah ... I don't do friendly fire."
+                if user.id in WHITELIST_USERS:
+                    text += "\nYeah ... I don't do friendly fire."
 
     for mod in USER_INFO:
         mod_info = mod.__user_info__(user.id).strip()
@@ -523,7 +526,7 @@ __help__ = """
 __mod_name__ = "Misc"
 
 ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)
-IP_HANDLER = CommandHandler("ip", get_bot_ip, filters=Filters.chat(SUDO_USERS))
+IP_HANDLER = CommandHandler("ip", get_bot_ip, filters=Filters.chat(SUDO_USERS + DEV_USERS))
 
 TIME_HANDLER = CommandHandler("time", get_time, pass_args=True)
 
@@ -532,10 +535,10 @@ PING_HANDLER = DisableAbleCommandHandler("ping", ping)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, pass_args=True)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True)
 SLAP_REGEX_HANDLER = DisableAbleRegexHandler("(?i)bhag", slap, friendly="slap")
-ECHO_HANDLER = CommandHandler("echo", echo, filters=Filters.user(SUDO_USERS))
+ECHO_HANDLER = CommandHandler("echo", echo, filters=Filters.user(SUDO_USERS + DEV_USERS))
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
 
-STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter)
+STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter | CustomFilters.dev_filter)
 
 dispatcher.add_handler(ID_HANDLER)
 dispatcher.add_handler(IP_HANDLER)

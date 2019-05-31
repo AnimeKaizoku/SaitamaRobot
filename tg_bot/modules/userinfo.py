@@ -7,7 +7,7 @@ from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown
 
 import tg_bot.modules.sql.userinfo_sql as sql
-from tg_bot import dispatcher, SUDO_USERS
+from tg_bot import dispatcher, SUDO_USERS, DEV_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.extraction import extract_user
 
@@ -81,8 +81,8 @@ def set_about_bio(bot: Bot, update: Update):
         if user_id == message.from_user.id:
             message.reply_text("Ha, you can't set your own bio! You're at the mercy of others here...")
             return
-        elif user_id == bot.id and sender.id not in SUDO_USERS:
-            message.reply_text("Erm... yeah, I only trust sudo users to set my bio.")
+        elif user_id == bot.id and sender.id not in SUDO_USERS and sender not in DEV_USERS:
+            message.reply_text("Erm... yeah, I only trust sudo users or developers to set my bio.")
             return
 
         text = message.text

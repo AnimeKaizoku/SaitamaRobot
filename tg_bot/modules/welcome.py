@@ -9,7 +9,7 @@ from telegram.ext import MessageHandler, Filters, CommandHandler, run_async
 from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
 
 import tg_bot.modules.sql.welcome_sql as sql
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, LOGGER
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, DEV_USERS, LOGGER
 from tg_bot.modules.helper_funcs.chat_status import user_admin
 from tg_bot.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from tg_bot.modules.helper_funcs.msg_types import get_welcome_type
@@ -90,6 +90,11 @@ def new_member(bot: Bot, update: Update):
                 update.effective_message.reply_text("Oh, You're here Genos. Lets get this moving.")
                 continue
 
+            # Give the owner a special welcome
+            elif new_mem.id in DEV_USERS:
+                update.effective_message.reply_text("Huh! A member of the Hero's Association just joined!")
+                continue
+
             # Welcome Sudos 
             elif new_mem.id in SUDO_USERS:
                 update.effective_message.reply_text("Huh! Someone with a Disaster Level just joined!")
@@ -168,6 +173,11 @@ def left_member(bot: Bot, update: Update):
             # Give the owner a special goodbye
             if left_mem.id == OWNER_ID:
                 update.effective_message.reply_text("Oi! Genos! He left..")
+                return
+
+            # Give the devs a special goodbye
+            elif left_mem.id in DEV_USERS:
+                update.effective_message.reply_text("See you later at the Hero's Association!")
                 return
 
             # if media goodbye, use appropriate function for it

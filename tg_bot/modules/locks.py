@@ -10,7 +10,7 @@ from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import mention_html
 
 import tg_bot.modules.sql.locks_sql as sql
-from tg_bot import dispatcher, SUDO_USERS, LOGGER
+from tg_bot import dispatcher, SUDO_USERS, DEV_USERS, LOGGER
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import can_delete, is_user_admin, user_not_admin, user_admin, \
     bot_can_delete, is_bot_admin
@@ -65,7 +65,7 @@ tg.CommandHandler = CustomCommandHandler
 # NOT ASYNC
 def restr_members(bot, chat_id, members, messages=False, media=False, other=False, previews=False):
     for mem in members:
-        if mem.user in SUDO_USERS:
+        if mem.user in SUDO_USERS or mem.user in DEV_USERS:
             pass
         try:
             bot.restrict_chat_member(chat_id, mem.user,
