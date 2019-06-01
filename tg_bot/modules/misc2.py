@@ -218,9 +218,8 @@ PING_STRING = (
 )
 PING_STRING = (
         "PONG!!",
-	"Why did u wake me up? U want a punch?",
-	"I am here",
-        "Neem ka patta kadwa hai",
+	"Why did u wake me up? want a punch?",
+	"I am here!",
 )
 
 ITEMS = (
@@ -384,8 +383,7 @@ def info(bot: Bot, update: Update, args: List[str]):
     else:
         return
 
-    text = "<b>Scanning....done!</b>" \
-           "\n<b>Characteristics</b>:" \
+    text = "<b>Characteristics:</b>" \
            "\nID: <code>{}</code>" \
            "\nFirst Name: {}".format(user.id, html.escape(user.first_name))
 
@@ -401,7 +399,7 @@ def info(bot: Bot, update: Update, args: List[str]):
         text += "\n\nThe Disaster level of this person is 'God'."
     else:
         if user.id in DEV_USERS:
-            text += "\nThis member is part of the 'Hero Association'."
+            text += "\nThis member is one of 'Hero Association'."
         else:
             if user.id in SUDO_USERS:
                 text += "\nThe Disaster level of this person is 'Dragon'."
@@ -410,7 +408,7 @@ def info(bot: Bot, update: Update, args: List[str]):
                     text+= "\nThe Disaster level of this person is 'Demon'."
 
                 if user.id in WHITELIST_USERS:
-                    text += "\nYeah ... I don't do friendly fire."
+                    text += "\nThe Disaster level of this person is 'Wolf'."
 
     for mod in USER_INFO:
         mod_info = mod.__user_info__(user.id).strip()
