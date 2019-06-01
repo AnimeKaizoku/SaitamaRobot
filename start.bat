@@ -6,4 +6,3 @@ IF "%ERRORLEVEL%" == "0" (
 ) ELSE (
     py -m tg_bot
 )
-pause
