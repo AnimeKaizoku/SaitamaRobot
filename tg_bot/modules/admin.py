@@ -1,5 +1,6 @@
 import html
 import subprocess
+import importlib
 import os
 import sys
 import psutil
@@ -11,6 +12,7 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, Filters
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown, mention_html
+from tg_bot.__main__ import IMPORTED, HELPABLE, MIGRATEABLE, STATS, USER_INFO, DATA_IMPORT, DATA_EXPORT, CHAT_SETTINGS, USER_SETTINGS 
 
 from tg_bot import dispatcher, LOGGER
 from tg_bot.modules.disable import DisableAbleCommandHandler
@@ -34,6 +36,48 @@ def restart(bot: Bot, update: Update):
     update.effective_message.reply_text("Starting a new instance and shutting down this instance")
     os.system('restart.bat')
     os.execv('start.bat', sys.argv)
+
+@run_async
+@sudo_plus
+def load(bot: Bot, update: Update):
+    message = update.effective_message
+    text = message.text[len('/load '):]
+    message.reply_text("Attempting to load a new module")
+    imported_module = importlib.import_module("tg_bot.modules." + text)
+    if not hasattr(imported_module, "__mod_name__"):
+        imported_module.__mod_name__ = imported_module.__name__
+
+    if not imported_module.__mod_name__.lower() in IMPORTED:
+        IMPORTED[imported_module.__mod_name__.lower()] = imported_module
+    else:
+        raise Exception("Can't have two modules with the same name! Please change one")
+
+    if hasattr(imported_module, "__help__") and imported_module.__help__:
+        HELPABLE[imported_module.__mod_name__.lower()] = imported_module
+
+    # Chats to migrate on chat_migrated events
+    if hasattr(imported_module, "__migrate__"):
+        MIGRATEABLE.append(imported_module)
+
+    if hasattr(imported_module, "__stats__"):
+        STATS.append(imported_module)
+
+    if hasattr(imported_module, "__user_info__"):
+        USER_INFO.append(imported_module)
+
+    if hasattr(imported_module, "__import_data__"):
+        DATA_IMPORT.append(imported_module)
+
+    if hasattr(imported_module, "__export_data__"):
+        DATA_EXPORT.append(imported_module)
+
+    if hasattr(imported_module, "__chat_settings__"):
+        CHAT_SETTINGS[imported_module.__mod_name__.lower()] = imported_module
+
+    if hasattr(imported_module, "__user_settings__"):
+        USER_SETTINGS[imported_module.__mod_name__.lower()] = imported_module
+
+    update.effective_message.reply_text("Successfully loaded module: {}".format(text))
     
 
 @run_async
@@ -253,6 +297,7 @@ PROMOTE_HANDLER = CommandHandler("promote", promote, pass_args=True, filters=Fil
 DEMOTE_HANDLER = CommandHandler("demote", demote, pass_args=True, filters=Filters.group)
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler("adminlist", adminlist, filters=Filters.group)
+LOAD_HANDLER = CommandHandler("load", load, filters=Filters.group)
 
 dispatcher.add_handler(PIN_HANDLER)
 dispatcher.add_handler(UNPIN_HANDLER)
@@ -261,4 +306,5 @@ dispatcher.add_handler(RESTART_HANDLER)
 dispatcher.add_handler(INVITE_HANDLER)
 dispatcher.add_handler(PROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)
+dispatcher.add_handler(LOAD_HANDLER)
 dispatcher.add_handler(ADMINLIST_HANDLER)
