@@ -46,8 +46,7 @@ def getsticker(bot: Bot, update: Update):
 def kang(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message
     user = update.effective_user
-    packnum = "1"
-    packname = "a" + packnum + "_" + str(user.id) + "_by_"+bot.username
+    packname = "a" + str(user.id) + "_by_"+bot.username
     kangsticker = "kangsticker.png"
     if msg.reply_to_message or args:
         try:
@@ -139,8 +138,7 @@ def resize(kangsticker):
 def makepack_internal(msg, user, png_sticker, emoji, bot):
     name = user.first_name
     name = name[:50]
-    packnum = "1"
-    packname = f"a{packnum}_{str(user.id)}_by_{bot.username}"
+    packname = f"a{str(user.id)}_by_{bot.username}"
     try:
         success = bot.create_new_sticker_set(user.id, packname, name + "'s kang pack",
                                              png_sticker=png_sticker,
