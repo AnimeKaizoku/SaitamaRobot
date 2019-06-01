@@ -102,7 +102,7 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
             raise
 
     if is_user_ban_protected(chat, user_id, member):
-        message.reply_text("I really wish I could ban admins...")
+        message.reply_text("I don't feel like it.")
         return ""
 
     if user_id == bot.id:
@@ -180,7 +180,7 @@ def punch(bot: Bot, update: Update, args: List[str]) -> str:
             raise
 
     if is_user_ban_protected(chat, user_id):
-        message.reply_text("I really wish I could punch admins...")
+        message.reply_text("I really wish I could punch this user....")
         return ""
 
     if user_id == bot.id:
