@@ -1,7 +1,6 @@
 import hashlib
 import os
 import math
-import requests
 import urllib.request as urllib
 
 from io import BytesIO
@@ -47,8 +46,7 @@ def getsticker(bot: Bot, update: Update):
 def kang(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message
     user = update.effective_user
-    hash = hashlib.sha1(bytearray(user.id)).hexdigest()
-    packname = "a" + hash[:20] + "_by_"+bot.username
+    packname = "a" + str(user.id) + "_by_"+bot.username
     kangsticker = "kangsticker.png"
     if msg.reply_to_message:
         if msg.reply_to_message.sticker:
@@ -165,8 +163,7 @@ def kang(bot: Bot, update: Update, args: List[str]):
 def makepack_internal(msg, user, png_sticker, emoji, bot):
     name = user.first_name
     name = name[:50]
-    hash = hashlib.sha1(bytearray(user.id)).hexdigest()
-    packname = f"a{hash[:20]}_by_{bot.username}"
+    packname = f"a{str(user.id)}_by_{bot.username}"
     try:
         success = bot.create_new_sticker_set(user.id, packname, name + "'s kang pack",
                                              png_sticker=png_sticker,
