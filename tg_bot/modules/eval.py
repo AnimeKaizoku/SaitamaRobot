@@ -120,7 +120,7 @@ def do(func, bot, update):
         else:
             result = '{}{}'.format(value, func_return)
         if result:
-            if len(str(result)) > 200:
+            if len(str(result)) > 2000:
                 result = 'Output is too long'
             return result
 
