@@ -15,19 +15,15 @@ from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown, mention_html
 from tg_bot.__main__ import IMPORTED, HELPABLE, MIGRATEABLE, STATS, USER_INFO, DATA_IMPORT, DATA_EXPORT, CHAT_SETTINGS, USER_SETTINGS 
 
-from tg_bot import dispatcher, LOGGER, SUDO_USERS, DEV_USERS, OWNER_ID, SUPPORT_USERS, WHITELIST_USERS, GBAN_LOGS
+from tg_bot import dispatcher, LOGGER, SUDO_USERS, DEV_USERS, OWNER_ID, SUPPORT_USERS, WHITELIST_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, sudo_plus, dev_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user
-from tg_bot.modules.log_channel import loggable
-
-def send_to_gban_logs(bot, message):
-    if GBAN_LOGS:
-        return bot.send_message(GBAN_LOGS, message, parse_mode=ParseMode.HTML)
-    return
+from tg_bot.modules.log_channel import loggable, gloggable
 
 @run_async
 @dev_plus
+@gloggable
 def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
     user = update.effective_user
@@ -51,18 +47,16 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
         json.dump(data, outfile, indent=4)
     SUDO_USERS.append(user_id)
     update.effective_message.reply_text("Successfully set Disaster level of {} to Dragon!".format(user_member.user.first_name))
-    log = "<b>{}:</b>" \
+    return "<b>{}:</b>" \
            "\n#SUDO" \
            "\n<b>Admin:</b> {}" \
            "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
                                       mention_html(user.id, user.first_name),
                                       mention_html(user_member.user.id, user_member.user.first_name))
-    return send_to_gban_logs(bot, log + "\n<b>Link:</b> " \
-                              "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(message.chat.username,
-                                                                                           message.message_id))
 
 @run_async
 @dev_plus
+@gloggable
 def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
     user = update.effective_user
@@ -76,21 +70,19 @@ def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
         data['sudos'].remove(user_id)
         with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
             json.dump(data, outfile, indent=4)
-        log = "<b>{}:</b>" \
+        return "<b>{}:</b>" \
            "\n#UNSUDO" \
            "\n<b>Admin:</b> {}" \
            "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
                                       mention_html(user.id, user.first_name),
                                       mention_html(user_member.user.id, user_member.user.first_name))
-        return send_to_gban_logs(bot, log + "\n<b>Link:</b> " \
-                              "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(message.chat.username,
-                                                                                           message.message_id))
     else:
         message.reply_text("This user is not a Dragon Disaster!")
         return ""
 
 @run_async
 @dev_plus
+@gloggable
 def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
     user = update.effective_user
@@ -114,18 +106,16 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
         json.dump(data, outfile, indent=4)
     SUPPORT_USERS.append(user_id)
     update.effective_message.reply_text("{} was added as a Demon level Disaster!".format(user_member.user.first_name))
-    log = "<b>{}:</b>" \
+    return "<b>{}:</b>" \
            "\n#SUPPORT" \
            "\n<b>Admin:</b> {}" \
            "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
                                       mention_html(user.id, user.first_name),
                                       mention_html(user_member.user.id, user_member.user.first_name))
-    return send_to_gban_logs(bot, log + "\n<b>Link:</b> " \
-                              "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(message.chat.username,
-                                                                                           message.message_id))
 
 @run_async
 @dev_plus
+@gloggable
 def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
     user = update.effective_user
@@ -139,21 +129,19 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
         data['supports'].remove(user_id)
         with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
             json.dump(data, outfile, indent=4)
-        log = "<b>{}:</b>" \
+        return "<b>{}:</b>" \
            "\n#UNSUPPORT" \
            "\n<b>Admin:</b> {}" \
            "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
                                       mention_html(user.id, user.first_name),
                                       mention_html(user_member.user.id, user_member.user.first_name))
-        return send_to_gban_logs(bot, log + "\n<b>Link:</b> " \
-                              "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(message.chat.username,
-                                                                                           message.message_id))
     else:
         message.reply_text("This user is not a Demon level disaster!")
         return ""
 
 @run_async
 @dev_plus
+@gloggable
 def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
     user = update.effective_user
@@ -176,19 +164,17 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
         json.dump(data, outfile, indent=4)
     WHITELIST_USERS.append(user_id)
-    update.effective_message.reply_text(bot, "Successfully set privilege level {} to whitelist!".format(user_member.user.first_name))
-    log = "<b>{}:</b>" \
+    update.effective_message.reply_text("Successfully set privilege level {} to whitelist!".format(user_member.user.first_name))
+    return "<b>{}:</b>" \
            "\n#WHITELIST" \
            "\n<b>Admin:</b> {}" \
            "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
                                       mention_html(user.id, user.first_name),
                                       mention_html(user_member.user.id, user_member.user.first_name))
-    return send_to_gban_logs(bot, log + "\n<b>Link:</b> " \
-                              "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(message.chat.username,
-                                                                                           message.message_id))
 
 @run_async
 @dev_plus
+@gloggable
 def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
     user = update.effective_user
@@ -202,15 +188,12 @@ def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
         data['whitelists'].remove(user_id)
         with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
             json.dump(data, outfile, indent=4)
-        log = "<b>{}:</b>" \
+        return "<b>{}:</b>" \
            "\n#UNWHITELIST" \
            "\n<b>Admin:</b> {}" \
            "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
                                       mention_html(user.id, user.first_name),
                                       mention_html(user_member.user.id, user_member.user.first_name))
-        return send_to_gban_logs(bot, log + "\n<b>Link:</b> " \
-                              "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(message.chat.username,
-                                                                                           message.message_id))
     else:
         message.reply_text("This user is not a whitelisted user!")
         return ""

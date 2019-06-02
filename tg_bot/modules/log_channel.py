@@ -11,7 +11,7 @@ if is_module_loaded(FILENAME):
     from telegram.ext import CommandHandler, run_async
     from telegram.utils.helpers import escape_markdown
 
-    from tg_bot import dispatcher, LOGGER
+    from tg_bot import dispatcher, LOGGER, GBAN_LOGS
     from tg_bot.modules.helper_funcs.chat_status import user_admin
     from tg_bot.modules.sql import log_channel_sql as sql
 
@@ -34,6 +34,29 @@ if is_module_loaded(FILENAME):
                 pass
             else:
                 LOGGER.warning("%s was set as loggable, but had no return statement.", func)
+
+            return result
+
+        return log_action
+
+    def gloggable(func):
+        @wraps(func)
+        def log_action(bot: Bot, update: Update, *args, **kwargs):
+            result = func(bot, update, *args, **kwargs)
+            chat = update.effective_chat  # type: Optional[Chat]
+            message = update.effective_message  # type: Optional[Message]
+            if result:
+                if chat.type == chat.SUPERGROUP and chat.username:
+                    result += "\n<b>Link:</b> " \
+                              "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(chat.username,
+                                                                                           message.message_id)
+                log_chat = str(GBAN_LOGS)
+                if log_chat:
+                    send_log(bot, log_chat, chat.id, result)
+            elif result == "":
+                pass
+            else:
+                LOGGER.warning("%s was set as loggable to gbanlogs, but had no return statement.", func)
 
             return result
 
