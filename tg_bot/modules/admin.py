@@ -29,24 +29,25 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
     user = update.effective_user
     user_id = extract_user(message, args)
     user_member = update.effective_chat.get_member(user_id)
+    rt = ""
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
         data = json.load(infile)
     if user_id in SUDO_USERS:
         message.reply_text("This member is already a Dragon Disaster")
         return ""
     if user_id in SUPPORT_USERS:
-        message.reply_text("This user is already a Demon Disaster. Promoting status to Dragon.")
+        rt += ("This user is already a Demon Disaster. Promoting status to Dragon.")
         data['supports'].remove(user_id)
         SUPPORT_USERS.remove(user_id)
     if user_id in WHITELIST_USERS:
-        message.reply_text("This user is already a whitelisted user. Promoting to Dragon.")
+        rt += ("This user is already a whitelisted user. Promoting to Dragon.")
         data['whitelists'].remove(user_id)
         WHITELIST_USERS.remove(user_id)
     data['sudos'].append(user_id)
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
         json.dump(data, outfile, indent=4)
     SUDO_USERS.append(user_id)
-    update.effective_message.reply_text("Successfully set Disaster level of {} to Dragon!".format(user_member.user.first_name))
+    update.effective_message.reply_text(rt + "\nSuccessfully set Disaster level of {} to Dragon!".format(user_member.user.first_name))
     return "<b>{}:</b>" \
            "\n#SUDO" \
            "\n<b>Admin:</b> {}" \
@@ -88,24 +89,25 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
     user = update.effective_user
     user_id = extract_user(message, args)
     user_member = update.effective_chat.get_member(user_id)
+    rt = ""
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
         data = json.load(infile)
     if user_id in SUDO_USERS:
-        message.reply_text("Demoting status of this Dragon to Demon")
+        rt += ("Demoting status of this Dragon to Demon")
         data['sudos'].remove(user_id)
         SUDO_USERS.remove(user_id)
     if user_id in SUPPORT_USERS:
         message.reply_text("This user is already a Demon ranker.")
         return ""
     if user_id in WHITELIST_USERS:
-        message.reply_text("Promoting Disaster level from Wolf to Demon")
+        rt+=("Promoting Disaster level from Wolf to Demon")
         data['whitelists'].remove(user_id)
         WHITELIST_USERS.remove(user_id)
     data['supports'].append(user_id)
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
         json.dump(data, outfile, indent=4)
     SUPPORT_USERS.append(user_id)
-    update.effective_message.reply_text("{} was added as a Demon level Disaster!".format(user_member.user.first_name))
+    update.effective_message.reply_text(rt + "\n{} was added as a Demon level Disaster!".format(user_member.user.first_name))
     return "<b>{}:</b>" \
            "\n#SUPPORT" \
            "\n<b>Admin:</b> {}" \
@@ -147,14 +149,15 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     user = update.effective_user
     user_id = extract_user(message, args)
     user_member = update.effective_chat.get_member(user_id)
+    rt = ""
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
         data = json.load(infile)
     if user_id in SUDO_USERS:
-        message.reply_text("This member is a sudo user. Demoting to whitelist.")
+        rt += ("This member is a sudo user. Demoting to whitelist.")
         data['sudos'].remove(user_id)
         SUDO_USERS.remove(user_id)
     if user_id in SUPPORT_USERS:
-        message.reply_text("This user is already a support user. Demoting to whitelist.")
+        rt += ("This user is already a support user. Demoting to whitelist.")
         data['supports'].remove(user_id)
         SUPPORT_USERS.remove(user_id)
     if user_id in WHITELIST_USERS:
@@ -164,7 +167,7 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
         json.dump(data, outfile, indent=4)
     WHITELIST_USERS.append(user_id)
-    update.effective_message.reply_text("Successfully set privilege level {} to whitelist!".format(user_member.user.first_name))
+    update.effective_message.reply_text(rt + "\nSuccessfully set privilege level {} to whitelist!".format(user_member.user.first_name))
     return "<b>{}:</b>" \
            "\n#WHITELIST" \
            "\n<b>Admin:</b> {}" \
