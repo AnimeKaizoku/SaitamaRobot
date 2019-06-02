@@ -6,3 +6,4 @@ tg_bot/config.py
 .directory
 .vscode
 tgbot/modules/helper_funcs/temp.txt
+tg_bot/elevated_users.json
