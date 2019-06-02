@@ -8,7 +8,7 @@ from telegram.ext import run_async, CommandHandler, MessageHandler, Filters
 from telegram.utils.helpers import mention_html
 
 import tg_bot.modules.sql.global_bans_sql as sql
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, STRICT_GBAN
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, STRICT_GBAN, GBAN_LOGS
 from tg_bot.modules.helper_funcs.chat_status import user_admin, is_user_admin
 from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from tg_bot.modules.helper_funcs.filters import CustomFilters
@@ -99,10 +99,14 @@ def gban(bot: Bot, update: Update, args: List[str]):
     message.reply_text("Already on it!")
 
     banner = update.effective_user  # type: Optional[User]
-    send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
-                 "{} is gbanning user {} "
+    messagerep = "{} is gbanning user {} "\
                  "because:\n{}".format(mention_html(banner.id, banner.first_name),
-                                       mention_html(user_chat.id, user_chat.first_name), reason or "No reason given"),
+                                       mention_html(user_chat.id, user_chat.first_name), reason or "No reason given")
+    if GBAN_LOGS:
+        bot.send_message(GBAN_LOGS, messagerep, parse_mode=ParseMode.HTML)
+    else:
+        send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
+                 messagerep,
                  html=True)
 
     sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
@@ -122,13 +126,19 @@ def gban(bot: Bot, update: Update, args: List[str]):
                 pass
             else:
                 message.reply_text("Could not gban due to: {}".format(excp.message))
-                send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "Could not gban due to: {}".format(excp.message))
+                if GBAN_LOGS:
+                    bot.send_message(GBAN_LOGS, "Could not gban due to {}".format(excp.message), parse_mode=ParseMode.HTML)
+                else:
+                    send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "Could not gban due to: {}".format(excp.message))
                 sql.ungban_user(user_id)
                 return
         except TelegramError:
             pass
 
-    send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "gban complete!")
+    if GBAN_LOGS:
+        bot.send_message(GBAN_LOGS, "gban complete", parse_mode=ParseMode.HTML)
+    else:
+        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "gban complete!")
     message.reply_text("Done - Poof, The user is now gone.")
 
 
@@ -153,10 +163,14 @@ def ungban(bot: Bot, update: Update, args: List[str]):
     banner = update.effective_user  # type: Optional[User]
 
     message.reply_text("I'll give {} a second chance, globally.".format(user_chat.first_name))
+    messagerep = "{} has ungbanned user {}".format(mention_html(banner.id, banner.first_name),
+                                                   mention_html(user_chat.id, user_chat.first_name))
 
-    send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
-                 "{} has ungbanned user {}".format(mention_html(banner.id, banner.first_name),
-                                                   mention_html(user_chat.id, user_chat.first_name)),
+    if GBAN_LOGS:
+        bot.send_message(GBAN_LOGS, messagerep, parse_mode=ParseMode.HTML)
+    else:
+        send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
+                 messagerep,
                  html=True)
 
     chats = get_all_chats()
@@ -177,14 +191,19 @@ def ungban(bot: Bot, update: Update, args: List[str]):
                 pass
             else:
                 message.reply_text("Could not un-gban due to: {}".format(excp.message))
-                bot.send_message(OWNER_ID, "Could not un-gban due to: {}".format(excp.message))
+                if GBAN_LOGS:
+                    bot.send_message(GBAN_LOGS, "Could not un-gban due to: {}".format(excp.message), parse_mode=ParseMode.HTML)
+                else:
+                    bot.send_message(OWNER_ID, "Could not un-gban due to: {}".format(excp.message))
                 return
         except TelegramError:
             pass
 
     sql.ungban_user(user_id)
-
-    send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "un-gban complete!")
+    if GBAN_LOGS:
+        bot.send_message(GBAN_LOGS, "un-gban complete!", parse_mode=ParseMode.HTML)
+    else:
+        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "un-gban complete!")
 
     message.reply_text("Person has been un-gbanned.")
 
