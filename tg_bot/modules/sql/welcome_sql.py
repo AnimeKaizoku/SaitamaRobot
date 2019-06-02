@@ -69,7 +69,7 @@ DEFAULT_WELCOME_MESSAGES = [
     "Huh? - Did someone with a disaster level just join? - oh wait, its just {first}.",
     "Hey {first}, Have you ever heard King's - King Engine?",
     "Hey {first}, Empty your pockets.",
-    "Hi {First}!, Are you strong?",
+    "Hi {first}!, Are you strong?",
     "Call the Avengers! - {first} just joined the chat.",
 ]
 DEFAULT_GOODBYE_MESSAGES = [
