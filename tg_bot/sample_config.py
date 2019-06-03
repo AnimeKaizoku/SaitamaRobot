@@ -1,8 +1,10 @@
-if not __name__.endswith("sample_config"):
-    import sys
-    print("The README is there to be read. Extend this sample config to a config file, don't just rename and change "
-          "values here. Doing that WILL backfire on you.\nBot quitting.", file=sys.stderr)
-    quit(1)
+# Create a new config.py or rename this to config.py file in same dir and import, then extend this class.
+import json
+import os
+
+def get_user_list(config, key):
+    with open('{}/tg_bot/{}'.format(os.getcwd(), config), 'r') as json_file:
+        return json.load(json_file)[key]
 
 
 # Create a new config.py or rename this to config.py file in same dir and import, then extend this class.
@@ -25,10 +27,10 @@ class Config(object):
 
     # OPTIONAL
     #ID Seperation format [1,2,3,4]
-    SUDO_USERS = []  # List of id's -  (not usernames) for users which have sudo access to the bot.
-    DEV_USERS = []  # List of id's - (not usernames) for developers who will have the same perms as the owner
-    SUPPORT_USERS = []  # List of id's (not usernames) for users which are allowed to gban, but can also be banned.
-    WHITELIST_USERS = []  # List of id's (not usernames) for users which WONT be banned/kicked by the bot.
+    SUDO_USERS = get_user_list('elevated_users.json', 'sudos')  # List of id's -  (not usernames) for users which have sudo access to the bot.
+    DEV_USERS = get_user_list('elevated_users.json', 'devs')  # List of id's - (not usernames) for developers who will have the same perms as the owner
+    SUPPORT_USERS = get_user_list('elevated_users.json', 'supports')  # List of id's (not usernames) for users which are allowed to gban, but can also be banned.
+    WHITELIST_USERS = get_user_list('elevated_users.json', 'whitelists')  # List of id's (not usernames) for users which WONT be banned/kicked by the bot.
     DONATION_LINK = None  # EG, paypal
     CERT_PATH = None
     PORT = 5000
@@ -40,7 +42,7 @@ class Config(object):
 
 
 class Production(Config):
-    LOGGER = False
+    LOGGER = True
 
 
 class Development(Config):
