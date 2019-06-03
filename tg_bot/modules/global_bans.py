@@ -112,6 +112,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
     sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
 
     chats = get_all_chats()
+    gbanned_chats = 0
     for chat in chats:
         chat_id = chat.chat_id
 
@@ -121,6 +122,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
 
         try:
             bot.kick_chat_member(chat_id, user_id)
+            gbanned_chats += 1
         except BadRequest as excp:
             if excp.message in GBAN_ERRORS:
                 pass
@@ -136,10 +138,14 @@ def gban(bot: Bot, update: Update, args: List[str]):
             pass
 
     if GBAN_LOGS:
-        bot.send_message(GBAN_LOGS, "gban complete", parse_mode=ParseMode.HTML)
+        bot.send_message(GBAN_LOGS, "gban complete! (User banned in {} chats)".format(gbanned_chats), parse_mode=ParseMode.HTML)
     else:
-        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "gban complete!")
-    message.reply_text("Done - Poof, The user is now gone.")
+        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "gban complete! (User banned in {} chats)".format(gbanned_chats))
+    message.reply_text("Done - Poof, The user was banned in {} chats".format(gbanned_chats))
+    try:
+        bot.send_message(user_id, "You have been globally banned from all groups where I have administrative permissions. If you think that this was a mistake, you may appeal your ban here: @onepunchsupport", parse_mode=ParseMode.HTML)
+    except:
+        pass # bot probably blocked by user
 
 
 @run_async
