@@ -1259,7 +1259,8 @@ Command:
  - /importfbans: Reply to the Federation backup message file to import the banned list to the Federation now.
 """
 
-NEW_FED_HANDLER = CommandHandler("newfed", new_fed, filters=Filters.user(DEV_USERS))
+#NEW_FED_HANDLER = CommandHandler("newfed", new_fed, filters=Filters.user(DEV_USERS))
+NEW_FED_HANDLER = CommandHandler("newfed", new_fed)
 DEL_FED_HANDLER = CommandHandler("delfed", del_fed, pass_args=True)
 JOIN_FED_HANDLER = CommandHandler("joinfed", join_fed, pass_args=True)
 LEAVE_FED_HANDLER = CommandHandler("leavefed", leave_fed, pass_args=True)
