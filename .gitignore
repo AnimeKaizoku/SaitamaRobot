@@ -5,5 +5,5 @@ tg_bot/config.py
 .pydevproject
 .directory
 .vscode
-tgbot/modules/helper_funcs/temp.txt
+tg_bot/modules/helper_funcs/temp.txt
 tg_bot/elevated_users.json

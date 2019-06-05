@@ -366,6 +366,7 @@ def get_id(bot: Bot, update: Update, args: List[str]):
 @run_async
 def info(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message  # type: Optional[Message]
+    chat = update.effective_chat # type: Optional[Chat]
     user_id = extract_user(update.effective_message, args)
 
     if user_id:
@@ -411,7 +412,10 @@ def info(bot: Bot, update: Update, args: List[str]):
                     text += "\nThe Disaster level of this person is 'Wolf'."
 
     for mod in USER_INFO:
-        mod_info = mod.__user_info__(user.id).strip()
+        try:
+            mod_info = mod.__user_info__(user.id).strip()
+        except TypeError:
+            mod_info = mod.__user_info__(user.id, chat.id).strip()
         if mod_info:
             text += "\n\n" + mod_info
 
