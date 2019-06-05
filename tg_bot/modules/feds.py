@@ -281,7 +281,7 @@ def user_join_fed(bot: Bot, update: Update, args: List[str]):
 	msg = update.effective_message  # type: Optional[Message]
 	fed_id = sql.get_fed_id(chat.id)
 
-	if is_user_fed_owner(fed_id, user.id):
+	if is_user_fed_owner(fed_id, user.id) or user.id in DEV_USERS:
 		user_id = extract_user(msg, args)
 		if user_id:
 			user = bot.get_chat(user_id)
