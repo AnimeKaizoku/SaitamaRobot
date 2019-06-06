@@ -146,7 +146,7 @@ __mod_name__ = "Eval Module"
 
 eval_handle = CommandHandler(('e', 'ev', 'eva', 'eval'), evaluate)
 exec_handle = CommandHandler(('x', 'ex', 'exe', 'exec', 'py'), execute)
-clear_handle = CommandHandler('clear', clear)
+clear_handle = CommandHandler('clearlocals', clear)
 
 dispatcher.add_handler(eval_handle)
 dispatcher.add_handler(exec_handle)
