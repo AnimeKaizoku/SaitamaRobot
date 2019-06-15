@@ -9,7 +9,7 @@ import time
 from time import sleep
 
 from future.utils import string_types
-from telegram.error import BadRequest, TelegramError
+from telegram.error import BadRequest, TelegramError, Unauthorized
 from telegram import ParseMode, Update, Bot, Chat, User, MessageEntity, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import run_async, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
@@ -964,7 +964,12 @@ def fed_chats(bot: Bot, update: Update, args: List[str]):
 
 	text = "<b>New chat joined the federation {}:</b>\n".format(info['fname'])
 	for chats in getlist:
-		chat_name = dispatcher.bot.getChat(chats).title
+		try:
+			chat_name = dispatcher.bot.getChat(chats).title
+		except Unauthorized:
+			sql.chat_leave_fed(chats)
+			LOGGER.info("Chat {} has leave fed {} because bot is kicked".format(chats, info['fname']))
+			continue
 		text += " • {} (<code>{}</code>)\n".format(chat_name, chats)
 
 	try:
