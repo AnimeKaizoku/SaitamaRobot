@@ -302,7 +302,7 @@ def goodbye(bot: Bot, update: Update, args: List[str]):
 
         elif args[0].lower() in ("off", "no"):
             sql.set_gdbye_preference(str(chat.id), False)
-            update.effective_message.reply_text("Ok!.")
+            update.effective_message.reply_text("Ok!")
 
         else:
             # idek what you're writing, say yes or no
