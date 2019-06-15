@@ -298,11 +298,11 @@ def goodbye(bot: Bot, update: Update, args: List[str]):
     elif len(args) >= 1:
         if args[0].lower() in ("on", "yes"):
             sql.set_gdbye_preference(str(chat.id), True)
-            update.effective_message.reply_text("I'll be sorry when people leave!")
+            update.effective_message.reply_text("Ok!")
 
         elif args[0].lower() in ("off", "no"):
             sql.set_gdbye_preference(str(chat.id), False)
-            update.effective_message.reply_text("If they leave, I can't punch them .")
+            update.effective_message.reply_text("Ok!.")
 
         else:
             # idek what you're writing, say yes or no
