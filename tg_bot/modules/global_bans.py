@@ -40,7 +40,7 @@ UNGBAN_ERRORS = {
     "Not in the chat",
     "Channel_private",
     "Chat_admin_required",
-	"Peer_id_invalid",
+    "Peer_id_invalid",
 }
 
 
@@ -55,7 +55,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         return
 
     if int(user_id) in DEV_USERS:
-        message.reply_text("There is no way I can gban my developers")
+        message.reply_text("There is no way I can gban my Senpai's.")
         return
 
     if int(user_id) in SUDO_USERS:
@@ -63,7 +63,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         return
 
     if int(user_id) in SUPPORT_USERS:
-        message.reply_text("OOOH someone's trying to gban a support user! *grabs popcorn*")
+        message.reply_text("OOOH someone's trying to gban a Demon Disaster! *grabs popcorn*")
         return
 
     if user_id == bot.id:
@@ -296,7 +296,7 @@ def __user_info__(user_id):
         text = text.format("Yes")
         user = sql.get_gbanned_user(user_id)
         if user.reason:
-            text += "\nReason: {}\nAppeal Chat: @OnePunchSupport".format(html.escape(user.reason))
+            text += "\n<b>Reason:</b> {}\n<b>Appeal Chat:</b> @OnePunchSupport".format(html.escape(user.reason))
     else:
         text = text.format("No")
     return text
@@ -317,6 +317,7 @@ __help__ = """
 Gbans, also known as global bans, are used by the bot owners to ban spammers across all groups. This helps protect \
 you and your groups by removing spam flooders as quickly as possible. They can be disabled for you group by calling \
 /gbanstat
+Note: You can appeal gbans or ask gbans at @OnePunchSupport
 """
 
 __mod_name__ = "Global Bans"
