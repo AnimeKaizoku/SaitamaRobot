@@ -96,7 +96,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
 
         return
 
-    message.reply_text("Already on it!")
+    message.reply_text("On it!")
 
     banner = update.effective_user  # type: Optional[User]
     messagerep = "{} is gbanning user {} "\
@@ -141,7 +141,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         bot.send_message(GBAN_LOGS, "gban complete! (User banned in {} chats)".format(gbanned_chats), parse_mode=ParseMode.HTML)
     else:
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "gban complete! (User banned in {} chats)".format(gbanned_chats))
-    message.reply_text("Done - Poof, The user was banned in {} chats".format(gbanned_chats))
+    message.reply_text("Done! This gban affected {} chats".format(gbanned_chats))
     try:
         bot.send_message(user_id, "You have been globally banned from all groups where I have administrative permissions. If you think that this was a mistake, you may appeal your ban here: @onepunchsupport", parse_mode=ParseMode.HTML)
     except:
