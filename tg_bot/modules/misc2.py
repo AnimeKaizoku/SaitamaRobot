@@ -191,14 +191,14 @@ SLAP_TEMPLATES = (
     "{user1} pokes {user2} with a pen!",
     "{user1} pokes {user2} with a stun gun!",
     "{user2} is secretly a Furry!.",
-    "{user1} is asking me to be mean!"
-   "( ･_･)ﾉ⌒●~*  (･.･;) <--{user2}",
-   "Take this {user2} (ﾉﾟДﾟ)ﾉ ))))))●~* ",
-   "Here {user2} hold this (｀・ω・)つ ●~＊",
-   "( ・_・)ノΞ●~*  {user2},Shinaeeeee!!.",
-   "( ・∀・)ｒ鹵~<≪巛;ﾟДﾟ)ﾉ  \*Bug sprays {user2}\*.",
-   "( ﾟДﾟ)ﾉ占~<巛巛巛.  -{user2} You pest!",
-   "( う-´)づ︻╦̵̵̿╤── \(˚☐˚”)/ {user2}.",
+    "Hey Everyony! {user1} is asking me to be mean!",
+    "( ･_･)ﾉ⌒●~*  (･.･;) <--{user2}",
+    "Take this {user2} (ﾉﾟДﾟ)ﾉ ))))))●~* ",
+    "Here {user2} hold this (｀・ω・)つ ●~＊",
+    "( ・_・)ノΞ●~*  {user2},Shinaeeeee!!.",
+    "( ・∀・)ｒ鹵~<≪巛;ﾟДﾟ)ﾉ  \*Bug sprays {user2}\*.",
+    "( ﾟДﾟ)ﾉ占~<巛巛巛.  -{user2} You pest!",
+    "( う-´)づ︻╦̵̵̿╤── \(˚☐˚”)/ {user2}.",
     "{user1} {hits} {user2} with a {item}.",
     "{user1} {hits} {user2} in the face with a {item}.",
     "{user1} {hits} {user2} around a bit with a {item}.",
@@ -213,14 +213,10 @@ SLAP_TEMPLATES = (
 )
 PING_STRING = (
     "PONG!!",
-	"Why did u wake me up? U want a punch?",
+	"Why did u wake me up? Want a punch?",
 	"I am here!",
 )
-PING_STRING = (
-        "PONG!!",
-	"Why did u wake me up? want a punch?",
-	"I am here!",
-)
+
 
 ITEMS = (
     "cast iron skillet",
