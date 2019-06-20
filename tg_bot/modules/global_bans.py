@@ -55,7 +55,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         return
 
     if int(user_id) in DEV_USERS:
-        message.reply_text("There is no way I can gban my Senpai's.")
+        message.reply_text("There is no way I can gban this user.")
         return
 
     if int(user_id) in SUDO_USERS:
