@@ -6,6 +6,7 @@ import json
 import sys
 import psutil
 from typing import Optional, List
+from time import sleep
 
 from telegram import Message, Chat, Update, Bot, User
 from telegram import ParseMode
@@ -204,10 +205,27 @@ def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 def gitpull(bot: Bot, update: Update):
-    update.effective_message.reply_text("Pulling all changes from remote. Please restart the bot to load all changes")
+    sent_msg = update.effective_message.reply_text("Pulling all changes from remote and then attempting to restart.")
     p = subprocess.Popen('git pull', stdout=subprocess.PIPE, shell=True)
-    msg = update.effective_message
-    msg.reply_text("Changes pulled. Restarting!")
+
+    sent_msg_text = sent_msg.text + "\n\nChanges pulled. Restarting in "
+
+    sent_msg.edit_text(sent_msg_text+"5")
+
+    sleep(1)
+    sent_msg.edit_text(sent_msg_text+"4")
+
+    sleep(1)
+    sent_msg.edit_text(sent_msg_text+"3")
+
+    sleep(1)
+    sent_msg.edit_text(sent_msg_text+"2")
+
+    sleep(1)
+    sent_msg.edit_text(sent_msg_text+"1")
+    sleep(1)
+    sent_msg.edit_text("Restarted.")
+    
     os.system('restart.bat')
     os.execv('start.bat', sys.argv)
 

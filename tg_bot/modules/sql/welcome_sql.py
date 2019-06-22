@@ -71,6 +71,8 @@ DEFAULT_WELCOME_MESSAGES = [
     "Hey {first}, Empty your pockets.",
     "Hi {first}!, Are you strong?",
     "Call the Avengers! - {first} just joined the chat.",
+    "{first} joined. You must construct additional pylons.",
+    "Ermagherd. {first} is here.",
 ]
 DEFAULT_GOODBYE_MESSAGES = [
     "{first} will be missed.",
