@@ -533,7 +533,7 @@ PING_HANDLER = DisableAbleCommandHandler("ping", ping)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, pass_args=True)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True)
 SLAP_REGEX_HANDLER = DisableAbleRegexHandler("(?i)bhag", slap, friendly="slap")
-ECHO_HANDLER = CommandHandler("echo", echo, filters=Filters.user(SUDO_USERS + DEV_USERS))
+ECHO_HANDLER = CommandHandler("echo", echo, filters=Filters.user(SUDO_USERS + DEV_USERS + SUPPORT_USERS))
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
 
 STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter | CustomFilters.dev_filter)
