@@ -248,6 +248,7 @@ ITEMS = (
     "piece of rotten meat",
     "bear",
     "ton of bricks",
+    "spherical flying kat",
 )
 
 THROW = (
