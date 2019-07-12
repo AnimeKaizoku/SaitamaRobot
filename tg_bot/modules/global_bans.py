@@ -8,7 +8,7 @@ from telegram.ext import run_async, CommandHandler, MessageHandler, Filters
 from telegram.utils.helpers import mention_html
 
 import tg_bot.modules.sql.global_bans_sql as sql
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, STRICT_GBAN, GBAN_LOGS
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, STRICT_GBAN, GBAN_LOGS, WHITELIST_USERS
 from tg_bot.modules.helper_funcs.chat_status import user_admin, is_user_admin
 from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from tg_bot.modules.helper_funcs.filters import CustomFilters
@@ -65,7 +65,9 @@ def gban(bot: Bot, update: Update, args: List[str]):
     if int(user_id) in SUPPORT_USERS:
         message.reply_text("OOOH someone's trying to gban a Demon Disaster! *grabs popcorn*")
         return
-
+    if int(user_id) in WHITELIST_USERS:
+        message.reply_text("Wolves cannot be gbanned!")
+        return
     if user_id == bot.id:
         message.reply_text("You uhh...want me to punch myself?")
         return
