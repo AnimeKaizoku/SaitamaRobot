@@ -1,4 +1,5 @@
 @echo off
+TITLE Saitama Robot
 timeout /t 5
 py -3.6 --version
 IF "%ERRORLEVEL%" == "0" (
