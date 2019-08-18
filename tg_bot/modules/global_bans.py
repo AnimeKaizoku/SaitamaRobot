@@ -240,7 +240,7 @@ def check_and_ban(update, user_id, should_message=True):
     if sql.is_user_gbanned(user_id):
         update.effective_chat.kick_member(user_id)
         if should_message:
-            update.effective_message.reply_text("This is a bad person, they shouldn't be here!")
+            update.effective_message.reply_text("This person is gbanned in the network, I'm kicking them out and you can run /info to see why they got banned. /n Visit @OnePunchSupport for Appeals.")
 
 
 @run_async
