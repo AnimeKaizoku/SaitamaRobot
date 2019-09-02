@@ -29,7 +29,7 @@ def convert(bot: Bot, update: Update):
     current_response = requests.get(request_url).json()
     if new_rate in current_response["rates"]:
                 current_rate = float(current_response["rates"][new_rate])
-                new_cur = round(orig_cur * current_rate, 4)
+                new_cur = round(orig_cur * current_rate, 5)
     update.effective_message.reply_text("{} {} = {} {}".format(orig_cur, orig_rate, new_cur, new_rate))
 
 
