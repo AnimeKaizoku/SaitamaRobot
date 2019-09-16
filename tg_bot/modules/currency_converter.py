@@ -1,37 +1,39 @@
-from currency_converter import CurrencyConverter
 import requests
-
-from datetime import datetime
 
 from telegram import Update, Bot
 from telegram.ext import CommandHandler
 
-from tg_bot import dispatcher
+from tg_bot import dispatcher, CASH_API_KEY
 
 def convert(bot: Bot, update: Update):
-    args = update.effective_message.text.split(None, 3)
+    args = update.effective_message.text.split(" ", 3)
     if len(args) > 1:
-        orig_cur = float(args[1])
+
+        orig_cur_amount = float(args[1])
 
         try:
-            orig_rate = args[2].upper()
+            orig_cur = args[2].upper()
         except IndexError:
-            update.effective_message.reply_text("You forgot to mention the currency code")
+            update.effective_message.reply_text("You forgot to mention the currency code.")
             return 
 
         try:
-            new_rate = args[3].upper()
+            new_cur = args[3].upper()
         except IndexError:
-            update.effective_message.reply_text("You forgot to mention the currency code to convert into")
+            update.effective_message.reply_text("You forgot to mention the currency code to convert into.")
             return
 
-    request_url = "https://api.exchangeratesapi.io/latest?base={}".format(orig_rate)
-    current_response = requests.get(request_url).json()
-    if new_rate in current_response["rates"]:
-                current_rate = float(current_response["rates"][new_rate])
-                new_cur = round(orig_cur * current_rate, 5)
-    update.effective_message.reply_text("{} {} = {} {}".format(orig_cur, orig_rate, new_cur, new_rate))
-
+        request_url = f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency={orig_cur}&to_currency={new_cur}&apikey={CASH_API_KEY}"
+        response = requests.get(request_url).json()
+        try:
+            current_rate = float(response['Realtime Currency Exchange Rate']['5. Exchange Rate'])
+        except KeyError:
+            update.effective_message.reply_text(f"Currency Not Supported.")
+            return
+        new_cur_amount = round(orig_cur_amount * current_rate, 5)
+        update.effective_message.reply_text(f"{orig_cur_amount} {orig_cur} = {new_cur_amount} {new_cur}")
+    else:
+        update.effective_message.reply_text(__help__)
 
 __help__ = """
  - /cash : currency converter
