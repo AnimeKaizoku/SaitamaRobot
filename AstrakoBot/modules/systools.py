@@ -36,14 +36,6 @@ def pingme():
     ping_time = float(newstr[0])
     return ping_time
 
-
-@run_async
-def poweroff(bot: Bot, update: Update):
-    msg = update.effective_message
-    msg.reply_text("Powering off")
-    os._exit(2)
-    return
-
 @run_async
 def status(bot: Bot, update: Update):
     pingSpeed = pingme()
@@ -54,7 +46,5 @@ def status(bot: Bot, update: Update):
 
 
 STATUS_HANDLER = DisableAbleCommandHandler("status", status)
-SHUTDOWN_HANDLER = CommandHandler("shutdown", poweroff, filters=Filters.chat(OWNER_ID)) #safety...
 
-dispatcher.add_handler(SHUTDOWN_HANDLER)
 dispatcher.add_handler(STATUS_HANDLER)
