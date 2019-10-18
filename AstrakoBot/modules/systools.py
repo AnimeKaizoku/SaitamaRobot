@@ -45,6 +45,6 @@ def status(bot: Bot, update: Update):
     update.effective_message.reply_text(reply)
 
 
-STATUS_HANDLER = DisableAbleCommandHandler("status", status)
+STATUS_HANDLER = CommandHandler("status", status, filter=CustomFilters.sudo_filter)
 
 dispatcher.add_handler(STATUS_HANDLER)
