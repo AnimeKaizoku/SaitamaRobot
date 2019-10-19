@@ -461,6 +461,8 @@ def get_time(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
+@user_admin
+@sudo_plus
 def echo(bot: Bot, update: Update):
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
@@ -533,7 +535,7 @@ PING_HANDLER = DisableAbleCommandHandler("ping", ping)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, pass_args=True)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True)
 SLAP_REGEX_HANDLER = DisableAbleRegexHandler("(?i)bhag", slap, friendly="slap")
-ECHO_HANDLER = CommandHandler("echo", echo, filters=CustomFilters.sudo_filter | CustomFilters.dev_filter | CustomFilters.support_filter)
+ECHO_HANDLER = CommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
 
 STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter | CustomFilters.dev_filter)
