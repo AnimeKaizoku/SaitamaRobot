@@ -18,6 +18,11 @@ Once you've setup your database and your configuration (see below) is complete, 
 ## Setting up the bot (Read this before trying to use!):
 Given this is a Marie Fork, its optimal that you follow the setup procedure as stated on [Marie](https://github.com/PaulSonOfLars/tgbot/blob/master/README.md)
 
+You can use [nssm](https://nssm.cc/usage) to install the bot as service on windows and set it to restart on /gitpull 
+Make sure to edit the start and restart bats to your needs. 
+Note: the restar bat requires that User account control is disabled.
+
+For queries or any issues, please open an issue ticket or visit us at [@OnePunchSupport](https://t.me/onepunchsupport)
 ## Credits
 The bot is based of on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
 It was just revamped to suit an Anime centric community. All original credits go to him. Without his work, this fork would not have been possible!
