@@ -35,7 +35,7 @@ def check_flood(bot: Bot, update: Update) -> str:
 
     try:
         chat.kick_member(user.id)
-        msg.reply_text("*Normal Punches the user because of spamming* ")
+        msg.reply_text("*bans user*\nReason: Flood")
 
         return "<b>{}:</b>" \
                "\n#BANNED" \
