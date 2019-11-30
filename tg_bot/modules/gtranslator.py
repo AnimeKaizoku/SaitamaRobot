@@ -9,7 +9,7 @@ from googletrans import Translator, LANGUAGES
 
 @run_async
 def totranslate(bot: Bot, update: Update):
-	msg = update.effective_message
+    msg = update.effective_message
     problem_lang_code = []
     for key in LANGUAGES:
         if "-" in key:
