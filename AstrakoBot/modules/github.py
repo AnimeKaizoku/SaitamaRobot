@@ -25,11 +25,10 @@ def getRelease(bot: Bot, update: Update, args: List[str]):
     name = api.getReleaseName(recentRelease)
     assets = api.getAssets(recentRelease)
     releaseName = api.getReleaseName(recentRelease)
-    message = "REPO CHECK\n\n"
-    message += "Author: "+author+"\n"
+    message = "Author: "+author+"\n"
     message += "Release Name: "+releaseName+"\n\n"
     for asset in assets:
-        message += "Asset:\n"
+        message += "*Asset:* \n"
         fileName = api.getReleaseFileName(asset)
         fileURL = api.getReleaseFileURL(asset)
         assetFile = "[{}]({})".format(fileName, fileURL)
@@ -41,7 +40,17 @@ def getRelease(bot: Bot, update: Update, args: List[str]):
         message += "\nDownload Count: " + str(downloadCount) + "\n\n" 
     msg.reply_text(message, parse_mode=ParseMode.MARKDOWN)
     return
-    
-RELEASEHANDLER = CommandHandler("getrelease", getRelease, pass_args=True)
+
+__help__ = """
+Github module. This module will fetch github releases.
+Commands:
+ - /git <user>/<repo>: will fetch the most recent release from that repo.
+"""
+
+__mod_name__ = "Github"
+
+
+
+RELEASEHANDLER = CommandHandler("git", getRelease, pass_args=True)
 
 dispatcher.add_handler(RELEASEHANDLER)
