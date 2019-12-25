@@ -39,7 +39,6 @@ def getRelease(bot: Bot, update: Update, args: List[str]):
         message += assetFile + "\n"
         message += "Size: " + size + " MB"
         message += "\nDownload Count: " + str(downloadCount) + "\n\n" 
-    message += "Press the desired button to obtain the file"
     msg.reply_text(message, parse_mode=ParseMode.MARKDOWN)
     return
     
