@@ -5,7 +5,7 @@ import tg_bot.modules.helper_funcs.cas_api as cas
 import tg_bot.modules.helper_funcs.git_api as git
 
 from platform import python_version
-from telegram import Update, Bot, Message, Chat
+from telegram import Update, Bot, Message, Chat, ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 
 from tg_bot import dispatcher, OWNER_ID, SUDO_USERS
@@ -42,12 +42,12 @@ def pingme():
 @run_async
 def status(bot: Bot, update: Update):
     pingSpeed = pingme()
-    reply = "System Status: operational\n\n"
-    reply += "Python version: "+python_version()+"\n"
-    reply += "Ping speed: "+str(pingSpeed)+"ms\n"
-    reply += "CAS API version: "+str(cas.vercheck())+"\n"
-    reply += "GitHub API version: "+str(git.vercheck())+"\n"
-    update.effective_message.reply_text(reply)
+    reply = "*System Status:* operational\n\n"
+    reply += "*Python version:* "+python_version()+"\n"
+    reply += "*Ping speed:* "+str(pingSpeed)+"ms\n"
+    reply += "*CAS API version:* "+str(cas.vercheck())+"\n"
+    reply += "*GitHub API version:* "+str(git.vercheck())+"\n"
+    update.effective_message.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
 
 STATUS_HANDLER = CommandHandler("status", status, filters=CustomFilters.sudo_filter)
