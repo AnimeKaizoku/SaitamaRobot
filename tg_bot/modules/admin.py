@@ -490,7 +490,7 @@ UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
 GITPULL_HANDLER = CommandHandler("gitpull", gitpull, filters=Filters.group)
 RESTART_HANDLER = CommandHandler("restart", restart, filters=Filters.group)
 
-INVITE_HANDLER = CommandHandler("invitelink", invite, filters=Filters.group)
+INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite, filters=Filters.group)
 
 PROMOTE_HANDLER = CommandHandler("promote", promote, pass_args=True, filters=Filters.group)
 DEMOTE_HANDLER = CommandHandler("demote", demote, pass_args=True, filters=Filters.group)
