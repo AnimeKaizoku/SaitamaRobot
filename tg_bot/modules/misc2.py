@@ -152,7 +152,7 @@ SLAP_TEMPLATES = (
     "{user2} got a house call from Doctor {user1}.",
     "{user1} beheaded {user2}.",
     "{user2} got stoned...by an angry mob.",
-    "{user1} sewed the pants off {user2}.",
+    "{user1} sued the pants off {user2}.",
     "{user2} was impeached.",
     "{user2} was one-hit KO'd by {user1}.",
     "{user1} sent {user2} down the memory hole.",
@@ -208,7 +208,8 @@ SLAP_TEMPLATES = (
     "{user1} pins {user2} down and repeatedly {hits} them with a {item}.",
     "{user1} grabs up a {item} and {hits} {user2} with it.",
     "{user1} ties {user2} to a chair and {throws} a {item} at them.",
-    "{user1} gave a friendly push to help {user2} learn to swim in lava."
+    "{user1} gave a friendly push to help {user2} learn to swim in lava.",
+    "{user1} bullied {user2}."	
 )
 PING_STRING = (
     "PONG!!",
