@@ -152,6 +152,7 @@ Commands:
  - /fetch <reponame> or &reponame: same as /git, but you can use a saved repo shortcut
  - /listrepo: lists all repo shortcuts in chat
  - /gitver: returns the current API version
+ - /changelog <reponame>: gets the changelog of a saved repo shortcut
  
 Admin only:
  - /saverepo <name> <user>/<repo>: saves a repo value as shortcut
