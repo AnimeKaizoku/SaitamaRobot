@@ -84,7 +84,7 @@ DEFAULT_GOODBYE_MESSAGES = [
     "{first} is out of the running.",
     "Nice knowing ya, {first}!",
     "It was a fun time {first}.",
-    "We hope to you again soon, {first}.",
+    "We hope to see you again soon, {first}.",
     "I donut want to say goodbye, {first}.",
     "Goodbye {first}! Guess who's gonna miss you :')",
     "Goodbye {first}! It's gonna be lonely without ya.",
