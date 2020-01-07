@@ -80,6 +80,23 @@ def cmdFetch(bot: Bot, update: Update, args: List[str]):
     return
     
 @run_async
+def changelog(bot: Bot, update: Update, args: List[str]):
+    msg = update.effective_message
+    if(len(args) != 1):
+        msg.reply_text("Invalid repo name")
+        return
+    url = getRepo(bot, update, args[0])
+    if not api.getData(url):
+        msg.reply_text("Invalid <user>/<repo> combo")
+        return
+    data = api.getData(url)
+    release = api.getLastestReleaseData(data)
+    body = api.getBody(release)
+    msg.reply_text(body)
+    return
+    
+    
+@run_async
 @user_admin
 def saveRepo(bot: Bot, update: Update, args: List[str]):
     chat_id = update.effective_chat.id
@@ -151,6 +168,7 @@ SAVEREPO_HANDLER = CommandHandler("saverepo", saveRepo, pass_args=True)
 DELREPO_HANDLER = CommandHandler("delrepo", delRepo, pass_args=True)
 LISTREPO_HANDLER = DisableAbleCommandHandler("listrepo", listRepo, admin_ok=True)
 VERCHECKER_HANDLER = DisableAbleCommandHandler("gitver", getVer, admin_ok=True)
+CHANGELOG_HANDLER = DisableAbleCommandHandler("changelog", changelog, pass_args=True, admin_ok=True)
 
 HASHFETCH_HANDLER = RegexHandler(r"^&[^\s]+", hashFetch)
 
@@ -161,3 +179,4 @@ dispatcher.add_handler(DELREPO_HANDLER)
 dispatcher.add_handler(LISTREPO_HANDLER)
 dispatcher.add_handler(HASHFETCH_HANDLER)
 dispatcher.add_handler(VERCHECKER_HANDLER)
+dispatcher.add_handler(CHANGELOG_HANDLER)
