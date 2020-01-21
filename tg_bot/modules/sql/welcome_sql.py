@@ -33,7 +33,7 @@ DEFAULT_WELCOME_MESSAGES = [
     "Where’s {first}? In the chat!",
     "{first} hopped into the chat. Kangaroo!!",
     "{first} just showed up. Hold my beer.",
-    "Challenger approaching - {first} has appeared!",
+    "Challenger approaching! {first} has appeared!",
     "It's a bird! It's a plane! Nevermind, it's just {first}.",
     "It's {first}! Praise the sun! \o/",
     "Never gonna give {first} up. Never gonna let {first} down.",
