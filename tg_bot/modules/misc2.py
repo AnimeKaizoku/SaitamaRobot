@@ -1,8 +1,10 @@
 import html
 import json
+imoprt os
+import psutil
 import random
 import time
-from datetime import datetime
+import datetime
 from typing import Optional, List
 import re
 import requests
@@ -277,7 +279,13 @@ def ping(bot: Bot, update: Update):
     requests.get('https://api.telegram.org')
     end_time = time.time()
     ping_time = round((end_time - start_time), 3)
-    update.effective_message.reply_text("PONG!!\n`{}s`".format(ping_time), parse_mode=ParseMode.MARKDOWN)
+    reply_msg = "PONG!!\n`{}s`".format(ping_time)
+
+    name = 'SaitamaRobot'
+    p = psutil.Process(psutil.win_service_get(name).as_dict()['pid'])
+    uptime = time.time()- p.create_time()
+    reply_msg += '\nService uptime: `{}`'.format(str(datetime.timedelta(seconds=uptime)))
+    update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.MARKDOWN)
 
 @run_async
 def runs(bot: Bot, update: Update):
@@ -452,12 +460,12 @@ def get_time(bot: Bot, update: Update, args: List[str]):
             elif country:
                 location = country
 
-            timenow = int(datetime.utcnow().strftime("%s"))
+            timenow = int(datetime.datetime.utcnow().strftime("%s"))
             res = requests.get(GMAPS_TIME, params=dict(location="{},{}".format(lat, long), timestamp=timenow))
             if res.status_code == 200:
                 offset = json.loads(res.text)['dstOffset']
                 timestamp = json.loads(res.text)['rawOffset']
-                time_there = datetime.fromtimestamp(timenow + timestamp + offset).strftime("%H:%M:%S on %A %d %B")
+                time_there = datetime.datetime.fromtimestamp(timenow + timestamp + offset).strftime("%H:%M:%S on %A %d %B")
                 update.message.reply_text("It's {} in {}".format(time_there, location))
 
 
