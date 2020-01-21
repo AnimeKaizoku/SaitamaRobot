@@ -90,7 +90,7 @@ def totranslate(bot: Bot, update: Update):
                 message.reply_text("Translated from `{}` to `{}`:\n`{}`".format(source_lang, dest_lang, tekstr.text), parse_mode=ParseMode.MARKDOWN)
 
     except IndexError:
-        update.effective_message.reply_text("Reply to messages or write messages from other languages ​​for translating into the intended language\n\nExample: `/tr en-ml` to translate from English to Malayalam\nOr use: `/tr ml` for automatic detection and translating it into Malayalam", parse_mode="markdown")
+        update.effective_message.reply_text("Reply to messages or write messages from other languages ​​for translating into the intended language\n\nExample: `/tr en-ml` to translate from English to Malayalam\nOr use: `/tr ml` for automatic detection and translating it into Malayalam.\nSee [List of Language Codes](https://t.me/OnePunchSupport/12823) for a list of language codes.", parse_mode="markdown")
     except ValueError:
         update.effective_message.reply_text("The intended language is not found!")
     else:
