@@ -1,3 +1,4 @@
+import random
 from typing import Optional
 
 from telegram import Message, Update, Bot, User
