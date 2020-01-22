@@ -120,7 +120,7 @@ def new_member(bot: Bot, update: Update):
                 if cust_welcome:
                     if cust_welcome == sql.DEFAULT_WELCOME:
                         cust_welcome = random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(first=first_name)
-                    LOGGER.info("Custom Message: {}".format(cust_welcome))
+                    #LOGGER.info("Custom Message: {}".format(cust_welcome))
                     if new_mem.last_name:
                         fullname = "{} {}".format(first_name, new_mem.last_name)
                     else:
