@@ -20,10 +20,7 @@ def totranslate(bot: Bot, update: Update):
             text = msg.reply_to_message.text
             message = update.effective_message
             dest_lang = None
-            try:
-                source_lang = args[1].split(None, 1)[0]
-            except:
-                source_lang = args[1]
+            source_lang = args[1].split(None, 1)[0]
             if source_lang.count('-') == 2:
                 for lang in problem_lang_code:
                     if lang in source_lang:
@@ -37,9 +34,9 @@ def totranslate(bot: Bot, update: Update):
                 for lang in problem_lang_code:
                     if lang in source_lang:
                         dest_lang = source_lang
-                    else:
-                        dest_lang = source_lang.split("-")[1]
-                        source_lang = source_lang.split("-")[0]
+                if dest_lang == None:
+                    dest_lang = source_lang.split("-")[1]
+                    source_lang = source_lang.split("-")[0]
             exclude_list = UNICODE_EMOJI.keys()
             for emoji in exclude_list:
                 if emoji in text:
