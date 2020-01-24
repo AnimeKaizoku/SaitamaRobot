@@ -98,10 +98,9 @@ def anime(bot: Bot, update: Update):
     *Studios*: `{studio_string}`
     *Producers*: `{producer_string}`
 
-    📖 *Synopsis*: {synopsis_string}... [read more]({anime['url']}).
+    📖 *Synopsis*: {synopsis_string}... [read more]({anime['url']})
 
-    _Interested? Download an encode from:
-    Search an encode on_
+    _Search an encode on.._
     """)
 
     kaizoku = f"https://animekaizoku.com/?s={search_query}"
