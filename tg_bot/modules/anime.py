@@ -72,7 +72,7 @@ def anime(bot: Bot, update: Update):
 
     if alternative_names and None not in alternative_names:
         alternative_names_string = ", ".join(alternative_names)
-        caption += f"\nAlternative Names : `{alternative_names_string}`"
+        caption += f"\n*Also known as*: `{alternative_names_string}`"
 
     genre_string = ', '.join([genre_info['name'] for genre_info in anime['genres']])
     studio_string = ', '.join([studio_info['name'] for studio_info in anime['studios']])
@@ -143,7 +143,7 @@ def manga(bot: Bot, update: Update):
 
     if alternative_names and None not in alternative_names:
         alternative_names_string = ", ".join(alternative_names)
-        caption += f"\n*Alternative Names* : `{alternative_names_string}`"
+        caption += f"\n*Also known as*: `{alternative_names_string}`"
 
     genre_string = ', '.join([genre_info['name'] for genre_info in manga['genres']])
     synopsis = manga['synopsis'].split(" ", 60)
