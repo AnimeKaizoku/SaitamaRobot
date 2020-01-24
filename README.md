@@ -20,7 +20,7 @@ Given this is a Marie Fork, its optimal that you follow the setup procedure as s
 
 You can use [nssm](https://nssm.cc/usage) to install the bot as service on windows and set it to restart on /gitpull 
 Make sure to edit the start and restart bats to your needs. 
-Note: the restar bat requires that User account control is disabled.
+Note: the restart bat requires that User account control is disabled.
 
 For queries or any issues, please open an issue ticket or visit us at [@OnePunchSupport](https://t.me/onepunchsupport)
 ## Credits
