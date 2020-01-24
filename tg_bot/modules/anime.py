@@ -4,10 +4,6 @@ from telegram import Message, Update, Bot, InlineKeyboardMarkup, InlineKeyboardB
 from tg_bot import dispatcher
 from telegram import ParseMode
 
-#Backport of fromisoformat function from python 3.7
-from backports.datetime_fromisoformat import MonkeyPatch
-MonkeyPatch.patch_fromisoformat()
-
 info_btn = "More Information"
 kaizoku_btn = "Kaizoku ☠️"
 kayo_btn = "Kayo 🏴‍☠️"
