@@ -215,8 +215,8 @@ SLAP_TEMPLATES = (
 )
 PING_STRING = (
     "PONG!!",
-	"Why did u wake me up? Want a punch?",
-	"I am here!",
+    "Why did u wake me up? Want a punch?",
+    "I am here!",
 )
 
 
@@ -413,11 +413,11 @@ def info(bot: Bot, update: Update, args: List[str]):
         if user.id in WHITELIST_USERS:
             text += "\nThe Disaster level of this person is 'Wolf'."
     else:
-	disaster_level_present = False
+    disaster_level_present = False
 
     if disaster_level_present:
         text += '[<a href="https://t.me/OnePunchSupport/18340">?</a>]'
-		
+        
     for mod in USER_INFO:
         try:
             mod_info = mod.__user_info__(user.id).strip()
@@ -426,7 +426,7 @@ def info(bot: Bot, update: Update, args: List[str]):
         if mod_info:
             text += "\n\n" + mod_info
 
-    update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
+    update.effective_message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
 
 @run_async
