@@ -340,7 +340,7 @@ def button(bot, update):
     data = query.data
     
     if data[0] == "close":
-        if data[1] == query.from_user.id
+        if data[1] == query.from_user.id:
             message.delete()
 
 __help__ = """
