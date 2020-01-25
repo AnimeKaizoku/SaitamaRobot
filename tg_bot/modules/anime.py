@@ -342,6 +342,8 @@ def button(bot, update):
     if data[0] == "close":
         if int(data[1]) == query.from_user.id:
             message.delete()
+        else:
+            query.answer("You are not allowed to use this.")
 
 __help__ = """
 Get information about anime, manga or characters from [MyAnimeList](https://myanimelist.net).
