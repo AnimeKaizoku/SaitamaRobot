@@ -215,8 +215,8 @@ SLAP_TEMPLATES = (
 )
 PING_STRING = (
     "PONG!!",
-	"Why did u wake me up? Want a punch?",
-	"I am here!",
+    "Why did u wake me up? Want a punch?",
+    "I am here!",
 )
 
 
@@ -401,21 +401,23 @@ def info(bot: Bot, update: Update, args: List[str]):
 
     text += "\nPermanent user link: {}".format(mention_html(user.id, "link"))
 
+    disaster_level_present = True
     if user.id == OWNER_ID:
         text += "\n\nThe Disaster level of this person is 'God'."
+    elif user.id in DEV_USERS:
+        text += "\nThis member is one of 'Hero Association'."
+    elif user.id in SUDO_USERS:
+        text += "\nThe Disaster level of this person is 'Dragon'."
+    elif user.id in SUPPORT_USERS:
+        text+= "\nThe Disaster level of this person is 'Demon'."
+        if user.id in WHITELIST_USERS:
+            text += "\nThe Disaster level of this person is 'Wolf'."
     else:
-        if user.id in DEV_USERS:
-            text += "\nThis member is one of 'Hero Association'."
-        else:
-            if user.id in SUDO_USERS:
-                text += "\nThe Disaster level of this person is 'Dragon'."
-            else:
-                if user.id in SUPPORT_USERS:
-                    text+= "\nThe Disaster level of this person is 'Demon'."
+        disaster_level_present = False
 
-                if user.id in WHITELIST_USERS:
-                    text += "\nThe Disaster level of this person is 'Wolf'."
-
+    if disaster_level_present:
+        text += '[<a href="https://t.me/OnePunchSupport/18340">?</a>]'
+        
     for mod in USER_INFO:
         try:
             mod_info = mod.__user_info__(user.id).strip()
@@ -424,7 +426,7 @@ def info(bot: Bot, update: Update, args: List[str]):
         if mod_info:
             text += "\n\n" + mod_info
 
-    update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
+    update.effective_message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
 
 @run_async

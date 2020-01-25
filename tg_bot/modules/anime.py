@@ -103,6 +103,7 @@ def anime(bot: Bot, update: Update):
     *Status*: `{anime['status']}`
     *Aired*: `{anime['aired']['string']}`
     *Episodes*: `{anime['episodes']}`
+    *Score*: `{anime['score']}`
     *Premiered*: `{anime['premiered']}`
     *Duration*: `{anime['duration']}`
     *Genres*: `{genre_string}`
@@ -179,6 +180,7 @@ def manga(bot: Bot, update: Update):
     *Status*: `{manga['status']}`
     *Volumes*: `{manga['volumes']}`
     *Chapters*: `{manga['chapters']}`
+    *Score*: `{manga['score']}`
     *Genres*: `{genre_string}`
 
     📖 *Synopsis*: {synopsis_string}...
