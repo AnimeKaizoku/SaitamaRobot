@@ -1,12 +1,16 @@
 import requests, jikanpy, textwrap, datetime
-from telegram.ext import CommandHandler, run_async
+
+from telegram.ext import CallbackQueryHandler, run_async
 from telegram import Message, Update, Bot, InlineKeyboardMarkup, InlineKeyboardButton
-from tg_bot import dispatcher
 from telegram import ParseMode
+
+from tg_bot import dispatcher
+from tg_bot.modules.disable import DisableAbleCommandHandler
 
 info_btn = "More Information"
 kaizoku_btn = "Kaizoku ☠️"
 kayo_btn = "Kayo 🏴‍☠️"
+close_btn = "Close ❌"
 
 def getKitsu(mal):
     # get kitsu id from mal id
@@ -67,10 +71,13 @@ def anime(bot: Bot, update: Update):
     else:
         caption += "\n"
 
-    alternative_names = [anime['title_english']]
+    alternative_names = []
+
+    if anime['title_english'] != None:
+        alternative_names.append(anime['title_english'])
     alternative_names.extend(anime['title_synonyms'])
 
-    if alternative_names and None not in alternative_names:
+    if alternative_names:
         alternative_names_string = ", ".join(alternative_names)
         caption += f"\n*Also known as*: `{alternative_names_string}`"
 
@@ -86,6 +93,10 @@ def anime(bot: Bot, update: Update):
         pass
 
     synopsis_string = ' '.join(synopsis)
+
+    for entity in anime:
+        if anime[entity] == None:
+            anime[entity] = "Unknown"
 
     caption += textwrap.dedent(f"""
     *Type*: `{anime['type']}`
@@ -103,14 +114,15 @@ def anime(bot: Bot, update: Update):
     _Search an encode on.._
     """)
 
-    kaizoku = f"https://animekaizoku.com/?s={search_query}"
-    kayo = f"https://animekayo.com/?s={search_query}"
+    kaizoku = f"https://animekaizoku.com/?s={anime['title']}"
+    kayo = f"https://animekayo.com/?s={anime['title']}"
     buttons = [
-        [InlineKeyboardButton(kaizoku_btn, url=kaizoku), InlineKeyboardButton(kayo_btn, url=kayo)]
+        [InlineKeyboardButton(kaizoku_btn, url=kaizoku), InlineKeyboardButton(kayo_btn, url=kayo)],
+        [InlineKeyboardButton(close_btn, callback_data="close")]
     ]
 
-    progress_message.delete()
     update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+    progress_message.delete()
 
 @run_async
 def manga(bot: Bot, update: Update):
@@ -131,17 +143,20 @@ def manga(bot: Bot, update: Update):
     
     manga = jikan.manga(first_mal_id)
 
-    caption = f"[ ]({manga['image_url']})[{manga['title']}]({manga['url']})"
+    caption = f"[{manga['title']}]({manga['url']})"
 
     if manga['title_japanese']:
         caption += f" ({manga['title_japanese']})\n"
     else:
         caption += "\n"
 
-    alternative_names = [manga['title_english']]
+    alternative_names = []
+
+    if manga['title_english'] != None:
+        alternative_names.append(manga['title_english'])
     alternative_names.extend(manga['title_synonyms'])
 
-    if alternative_names and None not in alternative_names:
+    if alternative_names:
         alternative_names_string = ", ".join(alternative_names)
         caption += f"\n*Also known as*: `{alternative_names_string}`"
 
@@ -155,6 +170,10 @@ def manga(bot: Bot, update: Update):
 
     synopsis_string = ' '.join(synopsis)
 
+    for entity in manga:
+        if manga[entity] == None:
+            manga[entity] = "Unknown"
+    
     caption += textwrap.dedent(f"""
     *Type*: `{manga['type']}`
     *Status*: `{manga['status']}`
@@ -163,14 +182,16 @@ def manga(bot: Bot, update: Update):
     *Genres*: `{genre_string}`
 
     📖 *Synopsis*: {synopsis_string}...
+    [ ]({manga['image_url']})
     """)
 
     buttons = [
-        [InlineKeyboardButton(info_btn, url=manga['url'])]
+        [InlineKeyboardButton(info_btn, url=manga['url'])],
+        [InlineKeyboardButton(close_btn, callback_data="close")]
     ]
 
-    progress_message.delete()
     update.effective_message.reply_text(caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+    progress_message.delete()
 
 @run_async
 def character(bot: Bot, update: Update):
@@ -191,7 +212,7 @@ def character(bot: Bot, update: Update):
     
     character = jikan.character(first_mal_id)
 
-    caption = f"[ ]({character['image_url']})[{character['name']}]({character['url']})"
+    caption = f"[{character['name']}]({character['url']})"
 
     if character['name_kanji'] != "Japanese":
         caption += f" ({character['name_kanji']})\n"
@@ -211,14 +232,19 @@ def character(bot: Bot, update: Update):
 
     about_string = ' '.join(about)
 
-    caption += f"\n*About*: {about_string}..."
+    for entity in character:
+        if character[entity] == None:
+            character[entity] = "Unknown"
+
+    caption += f"\n*About*: {about_string}... [ ]({character['image_url']})"
 
     buttons = [
-        [InlineKeyboardButton(info_btn, url=character['url'])]
+        [InlineKeyboardButton(info_btn, url=character['url'])],
+        [InlineKeyboardButton(close_btn, callback_data="close")]
     ]
 
-    progress_message.delete()
     update.effective_message.reply_text(caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+    progress_message.delete()
 
 @run_async
 def user(bot: Bot, update: Update):
@@ -247,14 +273,14 @@ def user(bot: Bot, update: Update):
         user_birthday = datetime.datetime.fromisoformat(user['birthday'])
         user_birthday_formatted = user_birthday.strftime(date_format)
     except:
-        user_birthday_formatted = "No info"
+        user_birthday_formatted = "Unknown"
 
     user_joined_date = datetime.datetime.fromisoformat(user['joined'])
     user_joined_date_formatted = user_joined_date.strftime(date_format)
 
     for entity in user:
         if user[entity] == None:
-            user[entity] = "No info"
+            user[entity] = "Unknown"
     
     about = user['about'].split(" ", 60)
 
@@ -266,7 +292,6 @@ def user(bot: Bot, update: Update):
     about_string = ' '.join(about)
     about_string = about_string.replace("<br>", "").strip().replace("\r\n", "\n")
     
-    #caption = f"[ ]({user['image_url']})" #coz jikan user img is currently broken
     caption = ""
 
     caption += textwrap.dedent(f"""
@@ -280,14 +305,15 @@ def user(bot: Bot, update: Update):
 
     """)
 
-    caption += f"*About*: {about_string}..."
+    caption += f"*About*: {about_string}...[ ]({user['image_url']})"
 
     buttons = [
-        [InlineKeyboardButton(info_btn, url=user['url'])]
+        [InlineKeyboardButton(info_btn, url=user['url'])],
+        [InlineKeyboardButton(close_btn, callback_data="close")]
     ]
 
-    progress_message.delete()
     update.effective_message.reply_text(caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+    progress_message.delete()
     
 @run_async
 def upcoming(bot: Bot, update: Update):
@@ -304,6 +330,15 @@ def upcoming(bot: Bot, update: Update):
         upcoming_message += f"{entry_num + 1}. {upcoming_list[entry_num]}\n"
         
     update.effective_message.reply_text(upcoming_message)
+
+def button(bot, update):
+
+    query = update.callback_query
+    message = query.message
+    data = query.data
+    
+    if data == "close":
+        message.delete()
 
 __help__ = """
 Get information about anime, manga or characters from [MyAnimeList](https://myanimelist.net).
@@ -324,12 +359,13 @@ Get information about anime, manga or characters from [MyAnimeList](https://myan
 
 __mod_name__ = "MyAnimeList"
 
-ANIME_HANDLER = CommandHandler("anime", anime)
-CHARACTER_HANDLER = CommandHandler("character", character)
-MANGA_HANDLER = CommandHandler("manga", manga)
-USER_HANDLER = CommandHandler("user", user)
-UPCOMING_HANDLER = CommandHandler("upcoming", upcoming)
+ANIME_HANDLER = DisableAbleCommandHandler("anime", anime)
+CHARACTER_HANDLER = DisableAbleCommandHandler("character", character)
+MANGA_HANDLER = DisableAbleCommandHandler("manga", manga)
+USER_HANDLER = DisableAbleCommandHandler("user", user)
+UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
 
+dispatcher.add_handler(CallbackQueryHandler(button))
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
