@@ -416,6 +416,8 @@ def info(bot: Bot, update: Update, args: List[str]):
                 if user.id in WHITELIST_USERS:
                     text += "\nThe Disaster level of this person is 'Wolf'."
 
+    text += " [{}]".format(mention_html('https://t.me/OnePunchSupport/18340', "?"))
+		
     for mod in USER_INFO:
         try:
             mod_info = mod.__user_info__(user.id).strip()
