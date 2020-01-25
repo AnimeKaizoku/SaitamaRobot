@@ -416,7 +416,7 @@ def info(bot: Bot, update: Update, args: List[str]):
                 if user.id in WHITELIST_USERS:
                     text += "\nThe Disaster level of this person is 'Wolf'."
 
-    text += " [{}]".format(mention_html('https://t.me/OnePunchSupport/18340', "?"))
+    text += '[<a href="https://t.me/OnePunchSupport/18340">?</a>]'
 		
     for mod in USER_INFO:
         try:
