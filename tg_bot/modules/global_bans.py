@@ -1,4 +1,4 @@
-import html
+import html, time
 from io import BytesIO
 from typing import Optional, List
 
@@ -215,7 +215,6 @@ def ungban(bot: Bot, update: Update, args: List[str]):
 
     message.reply_text("Person has been un-gbanned.")
 
-
 @run_async
 def gbanlist(bot: Bot, update: Update):
     banned_users = sql.get_gban_list()
@@ -235,6 +234,18 @@ def gbanlist(bot: Bot, update: Update):
         update.effective_message.reply_document(document=output, filename="gbanlist.txt",
                                                 caption="Here is the list of currently gbanned users.")
 
+@run_async
+def gbancleanup(bot: Bot, update: Update):
+    banned = sql.get_gban_list()
+
+    for user in banned:
+        user_id = user["user_id"]
+        time.sleep(0.1)
+        try:
+            bot.get_chat(user_id)
+        except BadRequest:
+            sql.ungban_user(user_id)
+    bot.sendMessage(update.effective_chat.id, "OwO! Done!")
 
 def check_and_ban(update, user_id, should_message=True):
     if sql.is_user_gbanned(user_id):
@@ -331,6 +342,8 @@ UNGBAN_HANDLER = CommandHandler("ungban", ungban, pass_args=True,
                                 filters=CustomFilters.sudo_filter | CustomFilters.support_filter | CustomFilters.dev_filter)
 GBAN_LIST = CommandHandler("gbanlist", gbanlist,
                            filters=CustomFilters.sudo_filter | CustomFilters.support_filter | CustomFilters.dev_filter)
+GBAN_CLEANUP = CommandHandler("gbancleanup", gbancleanup,
+                           filters=CustomFilters.sudo_filter | CustomFilters.support_filter | CustomFilters.dev_filter)
 
 GBAN_STATUS = CommandHandler("gbanstat", gbanstat, pass_args=True, filters=Filters.group)
 
@@ -339,6 +352,7 @@ GBAN_ENFORCER = MessageHandler(Filters.all & Filters.group, enforce_gban)
 dispatcher.add_handler(GBAN_HANDLER)
 dispatcher.add_handler(UNGBAN_HANDLER)
 dispatcher.add_handler(GBAN_LIST)
+dispatcher.add_handler(GBAN_CLEANUP)
 dispatcher.add_handler(GBAN_STATUS)
 
 if STRICT_GBAN:  # enforce GBANS if this is set
