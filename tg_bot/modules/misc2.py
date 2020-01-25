@@ -413,7 +413,7 @@ def info(bot: Bot, update: Update, args: List[str]):
         if user.id in WHITELIST_USERS:
             text += "\nThe Disaster level of this person is 'Wolf'."
     else:
-    disaster_level_present = False
+        disaster_level_present = False
 
     if disaster_level_present:
         text += '[<a href="https://t.me/OnePunchSupport/18340">?</a>]'
