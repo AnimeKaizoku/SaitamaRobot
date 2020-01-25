@@ -119,7 +119,7 @@ def anime(bot: Bot, update: Update):
     kayo = f"https://animekayo.com/?s={anime['title']}"
     buttons = [
         [InlineKeyboardButton(kaizoku_btn, url=kaizoku), InlineKeyboardButton(kayo_btn, url=kayo)],
-        [InlineKeyboardButton(close_btn, callback_data=["close", message.from_user.id])]
+        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
     ]
 
     update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
@@ -189,7 +189,7 @@ def manga(bot: Bot, update: Update):
 
     buttons = [
         [InlineKeyboardButton(info_btn, url=manga['url'])],
-        [InlineKeyboardButton(close_btn, callback_data=["close", message.from_user.id])]
+        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
     ]
 
     update.effective_message.reply_text(caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
@@ -242,7 +242,7 @@ def character(bot: Bot, update: Update):
 
     buttons = [
         [InlineKeyboardButton(info_btn, url=character['url'])],
-        [InlineKeyboardButton(close_btn, callback_data=["close", message.from_user.id])]
+        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
     ]
 
     update.effective_message.reply_text(caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
@@ -311,7 +311,7 @@ def user(bot: Bot, update: Update):
 
     buttons = [
         [InlineKeyboardButton(info_btn, url=user['url'])],
-        [InlineKeyboardButton(close_btn, callback_data=["close", message.from_user.id])]
+        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
     ]
 
     update.effective_message.reply_text(caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
@@ -337,10 +337,10 @@ def button(bot, update):
 
     query = update.callback_query
     message = query.message
-    data = query.data
+    data = query.data.split(", ")
     
     if data[0] == "close":
-        if data[1] == query.from_user.id:
+        if int(data[1]) == query.from_user.id:
             message.delete()
 
 __help__ = """
