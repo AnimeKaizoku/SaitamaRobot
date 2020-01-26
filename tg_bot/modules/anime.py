@@ -4,7 +4,7 @@ from telegram.ext import CallbackQueryHandler, run_async
 from telegram import Message, Update, Bot, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram import ParseMode
 
-from tg_bot import dispatcher
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
 
 info_btn = "More Information"
@@ -338,9 +338,12 @@ def button(bot, update):
     query = update.callback_query
     message = query.message
     data = query.data.split(", ")
+    original_user_id = int(data[1])
+
+    user_and_admin_list = [original_user_id, OWNER_ID] + SUDO_USERS + DEV_USERS + SUPPORT_USERS
     
     if data[0] == "close":
-        if int(data[1]) == query.from_user.id:
+        if query.from_user.id in user_and_admin_list:
             message.delete()
         else:
             query.answer("You are not allowed to use this.")
