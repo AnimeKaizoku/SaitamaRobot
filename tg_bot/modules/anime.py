@@ -10,6 +10,8 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 info_btn = "More Information"
 kaizoku_btn = "Kaizoku ☠️"
 kayo_btn = "Kayo 🏴‍☠️"
+prequel_btn = "Prequel ⬅️"
+sequel_btn = "Sequel ➡️"
 close_btn = "Close ❌"
 
 def getKitsu(mal):
@@ -45,6 +47,121 @@ def getBannerLink(mal):
     # use the poster from kitsu
     return(getPosterLink(mal))
 
+def get_anime_manga(mal_id, search_type, user_id):
+
+    jikan = jikanpy.jikan.Jikan()
+    
+    if search_type == "anime":
+        result = jikan.anime(mal_id)
+        image = getBannerLink(mal_id)
+
+        studio_string = ', '.join([studio_info['name'] for studio_info in result['studios']])
+        producer_string = ', '.join([producer_info['name'] for producer_info in result['producers']])
+    
+    elif search_type == "manga":
+        result = jikan.manga(mal_id)
+        image = result['image_url']
+
+    caption = f"<a href=\'{result['url']}\'>{result['title']}</a>"
+
+    if result['title_japanese']:
+        caption += f" ({result['title_japanese']})\n"
+    else:
+        caption += "\n"
+
+    alternative_names = []
+
+    if result['title_english'] != None:
+        alternative_names.append(result['title_english'])
+    alternative_names.extend(result['title_synonyms'])
+
+    if alternative_names:
+        alternative_names_string = ", ".join(alternative_names)
+        caption += f"\n<b>Also known as</b>: <code>{alternative_names_string}</code>"
+
+    genre_string = ', '.join([genre_info['name'] for genre_info in result['genres']])
+    
+    if result['synopsis'] != None:
+        synopsis = result['synopsis'].split(" ", 60)
+
+        try:
+            synopsis.pop(60)
+        except IndexError:
+            pass
+
+        synopsis_string = ' '.join(synopsis) + "..."
+    else:
+        synopsis_string = "Unknown"
+
+    for entity in result:
+        if result[entity] == None:
+            result[entity] = "Unknown"
+    
+    if search_type == "anime":
+        caption += textwrap.dedent(f"""
+        <b>Type</b>: <code>{result['type']}</code>
+        <b>Status</b>: <code>{result['status']}</code>
+        <b>Aired</b>: <code>{result['aired']['string']}</code>
+        <b>Episodes</b>: <code>{result['episodes']}</code>
+        <b>Score</b>: <code>{result['score']}</code>
+        <b>Premiered</b>: <code>{result['premiered']}</code>
+        <b>Duration</b>: <code>{result['duration']}</code>
+        <b>Genres</b>: <code>{genre_string}</code>
+        <b>Studios</b>: <code>{studio_string}</code>
+        <b>Producers</b>: <code>{producer_string}</code>
+
+        📖 <b>Synopsis</b>: {synopsis_string} <a href='{result['url']}'>read more</a>
+
+        <i>Search an encode on..</i>
+        """)
+    elif search_type == "manga":
+        caption += textwrap.dedent(f"""
+        <b>Type</b>: <code>{result['type']}</code>
+        <b>Status</b>: <code>{result['status']}</code>
+        <b>Volumes</b>: <code>{result['volumes']}</code>
+        <b>Chapters</b>: <code>{result['chapters']}</code>
+        <b>Score</b>: <code>{result['score']}</code>
+        <b>Genres</b>: <code>{genre_string}</code>
+
+        📖 <b>Synopsis</b>: {synopsis_string}
+        """)
+
+    related = result['related']
+    mal_url = result['url']
+    prequel_id, sequel_id = None, None
+    buttons, related_list = [], []
+
+    if "Prequel" in related:
+        prequel_id = related["Prequel"][0]["mal_id"]
+    
+    if "Sequel" in related:
+        sequel_id = related["Sequel"][0]["mal_id"]
+
+    if search_type == "anime":
+        kaizoku = f"https://animekaizoku.com/?s={result['title']}"
+        kayo = f"https://animekayo.com/?s={result['title']}"
+
+        buttons.append(
+            [InlineKeyboardButton(kaizoku_btn, url=kaizoku), InlineKeyboardButton(kayo_btn, url=kayo)]
+        )
+    elif search_type == "manga":
+        buttons.append(
+            [InlineKeyboardButton(info_btn, url=mal_url)]
+        )
+
+    if prequel_id:
+        related_list.append(InlineKeyboardButton(prequel_btn, callback_data=f"{search_type}, {user_id}, {prequel_id}"))
+
+    if sequel_id:
+        related_list.append(InlineKeyboardButton(sequel_btn, callback_data=f"{search_type}, {user_id}, {sequel_id}"))
+
+    if related_list:
+        buttons.append(related_list)
+
+    buttons.append([InlineKeyboardButton(close_btn, callback_data=f"close, {user_id}")])
+    
+    return caption, buttons, image
+
 @run_async
 def anime(bot: Bot, update: Update):
     
@@ -57,72 +174,15 @@ def anime(bot: Bot, update: Update):
         return
 
     progress_message = update.effective_message.reply_text("Searching.... ")
+
     jikan = jikanpy.jikan.Jikan()
+
     search_result = jikan.search("anime", search_query)
     first_mal_id = search_result["results"][0]["mal_id"]
-    
-    anime = jikan.anime(first_mal_id)
-    image = getBannerLink(first_mal_id)
 
-    caption = f"[{anime['title']}]({anime['url']})"
+    caption, buttons, image = get_anime_manga(first_mal_id, "anime", message.from_user.id)
 
-    if anime['title_japanese']:
-        caption += f" ({anime['title_japanese']})\n"
-    else:
-        caption += "\n"
-
-    alternative_names = []
-
-    if anime['title_english'] != None:
-        alternative_names.append(anime['title_english'])
-    alternative_names.extend(anime['title_synonyms'])
-
-    if alternative_names:
-        alternative_names_string = ", ".join(alternative_names)
-        caption += f"\n*Also known as*: `{alternative_names_string}`"
-
-    genre_string = ', '.join([genre_info['name'] for genre_info in anime['genres']])
-    studio_string = ', '.join([studio_info['name'] for studio_info in anime['studios']])
-    producer_string = ', '.join([producer_info['name'] for producer_info in anime['producers']])
-    
-    synopsis = anime['synopsis'].split(" ", 60)
-
-    try:
-        synopsis.pop(60)
-    except IndexError:
-        pass
-
-    synopsis_string = ' '.join(synopsis)
-
-    for entity in anime:
-        if anime[entity] == None:
-            anime[entity] = "Unknown"
-
-    caption += textwrap.dedent(f"""
-    *Type*: `{anime['type']}`
-    *Status*: `{anime['status']}`
-    *Aired*: `{anime['aired']['string']}`
-    *Episodes*: `{anime['episodes']}`
-    *Score*: `{anime['score']}`
-    *Premiered*: `{anime['premiered']}`
-    *Duration*: `{anime['duration']}`
-    *Genres*: `{genre_string}`
-    *Studios*: `{studio_string}`
-    *Producers*: `{producer_string}`
-
-    📖 *Synopsis*: {synopsis_string}... [read more]({anime['url']})
-
-    _Search an encode on.._
-    """)
-
-    kaizoku = f"https://animekaizoku.com/?s={anime['title']}"
-    kayo = f"https://animekayo.com/?s={anime['title']}"
-    buttons = [
-        [InlineKeyboardButton(kaizoku_btn, url=kaizoku), InlineKeyboardButton(kayo_btn, url=kayo)],
-        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
-    ]
-
-    update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+    update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
     progress_message.delete()
 
 @run_async
@@ -137,62 +197,15 @@ def manga(bot: Bot, update: Update):
         return
 
     progress_message = update.effective_message.reply_text("Searching.... ")
+
     jikan = jikanpy.jikan.Jikan()
-    
+
     search_result = jikan.search("manga", search_query)
     first_mal_id = search_result["results"][0]["mal_id"]
+
+    caption, buttons, image = get_anime_manga(first_mal_id, "manga", message.from_user.id)
     
-    manga = jikan.manga(first_mal_id)
-
-    caption = f"[{manga['title']}]({manga['url']})"
-
-    if manga['title_japanese']:
-        caption += f" ({manga['title_japanese']})\n"
-    else:
-        caption += "\n"
-
-    alternative_names = []
-
-    if manga['title_english'] != None:
-        alternative_names.append(manga['title_english'])
-    alternative_names.extend(manga['title_synonyms'])
-
-    if alternative_names:
-        alternative_names_string = ", ".join(alternative_names)
-        caption += f"\n*Also known as*: `{alternative_names_string}`"
-
-    genre_string = ', '.join([genre_info['name'] for genre_info in manga['genres']])
-    synopsis = manga['synopsis'].split(" ", 60)
-
-    try:
-        synopsis.pop(60)
-    except IndexError:
-        pass
-
-    synopsis_string = ' '.join(synopsis)
-
-    for entity in manga:
-        if manga[entity] == None:
-            manga[entity] = "Unknown"
-    
-    caption += textwrap.dedent(f"""
-    *Type*: `{manga['type']}`
-    *Status*: `{manga['status']}`
-    *Volumes*: `{manga['volumes']}`
-    *Chapters*: `{manga['chapters']}`
-    *Score*: `{manga['score']}`
-    *Genres*: `{genre_string}`
-
-    📖 *Synopsis*: {synopsis_string}...
-    [ ]({manga['image_url']})
-    """)
-
-    buttons = [
-        [InlineKeyboardButton(info_btn, url=manga['url'])],
-        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
-    ]
-
-    update.effective_message.reply_text(caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+    update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
     progress_message.delete()
 
 @run_async
@@ -238,14 +251,14 @@ def character(bot: Bot, update: Update):
         if character[entity] == None:
             character[entity] = "Unknown"
 
-    caption += f"\n*About*: {about_string}... [ ]({character['image_url']})"
+    caption += f"\n*About*: {about_string}..."
 
     buttons = [
         [InlineKeyboardButton(info_btn, url=character['url'])],
         [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
     ]
 
-    update.effective_message.reply_text(caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+    update.effective_message.reply_photo(photo=character['image_url'], caption=caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
     progress_message.delete()
 
 @run_async
@@ -338,13 +351,24 @@ def button(bot, update):
     query = update.callback_query
     message = query.message
     data = query.data.split(", ")
+    query_type = data[0]
     original_user_id = int(data[1])
 
     user_and_admin_list = [original_user_id, OWNER_ID] + SUDO_USERS + DEV_USERS
     
-    if data[0] == "close":
+    if query_type == "close":
         if query.from_user.id in user_and_admin_list:
             message.delete()
+        else:
+            query.answer("You are not allowed to use this.")
+    elif query_type == "anime" or query_type == "manga":
+        mal_id = data[2]
+        if query.from_user.id == original_user_id:
+            message.delete()
+            progress_message = bot.sendMessage(message.chat.id, "Searching.... ")
+            caption, buttons, image = get_anime_manga(mal_id, query_type, original_user_id)
+            update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+            progress_message.delete()
         else:
             query.answer("You are not allowed to use this.")
 
