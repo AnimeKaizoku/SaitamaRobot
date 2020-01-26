@@ -401,19 +401,23 @@ def info(bot: Bot, update: Update, args: List[str]):
 
     text += "\nPermanent user link: {}".format(mention_html(user.id, "link"))
 
-    disaster_level_present = True
+    disaster_level_present = False
     if user.id == OWNER_ID:
         text += "\n\nThe Disaster level of this person is 'God'."
-    elif user.id in DEV_USERS:
-        text += "\nThis member is one of 'Hero Association'."
-    elif user.id in SUDO_USERS:
-        text += "\nThe Disaster level of this person is 'Dragon'."
-    elif user.id in SUPPORT_USERS:
-        text+= "\nThe Disaster level of this person is 'Demon'."
+        disaster_level_present = True
+    else:
+        if user.id in DEV_USERS:
+            text += "\nThis member is one of 'Hero Association'."
+            disaster_level_present = True
+        if user.id in SUDO_USERS:
+            text += "\nThe Disaster level of this person is 'Dragon'."
+            disaster_level_present = True
+        if user.id in SUPPORT_USERS:
+            text+= "\nThe Disaster level of this person is 'Demon'."
+            disaster_level_present = True
         if user.id in WHITELIST_USERS:
             text += "\nThe Disaster level of this person is 'Wolf'."
-    else:
-        disaster_level_present = False
+            disaster_level_present = True
 
     if disaster_level_present:
         text += '[<a href="https://t.me/OnePunchSupport/18340">?</a>]'
