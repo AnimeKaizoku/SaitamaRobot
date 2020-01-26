@@ -390,6 +390,7 @@ Get information about anime, manga or characters from [MyAnimeList](https://myan
  """
 
 __mod_name__ = "MyAnimeList"
+__command_list__ = ["anime", "manga", "character", "user", "upcoming"]
 
 ANIME_HANDLER = DisableAbleCommandHandler("anime", anime)
 CHARACTER_HANDLER = DisableAbleCommandHandler("character", character)

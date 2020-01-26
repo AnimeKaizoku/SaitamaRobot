@@ -1,3 +1,4 @@
+import importlib
 from typing import Union, List, Optional
 
 from future.utils import string_types
@@ -52,7 +53,6 @@ if is_module_loaded(FILENAME):
 
             return False
 
-
     class DisableAbleRegexHandler(RegexHandler):
         def __init__(self, pattern, callback, friendly="", **kwargs):
             super().__init__(pattern, callback, **kwargs)
@@ -83,6 +83,53 @@ if is_module_loaded(FILENAME):
         else:
             update.effective_message.reply_text("What should I disable?")
 
+    @run_async
+    @user_admin
+    def disable_module(bot: Bot, update: Update, args: List[str]):
+        chat = update.effective_chat  # type: Optional[Chat]
+        if len(args) >= 1:
+
+            disable_module = "tg_bot.modules." + args[0].rsplit(".", 1)[0]
+
+            try:
+                module = importlib.import_module(disable_module)
+            except:
+                update.effective_message.reply_text("Does that module even exist?")
+                return
+
+            try:
+                command_list = module.__command_list__
+            except:
+                update.effective_message.reply_text("Module does not contain command list!")
+                return
+
+            disabled_cmds = []
+            failed_disabled_cmds = []
+
+            for disable_cmd in command_list:
+                if disable_cmd.startswith(CMD_STARTERS):
+                    disable_cmd = disable_cmd[1:]
+
+                if disable_cmd in set(DISABLE_CMDS + DISABLE_OTHER):
+                    sql.disable_command(chat.id, str(disable_cmd).lower())
+                    disabled_cmds.append(disable_cmd)
+                else:
+                    failed_disabled_cmds.append(disable_cmd)
+            
+            if disabled_cmds:
+                disabled_cmds_string = ", ".join(disabled_cmds)
+                update.effective_message.reply_text("Disabled the uses of `{}`".format(disabled_cmds_string),
+                                                        parse_mode=ParseMode.MARKDOWN)
+            
+            if failed_disabled_cmds:
+                failed_disabled_cmds_string = ", ".join(failed_disabled_cmds)
+                update.effective_message.reply_text("Commands `{}` can't be disabled".format(failed_disabled_cmds_string),
+                                                    parse_mode=ParseMode.MARKDOWN)
+
+
+        else:
+            update.effective_message.reply_text("What should I disable?")
+
 
     @run_async
     @user_admin
@@ -98,6 +145,51 @@ if is_module_loaded(FILENAME):
                                                     parse_mode=ParseMode.MARKDOWN)
             else:
                 update.effective_message.reply_text("Is that even disabled?")
+
+        else:
+            update.effective_message.reply_text("What should I enable?")
+
+    @run_async
+    @user_admin
+    def enable_module(bot: Bot, update: Update, args: List[str]):
+        chat = update.effective_chat  # type: Optional[Chat]
+        if len(args) >= 1:
+
+            enable_module = "tg_bot.modules." + args[0].rsplit(".", 1)[0]
+
+            try:
+                module = importlib.import_module(enable_module)
+            except:
+                update.effective_message.reply_text("Does that module even exist?")
+                return
+
+            try:
+                command_list = module.__command_list__
+            except:
+                update.effective_message.reply_text("Module does not contain command list!")
+                return
+
+            enabled_cmds = []
+            failed_enabled_cmds = []
+            
+            for enable_cmd in command_list:
+                if enable_cmd.startswith(CMD_STARTERS):
+                    enable_cmd = enable_cmd[1:]
+
+                if sql.enable_command(chat.id, enable_cmd):
+                    enabled_cmds.append(enable_cmd)
+                else:
+                    failed_enabled_cmds.append(enable_cmd)
+            
+            if enabled_cmds:
+                enabled_cmds_string = ", ".join(enabled_cmds)
+                update.effective_message.reply_text("Enabled the uses of `{}`".format(enabled_cmds_string),
+                                                        parse_mode=ParseMode.MARKDOWN)
+            
+            if failed_enabled_cmds:
+                failed_enabled_cmds_string = ", ".join(failed_enabled_cmds)
+                update.effective_message.reply_text("Are the commands `{}` even disabled?".format(failed_enabled_cmds_string),
+                                                    parse_mode=ParseMode.MARKDOWN)
 
         else:
             update.effective_message.reply_text("What should I enable?")
@@ -158,12 +250,16 @@ if is_module_loaded(FILENAME):
     """
 
     DISABLE_HANDLER = CommandHandler("disable", disable, pass_args=True, filters=Filters.group)
+    DISABLE_MODULE_HANDLER = CommandHandler("disablemodule", disable_module, pass_args=True, filters=Filters.group)
     ENABLE_HANDLER = CommandHandler("enable", enable, pass_args=True, filters=Filters.group)
+    ENABLE_MODULE_HANDLER = CommandHandler("enablemodule", enable_module, pass_args=True, filters=Filters.group)
     COMMANDS_HANDLER = CommandHandler(["cmds", "disabled"], commands, filters=Filters.group)
     TOGGLE_HANDLER = CommandHandler("listcmds", list_cmds, filters=Filters.group)
 
     dispatcher.add_handler(DISABLE_HANDLER)
+    dispatcher.add_handler(DISABLE_MODULE_HANDLER)
     dispatcher.add_handler(ENABLE_HANDLER)
+    dispatcher.add_handler(ENABLE_MODULE_HANDLER)
     dispatcher.add_handler(COMMANDS_HANDLER)
     dispatcher.add_handler(TOGGLE_HANDLER)
 
