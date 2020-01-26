@@ -367,7 +367,7 @@ def button(bot, update):
             message.delete()
             progress_message = bot.sendMessage(message.chat.id, "Searching.... ")
             caption, buttons, image = get_anime_manga(mal_id, query_type, original_user_id)
-            update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+            bot.sendPhoto(message.chat.id, photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
             progress_message.delete()
         else:
             query.answer("You are not allowed to use this.")
