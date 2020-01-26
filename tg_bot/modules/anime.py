@@ -4,7 +4,7 @@ from telegram.ext import CallbackQueryHandler, run_async
 from telegram import Message, Update, Bot, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram import ParseMode
 
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
 
 info_btn = "More Information"
@@ -340,7 +340,7 @@ def button(bot, update):
     data = query.data.split(", ")
     original_user_id = int(data[1])
 
-    user_and_admin_list = [original_user_id, OWNER_ID] + SUDO_USERS + DEV_USERS + SUPPORT_USERS
+    user_and_admin_list = [original_user_id, OWNER_ID] + SUDO_USERS + DEV_USERS
     
     if data[0] == "close":
         if query.from_user.id in user_and_admin_list:
