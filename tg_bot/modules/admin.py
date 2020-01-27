@@ -5,6 +5,7 @@ import os
 import json
 import sys
 import psutil
+import requests
 from typing import Optional, List
 from time import sleep
 
@@ -16,7 +17,7 @@ from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown, mention_html
 from tg_bot.__main__ import IMPORTED, HELPABLE, MIGRATEABLE, STATS, USER_INFO, DATA_IMPORT, DATA_EXPORT, CHAT_SETTINGS, USER_SETTINGS 
 
-from tg_bot import dispatcher, LOGGER, SUDO_USERS, DEV_USERS, OWNER_ID, SUPPORT_USERS, WHITELIST_USERS
+from tg_bot import dispatcher, LOGGER, SUDO_USERS, DEV_USERS, OWNER_ID, SUPPORT_USERS, WHITELIST_USERS, TOKEN
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, sudo_plus, dev_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user
@@ -378,6 +379,40 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
                            "user, so I can't act upon them!")
         return ""
 
+#Until the library releases the method
+@run_async
+@bot_admin
+@can_promote
+@user_admin
+def set_title(bot: Bot, update: Update, args: List[str]):
+
+    chat = update.effective_chat  # type: Optional[Chat]
+    message = update.effective_message  # type: Optional[Message]
+    title = ' '.join(args)
+
+    user_id = extract_user(message, args)
+    if not user_id:
+        message.reply_text("You don't seem to be referring to a user.")
+        return
+
+    user_member = chat.get_member(user_id)
+    if not user_member.status == 'administrator':
+        message.reply_text("Can't set title for non-admins!\nPromote them first to set custom title!")
+        return
+
+    if user_id == bot.id:
+        message.reply_text("I can't set my own title myself! Get the one who made me admin to do it for me.")
+        return
+
+    result = requests.post(f"https://api.telegram.org/bot{TOKEN}/setChatAdministratorCustomTitle?chat_id={chat.id}&user_id={user_id}&custom_title={title}")
+    status = result.json()["ok"]
+
+    if status == True:
+        message.reply_text("Successfully set the custom title!")
+    else:
+        description = result.json()["description"]
+        if description == "Bad Request: not enough rights to change custom title of the user":
+            message.reply_text("I can't set custom title for admins that I didn't promote!")
 
 @run_async
 @bot_admin
@@ -493,6 +528,8 @@ INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite, filters=Filters
 PROMOTE_HANDLER = CommandHandler("promote", promote, pass_args=True, filters=Filters.group)
 DEMOTE_HANDLER = CommandHandler("demote", demote, pass_args=True, filters=Filters.group)
 
+SET_TITLE_HANDLER = CommandHandler("settitle", set_title, pass_args=True, filters=Filters.group)
+
 ADMINLIST_HANDLER = DisableAbleCommandHandler("adminlist", adminlist, filters=Filters.group)
 LOAD_HANDLER = CommandHandler("load", load, filters=Filters.group)
 
@@ -510,6 +547,7 @@ dispatcher.add_handler(RESTART_HANDLER)
 dispatcher.add_handler(INVITE_HANDLER)
 dispatcher.add_handler(PROMOTE_HANDLER)
 dispatcher.add_handler(DEMOTE_HANDLER)
+dispatcher.add_handler(SET_TITLE_HANDLER)
 dispatcher.add_handler(LOAD_HANDLER)
 dispatcher.add_handler(ADMINLIST_HANDLER)
 dispatcher.add_handler(SUDO_HANDLER)
