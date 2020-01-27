@@ -428,7 +428,7 @@ def info(bot: Bot, update: Update, args: List[str]):
         result = result.json()["result"]
         if "custom_title" in result.keys():
             custom_title = result['custom_title']
-            text += f"\nThis user's title in <b>{chat.title}</b> is : <b>{custom_title}</b>"
+            text += f"\n\nThis user holds the title <b>{custom_title}</b> here."
 
     for mod in USER_INFO:
         try:
