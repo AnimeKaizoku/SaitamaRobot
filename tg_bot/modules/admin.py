@@ -395,6 +395,10 @@ def set_title(bot: Bot, update: Update, args: List[str]):
         return
 
     user_member = chat.get_member(user_id)
+    if user_member.status == 'creator':
+        message.reply_text("This person CREATED the chat, how can i set custom title for him?")
+        return ""
+
     if not user_member.status == 'administrator':
         message.reply_text("Can't set title for non-admins!\nPromote them first to set custom title!")
         return
