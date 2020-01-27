@@ -14,7 +14,7 @@ from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
 from tg_bot.modules.helper_funcs.chat_status import user_admin, sudo_plus
 from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, DEV_USERS, WHITELIST_USERS, BAN_STICKER
-from tg_bot.__main__ import STATS, USER_INFO
+from tg_bot.__main__ import STATS, USER_INFO, TOKEN
 from tg_bot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
 from tg_bot.modules.helper_funcs.extraction import extract_user
 from tg_bot.modules.helper_funcs.filters import CustomFilters
@@ -421,7 +421,15 @@ def info(bot: Bot, update: Update, args: List[str]):
 
     if disaster_level_present:
         text += '[<a href="https://t.me/OnePunchSupport/18340">?</a>]'
-        
+    
+    user_member = chat.get_member(user_id)
+    if user_member.status == 'administrator':
+        result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user_id}")
+        result = result.json()["result"]
+        if "custom_title" in result.keys():
+            custom_title = result['custom_title']
+            text += f"\nThis user's title in <b>{chat.title}</b> is : <b>{custom_title}</b>"
+
     for mod in USER_INFO:
         try:
             mod_info = mod.__user_info__(user.id).strip()
