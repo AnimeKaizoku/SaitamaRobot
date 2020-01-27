@@ -422,7 +422,7 @@ def info(bot: Bot, update: Update, args: List[str]):
     if disaster_level_present:
         text += '[<a href="https://t.me/OnePunchSupport/18340">?</a>]'
     
-    user_member = chat.get_member(user_id)
+    user_member = chat.get_member(user.id)
     if user_member.status == 'administrator':
         result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user_id}")
         result = result.json()["result"]
