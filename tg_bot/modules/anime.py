@@ -51,14 +51,14 @@ def get_anime_manga(mal_id, search_type, user_id):
 
     jikan = jikanpy.jikan.Jikan()
     
-    if search_type == "anime":
+    if search_type == "anime_anime":
         result = jikan.anime(mal_id)
         image = getBannerLink(mal_id)
 
         studio_string = ', '.join([studio_info['name'] for studio_info in result['studios']])
         producer_string = ', '.join([producer_info['name'] for producer_info in result['producers']])
     
-    elif search_type == "manga":
+    elif search_type == "anime_manga":
         result = jikan.manga(mal_id)
         image = result['image_url']
 
@@ -97,7 +97,7 @@ def get_anime_manga(mal_id, search_type, user_id):
         if result[entity] == None:
             result[entity] = "Unknown"
     
-    if search_type == "anime":
+    if search_type == "anime_anime":
         caption += textwrap.dedent(f"""
         <b>Type</b>: <code>{result['type']}</code>
         <b>Status</b>: <code>{result['status']}</code>
@@ -114,7 +114,7 @@ def get_anime_manga(mal_id, search_type, user_id):
 
         <i>Search an encode on..</i>
         """)
-    elif search_type == "manga":
+    elif search_type == "anime_manga":
         caption += textwrap.dedent(f"""
         <b>Type</b>: <code>{result['type']}</code>
         <b>Status</b>: <code>{result['status']}</code>
@@ -137,14 +137,14 @@ def get_anime_manga(mal_id, search_type, user_id):
     if "Sequel" in related:
         sequel_id = related["Sequel"][0]["mal_id"]
 
-    if search_type == "anime":
+    if search_type == "anime_anime":
         kaizoku = f"https://animekaizoku.com/?s={result['title']}"
         kayo = f"https://animekayo.com/?s={result['title']}"
 
         buttons.append(
             [InlineKeyboardButton(kaizoku_btn, url=kaizoku), InlineKeyboardButton(kayo_btn, url=kayo)]
         )
-    elif search_type == "manga":
+    elif search_type == "anime_manga":
         buttons.append(
             [InlineKeyboardButton(info_btn, url=mal_url)]
         )
@@ -158,7 +158,7 @@ def get_anime_manga(mal_id, search_type, user_id):
     if related_list:
         buttons.append(related_list)
 
-    buttons.append([InlineKeyboardButton(close_btn, callback_data=f"close, {user_id}")])
+    buttons.append([InlineKeyboardButton(close_btn, callback_data=f"anime_close, {user_id}")])
     
     return caption, buttons, image
 
@@ -180,7 +180,7 @@ def anime(bot: Bot, update: Update):
     search_result = jikan.search("anime", search_query)
     first_mal_id = search_result["results"][0]["mal_id"]
 
-    caption, buttons, image = get_anime_manga(first_mal_id, "anime", message.from_user.id)
+    caption, buttons, image = get_anime_manga(first_mal_id, "anime_anime", message.from_user.id)
 
     update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
     progress_message.delete()
@@ -203,7 +203,7 @@ def manga(bot: Bot, update: Update):
     search_result = jikan.search("manga", search_query)
     first_mal_id = search_result["results"][0]["mal_id"]
 
-    caption, buttons, image = get_anime_manga(first_mal_id, "manga", message.from_user.id)
+    caption, buttons, image = get_anime_manga(first_mal_id, "anime_manga", message.from_user.id)
     
     update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
     progress_message.delete()
@@ -255,7 +255,7 @@ def character(bot: Bot, update: Update):
 
     buttons = [
         [InlineKeyboardButton(info_btn, url=character['url'])],
-        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
+        [InlineKeyboardButton(close_btn, callback_data=f"anime_close, {message.from_user.id}")]
     ]
 
     update.effective_message.reply_photo(photo=character['image_url'], caption=caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
@@ -324,7 +324,7 @@ def user(bot: Bot, update: Update):
 
     buttons = [
         [InlineKeyboardButton(info_btn, url=user['url'])],
-        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
+        [InlineKeyboardButton(close_btn, callback_data=f"anime_close, {message.from_user.id}")]
     ]
 
     update.effective_message.reply_text(caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
@@ -356,12 +356,12 @@ def button(bot, update):
 
     user_and_admin_list = [original_user_id, OWNER_ID] + SUDO_USERS + DEV_USERS
     
-    if query_type == "close":
+    if query_type == "anime_close":
         if query.from_user.id in user_and_admin_list:
             message.delete()
         else:
             query.answer("You are not allowed to use this.")
-    elif query_type == "anime" or query_type == "manga":
+    elif query_type == "anime_anime" or query_type == "anime_manga":
         mal_id = data[2]
         if query.from_user.id == original_user_id:
             message.delete()
@@ -398,7 +398,7 @@ MANGA_HANDLER = DisableAbleCommandHandler("manga", manga)
 USER_HANDLER = DisableAbleCommandHandler("user", user)
 UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
 
-dispatcher.add_handler(CallbackQueryHandler(button))
+dispatcher.add_handler(CallbackQueryHandler(button, pattern='anime_.*'))
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
