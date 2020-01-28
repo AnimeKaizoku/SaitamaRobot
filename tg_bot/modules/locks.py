@@ -242,17 +242,17 @@ def build_lock_message(chat_id):
     restr = sql.get_restr(chat_id)
 
     def format_lock(locked: bool) -> str:
-        return "`Locked`" if locked else "Unlocked"
+        return "Locked" if locked else "Unlocked"
 
     def format_restr(restricted: bool) -> str:
-        return "`Restricted`" if restricted else "Unrestricted"
+        return "Restricted" if restricted else "Unrestricted"
 
     if not (locks or restr):
         res = "There are no current locks in this chat."
     else:
         res = "These are the locks in this chat:"
         if locks:
-            res += "\n - sticker =  {}" \
+            res += "```\n - sticker =  {}" \
                    "\n - audio =    {}" \
                    "\n - voice =    {}" \
                    "\n - document = {}" \
@@ -264,17 +264,17 @@ def build_lock_message(chat_id):
                    "\n - bots =     {}" \
                    "\n - forward =  {}" \
                    "\n - game =     {}" \
-                   "\n - location = {}".format(format_lock(locks.sticker), format_lock(locks.audio), format_lock(locks.voice),
+                   "\n - location = {}```".format(format_lock(locks.sticker), format_lock(locks.audio), format_lock(locks.voice),
                                                  format_lock(locks.document), format_lock(locks.video), format_lock(locks.contact),
                                                  format_lock(locks.photo), format_lock(locks.gif), format_lock(locks.url),
                                                  format_lock(locks.bots), format_lock(locks.forward), format_lock(locks.game),
                                                  format_lock(locks.location))
         if restr:
-            res += "\n - messages = {}" \
+            res += "```\n - messages = {}" \
                    "\n - media =    {}" \
                    "\n - other =    {}" \
                    "\n - previews = {}" \
-                   "\n - all =      {}".format(format_restr(restr.messages), format_restr(restr.media), format_restr(restr.other),
+                   "\n - all =      {}```".format(format_restr(restr.messages), format_restr(restr.media), format_restr(restr.other),
                                             format_restr(restr.preview), format_restr(all([restr.messages, restr.media, restr.other, restr.preview])))
     return res
 
