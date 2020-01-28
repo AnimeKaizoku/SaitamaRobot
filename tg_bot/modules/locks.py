@@ -254,26 +254,26 @@ def build_lock_message(chat_id):
     else:
         res = "These are the locks in this chat:\n"
         if locks:
-            res += "```" + format_lines([(" - sticker =", locks.sticker),
-                                         (" - audio =", locks.audio),
-                                         (" - voice =", locks.voice),
-                                         (" - document =", locks.document),
-                                         (" - video =", locks.video),
-                                         (" - contact =", locks.contact),
-                                         (" - photo =", locks.photo),
-                                         (" - gif =", locks.gif),
-                                         (" - url =", locks.url),
-                                         (" - bots =", locks.bots),
-                                         (" - forward =", locks.forward),
-                                         (" - game =", locks.game),
-                                         (" - location =", locks.location)]
+            res += "```" + format_lines([(" - sticker =", str(locks.sticker)),
+                                         (" - audio =", str(locks.audio)),
+                                         (" - voice =", str(locks.voice)),
+                                         (" - document =", str(locks.document)),
+                                         (" - video =", str(locks.video)),
+                                         (" - contact =", str(locks.contact)),
+                                         (" - photo =", str(locks.photo)),
+                                         (" - gif =", str(locks.gif)),
+                                         (" - url =", str(locks.url)),
+                                         (" - bots =", str(locks.bots)),
+                                         (" - forward =", str(locks.forward)),
+                                         (" - game =", str(locks.game)),
+                                         (" - location =", str(locks.location))]
                                         , 1, "Locked", "Unlocked") + "```"
         if restr:
-            res += "```" + format_lines([(" - messages =", restr.messages),
-                                         (" - media =", restr.media),
-                                         (" - other =", restr.other),
-                                         (" - previews =", restr.preview),
-                                         (" - all =", all([restr.messages, restr.media, restr.other, restr.preview]))]
+            res += "```" + format_lines([(" - messages =", str(restr.messages)),
+                                         (" - media =", str(restr.media)),
+                                         (" - other =", str(restr.other)),
+                                         (" - previews =", str(restr.preview)),
+                                         (" - all =", str(all([restr.messages, restr.media, restr.other, restr.preview])))]
                                         , 1, "Restricted", "Unrestricted") + "```"
     return res
 
