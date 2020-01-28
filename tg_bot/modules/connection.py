@@ -55,7 +55,7 @@ def connected(bot, update, chat, user_id, need_admin=True):
     else:
         return False
 
-__help__ = "connection_help"
+__help__ = "\nThis is help for connection module.\nI will fill it later someday :)"
 
 __mod_name__ = "Connection"
 
