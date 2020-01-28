@@ -237,45 +237,44 @@ def rest_handler(bot: Bot, update: Update):
             break
 
 
+# takes list of tuples and treats them as (k, v) and aligns v
+def format_lines(lst, spaces, true_val, false_val):
+    const_length = max([len(k) for (k, v) in lst]) + spaces
+    lines = [k + (" "*(const_length - len(k)) if v else "")
+             + true_val if v == "True" else false_val if v == "False" else v for (k, v) in lst]
+    return "\n".join(lines)
+
+
 def build_lock_message(chat_id):
     locks = sql.get_locks(chat_id)
     restr = sql.get_restr(chat_id)
 
-    def format_lock(locked: bool) -> str:
-        return "Locked" if locked else "Unlocked"
-
-    def format_restr(restricted: bool) -> str:
-        return "Restricted" if restricted else "Unrestricted"
-
     if not (locks or restr):
         res = "There are no current locks in this chat."
     else:
-        res = "These are the locks in this chat:"
+        res = "These are the locks in this chat:\n"
         if locks:
-            res += "```\n - sticker =  {}" \
-                   "\n - audio =    {}" \
-                   "\n - voice =    {}" \
-                   "\n - document = {}" \
-                   "\n - video =    {}" \
-                   "\n - contact =  {}" \
-                   "\n - photo =    {}" \
-                   "\n - gif =      {}" \
-                   "\n - url =      {}" \
-                   "\n - bots =     {}" \
-                   "\n - forward =  {}" \
-                   "\n - game =     {}" \
-                   "\n - location = {}```".format(format_lock(locks.sticker), format_lock(locks.audio), format_lock(locks.voice),
-                                                 format_lock(locks.document), format_lock(locks.video), format_lock(locks.contact),
-                                                 format_lock(locks.photo), format_lock(locks.gif), format_lock(locks.url),
-                                                 format_lock(locks.bots), format_lock(locks.forward), format_lock(locks.game),
-                                                 format_lock(locks.location))
+            res += "```" + format_lines([(" - sticker =", locks.sticker),
+                                         (" - audio =", locks.audio),
+                                         (" - voice =", locks.voice),
+                                         (" - document =", locks.document),
+                                         (" - video =", locks.video),
+                                         (" - contact =", locks.contact),
+                                         (" - photo =", locks.photo),
+                                         (" - gif =", locks.gif),
+                                         (" - url =", locks.url),
+                                         (" - bots =", locks.bots),
+                                         (" - forward =", locks.forward),
+                                         (" - game =", locks.game),
+                                         (" - location =", locks.location)]
+                                        , 1, "Locked", "Unlocked") + "```"
         if restr:
-            res += "```\n - messages = {}" \
-                   "\n - media =    {}" \
-                   "\n - other =    {}" \
-                   "\n - previews = {}" \
-                   "\n - all =      {}```".format(format_restr(restr.messages), format_restr(restr.media), format_restr(restr.other),
-                                            format_restr(restr.preview), format_restr(all([restr.messages, restr.media, restr.other, restr.preview])))
+            res += "```" + format_lines([(" - messages =", restr.messages),
+                                         (" - media =", restr.media),
+                                         (" - other =", restr.other),
+                                         (" - previews =", restr.preview),
+                                         (" - all =", all([restr.messages, restr.media, restr.other, restr.preview]))]
+                                        , 1, "Restricted", "Unrestricted") + "```"
     return res
 
 
