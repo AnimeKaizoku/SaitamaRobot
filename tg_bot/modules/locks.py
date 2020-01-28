@@ -242,10 +242,10 @@ def build_lock_message(chat_id):
     restr = sql.get_restr(chat_id)
 
     def format_lock(locked: bool) -> str:
-        return "'Locked'" if locked else "Unlocked"
+        return "`Locked`" if locked else "Unlocked"
 
     def format_restr(restricted: bool) -> str:
-        return "'Restricted'" if restricted else "Unrestricted"
+        return "`Restricted`" if restricted else "Unrestricted"
 
     if not (locks or restr):
         res = "There are no current locks in this chat."
