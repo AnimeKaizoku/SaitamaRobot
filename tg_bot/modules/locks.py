@@ -238,11 +238,11 @@ def rest_handler(bot: Bot, update: Update):
 
 
 def format_lines(lst, spaces):
-    widths = [max([len(lst[i][j]) for i in range(len(lst))]) for j in range(len(lst[0]))]
+    widths = [max([len(str(lst[i][j])) for i in range(len(lst))]) for j in range(len(lst[0]))]
 
     lines = [(" " * spaces).join(
-        [" " * int((widths[i] - len(r[i])) / 2) + r[i]
-         + " " * int((widths[i] - len(r[i]) + (1 if widths[i] % 2 != len(r[i]) % 2 else 0)) / 2)
+        [" " * int((widths[i] - len(str(r[i]))) / 2) + str(r[i])
+         + " " * int((widths[i] - len(str(r[i])) + (1 if widths[i] % 2 != len(str(r[i])) % 2 else 0)) / 2)
          for i in range(len(r))]) for r in lst]
 
     return "\n".join(lines)
