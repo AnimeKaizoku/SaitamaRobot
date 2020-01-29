@@ -236,15 +236,21 @@ def rest_handler(bot: Bot, update: Update):
                     LOGGER.exception("ERROR in restrictions")
             break
 
-def format_lines(dictionary, spaces, true_val, false_val):
-    for item, value in dictionary.items():
-        if value:
-            dictionary[item] = true_val
-        else:
-            dictionary[item] = false_val
-    const_length = max([len(k) for (k,v) in dictionary.items()]) + spaces
-    lines = [k + (' '*(const_length - len(k))) + v for (k,v) in dictionary.items()]
+
+def format_lines(lst, spaces):
+    widths = [max([len(lst[i][j]) for i in range(len(lst))]) for j in range(len(lst[0]))]
+
+    lines = [(" " * spaces).join(
+        [" " * int((widths[i] - len(r[i])) / 2) + r[i]
+         + " " * int((widths[i] - len(r[i]) + (1 if widths[i] % 2 != len(r[i]) % 2 else 0)) / 2)
+         for i in range(len(r))]) for r in lst]
+
     return "\n".join(lines)
+
+
+def repl(lst, index, true_val, false_val):
+    return [t[0:index] + [true_val if t[index] else false_val] + t[index+1:len(t)] for t in lst]
+
 
 def build_lock_message(chat_id):
     locks = sql.get_locks(chat_id)
@@ -255,27 +261,19 @@ def build_lock_message(chat_id):
     else:
         res = "These are the locks in this chat:\n"
         if locks:
-            res += "```" + format_lines({" - sticker =" : locks.sticker,
-                                         " - audio =" : locks.audio,
-                                         " - voice =" : locks.voice,
-                                         " - document =" : locks.document,
-                                         " - video =" : locks.video,
-                                         " - contact =" : locks.contact,
-                                         " - photo =" : locks.photo,
-                                         " - gif =" : locks.gif,
-                                         " - url =" : locks.url,
-                                         " - bots =" : locks.bots,
-                                         " - forward =" : locks.forward,
-                                         " - game =" : locks.game,
-                                         " - location =" : locks.location}
-                                        , 1, "Locked", "Unlocked") + "```"
+            res += "```" + format_lines(
+                repl([["sticker", "=", locks.sticker], ["audio", "=", locks.audio], ["voice", "=", locks.voice],
+                      ["document", "=", locks.document], ["video", "=", locks.video], ["contact", "=", locks.contact],
+                      ["photo", "=", locks.photo], ["gif", "=", locks.gif], ["url", "=", locks.url],
+                      ["bots", "=", locks.bots], ["forward", "=", locks.forward], ["game", "=", locks.game],
+                      ["location", "=", locks.location]]
+                     , 2, "Locked", "Unlocked"), 1) + "```"
         if restr:
-            res += "```" + format_lines({" - messages =" : restr.messages,
-                                         " - media =" : restr.media,
-                                         " - other =" : restr.other,
-                                         " - previews =" : restr.preview,
-                                         " - all =" : all([restr.messages, restr.media, restr.other, restr.preview])}
-                                        , 1, "Restricted", "Unrestricted") + "```"
+            res += "```" + format_lines(
+                repl([["messages", "=", restr.messages], ["media", "=", restr.media],
+                      ["other", "=", restr.other], ["previews", "=", restr.preview],
+                      ["all", "=", all([restr.messages, restr.media, restr.other, restr.preview])]]
+                     , 2, "Restricted", "Unrestricted"), 1) + "```"
     return res
 
 
