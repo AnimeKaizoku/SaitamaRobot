@@ -260,8 +260,8 @@ def build_lock_message(chat_id):
         res = "There are no current locks in this chat."
     else:
         res = "These are the locks in this chat:\n"
-        if locks:
-            res += "```" + format_lines(
+        if locks: # DON'T REMOVE THE NEWLINES BELOW
+            res += "```\n" + format_lines(
                 repl([["sticker", "=", locks.sticker], ["audio", "=", locks.audio], ["voice", "=", locks.voice],
                       ["document", "=", locks.document], ["video", "=", locks.video], ["contact", "=", locks.contact],
                       ["photo", "=", locks.photo], ["gif", "=", locks.gif], ["url", "=", locks.url],
@@ -269,7 +269,7 @@ def build_lock_message(chat_id):
                       ["location", "=", locks.location]]
                      , 2, "Locked", "Unlocked"), 1) + "```"
         if restr:
-            res += "```" + format_lines(
+            res += "```\n" + format_lines(
                 repl([["messages", "=", restr.messages], ["media", "=", restr.media],
                       ["other", "=", restr.other], ["previews", "=", restr.preview],
                       ["all", "=", all([restr.messages, restr.media, restr.other, restr.preview])]]
