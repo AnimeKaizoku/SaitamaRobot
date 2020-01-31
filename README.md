@@ -19,7 +19,9 @@ Once you've setup your database and your configuration (see below) is complete, 
 
 # How to setup
 <details>
-  <summary>This instruction set is just a copy paste from marie, note that [@OnePunchSupport](https://t.me/onepunchsupport) aims to handle support for @SaitamaRobot and now how to setup your own fork, if you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to setup the bot instance in the support chat, it aims to help our own instance of the bot.</summary>
+  <summary>Click to expand!! </summary>
+  
+  Note: This instruction set is just a copy paste from marie, note that [One Punch Support](https://t.me/OnePunchSupport) aims to handle support for @SaitamaRobot and now how to setup your own fork, if you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to setup the bot instance in the support chat, it aims to help our own instance of the bot. 
   
   ## Setting up the bot (Read this before trying to use!):
 Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older python versions!
@@ -180,14 +182,13 @@ Once you've setup your database and your configuration is complete, simply run t
 </details>
 
 
-
 You can use [nssm](https://nssm.cc/usage) to install the bot as service on windows and set it to restart on /gitpull 
 Make sure to edit the start and restart bats to your needs. 
-Note: the restart bat requires that User account control is disabled.
+Note: the restart bat requires that User account control be disabled.
 
-For queries or any issues regarding the bot please open an issue ticket or visit us at [@OnePunchSupport](https://t.me/onepunchsupport)
+For queries or any issues regarding the bot please open an issue ticket or visit us at [One Punch Support](https://t.me/OnePunchSupport)
 ## Credits
 The bot is based of on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
 This repo was just reamped to suit an Anime-centric community. All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
 
-Any other authorship/credits can be seen through the commits and history, should any be missing kindly let us know at [@OnePunchSupport](https://t.me/onepunchsupport).
+Any other authorship/credits can be seen through the commits and history, should any be missing kindly let us know at [One Punch Support](https://t.me/OnePunchSupport).
