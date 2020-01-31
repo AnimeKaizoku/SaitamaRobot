@@ -9,19 +9,15 @@ The Support group can be reached out to at [One Punch Support](https://t.me/OneP
 
 There is no news channel as of yet, but if we do make one it will be listed here on this readme. 
 
-## Starting the bot.
-
-Once you've setup your database and your configuration (see below) is complete, simply run:
-
-`python3 -m tg_bot`
-
 ## Setting up the bot (Read this before trying to use!):
 
 # How to setup
 <details>
   <summary>Click to expand!! </summary>
   
-  Note: This instruction set is just a copy paste from marie, note that [One Punch Support](https://t.me/OnePunchSupport) aims to handle support for @SaitamaRobot and now how to setup your own fork, if you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to setup the bot instance in the support chat, it aims to help our own instance of the bot. 
+ 
+ 
+ Note: This instruction set is just a copy paste from marie, note that [One Punch Support](https://t.me/OnePunchSupport) aims to handle support for @SaitamaRobot and now how to setup your own fork, if you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to setup the bot instance in the support chat, it aims to help our own instance of the bot. 
   
   ## Setting up the bot (Read this before trying to use!):
 Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older python versions!
