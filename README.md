@@ -187,4 +187,5 @@ For queries or any issues regarding the bot please open an issue ticket or visit
 The bot is based of on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
 This repo was just reamped to suit an Anime-centric community. All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
 
-Any other authorship/credits can be seen through the commits and history, should any be missing kindly let us know at [One Punch Support](https://t.me/OnePunchSupport).
+Any other authorship/credits can be seen through the commits.
+Should any be missing kindly let us know at [One Punch Support](https://t.me/OnePunchSupport) or simply submit a pull request on the readme.
