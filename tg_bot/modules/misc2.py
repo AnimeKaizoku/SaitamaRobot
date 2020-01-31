@@ -484,7 +484,6 @@ def get_time(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-@sudo_plus
 def echo(bot: Bot, update: Update):
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
