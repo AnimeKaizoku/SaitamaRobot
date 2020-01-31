@@ -72,7 +72,7 @@ UNFBAN_ERRORS = {
 def new_fed(bot: Bot, update: Update):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -95,7 +95,7 @@ def new_fed(bot: Bot, update: Update):
 
 		x = sql.new_fed(user.id, fed_name, fed_id)
 		if not x:
-			update.effective_message.reply_text("Can't federate! Please contact my maker if the problem still persists.")
+			update.effective_message.reply_text("Can't federate! Please contact @OnePunchSupport if the problem persists.")
 			return
 
 		update.effective_message.reply_text("*You have succeeded in creating a new federation!*"\
@@ -115,7 +115,7 @@ def new_fed(bot: Bot, update: Update):
 def del_fed(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -150,7 +150,7 @@ def del_fed(bot: Bot, update: Update, args: List[str]):
 def fed_chat(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -178,7 +178,7 @@ def fed_chat(bot: Bot, update: Update, args: List[str]):
 def join_fed(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -214,7 +214,7 @@ def join_fed(bot: Bot, update: Update, args: List[str]):
 
 		x = sql.chat_join_fed(args[0], chat.title, chat.id)
 		if not x:
-			message.reply_text("Failed to join federation! Please contact @onepunchsupport if this problem still persists!")
+			message.reply_text("Failed to join federation! Please contact @OnePunchSupport should this problem persists!")
 			return
 
 		get_fedlog = sql.get_fed_log(args[0])
@@ -228,7 +228,7 @@ def join_fed(bot: Bot, update: Update, args: List[str]):
 def leave_fed(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -258,7 +258,7 @@ def leave_fed(bot: Bot, update: Update, args: List[str]):
 def user_join_fed(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -279,7 +279,7 @@ def user_join_fed(bot: Bot, update: Update, args: List[str]):
 		elif not msg.reply_to_message and (not args or (
 			len(args) >= 1 and not args[0].startswith("@") and not args[0].isdigit() and not msg.parse_entities(
 			[MessageEntity.TEXT_MENTION]))):
-			msg.reply_text("I cannot extract users from this message")
+			msg.reply_text("I cannot extract user from this message")
 			return
 		else:
 			LOGGER.warning('error')
@@ -289,17 +289,17 @@ def user_join_fed(bot: Bot, update: Update, args: List[str]):
 		get_owner = eval(info['fusers'])['owner']
 		get_owner = bot.get_chat(get_owner).id
 		if user_id == get_owner:
-			update.effective_message.reply_text("Why are you trying to promote a federation owner?")
+			update.effective_message.reply_text("You do know that the user is the federation owner, right? RIGHT?")
 			return
 		if getuser:
-			update.effective_message.reply_text("I cannot promote users who are already federation admins! But I can remove them if you want!")
+			update.effective_message.reply_text("I cannot promote users who are already federation admins! Can remove them if you want!")
 			return
 		if user_id == bot.id:
 			update.effective_message.reply_text("I already am a federation admin in all federations!")
 			return
 		res = sql.user_join_fed(fed_id, user_id)
 		if res:
-			update.effective_message.reply_text("💖 Successfully Promoted!")
+			update.effective_message.reply_text("Successfully Promoted!")
 		else:
 			update.effective_message.reply_text("Failed to promote!")
 	else:
@@ -310,7 +310,7 @@ def user_join_fed(bot: Bot, update: Update, args: List[str]):
 def user_demote_fed(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -333,13 +333,13 @@ def user_demote_fed(bot: Bot, update: Update, args: List[str]):
 		elif not msg.reply_to_message and (not args or (
 			len(args) >= 1 and not args[0].startswith("@") and not args[0].isdigit() and not msg.parse_entities(
 			[MessageEntity.TEXT_MENTION]))):
-			msg.reply_text("I cannot extract users from this message")
+			msg.reply_text("I cannot extract user from this message")
 			return
 		else:
 			LOGGER.warning('error')
 
 		if user_id == bot.id:
-			update.effective_message.reply_text("Are you trying to demote me as a federation admin? Do you think I am stupid?")
+			update.effective_message.reply_text("The thing you are trying to demote me from will fail to work without me! Just saying.")
 			return
 
 		if sql.search_user_in_fed(fed_id, user_id) == False:
@@ -359,7 +359,7 @@ def user_demote_fed(bot: Bot, update: Update, args: List[str]):
 def fed_info(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -406,7 +406,7 @@ def fed_info(bot: Bot, update: Update, args: List[str]):
 def fed_admin(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -454,7 +454,7 @@ def fed_admin(bot: Bot, update: Update, args: List[str]):
 def fed_ban(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -499,7 +499,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 		return
 
 	if user_id == OWNER_ID:
-		message.reply_text("I don't want to block my master, that's a very stupid idea!")
+		message.reply_text("That's a very stupid idea!")
 		return
 
 	if int(user_id) in SUDO_USERS:
@@ -507,7 +507,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 		return
 
 	if int(user_id) in WHITELIST_USERS:
-		message.reply_text("This person is whitelisted, so they can't be fban!")
+		message.reply_text("This person can't be fbanned!")
 		return
 
 	try:
@@ -522,7 +522,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 			send_message(update.effective_message, excp.message)
 			return
 		elif not len(str(user_id)) == 9:
-			send_message(update.effective_message, "That's not a user!")
+			send_message(update.effective_message, "That's so not a user!")
 			return
 		isvalid = False
 		fban_user_id = int(user_id)
@@ -532,7 +532,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 
 
 	if isvalid and user_chat.type != 'private':
-		send_message(update.effective_message, "That's not a user!")
+		send_message(update.effective_message, "That's so not a user!")
 		return
 
 	if isvalid:
@@ -554,7 +554,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 			return
 		x = sql.fban_user(fed_id, fban_user_id, fban_user_name, fban_user_lname, fban_user_uname, reason, int(time.time()))
 		if not x:
-			message.reply_text("Failed to ban from the federation! If this problem continues, contact @onepunchsupport.")
+			message.reply_text("Failed to ban from the federation! If this problem continues, contact @OnePunchSupport.")
 			return
 
 		fed_chats = sql.all_fed_chats(fed_id)
@@ -601,7 +601,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 						dispatcher.bot.getChat(fedschat)
 					except Unauthorized:
 						sql.chat_leave_fed(fedschat)
-						LOGGER.info("Chat {} has leave fed {} because bot is kicked".format(fedschat, info['fname']))
+						LOGGER.info("Chat {} has leave fed {} because I was kicked".format(fedschat, info['fname']))
 						continue
 				elif excp.message == "User_id_invalid":
 					break
@@ -636,7 +636,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 							except Unauthorized:
 								targetfed_id = sql.get_fed_id(fedschat)
 								sql.unsubs_fed(fed_id, targetfed_id)
-								LOGGER.info("Chat {} has unsub fed {} because bot is kicked".format(fedschat, info['fname']))
+								LOGGER.info("Chat {} has unsub fed {} because I was kicked".format(fedschat, info['fname']))
 								continue
 						elif excp.message == "User_id_invalid":
 							break
@@ -657,7 +657,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 
 	x = sql.fban_user(fed_id, fban_user_id, fban_user_name, fban_user_lname, fban_user_uname, reason, int(time.time()))
 	if not x:
-		message.reply_text("Failed to ban from the federation! If this problem continues, contact @onepunchsupport.")
+		message.reply_text("Failed to ban from the federation! If this problem continues, contact @OnePunchSupport.")
 		return
 
 	fed_chats = sql.all_fed_chats(fed_id)
@@ -735,7 +735,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 							except Unauthorized:
 								targetfed_id = sql.get_fed_id(fedschat)
 								sql.unsubs_fed(fed_id, targetfed_id)
-								LOGGER.info("Chat {} has unsub fed {} because bot is kicked".format(fedschat, info['fname']))
+								LOGGER.info("Chat {} has unsub fed {} because I was kicked".format(fedschat, info['fname']))
 								continue
 						elif excp.message == "User_id_invalid":
 							break
@@ -750,7 +750,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 def unfban(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -790,7 +790,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 			send_message(update.effective_message, excp.message)
 			return
 		elif not len(str(user_id)) == 9:
-			send_message(update.effective_message, "That's not a user!")
+			send_message(update.effective_message, "That's so not a user!")
 			return
 		isvalid = False
 		fban_user_id = int(user_id)
@@ -799,7 +799,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 		fban_user_uname = None
 
 	if isvalid and user_chat.type != 'private':
-		message.reply_text("That's not a user!")
+		message.reply_text("That's so not a user!")
 		return
 
 	if isvalid:
@@ -814,7 +814,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 
 	banner = update.effective_user  # type: Optional[User]
 
-	message.reply_text("I'll give {} a second chance in this federation".format(user_chat.first_name))
+	message.reply_text("I'll give {} another chance in this federation".format(user_chat.first_name))
 
 	chat_list = sql.all_fed_chats(fed_id)
 	# Will send to current chat
@@ -865,7 +865,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 	try:
 		x = sql.un_fban_user(fed_id, user_id)
 		if not x:
-			send_message(update.effective_message, "Un-fban failed, this user may already un-fedbanned!")
+			send_message(update.effective_message, "Un-fban failed, this user may already be un-fedbanned!")
 			return
 	except:
 		pass
@@ -885,7 +885,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 						except Unauthorized:
 							targetfed_id = sql.get_fed_id(fedschat)
 							sql.unsubs_fed(fed_id, targetfed_id)
-							LOGGER.info("Chat {} has unsub fed {} because bot is kicked".format(fedschat, info['fname']))
+							LOGGER.info("Chat {} has unsub fed {} because I was kicked".format(fedschat, info['fname']))
 							continue
 					elif excp.message == "User_id_invalid":
 						break
@@ -918,7 +918,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 def set_frules(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -947,7 +947,7 @@ def set_frules(bot: Bot, update: Update, args: List[str]):
 			markdown_rules = markdown_parser(txt, entities=msg.parse_entities(), offset=offset)
 		x = sql.set_frules(fed_id, markdown_rules)
 		if not x:
-			update.effective_message.reply_text("Big F! There is an error while setting federation rules! If you wondered why please ask it in @onepunchsupport !")
+			update.effective_message.reply_text("Big F! There is an error while setting federation rules! If you wondered why please ask it in @OnePunchSupport !")
 			return
 
 		rules = sql.get_fed_info(fed_id)['frules']
@@ -965,7 +965,7 @@ def set_frules(bot: Bot, update: Update, args: List[str]):
 def get_frules(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 
@@ -988,7 +988,7 @@ def get_frules(bot: Bot, update: Update, args: List[str]):
 def fed_broadcast(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	msg = update.effective_message  # type: Optional[Message]
 	user = update.effective_user  # type: Optional[User]
@@ -1026,7 +1026,7 @@ def fed_broadcast(bot: Bot, update: Update, args: List[str]):
 				except Unauthorized:
 					failed += 1
 					sql.chat_leave_fed(chat)
-					LOGGER.info("Chat {} has leave fed {} because bot is kicked".format(chat, fedinfo['fname']))
+					LOGGER.info("Chat {} has leave fed {} because I was kicked".format(chat, fedinfo['fname']))
 					continue
 				failed += 1
 				LOGGER.warning("Couldn't send broadcast to {}".format(str(chat)))
@@ -1040,7 +1040,7 @@ def fed_broadcast(bot: Bot, update: Update, args: List[str]):
 def fed_ban_list(bot: Bot, update: Update, args: List[str], chat_data):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -1159,7 +1159,7 @@ def fed_ban_list(bot: Bot, update: Update, args: List[str], chat_data):
 def fed_notif(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -1187,7 +1187,7 @@ def fed_notif(bot: Bot, update: Update, args: List[str]):
 def fed_chats(bot: Bot, update: Update, args: List[str]):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -1218,7 +1218,7 @@ def fed_chats(bot: Bot, update: Update, args: List[str]):
 			chat_name = dispatcher.bot.getChat(chats).title
 		except Unauthorized:
 			sql.chat_leave_fed(chats)
-			LOGGER.info("Chat {} has leave fed {} because bot is kicked".format(chats, info['fname']))
+			LOGGER.info("Chat {} has leave fed {} because I was kicked".format(chats, info['fname']))
 			continue
 		text += " • {} (<code>{}</code>)\n".format(chat_name, chats)
 
@@ -1236,7 +1236,7 @@ def fed_chats(bot: Bot, update: Update, args: List[str]):
 def fed_import_bans(bot: Bot, update: Update, chat_data):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
 	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! Ignoring user.")
+		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
