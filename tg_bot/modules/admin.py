@@ -38,11 +38,11 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
         message.reply_text("This member is already a Dragon Disaster")
         return ""
     if user_id in SUPPORT_USERS:
-        rt += ("This user is already a Demon Disaster. Promoting status to Dragon.")
+        rt += ("This user is already a Demon Disaster, Promoting to Dragon Disaster.")
         data['supports'].remove(user_id)
         SUPPORT_USERS.remove(user_id)
     if user_id in WHITELIST_USERS:
-        rt += ("This user is already a whitelisted user. Promoting to Dragon.")
+        rt += ("This user is already a Wolf, Promoting to Dragon Disaster.")
         data['whitelists'].remove(user_id)
         WHITELIST_USERS.remove(user_id)
     data['sudos'].append(user_id)
@@ -99,7 +99,7 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
         data['sudos'].remove(user_id)
         SUDO_USERS.remove(user_id)
     if user_id in SUPPORT_USERS:
-        message.reply_text("This user is already a Demon ranker.")
+        message.reply_text("This user is already a Demon Disaster.")
         return ""
     if user_id in WHITELIST_USERS:
         rt+=("Promoting Disaster level from Wolf to Demon")
@@ -109,7 +109,7 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
         json.dump(data, outfile, indent=4)
     SUPPORT_USERS.append(user_id)
-    update.effective_message.reply_text(rt + "\n{} was added as a Demon level Disaster!".format(user_member.user.first_name))
+    update.effective_message.reply_text(rt + "\n{} was added as a Demon Disaster!".format(user_member.user.first_name))
     return "<b>{}:</b>" \
            "\n#SUPPORT" \
            "\n<b>Admin:</b> {}" \
@@ -128,7 +128,7 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
         data = json.load(infile)
     if user_id in SUPPORT_USERS:
-        message.reply_text("Demoting to normal user")
+        message.reply_text("Demoting to Civilian")
         SUPPORT_USERS.remove(user_id)
         data['supports'].remove(user_id)
         with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
@@ -140,7 +140,7 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
                                       mention_html(user.id, user.first_name),
                                       mention_html(user_member.user.id, user_member.user.first_name))
     else:
-        message.reply_text("This user is not a Demon level disaster!")
+        message.reply_text("This user is not a Demon level Disaster!")
         return ""
 
 @run_async
@@ -155,21 +155,21 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
         data = json.load(infile)
     if user_id in SUDO_USERS:
-        rt += ("This member is a sudo user. Demoting to whitelist.")
+        rt += ("This member is a Dragon Disaster, Demoting to Wolf.")
         data['sudos'].remove(user_id)
         SUDO_USERS.remove(user_id)
     if user_id in SUPPORT_USERS:
-        rt += ("This user is already a support user. Demoting to whitelist.")
+        rt += ("This user is already a Demon Disaster, Demoting to Wolf.")
         data['supports'].remove(user_id)
         SUPPORT_USERS.remove(user_id)
     if user_id in WHITELIST_USERS:
-        message.reply_text("This user is already a whitelisted user.")
+        message.reply_text("This user is already a Wolf Disaster.")
         return ""
     data['whitelists'].append(user_id)
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
         json.dump(data, outfile, indent=4)
     WHITELIST_USERS.append(user_id)
-    update.effective_message.reply_text(rt + "\nSuccessfully set privilege level {} to whitelist!".format(user_member.user.first_name))
+    update.effective_message.reply_text(rt + "\nSuccessfully promoted {} to a Wolf Disaster!".format(user_member.user.first_name))
     return "<b>{}:</b>" \
            "\n#WHITELIST" \
            "\n<b>Admin:</b> {}" \
@@ -200,7 +200,7 @@ def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
                                       mention_html(user.id, user.first_name),
                                       mention_html(user_member.user.id, user_member.user.first_name))
     else:
-        message.reply_text("This user is not a whitelisted user!")
+        message.reply_text("This user is not a Wolf Disaster!")
         return ""
 
 @run_async
@@ -209,7 +209,7 @@ def gitpull(bot: Bot, update: Update):
     sent_msg = update.effective_message.reply_text("Pulling all changes from remote and then attempting to restart.")
     p = subprocess.Popen('git pull', stdout=subprocess.PIPE, shell=True)
 
-    sent_msg_text = sent_msg.text + "\n\nChanges pulled. Restarting in "
+    sent_msg_text = sent_msg.text + "\n\nChanges pulled...I guess.. Restarting in "
 
     sent_msg.edit_text(sent_msg_text+"5")
 
@@ -233,7 +233,7 @@ def gitpull(bot: Bot, update: Update):
 @run_async
 @sudo_plus
 def restart(bot: Bot, update: Update):
-    update.effective_message.reply_text("Starting a new instance and shutting down this instance")
+    update.effective_message.reply_text("Starting a new instance and shutting down this one")
     os.system('restart.bat')
     os.execv('start.bat', sys.argv)
 
