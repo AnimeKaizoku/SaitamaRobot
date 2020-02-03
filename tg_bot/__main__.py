@@ -19,11 +19,12 @@ from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-An Anime theme Group Management Robot
+I am an Anime themed group management bot.
 
 You can find the list of available commands with /help.
 
-[Saitama's Repo](github.com/AnimeKaizoku/SaitamaRobot) [Support Group](t.me/OnePunchSupport)
+[Saitama's Repo](github.com/AnimeKaizoku/SaitamaRobot) 
+The support group chat is at @OnePunchSupport
 """
 
 HELP_STRINGS = """
