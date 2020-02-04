@@ -212,7 +212,7 @@ SLAP_TEMPLATES = (
     "{user1} ties {user2} to a chair and {throws} a {item} at them.",
     "{user1} gave a friendly push to help {user2} learn to swim in lava.",
     "{user1} bullied {user2}.",
-    "Nyaan ate {user2}'s leg."
+    "Nyaan ate {user2}'s leg. nomnomnom"
 
 )
 PING_STRING = (
