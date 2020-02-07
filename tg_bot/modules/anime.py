@@ -427,3 +427,4 @@ dispatcher.add_handler(UPCOMING_HANDLER)
 
 __mod_name__ = "MyAnimeList"
 __command_list__ = ["anime", "manga", "character", "user", "upcoming"]
+__handlers__ = [ANIME_HANDLER, CHARACTER_HANDLER, MANGA_HANDLER, USER_HANDLER, UPCOMING_HANDLER, BUTTON_HANDLER]
