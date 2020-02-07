@@ -167,11 +167,15 @@ def anime(bot: Bot, update: Update):
     
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
+
     try:
         search_query = args[1]
     except:
-        update.effective_message.reply_text("Format : /anime <animename>")
-        return
+        if message.reply_to_message:
+            search_query = message.reply_to_message.text
+        else:
+            update.effective_message.reply_text("Format : /anime <animename>")
+            return
 
     progress_message = update.effective_message.reply_text("Searching.... ")
 
@@ -190,11 +194,15 @@ def manga(bot: Bot, update: Update):
 
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
+
     try:
         search_query = args[1]
     except:
-        update.effective_message.reply_text("Format : /manga <manganame>")
-        return
+        if message.reply_to_message:
+            search_query = message.reply_to_message.text
+        else:
+            update.effective_message.reply_text("Format : /manga <manganame>")
+            return
 
     progress_message = update.effective_message.reply_text("Searching.... ")
 
@@ -213,11 +221,15 @@ def character(bot: Bot, update: Update):
 
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
+
     try:
         search_query = args[1]
     except:
-        update.effective_message.reply_text("Format : /character <charactername>")
-        return
+        if message.reply_to_message:
+            search_query = message.reply_to_message.text
+        else:
+            update.effective_message.reply_text("Format : /character <charactername>")
+            return
 
     progress_message = update.effective_message.reply_text("Searching.... ")
     jikan = jikanpy.jikan.Jikan()
@@ -266,11 +278,15 @@ def user(bot: Bot, update: Update):
 
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
+
     try:
         search_query = args[1]
     except:
-        update.effective_message.reply_text("Format : /user <username>")
-        return
+        if message.reply_to_message:
+            search_query = message.reply_to_message.text
+        else:
+            update.effective_message.reply_text("Format : /user <username>")
+            return
 
     jikan = jikanpy.jikan.Jikan()
     
@@ -283,6 +299,10 @@ def user(bot: Bot, update: Update):
     progress_message = update.effective_message.reply_text("Searching.... ")
 
     date_format = "%Y-%m-%d"
+    if user['image_url'] is None:
+        img = "https://cdn.myanimelist.net/images/questionmark_50.gif"
+    else:
+        img = user['image_url']
 
     try:
         user_birthday = datetime.datetime.fromisoformat(user['birthday'])
@@ -320,14 +340,14 @@ def user(bot: Bot, update: Update):
 
     """)
 
-    caption += f"*About*: {about_string}...[ ]({user['image_url']})"
+    caption += f"*About*: {about_string}"
 
     buttons = [
         [InlineKeyboardButton(info_btn, url=user['url'])],
-        [InlineKeyboardButton(close_btn, callback_data=f"anime_close, {message.from_user.id}")]
+        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
     ]
 
-    update.effective_message.reply_text(caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+    update.effective_message.reply_photo(photo=img, caption=caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
     progress_message.delete()
     
 @run_async
@@ -378,29 +398,26 @@ Get information about anime, manga or characters from [MyAnimeList](https://myan
 *Available commands:*
 
  - /anime <anime>: returns information about the anime.
-
  - /character <character>: returns information about the character.
-
  - /manga <manga>: returns information about the manga.
-
  - /user <user>: returns information about a MyAnimeList user.
-
  - /upcoming: returns a list of new anime in the upcoming seasons.
 
  """
-
-__mod_name__ = "MyAnimeList"
-__command_list__ = ["anime", "manga", "character", "user", "upcoming"]
 
 ANIME_HANDLER = DisableAbleCommandHandler("anime", anime)
 CHARACTER_HANDLER = DisableAbleCommandHandler("character", character)
 MANGA_HANDLER = DisableAbleCommandHandler("manga", manga)
 USER_HANDLER = DisableAbleCommandHandler("user", user)
 UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
+BUTTON_HANDLER = CallbackQueryHandler(button, pattern='anime_.*')
 
-dispatcher.add_handler(CallbackQueryHandler(button, pattern='anime_.*'))
+dispatcher.add_handler(BUTTON_HANDLER)
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
 dispatcher.add_handler(USER_HANDLER)
 dispatcher.add_handler(UPCOMING_HANDLER)
+
+__mod_name__ = "MyAnimeList"
+__command_list__ = ["anime", "manga", "character", "user", "upcoming"]
