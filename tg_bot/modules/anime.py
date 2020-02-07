@@ -234,7 +234,13 @@ def character(bot: Bot, update: Update):
     progress_message = update.effective_message.reply_text("Searching.... ")
     jikan = jikanpy.jikan.Jikan()
     
-    search_result = jikan.search("character", search_query)
+    try:
+        search_result = jikan.search("character", search_query)
+    except jikanpy.APIException:
+        progress_message.delete()
+        update.effective_message.reply_text("Character not found.")
+        return
+    
     first_mal_id = search_result["results"][0]["mal_id"]
     
     character = jikan.character(first_mal_id)
