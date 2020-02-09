@@ -170,10 +170,6 @@ def migrate_chat(old_chat_id, new_chat_id):
 
 
 ensure_bot_in_db()
-<<<<<<< HEAD
-=======
-
-
 def del_user(user_id):
     with INSERTION_LOCK:
         curr = SESSION.query(Users).get(user_id)
@@ -194,4 +190,5 @@ def rem_chat(chat_id):
         if chat:
             SESSION.delete(chat)
             SESSION.commit()
->>>>>>> 0dd82ff... Add method to remove chats from database.
+        else:
+            SESSION.close()
