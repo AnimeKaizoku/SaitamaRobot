@@ -89,6 +89,7 @@ def extract_user_and_text(message: Message, args: List[str]) -> (Optional[int], 
 def extract_text(message) -> str:
     return message.text or message.caption or (message.sticker.emoji if message.sticker else None)
 
+
 def extract_unt_fedban(message: Message, args: List[str]) -> (Optional[int], Optional[str]):
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
@@ -153,6 +154,7 @@ def extract_unt_fedban(message: Message, args: List[str]) -> (Optional[int], Opt
             return None, None
 
     return user_id, text
+
 
 def extract_user_fban(message: Message, args: List[str]) -> Optional[int]:
     return extract_unt_fedban(message, args)[0]
