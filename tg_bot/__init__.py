@@ -138,7 +138,7 @@ if ALLOW_EXCL:
     tg.CommandHandler = CustomCommandHandler
 
 def spamfilters(text, user_id, chat_id):
-    print("{} | {} | {}".format(text, user_id, chat_id))
+    #print("{} | {} | {}".format(text, user_id, chat_id))
     if int(user_id) in SPAMMERS:
         print("This user is a spammer!")
         return True
