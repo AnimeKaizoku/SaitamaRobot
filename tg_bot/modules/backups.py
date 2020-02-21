@@ -1,8 +1,7 @@
 import json
 from io import BytesIO
-from typing import Optional
 
-from telegram import Message, Chat, Update, Bot
+from telegram import Bot, Update
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async
 
@@ -13,9 +12,10 @@ from tg_bot.modules.helper_funcs.chat_status import user_admin
 
 @run_async
 @user_admin
-def import_data(bot: Bot, update):
-    msg = update.effective_message  # type: Optional[Message]
-    chat = update.effective_chat  # type: Optional[Chat]
+def import_data(bot: Bot, update: Update):
+
+    msg = update.effective_message
+    chat = update.effective_chat
     # TODO: allow uploading doc with command, not just as reply
     # only work with a doc
     if msg.reply_to_message and msg.reply_to_message.document:
@@ -48,7 +48,7 @@ def import_data(bot: Bot, update):
                 mod.__import_data__(str(chat.id), data)
         except Exception:
             msg.reply_text("An exception occured while restoring your data. The process may not be complete. If "
-                           "you're having issues with this, message @MarieSupport with your backup file so the "
+                           "you're having issues with this, message @OnePunchSupport with your backup file so the "
                            "issue can be debugged. My owners would be happy to help, and every bug "
                            "reported makes me better! Thanks! :)")
             LOGGER.exception("Import for chatid %s with name %s failed.", str(chat.id), str(chat.title))
@@ -62,11 +62,10 @@ def import_data(bot: Bot, update):
 @run_async
 @user_admin
 def export_data(bot: Bot, update: Update):
-    msg = update.effective_message  # type: Optional[Message]
-    msg.reply_text("")
 
+    msg = update.effective_message
+    msg.reply_text("Doesn't work yet.")
 
-__mod_name__ = "Backups"
 
 __help__ = """
 *Admin only:*
@@ -74,8 +73,12 @@ __help__ = """
 that files/photos can't be imported due to telegram restrictions.
  - /export: !!! This isn't a command yet, but should be coming soon!
 """
+
 IMPORT_HANDLER = CommandHandler("import", import_data)
 EXPORT_HANDLER = CommandHandler("export", export_data)
 
 dispatcher.add_handler(IMPORT_HANDLER)
-# dispatcher.add_handler(EXPORT_HANDLER)
+dispatcher.add_handler(EXPORT_HANDLER)
+
+__mod_name__ = "Backups"
+__handlers__ = [IMPORT_HANDLER, EXPORT_HANDLER]
