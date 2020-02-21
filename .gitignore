@@ -7,3 +7,4 @@ tg_bot/config.py
 .vscode
 tg_bot/modules/helper_funcs/temp.txt
 tg_bot/elevated_users.json
+start-3.6.bat
