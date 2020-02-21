@@ -1,14 +1,16 @@
-from telegram import Update, Bot, User, ParseMode
+from emoji import UNICODE_EMOJI
+from googletrans import Translator, LANGUAGES
+
+from telegram import Bot, Update, ParseMode
 from telegram.ext import run_async
 
 from tg_bot import dispatcher
 from tg_bot.modules.disable import DisableAbleCommandHandler
 
-from emoji import UNICODE_EMOJI
-from googletrans import Translator, LANGUAGES
 
 @run_async
 def totranslate(bot: Bot, update: Update):
+
     msg = update.effective_message
     problem_lang_code = []
     for key in LANGUAGES:
@@ -93,10 +95,14 @@ def totranslate(bot: Bot, update: Update):
     else:
         return
 
-__help__ = """- /tr (language code) as reply to a long message.
+__help__ = """
+- /tr (language code) as reply to a long message.
 """
+
+TRANSLATE_HANDLER = DisableAbleCommandHandler("tr", totranslate)
+
+dispatcher.add_handler(TRANSLATE_HANDLER)
+
 __mod_name__ = "Translator"
-
-TOTRANSLATE_HANDLER = DisableAbleCommandHandler("tr", totranslate)
-
-dispatcher.add_handler(TOTRANSLATE_HANDLER)
+__command_list__ = ["tr"]
+__handlers__ = [TRANSLATE_HANDLER]
