@@ -1,11 +1,14 @@
 import requests
 
-from telegram import Update, Bot
-from telegram.ext import CommandHandler
+from telegram import Bot, Update
+from telegram.ext import CommandHandler, run_async
 
 from tg_bot import dispatcher, CASH_API_KEY
 
+
+@run_async
 def convert(bot: Bot, update: Update):
+
     args = update.effective_message.text.split(" ", 3)
     if len(args) > 1:
 
@@ -40,9 +43,10 @@ __help__ = """
  example syntax: /cash 1 USD INR
 """
 
-__mod_name__ = "Currency Converter"
-
-
 CONVERTER_HANDLER = CommandHandler('cash', convert)
 
 dispatcher.add_handler(CONVERTER_HANDLER)
+
+__mod_name__ = "Currency Converter"
+__command_list__ = ["cash"]
+__handlers__ = [CONVERTER_HANDLER]
