@@ -123,8 +123,10 @@ def lock(bot: Bot, update: Update, args: List[str]) -> str:
             elif args[0] in RESTRICTION_TYPES:
                 sql.update_restriction(chat.id, args[0], locked=True)
                 if args[0] == "previews":
+                    """
                     members = users_sql.get_chat_members(str(chat.id))
                     restr_members(bot, chat.id, members, messages=True, media=True, other=True)
+                    """
 
                 message.reply_text("Locked {} for all non-admins!".format(args[0]))
                 return "<b>{}:</b>" \
@@ -165,6 +167,7 @@ def unlock(bot: Bot, update: Update, args: List[str]) -> str:
 
             elif args[0] in RESTRICTION_TYPES:
                 sql.update_restriction(chat.id, args[0], locked=False)
+                """
                 members = users_sql.get_chat_members(chat.id)
                 if args[0] == "messages":
                     unrestr_members(bot, chat.id, members, media=False, other=False, previews=False)
@@ -180,6 +183,7 @@ def unlock(bot: Bot, update: Update, args: List[str]) -> str:
 
                 elif args[0] == "all":
                     unrestr_members(bot, chat.id, members, True, True, True, True)
+                """
                 message.reply_text("Unlocked {} for everyone!".format(args[0]))
 
                 return "<b>{}:</b>" \
@@ -204,7 +208,7 @@ def del_lockables(bot: Bot, update: Update):
     message = update.effective_message
 
     for lockable, filter in LOCK_TYPES.items():
-        if filter(update) and sql.is_locked(chat.id, lockable) and can_delete(chat, bot.id):
+        if filter(message) and sql.is_locked(chat.id, lockable) and can_delete(chat, bot.id):
             if lockable == "bots":
                 new_members = update.effective_message.new_chat_members
                 for new_mem in new_members:
@@ -235,7 +239,7 @@ def rest_handler(bot: Bot, update: Update):
     msg = update.effective_message
     chat = update.effective_chat
     for restriction, filter in RESTRICTION_TYPES.items():
-        if filter(update) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, bot.id):
+        if filter(msg) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, bot.id):
             try:
                 msg.delete()
             except BadRequest as excp:
