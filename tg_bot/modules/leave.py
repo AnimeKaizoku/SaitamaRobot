@@ -1,3 +1,5 @@
+from typing import List
+
 from telegram import Bot, TelegramError, Update
 from telegram.ext import CommandHandler, Filters, run_async
 
