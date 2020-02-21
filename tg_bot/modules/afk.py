@@ -1,5 +1,4 @@
 import random
-from typing import Optional
 
 from telegram import Bot, Update, MessageEntity
 from telegram.ext import MessageHandler, Filters, run_async
