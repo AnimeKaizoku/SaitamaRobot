@@ -1,8 +1,10 @@
-import requests, jikanpy, textwrap, datetime
+import requests
+import jikanpy
+import textwrap
+import datetime
 
 from telegram.ext import CallbackQueryHandler, run_async
-from telegram import Message, Update, Bot, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram import ParseMode
+from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
 
 from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
@@ -132,10 +134,16 @@ def get_anime_manga(mal_id, search_type, user_id):
     buttons, related_list = [], []
 
     if "Prequel" in related:
-        prequel_id = related["Prequel"][0]["mal_id"]
+        try:
+            prequel_id = related["Prequel"][0]["mal_id"]
+        except IndexError:
+            pass
     
     if "Sequel" in related:
-        sequel_id = related["Sequel"][0]["mal_id"]
+        try:
+            sequel_id = related["Sequel"][0]["mal_id"]
+        except IndexError:
+            pass
 
     if search_type == "anime_anime":
         kaizoku = f"https://animekaizoku.com/?s={result['title']}"
