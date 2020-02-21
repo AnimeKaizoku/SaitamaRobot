@@ -1,11 +1,12 @@
 from functools import wraps
-from typing import Optional
+from datetime import datetime
 
 from tg_bot.modules.helper_funcs.misc import is_module_loaded
 
 FILENAME = __name__.rsplit(".", 1)[-1]
 
 if is_module_loaded(FILENAME):
+    
     from telegram import Bot, Update, ParseMode, Message, Chat
     from telegram.error import BadRequest, Unauthorized
     from telegram.ext import CommandHandler, run_async
@@ -19,11 +20,16 @@ if is_module_loaded(FILENAME):
     def loggable(func):
         @wraps(func)
         def log_action(bot: Bot, update: Update, *args, **kwargs):
+
             result = func(bot, update, *args, **kwargs)
-            chat = update.effective_chat  # type: Optional[Chat]
-            message = update.effective_message  # type: Optional[Message]
+            chat = update.effective_chat
+            message = update.effective_message
+
             if result:
-                if chat.type == chat.SUPERGROUP and chat.username:
+                datetime_fmt = "%H:%M - %d-%m-%Y"
+                result += "\n<b>Event Stamp</b>: <code>{}</code>".format(datetime.utcnow().strftime(datetime_fmt))
+
+                if message.chat.type == chat.SUPERGROUP and message.chat.username:
                     result += "\n<b>Link:</b> " \
                               "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(chat.username,
                                                                                            message.message_id)
@@ -41,12 +47,14 @@ if is_module_loaded(FILENAME):
 
     def gloggable(func):
         @wraps(func)
-        def log_action(bot: Bot, update: Update, *args, **kwargs):
+        def glog_action(bot: Bot, update: Update, *args, **kwargs):
+
             result = func(bot, update, *args, **kwargs)
-            chat = update.effective_chat  # type: Optional[Chat]
-            message = update.effective_message  # type: Optional[Message]
+            chat = update.effective_chat
+            message = update.effective_message
+
             if result:
-                if chat.type == chat.SUPERGROUP and chat.username:
+                if message.chat.type == chat.SUPERGROUP and message.chat.username:
                     result += "\n<b>Link:</b> " \
                               "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(chat.username,
                                                                                            message.message_id)
@@ -60,10 +68,11 @@ if is_module_loaded(FILENAME):
 
             return result
 
-        return log_action
+        return glog_action
 
 
     def send_log(bot: Bot, log_chat_id: str, orig_chat_id: str, result: str):
+
         try:
             bot.send_message(log_chat_id, result, parse_mode=ParseMode.HTML)
         except BadRequest as excp:
@@ -81,8 +90,9 @@ if is_module_loaded(FILENAME):
     @run_async
     @user_admin
     def logging(bot: Bot, update: Update):
-        message = update.effective_message  # type: Optional[Message]
-        chat = update.effective_chat  # type: Optional[Chat]
+
+        message = update.effective_message
+        chat = update.effective_chat
 
         log_channel = sql.get_chat_log_channel(chat.id)
         if log_channel:
@@ -99,8 +109,9 @@ if is_module_loaded(FILENAME):
     @run_async
     @user_admin
     def setlog(bot: Bot, update: Update):
-        message = update.effective_message  # type: Optional[Message]
-        chat = update.effective_chat  # type: Optional[Chat]
+
+        message = update.effective_message
+        chat = update.effective_chat
         if chat.type == chat.CHANNEL:
             message.reply_text("Now, forward the /setlog to the group you want to tie this channel to!")
 
@@ -136,8 +147,9 @@ if is_module_loaded(FILENAME):
     @run_async
     @user_admin
     def unsetlog(bot: Bot, update: Update):
-        message = update.effective_message  # type: Optional[Message]
-        chat = update.effective_chat  # type: Optional[Chat]
+
+        message = update.effective_message
+        chat = update.effective_chat
 
         log_channel = sql.stop_chat_logging(chat.id)
         if log_channel:
@@ -190,4 +202,8 @@ Setting the log channel is done by:
 else:
     # run anyway if module not loaded
     def loggable(func):
+        return func
+
+
+    def gloggable(func):
         return func
