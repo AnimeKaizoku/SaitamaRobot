@@ -1,17 +1,16 @@
 import logging
 import sys
+
 from contextlib import contextmanager, redirect_stdout
-from telegram import Update, Bot, ParseMode
-from telegram.ext import run_async
 
-from telegram.ext import Updater, CommandHandler
+from telegram import Bot, Update, ParseMode
+from telegram.ext import Updater, CommandHandler, run_async
+
 from telegram.error import TimedOut, NetworkError
-from telegram import ParseMode
 
-from tg_bot.modules.disable import DisableAbleCommandHandler
-from telegram.ext.dispatcher import run_async
-from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, dev_plus
 from tg_bot import dispatcher, LOGGER
+from tg_bot.modules.disable import DisableAbleCommandHandler
+from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, dev_plus
 
 from requests import get
 
@@ -80,6 +79,7 @@ def cleanup_code(code):
 
 
 def do(func, bot, update):
+
     log_input(update)
     content = update.message.text.split(' ', 1)[-1]
     body = cleanup_code(content)
@@ -134,21 +134,12 @@ def clear(bot, update):
     send("Cleared locals.", bot, update)
 
 
-def error_callback(bot, update, error):
-    try:
-        raise error
-    except (TimedOut, NetworkError):
-        log.debug(error, exc_info=True)
-    except:
-        log.info(error, exc_info=True)
+eval_handler = CommandHandler(('e', 'ev', 'eva', 'eval'), evaluate)
+exec_handler = CommandHandler(('x', 'ex', 'exe', 'exec', 'py'), execute)
+clear_handler = CommandHandler('clearlocals', clear)
+
+dispatcher.add_handler(eval_handler)
+dispatcher.add_handler(exec_handler)
+dispatcher.add_handler(clear_handler)
 
 __mod_name__ = "Eval Module"
-
-eval_handle = CommandHandler(('e', 'ev', 'eva', 'eval'), evaluate)
-exec_handle = CommandHandler(('x', 'ex', 'exe', 'exec', 'py'), execute)
-clear_handle = CommandHandler('clearlocals', clear)
-
-dispatcher.add_handler(eval_handle)
-dispatcher.add_handler(exec_handle)
-dispatcher.add_handler(clear_handle)
-#To be uncommented after testing
