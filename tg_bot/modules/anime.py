@@ -30,12 +30,13 @@ def getPosterLink(mal):
     image = requests.get(f'https://kitsu.io/api/edge/anime/{kitsu}').json()
     return(image['data']['attributes']['posterImage']['original'])
 
-def getBannerLink(mal):
+def getBannerLink(mal, kitsu_search=True):
     # try getting kitsu backdrop
-    kitsu = getKitsu(mal)
-    image = f'http://media.kitsu.io/anime/cover_images/{kitsu}/original.jpg'
-    response = requests.get(image)
-    if response.status_code == 200: return(image)
+    if kitsu_search:
+        kitsu = getKitsu(mal)
+        image = f'http://media.kitsu.io/anime/cover_images/{kitsu}/original.jpg'
+        response = requests.get(image)
+        if response.status_code == 200: return(image)
     # try getting anilist banner
     query = '''
     query ($idMal: Int){
@@ -193,8 +194,11 @@ def anime(bot: Bot, update: Update):
     first_mal_id = search_result["results"][0]["mal_id"]
 
     caption, buttons, image = get_anime_manga(first_mal_id, "anime_anime", message.from_user.id)
-
-    update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+    try:
+        update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
+    except:
+        image = getBannerLink(first_mal_id, False)
+        update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
     progress_message.delete()
 
 @run_async
