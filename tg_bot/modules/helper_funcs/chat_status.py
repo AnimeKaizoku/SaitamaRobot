@@ -2,7 +2,11 @@ from functools import wraps
 
 from telegram import Bot, Chat, ChatMember, Update, User, ParseMode
 
-from tg_bot import dispatcher, DEL_CMDS, SUDO_USERS, WHITELIST_USERS, DEV_USERS
+from tg_bot import dispatcher, DEL_CMDS, WHITELIST_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS
+
+def is_whitelist_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
+    return user_id in WHITELIST_USERS or user_id in SUPPORT_USERS or user_id in SUDO_USERS or user_id in DEV_USERS
+
 
 def is_sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     return user_id in SUDO_USERS or user_id in DEV_USERS
@@ -92,6 +96,21 @@ def sudo_plus(func):
             update.effective_message.reply_text("Who dis non-admin telling me what to do? You want a punch?")
 
     return is_sudo_plus_func
+
+
+def whitelist_plus(func):
+    @wraps(func)
+    def is_whitelist_plus_func(bot: Bot, update: Update, *args, **kwargs):
+        
+        user = update.effective_user
+        chat = update.effective_chat
+
+        if user and is_whitelist_plus(chat, user.id):
+            return func(bot, update, *args, **kwargs)
+        else:
+            update.effective_message.reply_text("You don't have access to use this.\nVisit @OnePunchSupport")
+
+    return is_whitelist_plus_func
 
 
 def user_admin(func):

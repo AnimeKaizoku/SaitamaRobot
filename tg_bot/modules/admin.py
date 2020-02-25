@@ -9,19 +9,18 @@ import requests
 from typing import List
 from time import sleep
 
-from telegram import Update, Bot
-from telegram import ParseMode
+from telegram import Bot, Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters
-from telegram.ext.dispatcher import run_async
+from telegram.ext import CommandHandler, Filters, run_async
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from tg_bot import dispatcher, SUDO_USERS, DEV_USERS, OWNER_ID, SUPPORT_USERS, WHITELIST_USERS, TOKEN
+from tg_bot import dispatcher, WHITELIST_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS, OWNER_ID, TOKEN
 from tg_bot.__main__ import IMPORTED, HELPABLE, MIGRATEABLE, STATS, USER_INFO, DATA_IMPORT, DATA_EXPORT, CHAT_SETTINGS, USER_SETTINGS 
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.log_channel import loggable, gloggable
 from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, sudo_plus, dev_plus, connection_status
 from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
+
 
 @run_async
 @dev_plus
@@ -762,10 +761,8 @@ __help__ = """
  - /settitle: sets a custom title for an admin that the bot promoted
 """
 
-#Available for anyone
 ADMINLIST_HANDLER = DisableAbleCommandHandler(["adminlist","admins"], adminlist)
 
-#Admins only
 PIN_HANDLER = CommandHandler("pin", pin, pass_args=True, filters=Filters.group)
 UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
 
@@ -776,7 +773,6 @@ DEMOTE_HANDLER = CommandHandler("demote", demote, pass_args=True)
 
 SET_TITLE_HANDLER = CommandHandler("settitle", set_title, pass_args=True)
 
-#Devs only
 GITPULL_HANDLER = CommandHandler("gitpull", gitpull)
 RESTART_HANDLER = CommandHandler("restart", restart)
 
