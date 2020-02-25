@@ -122,12 +122,22 @@ def lock(bot: Bot, update: Update, args: List[str]) -> str:
 
             elif args[0] in RESTRICTION_TYPES:
                 sql.update_restriction(chat.id, args[0], locked=True)
-                if args[0] == "previews":
-                    """
-                    members = users_sql.get_chat_members(str(chat.id))
-                    restr_members(bot, chat.id, members, messages=True, media=True, other=True)
-                    """
+                """
+                if args[0] == "messages":
+                    chat.set_permissions(can_send_messages=False)
 
+                elif args[0] == "media":
+                    chat.set_permissions(can_send_media_messages=False)
+
+                elif args[0] == "other":
+                    chat.set_permissions(can_send_other_messages=False)
+
+                elif args[0] == "previews":
+                    chat.set_permissions(can_add_web_page_previews=False)
+
+                elif args[0] == "all":
+                    chat.set_permissions(can_send_messages=False)
+                """
                 message.reply_text("Locked {} for all non-admins!".format(args[0]))
                 return "<b>{}:</b>" \
                        "\n#LOCK" \
@@ -168,21 +178,21 @@ def unlock(bot: Bot, update: Update, args: List[str]) -> str:
             elif args[0] in RESTRICTION_TYPES:
                 sql.update_restriction(chat.id, args[0], locked=False)
                 """
-                members = users_sql.get_chat_members(chat.id)
+                #members = users_sql.get_chat_members(chat.id)
                 if args[0] == "messages":
-                    unrestr_members(bot, chat.id, members, media=False, other=False, previews=False)
+                    chat.set_permissions(can_send_messages=True)
 
                 elif args[0] == "media":
-                    unrestr_members(bot, chat.id, members, other=False, previews=False)
+                    chat.set_permissions(can_send_media_messages=True)
 
                 elif args[0] == "other":
-                    unrestr_members(bot, chat.id, members, previews=False)
+                    chat.set_permissions(can_send_other_messages=True)
 
                 elif args[0] == "previews":
-                    unrestr_members(bot, chat.id, members)
+                    chat.set_permissions(can_add_web_page_previews=True)
 
                 elif args[0] == "all":
-                    unrestr_members(bot, chat.id, members, True, True, True, True)
+                    chat.set_permissions(can_send_messages=True, can_send_media_messages=True, can_send_other_messages=True, can_add_web_page_previews=True, can_send_polls=True)
                 """
                 message.reply_text("Unlocked {} for everyone!".format(args[0]))
 
