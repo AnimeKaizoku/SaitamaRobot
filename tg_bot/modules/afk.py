@@ -85,7 +85,7 @@ def __gdpr__(user_id):
 
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
-AFK_REGEX_HANDLER = DisableAbleRegexHandler(r"(?i)brb", afk, friendly="afk") #idk how to make it only work in groups only
+AFK_REGEX_HANDLER = DisableAbleRegexHandler(r"(?i)brb", afk, friendly="afk")
 NO_AFK_HANDLER = DisableAbleMessageHandler(Filters.all & Filters.group, no_longer_afk, friendly="afk")
 AFK_REPLY_HANDLER = DisableAbleMessageHandler((Filters.entity(MessageEntity.MENTION) | Filters.entity(MessageEntity.TEXT_MENTION)) & Filters.group, reply_afk, friendly="afk")
 
