@@ -1,9 +1,15 @@
 from telegram import Bot, Update, ParseMode
 from telegram.ext import run_async
 
-from tg_bot import dispatcher, WHITELIST_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS
+from tg_bot import dispatcher
+from tg_bot.config import Production as Config
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import whitelist_plus
+
+WHITELIST_USERS = Config.WHITELIST_USERS
+SUPPORT_USERS = Config.SUPPORT_USERS
+SUDO_USERS = Config.SUDO_USERS
+DEV_USERS = Config.DEV_USERS
 
 
 @run_async
