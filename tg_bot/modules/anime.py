@@ -12,7 +12,7 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 info_btn = "More Information"
 kaizoku_btn = "Kaizoku ☠️"
 kayo_btn = "Kayo 🏴‍☠️"
-prequel_btn = "Prequel ⬅️"
+prequel_btn = "⬅️ Prequel"
 sequel_btn = "Sequel ➡️"
 close_btn = "Close ❌"
 
