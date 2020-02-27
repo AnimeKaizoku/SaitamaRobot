@@ -280,11 +280,11 @@ def welcome(bot: Bot, update: Update, args: List[str]):
     elif len(args) >= 1:
         if args[0].lower() in ("on", "yes"):
             sql.set_welc_preference(str(chat.id), True)
-            update.effective_message.reply_text("I'll be polite!")
+            update.effective_message.reply_text("I'll be polite then!")
 
         elif args[0].lower() in ("off", "no"):
             sql.set_welc_preference(str(chat.id), False)
-            update.effective_message.reply_text("I'm sulking, Will Punch you if you are persistent.")
+            update.effective_message.reply_text("I'll go loaf around and not welcome anyone then.")
 
         else:
             # idek what you're writing, say yes or no
