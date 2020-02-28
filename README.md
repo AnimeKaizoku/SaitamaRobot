@@ -7,7 +7,7 @@ Can be found on telegram as [SaitamaRobot](https://t.me/SaitamaRobot).
 
 The Support group can be reached out to at [One Punch Support](https://t.me/OnePunchSupport), where you can ask for help setting up your bot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
-There is no news channel as of yet, but if we do make one it will be listed here on this readme. 
+News channel as at [One Punch Updates](https://t.me/OnePunchUpdates) 
 
 ## Setting up the bot (Read this before trying to use!):
 

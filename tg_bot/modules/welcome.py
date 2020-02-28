@@ -93,23 +93,28 @@ def new_member(bot: Bot, update: Update):
         for new_mem in new_members:
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
-                update.effective_message.reply_text("Oh, You're here Genos. Lets get this moving.")
+                update.effective_message.reply_text("Oh, Genos? Let's get this moving.")
                 continue
 
             # Give the owner a special welcome
             elif new_mem.id in DEV_USERS:
-                update.effective_message.reply_text("Huh! A member of the Hero's Association just joined!")
+                update.effective_message.reply_text("Whoa! A member of the Heroes Association just joined!")
                 continue
 
             # Welcome Sudos 
             elif new_mem.id in SUDO_USERS:
-                update.effective_message.reply_text("Huh! Someone with a Disaster Level just joined!")
+                update.effective_message.reply_text("Huh! A Dragon disaster just joined! Stay Alert!")
                 continue
-				#Generalised the diaster notices so that ppl check a user manually and engage with bot functions.
+			
             # Welcome Support
             elif new_mem.id in SUPPORT_USERS:
-                update.effective_message.reply_text("Huh! Someone with a Disaster Level just joined!")
+                update.effective_message.reply_text("Huh! Someone with a Demon disaster level just joined!")
                 continue
+		
+            # Welcome Whitelisted
+            elif new_mem.id in WHITELIST_USERS:
+                update.effective_message.reply_text("A disaster level Wolf just joined!")
+                continue		
 
             # Don't welcome yourself
             elif new_mem.id == bot.id:
@@ -280,11 +285,11 @@ def welcome(bot: Bot, update: Update, args: List[str]):
     elif len(args) >= 1:
         if args[0].lower() in ("on", "yes"):
             sql.set_welc_preference(str(chat.id), True)
-            update.effective_message.reply_text("I'll be polite!")
+            update.effective_message.reply_text("I'll be polite then!")
 
         elif args[0].lower() in ("off", "no"):
             sql.set_welc_preference(str(chat.id), False)
-            update.effective_message.reply_text("I'm sulking, Will Punch you if you are persistent.")
+            update.effective_message.reply_text("I'll go loaf around and not welcome anyone then.")
 
         else:
             # idek what you're writing, say yes or no
