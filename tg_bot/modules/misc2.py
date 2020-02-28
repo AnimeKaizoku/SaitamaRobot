@@ -72,10 +72,10 @@ RUN_STRINGS = (
 )
 
 SLAP_SAITAMA_TEMPLATES = (
-    "Slap me one more time and I'll punch you.",
+    "Slap me one more time and I'll mute you.",
     "Stop slapping me. REEEEEEEEEEEEEE.",
-    ["I am muting you for 1 minute for slapping me.", "Stop slapping me just because I can't mute you. REEEEEEEEEE.", "tmute"],
-    ["I am muting you for slapping me.\nGet an admin to umute you. Hmpf.", "Stop slapping me just because I can't mute you. REEEEEEEEEE.", "mute"]
+    ["I am muting you for a minute.", "Stop slapping me just because I can't mute you. REEEEEEEEEE.", "tmute"],
+    ["I am muting you for slapping me.\nGo ask an admin to umute. Hmpf.", "Stop slapping me just because I can't mute you. REEEEEEEEEE.", "mute"]
 )
 
 SLAP_TEMPLATES = (
