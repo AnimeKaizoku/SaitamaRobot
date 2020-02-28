@@ -12,7 +12,7 @@ from telegram import Message, Chat, Update, Bot, MessageEntity
 from telegram import ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
-from tg_bot.modules.helper_funcs.chat_status import user_admin, sudo_plus
+from tg_bot.modules.helper_funcs.chat_status import user_admin, sudo_plus, is_user_admin
 from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, DEV_USERS, WHITELIST_USERS, BAN_STICKER
 from tg_bot.__main__ import STATS, USER_INFO, TOKEN
 from tg_bot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
@@ -74,8 +74,11 @@ RUN_STRINGS = (
 SLAP_SAITAMA_TEMPLATES = (
     "Slap me one more time and I'll mute you.",
     "Stop slapping me. REEEEEEEEEEEEEE.",
-    ["I am muting you for a minute.", "Stop slapping me just because I can't mute you. REEEEEEEEEE.", "tmute"],
-    ["I am muting you for slapping me.\nGo ask an admin to umute. Hmpf.", "Stop slapping me just because I can't mute you. REEEEEEEEEE.", "mute"]
+    [
+        "I am muting you for a minute.", #normal reply
+        "Stop slapping me just because I can't mute you. REEEEEEEEEE.", #reply to admin
+        "tmute" #command
+    ]
 )
 
 SLAP_TEMPLATES = (
@@ -277,18 +280,14 @@ def slap(bot: Bot, update: Update, args: List[str]):
         temp = random.choice(SLAP_SAITAMA_TEMPLATES)
         if type(temp) == list:
             if temp[2] == "tmute":
+
+                if is_user_admin(chat, msg.from_user.id):
+                    reply_text(temp[1])
+                    return
+
                 mutetime = int(time.time() + 60)
-                try:
-                    bot.restrict_chat_member(chat.id, msg.from_user.id, until_date=mutetime, can_send_messages=False)
-                except:
-                    reply_text(temp[1])
-                    return
-            elif temp[2] == "mute":
-                try:
-                    bot.restrict_chat_member(chat.id, msg.from_user.id, can_send_messages=False)
-                except:
-                    reply_text(temp[1])
-                    return
+                bot.restrict_chat_member(chat.id, msg.from_user.id, until_date=mutetime, can_send_messages=False)
+                
             reply_text(temp[0])
         else:
             reply_text(temp)
