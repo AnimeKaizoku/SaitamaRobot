@@ -46,7 +46,8 @@ def getsticker(bot: Bot, update: Update):
 def kang(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message
     user = update.effective_user
-    packname = "a" + str(user.id) + "_by_"+bot.username
+    packnum = "1"
+    packname = "a" + packnum + "_" + str(user.id) + "_by_"+bot.username
     kangsticker = "kangsticker.png"
     if msg.reply_to_message or args:
         try:
@@ -87,7 +88,6 @@ def kang(bot: Bot, update: Update, args: List[str]):
                                         png_sticker=open('kangsticker.png', 'rb'), emojis=sticker_emoji)
                 msg.reply_text("Sticker successfully added to [pack](t.me/addstickers/%s)" % packname + "\n"
                                 "Emoji is:" + " " + sticker_emoji, parse_mode=ParseMode.MARKDOWN)
-            makepack_internal(msg, user, open('kangsticker.png', 'rb'), sticker_emoji, bot)
         except OSError as e:
             msg.reply_text("I can only kang images m8.")
             print(e)
@@ -105,13 +105,10 @@ def kang(bot: Bot, update: Update, args: List[str]):
                 msg.reply_text("Invalid emoji(s).")
             elif e.message == "Stickers_too_much":
                 msg.reply_text("Max packsize reached. Press F to pay respecc.")
-            except Exception as e:
-                print(e)
     else:
         msg.reply_text("Please reply to a sticker, or image to kang it!" + "\n"
                         "Oh, by the way. Your pack can be found [here](t.me/addstickers/%s)" % packname, parse_mode=ParseMode.MARKDOWN)
     if os.path.isfile("kangsticker.png"):
-        im.close()
         os.remove("kangsticker.png")
 
 def resize(kangsticker):
@@ -138,7 +135,8 @@ def resize(kangsticker):
 def makepack_internal(msg, user, png_sticker, emoji, bot):
     name = user.first_name
     name = name[:50]
-    packname = f"a{str(user.id)}_by_{bot.username}"
+    packnum = "1"
+    packname = f"a{packnum}_{str(user.id)}_by_{bot.username}"
     try:
         success = bot.create_new_sticker_set(user.id, packname, name + "'s kang pack",
                                              png_sticker=png_sticker,
