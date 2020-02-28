@@ -34,7 +34,7 @@ ENUM_FUNC_MAP = {
 # do not async
 def send(update, message, keyboard, backup_message):
     try:
-        msg = update.effective_message.reply_text(message, parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard)
+        msg = update.effective_message.reply_text(message, parse_mode=ParseMode.HTML, reply_markup=keyboard)
     except IndexError:
         msg = update.effective_message.reply_text(markdown_parser(backup_message +
                                                                   "\nNote: the current message was "
@@ -79,10 +79,11 @@ def send(update, message, keyboard, backup_message):
 
 @run_async
 def new_member(bot: Bot, update: Update):
-    chat = update.effective_chat  # type: Optional[Chat]
-    user = update.effective_user  # type: Optional[User]
-    msg = update.effective_message # type: Optional[Message]
-    chat_name = chat.title or chat.first or chat.username # type: Optional:[chat name]
+    
+    chat = update.effective_chat
+    user = update.effective_user
+    msg = update.effective_message
+    chat_name = chat.title or chat.first or chat.usernam
     should_welc, cust_welcome, welc_type = sql.get_welc_pref(chat.id)
     welc_mutes = sql.welcome_mutes(chat.id)
     user_id = user.id
@@ -118,6 +119,7 @@ def new_member(bot: Bot, update: Update):
 
             # Don't welcome yourself
             elif new_mem.id == bot.id:
+                update.effective_message.reply_text("Watashi wa kitaa!")
                 continue
 
             else:

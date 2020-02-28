@@ -71,6 +71,13 @@ RUN_STRINGS = (
     "As The Doctor would say... RUN!",
 )
 
+SLAP_SAITAMA_TEMPLATES = (
+    "Slap me one more time and I'll punch you.",
+    "Stop slapping me. REEEEEEEEEEEEEE.",
+    ["I am muting you for 1 minute for slapping me.", "Stop slapping me just because I can't mute you. REEEEEEEEEE.", "tmute"],
+    ["I am muting you for slapping me.\nGet an admin to umute you. Hmpf.", "Stop slapping me just because I can't mute you. REEEEEEEEEE.", "mute"]
+)
+
 SLAP_TEMPLATES = (
     "{user2} was shot by {user1}.",
     "{user2} walked into a cactus while trying to escape {user1}.",
@@ -136,13 +143,13 @@ SLAP_TEMPLATES = (
     "{user1} {hits} {user2} with a Carolina Smash!.",
     "{user1} {hits} {user2} with a King Kong Gun!.",
     "{user1} {hits} {user2} with a baseball bat - metal one.!.",
-    "\*Serious punches {user2}\*.",
-    "\*Normal punches {user2}\*.",
-    "\*Consecutive Normal punches {user2}\*.",
-    "\*Two Handed Consecutive Normal Punches {user2}\*.",
-    "\*Ignores {user2} to let them die of embarassment\*.",
-    "\*points at {user2}\* What's with this sassy... lost child?.",
-    "\*Hits {user2} with a Fire Tornado\*.",
+    "*Serious punches {user2}*.",
+    "*Normal punches {user2}*.",
+    "*Consecutive Normal punches {user2}*.",
+    "*Two Handed Consecutive Normal Punches {user2}*.",
+    "*Ignores {user2} to let them die of embarassment*.",
+    "*points at {user2}* What's with this sassy... lost child?.",
+    "*Hits {user2} with a Fire Tornado*.",
     "{user1} pokes {user2} in the eye !",
     "{user1} pokes {user2} on the sides!",        
     "{user1} pokes {user2}!",
@@ -155,7 +162,7 @@ SLAP_TEMPLATES = (
     "Take this {user2}\n(ﾉﾟДﾟ)ﾉ ))))●~* ",
     "Here {user2} hold this\n(｀・ω・)つ ●~＊",
     "( ・_・)ノΞ●~*  {user2},Shinaeeeee!!.",
-    "( ・∀・)ｒ鹵~<≪巛;ﾟДﾟ)ﾉ\n\*Bug sprays {user2}\*.",
+    "( ・∀・)ｒ鹵~<≪巛;ﾟДﾟ)ﾉ\n*Bug sprays {user2}*.",
     "( ﾟДﾟ)ﾉ占~<巛巛巛.\n-{user2} You pest!",
     "( う-´)づ︻╦̵̵̿╤── \(˚☐˚”)/ {user2}.",
     "{user1} {hits} {user2} with a {item}.",
@@ -170,9 +177,9 @@ SLAP_TEMPLATES = (
     "{user1} ties {user2} to a chair and {throws} a {item} at them.",
     "{user1} gave a friendly push to help {user2} learn to swim in lava.",
     "{user1} bullied {user2}.",
-    "Nyaan ate {user2}'s leg. \*nomnomnom\*",
+    "Nyaan ate {user2}'s leg. *nomnomnom*",
     "{user1} {throws} a master ball at {user2}, resistance is futile.",
-    "{user1} hits {user2} with an action beam...bbbbbb (ง・ω・)ง ====\*",
+    "{user1} hits {user2} with an action beam...bbbbbb (ง・ω・)ง ====*",
     "{user1} ara ara's {user2}.",
     "{user1} ora ora's {user2}.",
     "{user1} muda muda's {user2}.",
@@ -253,6 +260,7 @@ def runs(bot: Bot, update: Update):
 @run_async
 def slap(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message  # type: Optional[Message]
+    chat = update.effective_chat
 
     # reply to correct message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
@@ -261,21 +269,42 @@ def slap(bot: Bot, update: Update, args: List[str]):
     if msg.from_user.username:
         curr_user = msg.from_user.first_name
     else:
-        curr_user = "[{}](tg://user?id={})".format(msg.from_user.first_name, msg.from_user.id)
+        curr_user = "{}".format(mention_html(msg.from_user.id, msg.from_user.first_name))
 
     user_id = extract_user(update.effective_message, args)
+
+    if user_id == bot.id:
+        temp = random.choice(SLAP_SAITAMA_TEMPLATES)
+        if type(temp) == list:
+            if temp[2] == "tmute":
+                mutetime = int(time.time() + 60)
+                try:
+                    bot.restrict_chat_member(chat.id, msg.from_user.id, until_date=mutetime, can_send_messages=False)
+                except:
+                    reply_text(temp[1])
+                    return
+            elif temp[2] == "mute":
+                try:
+                    bot.restrict_chat_member(chat.id, msg.from_user.id, can_send_messages=False)
+                except:
+                    reply_text(temp[1])
+                    return
+            reply_text(temp[0])
+        else:
+            reply_text(temp)
+        return
+
     if user_id:
         slapped_user = bot.get_chat(user_id)
         user1 = curr_user
         if slapped_user.username:
             user2 = slapped_user.first_name
         else:
-            user2 = "[{}](tg://user?id={})".format(slapped_user.first_name,
-                                                   slapped_user.id)
+            user2 = "{}".format(mention_html(slapped_user.id, html.escape(slapped_user.first_name)))
 
     # if no target found, bot targets the sender
     else:
-        user1 = "[{}](tg://user?id={})".format(bot.first_name, bot.id)
+        user1 = "{}".format(mention_html(bot.id, bot.first_name))
         user2 = curr_user
 
     temp = random.choice(SLAP_TEMPLATES)
@@ -285,7 +314,7 @@ def slap(bot: Bot, update: Update, args: List[str]):
 
     repl = temp.format(user1=user1, user2=user2, item=item, hits=hit, throws=throw)
 
-    reply_text(repl, parse_mode=ParseMode.MARKDOWN)
+    reply_text(repl, parse_mode=ParseMode.HTML)
 
 
 @run_async
