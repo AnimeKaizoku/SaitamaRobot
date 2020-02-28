@@ -1,4 +1,5 @@
 import re
+import html
 
 import telegram
 from telegram import ParseMode, InlineKeyboardMarkup, Message, Chat
@@ -45,13 +46,13 @@ def list_handlers(bot: Bot, update: Update):
     for keyword in all_handlers:
         entry = " - {}\n".format(escape_markdown(keyword))
         if len(entry) + len(filter_list) > telegram.MAX_MESSAGE_LENGTH:
-            update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.HTML)
+            update.effective_message.reply_text(html.escape(filter_list), parse_mode=telegram.ParseMode.HTML)
             filter_list = entry
         else:
             filter_list += entry
 
     if not filter_list == BASIC_FILTER_STRING:
-        update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.HTML)
+        update.effective_message.reply_text(html.escape(filter_list), parse_mode=telegram.ParseMode.HTML)
 
 
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
