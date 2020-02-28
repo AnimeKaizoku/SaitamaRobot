@@ -1,8 +1,0 @@
-Requirement already satisfied: python-telegram-bot in c:\program files\python38\lib\site-packages (12.3.0)
-Requirement already satisfied: cryptography in c:\program files\python38\lib\site-packages (from python-telegram-bot) (2.8)
-Requirement already satisfied: certifi in c:\program files\python38\lib\site-packages (from python-telegram-bot) (2019.11.28)
-Requirement already satisfied: future>=0.16.0 in c:\program files\python38\lib\site-packages (from python-telegram-bot) (0.18.2)
-Requirement already satisfied: tornado>=5.1 in c:\program files\python38\lib\site-packages (from python-telegram-bot) (6.0.3)
-Requirement already satisfied: cffi!=1.11.3,>=1.8 in c:\program files\python38\lib\site-packages (from cryptography->python-telegram-bot) (1.13.2)
-Requirement already satisfied: six>=1.4.1 in c:\program files\python38\lib\site-packages (from cryptography->python-telegram-bot) (1.14.0)
-Requirement already satisfied: pycparser in c:\program files\python38\lib\site-packages (from cffi!=1.11.3,>=1.8->cryptography->python-telegram-bot) (2.19)
