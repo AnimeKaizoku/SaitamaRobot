@@ -4,7 +4,7 @@ import os
 from telegram import Bot, Update, ParseMode
 from telegram.ext import run_async
 
-from tg_bot import dispatcher
+from tg_bot import dispatcher, SUDO_USERS, DEV_USERS, WHITELIST_USERS, OWNER_ID, SUPPORT_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import whitelist_plus
 
@@ -16,7 +16,6 @@ def get_user_list(config, key):
 @whitelist_plus
 def whitelistlist(bot: Bot, update: Update):
 
-    WHITELIST_USERS = get_user_list('elevated_users.json', 'whitelists')
     reply = "<b>Wolf Disasters 🐺:</b>\n"
     for each_user in WHITELIST_USERS:
         user_id = int(each_user)
@@ -33,7 +32,6 @@ def whitelistlist(bot: Bot, update: Update):
 @whitelist_plus
 def supportlist(bot: Bot, update: Update):
 
-    SUPPORT_USERS = get_user_list('elevated_users.json', 'supports')
     reply = "<b>Demon Disasters 👹:</b>\n"
     for each_user in SUPPORT_USERS:
         user_id = int(each_user)
@@ -51,9 +49,9 @@ def supportlist(bot: Bot, update: Update):
 @whitelist_plus
 def sudolist(bot: Bot, update: Update):
 
-    SUDO_USERS = get_user_list('elevated_users.json', 'sudos')
+    true_sudo = list(set(SUDO_USERS) - set(DEV_USERS))
     reply = "<b>Dragon Disasters 🐉:</b>\n"
-    for each_user in SUDO_USERS:
+    for each_user in true_sudo:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
@@ -69,10 +67,11 @@ def sudolist(bot: Bot, update: Update):
 @whitelist_plus
 def devlist(bot: Bot, update: Update):
 
-    DEV_USERS = get_user_list('elevated_users.json', 'devs')
     reply = "<b>Hero Association Members ⚡️:</b>\n"
     for each_user in DEV_USERS:
         user_id = int(each_user)
+        if user_id == int(OWNER_ID):
+            continue
         try:
             user = bot.get_chat(user_id)
             first_name = user.first_name
