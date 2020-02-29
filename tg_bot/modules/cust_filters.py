@@ -42,17 +42,19 @@ def list_handlers(bot: Bot, update: Update):
             update.effective_message.reply_text(f"No filters are active in <b>{update_chat_title}</b>!", parse_mode=telegram.ParseMode.HTML)
         return
 
-    filter_list = BASIC_FILTER_STRING
+    filter_list = ""
     for keyword in all_handlers:
         entry = " - {}\n".format(escape_markdown(keyword))
-        if len(entry) + len(filter_list) > telegram.MAX_MESSAGE_LENGTH:
-            update.effective_message.reply_text(html.escape(filter_list), parse_mode=telegram.ParseMode.HTML)
+        if len(entry) + len(filter_list) + len(BASIC_FILTER_STRING) > telegram.MAX_MESSAGE_LENGTH:
+            filter_list = BASIC_FILTER_STRING + html.escape(filter_list)
+            update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.HTML)
             filter_list = entry
         else:
             filter_list += entry
 
     if not filter_list == BASIC_FILTER_STRING:
-        update.effective_message.reply_text(html.escape(filter_list), parse_mode=telegram.ParseMode.HTML)
+        filter_list = BASIC_FILTER_STRING + html.escape(filter_list)
+        update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.HTML)
 
 
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
