@@ -1,21 +1,22 @@
+import json
+import os
+
 from telegram import Bot, Update, ParseMode
 from telegram.ext import run_async
 
 from tg_bot import dispatcher
-from tg_bot.config import Production as Config
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import whitelist_plus
 
-WHITELIST_USERS = Config.WHITELIST_USERS
-SUPPORT_USERS = Config.SUPPORT_USERS
-SUDO_USERS = Config.SUDO_USERS
-DEV_USERS = Config.DEV_USERS
-
+def get_user_list(config, key):
+    with open('{}/tg_bot/{}'.format(os.getcwd(), config), 'r') as json_file:
+        return json.load(json_file)[key]
 
 @run_async
 @whitelist_plus
 def whitelistlist(bot: Bot, update: Update):
 
+    WHITELIST_USERS = get_user_list('elevated_users.json', 'whitelists')
     reply = "<b>Wolf Disasters 🐺:</b>\n"
     for each_user in WHITELIST_USERS:
         user_id = int(each_user)
@@ -32,6 +33,7 @@ def whitelistlist(bot: Bot, update: Update):
 @whitelist_plus
 def supportlist(bot: Bot, update: Update):
 
+    SUPPORT_USERS = get_user_list('elevated_users.json', 'supports')
     reply = "<b>Demon Disasters 👹:</b>\n"
     for each_user in SUPPORT_USERS:
         user_id = int(each_user)
@@ -49,6 +51,7 @@ def supportlist(bot: Bot, update: Update):
 @whitelist_plus
 def sudolist(bot: Bot, update: Update):
 
+    SUDO_USERS = get_user_list('elevated_users.json', 'sudos')
     reply = "<b>Dragon Disasters 🐉:</b>\n"
     for each_user in SUDO_USERS:
         user_id = int(each_user)
@@ -66,6 +69,7 @@ def sudolist(bot: Bot, update: Update):
 @whitelist_plus
 def devlist(bot: Bot, update: Update):
 
+    DEV_USERS = get_user_list('elevated_users.json', 'devs')
     reply = "<b>Hero Association Members ⚡️:</b>\n"
     for each_user in DEV_USERS:
         user_id = int(each_user)
