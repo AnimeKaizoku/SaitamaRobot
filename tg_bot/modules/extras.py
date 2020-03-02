@@ -250,9 +250,9 @@ def table(bot: Bot, update: Update):
             if r <= 45:
                 update.message.reply_text("(╯°□°）╯彡 ┻━┻")
             elif r <= 90:
-                update.message.reply_text("Send money bsdk to buy new table to flip")
+                update.message.reply_text("I ran out of tables, will order more.")
             else:
-                update.message.reply_text("Go do some work instead of flippin tables you helpless fagit.")
+                update.message.reply_text("Go do some work instead of flippin tables.")
 
 __help__ = """
  - /shrug : get shrug XD.
