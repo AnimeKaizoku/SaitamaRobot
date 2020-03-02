@@ -26,10 +26,6 @@ def weebify(bot: Bot, update: Update, args: List[str]):
 
 
 __help__ = """
-Weebify text
-
-*Available commands:*
-
  - /weebify <text>: returns a weebified text
  """
 
