@@ -41,7 +41,6 @@ from tg_bot.modules.helper_funcs.alternate import send_message
 
 # LOGGER.info("Original federation module by MrYacha, reworked by Mizukito Akito (@peaktogoo) on Telegram.")
 
-chats_in_fed = 0
 
 FBAN_ERRORS = {
 	"User is an administrator of the chat",
@@ -688,6 +687,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 							"\n<b>User:</b> {}" \
 							"\n<b>User ID:</b> <code>{}</code>" \
 							"\n<b>Reason:</b> {}".format(fed_name, mention_html(user.id, user.first_name), user_target, fban_user_id, reason), parse_mode="HTML")
+	chats_in_fed = 0
 	for fedschat in fed_chats:
 		chats_in_fed += 1
 		try:
