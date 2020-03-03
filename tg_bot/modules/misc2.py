@@ -516,7 +516,11 @@ def markdown_help(bot: Bot, update: Update):
 
 @run_async
 def stats(bot: Bot, update: Update):
-    update.effective_message.reply_text("Current stats:\n" + "\n".join([mod.__stats__() for mod in STATS]))
+    stats = "Current stats:\n" + "\n".join([mod.__stats__() for mod in STATS])
+    digits = re.compile(r'\d+').findall(stats)
+    for digit in digits:
+        stats = stats.replace(digit, '<code>{}</code>'.format(digit))
+    update.effective_message.reply_text(stats, parse_mode=ParseMode.HTML)
 
 
 # /ip is for private use
