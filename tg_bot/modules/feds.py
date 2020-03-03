@@ -41,6 +41,8 @@ from tg_bot.modules.helper_funcs.alternate import send_message
 
 # LOGGER.info("Original federation module by MrYacha, reworked by Mizukito Akito (@peaktogoo) on Telegram.")
 
+chats_in_fed = 0
+
 FBAN_ERRORS = {
 	"User is an administrator of the chat",
 	"Chat not found",
@@ -585,7 +587,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 							 "\n<b>Reason:</b> {}".format(fed_name, mention_html(user.id, user.first_name), user_target, fban_user_id, reason), parse_mode="HTML")
 		for fedschat in fed_chats:
 			try:
-				# Do not spamming all fed chats
+				# Do not spam all fed chats
 				"""
 				bot.send_message(chat, "<b>FedBan reason updated</b>" \
 							 "\n<b>Federation:</b> {}" \
@@ -609,7 +611,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 					LOGGER.warning("Could not fban on {} because: {}".format(chat, excp.message))
 			except TelegramError:
 				pass
-		# Also do not spamming all fed admins
+		# Also do not spam all fed admins
 		"""
 		send_to_list(bot, FEDADMIN,
 				 "<b>FedBan reason updated</b>" \
@@ -644,7 +646,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 							LOGGER.warning("Unable to fban on {} because: {}".format(fedschat, excp.message))
 					except TelegramError:
 						pass
-		send_message(update.effective_message, "Fedban Reason has been updated.")
+		#send_message(update.effective_message, "Fedban Reason has been updated.")
 		return
 
 	fed_name = info['fname']
@@ -687,6 +689,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 							"\n<b>User ID:</b> <code>{}</code>" \
 							"\n<b>Reason:</b> {}".format(fed_name, mention_html(user.id, user.first_name), user_target, fban_user_id, reason), parse_mode="HTML")
 	for fedschat in fed_chats:
+		chats_in_fed += 1
 		try:
 			# Do not spamming all fed chats
 			"""
@@ -743,7 +746,10 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 							LOGGER.warning("Unable to fban on {} because: {}".format(fedschat, excp.message))
 					except TelegramError:
 						pass
-	send_message(update.effective_message, "Fedban Reason has been updated.")
+	if chats_in_fed == 0:
+		send_message(update.effective_message, "Fedban affected 0 chats. ")
+	elif chats_in_fed > 0:
+		send_message(update.effective_message, "Fedban affected {} chats. ".format(chats_in_fed))
 
 
 @run_async
