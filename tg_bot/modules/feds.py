@@ -846,7 +846,9 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 						 "\n<b>Federation Admin:</b> {}" \
 						 "\n<b>User:</b> {}" \
 						 "\n<b>User ID:</b> <code>{}</code>".format(info['fname'], mention_html(user.id, user.first_name), user_target, fban_user_id), parse_mode="HTML")
+	unfbanned_in_chats = 0
 	for fedchats in chat_list:
+		unfbanned_in_chats += 1
 		try:
 			member = bot.get_chat_member(fedchats, user_id)
 			if member.status == 'kicked':
@@ -879,12 +881,10 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 
 	# UnFban for fed subscriber
 	subscriber = list(sql.get_subscriber(fed_id))
-	unfbanned_in_chats = 0
 	if len(subscriber) != 0:
 		for fedsid in subscriber:
 			all_fedschat = sql.all_fed_chats(fedsid)
 			for fedschat in all_fedschat:
-				unfbanned_in_chats += 1
 				try:
 					bot.unban_chat_member(fedchats, user_id)
 				except BadRequest as excp:
