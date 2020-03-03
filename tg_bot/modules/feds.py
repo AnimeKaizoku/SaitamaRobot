@@ -905,7 +905,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 
 	if unfbanned_in_chats == 0:
 		send_message(update.effective_message,"This person has been un-fbanned in 0 chats.")
-	if unfbanned_in_chats > 0
+	if unfbanned_in_chats > 0:
 		send_message(update.effective_message,"This person has been un-fbanned in {} chats.".format(unfbanned_in_chats))
 	# Also do not spamming all fed admins
 	"""
