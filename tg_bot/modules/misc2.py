@@ -270,9 +270,9 @@ def slap(bot: Bot, update: Update, args: List[str]):
 
     # get user who sent message
     if msg.from_user.username:
-        curr_user = msg.from_user.first_name
+        curr_user = html.escape(msg.from_user.first_name)
     else:
-        curr_user = "{}".format(mention_html(msg.from_user.id, msg.from_user.first_name))
+        curr_user = "{}".format(mention_html(msg.from_user.id, html.escape(msg.from_user.first_name)))
 
     user_id = extract_user(update.effective_message, args)
 
@@ -297,7 +297,7 @@ def slap(bot: Bot, update: Update, args: List[str]):
         slapped_user = bot.get_chat(user_id)
         user1 = curr_user
         if slapped_user.username:
-            user2 = slapped_user.first_name
+            user2 = html.escape(slapped_user.first_name)
         else:
             user2 = "{}".format(mention_html(slapped_user.id, html.escape(slapped_user.first_name)))
 
