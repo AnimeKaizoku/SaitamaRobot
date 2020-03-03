@@ -543,8 +543,9 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 
 	if fban:
 		fed_name = info['fname']
-		starting = "The reason fban is replaced for {} in the Federation <b>{}</b>.".format(user_target, fed_name)
-		send_message(update.effective_message, starting, parse_mode=ParseMode.HTML)
+		#https://t.me/OnePunchSupport/41606 // https://t.me/OnePunchSupport/41619
+		#starting = "The reason fban is replaced for {} in the Federation <b>{}</b>.".format(user_target, fed_name)
+		#send_message(update.effective_message, starting, parse_mode=ParseMode.HTML)
 
 		if reason == "":
 			reason = "No reason given."
@@ -878,10 +879,12 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 
 	# UnFban for fed subscriber
 	subscriber = list(sql.get_subscriber(fed_id))
+	unfbanned_in_chats = 0
 	if len(subscriber) != 0:
 		for fedsid in subscriber:
 			all_fedschat = sql.all_fed_chats(fedsid)
 			for fedschat in all_fedschat:
+				unfbanned_in_chats += 1
 				try:
 					bot.unban_chat_member(fedchats, user_id)
 				except BadRequest as excp:
@@ -900,7 +903,10 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 				except TelegramError:
 					pass
 
-	send_message(update.effective_message,"This person has been un-fbanned.")
+	if unfbanned_in_chats == 0:
+		send_message(update.effective_message,"This person has been un-fbanned in 0 chats.")
+	if unfbanned_in_chats > 0
+		send_message(update.effective_message,"This person has been un-fbanned in {} chats.".format(unfbanned_in_chats))
 	# Also do not spamming all fed admins
 	"""
 	FEDADMIN = sql.all_fed_users(fed_id)
