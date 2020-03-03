@@ -743,7 +743,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 							LOGGER.warning("Unable to fban on {} because: {}".format(fedschat, excp.message))
 					except TelegramError:
 						pass
-		send_message(update.effective_message, "Fedban Reason has been updated.")
+	send_message(update.effective_message, "Fedban Reason has been updated.")
 
 
 @run_async
