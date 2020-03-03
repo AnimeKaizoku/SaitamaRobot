@@ -284,20 +284,21 @@ def build_lock_message(chat_id):
         res = "There are no current locks in this chat."
     else:
         res = "These are the locks in this chat:\n"
-        if locks: # DON'T REMOVE THE NEWLINES BELOW
-            res += "```\n" + format_lines(
-                repl([["sticker", "=", locks.sticker], ["audio", "=", locks.audio], ["voice", "=", locks.voice],
+        ls = []
+        if locks:
+            ls += repl([["sticker", "=", locks.sticker], ["audio", "=", locks.audio], ["voice", "=", locks.voice],
                       ["document", "=", locks.document], ["video", "=", locks.video], ["contact", "=", locks.contact],
                       ["photo", "=", locks.photo], ["gif", "=", locks.gif], ["url", "=", locks.url],
                       ["bots", "=", locks.bots], ["forward", "=", locks.forward], ["game", "=", locks.game],
                       ["location", "=", locks.location]]
-                     , 2, "Locked", "Unlocked"), 1) + "```"
+                     , 2, "Locked", "Unlocked")
         if restr:
-            res += "```\n" + format_lines(
-                repl([["messages", "=", restr.messages], ["media", "=", restr.media],
+            ls += repl([["messages", "=", restr.messages], ["media", "=", restr.media],
                       ["other", "=", restr.other], ["previews", "=", restr.preview],
                       ["all", "=", all([restr.messages, restr.media, restr.other, restr.preview])]]
-                     , 2, "Restricted", "Unrestricted"), 1) + "```"
+                     , 2, "Restricted", "Unrestricted")
+        # DON'T REMOVE THE NEWLINE BELOW
+        res += "```\n" + format_lines(ls,1) + "```"
     return res
 
 
