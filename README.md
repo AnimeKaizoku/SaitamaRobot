@@ -12,7 +12,6 @@ News channel as at [One Punch Updates](https://t.me/OnePunchUpdates)
 ## Setting up the bot (Read this before trying to use!):
 
 # How to setup
-The long way:
 <details>
   <summary>Click to expand!! </summary>
   
@@ -178,10 +177,17 @@ Once you've setup your database and your configuration is complete, simply run t
 
 </details>
 
-Or
+## How to setup on Heroku 
+For starters click on this button
 
-The easy way:
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
+
+Fill in all the details , Deploy.
+Now go to https://dashboard.heroku.com/apps/<app-name>/resources ( Replace <app-name> with your app name )
+Turn on worker dyno (Don't worry It's free :D)
+Now send the bot /start , If it doesn't respond go to https://dashboard.heroku.com/apps/<app-name>/settings and remove webhook and port.  
+  
 
 You can use [nssm](https://nssm.cc/usage) to install the bot as service on windows and set it to restart on /gitpull 
 Make sure to edit the start and restart bats to your needs. 
