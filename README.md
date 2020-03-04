@@ -191,9 +191,9 @@ For starters click on this button
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
 
 Fill in all the details , Deploy.
-Now go to https://dashboard.heroku.com/apps/<app-name>/resources ( Replace <app-name> with your app name )
+Now go to https://dashboard.heroku.com/apps/(app-name)/resources ( Replace (app-name) with your app name )
 Turn on worker dyno (Don't worry It's free :D)
-Now send the bot /start , If it doesn't respond go to https://dashboard.heroku.com/apps/<app-name>/settings and remove webhook and port.  
+Now send the bot /start , If it doesn't respond go to https://dashboard.heroku.com/apps/(app-name)/settings and remove webhook and port.  
   
 
 ## Credits
