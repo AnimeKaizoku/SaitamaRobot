@@ -7,7 +7,7 @@ from tg_bot import dispatcher, DEV_USERS
 
 import tg_bot.modules.sql.blacklistusers_sql as sql
 
-BLABLEUSERS = ['660565862'] #for testing
+BLABLEUSERS = 660565862 #for testing
 @run_async
 def bl_user(bot: Bot, update: Update, args):
     if update.effective_message.reply_to_message:
