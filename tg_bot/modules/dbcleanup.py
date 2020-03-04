@@ -125,7 +125,7 @@ def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
 
         id = chat.chat_id
         sleep(0.1)
-        
+
         try:
             bot.send_chat_action(id, "TYPING", timeout=60)
         except (BadRequest, Unauthorized):
@@ -182,7 +182,7 @@ def callback_button(bot: Bot, update: Update):
     if query_type == "db_leave_chat":
         if query.from_user.id in admin_list:
             message.delete()
-            progress_message = message.reply_text("Leaving chats ...")
+            progress_message = bot.sendMessage(chat_id, "Leaving chats ...")
             chat_count = get_muted_chats(bot, update, True)
             progress_message.delete()
             bot.sendMessage(chat_id, f"Left {chat_count} chats.")
@@ -191,7 +191,7 @@ def callback_button(bot: Bot, update: Update):
     elif query_type == "db_cleanup":
         if query.from_user.id in admin_list:
             message.delete()
-            progress_message = message.reply_text("Cleaning up DB ...")
+            progress_message = bot.sendMessage(chat_id, "Cleaning up DB ...")
             invalid_chat_count = get_invalid_chats(bot, update, True)
             invalid_gban_count = get_invalid_gban(bot, update, True)
             progress_message.delete()
