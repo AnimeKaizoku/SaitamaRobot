@@ -443,17 +443,17 @@ def button(bot, update):
 @run_async
 def grabhandler(bot: Bot, update: Update):
     message = update.effective_message
-    anime = message.text[len('/ud '):]
+    anime = message.text[len('/grab '):]
     if anime == '':
         update.effective_message.reply_text("Give something to search")
-        return
+        exit()
     msg = grab(anime)
     update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=True)
 
 @run_async
 def grabhandlerk(bot: Bot, update: Update):
     message = update.effective_message
-    anime = message.text[len('/ud '):]
+    anime = message.text[len('/grabk '):]
     if anime == '':
         update.effective_message.reply_text("Give something to search")
         return
