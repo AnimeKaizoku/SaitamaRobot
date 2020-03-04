@@ -16,6 +16,35 @@ prequel_btn = "⬅️ Prequel"
 sequel_btn = "Sequel ➡️"
 close_btn = "Close ❌"
 
+#for grabbing
+from telegram.utils import helpers
+from bs4 import BeautifulSoup as bs
+import requests as r
+
+kayo_deeplink = 'grabk'
+kaizoku_deeplink = 'grab'
+
+def grab(anime):
+    searchstr = anime.replace(" ", "+")
+    html = r.get('https://animekaizoku.com/?s={}'.format(searchstr)).text
+    soup = bs(html,"lxml")
+    msg = "Search Result For {} on AnimeKaizoku: \n".format(anime)
+    for xyz in soup.find_all("h2",{'class':"post-title"}):
+        msg += f"°[{xyz.get_text()}]({xyz.a['href']})\n"
+    return msg
+
+def grabk(anime):
+    searchstr = anime.replace(" ", "+")
+    html = r.get('https://animekayo.com/?s={}'.format(searchstr))
+    soup = bs(html.text,"lxml")
+    msg = "Search Result For {} on AnimeKayo: \n".format(anime)
+    for h in soup.find_all("h2",{'class':"title"}):
+        title = h.get_text().replace('\n','')
+        msg += f"°[{title}]"
+        msg += f"({h.a['href']})\n"
+    return msg
+        
+ 
 def getKitsu(mal):
     # get kitsu id from mal id
     link = f'https://kitsu.io/api/edge/mappings?filter[external_site]=myanimelist/anime&filter[external_id]={mal}'
@@ -147,8 +176,11 @@ def get_anime_manga(mal_id, search_type, user_id):
             pass
 
     if search_type == "anime_anime":
-        kaizoku = f"https://animekaizoku.com/?s={result['title']}"
-        kayo = f"https://animekayo.com/?s={result['title']}"
+        bot = context.bot
+        kaizoku_deeplink = kaizoku_deeplink + f"({result['title']})"
+        kayo_deeplink = kayo_deeplink + f"({result['title']})"
+        kaizoku = helpers.create_deep_linked_url(bot.get_me().username, kaizoku_deeplink)
+        kayo = helpers.create_deep_linked_url(bot.get_me().username, kayo_deeplink)
 
         buttons.append(
             [InlineKeyboardButton(kaizoku_btn, url=kaizoku), InlineKeyboardButton(kayo_btn, url=kayo)]
@@ -192,7 +224,6 @@ def anime(bot: Bot, update: Update):
 
     search_result = jikan.search("anime", search_query)
     first_mal_id = search_result["results"][0]["mal_id"]
-
     caption, buttons, image = get_anime_manga(first_mal_id, "anime_anime", message.from_user.id)
     try:
         update.effective_message.reply_photo(photo=image, caption=caption, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
@@ -362,7 +393,7 @@ def user(bot: Bot, update: Update):
 
     buttons = [
         [InlineKeyboardButton(info_btn, url=user['url'])],
-        [InlineKeyboardButton(close_btn, callback_data=f"anime_close, {message.from_user.id}")]
+        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
     ]
 
     update.effective_message.reply_photo(photo=img, caption=caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
@@ -394,7 +425,6 @@ def button(bot, update):
 
     user_and_admin_list = [original_user_id, OWNER_ID] + SUDO_USERS + DEV_USERS
     
-    bot.answer_callback_query(query.id)
     if query_type == "anime_close":
         if query.from_user.id in user_and_admin_list:
             message.delete()
@@ -410,6 +440,10 @@ def button(bot, update):
             progress_message.delete()
         else:
             query.answer("You are not allowed to use this.")
+
+
+def deeplink_kaizoku(update, context):
+    print(context.args)
 
 __help__ = """
 Get information about anime, manga or characters from [MyAnimeList](https://myanimelist.net).
