@@ -13,11 +13,24 @@ import tg_bot.modules.sql.global_bans_sql as gban_sql
 
 def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
 
+    chat_id = update.effective_chat.id
     chats = user_sql.get_all_chats()
-    kicked_chats = 0
+    kicked_chats, progress = 0, 0
     chat_list = []
+    progress_message = None
+
     for chat in chats:
 
+        if ((100*chats.index(chat))/len(chats)) > progress:
+            progress_bar = f"{progress}% completed in getting invalid chats."
+            if progress_message:
+                try:
+                    progress_message.delete()
+                except:
+                    pass
+            progress_message = bot.sendMessage(chat_id, progress_bar)
+            progress += 5
+        
         id = chat.chat_id
         sleep(0.1)
         try:
@@ -27,6 +40,11 @@ def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
             chat_list.append(id)
         except TimedOut:
             pass
+    
+    try:
+        progress_message.delete()
+    except:
+        pass
 
     if not remove:
         return kicked_chats
@@ -87,12 +105,27 @@ def dbcleanup(bot: Bot, update: Update):
 
 def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
 
+    chat_id = update.effective_chat.id
     chats = user_sql.get_all_chats()
-    muted_chats = 0
+    muted_chats, progress = 0, 0
     chat_list = []
+    progress_message = None
+
     for chat in chats:
+
+        if ((100*chats.index(chat))/len(chats)) > progress:
+            progress_bar = f"{progress}% completed in getting muted chats."
+            if progress_message:
+                try:
+                    progress_message.delete()
+                except:
+                    pass
+            progress_message = bot.sendMessage(chat_id, progress_bar)
+            progress += 5
+
         id = chat.chat_id
         sleep(0.1)
+        
         try:
             bot.send_chat_action(id, "TYPING", timeout=60)
         except (BadRequest, Unauthorized):
@@ -100,6 +133,11 @@ def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
             chat_list.append(id)
         except ChatMigrated:
             pass
+
+    try:
+        progress_message.delete()
+    except:
+        pass
 
     if not leave:
         return muted_chats
