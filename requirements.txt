@@ -18,3 +18,4 @@ Pillow>=4.2.0
 CurrencyConverter
 #translator
 googletrans
+jikanpy
