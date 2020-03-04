@@ -23,7 +23,7 @@ def grab(anime):
     searchstr = anime.replace(" ", "+")
     html = r.get('https://animekaizoku.com/?s={}'.format(searchstr)).text
     soup = bs(html,"html")
-    msg = "Search Result For {} on AnimeKaizoku: \n".format(anime)
+    msg = "Search Result For {} on AnimeKaizoku: \n".format()
     for xyz in soup.find_all("h2",{'class':"post-title"}):
         msg += f"°[{xyz.get_text()}]({xyz.a['href']})\n"
     return msg
@@ -439,14 +439,14 @@ def grabhandler(bot: Bot, update: Update):
     message = update.effective_message
     anime = message.text[len('/ud '):]
     msg = grab(anime)
-    update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=False)
+    update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=True)
 
 @run_async
 def grabhandlerk(bot: Bot, update: Update):
     message = update.effective_message
     anime = message.text[len('/ud '):]
     msg = grabk(anime)
-    update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=False)
+    update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=True)
 
 __help__ = """
 Get information about anime, manga or characters from [MyAnimeList](https://myanimelist.net).
