@@ -177,6 +177,13 @@ Once you've setup your database and your configuration is complete, simply run t
 
 </details>
 
+
+
+You can use [nssm](https://nssm.cc/usage) to install the bot as service on windows and set it to restart on /gitpull 
+Make sure to edit the start and restart bats to your needs. 
+Note: the restart bat requires that User account control be disabled.
+
+For queries or any issues regarding the bot please open an issue ticket or visit us at [One Punch Support](https://t.me/OnePunchSupport)
 ## How to setup on Heroku 
 For starters click on this button
 
@@ -189,11 +196,6 @@ Turn on worker dyno (Don't worry It's free :D)
 Now send the bot /start , If it doesn't respond go to https://dashboard.heroku.com/apps/<app-name>/settings and remove webhook and port.  
   
 
-You can use [nssm](https://nssm.cc/usage) to install the bot as service on windows and set it to restart on /gitpull 
-Make sure to edit the start and restart bats to your needs. 
-Note: the restart bat requires that User account control be disabled.
-
-For queries or any issues regarding the bot please open an issue ticket or visit us at [One Punch Support](https://t.me/OnePunchSupport)
 ## Credits
 The bot is based of on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
 This repo was just reamped to suit an Anime-centric community. All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
