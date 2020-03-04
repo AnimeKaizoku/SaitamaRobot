@@ -15,12 +15,8 @@ def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
 
     chats = user_sql.get_all_chats()
     kicked_chats = 0
-    count = 0
     chat_list = []
     for chat in chats:
-        if count == 25:
-            break
-        count += 1
         id = chat.chat_id
         sleep(0.1)
         try:
@@ -42,13 +38,9 @@ def get_invalid_gban(bot: Bot, update: Update, remove: bool = False):
 
     banned = gban_sql.get_gban_list()
     ungbanned_users = 0
-    count = 0
     ungban_list = []
 
     for user in banned:
-        if count == 25:
-            break
-        count += 1
         user_id = user["user_id"]
         sleep(0.1)
         try:
