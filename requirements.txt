@@ -1,5 +1,6 @@
 future
 emoji
+beautifulsoup4
 requests
 sqlalchemy
 python-telegram-bot>=10.1.0
