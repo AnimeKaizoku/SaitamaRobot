@@ -18,45 +18,6 @@ prequel_btn = "⬅️ Prequel"
 sequel_btn = "Sequel ➡️"
 close_btn = "Close ❌"
 
-
-def grab(anime):
-    
-    html_text = requests.get('https://animekaizoku.com/?s={}'.format(anime)).text
-    soup = bs4.BeautifulSoup(html_text, "html.parser")
-    search_result = soup.find_all("h2", {'class':"post-title"})
-
-    if search_result:
-        result = "Search Result For <b>{}</b> on AnimeKaizoku: \n".format(anime)
-        for entry in search_result:
-            post_link = entry.a['href']
-            post_name = html.escape(entry.text)
-            result += f"• <a href='{post_link}'>{post_name}</a>\n"
-    else:
-        result = "No Result Found"
-
-    return result
-
-
-def grabk(anime):
-
-
-    html_text = requests.get('https://animekayo.com/?s={}'.format(anime)).text
-    soup = bs4.BeautifulSoup(html_text, "html.parser")
-    search_result = soup.find_all("h2", {'class':"title"})
-
-    result = "Search Result For <b>{}</b> on AnimeKayo: \n".format(anime)
-    for entry in search_result:
-        
-        if entry.text.strip() == "Nothing Found":
-            result = "No result Found"
-            break
-
-        post_link = entry.a['href']
-        post_name = html.escape(entry.text.strip())
-        result += f"• <a href='{post_link}'>{post_name}</a>\n"
-
-    return result
-        
  
 def getKitsu(mal):
     # get kitsu id from mal id
@@ -452,31 +413,75 @@ def button(bot, update):
         else:
             query.answer("You are not allowed to use this.")
 
-@run_async
-def grabhandler(bot: Bot, update: Update):
+
+def site_search(bot: Bot, update: Update, site: str):
 
     message = update.effective_message
-    anime = message.text[len('/grab '):]
+    args = message.text.strip().split(" ", 1)
+    more_results = True
 
-    if anime == '':
-        update.effective_message.reply_text("Give something to search")
+    try:
+        search_query = args[1]
+    except IndexError:
+        message.reply_text("Give something to search")
         return
 
-    reply = grab(anime)
-    update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+    if site == "kaizoku":
+        search_url = "https://animekaizoku.com/?s={}".format(search_query)
+        html_text = requests.get(search_url).text
+        soup = bs4.BeautifulSoup(html_text, "html.parser")
+        search_result = soup.find_all("h2", {'class':"post-title"})
+
+        if search_result:
+            result = "<b>Search results for</b> <code>{}</code> <b>on</b> <code>AnimeKaizoku</code>: \n".format(html.escape(search_query))
+            for entry in search_result:
+                post_link = entry.a['href']
+                post_name = html.escape(entry.text)
+                result += f"• <a href='{post_link}'>{post_name}</a>\n"
+        else:
+            more_results = False
+            result = "<b>No result found for</b> <code>{}</code> <b>on</b> <code>AnimeKaizoku</code>".format(html.escape(search_query))
+
+    elif site == "kayo":
+        search_url = "https://animekayo.com/?s={}".format(search_query)
+        html_text = requests.get(search_url).text
+        soup = bs4.BeautifulSoup(html_text, "html.parser")
+        search_result = soup.find_all("h2", {'class':"title"})
+
+        result = "<b>Search results for</b> <code>{}</code> <b>on</b> <code>AnimeKayo</code>: \n".format(html.escape(search_query))
+        for entry in search_result:
+            
+            if entry.text.strip() == "Nothing Found":
+                result = "<b>No result found for</b> <code>{}</code> <b>on</b> <code>AnimeKayo</code>".format(html.escape(search_query))
+                more_results = False
+                break
+
+            post_link = entry.a['href']
+            post_name = html.escape(entry.text.strip())
+            result += f"• <a href='{post_link}'>{post_name}</a>\n"
+
+    buttons = [
+        [InlineKeyboardButton("See all results", url=search_url)]
+    ]
+
+    if more_results:
+        message.reply_text(result, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
+    else:
+        message.reply_text(result, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+
+
 
 @run_async
-def grabhandlerk(bot: Bot, update: Update):
+def kaizoku(bot: Bot, update: Update):
 
-    message = update.effective_message
-    anime = message.text[len('/grabk '):]
+    site_search(bot, update, "kaizoku")
 
-    if anime == '':
-        update.effective_message.reply_text("Give something to search")
-        return
 
-    reply = grabk(anime)
-    update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+@run_async
+def kayo(bot: Bot, update: Update):
+
+    site_search(bot, update, "kayo")
+
 
 __help__ = """
 Get information about anime, manga or characters from [MyAnimeList](https://myanimelist.net).
@@ -488,6 +493,8 @@ Get information about anime, manga or characters from [MyAnimeList](https://myan
  - /manga <manga>: returns information about the manga.
  - /user <user>: returns information about a MyAnimeList user.
  - /upcoming: returns a list of new anime in the upcoming seasons.
+ - /kaizoku <anime>: search an anime on animekaizoku.com
+ - /kayo <anime>: search an anime on animekayo.com
 
  """
 
@@ -496,18 +503,19 @@ CHARACTER_HANDLER = DisableAbleCommandHandler("character", character)
 MANGA_HANDLER = DisableAbleCommandHandler("manga", manga)
 USER_HANDLER = DisableAbleCommandHandler("user", user)
 UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
+KAIZOKU_SEARCH_HANDLER = DisableAbleCommandHandler("kaizoku", kaizoku)
+KAYO_SEARCH_HANDLER = DisableAbleCommandHandler("kayo", kayo)
 BUTTON_HANDLER = CallbackQueryHandler(button, pattern='anime_.*')
-GRABDLER = DisableAbleCommandHandler("grab", grabhandler)
-GRABDLERk= DisableAbleCommandHandler("grabk", grabhandlerk)
+
 dispatcher.add_handler(BUTTON_HANDLER)
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
 dispatcher.add_handler(USER_HANDLER)
+dispatcher.add_handler(KAIZOKU_SEARCH_HANDLER)
+dispatcher.add_handler(KAYO_SEARCH_HANDLER)
 dispatcher.add_handler(UPCOMING_HANDLER)
-dispatcher.add_handler(GRABDLER)
-dispatcher.add_handler(GRABDLERk)
 
 __mod_name__ = "MyAnimeList"
-__command_list__ = ["anime", "manga", "character", "user", "upcoming"]
-__handlers__ = [ANIME_HANDLER, CHARACTER_HANDLER, MANGA_HANDLER, USER_HANDLER, UPCOMING_HANDLER, BUTTON_HANDLER]
+__command_list__ = ["anime", "manga", "character", "user", "upcoming", "kaizoku", "kayo"]
+__handlers__ = [ANIME_HANDLER, CHARACTER_HANDLER, MANGA_HANDLER, USER_HANDLER, UPCOMING_HANDLER, KAIZOKU_SEARCH_HANDLER, KAYO_SEARCH_HANDLER, BUTTON_HANDLER]
