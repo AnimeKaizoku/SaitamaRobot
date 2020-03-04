@@ -17,6 +17,7 @@ def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
     kicked_chats = 0
     chat_list = []
     for chat in chats:
+
         id = chat.chat_id
         sleep(0.1)
         try:
@@ -130,6 +131,7 @@ def callback_button(bot: Bot, update: Update):
 
     query = update.callback_query
     message = query.message
+    chat_id = update.effective_chat.id
     query_type = query.data
 
     admin_list = [OWNER_ID] + DEV_USERS
@@ -137,20 +139,22 @@ def callback_button(bot: Bot, update: Update):
     bot.answer_callback_query(query.id)
     if query_type == "db_leave_chat":
         if query.from_user.id in admin_list:
+            message.delete()
             progress_message = message.reply_text("Leaving chats ...")
             chat_count = get_muted_chats(bot, update, True)
             progress_message.delete()
-            message.reply_text(f"Left {chat_count} chats.")
+            bot.sendMessage(chat_id, f"Left {chat_count} chats.")
         else:
             query.answer("You are not allowed to use this.")
     elif query_type == "db_cleanup":
         if query.from_user.id in admin_list:
+            message.delete()
             progress_message = message.reply_text("Cleaning up DB ...")
             invalid_chat_count = get_invalid_chats(bot, update, True)
             invalid_gban_count = get_invalid_gban(bot, update, True)
             progress_message.delete()
             reply = "Cleaned up {} chats and {} gbanned users from db.".format(invalid_chat_count, invalid_gban_count)
-            message.reply_text(reply)
+            bot.sendMessage(chat_id, reply)
         else:
             query.answer("You are not allowed to use this.")
 
