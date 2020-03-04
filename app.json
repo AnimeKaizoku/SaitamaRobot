@@ -39,6 +39,18 @@
          "description": "Your username",
          "value": "AnimeKaizoku"
       },
+      "DEV_USERS": {
+         "description": "ID of users who are Dev (can use /py etc.)",
+         "value": "660565862 792109647"
+      },
+      "GBAN_LOGS": {
+         "description": "Gban log channel",
+         "value": "-123"
+      },
+      "CASH_API_KEY": {
+         "description": "Required for currency converter",
+         "value": "-xyz"
+      },
       "PORT": {
          "description": "Port to use for your webhooks.",
          "required": false,
