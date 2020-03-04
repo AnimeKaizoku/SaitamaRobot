@@ -21,26 +21,26 @@ import requests as r
 
 def grab(anime):
     try:
-    searchstr = anime.replace(" ", "+")
-    html = r.get('https://animekaizoku.com/?s={}'.format(searchstr)).text
-    soup = bs(html,"html.parser")
-    msg = "Search Result For {} on AnimeKaizoku: \n".format(anime)
-    for xyz in soup.find_all("h2",{'class':"post-title"}):
-        msg += f"°[{xyz.get_text()}]({xyz.a['href']})\n"
+        searchstr = anime.replace(" ", "+")
+        html = r.get('https://animekaizoku.com/?s={}'.format(searchstr)).text
+        soup = bs(html,"html.parser")
+        msg = "Search Result For {} on AnimeKaizoku: \n".format(anime)
+        for xyz in soup.find_all("h2",{'class':"post-title"}):
+            msg += f"°[{xyz.get_text()}]({xyz.a['href']})\n"
     except:
         msg = "No Result Found"
     return msg
 
 def grabk(anime):
     try:
-    searchstr = anime.replace(" ", "+")
-    html = r.get('https://animekayo.com/?s={}'.format(searchstr))
-    soup = bs(html.text,"html.parser")
-    msg = "Search Result For {} on AnimeKayo: \n".format(anime)
-    for h in soup.find_all("h2",{'class':"title"}):
-        title = h.get_text().replace('\n','')
-        msg += f"°[{title}]"
-        msg += f"({h.a['href']})\n"
+        searchstr = anime.replace(" ", "+")
+        html = r.get('https://animekayo.com/?s={}'.format(searchstr))
+        soup = bs(html.text,"html.parser")
+        msg = "Search Result For {} on AnimeKayo: \n".format(anime)
+        for h in soup.find_all("h2",{'class':"title"}):
+            title = h.get_text().replace('\n','')
+            msg += f"°[{title}]"
+            msg += f"({h.a['href']})\n"
     except:
         msg = "No Result Found"
     return msg
