@@ -10,48 +10,82 @@ from tg_bot.modules.helper_funcs.chat_status import dev_plus
 import tg_bot.modules.sql.users_sql as user_sql
 import tg_bot.modules.sql.global_bans_sql as gban_sql
 
-@run_async
-@dev_plus
-def dbcleanup(bot: Bot, update: Update):
 
-    msg = update.effective_message
-    msg.reply_text("Cleaning up chats ...")
+def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
 
     chats = user_sql.get_all_chats()
     kicked_chats = 0
-
+    count = 0
+    chat_list = []
     for chat in chats:
+        if count == 25:
+            break
+        count += 1
         id = chat.chat_id
-        sleep(0.1) # Reduce floodwait
+        sleep(0.1)
         try:
             bot.get_chat(id, timeout=60)
         except (BadRequest, Unauthorized):
             kicked_chats += 1
-            user_sql.rem_chat(id)
+            chat_list.append(id)
 
-    if kicked_chats >= 1:
-        msg.reply_text("Done! {} chats were removed from the database!".format(kicked_chats))
+    if not remove:
+        return kicked_chats
     else:
-        msg.reply_text("No chats had to be removed from the database!")
+        for muted_chat in chat_list:
+            sleep(0.1)
+            user_sql.rem_chat(muted_chat)
+        return kicked_chats
 
-    msg.reply_text("Cleaning up gbans ...")
+
+def get_invalid_gban(bot: Bot, update: Update, remove: bool = False):
 
     banned = gban_sql.get_gban_list()
     ungbanned_users = 0
+    count = 0
+    ungban_list = []
 
     for user in banned:
+        if count == 25:
+            break
+        count += 1
         user_id = user["user_id"]
         sleep(0.1)
         try:
             bot.get_chat(user_id)
         except BadRequest:
             ungbanned_users += 1
-            gban_sql.ungban_user(user_id)
+            ungban_list.append(user_id)
 
-    if ungbanned_users >= 1:
-        msg.reply_text("Done! {} users were removed from the database!".format(ungbanned_users))
+    if not remove:
+        return ungbanned_users
     else:
-        msg.reply_text("No users had to be removed from the database!")
+        for user_id in ungban_list:
+            sleep(0.1)
+            gban_sql.ungban_user(user_id)
+        return ungbanned_users
+
+
+@run_async
+@dev_plus
+def dbcleanup(bot: Bot, update: Update):
+
+    msg = update.effective_message
+
+    msg.reply_text("Getting invalid chat count ...")
+    invalid_chat_count = get_invalid_chats(bot, update)
+
+    msg.reply_text("Getting invalid gbanned count ...")
+    invalid_gban_count = get_invalid_gban(bot, update)
+
+    reply = "Total invalid chats - {}\n".format(invalid_chat_count)
+    reply += "Total invalid gbanned users - {}".format(invalid_gban_count)
+
+    buttons = [
+        [InlineKeyboardButton("Cleanup DB", callback_data=f"db_cleanup")]
+    ]
+
+    update.effective_message.reply_text(reply, reply_markup=InlineKeyboardMarkup(buttons))
 
 
 def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
@@ -117,6 +151,17 @@ def callback_button(bot: Bot, update: Update):
             message.reply_text(f"Left {chat_count} chats.")
         else:
             query.answer("You are not allowed to use this.")
+    elif query_type == "db_cleanup":
+        if query.from_user.id in admin_list:
+            progress_message = message.reply_text("Cleaning up DB ...")
+            invalid_chat_count = get_invalid_chats(bot, update, True)
+            invalid_gban_count = get_invalid_gban(bot, update, True)
+            progress_message.delete()
+            reply = "Cleaned up {} chats and {} gbanned users from db.".format(invalid_chat_count, invalid_gban_count)
+            message.reply_text(reply)
+        else:
+            query.answer("You are not allowed to use this.")
+
 
 
 DB_CLEANUP_HANDLER = CommandHandler("dbcleanup", dbcleanup)
