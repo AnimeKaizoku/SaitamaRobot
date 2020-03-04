@@ -362,7 +362,7 @@ def user(bot: Bot, update: Update):
 
     buttons = [
         [InlineKeyboardButton(info_btn, url=user['url'])],
-        [InlineKeyboardButton(close_btn, callback_data=f"close, {message.from_user.id}")]
+        [InlineKeyboardButton(close_btn, callback_data=f"anime_close, {message.from_user.id}")]
     ]
 
     update.effective_message.reply_photo(photo=img, caption=caption, parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=False)
@@ -394,6 +394,7 @@ def button(bot, update):
 
     user_and_admin_list = [original_user_id, OWNER_ID] + SUDO_USERS + DEV_USERS
     
+    bot.answer_callback_query(query.id)
     if query_type == "anime_close":
         if query.from_user.id in user_and_admin_list:
             message.delete()
