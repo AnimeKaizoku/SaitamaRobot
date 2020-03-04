@@ -437,14 +437,14 @@ def button(bot, update):
 @run_async
 def grabhandler(bot: Bot, update: Update):
     message = update.effective_message
-    anime = message.text.strip().split(" ", 1)
+    anime = message.text[len('/ud '):]
     msg = grab(anime)
     update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=False)
 
 @run_async
 def grabhandlerk(bot: Bot, update: Update):
     message = update.effective_message
-    anime = message.text.strip().split(" ", 1)
+    anime = message.text[len('/ud '):]
     msg = grabk(anime)
     update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=False)
 
