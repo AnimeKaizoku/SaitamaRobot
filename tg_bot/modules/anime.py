@@ -16,13 +16,8 @@ prequel_btn = "⬅️ Prequel"
 sequel_btn = "Sequel ➡️"
 close_btn = "Close ❌"
 
-#for grabbing
-from telegram.utils import helpers
 from bs4 import BeautifulSoup as bs
 import requests as r
-
-kayo_deeplink = 'grabk'
-kaizoku_deeplink = 'grab'
 
 def grab(anime):
     searchstr = anime.replace(" ", "+")
@@ -176,11 +171,8 @@ def get_anime_manga(mal_id, search_type, user_id):
             pass
 
     if search_type == "anime_anime":
-        bot = context.bot
-        kaizoku_deeplink = kaizoku_deeplink + f"({result['title']})"
-        kayo_deeplink = kayo_deeplink + f"({result['title']})"
-        kaizoku = helpers.create_deep_linked_url(bot.get_me().username, kaizoku_deeplink)
-        kayo = helpers.create_deep_linked_url(bot.get_me().username, kayo_deeplink)
+        kaizoku = f"https://animekaizoku.com/?s={result['title']}"
+        kayo = f"https://animekayo.com/?s={result['title']}"
 
         buttons.append(
             [InlineKeyboardButton(kaizoku_btn, url=kaizoku), InlineKeyboardButton(kayo_btn, url=kayo)]
@@ -441,10 +433,6 @@ def button(bot, update):
             progress_message.delete()
         else:
             query.answer("You are not allowed to use this.")
-
-
-def deeplink_kaizoku(update, context):
-    print(context.args)
 
 __help__ = """
 Get information about anime, manga or characters from [MyAnimeList](https://myanimelist.net).
