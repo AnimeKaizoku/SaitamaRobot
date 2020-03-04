@@ -1,0 +1,87 @@
+{
+   "addons": [
+      {
+         "options": {
+            "version": "9.5"
+         },
+         "plan": "heroku-postgresql"
+      }
+   ],
+   "description": "An Anime themed Telegram group management bot.",
+   "env": {
+      "ALLOW_EXCL": {
+         "description": "Set this to True if you want ! to be a command prefix along with /",
+         "value": "True"
+      },
+      "BAN_STICKER": {
+         "description": "ID of the sticker you want to use when banning people.",
+         "required": false,
+         "value": "CAADBQADfQADv7rGI0wxx1ORU7UzAg"
+      },
+      "DEL_CMDS": {
+         "description": "Set this to True if you want to delete command messages from users who don't have the perms to run that command.",
+         "value": "True"
+      },
+      "DONATION_LINK": {
+         "description": "Optional: link where you would like to receive donations.",
+         "required": false,
+         "value": "https://www.paypal.me/PaulSonOfLars"
+      },
+      "ENV": {
+         "description": "Setting this to ANYTHING will enable environment variables.",
+         "value": "ANYTHING"
+      },
+      "OWNER_ID": {
+         "description": "Your user ID as an integer.",
+         "value": "792109647"
+      },
+      "OWNER_USERNAME": {
+         "description": "Your username",
+         "value": "AnimeKaizoku"
+      },
+      "PORT": {
+         "description": "Port to use for your webhooks.",
+         "required": false,
+         "value": "8443"
+      },
+      "STRICT_GBAN": {
+         "description": "Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.",
+         "value": "True"
+      },
+      "SUDO_USERS": {
+         "description": "A space separated list of user IDs who you want to assign as sudo users.",
+         "value": "459034222 189005567 660565862 346981140 367222759"
+      },
+      "SUPPORT_USERS": {
+         "description": "A space separated list of user IDs who you wanna assign as support users(gban perms only).",
+         "value": "615304572"
+      },
+      "TOKEN": {
+         "description": "Your bot token.",
+         "value": ""
+      },
+      "URL": {
+         "description": "The Heroku App URL :-  https://<appname>.herokuapp.com/",
+         "required": false,
+         "value": ""
+      },
+      "WEBHOOK": {
+         "description": "Setting this to ANYTHING will enable webhooks.",
+         "required": false,
+         "value": "ANYTHING"
+      },
+      "WHITELIST_USERS": {
+         "description": "A space separated list of user IDs who you want to assign as whitelisted - can't be banned with your bot.",
+         "value": ""
+      }
+   },
+   "keywords": [
+      "telegram",
+      "weeb",
+      "group",
+      "manager",
+      "Saitama"
+   ],
+   "name": "Saitama Robot",
+   "repository": "https://github.com/AnimeKaizoku/SaitamaRobot"
+}
