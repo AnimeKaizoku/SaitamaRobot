@@ -22,7 +22,7 @@ import requests as r
 def grab(anime):
     searchstr = anime.replace(" ", "+")
     html = r.get('https://animekaizoku.com/?s={}'.format(searchstr)).text
-    soup = bs(html,"lxml")
+    soup = bs(html,"html")
     msg = "Search Result For {} on AnimeKaizoku: \n".format(anime)
     for xyz in soup.find_all("h2",{'class':"post-title"}):
         msg += f"°[{xyz.get_text()}]({xyz.a['href']})\n"
@@ -31,7 +31,7 @@ def grab(anime):
 def grabk(anime):
     searchstr = anime.replace(" ", "+")
     html = r.get('https://animekayo.com/?s={}'.format(searchstr))
-    soup = bs(html.text,"lxml")
+    soup = bs(html.text,"html")
     msg = "Search Result For {} on AnimeKayo: \n".format(anime)
     for h in soup.find_all("h2",{'class':"title"}):
         title = h.get_text().replace('\n','')
@@ -468,7 +468,7 @@ USER_HANDLER = DisableAbleCommandHandler("user", user)
 UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
 BUTTON_HANDLER = CallbackQueryHandler(button, pattern='anime_.*')
 GRABDLER = DisableAbleCommandHandler("grab", grabhandler)
-GRABDLERk= DisableAbleCommandHandler("grabk", grabhandler)
+GRABDLERk= DisableAbleCommandHandler("grabk", grabhandlerk)
 dispatcher.add_handler(BUTTON_HANDLER)
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
