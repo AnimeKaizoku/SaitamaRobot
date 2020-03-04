@@ -176,7 +176,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
     message.reply_text("I'll give {} a second chance, globally.".format(user_chat.first_name))
     messagerep = "{} has ungbanned user {}".format(mention_html(banner.id, banner.first_name),
                                                    mention_html(user_chat.id, user_chat.first_name))
-
+    start_time = time.time()
     if GBAN_LOGS:
         bot.send_message(GBAN_LOGS, messagerep, parse_mode=ParseMode.HTML)
     else:
@@ -215,8 +215,9 @@ def ungban(bot: Bot, update: Update, args: List[str]):
         bot.send_message(GBAN_LOGS, "un-gban complete!", parse_mode=ParseMode.HTML)
     else:
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "un-gban complete!")
-
-    message.reply_text("Person has been un-gbanned.")
+    end_time = time.time()
+    ungban_time = round((end_time - start_time), 3)
+    message.reply_text("Person has been un-gbanned.Took {}ms".format(ungban_time))
 
 @run_async
 def gbanlist(bot: Bot, update: Update):
