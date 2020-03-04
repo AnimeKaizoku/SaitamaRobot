@@ -434,6 +434,20 @@ def button(bot, update):
         else:
             query.answer("You are not allowed to use this.")
 
+@run_async
+def grabhandler(bot: Bot, update: Update):
+    message = update.effective_message
+    anime = message.text.strip().split(" ", 1)
+    msg = grab(anime)
+    update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=False)
+
+@run_async
+def grabhandlerk(bot: Bot, update: Update):
+    message = update.effective_message
+    anime = message.text.strip().split(" ", 1)
+    msg = grabk(anime)
+    update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=False)
+
 __help__ = """
 Get information about anime, manga or characters from [MyAnimeList](https://myanimelist.net).
 
@@ -453,13 +467,16 @@ MANGA_HANDLER = DisableAbleCommandHandler("manga", manga)
 USER_HANDLER = DisableAbleCommandHandler("user", user)
 UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
 BUTTON_HANDLER = CallbackQueryHandler(button, pattern='anime_.*')
-
+GRABDLER = DisableAbleCommandHandler("grab", grabhandler)
+GRABDLERk= DisableAbleCommandHandler("grabk", grabhandler)
 dispatcher.add_handler(BUTTON_HANDLER)
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
 dispatcher.add_handler(USER_HANDLER)
 dispatcher.add_handler(UPCOMING_HANDLER)
+dispatcher.add_handler(GRABDLER)
+dispatcher.add_handler(GRABDLERk)
 
 __mod_name__ = "MyAnimeList"
 __command_list__ = ["anime", "manga", "character", "user", "upcoming"]
