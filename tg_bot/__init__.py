@@ -20,6 +20,8 @@ ENV = bool(os.environ.get('ENV', False))
 
 if ENV:
     TOKEN = os.environ.get('TOKEN', None)
+    GBAN_LOGS = os.environ.get('GBAN_LOGS', None)
+    CASH_API_KEY = os.environ.get('CASH_API_KEY', None)
     try:
         OWNER_ID = int(os.environ.get('OWNER_ID', None))
     except ValueError:
