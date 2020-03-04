@@ -2,9 +2,11 @@ import requests
 import jikanpy
 import textwrap
 import datetime
+import html
+import bs4
 
-from telegram.ext import CallbackQueryHandler, run_async
 from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
+from telegram.ext import CallbackQueryHandler, run_async
 
 from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
@@ -16,34 +18,44 @@ prequel_btn = "⬅️ Prequel"
 sequel_btn = "Sequel ➡️"
 close_btn = "Close ❌"
 
-from bs4 import BeautifulSoup as bs
-import requests as r
 
 def grab(anime):
-    try:
-        searchstr = anime.replace(" ", "+")
-        html = r.get('https://animekaizoku.com/?s={}'.format(searchstr)).text
-        soup = bs(html,"html.parser")
-        msg = "Search Result For {} on AnimeKaizoku: \n".format(anime)
-        for xyz in soup.find_all("h2",{'class':"post-title"}):
-            msg += f"• [{xyz.get_text()}]({xyz.a['href']})\n"
-    except:
-        msg = "No Result Found"
-    return msg
+    
+    html_text = requests.get('https://animekaizoku.com/?s={}'.format(anime)).text
+    soup = bs4.BeautifulSoup(html_text, "html.parser")
+    search_result = soup.find_all("h2", {'class':"post-title"})
+
+    if search_result:
+        result = "Search Result For <b>{}</b> on AnimeKaizoku: \n".format(anime)
+        for entry in search_result:
+            post_link = entry.a['href']
+            post_name = html.escape(entry.text)
+            result += f"• <a href='{post_link}'>{post_name}</a>\n"
+    else:
+        result = "No Result Found"
+
+    return result
+
 
 def grabk(anime):
-    try:
-        searchstr = anime.replace(" ", "+")
-        html = r.get('https://animekayo.com/?s={}'.format(searchstr))
-        soup = bs(html.text,"html.parser")
-        msg = "Search Result For {} on AnimeKayo: \n".format(anime)
-        for h in soup.find_all("h2",{'class':"title"}):
-            title = h.get_text().replace('\n','')
-            msg += f"• [{title}]"
-            msg += f"({h.a['href']})\n"
-    except:
-        msg = "No Result Found"
-    return msg
+
+
+    html_text = requests.get('https://animekayo.com/?s={}'.format(anime)).text
+    soup = bs4.BeautifulSoup(html_text, "html.parser")
+    search_result = soup.find_all("h2", {'class':"title"})
+
+    result = "Search Result For <b>{}</b> on AnimeKayo: \n".format(anime)
+    for entry in search_result:
+        
+        if entry.text.strip() == "Nothing Found":
+            result = "No result Found"
+            break
+
+        post_link = entry.a['href']
+        post_name = html.escape(entry.text.strip())
+        result += f"• <a href='{post_link}'>{post_name}</a>\n"
+
+    return result
         
  
 def getKitsu(mal):
@@ -442,23 +454,29 @@ def button(bot, update):
 
 @run_async
 def grabhandler(bot: Bot, update: Update):
+
     message = update.effective_message
     anime = message.text[len('/grab '):]
-    if anime == '':
-        update.effective_message.reply_text("Give something to search")
-        exit()
-    msg = grab(anime)
-    update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=True)
 
-@run_async
-def grabhandlerk(bot: Bot, update: Update):
-    message = update.effective_message
-    anime = message.text[len('/grabk '):]
     if anime == '':
         update.effective_message.reply_text("Give something to search")
         return
-    msg = grabk(anime)
-    update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN,disable_web_page_preview=True)
+
+    reply = grab(anime)
+    update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+
+@run_async
+def grabhandlerk(bot: Bot, update: Update):
+
+    message = update.effective_message
+    anime = message.text[len('/grabk '):]
+
+    if anime == '':
+        update.effective_message.reply_text("Give something to search")
+        return
+
+    reply = grabk(anime)
+    update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
 __help__ = """
 Get information about anime, manga or characters from [MyAnimeList](https://myanimelist.net).
