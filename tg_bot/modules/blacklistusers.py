@@ -3,11 +3,11 @@
 from telegram import Message, User, Bot, Update, ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 
-from tg_bot import dispatcher, OWNER_ID
+from tg_bot import dispatcher, DEV_USERS
 
 import tg_bot.modules.sql.blacklistusers_sql as sql
 
-
+BLABLEUSERS = ['660565862'] #for testing
 @run_async
 def bl_user(bot: Bot, update: Update, args):
     if update.effective_message.reply_to_message:
@@ -64,9 +64,9 @@ def __user_info__(user_id):
     return text
            
     
-BL_HANDLER = CommandHandler("bluser", bl_user, pass_args=True, filters=Filters.user(OWNER_ID))
-UNBL_HANDLER = CommandHandler("unbluser", unbl_user, pass_args=True, filters=Filters.user(OWNER_ID))
-BLUSERS_HANDLER = CommandHandler("blusers", bl_users, filters=Filters.user(OWNER_ID))
+BL_HANDLER = CommandHandler("bluser", bl_user, pass_args=True, filters=Filters.user(BLABLEUSERS))
+UNBL_HANDLER = CommandHandler("unbluser", unbl_user, pass_args=True, filters=Filters.user(BLABLEUSERS))
+BLUSERS_HANDLER = CommandHandler("blusers", bl_users, filters=Filters.user(BLABLEUSERS))
 
 dispatcher.add_handler(BL_HANDLER)
 dispatcher.add_handler(UNBL_HANDLER)
