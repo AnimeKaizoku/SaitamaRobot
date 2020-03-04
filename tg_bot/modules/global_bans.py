@@ -146,7 +146,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "gban complete! (User banned in {} chats)".format(gbanned_chats))
     end_time = time.time()
     gban_time = round((end_time - start_time), 3)
-    message.reply_text("Done! This gban affected {} chats, Took {}ms".format(gbanned_chats, gban_time))
+    message.reply_text("Done! This gban affected {} chats, Took {}sec".format(gbanned_chats, gban_time))
     try:
         bot.send_message(user_id, "You have been globally banned from all groups where I have administrative permissions. If you think that this was a mistake, you may appeal your ban here: @onepunchsupport", parse_mode=ParseMode.HTML)
     except:
@@ -217,7 +217,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "un-gban complete!")
     end_time = time.time()
     ungban_time = round((end_time - start_time), 3)
-    message.reply_text("Person has been un-gbanned.Took {}ms".format(ungban_time))
+    message.reply_text("Person has been un-gbanned.Took {}sec".format(ungban_time))
 
 @run_async
 def gbanlist(bot: Bot, update: Update):
