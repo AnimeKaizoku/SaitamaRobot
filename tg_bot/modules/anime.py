@@ -26,7 +26,7 @@ def grab(anime):
         soup = bs(html,"html.parser")
         msg = "Search Result For {} on AnimeKaizoku: \n".format(anime)
         for xyz in soup.find_all("h2",{'class':"post-title"}):
-            msg += f"°[{xyz.get_text()}]({xyz.a['href']})\n"
+            msg += f"• [{xyz.get_text()}]({xyz.a['href']})\n"
     except:
         msg = "No Result Found"
     return msg
@@ -39,7 +39,7 @@ def grabk(anime):
         msg = "Search Result For {} on AnimeKayo: \n".format(anime)
         for h in soup.find_all("h2",{'class':"title"}):
             title = h.get_text().replace('\n','')
-            msg += f"°[{title}]"
+            msg += f"• [{title}]"
             msg += f"({h.a['href']})\n"
     except:
         msg = "No Result Found"
