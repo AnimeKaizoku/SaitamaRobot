@@ -1,10 +1,10 @@
 from time import sleep
 
-from telegram import Update, Bot
-from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, run_async
+from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.error import BadRequest, Unauthorized, ChatMigrated
+from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
 
-from tg_bot import dispatcher
+from tg_bot import dispatcher, OWNER_ID, DEV_USERS
 from tg_bot.modules.helper_funcs.chat_status import dev_plus
 
 import tg_bot.modules.sql.users_sql as user_sql
@@ -54,8 +54,77 @@ def dbcleanup(bot: Bot, update: Update):
         msg.reply_text("No users had to be removed from the database!")
 
 
+def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
+
+    chats = user_sql.get_all_chats()
+    muted_chats = 0
+    chat_list = []
+    for chat in chats:
+        id = chat.chat_id
+        sleep(0.1)
+        try:
+            bot.send_chat_action(id, "TYPING", timeout=60)
+        except (BadRequest, Unauthorized):
+            muted_chats += +1
+            chat_list.append(id)
+        except ChatMigrated:
+            pass
+
+    if not leave:
+        return muted_chats
+    else:
+        for muted_chat in chat_list:
+            sleep(0.1)
+            try:
+                bot.leaveChat(muted_chat, timeout=60)
+            except BadRequest:
+                pass
+            user_sql.rem_chat(muted_chat)
+        return muted_chats
+
+
+@run_async
+@dev_plus
+def leave_muted_chats(bot: Bot, update: Update):
+
+    message = update.effective_message
+    progress_message = message.reply_text("Getting chat count ...")
+    muted_chats = get_muted_chats(bot, update)
+
+    buttons = [
+        [InlineKeyboardButton("Leave chats", callback_data=f"db_leave_chat")]
+    ]
+
+    update.effective_message.reply_text(f"I am muted in {muted_chats} chats.", reply_markup=InlineKeyboardMarkup(buttons))
+    progress_message.delete()
+
+
+@run_async
+def callback_button(bot: Bot, update: Update):
+
+    query = update.callback_query
+    message = query.message
+    query_type = query.data
+
+    admin_list = [OWNER_ID] + DEV_USERS
+    
+    bot.answer_callback_query(query.id)
+    if query_type == "db_leave_chat":
+        if query.from_user.id in admin_list:
+            progress_message = message.reply_text("Leaving chats ...")
+            chat_count = get_muted_chats(bot, update, True)
+            progress_message.delete()
+            message.reply_text(f"Left {chat_count} chats.")
+        else:
+            query.answer("You are not allowed to use this.")
+
+
 DB_CLEANUP_HANDLER = CommandHandler("dbcleanup", dbcleanup)
+LEAVE_MUTED_CHATS_HANDLER = CommandHandler("leavemutedchats", leave_muted_chats)
+BUTTON_HANDLER = CallbackQueryHandler(callback_button, pattern='db_.*')
 
 dispatcher.add_handler(DB_CLEANUP_HANDLER)
+dispatcher.add_handler(LEAVE_MUTED_CHATS_HANDLER)
+dispatcher.add_handler(BUTTON_HANDLER)
 
 __mod_name__ = "DB Cleanup"
