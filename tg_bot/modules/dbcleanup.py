@@ -1,7 +1,7 @@
 from time import sleep
 
 from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.error import BadRequest, Unauthorized, ChatMigrated
+from telegram.error import BadRequest, Unauthorized, ChatMigrated, TimedOut
 from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
 
 from tg_bot import dispatcher, OWNER_ID, DEV_USERS
@@ -25,6 +25,8 @@ def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
         except (BadRequest, Unauthorized):
             kicked_chats += 1
             chat_list.append(id)
+        except TimedOut:
+            pass
 
     if not remove:
         return kicked_chats
@@ -49,6 +51,8 @@ def get_invalid_gban(bot: Bot, update: Update, remove: bool = False):
         except BadRequest:
             ungbanned_users += 1
             ungban_list.append(user_id)
+        except TimedOut:
+            pass
 
     if not remove:
         return ungbanned_users
