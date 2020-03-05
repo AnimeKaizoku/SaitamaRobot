@@ -59,9 +59,9 @@ def report(bot: Bot, update: Update) -> str:
 
     if chat and message.reply_to_message and sql.chat_should_report(chat.id):
         reported_user = message.reply_to_message.from_user  # type: Optional[User]
-        if reported_user.id == user.id or reported_user.id == bot.id:
+        if user.id == reported_user.id or reported_user.id == bot.id:
             message.reply_text("Uh yeah, Sure.")
-            return False
+            return
         
         if
         chat_name = chat.title or chat.first or chat.username
