@@ -241,6 +241,25 @@ HIT = (
 GMAPS_LOC = "https://maps.googleapis.com/maps/api/geocode/json"
 GMAPS_TIME = "https://maps.googleapis.com/maps/api/timezone/json"
 
+def get_readable_time(seconds: int) -> str:
+    result = ''
+    (days, remainder) = divmod(seconds, 86400)
+    days = int(days)
+    if days != 0:
+        result += f'{days}d'
+    (hours, remainder) = divmod(remainder, 3600)
+    hours = int(hours)
+    if hours != 0:
+        result += f'{hours}h'
+    (minutes, seconds) = divmod(remainder, 60)
+    minutes = int(minutes)
+    if minutes != 0:
+        result += f'{minutes}m'
+    seconds = int(seconds)
+    result += f'{seconds}s'
+    return result
+
+from tg_bot import StartTime
 @run_async
 def ping(bot: Bot, update: Update):
     start_time = time.time()
@@ -248,11 +267,8 @@ def ping(bot: Bot, update: Update):
     end_time = time.time()
     ping_time = round((end_time - start_time), 3)
     reply_msg = "PONG!!\n`{}s`".format(ping_time)
-
-    name = 'SaitamaRobot'
-    p = psutil.Process(psutil.win_service_get(name).as_dict()['pid'])
-    uptime = time.time()- p.create_time()
-    reply_msg += '\nService uptime: `{}`'.format(str(datetime.timedelta(seconds=uptime)))
+    uptime = get_readable_time((time.time() - StartTime))
+    reply_msg += '\nService uptime: `{}`'.format(uptime)
     update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.MARKDOWN)
 
 @run_async
