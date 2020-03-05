@@ -62,6 +62,7 @@ def report(bot: Bot, update: Update) -> str:
         if reported_user.id == user.id or reported_user.id == bot.id:
             message.reply_text("Uh yeah, Sure.")
             return False
+        
         if
         chat_name = chat.title or chat.first or chat.username
         admin_list = chat.get_administrators()
