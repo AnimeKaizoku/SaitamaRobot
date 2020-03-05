@@ -1,13 +1,14 @@
 import importlib
-from typing import Union, List
 
+from typing import List
 from future.utils import string_types
+
 from telegram import Bot, Update, ParseMode, MessageEntity
 from telegram.ext import CommandHandler, RegexHandler, MessageHandler, Filters
 from telegram.utils.helpers import escape_markdown
 
 from tg_bot import dispatcher
-from tg_bot.modules.helper_funcs.handlers import CMD_STARTERS
+from tg_bot.modules.helper_funcs.handlers import CMD_STARTERS, CustomCommandHandler
 from tg_bot.modules.helper_funcs.misc import is_module_loaded
 
 FILENAME = __name__.rsplit(".", 1)[-1]
@@ -15,16 +16,17 @@ FILENAME = __name__.rsplit(".", 1)[-1]
 # If module is due to be loaded, then setup all the magical handlers
 if is_module_loaded(FILENAME):
 
-    from tg_bot.modules.helper_funcs.chat_status import user_admin, is_user_admin, connection_status
     from telegram.ext.dispatcher import run_async
 
+    from tg_bot.modules.helper_funcs.chat_status import user_admin, is_user_admin, connection_status
     from tg_bot.modules.sql import disable_sql as sql
 
     DISABLE_CMDS = []
     DISABLE_OTHER = []
     ADMIN_CMDS = []
 
-    class DisableAbleCommandHandler(CommandHandler):
+    class DisableAbleCommandHandler(CustomCommandHandler):
+
         def __init__(self, command, callback, admin_ok=False, filters=None, **kwargs):
 
             super().__init__(command, callback, **kwargs)
@@ -46,22 +48,20 @@ if is_module_loaded(FILENAME):
 
             chat = update.effective_chat
             user = update.effective_user
-            message = update.effective_message
             
-            if (message.entities and message.entities[0].type == MessageEntity.BOT_COMMAND and message.entities[0].offset == 0):
+            if super().check_update(update):
+                
+                # Should be safe since check_update passed.
+                command = update.effective_message.text_html.split(None, 1)[0][1:].split('@')[0]
 
-                if super().check_update(update):
-                    # Should be safe since check_update passed.
-                    command = update.effective_message.text_html.split(None, 1)[0][1:].split('@')[0]
-
-                    # disabled, admincmd, user admin
-                    if sql.is_command_disabled(chat.id, command):
-                        if command in ADMIN_CMDS and is_user_admin(chat, user.id):
-                            return True
-
-                    # not disabled
-                    else:
+                # disabled, admincmd, user admin
+                if sql.is_command_disabled(chat.id, command):
+                    if command in ADMIN_CMDS and is_user_admin(chat, user.id):
                         return True
+
+                # not disabled
+                else:
+                    return True
 
 
     class DisableAbleMessageHandler(MessageHandler):
@@ -318,3 +318,4 @@ if is_module_loaded(FILENAME):
 else:
     DisableAbleCommandHandler = CommandHandler
     DisableAbleRegexHandler = RegexHandler
+    DisableAbleMessageHandler = MessageHandler
