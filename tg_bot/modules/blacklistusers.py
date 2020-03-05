@@ -32,6 +32,8 @@ def bl_users(bot: Bot, update: Update):
             rep += f"• <a href='tg://user?id={x}'>{name}</a> :- {reason}\n"
         else:
             rep += f"• <a href='tg://user?id={x}'>{name}</a>\n"
+    if rep == "<b>Blacklisted Users</b>\n":
+        rep += "The list is empty, Fill it plz"
     update.effective_message.reply_text(rep, parse_mode=ParseMode.HTML)
     
     
