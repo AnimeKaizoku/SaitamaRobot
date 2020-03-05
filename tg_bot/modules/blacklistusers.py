@@ -17,7 +17,7 @@ def bl_user(bot: Bot, update: Update, args):
         user_id = args[0]
         reason = " ".join(args[1:])
     sql.blacklist_user(user_id, reason)
-    update.effective_message.reply_text("User has been blacklisted from using me!")
+    update.effective_message.reply_text("I shall ignore the existence of this user!")
     
 
 @run_async 
@@ -45,9 +45,9 @@ def unbl_user(bot: Bot, update: Update, args):
         user_id = args[0]
     if sql.is_user_blacklisted(int(user_id)):
         sql.unblacklist_user(user_id)
-        rep.reply_text("User removed from blacklist!")
+        rep.reply_text("*notices user*")
     else:
-        rep.reply_text("User isn't even blacklisted!")
+        rep.reply_text("I am not ignoring them at all though!")
         
         
 def __user_info__(user_id):
