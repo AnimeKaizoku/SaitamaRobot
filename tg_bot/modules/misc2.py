@@ -271,6 +271,36 @@ def ping(bot: Bot, update: Update):
     reply_msg += '\nService uptime: `{}`'.format(uptime)
     update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.MARKDOWN)
 
+def pingsites(site):
+    if site == 'AnimeKayo' or site == 'AnimeKaizoku':
+        start_time = time.time()
+        r = requests.get('https://{}.com'.format(site))
+        end_time = time.time()
+        site_ping = round((end_time - start_time), 3)
+        reply_msg = "\n[{}]({}): `{}&{}`".format(site, r.url, site_ping, r.status_code, r.ok)
+    elif site == 'Telegram' or site == 'Jikan':
+        start_time = time.time()
+        if site == 'Telegram':
+            requests.get('https://api.telegram.org')
+        else:
+            requests.get('https://api.jikan.moe/v3')
+        end_time = time.time()
+        ping_time = round((end_time - start_time), 3)
+        reply_msg = "\n`{}: {}`".format(site, ping_time)
+    return reply_msg
+
+@run_async
+def pingall(bot: Bot, update: Update):
+    reply_msg = "⏱Ping results are:!"
+    reply_msg += pingsites('AnimeKaizoku')
+    reply_msg += pingsites('AnimeKayo')
+    reply_msg += '\n'
+    reply_msg += pingsites('Telegram')
+    reply_msg += pingsites('Jikan')
+    uptime = get_readable_time((time.time() - StartTime))
+    reply_msg += '\n`Service uptime: {}`'.format(uptime)
+    update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)    
+
 @run_async
 def runs(bot: Bot, update: Update):
     update.effective_message.reply_text(random.choice(RUN_STRINGS))
@@ -562,7 +592,7 @@ INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True)
 SLAP_REGEX_HANDLER = DisableAbleRegexHandler("(?i)bhag", slap, friendly="slap")
 ECHO_HANDLER = CommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
-
+PINGALL_HANDLER = DisableAbleCommandHandler("pingall", pingall)
 STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter | CustomFilters.dev_filter)
 
 dispatcher.add_handler(ID_HANDLER)
@@ -576,3 +606,4 @@ dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
 dispatcher.add_handler(SLAP_REGEX_HANDLER)
 dispatcher.add_handler(PING_HANDLER)
+dispatcher.add_handler(PINGALL_HANDLER)
