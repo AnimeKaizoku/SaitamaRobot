@@ -3,11 +3,11 @@
 from telegram import Message, User, Bot, Update, ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 
-from tg_bot import dispatcher, DEV_USERS
+from tg_bot import dispatcher, OWNER_ID
 
 import tg_bot.modules.sql.blacklistusers_sql as sql
 
-BLABLEUSERS = 660565862 #for testing
+BLABLEUSERS = OWNER_ID 
 @run_async
 def bl_user(bot: Bot, update: Update, args):
     if update.effective_message.reply_to_message:
