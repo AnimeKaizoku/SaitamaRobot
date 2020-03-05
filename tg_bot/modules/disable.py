@@ -1,6 +1,6 @@
 import importlib
 
-from typing import List
+from typing import Union, List
 from future.utils import string_types
 
 from telegram import Bot, Update, ParseMode, MessageEntity
