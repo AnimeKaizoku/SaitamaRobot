@@ -259,6 +259,7 @@ def get_readable_time(seconds: int) -> str:
     result += f'{seconds}s'
     return result
 
+from tg_bot import StartTime
 @run_async
 def ping(bot: Bot, update: Update):
     start_time = time.time()
@@ -266,7 +267,7 @@ def ping(bot: Bot, update: Update):
     end_time = time.time()
     ping_time = round((end_time - start_time), 3)
     reply_msg = "PONG!!\n`{}s`".format(ping_time)
-    uptime = get_readable_time((time.time() - botStartTime))
+    uptime = get_readable_time((time.time() - StartTime))
     reply_msg += '\nService uptime: `{}`'.format(uptime)
     update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.MARKDOWN)
 
