@@ -2,7 +2,7 @@ import html
 
 from typing import List
 
-from telegram import Bot, Update, ParseMode
+from telegram import Bot, Chat, Update, ParseMode
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CommandHandler, RegexHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
