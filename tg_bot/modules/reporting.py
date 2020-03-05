@@ -59,14 +59,12 @@ def report(bot: Bot, update: Update) -> str:
 
     if chat and message.reply_to_message and sql.chat_should_report(chat.id):
         reported_user = message.reply_to_message.from_user  # type: Optional[User]
-        if user.id == reported_user.id or reported_user.id == bot.id:
-            message.reply_text("Uh yeah, Sure.")
-            return
-        
-        if
         chat_name = chat.title or chat.first or chat.username
         admin_list = chat.get_administrators()
         messages = update.effective_message  # type: Optional[Message]
+        if user.id == reported_user.id or reported_user.id == bot.id:
+            message.reply_text("Uh yeah, Sure.")
+            return
         if chat.username and chat.type == Chat.SUPERGROUP:
             reported = "{} reported {} to the admins!".format(mention_html(user.id, user.first_name),
                                                               mention_html(reported_user.id, reported_user.first_name))
