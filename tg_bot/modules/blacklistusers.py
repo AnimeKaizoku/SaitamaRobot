@@ -4,10 +4,12 @@ from telegram import Message, User, Bot, Update, ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 
 from tg_bot import dispatcher, OWNER_ID
-
+from tg_bot import OWNER_ID as oi, DEV_USERS as du, SUDO_USERS as su, WHITELIST_USERS as wu, SUPPORT_USERS as gb
 import tg_bot.modules.sql.blacklistusers_sql as sql
 
-BLABLEUSERS = OWNER_ID 
+BLACKLISTWHITELIST = du + su + wu + gb
+BLACKLISTWHITELIST.insert(0, oi)
+BLABLEUSERS = du
 @run_async
 def bl_user(bot: Bot, update: Update, args):
     if update.effective_message.reply_to_message:
@@ -16,6 +18,9 @@ def bl_user(bot: Bot, update: Update, args):
     else:
         user_id = args[0]
         reason = " ".join(args[1:])
+    if int(user_id) in BLACKLISTWHITELIST:
+            update.effective_message.reply_text("No!\nNoticing Disasters is my job.")
+            return False
     sql.blacklist_user(user_id, reason)
     update.effective_message.reply_text("I shall ignore the existence of this user!")
     
@@ -33,7 +38,7 @@ def bl_users(bot: Bot, update: Update):
         else:
             rep += f"• <a href='tg://user?id={x}'>{name}</a>\n"
     if rep == "<b>Blacklisted Users</b>\n":
-        rep += "The list is empty, Fill it plz"
+        rep += "Noone is being ignored as of yet."
     update.effective_message.reply_text(rep, parse_mode=ParseMode.HTML)
     
     
