@@ -30,7 +30,7 @@ RUN_STRINGS = (
     "You run, you die.",
     "Jokes on you, I'm everywhere",
     "You're gonna regret that...",
-    "You could also try /kickme, I hear that's fun.",
+    "You could also try /punchme, I hear that's fun.",
     "Go bother someone else, no-one here cares.",
     "You can run, but you can't hide.",
     "Is that all you've got?",
