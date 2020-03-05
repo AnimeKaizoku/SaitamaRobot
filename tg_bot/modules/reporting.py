@@ -64,7 +64,7 @@ def report(bot: Bot, update: Update) -> str:
         messages = update.effective_message  # type: Optional[Message]
         if user.id == reported_user.id or reported_user.id == bot.id:
             messages.reply_text("Uh yeah, Sure.")
-            return False
+            return ""
         if chat.username and chat.type == Chat.SUPERGROUP:
             reported = "{} reported {} to the admins!".format(mention_html(user.id, user.first_name),
                                                               mention_html(reported_user.id, reported_user.first_name))
