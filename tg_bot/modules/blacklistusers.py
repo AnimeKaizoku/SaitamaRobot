@@ -64,9 +64,9 @@ def __user_info__(user_id):
     return text
            
     
-BL_HANDLER = CommandHandler("bluser", bl_user, pass_args=True, filters=Filters.user(BLABLEUSERS))
-UNBL_HANDLER = CommandHandler("unbluser", unbl_user, pass_args=True, filters=Filters.user(BLABLEUSERS))
-BLUSERS_HANDLER = CommandHandler("blusers", bl_users, filters=Filters.user(BLABLEUSERS))
+BL_HANDLER = CommandHandler("ignore", bl_user, pass_args=True, filters=Filters.user(BLABLEUSERS))
+UNBL_HANDLER = CommandHandler("notice", unbl_user, pass_args=True, filters=Filters.user(BLABLEUSERS))
+BLUSERS_HANDLER = CommandHandler("ignoredlist", bl_users, filters=Filters.user(BLABLEUSERS))
 
 dispatcher.add_handler(BL_HANDLER)
 dispatcher.add_handler(UNBL_HANDLER)
