@@ -28,13 +28,19 @@ from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_an
 def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
     
     message = update.effective_message
-    user = update.effective_user    
+    user = update.effective_user
+    chat = update.effective_chat
+
     user_id = extract_user(message, args)
-    user_member = update.effective_chat.get_member(user_id)
+    user_member = bot.getChat(user_id)
     rt, log_message = "", ""
 
     if not user_id:
         message.reply_text("I can't add a chat to sudo list!")
+        return log_message
+
+    if user_id == bot.id:
+        message.reply_text("Why are you adding me to my sudo list?")
         return log_message
 
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
@@ -60,13 +66,15 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
         json.dump(data, outfile, indent=4)
 
-    update.effective_message.reply_text(rt + "\nSuccessfully set Disaster level of {} to Dragon!".format(user_member.user.first_name))
-    log_message += "<b>{}:</b> "\
-                   "\n#SUDO "\
+    update.effective_message.reply_text(rt + "\nSuccessfully set Disaster level of {} to Dragon!".format(user_member.first_name))
+    
+    if chat.type != 'private':
+        log_message += "<b>{}:</b>\n".format(html.escape(chat.title))
+
+    log_message += "#SUDO"\
                    "\n<b>Admin:</b> {} "\
-                   "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
-                                                mention_html(user.id, user.first_name),
-                                                mention_html(user_member.user.id, user_member.user.first_name))
+                   "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
+                                              mention_html(user_member.id, user_member.first_name))
 
     return log_message
 
@@ -78,12 +86,18 @@ def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
 
     message = update.effective_message
     user = update.effective_user
+    chat = update.effective_chat
+
     user_id = extract_user(message, args)
-    user_member = update.effective_chat.get_member(user_id)
+    user_member = bot.getChat(user_id)
     log_message = ""
 
     if not user_id:
         message.reply_text("I can't remove a chat from sudo list!")
+        return log_message
+
+    if user_id == bot.id:
+        message.reply_text("Why are you removing me from my sudo list?")
         return log_message
 
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
@@ -96,15 +110,17 @@ def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
 
         with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
             json.dump(data, outfile, indent=4)
+    
+        if chat.type != 'private':
+            log_message += "<b>{}:</b>\n".format(html.escape(chat.title))
 
-        log_message += "<b>{}:</b>" \
-                       "\n#UNSUDO" \
-                       "\n<b>Admin:</b> {}" \
-                       "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
-                                                        mention_html(user.id, user.first_name),
-                                                        mention_html(user_member.user.id, user_member.user.first_name))
+        log_message += "#UNSUDO"\
+                       "\n<b>Admin:</b> {} "\
+                       "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
+                                                  mention_html(user_member.id, user_member.first_name))
     
         return log_message
+
     else:
         message.reply_text("This user is not a Dragon Disaster!")
         return log_message
@@ -117,12 +133,18 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
 
     message = update.effective_message
     user = update.effective_user
+    chat = update.effective_chat
+
     user_id = extract_user(message, args)
-    user_member = update.effective_chat.get_member(user_id)
+    user_member = bot.getChat(user_id)
     rt, log_message = "", ""
 
     if not user_id:
         message.reply_text("I can't add a chat to support list!")
+        return log_message
+
+    if user_id == bot.id:
+        message.reply_text("Why are you adding me to my support list?")
         return log_message
 
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
@@ -148,14 +170,15 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
         json.dump(data, outfile, indent=4)
     
-    update.effective_message.reply_text(rt + "\n{} was added as a Demon Disaster!".format(user_member.user.first_name))
+    update.effective_message.reply_text(rt + "\n{} was added as a Demon Disaster!".format(user_member.first_name))
     
-    log_message += "<b>{}:</b>" \
-                   "\n#SUPPORT" \
-                   "\n<b>Admin:</b> {}" \
-                   "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
-                                                mention_html(user.id, user.first_name),
-                                                mention_html(user_member.user.id, user_member.user.first_name))
+    if chat.type != 'private':
+        log_message += "<b>{}:</b>\n".format(html.escape(chat.title))
+
+    log_message += "#SUPPORT"\
+                   "\n<b>Admin:</b> {} "\
+                   "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
+                                              mention_html(user_member.id, user_member.first_name))
     
     return log_message
 
@@ -167,12 +190,18 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
 
     message = update.effective_message
     user = update.effective_user
+    chat = update.effective_chat
+
     user_id = extract_user(message, args)
-    user_member = update.effective_chat.get_member(user_id)
+    user_member = bot.getChat(user_id)
     log_message = ""
 
     if not user_id:
         message.reply_text("I can't remove a chat from support list!")
+        return log_message
+
+    if user_id == bot.id:
+        message.reply_text("Why are you removing me from my support list?")
         return log_message
 
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
@@ -185,15 +214,17 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
 
         with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
             json.dump(data, outfile, indent=4)
+    
+        if chat.type != 'private':
+            log_message += "<b>{}:</b>\n".format(html.escape(chat.title))
 
-        log_message += "<b>{}:</b>" \
-                       "\n#UNSUPPORT" \
-                       "\n<b>Admin:</b> {}" \
-                       "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
-                                                    mention_html(user.id, user.first_name),
-                                                    mention_html(user_member.user.id, user_member.user.first_name))
+        log_message += "#UNSUPPORT"\
+                       "\n<b>Admin:</b> {} "\
+                       "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
+                                                  mention_html(user_member.id, user_member.first_name))
         
         return log_message
+
     else:
         message.reply_text("This user is not a Demon level Disaster!")
         return ""
@@ -206,12 +237,18 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 
     message = update.effective_message
     user = update.effective_user
+    chat = update.effective_chat
+
     user_id = extract_user(message, args)
-    user_member = update.effective_chat.get_member(user_id)
+    user_member = bot.getChat(user_id)
     rt, log_message = "", ""
 
     if not user_id:
         message.reply_text("I can't add a chat to whitelist list!")
+        return log_message
+
+    if user_id == bot.id:
+        message.reply_text("Why are you adding me to my whitelist list?")
         return log_message
 
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
@@ -237,14 +274,15 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
         json.dump(data, outfile, indent=4)
 
-    update.effective_message.reply_text(rt + "\nSuccessfully promoted {} to a Wolf Disaster!".format(user_member.user.first_name))
+    update.effective_message.reply_text(rt + "\nSuccessfully promoted {} to a Wolf Disaster!".format(user_member.first_name))
     
-    log_message += "<b>{}:</b>" \
-                   "\n#WHITELIST" \
-                   "\n<b>Admin:</b> {}" \
-                   "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
-                                                mention_html(user.id, user.first_name),
-                                                mention_html(user_member.user.id, user_member.user.first_name))
+    if chat.type != 'private':
+        log_message += "<b>{}:</b>\n".format(html.escape(chat.title))
+
+    log_message += "#WHITELIST"\
+                   "\n<b>Admin:</b> {} "\
+                   "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
+                                              mention_html(user_member.id, user_member.first_name))
     
     return log_message
 
@@ -253,15 +291,22 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 @dev_plus
 @gloggable
 def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
+
     message = update.effective_message
     user = update.effective_user
+    chat = update.effective_chat
+
     user_id = extract_user(message, args)
-    user_member = update.effective_chat.get_member(user_id)
+    user_member = bot.getChat(user_id)
     log_message = ""
 
     if not user_id:
         message.reply_text("I can't remove a chat from whitelist list!")
         return ""
+
+    if user_id == bot.id:
+        message.reply_text("Why are you removing me from my whitelist list?")
+        return log_message
 
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
         data = json.load(infile)
@@ -273,13 +318,14 @@ def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 
         with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'w') as outfile:
             json.dump(data, outfile, indent=4)
+    
+        if chat.type != 'private':
+            log_message += "<b>{}:</b>\n".format(html.escape(chat.title))
 
-        log_message += "<b>{}:</b>" \
-                       "\n#UNWHITELIST" \
-                       "\n<b>Admin:</b> {}" \
-                       "\n<b>User:</b> {}".format(html.escape(update.effective_chat.title),
-                                                    mention_html(user.id, user.first_name),
-                                                    mention_html(user_member.user.id, user_member.user.first_name))
+        log_message += "#UNWHITELIST"\
+                       "\n<b>Admin:</b> {} "\
+                       "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
+                                                  mention_html(user_member.id, user_member.first_name))
         
         return log_message
     else:
@@ -478,6 +524,7 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
     log_message = ""
 
     user_id = extract_user(message, args)
+
     if not user_id:
         message.reply_text("You don't seem to be referring to a user.")
         return log_message
