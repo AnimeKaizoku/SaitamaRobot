@@ -1,20 +1,22 @@
 import html
-from typing import Optional, List
 
-from telegram import Message, Update, Bot, User
-from telegram import ParseMode, MAX_MESSAGE_LENGTH
+from typing import List
+
+from telegram import Bot, Update, ParseMode, MAX_MESSAGE_LENGTH
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown
 
-import tg_bot.modules.sql.userinfo_sql as sql
 from tg_bot import dispatcher, SUDO_USERS, DEV_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.extraction import extract_user
 
+import tg_bot.modules.sql.userinfo_sql as sql
+
 
 @run_async
 def about_me(bot: Bot, update: Update, args: List[str]):
-    message = update.effective_message  # type: Optional[Message]
+
+    message = update.effective_message
     user_id = extract_user(message, args)
 
     if user_id:
@@ -36,7 +38,8 @@ def about_me(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def set_about_me(bot: Bot, update: Update):
-    message = update.effective_message  # type: Optional[Message]
+
+    message = update.effective_message
     user_id = message.from_user.id
     if message.reply_to_message:
         repl_message = message.reply_to_message
@@ -45,11 +48,12 @@ def set_about_me(bot: Bot, update: Update):
             user_id = repl_user_id
     
     text = message.text
-    info = text.split(None, 1)  # use python's maxsplit to only remove the cmd, hence keeping newlines.
+    info = text.split(None, 1)
+
     if len(info) == 2:
         if len(info[1]) < MAX_MESSAGE_LENGTH // 4:
             sql.set_user_me_info(user_id, info[1])
-            if user_id==bot.id:
+            if user_id == bot.id:
                 message.reply_text("Updated my info!")
             else:
                 message.reply_text("Updated your info!")
@@ -60,7 +64,8 @@ def set_about_me(bot: Bot, update: Update):
 
 @run_async
 def about_bio(bot: Bot, update: Update, args: List[str]):
-    message = update.effective_message  # type: Optional[Message]
+
+    message = update.effective_message
 
     user_id = extract_user(message, args)
     if user_id:
@@ -82,20 +87,25 @@ def about_bio(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def set_about_bio(bot: Bot, update: Update):
-    message = update.effective_message  # type: Optional[Message]
+
+    message = update.effective_message
     sender_id = update.effective_user.id
+
     if message.reply_to_message:
         repl_message = message.reply_to_message
         user_id = repl_message.from_user.id
+
         if user_id == message.from_user.id:
             message.reply_text("Ha, you can't set your own bio! You're at the mercy of others here...")
             return
-        elif user_id == bot.id and sender_id not in SUDO_USERS and sender_id not in DEV_USERS:
+
+        if user_id == bot.id and sender_id not in SUDO_USERS and sender_id not in DEV_USERS:
             message.reply_text("Erm... yeah, I only trust sudo users or developers to set my bio.")
             return
 
         text = message.text
         bio = text.split(None, 1)  # use python's maxsplit to only remove the cmd, hence keeping newlines.
+
         if len(bio) == 2:
             if len(bio[1]) < MAX_MESSAGE_LENGTH // 4:
                 sql.set_user_bio(user_id, bio[1])
@@ -109,6 +119,7 @@ def set_about_bio(bot: Bot, update: Update):
 
 
 def __user_info__(user_id):
+    
     bio = html.escape(sql.get_user_bio(user_id) or "")
     me = html.escape(sql.get_user_me_info(user_id) or "")
     if bio and me:
@@ -128,8 +139,6 @@ __help__ = """
  - /me: will get your or another user's info
 """
 
-__mod_name__ = "Bios and Abouts"
-
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)
 GET_BIO_HANDLER = DisableAbleCommandHandler("bio", about_bio, pass_args=True)
 
@@ -140,3 +149,7 @@ dispatcher.add_handler(SET_BIO_HANDLER)
 dispatcher.add_handler(GET_BIO_HANDLER)
 dispatcher.add_handler(SET_ABOUT_HANDLER)
 dispatcher.add_handler(GET_ABOUT_HANDLER)
+
+__mod_name__ = "Bios and Abouts"
+__command_list__ = ["setbio", "bio", "setme", "me"]
+__handlers__ = [SET_BIO_HANDLER, GET_BIO_HANDLER, SET_ABOUT_HANDLER, GET_ABOUT_HANDLER]
