@@ -9,6 +9,7 @@ from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import mention_html
 
 from tg_bot import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, WHITELIST_USERS, SUPPORT_USERS
+from tg_bot.modules.helper_funcs.chat_status import dev_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user_and_text, extract_user
 from tg_bot.modules.log_channel import gloggable
 import tg_bot.modules.sql.blacklistusers_sql as sql
@@ -18,6 +19,7 @@ BLABLEUSERS = [OWNER_ID] + DEV_USERS
 
 
 @run_async
+@dev_plus
 @gloggable
 def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
 
@@ -60,6 +62,7 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
     
 
 @run_async
+@dev_plus
 @gloggable
 def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
 
@@ -101,7 +104,8 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
         return ""
 
 
-@run_async 
+@run_async
+@dev_plus
 def bl_users(bot: Bot, update: Update):
 
     reply = "<b>Blacklisted Users</b>\n"
@@ -139,9 +143,9 @@ def __user_info__(user_id):
     return text
 
     
-BL_HANDLER = CommandHandler("ignore", bl_user, pass_args=True, filters=Filters.user(BLABLEUSERS))
-UNBL_HANDLER = CommandHandler("notice", unbl_user, pass_args=True, filters=Filters.user(BLABLEUSERS))
-BLUSERS_HANDLER = CommandHandler("ignoredlist", bl_users, filters=Filters.user(BLABLEUSERS))
+BL_HANDLER = CommandHandler("ignore", bl_user, pass_args=True)
+UNBL_HANDLER = CommandHandler("notice", unbl_user, pass_args=True)
+BLUSERS_HANDLER = CommandHandler("ignoredlist", bl_users)
 
 dispatcher.add_handler(BL_HANDLER)
 dispatcher.add_handler(UNBL_HANDLER)
