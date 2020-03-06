@@ -186,7 +186,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
             pass
 
     if GBAN_LOGS:
-        log.reply_text("Gban complete! (User banned in {} chats)".format(gbanned_chats))
+        log.edit_text(log_message + "\n<b>Chats affected:</b> {}".format(gbanned_chats), parse_mode=ParseMode.HTML)
     else:
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "Gban complete! (User banned in {} chats)".format(gbanned_chats))
     
@@ -262,6 +262,8 @@ def ungban(bot: Bot, update: Update, args: List[str]):
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS, log_message, html=True)
 
     chats = get_all_chats()
+    ungbanned_chats = 0
+
     for chat in chats:
         chat_id = chat.chat_id
 
@@ -273,6 +275,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
             member = bot.get_chat_member(chat_id, user_id)
             if member.status == 'kicked':
                 bot.unban_chat_member(chat_id, user_id)
+                ungbanned_chats += 1
 
         except BadRequest as excp:
             if excp.message in UNGBAN_ERRORS:
@@ -290,8 +293,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
     sql.ungban_user(user_id)
 
     if GBAN_LOGS:
-        log.reply_text("un-gban complete!")
-        bot.send_message(GBAN_LOGS, "un-gban complete!", parse_mode=ParseMode.HTML)
+        log.edit_text(log_message + "\n<b>Chats affected:</b> {}".format(ungbanned_chats), parse_mode=ParseMode.HTML)
     else:
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "un-gban complete!")
 
