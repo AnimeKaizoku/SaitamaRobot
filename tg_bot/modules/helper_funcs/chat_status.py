@@ -111,6 +111,8 @@ def support_plus(func):
 
         if user and is_whitelist_plus(chat, user.id):
             return func(bot, update, *args, **kwargs)
+        elif DEL_CMDS and " " not in update.effective_message.text:
+            update.effective_message.delete()
 
     return is_support_plus_func
 
