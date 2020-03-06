@@ -36,11 +36,11 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
     rt, log_message = "", ""
 
     if not user_id:
-        message.reply_text("I can't add a chat to sudo list!")
+        message.reply_text("That...is a chat! baka ka omae?")
         return log_message
 
     if user_id == bot.id:
-        message.reply_text("Why are you adding me to my sudo list?")
+        message.reply_text("This does not work that way.")
         return log_message
 
     with open('{}/tg_bot/elevated_users.json'.format(os.getcwd()), 'r') as infile:
