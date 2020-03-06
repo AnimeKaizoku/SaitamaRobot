@@ -47,6 +47,9 @@ UNGBAN_ERRORS = {
 
 @run_async
 def gban(bot: Bot, update: Update, args: List[str]):
+    gbanners = SUDO_USERS + DEV_USERS + SUPPORT_USERS
+    if update.effective_user.id not in gbanners:
+        return
     message = update.effective_message  # type: Optional[Message]
 
     user_id, reason = extract_user_and_text(message, args)
@@ -159,6 +162,9 @@ def gban(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def ungban(bot: Bot, update: Update, args: List[str]):
+    gbanners = SUDO_USERS + DEV_USERS + SUPPORT_USERS
+    if update.effective_user.id not in gbanners:
+        return    
     message = update.effective_message  # type: Optional[Message]
 
     user_id = extract_user(message, args)
