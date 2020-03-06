@@ -32,8 +32,15 @@ class CustomCommandHandler(CommandHandler):
                 if len(fst_word) > 1 and any(fst_word.startswith(start) for start in CMD_STARTERS):
                     command = fst_word[1:].split('@')
                     command.append(message.bot.username)  # in case the command was sent without a username
+                    
+                    if self.filters is None:
+                        res = True
+                    elif isinstance(self.filters, list):
+                        res = any(func(message) for func in self.filters)
+                    else:
+                        res = self.filters(message)
 
-                    return (command[0].lower() in self.command
+                    return res and (command[0].lower() in self.command
                                     and command[1].lower() == message.bot.username.lower())
 
             return False
