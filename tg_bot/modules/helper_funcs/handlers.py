@@ -32,7 +32,7 @@ class CustomCommandHandler(CommandHandler):
                 if len(fst_word) > 1 and any(fst_word.startswith(start) for start in CMD_STARTERS):
                     command = fst_word[1:].split('@')
                     command.append(message.bot.username)  # in case the command was sent without a username
-                    
+
                     if self.filters is None:
                         res = True
                     elif isinstance(self.filters, list):

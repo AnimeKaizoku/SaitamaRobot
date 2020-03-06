@@ -31,10 +31,7 @@ if is_module_loaded(FILENAME):
 
             super().__init__(command, callback, **kwargs)
             self.admin_ok = admin_ok
-            if filters:
-                self.filters = Filters.command & filters
-            else:
-                self.filters = Filters.command
+            self.filters = filters
             if isinstance(command, string_types):
                 DISABLE_CMDS.append(command)
                 if admin_ok:
