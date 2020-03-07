@@ -1,5 +1,7 @@
 ![Saitama](https://wallpaperscave.com/images/original/18/04-25/anime-one-punch-man-44886.jpg)
 # Saitama Robot
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6141417ceaf84545bab6bd671503df51)](https://app.codacy.com/gh/AnimeKaizoku/SaitamaRobot?utm_source=github.com&utm_medium=referral&utm_content=AnimeKaizoku/SaitamaRobot&utm_campaign=Badge_Grade_Settings)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
 A modular telegram Python bot running on python3 with an sqlalchemy database.
 
 Originally a marie fork - Saitama has evolved further and was built to be more useful for Anime Chats. 
@@ -176,10 +178,6 @@ Once you've setup your database and your configuration is complete, simply run t
 
 `python3 -m tg_bot`
 
-</details>
-
-
-
 You can use [nssm](https://nssm.cc/usage) to install the bot as service on windows and set it to restart on /gitpull 
 Make sure to edit the start and restart bats to your needs. 
 Note: the restart bat requires that User account control be disabled.
@@ -189,14 +187,13 @@ For queries or any issues regarding the bot please open an issue ticket or visit
 For starters click on this button
 
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6141417ceaf84545bab6bd671503df51)](https://app.codacy.com/gh/AnimeKaizoku/SaitamaRobot?utm_source=github.com&utm_medium=referral&utm_content=AnimeKaizoku/SaitamaRobot&utm_campaign=Badge_Grade_Settings)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
 
 Fill in all the details , Deploy.
 Now go to https://dashboard.heroku.com/apps/(app-name)/resources ( Replace (app-name) with your app name )
 Turn on worker dyno (Don't worry It's free :D)
 Now send the bot /start , If it doesn't respond go to https://dashboard.heroku.com/apps/(app-name)/settings and remove webhook and port.  
-  
+</details>  
 
 ## Credits
 The bot is based of on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
