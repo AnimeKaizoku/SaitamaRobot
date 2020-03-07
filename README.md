@@ -199,5 +199,7 @@ Now send the bot /start , If it doesn't respond go to https://dashboard.heroku.c
 The bot is based of on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
 This repo was just reamped to suit an Anime-centric community. All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
 
+Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (will add it later, this note says unless its done)
+
 Any other authorship/credits can be seen through the commits.
 Should any be missing kindly let us know at [One Punch Support](https://t.me/OnePunchSupport) or simply submit a pull request on the readme.
