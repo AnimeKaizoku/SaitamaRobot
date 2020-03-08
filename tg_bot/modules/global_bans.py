@@ -195,9 +195,9 @@ def gban(bot: Bot, update: Update, args: List[str]):
 
     if gban_time > 60:
         gban_time = gban_time / 60
-        message.reply_text("Done! This gban affected {} chats, Took {} min".format(gbanned_chats, gban_time))
+        message.reply_text("Done! This gban affected {} chats, Took {} min".format(gbanned_chats, str(gban_time)[0:5]))
     else:
-        message.reply_text("Done! This gban affected {} chats, Took {} sec".format(gbanned_chats, gban_time))
+        message.reply_text("Done! This gban affected {} chats, Took {} sec".format(gbanned_chats, str(gban_time)[0:5]))
 
     try:
         bot.send_message(user_id, "You have been globally banned from all groups where I have administrative permissions. If you think that this was a mistake, you may appeal your ban here: @OnePunchSupport", parse_mode=ParseMode.HTML)
@@ -302,9 +302,9 @@ def ungban(bot: Bot, update: Update, args: List[str]):
 
     if ungban_time > 60:
         ungban_time = ungban_time / 60
-        message.reply_text("Person has been un-gbanned.Took {} min".format(ungban_time))
+        message.reply_text("Person has been un-gbanned.Took {} min".format(str(ungban_time)[0:5])) 
     else:
-        message.reply_text("Person has been un-gbanned.Took {} sec".format(ungban_time))
+        message.reply_text("Person has been un-gbanned.Took {} sec".format(str(ungban_time)[0:5]))
 
 
 @run_async
