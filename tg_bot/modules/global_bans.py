@@ -67,7 +67,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         return
 
     if int(user_id) in SUDO_USERS:
-        message.reply_text("I spy, with my little eye... a sudo user war! Why are you guys turning on each other?")
+        message.reply_text("I spy, with my little eye... a disaster! Why are you guys turning on each other?")
         return
 
     if int(user_id) in SUPPORT_USERS:
@@ -200,7 +200,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         message.reply_text("Done! This gban affected {} chats, Took {} sec".format(gbanned_chats, gban_time))
 
     try:
-        bot.send_message(user_id, "You have been globally banned from all groups where I have administrative permissions. If you think that this was a mistake, you may appeal your ban here: @onepunchsupport", parse_mode=ParseMode.HTML)
+        bot.send_message(user_id, "You have been globally banned from all groups where I have administrative permissions. If you think that this was a mistake, you may appeal your ban here: @OnePunchSupport", parse_mode=ParseMode.HTML)
     except:
         pass # bot probably blocked by user
 
@@ -333,7 +333,7 @@ def check_and_ban(update, user_id, should_message=True):
     if sql.is_user_gbanned(user_id):
         update.effective_chat.kick_member(user_id)
         if should_message:
-            update.effective_message.reply_text("This person is gbanned and im punching them out of here.\nYou can appeal your gban at @OnePunchSupport")
+            update.effective_message.reply_text("Alert: This user is globally banned.\n*bans them from here*.\nAppeal chat: @OnePunchSupport")
 
 
 @run_async
