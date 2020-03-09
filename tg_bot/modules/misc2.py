@@ -238,68 +238,6 @@ HIT = (
 
 )
 
-GMAPS_LOC = "https://maps.googleapis.com/maps/api/geocode/json"
-GMAPS_TIME = "https://maps.googleapis.com/maps/api/timezone/json"
-
-def get_readable_time(seconds: int) -> str:
-    result = ''
-    (days, remainder) = divmod(seconds, 86400)
-    days = int(days)
-    if days != 0:
-        result += f'{days}d'
-    (hours, remainder) = divmod(remainder, 3600)
-    hours = int(hours)
-    if hours != 0:
-        result += f'{hours}h'
-    (minutes, seconds) = divmod(remainder, 60)
-    minutes = int(minutes)
-    if minutes != 0:
-        result += f'{minutes}m'
-    seconds = int(seconds)
-    result += f'{seconds}s'
-    return result
-
-from tg_bot import StartTime
-@run_async
-def ping(bot: Bot, update: Update):
-    start_time = time.time()
-    requests.get('https://api.telegram.org')
-    end_time = time.time()
-    ping_time = round((end_time - start_time), 3)
-    reply_msg = "PONG!!\n`{}s`".format(ping_time)
-    uptime = get_readable_time((time.time() - StartTime))
-    reply_msg += '\nService uptime: `{}`'.format(uptime)
-    update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.MARKDOWN)
-
-def pingsites(site):
-    if site == 'AnimeKayo' or site == 'AnimeKaizoku':
-        start_time = time.time()
-        r = requests.get('https://{}.com'.format(site))
-        end_time = time.time()
-        site_ping = round((end_time - start_time), 3)
-        reply_msg = "\n[{}]({}): `{}&{}`".format(site, r.url, site_ping, r.status_code, r.ok)
-    elif site == 'Telegram' or site == 'Jikan':
-        start_time = time.time()
-        if site == 'Telegram':
-            requests.get('https://api.telegram.org')
-        else:
-            requests.get('https://api.jikan.moe/v3')
-        end_time = time.time()
-        ping_time = round((end_time - start_time), 3)
-        reply_msg = "\n`{}: {}`".format(site, ping_time)
-    return reply_msg
-
-@run_async
-def pingall(bot: Bot, update: Update):
-    reply_msg = "⏱Ping results are:"
-    reply_msg += pingsites('AnimeKaizoku').replace('AnimeKaizoku', 'Kaizoku') 
-    reply_msg += pingsites('AnimeKayo').replace('AnimeKayo', 'Kayo')
-    reply_msg += '\n'
-    reply_msg += pingsites('Telegram')
-    reply_msg += pingsites('Jikan')
-    uptime = get_readable_time((time.time() - StartTime))
-    reply_msg += '\n`Service uptime: {}`'.format(uptime)
-    update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)    
 
 @run_async
 def runs(bot: Bot, update: Update):
@@ -542,13 +480,11 @@ ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)
 IP_HANDLER = CommandHandler("ip", get_bot_ip, filters=Filters.chat(SUDO_USERS + DEV_USERS))
 
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
-PING_HANDLER = DisableAbleCommandHandler("ping", ping)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, pass_args=True)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True)
 SLAP_REGEX_HANDLER = DisableAbleRegexHandler("(?i)bhag", slap, friendly="slap")
 ECHO_HANDLER = CommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
-PINGALL_HANDLER = DisableAbleCommandHandler("pingall", pingall)
 STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter | CustomFilters.dev_filter)
 
 dispatcher.add_handler(ID_HANDLER)
@@ -560,5 +496,3 @@ dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
 dispatcher.add_handler(SLAP_REGEX_HANDLER)
-dispatcher.add_handler(PING_HANDLER)
-dispatcher.add_handler(PINGALL_HANDLER)
