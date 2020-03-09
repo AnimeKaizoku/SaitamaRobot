@@ -35,12 +35,12 @@ def generate_time(to_find: str, findtype: str):
             break
     
     try:
-        result = "<b>Country :</b> {}\n" \
-                 "<b>Zone Name :</b> {}\n" \
-                 "<b>Country Code :</b> {}\n" \
-                 "<b>DayLight saving :</b> {}\n" \
-                 "<b>Current Date :</b> {}\n" \
-                 "<b>Current Time :</b> {}".format(country_name, country_zone, country_code, daylight_saving, current_date, current_time)
+        result = "<b>Country :</b> <code>{}</code>\n" \
+                 "<b>Zone Name :</b> <code>{}</code>\n" \
+                 "<b>Country Code :</b> <code>{}</code>\n" \
+                 "<b>DayLight saving :</b> <code>{}</code>\n" \
+                 "<b>Current Date :</b> <code>{}</code>\n" \
+                 "<b>Current Time :</b> <code>{}</code>".format(country_name, country_zone, country_code, daylight_saving, current_date, current_time)
     except:
         result = None
 
@@ -55,7 +55,7 @@ def gettime(bot: Bot, update: Update):
     try:
         query_timezone = message.text.strip().split(" ", 1)[1]
     except:
-        message.reply_text("Provide a country name/timezone to find.")
+        message.reply_text("Provide a country name/abbreviation/timezone to find.")
         return
         
     if len(query_timezone) == 2:
@@ -75,7 +75,7 @@ def gettime(bot: Bot, update: Update):
 __help__ = """
  - /time <query> : Gives information about a timezone.
 
-Available queries : Country code/Country Name/TimeZone Name
+Available queries : Country Code/Country Name/Timezone Name
 """
 
 TIME_HANDLER = DisableAbleCommandHandler("time", gettime)
