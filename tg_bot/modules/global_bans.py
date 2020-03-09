@@ -117,25 +117,25 @@ def gban(bot: Bot, update: Update, args: List[str]):
 
     start_time = time.time()
     
-    owner = bot.getChat(OWNER_ID)
     datetime_fmt = "%H:%M - %d-%m-%Y"
     current_time = datetime.utcnow().strftime(datetime_fmt)
 
     if chat.type != 'private':
-        log_message += "<b>{}</b>\n".format(html.escape(chat.title))
+        chat_origin = "<b>{} ({})</b>\n".format(html.escape(chat.title), chat.id)
+    else:
+        chat_origin = "<b>{}</b>\n".format(chat.id)
 
-    log_message += "#GBANNED" \
-                   "\n<b>Bot Owner:</b> {}" \
-                   "\n<b>Originated from:</b> {}" \
-                   "\n<b>Admin:</b> {}" \
-                   "\n<b>Banned User:</b> {}" \
-                   "\n<b>Banned User ID:</b> {}" \
-                   "\n<b>Event Stamp:</b> {}".format(mention_html(owner.id, owner.first_name),
-                                                     chat.id,
-                                                     mention_html(user.id, user.first_name),
-                                                     mention_html(user_chat.id, user_chat.first_name),
-                                                     user_chat.id,
-                                                     current_time)
+
+    log_message = "#GBANNED" \
+                  "\n<b>Originated from:</b> {}" \
+                  "\n<b>Admin:</b> {}" \
+                  "\n<b>Banned User:</b> {}" \
+                  "\n<b>Banned User ID:</b> {}" \
+                  "\n<b>Event Stamp:</b> {}".format(chat_origin,
+                                                    mention_html(user.id, user.first_name),
+                                                    mention_html(user_chat.id, user_chat.first_name),
+                                                    user_chat.id,
+                                                    current_time)
 
     if reason:
         if chat.type == chat.SUPERGROUP and chat.username:
@@ -191,13 +191,13 @@ def gban(bot: Bot, update: Update, args: List[str]):
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "Gban complete! (User banned in {} chats)".format(gbanned_chats))
     
     end_time = time.time()
-    gban_time = round((end_time - start_time), 3)
+    gban_time = round((end_time - start_time), 2)
 
     if gban_time > 60:
-        gban_time = gban_time / 60
-        message.reply_text("Done! This gban affected {} chats, Took {} min".format(gbanned_chats, str(gban_time)[0:5]))
+        gban_time = round((gban_time / 60), 2)
+        message.reply_text("Done! This gban affected {} chats, Took {} min".format(gbanned_chats, gban_time))
     else:
-        message.reply_text("Done! This gban affected {} chats, Took {} sec".format(gbanned_chats, str(gban_time)[0:5]))
+        message.reply_text("Done! This gban affected {} chats, Took {} sec".format(gbanned_chats, gban_time))
 
     try:
         bot.send_message(user_id, "You have been globally banned from all groups where I have administrative permissions. If you think that this was a mistake, you may appeal your ban here: @OnePunchSupport", parse_mode=ParseMode.HTML)
@@ -233,25 +233,25 @@ def ungban(bot: Bot, update: Update, args: List[str]):
     
     start_time = time.time()
     
-    owner = bot.getChat(OWNER_ID)
     datetime_fmt = "%H:%M - %d-%m-%Y"
     current_time = datetime.utcnow().strftime(datetime_fmt)
 
     if chat.type != 'private':
-        log_message += "<b>{}</b>\n".format(html.escape(chat.title))
+        chat_origin = "<b>{} ({})</b>\n".format(html.escape(chat.title), chat.id)
+    else:
+        chat_origin = "<b>{}</b>\n".format(chat.id)
 
-    log_message += "#UNGBANNED" \
-                   "\n<b>Bot Owner:</b> {}" \
-                   "\n<b>Originated from:</b> {}" \
-                   "\n<b>Admin:</b> {}" \
-                   "\n<b>Unbanned User:</b> {}" \
-                   "\n<b>Unbanned User ID:</b> {}" \
-                   "\n<b>Event Stamp:</b> {}".format(mention_html(owner.id, owner.first_name),
-                                                     chat.id,
-                                                     mention_html(user.id, user.first_name),
-                                                     mention_html(user_chat.id, user_chat.first_name),
-                                                     user_chat.id,
-                                                     current_time)
+
+    log_message = "#UNGBANNED" \
+                  "\n<b>Originated from:</b> {}" \
+                  "\n<b>Admin:</b> {}" \
+                  "\n<b>Unbanned User:</b> {}" \
+                  "\n<b>Unbanned User ID:</b> {}" \
+                  "\n<b>Event Stamp:</b> {}".format(chat_origin,
+                                                    mention_html(user.id, user.first_name),
+                                                    mention_html(user_chat.id, user_chat.first_name),
+                                                    user_chat.id,
+                                                    current_time)
 
     if GBAN_LOGS:
         try:
@@ -298,13 +298,13 @@ def ungban(bot: Bot, update: Update, args: List[str]):
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "un-gban complete!")
 
     end_time = time.time()
-    ungban_time = round((end_time - start_time), 3)
+    ungban_time = round((end_time - start_time), 2)
 
     if ungban_time > 60:
-        ungban_time = ungban_time / 60
-        message.reply_text("Person has been un-gbanned.Took {} min".format(str(ungban_time)[0:5])) 
+        ungban_time = round((ungban_time / 60), 2)
+        message.reply_text("Person has been un-gbanned. Took {} min".format(ungban_time)) 
     else:
-        message.reply_text("Person has been un-gbanned.Took {} sec".format(str(ungban_time)[0:5]))
+        message.reply_text("Person has been un-gbanned. Took {} sec".format(ungban_time))
 
 
 @run_async
@@ -330,6 +330,7 @@ def gbanlist(bot: Bot, update: Update):
 
 
 def check_and_ban(update, user_id, should_message=True):
+    
     if sql.is_user_gbanned(user_id):
         update.effective_chat.kick_member(user_id)
         if should_message:
