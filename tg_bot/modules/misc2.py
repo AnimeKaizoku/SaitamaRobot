@@ -3,7 +3,7 @@ import json
 import os
 import psutil
 import random
-import time
+import time 
 import datetime
 from typing import Optional, List
 import re
@@ -291,9 +291,9 @@ def pingsites(site):
 
 @run_async
 def pingall(bot: Bot, update: Update):
-    reply_msg = "⏱Ping results are:!"
-    reply_msg += pingsites('AnimeKaizoku')
-    reply_msg += pingsites('AnimeKayo')
+    reply_msg = "⏱Ping results are:"
+    reply_msg += pingsites('AnimeKaizoku').replace('AnimeKaizoku', 'Kaizoku') 
+    reply_msg += pingsites('AnimeKayo').replace('AnimeKayo', 'Kayo')
     reply_msg += '\n'
     reply_msg += pingsites('Telegram')
     reply_msg += pingsites('Jikan')
