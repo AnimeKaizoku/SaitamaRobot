@@ -29,12 +29,12 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
 
                 date_fmt = r"%d-%m-%Y"
                 time_fmt = r"%H:%M:%S"
-                date_fmt = r"%A"
+                day_fmt = r"%A"
                 gmt_offset = zone['gmtOffset']
                 timestamp = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=gmt_offset)
                 current_date = timestamp.strftime(date_fmt)
                 current_time = timestamp.strftime(time_fmt)
-                current_day = timestamp.strftime(date_fmt)
+                current_day = timestamp.strftime(day_fmt)
 
                 break
     
