@@ -27,12 +27,14 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                 else:
                     daylight_saving = "No"
 
-                date_fmt = "%Y-%m-%d"
-                time_fmt = "%H:%M:%S"
+                date_fmt = r"%d-%m-%Y"
+                time_fmt = r"%H:%M:%S"
+                date_fmt = r"%A"
                 gmt_offset = zone['gmtOffset']
                 timestamp = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=gmt_offset)
                 current_date = timestamp.strftime(date_fmt)
                 current_time = timestamp.strftime(time_fmt)
+                current_day = timestamp.strftime(date_fmt)
 
                 break
     
@@ -40,9 +42,10 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
         result = "<b>Country :</b> <code>{}</code>\n" \
                  "<b>Zone Name :</b> <code>{}</code>\n" \
                  "<b>Country Code :</b> <code>{}</code>\n" \
-                 "<b>DayLight saving :</b> <code>{}</code>\n" \
+                 "<b>Daylight saving :</b> <code>{}</code>\n" \
+                 "<b>Day :</b> <code>{}</code>\n" \
                  "<b>Current Date :</b> <code>{}</code>\n" \
-                 "<b>Current Time :</b> <code>{}</code>".format(country_name, country_zone, country_code, daylight_saving, current_date, current_time)
+                 "<b>Current Time :</b> <code>{}</code>".format(country_name, country_zone, country_code, daylight_saving, current_day, current_date, current_time)
     except:
         result = None
 
