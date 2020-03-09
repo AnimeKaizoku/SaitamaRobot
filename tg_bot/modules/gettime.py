@@ -53,7 +53,7 @@ def gettime(bot: Bot, update: Update):
     message = update.effective_message
     
     try:
-        query_timezone = message.text.strip().split(" ", 1)[1]
+        query_timezone = message.text.strip().split(" ", 1)[1].lower()
     except:
         message.reply_text("Provide a country name/abbreviation/timezone to find.")
         return
