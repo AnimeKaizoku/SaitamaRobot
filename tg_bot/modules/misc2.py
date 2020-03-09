@@ -189,11 +189,11 @@ SLAP_TEMPLATES = (
     "{user2} was turned into a Jojo reference!",  
     "{user1} hits {user2} with {item}.",
 )
+
 PING_STRING = (
     "PONG!!",
     "I am here!",
 )
-
 
 ITEMS = (
     "cast iron skillet",
@@ -473,48 +473,6 @@ def info(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def get_time(bot: Bot, update: Update, args: List[str]):
-    location = " ".join(args)
-    if location.lower() == bot.first_name.lower():
-        update.effective_message.reply_text("It's always one punch time for me!")
-        bot.send_sticker(update.effective_chat.id, BAN_STICKER)
-        return
-
-    res = requests.get(GMAPS_LOC, params=dict(address=location))
-
-    if res.status_code == 200:
-        loc = json.loads(res.text)
-        if loc.get('status') == 'OK':
-            lat = loc['results'][0]['geometry']['location']['lat']
-            long = loc['results'][0]['geometry']['location']['lng']
-
-            country = None
-            city = None
-
-            address_parts = loc['results'][0]['address_components']
-            for part in address_parts:
-                if 'country' in part['types']:
-                    country = part.get('long_name')
-                if 'administrative_area_level_1' in part['types'] and not city:
-                    city = part.get('long_name')
-                if 'locality' in part['types']:
-                    city = part.get('long_name')
-
-            if city and country:
-                location = "{}, {}".format(city, country)
-            elif country:
-                location = country
-
-            timenow = int(datetime.datetime.utcnow().strftime("%s"))
-            res = requests.get(GMAPS_TIME, params=dict(location="{},{}".format(lat, long), timestamp=timenow))
-            if res.status_code == 200:
-                offset = json.loads(res.text)['dstOffset']
-                timestamp = json.loads(res.text)['rawOffset']
-                time_there = datetime.datetime.fromtimestamp(timenow + timestamp + offset).strftime("%H:%M:%S on %A %d %B")
-                update.message.reply_text("It's {} in {}".format(time_there, location))
-
-
-@run_async
 @user_admin
 def echo(bot: Bot, update: Update):
     args = update.effective_message.text.split(None, 1)
@@ -583,8 +541,6 @@ __mod_name__ = "Misc"
 ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)
 IP_HANDLER = CommandHandler("ip", get_bot_ip, filters=Filters.chat(SUDO_USERS + DEV_USERS))
 
-TIME_HANDLER = CommandHandler("time", get_time, pass_args=True)
-
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
 PING_HANDLER = DisableAbleCommandHandler("ping", ping)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, pass_args=True)
@@ -597,7 +553,6 @@ STATS_HANDLER = CommandHandler("stats", stats, filters=CustomFilters.sudo_filter
 
 dispatcher.add_handler(ID_HANDLER)
 dispatcher.add_handler(IP_HANDLER)
-dispatcher.add_handler(TIME_HANDLER)
 dispatcher.add_handler(RUNS_HANDLER)
 dispatcher.add_handler(SLAP_HANDLER)
 dispatcher.add_handler(INFO_HANDLER)
