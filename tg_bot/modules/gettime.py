@@ -2,37 +2,39 @@ import requests
 import json
 import datetime
 
+from typing import List
+
 from telegram import Bot, Update, ParseMode
 from telegram.ext import run_async
 
 from tg_bot import dispatcher, TIME_API_KEY
 from tg_bot.modules.disable import DisableAbleCommandHandler
 
-
-def generate_time(to_find: str, findtype: str):
+def generate_time(to_find: str, findtype: List[str]) -> str:
 
     data = requests.get(f"http://api.timezonedb.com/v2.1/list-time-zone?key={TIME_API_KEY}&format=json&fields=countryCode,countryName,zoneName,gmtOffset,timestamp,dst").json()
 
     for zone in data["zones"]:
-        if to_find in zone[findtype].lower():
-            
-            country_name = zone['countryName']
-            country_zone = zone['zoneName']
-            country_code = zone['countryCode']
+        for eachtype in findtype:
+            if to_find in zone[eachtype].lower():
+                
+                country_name = zone['countryName']
+                country_zone = zone['zoneName']
+                country_code = zone['countryCode']
 
-            if zone['dst'] == 1:
-                daylight_saving = "Yes"
-            else:
-                daylight_saving = "No"
+                if zone['dst'] == 1:
+                    daylight_saving = "Yes"
+                else:
+                    daylight_saving = "No"
 
-            date_fmt = "%Y-%m-%d"
-            time_fmt = "%H:%M:%S"
-            gmt_offset = zone['gmtOffset']
-            timestamp = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=gmt_offset)
-            current_date = timestamp.strftime(date_fmt)
-            current_time = timestamp.strftime(time_fmt)
+                date_fmt = "%Y-%m-%d"
+                time_fmt = "%H:%M:%S"
+                gmt_offset = zone['gmtOffset']
+                timestamp = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=gmt_offset)
+                current_date = timestamp.strftime(date_fmt)
+                current_time = timestamp.strftime(time_fmt)
 
-            break
+                break
     
     try:
         result = "<b>Country :</b> <code>{}</code>\n" \
@@ -53,23 +55,24 @@ def gettime(bot: Bot, update: Update):
     message = update.effective_message
     
     try:
-        query_timezone = message.text.strip().split(" ", 1)[1].lower()
+        query = message.text.strip().split(" ", 1)[1]
     except:
         message.reply_text("Provide a country name/abbreviation/timezone to find.")
         return
         
+    send_message = message.reply_text(f"Finding timezone info for <b>{query}</b>", parse_mode=ParseMode.HTML)
+
+    query_timezone = query.lower()
     if len(query_timezone) == 2:
-        result = generate_time(query_timezone, "countryCode")
-    elif "/" in query_timezone:
-        result = generate_time(query_timezone, "zoneName")
+        result = generate_time(query_timezone, ["countryCode"])
     else:
-        result = generate_time(query_timezone, "countryName")
+        result = generate_time(query_timezone, ["zoneName", "countryName"])
 
     if not result:
-        message.reply_text(f"Timezone info not available for {query_timezone}")
+        send_message.edit_text(f"Timezone info not available for <b>{query}</b>", parse_mode=ParseMode.HTML)
         return
 
-    message.reply_text(result, parse_mode=ParseMode.HTML)
+    send_message.edit_text(result, parse_mode=ParseMode.HTML)
 
 
 __help__ = """
