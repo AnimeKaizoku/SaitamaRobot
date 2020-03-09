@@ -57,7 +57,7 @@ def gettime(bot: Bot, update: Update):
     except:
         message.reply_text("Provide a country name/timezone to find.")
         return
-    print(query_timezone)
+        
     if len(query_timezone) == 2:
         result = generate_time(query_timezone, "countryCode")
     elif "/" in query_timezone:
