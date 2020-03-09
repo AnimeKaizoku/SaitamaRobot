@@ -44,8 +44,8 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                  "<b>Country Code :</b> <code>{}</code>\n" \
                  "<b>Daylight saving :</b> <code>{}</code>\n" \
                  "<b>Day :</b> <code>{}</code>\n" \
-                 "<b>Current Date :</b> <code>{}</code>\n" \
-                 "<b>Current Time :</b> <code>{}</code>".format(country_name, country_zone, country_code, daylight_saving, current_day, current_date, current_time)
+                 "<b>Current Time :</b> <code>{}</code>\n" \
+                 "<b>Current Date :</b> <code>{}</code>".format(country_name, country_zone, country_code, daylight_saving, current_day, current_time, current_date)
     except:
         result = None
 
