@@ -101,22 +101,22 @@ def new_member(bot: Bot, update: Update):
             # Give the owner a special welcome
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text("Whoa! A member of the Heroes Association just joined!")
-                return "{}\n#USER_JOINED\n <b>User</b>:{}\n<b>ID</b>:".format(html.escape(chat.title), mention_html(user.id, user.first_name), user.id)
+                return "{}\n#USER_JOINED\n<b>User</b>:{}\n<b>ID</b>:{}".format(html.escape(chat.title), mention_html(user.id, user.first_name), user.id)
 
             # Welcome Sudos 
             elif new_mem.id in SUDO_USERS:
                 update.effective_message.reply_text("Huh! A Dragon disaster just joined! Stay Alert!")
-                return "{}\n#USER_JOINED\n <b>User</b>:{}\n<b>ID</b>:".format(html.escape(chat.title), mention_html(user.id, user.first_name), user.id)
+                return "{}\n#USER_JOINED\n<b>User</b>:{}\n<b>ID</b>:{}".format(html.escape(chat.title), mention_html(user.id, user.first_name), user.id)
 			
             # Welcome Support
             elif new_mem.id in SUPPORT_USERS:
                 update.effective_message.reply_text("Huh! Someone with a Demon disaster level just joined!")
-                return "{}\n#USER_JOINED\n <b>User</b>:{}\n<b>ID</b>:".format(html.escape(chat.title), mention_html(user.id, user.first_name), user.id)
+                return "{}\n#USER_JOINED\n<b>User</b>:{}\n<b>ID</b>:{}".format(html.escape(chat.title), mention_html(user.id, user.first_name), user.id)
 		
             # Welcome Whitelisted
             elif new_mem.id in WHITELIST_USERS:
                 update.effective_message.reply_text("A disaster level Wolf just joined!")
-                return "{}\n#USER_JOINED\n <b>User</b>:{}\n<b>ID</b>:".format(html.escape(chat.title), mention_html(user.id, user.first_name), user.id)		
+                return "{}\n#USER_JOINED\n<b>User</b>:{}\n<b>ID</b>:{}".format(html.escape(chat.title), mention_html(user.id, user.first_name), user.id)		
 
             # Don't welcome yourself
             elif new_mem.id == bot.id:
@@ -193,7 +193,7 @@ def new_member(bot: Bot, update: Update):
 
             if sent:
                 sql.set_clean_welcome(chat.id, sent.message_id)
-        return "{}\n#USER_JOINED\n <b>User</b>:{}\n<b>ID</b>:".format(html.escape(chat.title), mention_html(user.id, user.first_name), user.id)
+        return "{}\n#USER_JOINED\n<b>User</b>:{}\n<b>ID</b>:{}".format(html.escape(chat.title), mention_html(user.id, user.first_name), user.id)
 
 @run_async
 def left_member(bot: Bot, update: Update):
