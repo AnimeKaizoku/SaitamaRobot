@@ -2,7 +2,7 @@ import threading
 
 from sqlalchemy import Column, UnicodeText, Boolean, Integer
 
-from emilia.modules.sql import BASE, SESSION
+from tg_bot.modules.sql import BASE, SESSION
 
 
 class CleanerBlueText(BASE):
@@ -19,10 +19,22 @@ class CleanerBlueText(BASE):
         return "clean blue text for {}".format(self.chat_id)
 
 
+class CleanerIgnoreCommand(BASE):
+    __tablename__ = "cleaner_ignore_commands"
+
+    ignore_command = Column(UnicodeText, primary_key=True)
+
+    def __init__(self, ignore_command):
+        self.ignore_command = ignore_command
+
+
 CleanerBlueText.__table__.create(checkfirst=True)
-INSERTION_LOCK = threading.RLock()
+CleanerIgnoreCommand.__table__.create(checkfirst=True)
+CLEANER_TEXT_INSERTION_LOCK = threading.RLock()
+CLEANER_IGNORE_INSERTION_LOCK = threading.RLock()
 
 CLEANER_BT_CHATS = []
+IGNORE_COMMANDS = []
 
 
 def is_enable(chat_id):
@@ -30,7 +42,7 @@ def is_enable(chat_id):
 
 
 def set_cleanbt(chat_id, is_enable):
-    with INSERTION_LOCK:
+    with CLEANER_TEXT_INSERTION_LOCK:
         curr = SESSION.query(CleanerBlueText).get(str(chat_id))
         if not curr:
             curr = CleanerBlueText(str(chat_id), is_enable)
@@ -46,6 +58,46 @@ def set_cleanbt(chat_id, is_enable):
 
         SESSION.add(curr)
         SESSION.commit()
+
+
+def add_clean_ignorecommand(ignore):
+    with CLEANER_IGNORE_INSERTION_LOCK:
+        ignored = SESSION.query(CleanerIgnoreCommand).get(str(ignore))
+
+        if not ignored:
+            IGNORE_COMMANDS.append(ignore)
+
+            ignored = CleanerIgnoreCommand(str(ignore))
+            SESSION.add(ignored)
+            SESSION.commit()
+            return True
+
+        SESSION.close()
+        return False
+
+
+def remove_clean_ignorecommand(unignore):
+    with CLEANER_IGNORE_INSERTION_LOCK:
+        ignored = SESSION.query(CleanerIgnoreCommand).get(str(unignore))
+
+        if ignored:
+            if unignore in IGNORE_COMMANDS:  # sanity check
+                IGNORE_COMMANDS.remove(unignore)
+
+            SESSION.delete(ignored)
+            SESSION.commit()
+            return True
+
+        SESSION.close()
+        return False
+
+
+def is_command_ignored(cmd):
+    return str(cmd).lower() in IGNORE_COMMANDS
+
+
+def get_all_ignored():
+    return IGNORE_COMMANDS
 
 
 def __load_cleaner_chats():
