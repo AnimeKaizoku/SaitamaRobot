@@ -14,10 +14,12 @@ from telegram.ext import CommandHandler, run_async, Filters, RegexHandler
 from telegram import Message, Chat, Update, Bot, User, ParseMode, InlineKeyboardMarkup, MAX_MESSAGE_LENGTH
 
 #do not async
-def getData(url):
+def getData(url, index):
     if not api.getData(url):
         return "Invalid <user>/<repo> combo"
-    recentRelease = api.getLastestReleaseData(api.getData(url))
+    recentRelease = api.getReleaseData(api.getData(url), index)
+    if recentRelease is None:
+        return "The specified release could not be found"
     author = api.getAuthor(recentRelease)
     authorUrl = api.getAuthorUrl(recentRelease)
     name = api.getReleaseName(recentRelease)
@@ -43,17 +45,20 @@ def getRepo(bot, update, reponame):
     chat_id = update.effective_chat.id
     repo = sql.get_repo(str(chat_id), reponame)
     if repo:
-        return repo.value
+        return repo.value, repo.backoffset
     return None
 
 @run_async
 def getRelease(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message
-    if(len(args) != 1):
+    if(len(args) != 1 and not (len(args) == 2 and args[1].isdigit())):
         msg.reply_text("Please specify a valid combination of <user>/<repo>")
         return
+    index = 0
+    if len(args) == 2:
+        index = int(args[1])
     url = args[0]
-    text = getData(url)
+    text = getData(url, index)
     msg.reply_text(text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
     return
 
@@ -63,8 +68,8 @@ def hashFetch(bot: Bot, update: Update): #kanged from notes
     msg = update.effective_message
     fst_word = message.split()[0]
     no_hash = fst_word[1:]
-    url = getRepo(bot, update, no_hash)
-    text = getData(url)
+    url, index = getRepo(bot, update, no_hash)
+    text = getData(url, index)
     msg.reply_text(text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
     return
     
@@ -74,8 +79,8 @@ def cmdFetch(bot: Bot, update: Update, args: List[str]):
     if(len(args) != 1):
         msg.reply_text("Invalid repo name")
         return
-    url = getRepo(bot, update, args[0])
-    text = getData(url)
+    url, index = getRepo(bot, update, args[0])
+    text = getData(url, index)
     msg.reply_text(text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
     return
     
@@ -85,12 +90,12 @@ def changelog(bot: Bot, update: Update, args: List[str]):
     if(len(args) != 1):
         msg.reply_text("Invalid repo name")
         return
-    url = getRepo(bot, update, args[0])
+    url, index = getRepo(bot, update, args[0])
     if not api.getData(url):
         msg.reply_text("Invalid <user>/<repo> combo")
         return
     data = api.getData(url)
-    release = api.getLastestReleaseData(data)
+    release = api.getReleaseData(data, index)
     body = api.getBody(release)
     msg.reply_text(body)
     return
@@ -101,10 +106,13 @@ def changelog(bot: Bot, update: Update, args: List[str]):
 def saveRepo(bot: Bot, update: Update, args: List[str]):
     chat_id = update.effective_chat.id
     msg = update.effective_message
-    if(len(args) != 2):
-        msg.reply_text("Invalid data, use <reponame> <user>/<repo>")
+    if(len(args) != 2 and (len(args) != 3 and not args[2].isdigit())):
+        msg.reply_text("Invalid data, use <reponame> <user>/<repo> <value (optional)>")
         return
-    sql.add_repo_to_db(str(chat_id), args[0], args[1])
+    index = 0
+    if len(args) == 3:
+        index = int(args[2])
+    sql.add_repo_to_db(str(chat_id), args[0], args[1], index)
     msg.reply_text("Repo shortcut saved successfully!")
     return
     
