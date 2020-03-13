@@ -32,7 +32,7 @@ def paste(bot: Bot, update: Update, args: List[str]):
 
     url = 'https://nekobin.com/' + key
 
-    reply_text = 'Nekofied to Nekobin : `{}`'.format(url)
+    reply_text = 'Nekofied to *Nekobin* : {}'.format(url)
 
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
