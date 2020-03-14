@@ -41,7 +41,7 @@ def paste(bot: Bot, update: Update, args: List[str]):
 
 @dev_plus
 @run_async 
-def speedtest(bot: Bot, update: Update):
+def speedtestxyz(bot: Bot, update: Update):
   s = speedtest.Speedtest()
   s.get_best_server()
   s.download()
@@ -50,7 +50,7 @@ def speedtest(bot: Bot, update: Update):
   update.effective_message.reply_photo(photo=speedtest_image, caption = 'Done!')
 
 PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, pass_args=True)
-SpeedTest_handler = DisableAbleCommandHandler("speedtest", speedtest)
+SpeedTest_handler = DisableAbleCommandHandler("speedtest", speedtestxyz)
 dispatcher.add_handler(SpeedTest_handler)
 dispatcher.add_handler(PASTE_HANDLER)
 
