@@ -57,6 +57,10 @@
          "description": "Required for currency converter",
          "value": "-xyz"
       },
+      "TIME_API_KEY": {
+         "description": "Required for timezone information",
+         "value": "-xyz"
+      },
       "PORT": {
          "description": "Port to use for your webhooks.",
          "required": false,

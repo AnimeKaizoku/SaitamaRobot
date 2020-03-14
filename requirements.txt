@@ -19,3 +19,4 @@ CurrencyConverter
 #translator
 googletrans
 jikanpy
+speedtest-cli
