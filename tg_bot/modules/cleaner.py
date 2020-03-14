@@ -17,7 +17,7 @@ else:
 
 BLUE_TEXT_CLEAN_GROUP = 15
 CommandHandlerList = (CommandHandler, CustomCommandHandler, DisableAbleCommandHandler)
-command_list = ["cleanbluetext", "ignorecleanbluetext", "unignorecleanbluetext", "listcleanbluetext"]
+command_list = ["cleanbluetext", "ignorecleanbluetext", "unignorecleanbluetext", "listcleanbluetext", "ignoreglobalcleanbluetext", "unignoreglobalcleanbluetext"]
 
 for handler_list in dispatcher.handlers:
     for handler in dispatcher.handlers[handler_list]:
@@ -26,26 +26,26 @@ for handler_list in dispatcher.handlers:
 
 
 @run_async
-@bot_can_delete
 def clean_blue_text_must_click(bot: Bot, update: Update):
 
     chat = update.effective_chat
     message = update.effective_message
 
-    if sql.is_enabled(chat.id):
-        fst_word = message.text.strip().split(None, 1)[0]
+    if chat.get_member(bot.id).can_delete_messages:
+        if sql.is_enabled(chat.id):
+            fst_word = message.text.strip().split(None, 1)[0]
 
-        if len(fst_word) > 1 and any(fst_word.startswith(start) for start in CMD_STARTERS):
+            if len(fst_word) > 1 and any(fst_word.startswith(start) for start in CMD_STARTERS):
 
-            command = fst_word[1:].split('@')
-            chat = update.effective_chat
+                command = fst_word[1:].split('@')
+                chat = update.effective_chat
 
-            ignored = sql.is_command_ignored(chat.id, command[0])
-            if ignored:
-                return
+                ignored = sql.is_command_ignored(chat.id, command[0])
+                if ignored:
+                    return
 
-            if command[0] not in command_list:
-                message.delete()
+                if command[0] not in command_list:
+                    message.delete()
 
 
 @run_async
@@ -126,6 +126,46 @@ def remove_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
+def add_bluetext_ignore_global(bot: Bot, update: Update, args: List[str]):
+
+    message = update.effective_message
+
+    if len(args) >= 1:
+        val = args[0].lower()
+        added = sql.global_ignore_command(val)
+        if added:
+            reply = "<b>{}</b> has been added to global bluetext cleaner ignore list.".format(args[0])
+        else:
+            reply = "Command is already ignored."
+        message.reply_text(reply, parse_mode=ParseMode.HTML)
+        
+    else:
+        reply = "No command supplied to be ignored."
+        message.reply_text(reply)
+
+
+@run_async
+@dev_plus
+def remove_bluetext_ignore_global(bot: Bot, update: Update, args: List[str]):
+
+    message = update.effective_message
+
+    if len(args) >= 1:
+        val = args[0].lower()
+        removed = sql.global_unignore_command(val)
+        if removed:
+            reply = "<b>{}</b> has been removed from global bluetext cleaner ignore list.".format(args[0])
+        else:
+            reply = "Command isn't ignored currently."
+        message.reply_text(reply, parse_mode=ParseMode.HTML)
+        
+    else:
+        reply = "No command supplied to be unignored."
+        message.reply_text(reply)
+
+
+@run_async
+@dev_plus
 def bluetext_ignore_list(bot: Bot, update: Update):
 
     message = update.effective_message
@@ -165,15 +205,20 @@ __help__ = """
 SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("cleanbluetext", set_blue_text_must_click, pass_args=True)
 ADD_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("ignorecleanbluetext", add_bluetext_ignore, pass_args=True)
 REMOVE_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("unignorecleanbluetext", remove_bluetext_ignore, pass_args=True)
+ADD_CLEAN_BLUE_TEXT_GLOBAL_HANDLER = CommandHandler("ignoreglobalcleanbluetext", add_bluetext_ignore_global, pass_args=True)
+REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER = CommandHandler("unignoreglobalcleanbluetext", remove_bluetext_ignore_global, pass_args=True)
 LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("listcleanbluetext", bluetext_ignore_list)
 CLEAN_BLUE_TEXT_HANDLER = MessageHandler(Filters.command & Filters.group, clean_blue_text_must_click)
 
 dispatcher.add_handler(SET_CLEAN_BLUE_TEXT_HANDLER)
 dispatcher.add_handler(ADD_CLEAN_BLUE_TEXT_HANDLER)
 dispatcher.add_handler(REMOVE_CLEAN_BLUE_TEXT_HANDLER)
+dispatcher.add_handler(ADD_CLEAN_BLUE_TEXT_GLOBAL_HANDLER)
+dispatcher.add_handler(REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER)
 dispatcher.add_handler(LIST_CLEAN_BLUE_TEXT_HANDLER)
 dispatcher.add_handler(CLEAN_BLUE_TEXT_HANDLER, BLUE_TEXT_CLEAN_GROUP)
 
 __mod_name__ = "Bluetext Cleaning"
 __handlers__ = [SET_CLEAN_BLUE_TEXT_HANDLER, ADD_CLEAN_BLUE_TEXT_HANDLER, REMOVE_CLEAN_BLUE_TEXT_HANDLER,
+                ADD_CLEAN_BLUE_TEXT_GLOBAL_HANDLER, REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER,
                 LIST_CLEAN_BLUE_TEXT_HANDLER, (CLEAN_BLUE_TEXT_HANDLER, BLUE_TEXT_CLEAN_GROUP)]
