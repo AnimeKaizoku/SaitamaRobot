@@ -122,7 +122,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
                               can_pin_messages=False,
                               can_promote_members=False)
 
-        bot.sendMessage(chat.id, f"Sucessfully demoted <b>{user_member.user.first_name or user_id}</b>!".,
+        bot.sendMessage(chat.id, f"Sucessfully demoted <b>{user_member.user.first_name or user_id}</b>!",
                         parse_mode=ParseMode.HTML)
 
         log_message += (f"<b>{html.escape(chat.title)}:</b>\n"
