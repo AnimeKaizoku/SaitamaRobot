@@ -3,14 +3,12 @@ from typing import List
 from telegram import Update, Bot
 from telegram.ext import run_async
 
-from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot import dispatcher
+from tg_bot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
 def shout(bot: Bot, update: Update, args: List[str]):
-
-    msg = "```"
     text = " ".join(args)
     result = []
     result.append(' '.join([s for s in text]))
@@ -21,7 +19,8 @@ def shout(bot: Bot, update: Update, args: List[str]):
     result = "".join(result)
     msg = "```\n" + result + "```"
     return update.effective_message.reply_text(msg, parse_mode="MARKDOWN")
-    
+
+
 __help__ = """
  A little piece of fun wording! Give a loud shout out in the chatroom.
  

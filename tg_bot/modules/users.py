@@ -6,7 +6,6 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 
 import tg_bot.modules.sql.users_sql as sql
-
 from tg_bot import dispatcher, OWNER_ID, LOGGER, DEV_USERS
 from tg_bot.modules.helper_funcs.chat_status import sudo_plus, dev_plus
 
@@ -49,7 +48,6 @@ def get_user_id(username):
 @run_async
 @dev_plus
 def broadcast(bot: Bot, update: Update):
-
     to_send = update.effective_message.text.split(None, 1)
 
     if len(to_send) >= 2:
@@ -63,13 +61,12 @@ def broadcast(bot: Bot, update: Update):
                 failed += 1
                 LOGGER.warning("Couldn't send broadcast to %s, group name %s", str(chat.chat_id), str(chat.chat_name))
 
-        update.effective_message.reply_text("Broadcast complete. {} groups failed to receive the message, probably "
-                                            "due to being kicked.".format(failed))
+        update.effective_message.reply_text(
+            f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked.")
 
 
 @run_async
 def log_user(bot: Bot, update: Update):
-
     chat = update.effective_chat
     msg = update.effective_message
 
@@ -92,11 +89,10 @@ def log_user(bot: Bot, update: Update):
 @run_async
 @sudo_plus
 def chats(bot: Bot, update: Update):
-
     all_chats = sql.get_all_chats() or []
     chatfile = 'List of chats.\n'
     for chat in all_chats:
-        chatfile += "{} - ({})\n".format(chat.chat_name, chat.chat_id)
+        chatfile += f"{chat.chat_name} - ({chat.chat_id})\n"
 
     with BytesIO(str.encode(chatfile)) as output:
         output.name = "chatlist.txt"
@@ -108,11 +104,11 @@ def __user_info__(user_id):
     if user_id == dispatcher.bot.id:
         return """I've seen them in... Wow. Are they stalking me? They're in all the same places I am... oh. It's me."""
     num_chats = sql.get_user_num_chats(user_id)
-    return """I've seen them in <code>{}</code> chats in total.""".format(num_chats)
+    return f"""I've seen them in <code>{num_chats}</code> chats in total."""
 
 
 def __stats__():
-    return "{} users, across {} chats".format(sql.num_users(), sql.num_chats())
+    return f"{sql.num_users()} users, across {sql.num_chats()} chats"
 
 
 def __migrate__(old_chat_id, new_chat_id):
