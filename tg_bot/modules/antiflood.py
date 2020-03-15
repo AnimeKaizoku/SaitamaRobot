@@ -1,5 +1,4 @@
 import html
-
 from typing import List
 
 from telegram import Bot, Update, ParseMode
@@ -18,7 +17,6 @@ FLOOD_GROUP = 3
 @run_async
 @loggable
 def check_flood(bot: Bot, update: Update) -> str:
-
     user = update.effective_user
     chat = update.effective_chat
     msg = update.effective_message
@@ -39,20 +37,19 @@ def check_flood(bot: Bot, update: Update) -> str:
     try:
         chat.kick_member(user.id)
         msg.reply_text("*bans user*\nReason: Flood")
-        log_message = "<b>{}:</b>" \
-               "\n#BANNED" \
-               "\n<b>User:</b> {}" \
-               "\nFlooded the group.".format(html.escape(chat.title),
-                                             mention_html(user.id, user.first_name))
+        log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
+                       f"#BANNED\n"
+                       f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
+                       f"Flooded the group.")
 
         return log_message
 
     except BadRequest:
         msg.reply_text("I can't kick people here, give me permissions first! Until then, I'll disable antiflood.")
         sql.set_flood(chat.id, 0)
-        log_message = "<b>{}:</b>" \
-               "\n#INFO" \
-               "\nDon't have kick permissions, so automatically disabled antiflood.".format(chat.title)
+        log_message = ("<b>{chat.title}:</b>\n"
+                       "#INFO\n"
+                       "Don't have kick permissions, so automatically disabled antiflood.")
 
         return log_message
 
@@ -63,7 +60,6 @@ def check_flood(bot: Bot, update: Update) -> str:
 @can_restrict
 @loggable
 def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
-
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -90,10 +86,10 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
             if amount <= 0:
                 sql.set_flood(chat.id, 0)
                 message.reply_text("Antiflood has been disabled{}.".format(chat_name), parse_mode=ParseMode.HTML)
-                log_message = "<b>{}:</b>" \
-                              "\n#SETFLOOD" \
-                              "\n<b>Admin</b>: {}" \
-                              "\nDisabled antiflood.".format(html.escape(chat.title), mention_html(user.id, user.first_name))
+                log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
+                               f"#SETFLOOD\n"
+                               f"<b>Admin</b>: {mention_html(user.id, user.first_name)}\n"
+                               f"Disabled antiflood.")
 
                 return log_message
             elif amount < 3:
@@ -102,12 +98,12 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 
             else:
                 sql.set_flood(chat.id, amount)
-                message.reply_text("Antiflood has been updated and set to {}{}".format(amount, chat_name), parse_mode=ParseMode.HTML)
-                log_message = "<b>{}:</b>" \
-                              "\n#SETFLOOD" \
-                              "\n<b>Admin</b>: {}" \
-                              "\nSet antiflood to <code>{}</code>.".format(html.escape(chat.title),
-                                                                    mention_html(user.id, user.first_name), amount)
+                message.reply_text("Antiflood has been updated and set to {}{}".format(amount, chat_name),
+                                   parse_mode=ParseMode.HTML)
+                log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
+                               f"#SETFLOOD\n"
+                               f"<b>Admin</b>: {mention_html(user.id, user.first_name)}\n"
+                               f"Set antiflood to <code>{amount}</code>.")
 
                 return log_message
         else:
@@ -119,7 +115,6 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @connection_status
 def flood(bot: Bot, update: Update):
-
     chat = update.effective_chat
     update_chat_title = chat.title
     message_chat_title = update.effective_message.chat.title
@@ -132,10 +127,12 @@ def flood(bot: Bot, update: Update):
     limit = sql.get_flood_limit(chat.id)
 
     if limit == 0:
-        update.effective_message.reply_text("I'm not currently enforcing flood control{}!".format(chat_name), parse_mode=ParseMode.HTML)
+        update.effective_message.reply_text(f"I'm not currently enforcing flood control{chat_name}!",
+                                            parse_mode=ParseMode.HTML)
     else:
-        update.effective_message.reply_text(
-            "I'm currently punching users if they send more than {} consecutive messages{}.".format(limit, chat_name), parse_mode=ParseMode.HTML)
+        update.effective_message.reply_text(f"I'm currently punching users if they send "
+                                            f"more than {limit} consecutive messages{chat_name}.",
+                                            parse_mode=ParseMode.HTML)
 
 
 def __migrate__(old_chat_id, new_chat_id):

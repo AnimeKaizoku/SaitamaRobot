@@ -1,7 +1,7 @@
 import random
 
 from telegram import Bot, Update, MessageEntity
-from telegram.ext import MessageHandler, Filters, run_async
+from telegram.ext import Filters, run_async
 
 from tg_bot import dispatcher
 from tg_bot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler, DisableAbleMessageHandler
@@ -14,12 +14,10 @@ AFK_REPLY_GROUP = 8
 
 @run_async
 def afk(bot: Bot, update: Update):
-
     args = update.effective_message.text.split(None, 1)
+    reason = ""
     if len(args) >= 2:
         reason = args[1]
-    else:
-        reason = ""
 
     sql.set_afk(update.effective_user.id, reason)
     update.effective_message.reply_text("{} is now away!".format(update.effective_user.first_name))
@@ -27,7 +25,6 @@ def afk(bot: Bot, update: Update):
 
 @run_async
 def no_longer_afk(bot: Bot, update: Update):
-    
     user = update.effective_user
 
     if not user:
@@ -35,22 +32,22 @@ def no_longer_afk(bot: Bot, update: Update):
 
     res = sql.rm_afk(user.id)
     if res:
-       options = [
-                    '{} is here!',
-                    '{} is back!',
-                    '{} is now in the chat!',
-                    '{} is awake!',
-                    '{} is back online!',
-                    '{} is finally here!',
-                    'Welcome back!, {}',
-                    'Where is {}?\nIn the chat!'
-                  ]
-       chosen_option = random.choice(options)
-       update.effective_message.reply_text(chosen_option.format(update.effective_user.first_name))
+        options = [
+            '{} is here!',
+            '{} is back!',
+            '{} is now in the chat!',
+            '{} is awake!',
+            '{} is back online!',
+            '{} is finally here!',
+            'Welcome back!, {}',
+            'Where is {}?\nIn the chat!'
+        ]
+        chosen_option = random.choice(options)
+        update.effective_message.reply_text(chosen_option.format(update.effective_user.first_name))
+
 
 @run_async
 def reply_afk(bot: Bot, update: Update):
-
     message = update.effective_message
     entities = message.parse_entities([MessageEntity.TEXT_MENTION, MessageEntity.MENTION])
 
@@ -102,4 +99,5 @@ dispatcher.add_handler(AFK_REPLY_HANDLER, AFK_REPLY_GROUP)
 
 __mod_name__ = "AFK"
 __command_list__ = ["afk"]
-__handlers__ = [(AFK_HANDLER, AFK_GROUP), (AFK_REGEX_HANDLER, AFK_GROUP), (NO_AFK_HANDLER, AFK_GROUP), (AFK_REPLY_HANDLER, AFK_REPLY_GROUP)]
+__handlers__ = [(AFK_HANDLER, AFK_GROUP), (AFK_REGEX_HANDLER, AFK_GROUP), (NO_AFK_HANDLER, AFK_GROUP),
+                (AFK_REPLY_HANDLER, AFK_REPLY_GROUP)]
