@@ -1,10 +1,9 @@
 import html
-
 from typing import List
 
 from telegram import Bot, Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters, run_async
+from telegram.ext import Filters, run_async
 from telegram.utils.helpers import mention_html
 
 from tg_bot import dispatcher, LOGGER
@@ -12,11 +11,11 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin, can_delete
 from tg_bot.modules.log_channel import loggable
 
+
 @run_async
 @user_admin
 @loggable
 def purge(bot: Bot, update: Update, args: List[str]) -> str:
-
     msg = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -24,7 +23,7 @@ def purge(bot: Bot, update: Update, args: List[str]) -> str:
     if can_delete(chat, bot.id):
 
         if msg.reply_to_message:
-                    
+
             message_id = msg.reply_to_message.message_id
             start_message_id = message_id - 1
             delete_to = msg.message_id - 1
@@ -53,7 +52,7 @@ def purge(bot: Bot, update: Update, args: List[str]) -> str:
             except BadRequest as err:
                 if err.message == "Message can't be deleted":
                     bot.send_message(chat.id, "Cannot delete all messages. The messages may be too old, I might "
-                                                "not have delete rights, or this might not be a supergroup.")
+                                              "not have delete rights, or this might not be a supergroup.")
 
                 elif err.message != "Message to delete not found":
                     LOGGER.exception("Error while purging chat messages.")
@@ -63,19 +62,17 @@ def purge(bot: Bot, update: Update, args: List[str]) -> str:
         except BadRequest as err:
             if err.message == "Message can't be deleted":
                 bot.send_message(chat.id, "Cannot delete all messages. The messages may be too old, I might "
-                                            "not have delete rights, or this might not be a supergroup.")
+                                          "not have delete rights, or this might not be a supergroup.")
 
             elif err.message != "Message to delete not found":
                 LOGGER.exception("Error while purging chat messages.")
 
-        bot.send_message(chat.id, f"Purge <code>{delete_to - start_message_id}</code> messages.", parse_mode=ParseMode.HTML)
-        return "<b>{}:</b>" \
-                "\n#PURGE" \
-                "\n<b>Admin:</b> {}" \
-                "\nPurged <code>{}</code> messages.".format(html.escape(chat.title),
-                                                            mention_html(user.id, user.first_name),
-                                                            delete_to - start_message_id)
-
+        bot.send_message(chat.id, f"Purge <code>{delete_to - start_message_id}</code> messages.",
+                         parse_mode=ParseMode.HTML)
+        return (f"<b>{html.escape(chat.title)}:</b>\n"
+                f"#PURGE\n"
+                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                f"Purged <code>{delete_to - start_message_id}</code> messages.")
 
     return ""
 
@@ -84,18 +81,16 @@ def purge(bot: Bot, update: Update, args: List[str]) -> str:
 @user_admin
 @loggable
 def del_message(bot: Bot, update: Update) -> str:
-
     if update.effective_message.reply_to_message:
         user = update.effective_user
         chat = update.effective_chat
         if can_delete(chat, bot.id):
             update.effective_message.reply_to_message.delete()
             update.effective_message.delete()
-            return "<b>{}:</b>" \
-                   "\n#DEL" \
-                   "\n<b>Admin:</b> {}" \
-                   "\nMessage deleted.".format(html.escape(chat.title),
-                                               mention_html(user.id, user.first_name))
+            return (f"<b>{html.escape(chat.title)}:</b>\n"
+                    f"#DEL\n"
+                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                    f"Message deleted.")
     else:
         update.effective_message.reply_text("Whadya want to delete?")
 

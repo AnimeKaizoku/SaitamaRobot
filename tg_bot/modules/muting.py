@@ -1,21 +1,20 @@
 import html
-
 from typing import Optional, List
 
 from telegram import Bot, Chat, Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters, run_async
+from telegram.ext import CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
 from tg_bot import dispatcher, LOGGER
-from tg_bot.modules.helper_funcs.chat_status import bot_admin, user_admin, is_user_admin, can_restrict, connection_status
+from tg_bot.modules.helper_funcs.chat_status import (bot_admin, user_admin, is_user_admin, can_restrict,
+                                                     connection_status)
 from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from tg_bot.modules.helper_funcs.string_handling import extract_time
 from tg_bot.modules.log_channel import loggable
 
 
 def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
-    
     if not user_id:
         reply = "You don't seem to be referring to a user."
         return reply
@@ -46,7 +45,6 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
 @user_admin
 @loggable
 def mute(bot: Bot, update: Update, args: List[str]) -> str:
-
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -60,19 +58,18 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
 
     member = chat.get_member(user_id)
 
-    log = "<b>{}:</b>" \
-           "\n#MUTE" \
-           "\n<b>Admin:</b> {}" \
-           "\n<b>User:</b> {}".format(html.escape(chat.title),
-                                      mention_html(user.id, user.first_name),
-                                      mention_html(member.user.id, member.user.first_name))
+    log = (f"<b>{html.escape(chat.title)}:</b>\n"
+           f"#MUTE\n"
+           f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+           f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}")
 
     if reason:
-        log += "\n<b>Reason:</b> {}".format(reason)
+        log += f"\n<b>Reason:</b> {reason}"
 
     if member.can_send_messages is None or member.can_send_messages:
         bot.restrict_chat_member(chat.id, user_id, can_send_messages=False)
-        bot.sendMessage(chat.id, "Muted <b>{}</b> with no expiration date!".format(html.escape(member.user.first_name)), parse_mode=ParseMode.HTML)
+        bot.sendMessage(chat.id, f"Muted <b>{html.escape(member.user.first_name)}</b> with no expiration date!",
+                        parse_mode=ParseMode.HTML)
         return log
 
     else:
@@ -87,7 +84,6 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
 @user_admin
 @loggable
 def unmute(bot: Bot, update: Update, args: List[str]) -> str:
-
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -100,8 +96,10 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
     member = chat.get_member(int(user_id))
 
     if member.status != 'kicked' and member.status != 'left':
-        if member.can_send_messages and member.can_send_media_messages \
-                and member.can_send_other_messages and member.can_add_web_page_previews:
+        if (member.can_send_messages
+                and member.can_send_media_messages
+                and member.can_send_other_messages
+                and member.can_add_web_page_previews):
             message.reply_text("This user already has the right to speak.")
         else:
             bot.restrict_chat_member(chat.id, int(user_id),
@@ -109,13 +107,12 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
                                      can_send_media_messages=True,
                                      can_send_other_messages=True,
                                      can_add_web_page_previews=True)
-            bot.sendMessage(chat.id, "I shall allow <b>{}</b> to text!".format(html.escape(member.user.first_name)), parse_mode=ParseMode.HTML)
-            return "<b>{}:</b>" \
-                   "\n#UNMUTE" \
-                   "\n<b>Admin:</b> {}" \
-                   "\n<b>User:</b> {}".format(html.escape(chat.title),
-                                              mention_html(user.id, user.first_name),
-                                              mention_html(member.user.id, member.user.first_name))
+            bot.sendMessage(chat.id, f"I shall allow <b>{html.escape(member.user.first_name)}</b> to text!",
+                            parse_mode=ParseMode.HTML)
+            return (f"<b>{html.escape(chat.title)}:</b>\n"
+                    f"#UNMUTE\n"
+                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                    f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}")
     else:
         message.reply_text("This user isn't even in the chat, unmuting them won't make them talk more than they "
                            "already do!")
@@ -130,7 +127,6 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
 @user_admin
 @loggable
 def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
-
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -161,19 +157,19 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
     if not mutetime:
         return ""
 
-    log = "<b>{}:</b>" \
-          "\n#TEMP MUTED" \
-          "\n<b>Admin:</b> {}" \
-          "\n<b>User:</b> {}" \
-          "\n<b>Time:</b> {}".format(html.escape(chat.title), mention_html(user.id, user.first_name),
-                                     mention_html(member.user.id, member.user.first_name), time_val)
+    log = (f"<b>{html.escape(chat.title)}:</b>\n"
+           f"#TEMP MUTED\n"
+           f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+           f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}\n"
+           f"<b>Time:</b> {time_val}")
     if reason:
-        log += "\n<b>Reason:</b> {}".format(reason)
+        log += f"\n<b>Reason:</b> {reason}"
 
     try:
         if member.can_send_messages is None or member.can_send_messages:
             bot.restrict_chat_member(chat.id, user_id, until_date=mutetime, can_send_messages=False)
-            bot.sendMessage(chat.id, "Muted <b>{}</b> for {}!".format(html.escape(member.user.first_name), time_val), parse_mode=ParseMode.HTML)
+            bot.sendMessage(chat.id, f"Muted <b>{html.escape(member.user.first_name)}</b> for {time_val}!",
+                            parse_mode=ParseMode.HTML)
             return log
         else:
             message.reply_text("This user is already muted.")
@@ -181,7 +177,7 @@ def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
-            message.reply_text("Muted for {}!".format(time_val), quote=False)
+            message.reply_text(f"Muted for {time_val}!", quote=False)
             return log
         else:
             LOGGER.warning(update)
