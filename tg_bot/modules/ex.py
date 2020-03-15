@@ -36,11 +36,13 @@ def paste(bot: Bot, update: Update, args: List[str]):
 @run_async
 def speedtestxyz(bot: Bot, update: Update):
     s = speedtest.Speedtest()
+    msg = update.effective_message.reply_text("Doing SpeedTest.... ")
     s.get_best_server()
     s.download()
     s.upload()
     speedtest_image = s.results.share()
     update.effective_message.reply_photo(photo=speedtest_image, caption='Done!')
+    msg.delete()
 
 
 PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, pass_args=True)
