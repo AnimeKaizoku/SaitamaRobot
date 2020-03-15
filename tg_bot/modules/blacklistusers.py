@@ -107,8 +107,7 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @dev_plus
 def bl_users(bot: Bot, update: Update):
-
-    reply = "<b>Blacklisted Users</b>\n"
+    users = []
 
     for each_user in sql.BLACKLIST_USERS:
 
@@ -116,16 +115,19 @@ def bl_users(bot: Bot, update: Update):
         reason = sql.get_reason(each_user)
 
         if reason:
-            reply += f"• {mention_html(user.id, user.first_name)} :- {reason}\n"
+            users.append(f"• {mention_html(user.id, user.first_name)} :- {reason}")
         else:
-            reply += f"• {mention_html(user.id, user.first_name)}\n"
+            users.append(f"• {mention_html(user.id, user.first_name)}")
 
-    if reply == "<b>Blacklisted Users</b>\n":
-        reply += "Noone is being ignored as of yet."
+    message = "<b>Blacklisted Users</b>\n"
+    if not users:
+        message += "Noone is being ignored as of yet."
+    else:
+        message += '\n'.join(users)
 
-    update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
-        
-        
+    update.effective_message.reply_text(message, parse_mode=ParseMode.HTML)
+
+
 def __user_info__(user_id):
 
     is_blacklisted = sql.is_user_blacklisted(user_id)
