@@ -1,9 +1,9 @@
-import re
 import html
+import re
 
 import telegram
-from telegram import ParseMode, InlineKeyboardMarkup, Message, Chat
 from telegram import Bot, Update
+from telegram import ParseMode, InlineKeyboardMarkup
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
@@ -23,7 +23,6 @@ HANDLER_GROUP = 10
 @run_async
 @connection_status
 def list_handlers(bot: Bot, update: Update):
-
     chat = update.effective_chat
     all_handlers = sql.get_chat_triggers(chat.id)
 
@@ -39,12 +38,13 @@ def list_handlers(bot: Bot, update: Update):
         if update_chat_title == message_chat_title:
             update.effective_message.reply_text("No filters are active here!")
         else:
-            update.effective_message.reply_text(f"No filters are active in <b>{update_chat_title}</b>!", parse_mode=telegram.ParseMode.HTML)
+            update.effective_message.reply_text(f"No filters are active in <b>{update_chat_title}</b>!",
+                                                parse_mode=telegram.ParseMode.HTML)
         return
 
     filter_list = ""
     for keyword in all_handlers:
-        entry = " - {}\n".format(escape_markdown(keyword))
+        entry = f" - {escape_markdown(keyword)}\n"
         if len(entry) + len(filter_list) + len(BASIC_FILTER_STRING) > telegram.MAX_MESSAGE_LENGTH:
             filter_list = BASIC_FILTER_STRING + html.escape(filter_list)
             update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.HTML)
@@ -61,7 +61,6 @@ def list_handlers(bot: Bot, update: Update):
 @connection_status
 @user_admin
 def filters(bot: Bot, update: Update):
-
     chat = update.effective_chat
     msg = update.effective_message
     args = msg.text.split(None, 1)
@@ -137,9 +136,9 @@ def filters(bot: Bot, update: Update):
 @connection_status
 @user_admin
 def stop_filter(bot: Bot, update: Update):
-
     chat = update.effective_chat
-    args = update.effective_message.text.split(None, 1)
+    msg = update.effective_message
+    args = msg.text.split(None, 1)
 
     if len(args) < 2:
         return
@@ -147,21 +146,20 @@ def stop_filter(bot: Bot, update: Update):
     chat_filters = sql.get_chat_triggers(chat.id)
 
     if not chat_filters:
-        update.effective_message.reply_text("No filters are active here!")
+        msg.reply_text("No filters are active here!")
         return
 
     for keyword in chat_filters:
         if keyword == args[1]:
             sql.remove_filter(chat.id, args[1])
-            update.effective_message.reply_text("Yep, I'll stop replying to that.")
+            msg.reply_text("Yep, I'll stop replying to that.")
             raise DispatcherHandlerStop
 
-    update.effective_message.reply_text("That's not a current filter - run /filters for all active filters.")
+    msg.reply_text("That's not a current filter - run /filters for all active filters.")
 
 
 @run_async
 def reply_filter(bot: Bot, update: Update):
-
     chat = update.effective_chat
     message = update.effective_message
     to_match = extract_text(message)
