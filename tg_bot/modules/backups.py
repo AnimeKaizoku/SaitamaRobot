@@ -13,7 +13,6 @@ from tg_bot.modules.helper_funcs.chat_status import user_admin
 @run_async
 @user_admin
 def import_data(bot: Bot, update: Update):
-
     msg = update.effective_message
     chat = update.effective_chat
     # TODO: allow uploading doc with command, not just as reply
@@ -62,7 +61,6 @@ def import_data(bot: Bot, update: Update):
 @run_async
 @user_admin
 def export_data(bot: Bot, update: Update):
-
     msg = update.effective_message
     msg.reply_text("Doesn't work yet.")
 
