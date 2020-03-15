@@ -1,18 +1,16 @@
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
-import html
-
 from typing import List
 
 from telegram import Bot, Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async, Filters
+from telegram.ext import CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
+import tg_bot.modules.sql.blacklistusers_sql as sql
 from tg_bot import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, WHITELIST_USERS, SUPPORT_USERS
 from tg_bot.modules.helper_funcs.chat_status import dev_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user_and_text, extract_user
 from tg_bot.modules.log_channel import gloggable
-import tg_bot.modules.sql.blacklistusers_sql as sql
 
 BLACKLISTWHITELIST = [OWNER_ID] + DEV_USERS + SUDO_USERS + WHITELIST_USERS + SUPPORT_USERS
 BLABLEUSERS = [OWNER_ID] + DEV_USERS
@@ -22,7 +20,6 @@ BLABLEUSERS = [OWNER_ID] + DEV_USERS
 @dev_plus
 @gloggable
 def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
-
     message = update.effective_message
     user = update.effective_user
 
@@ -54,18 +51,17 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
     log_message = "#BLACKLIST" \
                   "\n<b>Admin:</b> {}" \
                   "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
-                                            mention_html(target_user.id, target_user.first_name))
+                                             mention_html(target_user.id, target_user.first_name))
     if reason:
         log_message += "\n<b>Reason:</b> {}".format(reason)
-    
+
     return log_message
-    
+
 
 @run_async
 @dev_plus
 @gloggable
 def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
-
     message = update.effective_message
     user = update.effective_user
 
@@ -95,7 +91,7 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
         log_message = "#UNBLACKLIST" \
                       "\n<b>Admin:</b> {}" \
                       "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
-                                                mention_html(target_user.id, target_user.first_name))
+                                                 mention_html(target_user.id, target_user.first_name))
 
         return log_message
 
@@ -107,29 +103,30 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @dev_plus
 def bl_users(bot: Bot, update: Update):
-
-    reply = "<b>Blacklisted Users</b>\n"
+    users = []
 
     for each_user in sql.BLACKLIST_USERS:
-        
-        name = html.escape(bot.get_chat(each_user))
+
+        user = bot.get_chat(each_user)
         reason = sql.get_reason(each_user)
 
         if reason:
-            reply += f"• <a href='tg://user?id={each_user}'>{name}</a> :- {reason}\n"
+            users.append(f"• {mention_html(user.id, user.first_name)} :- {reason}")
         else:
-            reply += f"• <a href='tg://user?id={each_user}'>{name}</a>\n"
+            users.append(f"• {mention_html(user.id, user.first_name)}")
 
-    if reply == "<b>Blacklisted Users</b>\n":
-        reply += "Noone is being ignored as of yet."
+    message = "<b>Blacklisted Users</b>\n"
+    if not users:
+        message += "Noone is being ignored as of yet."
+    else:
+        message += '\n'.join(users)
 
-    update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
-        
-        
+    update.effective_message.reply_text(message, parse_mode=ParseMode.HTML)
+
+
 def __user_info__(user_id):
-
     is_blacklisted = sql.is_user_blacklisted(user_id)
-    
+
     text = "Blacklisted: <b>{}</b>"
 
     if is_blacklisted:
@@ -139,10 +136,10 @@ def __user_info__(user_id):
             text += f"\nReason: <code>{reason}</code>"
     else:
         text = text.format("No")
-    
+
     return text
 
-    
+
 BL_HANDLER = CommandHandler("ignore", bl_user, pass_args=True)
 UNBL_HANDLER = CommandHandler("notice", unbl_user, pass_args=True)
 BLUSERS_HANDLER = CommandHandler("ignoredlist", bl_users)
