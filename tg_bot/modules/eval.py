@@ -1,19 +1,7 @@
-import logging
-import sys
+from contextlib import redirect_stdout
 
-from contextlib import contextmanager, redirect_stdout
-
-from telegram import Bot, Update, ParseMode
-from telegram.ext import Updater, CommandHandler, run_async
-
-from telegram.error import TimedOut, NetworkError
-
-from tg_bot import dispatcher, LOGGER
-from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, dev_plus
-
-from requests import get
-
+import io
+import os
 # Common imports for eval
 import sys
 import inspect
@@ -29,15 +17,16 @@ import gc
 import datetime
 import time
 import traceback
-import re
-import io
-import asyncio
-import random
-import subprocess
-import urllib
-import psutil
+from contextlib import redirect_stdout
+
+from telegram import ParseMode
+from telegram.ext import CommandHandler, run_async
+
+from tg_bot import dispatcher, LOGGER
+from tg_bot.modules.helper_funcs.chat_status import dev_plus
 
 namespaces = {}
+
 
 def namespace_of(chat, update, bot):
     if chat not in namespaces:
@@ -56,21 +45,25 @@ def namespace_of(chat, update, bot):
 def log_input(update):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    LOGGER.info("IN: {} (user={}, chat={})".format(update.effective_message.text, user, chat))
+    LOGGER.info(f"IN: {update.effective_message.text} (user={user}, chat={chat})")
+
 
 def send(msg, bot, update):
-    LOGGER.info("OUT: '{}'".format(msg))
-    bot.send_message(chat_id=update.effective_chat.id, text="`{}`".format(msg), parse_mode=ParseMode.MARKDOWN)
+    LOGGER.info(f"OUT: '{msg}'")
+    bot.send_message(chat_id=update.effective_chat.id, text=f"`{msg}`", parse_mode=ParseMode.MARKDOWN)
+
 
 @dev_plus
 @run_async
 def evaluate(bot, update):
     send(do(eval, bot, update), bot, update)
 
+
 @dev_plus
 @run_async
 def execute(bot, update):
     send(do(exec, bot, update), bot, update)
+
 
 def cleanup_code(code):
     if code.startswith('```') and code.endswith('```'):
@@ -79,24 +72,23 @@ def cleanup_code(code):
 
 
 def do(func, bot, update):
-
     log_input(update)
     content = update.message.text.split(' ', 1)[-1]
     body = cleanup_code(content)
     env = namespace_of(update.message.chat_id, update, bot)
 
     os.chdir(os.getcwd())
-    with open('%s/tg_bot/modules/helper_funcs/temp.txt' % os.getcwd(), 'w') as temp:
+    with open(os.path.join(os.getcwd(), 'tg_bot/modules/helper_funcs/temp.txt'), 'w') as temp:
         temp.write(body)
 
     stdout = io.StringIO()
 
-    to_compile = 'def func():\n{}'.format(textwrap.indent(body, "  "))
+    to_compile = f'def func():\n{textwrap.indent(body, "  ")}'
 
     try:
         exec(to_compile, env)
     except Exception as e:
-        return '{}: {}'.format(e.__class__.__name__, e)
+        return f'{e.__class__.__name__}: {e}'
 
     func = env['func']
 
@@ -105,24 +97,25 @@ def do(func, bot, update):
             func_return = func()
     except Exception as e:
         value = stdout.getvalue()
-        return '{}{}'.format(value, traceback.format_exc())
+        return f'{value}{traceback.format_exc()}'
     else:
         value = stdout.getvalue()
         result = None
         if func_return is None:
             if value:
-                result = '{}'.format(value)
+                result = f'{value}'
             else:
                 try:
-                    result = '{}'.format(repr(eval(body, env)))
+                    result = f'{repr(eval(body, env))}'
                 except:
                     pass
         else:
-            result = '{}{}'.format(value, func_return)
+            result = f'{value}{func_return}'
         if result:
             if len(str(result)) > 2000:
                 result = 'Output is too long'
             return result
+
 
 @dev_plus
 @run_async

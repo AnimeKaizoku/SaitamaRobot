@@ -54,9 +54,9 @@ SLAP_SAITAMA_TEMPLATES = (
     "Slap me one more time and I'll mute you.",
     "Stop slapping me. REEEEEEEEEEEEEE.",
     [
-        "I am muting you for a minute.", #normal reply
-        "Stop slapping me just because I can't mute you. REEEEEEEEEE.", #reply to admin
-        "tmute" #command
+        "I am muting you for a minute.",  # normal reply
+        "Stop slapping me just because I can't mute you. REEEEEEEEEE.",  # reply to admin
+        "tmute"  # command
     ]
 )
 
@@ -113,7 +113,7 @@ SLAP_TEMPLATES = (
     "{user2} was made redundant.",
     "{user1} {hits} {user2} with a bat!.",
     "{user1} {hits} {user2} with a Taijutsu Kick!.",
-    "{user1} {hits} {user2} with X-Gloves!.",    
+    "{user1} {hits} {user2} with X-Gloves!.",
     "{user1} {hits} {user2} with a Jet Punch!.",
     "{user1} {hits} {user2} with a Jet Pistol!.",
     "{user1} {hits} {user2} with a United States of Smash!.",
@@ -133,7 +133,7 @@ SLAP_TEMPLATES = (
     "*points at {user2}* What's with this sassy... lost child?.",
     "*Hits {user2} with a Fire Tornado*.",
     "{user1} pokes {user2} in the eye !",
-    "{user1} pokes {user2} on the sides!",        
+    "{user1} pokes {user2} on the sides!",
     "{user1} pokes {user2}!",
     "{user1} pokes {user2} with a needle!",
     "{user1} pokes {user2} with a pen!",
@@ -165,7 +165,7 @@ SLAP_TEMPLATES = (
     "{user1} ara ara's {user2}.",
     "{user1} ora ora's {user2}.",
     "{user1} muda muda's {user2}.",
-    "{user2} was turned into a Jojo reference!",  
+    "{user2} was turned into a Jojo reference!",
     "{user1} hits {user2} with {item}.",
 )
 
