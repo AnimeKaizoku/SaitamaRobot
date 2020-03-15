@@ -1,18 +1,16 @@
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
-import html
-
 from typing import List
 
 from telegram import Bot, Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async, Filters
+from telegram.ext import CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
+import tg_bot.modules.sql.blacklistusers_sql as sql
 from tg_bot import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, WHITELIST_USERS, SUPPORT_USERS
 from tg_bot.modules.helper_funcs.chat_status import dev_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user_and_text, extract_user
 from tg_bot.modules.log_channel import gloggable
-import tg_bot.modules.sql.blacklistusers_sql as sql
 
 BLACKLISTWHITELIST = [OWNER_ID] + DEV_USERS + SUDO_USERS + WHITELIST_USERS + SUPPORT_USERS
 BLABLEUSERS = [OWNER_ID] + DEV_USERS
@@ -22,7 +20,6 @@ BLABLEUSERS = [OWNER_ID] + DEV_USERS
 @dev_plus
 @gloggable
 def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
-
     message = update.effective_message
     user = update.effective_user
 
@@ -54,18 +51,17 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
     log_message = "#BLACKLIST" \
                   "\n<b>Admin:</b> {}" \
                   "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
-                                            mention_html(target_user.id, target_user.first_name))
+                                             mention_html(target_user.id, target_user.first_name))
     if reason:
         log_message += "\n<b>Reason:</b> {}".format(reason)
-    
+
     return log_message
-    
+
 
 @run_async
 @dev_plus
 @gloggable
 def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
-
     message = update.effective_message
     user = update.effective_user
 
@@ -95,7 +91,7 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
         log_message = "#UNBLACKLIST" \
                       "\n<b>Admin:</b> {}" \
                       "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
-                                                mention_html(target_user.id, target_user.first_name))
+                                                 mention_html(target_user.id, target_user.first_name))
 
         return log_message
 
@@ -129,9 +125,8 @@ def bl_users(bot: Bot, update: Update):
 
 
 def __user_info__(user_id):
-
     is_blacklisted = sql.is_user_blacklisted(user_id)
-    
+
     text = "Blacklisted: <b>{}</b>"
 
     if is_blacklisted:
@@ -141,10 +136,10 @@ def __user_info__(user_id):
             text += f"\nReason: <code>{reason}</code>"
     else:
         text = text.format("No")
-    
+
     return text
 
-    
+
 BL_HANDLER = CommandHandler("ignore", bl_user, pass_args=True)
 UNBL_HANDLER = CommandHandler("notice", unbl_user, pass_args=True)
 BLUSERS_HANDLER = CommandHandler("ignoredlist", bl_users)
