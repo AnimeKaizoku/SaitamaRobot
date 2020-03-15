@@ -111,14 +111,14 @@ def bl_users(bot: Bot, update: Update):
     reply = "<b>Blacklisted Users</b>\n"
 
     for each_user in sql.BLACKLIST_USERS:
-        
-        name = html.escape(bot.get_chat(each_user))
+
+        user = bot.get_chat(each_user)
         reason = sql.get_reason(each_user)
 
         if reason:
-            reply += f"• <a href='tg://user?id={each_user}'>{name}</a> :- {reason}\n"
+            reply += f"• {mention_html(user.id, user.first_name)} :- {reason}\n"
         else:
-            reply += f"• <a href='tg://user?id={each_user}'>{name}</a>\n"
+            reply += f"• {mention_html(user.id, user.first_name)}\n"
 
     if reply == "<b>Blacklisted Users</b>\n":
         reply += "Noone is being ignored as of yet."
