@@ -2,6 +2,8 @@
 # Saitama Robot
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6141417ceaf84545bab6bd671503df51)](https://app.codacy.com/gh/AnimeKaizoku/SaitamaRobot?utm_source=github.com&utm_medium=referral&utm_content=AnimeKaizoku/SaitamaRobot&utm_campaign=Badge_Grade_Settings)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
+
+
 A modular telegram Python bot running on python3 with an sqlalchemy database.
 
 Originally a marie fork - Saitama has evolved further and was built to be more useful for Anime Chats. 
