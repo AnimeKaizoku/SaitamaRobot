@@ -1,14 +1,12 @@
 import html
 import random
 import time
-
 from typing import List
 
 from telegram import Bot, Update, ParseMode
-from telegram.ext import CommandHandler, run_async
+from telegram.ext import run_async
 
 import tg_bot.modules.fun_strings as fun_strings
-
 from tg_bot import dispatcher
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import is_user_admin
@@ -22,7 +20,6 @@ def runs(bot: Bot, update: Update):
 
 @run_async
 def slap(bot: Bot, update: Update, args: List[str]):
-
     message = update.effective_message
     chat = update.effective_chat
 
@@ -34,16 +31,15 @@ def slap(bot: Bot, update: Update, args: List[str]):
     if user_id == bot.id:
         temp = random.choice(fun_strings.SLAP_SAITAMA_TEMPLATES)
 
-        if type(temp) == list:
+        if isinstance(temp, list):
             if temp[2] == "tmute":
                 if is_user_admin(chat, message.from_user.id):
-
                     reply_text(temp[1])
                     return
 
                 mutetime = int(time.time() + 60)
                 bot.restrict_chat_member(chat.id, message.from_user.id, until_date=mutetime, can_send_messages=False)
-                
+
             reply_text(temp[0])
         else:
             reply_text(temp)
@@ -53,7 +49,7 @@ def slap(bot: Bot, update: Update, args: List[str]):
 
         slapped_user = bot.get_chat(user_id)
         user1 = curr_user
-        
+
         user2 = html.escape(slapped_user.first_name)
 
     else:
@@ -82,34 +78,36 @@ def toss(bot: Bot, update: Update):
 
 @run_async
 def abuse(bot: Bot, update: Update):
-    reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
+    msg = update.effective_message
+    reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(random.choice(fun_strings.ABUSE_STRINGS))
 
 
 @run_async
 def shrug(bot: Bot, update: Update):
-    reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
+    msg = update.effective_message
+    reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(r"¯\_(ツ)_/¯")
 
 
 @run_async
 def bluetext(bot: Bot, update: Update):
-    reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
+    msg = update.effective_message
+    reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text("/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS")
 
 
 @run_async
 def rlg(bot: Bot, update: Update):
-
     eyes = random.choice(fun_strings.EYES)
     mouth = random.choice(fun_strings.MOUTHS)
     ears = random.choice(fun_strings.EARS)
-    
+
     if len(eyes) == 2:
         repl = ears[0] + eyes[0] + mouth[0] + eyes[1] + ears[1]
     else:
         repl = ears[0] + eyes[0] + mouth[0] + eyes[0] + ears[1]
-    
+
     update.message.reply_text(repl)
 
 
@@ -118,7 +116,7 @@ def decide(bot: Bot, update: Update):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.DECIDE))
 
-    
+
 @run_async
 def table(bot: Bot, update: Update):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
@@ -160,4 +158,5 @@ dispatcher.add_handler(TABLE_HANDLER)
 
 __mod_name__ = "Fun"
 __command_list__ = ["runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide", "table"]
-__handlers__ = [RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER]
+__handlers__ = [RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER,
+                DECIDE_HANDLER, TABLE_HANDLER]

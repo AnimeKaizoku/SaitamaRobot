@@ -1,5 +1,4 @@
 import html
-
 from typing import List
 
 from telegram import Bot, Update, ParseMode
@@ -7,13 +6,13 @@ from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 
 from tg_bot import ALLOW_EXCL, dispatcher, CustomCommandHandler
 from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import user_admin, bot_can_delete, dev_plus, connection_status
+from tg_bot.modules.helper_funcs.chat_status import user_admin, bot_can_delete, connection_status
 from tg_bot.modules.sql import cleaner_sql as sql
 
 if ALLOW_EXCL:
     CMD_STARTERS = ('/', '!')
 else:
-    CMD_STARTERS = ('/')
+    CMD_STARTERS = ('/',)
 
 BLUE_TEXT_CLEAN_GROUP = 15
 CommandHandlerList = (CommandHandler, CustomCommandHandler, DisableAbleCommandHandler)
@@ -28,7 +27,6 @@ for handler_list in dispatcher.handlers:
 @run_async
 @bot_can_delete
 def clean_blue_text_must_click(bot: Bot, update: Update):
-
     chat = update.effective_chat
     message = update.effective_message
 
@@ -53,39 +51,33 @@ def clean_blue_text_must_click(bot: Bot, update: Update):
 @bot_can_delete
 @user_admin
 def set_blue_text_must_click(bot: Bot, update: Update, args: List[str]):
-
     chat = update.effective_chat
     message = update.effective_message
 
     if len(args) >= 1:
         val = args[0].lower()
-        if val == "off" or val == "no":
+        if val in ["off", "no"]:
             sql.set_cleanbt(chat.id, False)
-            reply = "Bluetext cleaning has been disabled for <b>{}</b>".format(html.escape(chat.title))
+            reply = f"Bluetext cleaning has been disabled for <b>{html.escape(chat.title)}</b>"
             message.reply_text(reply, parse_mode=ParseMode.HTML)
 
-        elif val == "yes" or val == "on":
+        elif val == ["on", "yes"]:
             sql.set_cleanbt(chat.id, True)
-            reply = "Bluetext cleaning has been enabled for <b>{}</b>".format(html.escape(chat.title))
+            reply = f"Bluetext cleaning has been enabled for <b>{html.escape(chat.title)}</b>"
             message.reply_text(reply, parse_mode=ParseMode.HTML)
 
         else:
             reply = "Invalid argument.Accepted values are 'yes', 'on', 'no', 'off'"
             message.reply_text(reply)
     else:
-        clean_status = sql.is_enabled(chat.id)
-        if clean_status:
-            clean_status = "Enabled"
-        else:
-            clean_status = "Disabled"
-        reply = "Bluetext cleaning for <b>{}</b> : <b>{}</b>".format(chat.title, clean_status)
+        clean_status = "Enabled" if sql.is_enabled(chat.id) else "Disabled"
+        reply = f"Bluetext cleaning for <b>{chat.title}</b> : <b>{clean_status}</b>"
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
 
 @run_async
 @user_admin
 def add_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
-
     message = update.effective_message
     chat = update.effective_chat
 
@@ -93,11 +85,11 @@ def add_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
         val = args[0].lower()
         added = sql.chat_ignore_command(chat.id, val)
         if added:
-            reply = "<b>{}</b> has been added to bluetext cleaner ignore list.".format(args[0])
+            reply = f"<b>{args[0]}</b> has been added to bluetext cleaner ignore list."
         else:
             reply = "Command is already ignored."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
-        
+
     else:
         reply = "No command supplied to be ignored."
         message.reply_text(reply)
@@ -106,7 +98,6 @@ def add_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
 @run_async
 @user_admin
 def remove_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
-
     message = update.effective_message
     chat = update.effective_chat
 
@@ -114,11 +105,11 @@ def remove_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
         val = args[0].lower()
         removed = sql.chat_unignore_command(chat.id, val)
         if removed:
-            reply = "<b>{}</b> has been removed from bluetext cleaner ignore list.".format(args[0])
+            reply = "<b>{args[0]}</b> has been removed from bluetext cleaner ignore list."
         else:
             reply = "Command isn't ignored currently."
         message.reply_text(reply, parse_mode=ParseMode.HTML)
-        
+
     else:
         reply = "No command supplied to be unignored."
         message.reply_text(reply)
@@ -127,7 +118,6 @@ def remove_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
 @run_async
 @user_admin
 def bluetext_ignore_list(bot: Bot, update: Update):
-
     message = update.effective_message
     chat = update.effective_chat
 

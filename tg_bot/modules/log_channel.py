@@ -1,13 +1,12 @@
-from functools import wraps
 from datetime import datetime
+from functools import wraps
 
 from tg_bot.modules.helper_funcs.misc import is_module_loaded
 
 FILENAME = __name__.rsplit(".", 1)[-1]
 
 if is_module_loaded(FILENAME):
-    
-    from telegram import Bot, Update, ParseMode, Message, Chat
+    from telegram import Bot, Update, ParseMode
     from telegram.error import BadRequest, Unauthorized
     from telegram.ext import CommandHandler, run_async
     from telegram.utils.helpers import escape_markdown
@@ -27,12 +26,10 @@ if is_module_loaded(FILENAME):
 
             if result:
                 datetime_fmt = "%H:%M - %d-%m-%Y"
-                result += "\n<b>Event Stamp</b>: <code>{}</code>".format(datetime.utcnow().strftime(datetime_fmt))
+                result += f"\n<b>Event Stamp</b>: <code>{datetime.utcnow().strftime(datetime_fmt)}</code>"
 
                 if message.chat.type == chat.SUPERGROUP and message.chat.username:
-                    result += "\n<b>Link:</b> " \
-                              "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(chat.username,
-                                                                                           message.message_id)
+                    result += f'\n<b>Link:</b> <a href="https://t.me/{chat.username}/{message.message_id}">click here</a>'
                 log_chat = sql.get_chat_log_channel(chat.id)
                 if log_chat:
                     send_log(bot, log_chat, chat.id, result)
@@ -45,6 +42,7 @@ if is_module_loaded(FILENAME):
 
         return log_action
 
+
     def gloggable(func):
         @wraps(func)
         def glog_action(bot: Bot, update: Update, *args, **kwargs):
@@ -56,11 +54,9 @@ if is_module_loaded(FILENAME):
             if result:
                 datetime_fmt = "%H:%M - %d-%m-%Y"
                 result += "\n<b>Event Stamp</b>: <code>{}</code>".format(datetime.utcnow().strftime(datetime_fmt))
-                
+
                 if message.chat.type == chat.SUPERGROUP and message.chat.username:
-                    result += "\n<b>Link:</b> " \
-                              "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(chat.username,
-                                                                                           message.message_id)
+                    result += f'\n<b>Link:</b> <a href="https://t.me/{chat.username}/{message.message_id}">click here</a>'
                 log_chat = str(GBAN_LOGS)
                 if log_chat:
                     send_log(bot, log_chat, chat.id, result)
@@ -100,10 +96,9 @@ if is_module_loaded(FILENAME):
         log_channel = sql.get_chat_log_channel(chat.id)
         if log_channel:
             log_channel_info = bot.get_chat(log_channel)
-            message.reply_text(
-                "This group has all it's logs sent to: {} (`{}`)".format(escape_markdown(log_channel_info.title),
-                                                                         log_channel),
-                parse_mode=ParseMode.MARKDOWN)
+            message.reply_text(f"This group has all it's logs sent to:"
+                               f" {escape_markdown(log_channel_info.title)} (`{log_channel}`)",
+                               parse_mode=ParseMode.MARKDOWN)
 
         else:
             message.reply_text("No log channel has been set for this group!")
@@ -130,8 +125,7 @@ if is_module_loaded(FILENAME):
 
             try:
                 bot.send_message(message.forward_from_chat.id,
-                                 "This channel has been set as the log channel for {}.".format(
-                                     chat.title or chat.first_name))
+                                 f"This channel has been set as the log channel for {chat.title or chat.first_name}.")
             except Unauthorized as excp:
                 if excp.message == "Forbidden: bot is not a member of the channel chat":
                     bot.send_message(chat.id, "Successfully set log channel!")
@@ -156,7 +150,7 @@ if is_module_loaded(FILENAME):
 
         log_channel = sql.stop_chat_logging(chat.id)
         if log_channel:
-            bot.send_message(log_channel, "Channel has been unlinked from {}".format(chat.title))
+            bot.send_message(log_channel, f"Channel has been unlinked from {chat.title}")
             message.reply_text("Log channel has been un-set.")
 
         else:
@@ -164,7 +158,7 @@ if is_module_loaded(FILENAME):
 
 
     def __stats__():
-        return "{} log channels set.".format(sql.num_logchannels())
+        return f"{sql.num_logchannels()} log channels set."
 
 
     def __migrate__(old_chat_id, new_chat_id):
@@ -175,8 +169,7 @@ if is_module_loaded(FILENAME):
         log_channel = sql.get_chat_log_channel(chat_id)
         if log_channel:
             log_channel_info = dispatcher.bot.get_chat(log_channel)
-            return "This group has all it's logs sent to: {} (`{}`)".format(escape_markdown(log_channel_info.title),
-                                                                            log_channel)
+            return f"This group has all it's logs sent to: {escape_markdown(log_channel_info.title)} (`{log_channel}`)"
         return "No log channel is set for this group!"
 
 

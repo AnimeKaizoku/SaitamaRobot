@@ -1,10 +1,9 @@
 import importlib
-
 from typing import Union, List
-from future.utils import string_types
 
-from telegram import Bot, Update, ParseMode, MessageEntity
-from telegram.ext import CommandHandler, RegexHandler, MessageHandler, Filters
+from future.utils import string_types
+from telegram import Bot, Update, ParseMode
+from telegram.ext import CommandHandler, RegexHandler, MessageHandler
 from telegram.utils.helpers import escape_markdown
 
 from tg_bot import dispatcher
@@ -25,10 +24,10 @@ if is_module_loaded(FILENAME):
     DISABLE_OTHER = []
     ADMIN_CMDS = []
 
+
     class DisableAbleCommandHandler(CustomCommandHandler):
 
         def __init__(self, command, callback, admin_ok=False, filters=None, **kwargs):
-
             super().__init__(command, callback, **kwargs)
             self.admin_ok = admin_ok
             self.filters = filters
@@ -42,12 +41,11 @@ if is_module_loaded(FILENAME):
                     ADMIN_CMDS.extend(command)
 
         def check_update(self, update):
-
             chat = update.effective_chat
             user = update.effective_user
-            
+
             if super().check_update(update):
-                
+
                 # Should be safe since check_update passed.
                 command = update.effective_message.text_html.split(None, 1)[0][1:].split('@')[0]
 
@@ -62,9 +60,7 @@ if is_module_loaded(FILENAME):
 
 
     class DisableAbleMessageHandler(MessageHandler):
-
         def __init__(self, filters, callback, friendly, **kwargs):
-
             super().__init__(filters, callback, **kwargs)
             DISABLE_OTHER.append(friendly)
             self.friendly = friendly
@@ -81,15 +77,12 @@ if is_module_loaded(FILENAME):
 
 
     class DisableAbleRegexHandler(RegexHandler):
-
         def __init__(self, pattern, callback, friendly="", filters=None, **kwargs):
-
             super().__init__(pattern, callback, filters, **kwargs)
             DISABLE_OTHER.append(friendly)
             self.friendly = friendly
 
         def check_update(self, update):
-
             chat = update.effective_chat
             if super().check_update(update):
                 if sql.is_command_disabled(chat.id, self.friendly):
@@ -102,7 +95,6 @@ if is_module_loaded(FILENAME):
     @connection_status
     @user_admin
     def disable(bot: Bot, update: Update, args: List[str]):
-
         chat = update.effective_chat
         if len(args) >= 1:
             disable_cmd = args[0]
@@ -111,7 +103,7 @@ if is_module_loaded(FILENAME):
 
             if disable_cmd in set(DISABLE_CMDS + DISABLE_OTHER):
                 sql.disable_command(chat.id, str(disable_cmd).lower())
-                update.effective_message.reply_text("Disabled the use of `{}`".format(disable_cmd),
+                update.effective_message.reply_text(f"Disabled the use of `{disable_cmd}`",
                                                     parse_mode=ParseMode.MARKDOWN)
             else:
                 update.effective_message.reply_text("That command can't be disabled")
@@ -124,10 +116,8 @@ if is_module_loaded(FILENAME):
     @connection_status
     @user_admin
     def disable_module(bot: Bot, update: Update, args: List[str]):
-
         chat = update.effective_chat
         if len(args) >= 1:
-
             disable_module = "tg_bot.modules." + args[0].rsplit(".", 1)[0]
 
             try:
@@ -154,15 +144,15 @@ if is_module_loaded(FILENAME):
                     disabled_cmds.append(disable_cmd)
                 else:
                     failed_disabled_cmds.append(disable_cmd)
-            
+
             if disabled_cmds:
                 disabled_cmds_string = ", ".join(disabled_cmds)
-                update.effective_message.reply_text("Disabled the uses of `{}`".format(disabled_cmds_string),
-                                                        parse_mode=ParseMode.MARKDOWN)
-            
+                update.effective_message.reply_text(f"Disabled the uses of `{disabled_cmds_string}`",
+                                                    parse_mode=ParseMode.MARKDOWN)
+
             if failed_disabled_cmds:
                 failed_disabled_cmds_string = ", ".join(failed_disabled_cmds)
-                update.effective_message.reply_text("Commands `{}` can't be disabled".format(failed_disabled_cmds_string),
+                update.effective_message.reply_text(f"Commands `{failed_disabled_cmds_string}` can't be disabled",
                                                     parse_mode=ParseMode.MARKDOWN)
 
         else:
@@ -181,7 +171,7 @@ if is_module_loaded(FILENAME):
                 enable_cmd = enable_cmd[1:]
 
             if sql.enable_command(chat.id, enable_cmd):
-                update.effective_message.reply_text("Enabled the use of `{}`".format(enable_cmd),
+                update.effective_message.reply_text("Enabled the use of `{enable_cmd}`",
                                                     parse_mode=ParseMode.MARKDOWN)
             else:
                 update.effective_message.reply_text("Is that even disabled?")
@@ -189,15 +179,14 @@ if is_module_loaded(FILENAME):
         else:
             update.effective_message.reply_text("What should I enable?")
 
+
     @run_async
     @connection_status
     @user_admin
     def enable_module(bot: Bot, update: Update, args: List[str]):
-
         chat = update.effective_chat
 
         if len(args) >= 1:
-
             enable_module = "tg_bot.modules." + args[0].rsplit(".", 1)[0]
 
             try:
@@ -214,7 +203,7 @@ if is_module_loaded(FILENAME):
 
             enabled_cmds = []
             failed_enabled_cmds = []
-            
+
             for enable_cmd in command_list:
                 if enable_cmd.startswith(CMD_STARTERS):
                     enable_cmd = enable_cmd[1:]
@@ -223,15 +212,15 @@ if is_module_loaded(FILENAME):
                     enabled_cmds.append(enable_cmd)
                 else:
                     failed_enabled_cmds.append(enable_cmd)
-            
+
             if enabled_cmds:
                 enabled_cmds_string = ", ".join(enabled_cmds)
-                update.effective_message.reply_text("Enabled the uses of `{}`".format(enabled_cmds_string),
-                                                        parse_mode=ParseMode.MARKDOWN)
-            
+                update.effective_message.reply_text(f"Enabled the uses of `{enabled_cmds_string}`",
+                                                    parse_mode=ParseMode.MARKDOWN)
+
             if failed_enabled_cmds:
                 failed_enabled_cmds_string = ", ".join(failed_enabled_cmds)
-                update.effective_message.reply_text("Are the commands `{}` even disabled?".format(failed_enabled_cmds_string),
+                update.effective_message.reply_text(f"Are the commands `{failed_enabled_cmds_string}` even disabled?",
                                                     parse_mode=ParseMode.MARKDOWN)
 
         else:
@@ -242,12 +231,11 @@ if is_module_loaded(FILENAME):
     @connection_status
     @user_admin
     def list_cmds(bot: Bot, update: Update):
-
         if DISABLE_CMDS + DISABLE_OTHER:
             result = ""
             for cmd in set(DISABLE_CMDS + DISABLE_OTHER):
-                result += " - `{}`\n".format(escape_markdown(cmd))
-            update.effective_message.reply_text("The following commands are toggleable:\n{}".format(result),
+                result += f" - `{escape_markdown(cmd)}`\n"
+            update.effective_message.reply_text(f"The following commands are toggleable:\n{result}",
                                                 parse_mode=ParseMode.MARKDOWN)
         else:
             update.effective_message.reply_text("No commands can be disabled.")
@@ -255,7 +243,6 @@ if is_module_loaded(FILENAME):
 
     # do not async
     def build_curr_disabled(chat_id: Union[str, int]) -> str:
-
         disabled = sql.get_all_disabled(chat_id)
         if not disabled:
             return "No commands are disabled!"
@@ -269,13 +256,12 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     def commands(bot: Bot, update: Update):
-
         chat = update.effective_chat
         update.effective_message.reply_text(build_curr_disabled(chat.id), parse_mode=ParseMode.MARKDOWN)
 
 
     def __stats__():
-        return "{} disabled items, across {} chats.".format(sql.num_disabled(), sql.num_chats())
+        return f"{sql.num_disabled()} disabled items, across {sql.num_chats()} chats."
 
 
     def __migrate__(old_chat_id, new_chat_id):
@@ -284,6 +270,7 @@ if is_module_loaded(FILENAME):
 
     def __chat_settings__(chat_id, user_id):
         return build_curr_disabled(chat_id)
+
 
     DISABLE_HANDLER = CommandHandler("disable", disable, pass_args=True)
     DISABLE_MODULE_HANDLER = CommandHandler("disablemodule", disable_module, pass_args=True)
@@ -298,7 +285,7 @@ if is_module_loaded(FILENAME):
     dispatcher.add_handler(ENABLE_MODULE_HANDLER)
     dispatcher.add_handler(COMMANDS_HANDLER)
     dispatcher.add_handler(TOGGLE_HANDLER)
-    
+
     __help__ = """
     - /cmds: check the current status of disabled commands
 

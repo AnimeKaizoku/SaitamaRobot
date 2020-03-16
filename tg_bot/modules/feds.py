@@ -32,15 +32,16 @@ from tg_bot.modules.helper_funcs.alternate import send_message
 # Federation by MrYacha 2018-2019
 # Federation rework by Mizukito Akito 2019
 # Federation update v2 by Ayra Hikari 2019
-# 
+#
 # Time spended on feds = 10h by #MrYacha
 # Time spended on reworking on the whole feds = 22+ hours by @peaktogoo
 # Time spended on updating version to v2 = 26+ hours by @AyraHikari
-# 
+#
 # Total spended for making this features is 68+ hours
 
 # LOGGER.info("Original federation module by MrYacha, reworked by Mizukito Akito (@peaktogoo) on Telegram.")
 
+# TODO: Fix Loads of code duplication
 
 FBAN_ERRORS = {
 	"User is an administrator of the chat",
@@ -411,7 +412,7 @@ def fed_admin(bot: Bot, update: Update, args: List[str]):
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	
+
 	if chat.type == 'private':
 		send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
 		return
@@ -445,7 +446,7 @@ def fed_admin(bot: Bot, update: Update, args: List[str]):
 	else:
 		text += "\n🔱 Admin:\n"
 		for x in members:
-			user = bot.get_chat(x) 
+			user = bot.get_chat(x)
 			text += " • {}\n".format(mention_html(user.id, user.first_name))
 
 	update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
@@ -459,7 +460,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	
+
 	if chat.type == 'private':
 		send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
 		return
@@ -711,7 +712,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 				LOGGER.warning("Could not fban on {} because: {}".format(chat, excp.message))
 		except TelegramError:
 			pass
-	
+
 	# Also do not spamming all fed admins
 		"""
 		send_to_list(bot, FEDADMIN,
@@ -762,7 +763,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	message = update.effective_message  # type: Optional[Message]
-		
+
 	if chat.type == 'private':
 		send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
 		return
@@ -870,7 +871,7 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 				LOGGER.warning("Could not fban on {} because: {}".format(chat, excp.message))
 		except TelegramError:
 			pass
-	
+
 	try:
 		x = sql.un_fban_user(fed_id, user_id)
 		if not x:
@@ -934,7 +935,7 @@ def set_frules(bot: Bot, update: Update, args: List[str]):
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	
+
 	if chat.type == 'private':
 		send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
 		return
@@ -1203,7 +1204,7 @@ def fed_chats(bot: Bot, update: Update, args: List[str]):
 
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	
+
 	if chat.type == 'private':
 		send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
 		return
@@ -1351,7 +1352,7 @@ def fed_import_bans(bot: Bot, update: Update, chat_data):
 					multi_import_username.append(import_username)
 					multi_import_reason.append(import_reason)
 					success += 1
-				sql.multi_fban_user(multi_fed_id, multi_import_userid, multi_import_firstname, multi_import_lastname, multi_import_username, multi_import_reason)	
+				sql.multi_fban_user(multi_fed_id, multi_import_userid, multi_import_firstname, multi_import_lastname, multi_import_username, multi_import_reason)
 			text = "Blocks were successfully imported. {} people are blocked.".format(success)
 			if failed >= 1:
 				text += " {} Failed to import.".format(failed)
@@ -1443,7 +1444,7 @@ def del_fed_button(bot, update):
 		delete = sql.del_fed(fed_id)
 		if delete:
 			query.message.edit_text("You have removed your Federation! Now all the Groups that are connected with `{}` do not have a Federation.".format(getfed['fname']), parse_mode='markdown')
-			
+
 @run_async
 def fed_stat_user(bot, update, args):
 	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)

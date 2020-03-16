@@ -1,5 +1,5 @@
-import threading
 import random
+import threading
 
 from sqlalchemy import Column, String, Boolean, UnicodeText, Integer, BigInteger
 
@@ -96,6 +96,7 @@ DEFAULT_GOODBYE_MESSAGES = [
     "You're leaving, {first}? Yare Yare Daze.",
 ]
 
+
 class Welcome(BASE):
     __tablename__ = "welcome_pref"
     chat_id = Column(String(14), primary_key=True)
@@ -155,8 +156,9 @@ class WelcomeMute(BASE):
     welcomemutes = Column(UnicodeText, default=False)
 
     def __init__(self, chat_id, welcomemutes):
-        self.chat_id = str(chat_id) # ensure string
+        self.chat_id = str(chat_id)  # ensure string
         self.welcomemutes = welcomemutes
+
 
 class WelcomeMuteUsers(BASE):
     __tablename__ = "human_checks"
@@ -165,7 +167,7 @@ class WelcomeMuteUsers(BASE):
     human_check = Column(Boolean)
 
     def __init__(self, user_id, chat_id, human_check):
-        self.user_id = (user_id) # ensure string
+        self.user_id = (user_id)  # ensure string
         self.chat_id = str(chat_id)
         self.human_check = human_check
 
@@ -180,6 +182,7 @@ INSERTION_LOCK = threading.RLock()
 WELC_BTN_LOCK = threading.RLock()
 LEAVE_BTN_LOCK = threading.RLock()
 WM_LOCK = threading.RLock()
+
 
 def welcome_mutes(chat_id):
     try:
@@ -200,6 +203,7 @@ def set_welcome_mutes(chat_id, welcomemutes):
         SESSION.add(welcome_m)
         SESSION.commit()
 
+
 def set_human_checks(user_id, chat_id):
     with INSERTION_LOCK:
         human_check = SESSION.query(WelcomeMuteUsers).get((user_id, str(chat_id)))
@@ -214,6 +218,7 @@ def set_human_checks(user_id, chat_id):
 
         return human_check
 
+
 def get_human_checks(user_id, chat_id):
     try:
         human_check = SESSION.query(WelcomeMuteUsers).get((user_id, str(chat_id)))
@@ -223,6 +228,7 @@ def get_human_checks(user_id, chat_id):
         return human_check
     finally:
         SESSION.close()
+
 
 def get_welc_mutes_pref(chat_id):
     welcomemutes = SESSION.query(WelcomeMute).get(str(chat_id))

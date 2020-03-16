@@ -1,21 +1,18 @@
 import html
-
 from typing import List
 
 from telegram import Bot, Update, ParseMode, MAX_MESSAGE_LENGTH
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown
 
+import tg_bot.modules.sql.userinfo_sql as sql
 from tg_bot import dispatcher, SUDO_USERS, DEV_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.extraction import extract_user
 
-import tg_bot.modules.sql.userinfo_sql as sql
-
 
 @run_async
 def about_me(bot: Bot, update: Update, args: List[str]):
-
     message = update.effective_message
     user_id = extract_user(message, args)
 
@@ -27,7 +24,7 @@ def about_me(bot: Bot, update: Update, args: List[str]):
     info = sql.get_user_me_info(user.id)
 
     if info:
-        update.effective_message.reply_text("*{}*:\n{}".format(user.first_name, escape_markdown(info)),
+        update.effective_message.reply_text(f"*{user.first_name}*:\n{escape_markdown(info)}",
                                             parse_mode=ParseMode.MARKDOWN)
     elif message.reply_to_message:
         username = message.reply_to_message.from_user.first_name
@@ -38,7 +35,6 @@ def about_me(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def set_about_me(bot: Bot, update: Update):
-
     message = update.effective_message
     user_id = message.from_user.id
     if message.reply_to_message:
@@ -46,7 +42,7 @@ def set_about_me(bot: Bot, update: Update):
         repl_user_id = repl_message.from_user.id
         if repl_user_id == bot.id and (user_id in SUDO_USERS or user_id in DEV_USERS):
             user_id = repl_user_id
-    
+
     text = message.text
     info = text.split(None, 1)
 
@@ -64,7 +60,6 @@ def set_about_me(bot: Bot, update: Update):
 
 @run_async
 def about_bio(bot: Bot, update: Update, args: List[str]):
-
     message = update.effective_message
 
     user_id = extract_user(message, args)
@@ -87,7 +82,6 @@ def about_bio(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def set_about_bio(bot: Bot, update: Update):
-
     message = update.effective_message
     sender_id = update.effective_user.id
 
@@ -119,7 +113,6 @@ def set_about_bio(bot: Bot, update: Update):
 
 
 def __user_info__(user_id):
-    
     bio = html.escape(sql.get_user_bio(user_id) or "")
     me = html.escape(sql.get_user_me_info(user_id) or "")
     if bio and me:
