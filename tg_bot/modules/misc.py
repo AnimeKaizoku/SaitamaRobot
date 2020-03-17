@@ -1,23 +1,20 @@
 import html
-import json
 import re
-import requests
-
 from typing import List
 
+import requests
 from telegram import Bot, Update, MessageEntity, ParseMode
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import mention_html
 
 from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, DEV_USERS, WHITELIST_USERS
 from tg_bot.__main__ import STATS, USER_INFO, TOKEN
+from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin, sudo_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user
-from tg_bot.modules.disable import DisableAbleCommandHandler
 
-
-MARKDOWN_HELP = """
-Markdown is a very powerful formatting tool supported by telegram. {} has some enhancements, to make sure that \
+MARKDOWN_HELP = f"""
+Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
 saved messages are correctly parsed, and to allow you to create buttons.
 
 - <code>_italic_</code>: wrapping text with '_' will produce italic text
@@ -38,51 +35,48 @@ If you want multiple buttons on the same line, use :same, as such:
 This will create two buttons on a single line, instead of one button per line.
 
 Keep in mind that your message <b>MUST</b> contain some text other than just a button!
-""".format(dispatcher.bot.first_name)
+"""
 
 
 @run_async
 def get_id(bot: Bot, update: Update, args: List[str]):
-
     message = update.effective_message
     chat = update.effective_chat
-    user_id = extract_user(update.effective_message, args)
+    msg = update.effective_message
+    user_id = extract_user(msg, args)
 
     if user_id:
 
-        if update.effective_message.reply_to_message and update.effective_message.reply_to_message.forward_from:
+        if msg.reply_to_message and msg.reply_to_message.forward_from:
 
             user1 = message.reply_to_message.from_user
             user2 = message.reply_to_message.forward_from
 
-            update.effective_message.reply_text(
-                "The original sender, {}, has an ID of <code>{}</code>.\nThe forwarder, {}, has an ID of <code>{}</code>.".format(
-                    html.escape(user2.first_name),
-                    user2.id,
-                    html.escape(user1.first_name),
-                    user1.id),
-                parse_mode=ParseMode.HTML)
+            msg.reply_text(f"The original sender, {html.escape(user2.first_name)},"
+                           f" has an ID of <code>{user2.id}</code>.\n"
+                           f"The forwarder, {html.escape(user1.first_name)},"
+                           f" has an ID of <code>{user1.id}</code>.",
+                           parse_mode=ParseMode.HTML)
 
         else:
 
             user = bot.get_chat(user_id)
-            update.effective_message.reply_text("{}'s id is <code>{}</code>.".format(html.escape(user.first_name), user.id),
-                                                parse_mode=ParseMode.HTML)
+            msg.reply_text(f"{html.escape(user.first_name)}'s id is <code>{user.id}</code>.",
+                           parse_mode=ParseMode.HTML)
 
     else:
 
         if chat.type == "private":
-            update.effective_message.reply_text("Your id is <code>{}</code>.".format(chat.id),
-                                                parse_mode=ParseMode.HTML)
+            msg.reply_text(f"Your id is <code>{chat.id}</code>.",
+                           parse_mode=ParseMode.HTML)
 
         else:
-            update.effective_message.reply_text("This group's id is <code>{}</code>.".format(chat.id),
-                                                parse_mode=ParseMode.HTML)
+            msg.reply_text(f"This group's id is <code>{chat.id}</code>.",
+                           parse_mode=ParseMode.HTML)
 
 
 @run_async
 def info(bot: Bot, update: Update, args: List[str]):
-
     message = update.effective_message
     chat = update.effective_chat
     user_id = extract_user(update.effective_message, args)
@@ -102,20 +96,20 @@ def info(bot: Bot, update: Update, args: List[str]):
     else:
         return
 
-    text = "<b>Characteristics:</b>" \
-           "\nID: <code>{}</code>" \
-           "\nFirst Name: {}".format(user.id, html.escape(user.first_name))
+    text = (f"<b>Characteristics:</b>\n"
+            f"ID: <code>{user.id}</code>\n"
+            f"First Name: {html.escape(user.first_name)}")
 
     if user.last_name:
-        text += "\nLast Name: {}".format(html.escape(user.last_name))
+        text += f"\nLast Name: {html.escape(user.last_name)}"
 
     if user.username:
-        text += "\nUsername: @{}".format(html.escape(user.username))
+        text += f"\nUsername: @{html.escape(user.username)}"
 
-    text += "\nPermanent user link: {}".format(mention_html(user.id, "link"))
+    text += f"\nPermanent user link: {mention_html(user.id, 'link')}"
 
     disaster_level_present = False
-    
+
     if user.id == OWNER_ID:
         text += "\nThe Disaster level of this person is 'God'."
         disaster_level_present = True
@@ -126,7 +120,7 @@ def info(bot: Bot, update: Update, args: List[str]):
         text += "\nThe Disaster level of this person is 'Dragon'."
         disaster_level_present = True
     elif user.id in SUPPORT_USERS:
-        text+= "\nThe Disaster level of this person is 'Demon'."
+        text += "\nThe Disaster level of this person is 'Demon'."
         disaster_level_present = True
     elif user.id in WHITELIST_USERS:
         text += "\nThe Disaster level of this person is 'Wolf'."
@@ -134,7 +128,6 @@ def info(bot: Bot, update: Update, args: List[str]):
 
     if disaster_level_present:
         text += ' [<a href="https://t.me/OnePunchSupport/18340">?</a>]'
-    
     user_member = chat.get_member(user.id)
     if user_member.status == 'administrator':
         result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}")
@@ -157,7 +150,6 @@ def info(bot: Bot, update: Update, args: List[str]):
 @run_async
 @user_admin
 def echo(bot: Bot, update: Update):
-
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
 
@@ -171,7 +163,6 @@ def echo(bot: Bot, update: Update):
 
 @run_async
 def markdown_help(bot: Bot, update: Update):
-
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text("Try forwarding the following message to me, and you'll see!")
     update.effective_message.reply_text("/save test This is a markdown test. _italics_, *bold*, `code`, "

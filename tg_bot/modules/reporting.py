@@ -1,5 +1,4 @@
 import html
-
 from typing import List
 
 from telegram import Bot, Chat, Update, ParseMode
@@ -19,7 +18,6 @@ REPORT_IMMUNE_USERS = DEV_USERS + WHITELIST_USERS
 @run_async
 @user_admin
 def report_setting(bot: Bot, update: Update, args: List[str]):
-
     chat = update.effective_chat
     msg = update.effective_message
 
@@ -33,7 +31,7 @@ def report_setting(bot: Bot, update: Update, args: List[str]):
                 sql.set_user_setting(chat.id, False)
                 msg.reply_text("Turned off reporting! You wont get any reports.")
         else:
-            msg.reply_text("Your current report preference is: `{}`".format(sql.user_should_report(chat.id)),
+            msg.reply_text(f"Your current report preference is: `{sql.user_should_report(chat.id)}`",
                            parse_mode=ParseMode.MARKDOWN)
 
     else:
@@ -47,7 +45,7 @@ def report_setting(bot: Bot, update: Update, args: List[str]):
                 sql.set_chat_setting(chat.id, False)
                 msg.reply_text("Turned off reporting! No admins will be notified on /report or @admin.")
         else:
-            msg.reply_text("This chat's current setting is: `{}`".format(sql.chat_should_report(chat.id)),
+            msg.reply_text(f"This chat's current setting is: `{sql.chat_should_report(chat.id)}`",
                            parse_mode=ParseMode.MARKDOWN)
 
 
@@ -55,7 +53,6 @@ def report_setting(bot: Bot, update: Update, args: List[str]):
 @user_not_admin
 @loggable
 def report(bot: Bot, update: Update) -> str:
-
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -74,37 +71,26 @@ def report(bot: Bot, update: Update) -> str:
         if user.id == bot.id:
             message.reply_text("Nice try.")
             return ""
-        
+
         if reported_user.id in REPORT_IMMUNE_USERS:
             message.reply_text("Uh? You reporting whitelisted users?")
-            return "" 
+            return ""
 
         if chat.username and chat.type == Chat.SUPERGROUP:
 
-            reported = "{} reported {} to the admins!".format(mention_html(user.id, user.first_name),
-                                                              mention_html(reported_user.id, reported_user.first_name))
-            
-            msg = "<b>{}:</b>" \
-                  "\n<b>Reported user:</b> {} (<code>{}</code>)" \
-                  "\n<b>Reported by:</b> {} (<code>{}</code>)".format(html.escape(chat.title),
-                                                                      mention_html(
-                                                                          reported_user.id,
-                                                                          reported_user.first_name),
-                                                                      reported_user.id,
-                                                                      mention_html(user.id,
-                                                                                   user.first_name),
-                                                                      user.id)
-            link = "\n<b>Link:</b> " \
-                   "<a href=\"http://telegram.me/{}/{}\">click here</a>".format(chat.username, message.message_id)
-            
-            
+            reported = f"{mention_html(user.id, user.first_name)} reported {mention_html(reported_user.id, reported_user.first_name)} to the admins!"
+
+            msg = (f"<b>{html.escape(chat.title)}:</b>\n"
+                   f"<b>Reported user:</b> {mention_html(reported_user.id, reported_user.first_name)} (<code>{reported_user.id}</code>)\n"
+                   f"<b>Reported by:</b> {mention_html(user.id, user.first_name)} (<code>{user.id}</code>)")
+            link = f'\n<b>Link:</b> <a href="https://t.me/{chat.username}/{message.message_id}">click here</a>'
+
             should_forward = False
         else:
-            reported = "{} reported {} to the admins!".format(mention_html(user.id, user.first_name),
-                                                              mention_html(reported_user.id, reported_user.first_name))
+            reported = f"{mention_html(user.id, user.first_name)} reported " \
+                       f"{mention_html(reported_user.id, reported_user.first_name)} to the admins!"
 
-            msg = "{} is calling for admins in \"{}\"!".format(mention_html(user.id, user.first_name),
-                                                               html.escape(chat_name))
+            msg = f'{mention_html(user.id, user.first_name)} is calling for admins in "{html.escape(chat_name)}"!'
             link = ""
             should_forward = True
 

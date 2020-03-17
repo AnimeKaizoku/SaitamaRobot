@@ -93,10 +93,10 @@ def extract_text(message) -> str:
 def extract_unt_fedban(message: Message, args: List[str]) -> (Optional[int], Optional[str]):
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
-    
+
     if len(split_text) < 2:
         return id_from_reply(message)  # only option possible
-    
+
     text_to_parse = split_text[1]
 
     text = ""
@@ -106,7 +106,7 @@ def extract_unt_fedban(message: Message, args: List[str]) -> (Optional[int], Opt
         ent = entities[0]
     else:
         ent = None
-        
+
     # if entity offset matches (command end/text start) then all good
     if entities and ent and ent.offset == len(message.text) - len(text_to_parse):
         ent = entities[0]
@@ -116,9 +116,10 @@ def extract_unt_fedban(message: Message, args: List[str]) -> (Optional[int], Opt
     elif len(args) >= 1 and args[0][0] == '@':
         user = args[0]
         user_id = get_user_id(user)
-        if not user_id and not str(user_id).isdigit():
-            message.reply_text("Saya tidak memiliki pengguna di db saya. Anda akan dapat berinteraksi dengan mereka jika "
-                               "Anda membalas pesan orang itu, atau meneruskan salah satu dari pesan pengguna itu.")
+        if not user_id and not isinstance(user_id, int):
+            message.reply_text(
+                "Saya tidak memiliki pengguna di db saya. Anda akan dapat berinteraksi dengan mereka jika "
+                "Anda membalas pesan orang itu, atau meneruskan salah satu dari pesan pengguna itu.")
             return None, None
 
         else:
@@ -142,15 +143,16 @@ def extract_unt_fedban(message: Message, args: List[str]) -> (Optional[int], Opt
     try:
         message.bot.get_chat(user_id)
     except BadRequest as excp:
-        if excp.message in ("User_id_invalid", "Chat not found") and not str(user_id).isdigit():
-            message.reply_text("Saya sepertinya tidak pernah berinteraksi dengan pengguna ini sebelumnya - silakan meneruskan pesan dari "
-                               "mereka untuk memberi saya kontrol! (Seperti boneka voodoo, saya butuh sepotong untuk bisa"
+        if excp.message in ("User_id_invalid", "Chat not found") and not isinstance(user_id, int):
+            message.reply_text("Saya sepertinya tidak pernah berinteraksi dengan pengguna ini "
+                               "sebelumnya - silakan meneruskan pesan dari mereka untuk memberi saya kontrol! "
+                               "(Seperti boneka voodoo, saya butuh sepotong untuk bisa"
                                "untuk menjalankan perintah tertentu...)")
             return None, None
         elif excp.message != "Chat not found":
             LOGGER.exception("Exception %s on user %s", excp.message, user_id)
             return None, None
-        elif not str(user_id).isdigit():
+        elif not isinstance(user_id, int):
             return None, None
 
     return user_id, text

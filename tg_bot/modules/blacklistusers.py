@@ -48,12 +48,11 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
 
     sql.blacklist_user(user_id, reason)
     message.reply_text("I shall ignore the existence of this user!")
-    log_message = "#BLACKLIST" \
-                  "\n<b>Admin:</b> {}" \
-                  "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
-                                             mention_html(target_user.id, target_user.first_name))
+    log_message = (f"#BLACKLIST\n"
+                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                   f"<b>User:</b> {mention_html(target_user.id, target_user.first_name)}")
     if reason:
-        log_message += "\n<b>Reason:</b> {}".format(reason)
+        log_message += f"\n<b>Reason:</b> {reason}"
 
     return log_message
 
@@ -88,10 +87,9 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
 
         sql.unblacklist_user(user_id)
         message.reply_text("*notices user*")
-        log_message = "#UNBLACKLIST" \
-                      "\n<b>Admin:</b> {}" \
-                      "\n<b>User:</b> {}".format(mention_html(user.id, user.first_name),
-                                                 mention_html(target_user.id, target_user.first_name))
+        log_message = (f"#UNBLACKLIST\n"
+                       f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                       f"<b>User:</b> {mention_html(target_user.id, target_user.first_name)}")
 
         return log_message
 
