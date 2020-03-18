@@ -29,7 +29,7 @@ def paste(bot: Bot, update: Update, args: List[str]):
 
     reply_text = f'Nekofied to *Nekobin* : {url}'
 
-    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
+    message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
 
 @dev_plus
