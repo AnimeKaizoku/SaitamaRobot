@@ -4,6 +4,7 @@ from typing import List
 
 import requests
 from telegram import Bot, Update, MessageEntity, ParseMode
+from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import mention_html
 
@@ -128,13 +129,17 @@ def info(bot: Bot, update: Update, args: List[str]):
 
     if disaster_level_present:
         text += ' [<a href="https://t.me/OnePunchSupport/18340">?</a>]'
-    user_member = chat.get_member(user.id)
-    if user_member.status == 'administrator':
-        result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}")
-        result = result.json()["result"]
-        if "custom_title" in result.keys():
-            custom_title = result['custom_title']
-            text += f"\n\nThis user holds the title <b>{custom_title}</b> here."
+
+    try:
+        user_member = chat.get_member(user.id)
+        if user_member.status == 'administrator':
+            result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}")
+            result = result.json()["result"]
+            if "custom_title" in result.keys():
+                custom_title = result['custom_title']
+                text += f"\n\nThis user holds the title <b>{custom_title}</b> here."
+    except BadRequest:
+        pass
 
     for mod in USER_INFO:
         try:
