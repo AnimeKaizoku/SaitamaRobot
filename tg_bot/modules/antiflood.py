@@ -36,11 +36,11 @@ def check_flood(bot: Bot, update: Update) -> str:
 
     try:
         bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
-        msg.reply_text("*permamutes user*\nReason: Flood")
+        msg.reply_text(f"*mutes {mention_html(user.id, user.first_name)} permanently*\nStop flooding the group!.")
         log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
                        f"#MUTED\n"
                        f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"Flooded the group. Muted until an admin unmutes")
+                       f"Flooded the group.\nMuted until an admin unmutes")
 
         return log_message
 
