@@ -171,7 +171,7 @@ if is_module_loaded(FILENAME):
                 enable_cmd = enable_cmd[1:]
 
             if sql.enable_command(chat.id, enable_cmd):
-                update.effective_message.reply_text("Enabled the use of `{enable_cmd}`",
+                update.effective_message.reply_text(f"Enabled the use of `{enable_cmd}`",
                                                     parse_mode=ParseMode.MARKDOWN)
             else:
                 update.effective_message.reply_text("Is that even disabled?")
