@@ -35,12 +35,12 @@ def check_flood(bot: Bot, update: Update) -> str:
         return log_message
 
     try:
-        chat.kick_member(user.id)
-        msg.reply_text("*bans user*\nReason: Flood")
+        bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
+        msg.reply_text(f"*mutes {mention_html(user.id, user.first_name)} permanently*\nStop flooding the group!", parse_mode=ParseMode.HTML)
         log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                       f"#BANNED\n"
+                       f"#MUTED\n"
                        f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"Flooded the group.")
+                       f"Flooded the group.\nMuted until an admin unmutes")
 
         return log_message
 
