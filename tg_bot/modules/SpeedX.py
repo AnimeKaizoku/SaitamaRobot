@@ -6,7 +6,7 @@ from tg_bot import dispatcher
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import dev_plus
 
-def convert_bits(speed):
+def convert(speed):
 	return round(int(speed)/1048576, 2)
 
 @dev_plus
@@ -28,7 +28,7 @@ def speedtestxyz_callback(bot: Bot, update: Update):
      s.download()
      s.upload()
      replymsg = 'SpeedTest Results:'
-     If query.data == 'speedtest_image':
+     if query.data == 'speedtest_image':
       speedtest_image = s.results.share()
       update.effective_message.reply_photo(photo=speedtest_image, caption=replymsg)
       msg.delete()
