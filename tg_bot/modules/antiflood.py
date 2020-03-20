@@ -36,7 +36,7 @@ def check_flood(bot: Bot, update: Update) -> str:
 
     try:
         bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
-        msg.reply_text(f"*mutes {mention_html(user.id, user.first_name)} permanently*\nStop flooding the group!.")
+        msg.reply_text(f"*mutes {mention_html(user.id, user.first_name)} permanently*\nStop flooding the group!.", parse_mode=ParseMode.HTML)
         log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
                        f"#MUTED\n"
                        f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
