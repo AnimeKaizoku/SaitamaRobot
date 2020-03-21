@@ -17,7 +17,8 @@ else:
 
 BLUE_TEXT_CLEAN_GROUP = 15
 CommandHandlerList = (CommandHandler, CustomCommandHandler, DisableAbleCommandHandler)
-command_list = ["cleanbluetext", "ignorecleanbluetext", "unignorecleanbluetext", "listcleanbluetext", "ignoreglobalcleanbluetext", "unignoreglobalcleanbluetext"]
+command_list = ["cleanbluetext", "ignorecleanbluetext", "unignorecleanbluetext", "listcleanbluetext", "ignoreglobalcleanbluetext", "unignoreglobalcleanbluetext"
+                "start", "help", "settings", "donate"]
 
 for handler_list in dispatcher.handlers:
     for handler in dispatcher.handlers[handler_list]:
