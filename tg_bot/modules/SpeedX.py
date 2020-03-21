@@ -22,6 +22,7 @@ def speedtestxyz(bot: Bot, update: Update):
 def speedtestxyz_callback(bot: Bot, update: Update):
     query = update.callback_query
     if query.from_user.id in devs:
+     msg = update.effective_message.edit_text('Doing SpeedTest') 
      s = speedtest.Speedtest()
      s.get_best_server()
      s.download()
@@ -30,9 +31,10 @@ def speedtestxyz_callback(bot: Bot, update: Update):
      if query.data == 'speedtest_image':
       speedtest_image = s.results.share()
       update.effective_message.reply_photo(photo=speedtest_image, caption=replymsg)
+      msg.delete()
      elif query.data == 'speedtest_text':
       result = s.results.dict()
-      replymsg += f"Download: `{convert(result['download'])}Mb/s`\nUpload: `{convert(result['upload'])}Mb/s`\nPing: `{result['ping']}`"
+      replymsg += f"\nDownload: `{convert(result['download'])}Mb/s`\nUpload: `{convert(result['upload'])}Mb/s`\nPing: `{result['ping']}`"
       update.effective_message.edit_text(replymsg, parse_mode=ParseMode.MARKDOWN)
     else:
        query.answer("You are not allowed to use this.")
