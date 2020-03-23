@@ -1,0 +1,13 @@
+name: Greetings
+
+on: [pull_request, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: 'Hi, welcome to SaitamaRobot and its repo, as this is your first issuse here we suggest you visit us on telegrm @OnePunchSupport for faster resolutions and urgent reports'
+        pr-message: 'Hi, welcome to your first PR here, we will catch up with you shortly.'
