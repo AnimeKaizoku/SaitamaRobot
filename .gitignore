@@ -11,3 +11,4 @@ start-3.6.bat
 *.session
 kangsticker.png
 venv
+config.ini
