@@ -1,4 +1,7 @@
 tg_bot/config.py
+tg_bot/*.session
+tg_bot/*.session-journal
+tg_bot/config.ini
 *.pyc
 .idea/
 .project
@@ -8,7 +11,5 @@ tg_bot/config.py
 tg_bot/modules/helper_funcs/temp.txt
 tg_bot/elevated_users.json
 start-3.6.bat
-*.session
 kangsticker.png
 venv
-config.ini
