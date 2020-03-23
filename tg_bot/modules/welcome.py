@@ -85,6 +85,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
     for new_mem in new_members:
 
         welcome_log = None
+        sent = None
         if should_welc:
 
             # Give the owner a special welcome
@@ -152,6 +153,19 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
 
                 backup_message = random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(first=escape_markdown(first_name))
                 keyboard = InlineKeyboardMarkup(keyb)
+
+                if welc_mutes != "strong":
+                    sent = send(update, res, keyboard, backup_message)
+
+                    prev_welc = sql.get_clean_pref(chat.id)
+                    if prev_welc:
+                        try:
+                            bot.delete_message(chat.id, prev_welc)
+                        except BadRequest:
+                            pass
+
+                        if sent:
+                            sql.set_clean_welcome(chat.id, sent.message_id)
 
         else:
             res = None
