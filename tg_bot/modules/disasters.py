@@ -424,7 +424,7 @@ def whitelistlist(bot: Bot, update: Update):
 @run_async
 @whitelist_plus
 def tigerlist(bot: Bot, update: Update):
-    reply = "<b>Known Tiger Disasters 👹:</b>\n"
+    reply = "<b>Known Tiger Disasters 🐯:</b>\n"
     for each_user in TIGER_USERS:
         user_id = int(each_user)
         try:
@@ -480,10 +480,11 @@ def devlist(bot: Bot, update: Update):
 
 
 __help__ = """
- - /heroes - List all Hero Association members.
- - /dragons - List all Dragon disasters.
- - /demons - List all Demon disasters.
- - /wolves - List all Wolf disasters.
+ - /heroes - Lists all Hero Association members.
+ - /dragons - Lists all Dragon disasters.
+ - /demons - Lists all Demon disasters.
+ - /tigers - Lists all Tigers disasters.
+ - /wolves - Lists all Wolf disasters.
  Note: These commands list users with special bot priveleges and can only be used by them.
  You can visit @OnePunchSupport to query more about these.
 """
