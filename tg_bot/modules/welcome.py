@@ -175,6 +175,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                             sql.set_clean_welcome(chat.id, sent.message_id)
 
         else:
+            welcome_bool = False
             res = None
             keyboard = None
             backup_message = None
