@@ -103,13 +103,6 @@ def chats(bot: Bot, update: Update):
                                                 caption="Here is the list of chats in my Hit List.")
 
 
-def __user_info__(user_id):
-    if user_id == dispatcher.bot.id:
-        return """I've seen them in... Wow. Are they stalking me? They're in all the same places I am... oh. It's me."""
-    num_chats = sql.get_user_num_chats(user_id)
-    return f"""I've seen them in <code>{num_chats}</code> chats in total."""
-
-
 def __stats__():
     return f"{sql.num_users()} users, across {sql.num_chats()} chats"
 
