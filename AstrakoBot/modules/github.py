@@ -106,7 +106,7 @@ def changelog(bot: Bot, update: Update, args: List[str]):
 def saveRepo(bot: Bot, update: Update, args: List[str]):
     chat_id = update.effective_chat.id
     msg = update.effective_message
-    if(len(args) != 2 and (len(args) != 3 and not args[2].isdigit()) and not ("/" in args[1])):
+    if(len(args) != 2 and (len(args) != 3 and not args[2].isdigit()) or not ("/" in args[1])):
         msg.reply_text("Invalid data, use <reponame> <user>/<repo> <value (optional)>")
         return
     index = 0
