@@ -52,6 +52,11 @@ if ENV:
     except ValueError:
         raise Exception("Your whitelisted users list does not contain valid integers.")
 
+    try:
+        TIGER_USERS = set(int(x) for x in os.environ.get("TIGER_USERS", "").split())
+    except ValueError:
+        raise Exception("Your tiger users list does not contain valid integers.")
+
     GBAN_LOGS = os.environ.get('GBAN_LOGS', None)
     WEBHOOK = bool(os.environ.get('WEBHOOK', False))
     URL = os.environ.get('URL', "")  # Does not contain token
@@ -103,6 +108,11 @@ else:
     except ValueError:
         raise Exception("Your whitelisted users list does not contain valid integers.")
 
+    try:
+        TIGER_USERS = set(int(x) for x in Config.TIGER_USERS or [])
+    except ValueError:
+        raise Exception("Your tiger users list does not contain valid integers.")
+
     GBAN_LOGS = Config.GBAN_LOGS
     WEBHOOK = Config.WEBHOOK
     URL = Config.URL
@@ -131,6 +141,7 @@ SUDO_USERS = list(SUDO_USERS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
 WHITELIST_USERS = list(WHITELIST_USERS)
 SUPPORT_USERS = list(SUPPORT_USERS)
+TIGER_USERS = list(TIGER_USERS)
 SPAMMERS = list(SPAMMERS)
 
 # Load at end to ensure all prev variables have been set

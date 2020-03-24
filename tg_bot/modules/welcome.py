@@ -12,7 +12,7 @@ from telegram.ext import MessageHandler, Filters, CommandHandler, run_async, Cal
 from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
 
 import tg_bot.modules.sql.welcome_sql as sql
-from tg_bot import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, SUPPORT_USERS, WHITELIST_USERS, LOGGER
+from tg_bot import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, LOGGER
 from tg_bot.modules.helper_funcs.chat_status import user_admin, is_user_ban_protected
 from tg_bot.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from tg_bot.modules.helper_funcs.msg_types import get_welcome_type
@@ -111,10 +111,14 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                 update.effective_message.reply_text("Huh! Someone with a Demon disaster level just joined!")
 
             # Welcome Whitelisted
-            elif new_mem.id in WHITELIST_USERS:
-                update.effective_message.reply_text("A disaster level Wolf just joined!")
+            elif new_mem.id in TIGER_USERS:
+                update.effective_message.reply_text("Oof! A Tiger disaster just joined!")
 
-            # Don't welcome yourself
+            # Welcome Tigers
+            elif new_mem.id in WHITELIST_USERS:
+                update.effective_message.reply_text("Oof! A Wolf disaster just joined!")
+
+            # Welcome yourself
             elif new_mem.id == bot.id:
                 update.effective_message.reply_text("Watashi wa kitaa!")
 
@@ -171,6 +175,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                             sql.set_clean_welcome(chat.id, sent.message_id)
 
         else:
+            welcome_bool = False
             res = None
             keyboard = None
             backup_message = None
@@ -205,7 +210,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                         }
                     })
                     new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
-                    message = msg.reply_text(f"{new_join_mem}, click the button below to prove you're human.\nYou have 120 seconds.",
+                    message = msg.reply_text(f"{new_join_mem}, click the button below to prove you're human.\nYou have 160 seconds.",
                                              reply_markup=InlineKeyboardMarkup([{InlineKeyboardButton(
                                                  text="Yes, I'm human.",
                                                  callback_data=f"user_join_({new_mem.id})")}]),
@@ -219,7 +224,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                     job_queue.run_once(
                         partial(
                             check_not_bot, new_mem, chat.id, message.message_id
-                        ), 120, name="wlcmute"
+                        ), 160, name="welcomemute"
                     )
 
         if welcome_bool:
@@ -257,7 +262,7 @@ def check_not_bot(member, chat_id, message_id, bot, job):
             pass
 
         try:
-            bot.edit_message_text("User kicked.", chat_id=chat_id, message_id=message_id)
+            bot.edit_message_text("*kicks user*\nThey can always rejoin and try.", chat_id=chat_id, message_id=message_id)
         except:
             pass
 
@@ -359,7 +364,7 @@ def welcome(bot: Bot, update: Update, args: List[str]):
     elif len(args) >= 1:
         if args[0].lower() in ("on", "yes"):
             sql.set_welc_preference(str(chat.id), True)
-            update.effective_message.reply_text("I'll be polite then!")
+            update.effective_message.reply_text("Okay! I'll greet members when they join.")
 
         elif args[0].lower() in ("off", "no"):
             sql.set_welc_preference(str(chat.id), False)
@@ -515,7 +520,7 @@ def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
                     f"Has toggled welcome mute to <b>SOFT</b>.")
         elif args[0].lower() in ["strong"]:
             sql.set_welcome_mutes(chat.id, "strong")
-            msg.reply_text("I will now mute people when they join until they prove they're not a bot.")
+            msg.reply_text("I will now mute people when they join until they prove they're not a bot.\nThey will have 160seconds before they get kicked.")
             return (f"<b>{html.escape(chat.title)}:</b>\n"
                     f"#WELCOME_MUTE\n"
                     f"<b>• Admin:</b> {mention_html(user.id, user.first_name)}\n"
@@ -525,7 +530,7 @@ def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
             return ""
     else:
         curr_setting = sql.welcome_mutes(chat.id)
-        reply = (f"\n Give me a setting! Choose one out of: `off`/`no` or `soft` or `strong` only! \n"
+        reply = (f"\n Give me a setting!\nChoose one out of: `off`/`no` or `soft` or `strong` only! \n"
                  f"Current setting: `{curr_setting}`")
         msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
         return ""
@@ -630,8 +635,9 @@ WELC_MUTE_HELP_TXT = (
     "The following options are possible:\n"
     "- `/welcomemute soft`: restricts new members from sending media for 24 hours.\n"
     "- `/welcomemute strong`: mutes new members till they tap on a button thereby verifying they're human.\n"
-    "- `/welcomemute off`: turns off welcomemute.")
-
+    "- `/welcomemute off`: turns off welcomemute.\n"
+    "`Note:` Strong mode kicks a user from the chat if they dont verify in 160seconds. They can always rejoin though"
+                     )
 
 @run_async
 @user_admin
@@ -681,7 +687,7 @@ __help__ = """
  - /resetwelcome: reset to the default welcome message.
  - /resetgoodbye: reset to the default goodbye message.
  - /cleanwelcome <on/off>: On new member, try to delete the previous welcome message to avoid spamming the chat.
- - /wlcmutehelp: gives information about welcome mutes.
+ - /welcomemutehelp: gives information about welcome mutes.
  - /welcomehelp: view more formatting information for custom welcome/goodbye messages.
 """.format(WELC_HELP_TXT)
 
@@ -696,7 +702,7 @@ RESET_GOODBYE = CommandHandler("resetgoodbye", reset_goodbye, filters=Filters.gr
 WELCOMEMUTE_HANDLER = CommandHandler("welcomemute", welcomemute, pass_args=True, filters=Filters.group)
 CLEAN_WELCOME = CommandHandler("cleanwelcome", clean_welcome, pass_args=True, filters=Filters.group)
 WELCOME_HELP = CommandHandler("welcomehelp", welcome_help)
-WELCOME_MUTE_HELP = CommandHandler("wlcmutehelp", welcome_mute_help)
+WELCOME_MUTE_HELP = CommandHandler("welcomemutehelp", welcome_mute_help)
 BUTTON_VERIFY_HANDLER = CallbackQueryHandler(user_button, pattern=r"user_join_")
 
 dispatcher.add_handler(NEW_MEM_HANDLER)
@@ -715,7 +721,7 @@ dispatcher.add_handler(WELCOME_MUTE_HELP)
 
 __mod_name__ = "Welcomes/Goodbyes"
 __command_list__ = ["welcome", "goodbye", "setwelcome", "setgoodbye", "resetwelcome", "resetgoodbye",
-                    "welcomemute", "cleanwelcome", "welcomehelp", "wlcmutehelp"]
+                    "welcomemute", "cleanwelcome", "welcomehelp", "welcomemutehelp"]
 __handlers__ = [NEW_MEM_HANDLER, LEFT_MEM_HANDLER, WELC_PREF_HANDLER, GOODBYE_PREF_HANDLER,
                 SET_WELCOME, SET_GOODBYE, RESET_WELCOME, RESET_GOODBYE, CLEAN_WELCOME,
                 WELCOME_HELP, WELCOMEMUTE_HANDLER, BUTTON_VERIFY_HANDLER, WELCOME_MUTE_HELP]

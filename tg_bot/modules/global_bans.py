@@ -10,7 +10,7 @@ from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
 import tg_bot.modules.sql.global_bans_sql as sql
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, WHITELIST_USERS, STRICT_GBAN, GBAN_LOGS
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, STRICT_GBAN, GBAN_LOGS
 from tg_bot.modules.helper_funcs.chat_status import user_admin, is_user_admin, support_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from tg_bot.modules.helper_funcs.misc import send_to_list
@@ -61,7 +61,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
         return
 
     if int(user_id) in DEV_USERS:
-        message.reply_text("There is no way I can gban this user.")
+        message.reply_text("That user is part of the Association\nI can't act against our own.")
         return
 
     if int(user_id) in SUDO_USERS:
@@ -72,8 +72,12 @@ def gban(bot: Bot, update: Update, args: List[str]):
         message.reply_text("OOOH someone's trying to gban a Demon Disaster! *grabs popcorn*")
         return
 
+    if int(user_id) in TIGER_USERS:
+        message.reply_text("That's a Tiger! They cannot be banned!")
+        return
+
     if int(user_id) in WHITELIST_USERS:
-        message.reply_text("Wolves cannot be gbanned!")
+        message.reply_text("That's a Wolf! They cannot be banned!")
         return
 
     if user_id == bot.id:
@@ -193,7 +197,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
     try:
         bot.send_message(user_id,
                          "You have been globally banned from all groups where I have administrative permissions."
-                         " If you think that this was a mistake, you may appeal your ban here: @OnePunchSupport",
+                         "If you think that this was a mistake, you may appeal your ban here: @OnePunchSupport",
                          parse_mode=ParseMode.HTML)
     except:
         pass  # bot probably blocked by user

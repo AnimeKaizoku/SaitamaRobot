@@ -6,13 +6,13 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, LOGGER, DEV_USERS
+from tg_bot import dispatcher, LOGGER, DEV_USERS, SUDO_USERS, TIGER_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import (bot_admin, user_admin, is_user_ban_protected, can_restrict,
                                                      is_user_admin, is_user_in_chat, connection_status)
 from tg_bot.modules.helper_funcs.extraction import extract_user_and_text
 from tg_bot.modules.helper_funcs.string_handling import extract_time
-from tg_bot.modules.log_channel import loggable
+from tg_bot.modules.log_channel import loggable, gloggable
 
 
 @run_async
@@ -280,6 +280,49 @@ def unban(bot: Bot, update: Update, args: List[str]) -> str:
     return log
 
 
+@run_async
+@connection_status
+@bot_admin
+@can_restrict
+@gloggable
+def selfunban(bot: Bot, update: Update, args: List[str]) -> str:
+    message = update.effective_message
+    user = update.effective_user
+
+    if user.id not in SUDO_USERS or user.id not in TIGER_USERS:
+        return
+
+    try:
+        chat_id = int(args[0])
+    except:
+        message.reply_text("Give a valid chat ID.")
+        return
+
+    chat = bot.getChat(chat_id)
+
+    try:
+        member = chat.get_member(user.id)
+    except BadRequest as excp:
+        if excp.message == "User not found":
+            message.reply_text("I can't seem to find this user.")
+            return
+        else:
+            raise
+
+    if is_user_in_chat(chat, user.id):
+        message.reply_text("Aren't you already in the chat??")
+        return
+
+    chat.unban_member(user.id)
+    message.reply_text("Yep, I have unbanned you.")
+
+    log = (f"<b>{html.escape(chat.title)}:</b>\n"
+           f"#UNBANNED\n"
+           f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}")
+
+    return log
+
+
 __help__ = """
  - /punchme: punchs the user who issued the command
 
@@ -294,13 +337,15 @@ BAN_HANDLER = CommandHandler("ban", ban, pass_args=True)
 TEMPBAN_HANDLER = CommandHandler(["tban", "tempban"], temp_ban, pass_args=True)
 PUNCH_HANDLER = CommandHandler("punch", punch, pass_args=True)
 UNBAN_HANDLER = CommandHandler("unban", unban, pass_args=True)
+ROAR_HANDLER = CommandHandler("roar", selfunban, pass_args=True)
 PUNCHME_HANDLER = DisableAbleCommandHandler("punchme", punchme, filters=Filters.group)
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(TEMPBAN_HANDLER)
 dispatcher.add_handler(PUNCH_HANDLER)
 dispatcher.add_handler(UNBAN_HANDLER)
+dispatcher.add_handler(ROAR_HANDLER)
 dispatcher.add_handler(PUNCHME_HANDLER)
 
 __mod_name__ = "Bans"
-__handlers__ = [BAN_HANDLER, TEMPBAN_HANDLER, PUNCH_HANDLER, UNBAN_HANDLER, PUNCHME_HANDLER]
+__handlers__ = [BAN_HANDLER, TEMPBAN_HANDLER, PUNCH_HANDLER, UNBAN_HANDLER, ROAR_HANDLER, PUNCHME_HANDLER]

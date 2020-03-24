@@ -25,7 +25,7 @@ def speedtestxyz_callback(bot: Bot, update: Update):
     query = update.callback_query
 
     if query.from_user.id in DEV_USERS:
-        msg = update.effective_message.edit_text('Doing SpeedTest') 
+        msg = update.effective_message.edit_text('Runing a speedtest....') 
         speed = speedtest.Speedtest()
         speed.get_best_server()
         speed.download()
@@ -42,7 +42,7 @@ def speedtestxyz_callback(bot: Bot, update: Update):
             replymsg += f"\nDownload: `{convert(result['download'])}Mb/s`\nUpload: `{convert(result['upload'])}Mb/s`\nPing: `{result['ping']}`"
             update.effective_message.edit_text(replymsg, parse_mode=ParseMode.MARKDOWN)
     else:
-        query.answer("You are not allowed to use this.")
+        query.answer("You are required to join Heroes Association to use this command.")
 
 
 SPEED_TEST_HANDLER = DisableAbleCommandHandler("speedtest", speedtestxyz)

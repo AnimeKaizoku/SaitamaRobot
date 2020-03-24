@@ -80,6 +80,11 @@
          "required": false,
          "value": "615304572"
       },
+      "TIGER_USERS": {
+         "description": "A space separated list of user IDs who you wanna assign as tiger users.",
+         "required": false,
+         "value": ""
+      },
       "TOKEN": {
          "description": "Your bot token.",
          "required": true,

@@ -9,7 +9,7 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async, DispatcherHandlerStop, MessageHandler, Filters, CallbackQueryHandler
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, BAN_STICKER
+from tg_bot import dispatcher, BAN_STICKER, WHITELIST_USERS, TIGER_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import (is_user_admin, bot_admin, user_admin_no_reply, user_admin,
                                                      can_restrict)
@@ -28,7 +28,21 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = None) -> str:
     if is_user_admin(chat, user.id):
         # message.reply_text("Damn admins, They are too far to be One Punched!")
-        return ""
+        return
+
+    if user.id in TIGER_USERS:
+        if warner:
+            message.reply_text("Tigers cant be warned.")
+        else:
+            message.reply_text("Tiger triggered an auto warn filter!\n I can't warn tigers but they should avoid abusing this.")
+        return
+
+    if user.id in WHITELIST_USERS:
+        if warner:
+            message.reply_text("Wolf disasters are warn immune.")
+        else:
+            message.reply_text("Wolf Disaster triggered an auto warn filter!\n I can't warn wolves but they should avoid abusing this.")
+        return
 
     if warner:
         warner_tag = mention_html(warner.id, warner.first_name)
@@ -39,7 +53,7 @@ def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = N
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
     if num_warns >= limit:
         sql.reset_warns(user.id, chat.id)
-        if soft_warn:  # kick
+        if soft_warn:  # punch
             chat.unban_member(user.id)
             reply = f"{limit} warnings, *Punches {mention_html(user.id, user.first_name)} with a normal punch!* "
 
@@ -50,7 +64,7 @@ def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = N
         for warn_reason in reasons:
             reply += f"\n - {html.escape(warn_reason)}"
 
-        message.bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
+        message.bot.send_sticker(chat.id, BAN_STICKER)  # Saitama's sticker
         keyboard = []
         log_reason = (f"<b>{html.escape(chat.title)}:</b>\n"
                       f"#WARN_BAN\n"
@@ -68,7 +82,8 @@ def warn(user: User, chat: Chat, reason: str, message: Message, warner: User = N
             reply += f"\nReason for last warn:\n{html.escape(reason)}"
 
         log_reason = (f"<b>{html.escape(chat.title)}:</b>\n"
-                      f"#WARNn<b>Admin:</b> {warner_tag}\n"
+                      f"#WARN\n"
+                      f"<b>Admin:</b> {warner_tag}\n"
                       f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
                       f"<b>Reason:</b> {reason}\n"
                       f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
@@ -106,7 +121,7 @@ def button(bot: Bot, update: Update) -> str:
                     f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                     f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}")
         else:
-            update.effective_message.edit_text(f"User has already has no warns.", parse_mode=ParseMode.HTML)
+            update.effective_message.edit_text(f"User already has no warns.", parse_mode=ParseMode.HTML)
 
     return ""
 
@@ -145,7 +160,7 @@ def reset_warns(bot: Bot, update: Update, args: List[str]) -> str:
 
     if user_id:
         sql.reset_warns(user_id, chat.id)
-        message.reply_text("Warnings have been reset!")
+        message.reply_text("Warns have been reset!")
         warned = chat.get_member(user_id).user
         return (f"<b>{html.escape(chat.title)}:</b>\n"
                 f"#RESETWARNS\n"
@@ -168,7 +183,7 @@ def warns(bot: Bot, update: Update, args: List[str]):
         limit, soft_warn = sql.get_warn_setting(chat.id)
 
         if reasons:
-            text = f"This user has {num_warns}/{limit} warnings, for the following reasons:"
+            text = f"This user has {num_warns}/{limit} warns, for the following reasons:"
             for reason in reasons:
                 text += f"\n - {reason}"
 
@@ -176,9 +191,9 @@ def warns(bot: Bot, update: Update, args: List[str]):
             for msg in msgs:
                 update.effective_message.reply_text(msg)
         else:
-            update.effective_message.reply_text(f"User has {num_warns}/{limit} warnings, but no reasons for any of them.")
+            update.effective_message.reply_text(f"User has {num_warns}/{limit} warns, but no reasons for any of them.")
     else:
-        update.effective_message.reply_text("This user hasn't got any warnings!")
+        update.effective_message.reply_text("This user doesn't have any warns!")
 
 
 # Dispatcher handler stop - do not async
@@ -239,7 +254,7 @@ def remove_warn_filter(bot: Bot, update: Update):
     for filt in chat_filters:
         if filt == to_remove:
             sql.remove_warn_filter(chat.id, to_remove)
-            msg.reply_text("Yep, I'll stop warning people for that.")
+            msg.reply_text("Okay, I'll stop warning people for that.")
             raise DispatcherHandlerStop
 
     msg.reply_text("That's not a current warning filter - run /warnlist for all active warning filters.")
@@ -325,27 +340,27 @@ def set_warn_strength(bot: Bot, update: Update, args: List[str]):
     if args:
         if args[0].lower() in ("on", "yes"):
             sql.set_warn_strength(chat.id, False)
-            msg.reply_text("Too many warns will now result in a ban!")
+            msg.reply_text("Too many warns will now result in a Ban!")
             return (f"<b>{html.escape(chat.title)}:</b>\n"
                     f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                    f"Has enabled strong warns. Users will be seriously punched.")
+                    f"Has enabled strong warns. Users will be seriously punched.(banned)")
 
         elif args[0].lower() in ("off", "no"):
             sql.set_warn_strength(chat.id, True)
-            msg.reply_text("Too many warns will now result in a normal kick ! Users will be able to join again after.")
+            msg.reply_text("Too many warns will now result in a normal punch! Users will be able to join again after.")
             return (f"<b>{html.escape(chat.title)}:</b>\n"
                     f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                    f"Has disabled strong punches. I will use normal kicks on users.")
+                    f"Has disabled strong punches. I will use normal punch on users.")
 
         else:
             msg.reply_text("I only understand on/yes/no/off!")
     else:
         limit, soft_warn = sql.get_warn_setting(chat.id)
         if soft_warn:
-            msg.reply_text("Warns are currently set to *kick* users when they exceed the limits.",
+            msg.reply_text("Warns are currently set to *punch* users when they exceed the limits.",
                            parse_mode=ParseMode.MARKDOWN)
         else:
-            msg.reply_text("Warns are currently set to *ban* users when they exceed the limits.",
+            msg.reply_text("Warns are currently set to *Ban* users when they exceed the limits.",
                            parse_mode=ParseMode.MARKDOWN)
     return ""
 
@@ -373,17 +388,17 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
- - /warns <userhandle>: get a user's number, and reason, of warnings.
+ - /warns <userhandle>: get a user's number, and reason, of warns.
  - /warnlist: list of all current warning filters
 
-*Admin only:*
+*Admins only:*
  - /warn <userhandle>: warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
- - /resetwarn <userhandle>: reset the warnings for a user. Can also be used as a reply.
+ - /resetwarn <userhandle>: reset the warns for a user. Can also be used as a reply.
  - /addwarn <keyword> <reply message>: set a warning filter on a certain keyword. If you want your keyword to \
 be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`. 
  - /nowarn <keyword>: stop a warning filter
  - /warnlimit <num>: set the warning limit
- - /strongwarn <on/yes/off/no>: If set to on, exceeding the warn limit will result in a ban. Else, will just kick.
+ - /strongwarn <on/yes/off/no>: If set to on, exceeding the warn limit will result in a ban. Else, will just punch.
 """
 
 __mod_name__ = "Warnings"

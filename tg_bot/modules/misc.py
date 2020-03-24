@@ -8,11 +8,12 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, DEV_USERS, WHITELIST_USERS
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, DEV_USERS, TIGER_USERS, WHITELIST_USERS
 from tg_bot.__main__ import STATS, USER_INFO, TOKEN
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin, sudo_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user
+import tg_bot.modules.sql.users_sql as sql
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
@@ -109,6 +110,20 @@ def info(bot: Bot, update: Update, args: List[str]):
 
     text += f"\nPermanent user link: {mention_html(user.id, 'link')}"
 
+    num_chats = sql.get_user_num_chats(user.id)
+    text += f"\nChat count: <code>{num_chats}</code>"
+
+    try:
+        user_member = chat.get_member(user.id)
+        if user_member.status == 'administrator':
+            result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}")
+            result = result.json()["result"]
+            if "custom_title" in result.keys():
+                custom_title = result['custom_title']
+                text += f"\nThis user holds the title <b>{custom_title}</b> here."
+    except BadRequest:
+        pass
+
     disaster_level_present = False
 
     if user.id == OWNER_ID:
@@ -123,6 +138,9 @@ def info(bot: Bot, update: Update, args: List[str]):
     elif user.id in SUPPORT_USERS:
         text += "\nThe Disaster level of this person is 'Demon'."
         disaster_level_present = True
+    elif user.id in TIGER_USERS:
+        text += "\nThe Disaster level of this person is 'Tiger'."
+        disaster_level_present = True
     elif user.id in WHITELIST_USERS:
         text += "\nThe Disaster level of this person is 'Wolf'."
         disaster_level_present = True
@@ -130,24 +148,17 @@ def info(bot: Bot, update: Update, args: List[str]):
     if disaster_level_present:
         text += ' [<a href="https://t.me/OnePunchSupport/18340">?</a>]'
 
-    try:
-        user_member = chat.get_member(user.id)
-        if user_member.status == 'administrator':
-            result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}")
-            result = result.json()["result"]
-            if "custom_title" in result.keys():
-                custom_title = result['custom_title']
-                text += f"\n\nThis user holds the title <b>{custom_title}</b> here."
-    except BadRequest:
-        pass
-
+    text += "\n"
     for mod in USER_INFO:
+        if mod.__mod_name__ == "Users":
+            continue
+
         try:
-            mod_info = mod.__user_info__(user.id).strip()
+            mod_info = mod.__user_info__(user.id)
         except TypeError:
-            mod_info = mod.__user_info__(user.id, chat.id).strip()
+            mod_info = mod.__user_info__(user.id, chat.id)
         if mod_info:
-            text += "\n\n" + mod_info
+            text += "\n" + mod_info
 
     update.effective_message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 

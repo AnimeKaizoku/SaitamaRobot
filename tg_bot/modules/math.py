@@ -84,7 +84,7 @@ def log(bot: Bot, update: Update, args):
 
 __help__ = """
 Solves complex math problems using https://newton.now.sh
- - /simplify: Simplify `/simplify 2^2+2(2)`
+ - /math: Simplify `/simplify 2^2+2(2)`
  - /factor: Factor `/factor x^2 + 2x`
  - /derive: Derive `/derive x^2+2x`
  - /integrate: Integrate `/integrate x^2+2x`
@@ -99,6 +99,7 @@ Solves complex math problems using https://newton.now.sh
  - /arctan: Inverse Tangent `/arctan 0`
  - /abs: Absolute Value `/abs -1`
  - /log: Logarithm `/log 2l8`
+
 __Keep in mind__: To find the tangent line of a function at a certain x value, send the request as c|f(x) where c is the given x value and f(x) is the function expression, the separator is a vertical bar '|'. See the table above for an example request.
 To find the area under a function, send the request as c:d|f(x) where c is the starting x value, d is the ending x value, and f(x) is the function under which you want the curve between the two x values.
 To compute fractions, enter expressions as numerator(over)denominator. For example, to process 2/4 you must send in your expression as 2(over)4. The result expression will be in standard math notation (1/2, 3/4).
@@ -106,7 +107,7 @@ To compute fractions, enter expressions as numerator(over)denominator. For examp
 
 __mod_name__ = "Math"
 
-SIMPLIFY_HANDLER = DisableAbleCommandHandler("simplify", simplify, pass_args=True)
+SIMPLIFY_HANDLER = DisableAbleCommandHandler("math", simplify, pass_args=True)
 FACTOR_HANDLER = DisableAbleCommandHandler("factor", factor, pass_args=True)
 DERIVE_HANDLER = DisableAbleCommandHandler("derive", derive, pass_args=True)
 INTEGRATE_HANDLER = DisableAbleCommandHandler("integrate", integrate, pass_args=True)
