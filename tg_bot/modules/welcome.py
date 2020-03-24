@@ -192,7 +192,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                         }
                     })
                     new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
-                    message = msg.reply_text(f"{new_join_mem}, click the button below to prove you're human.\nYou have 30 seconds.",
+                    message = msg.reply_text(f"{new_join_mem}, click the button below to prove you're human.\nYou have 120 seconds.",
                                              reply_markup=InlineKeyboardMarkup([{InlineKeyboardButton(
                                                  text="Yes, I'm human.",
                                                  callback_data=f"user_join_({new_mem.id})")}]),
@@ -206,7 +206,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                     job_queue.run_once(
                         partial(
                             check_not_bot, new_mem, chat.id, message.message_id
-                        ), 30, name="wlcmute"
+                        ), 120, name="wlcmute"
                     )
 
         if welcome_bool:
