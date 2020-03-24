@@ -20,7 +20,7 @@ News channel as at [One Punch Updates](https://t.me/OnePunchUpdates)
 <details>
   <summary>Click to expand!! </summary>
   
- 
+ A
  
  Note: This instruction set is just a copy paste from marie, note that [One Punch Support](https://t.me/OnePunchSupport) aims to handle support for @SaitamaRobot and now how to setup your own fork, if you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to setup the bot instance in the support chat, it aims to help our own instance of the bot. 
   
