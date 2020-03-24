@@ -11,5 +11,6 @@ tg_bot/config.ini
 tg_bot/modules/helper_funcs/temp.txt
 tg_bot/elevated_users.json
 start-3.6.bat
+*.session
 kangsticker.png
 venv
