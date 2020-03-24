@@ -53,12 +53,12 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
         return ""
 
     if user_id in SUPPORT_USERS:
-        rt += "This user is already a Demon Disaster, Promoting to Dragon Disaster."
+        rt += "Requested HA to promote a Demon Disaster to Dragon."
         data['supports'].remove(user_id)
         SUPPORT_USERS.remove(user_id)
 
     if user_id in WHITELIST_USERS:
-        rt += "This user is already a Wolf, Promoting to Dragon Disaster."
+        rt += "Requested HA to promote a Wolf Disaster to Dragon."
         data['whitelists'].remove(user_id)
         WHITELIST_USERS.remove(user_id)
 
@@ -102,7 +102,7 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
         data = json.load(infile)
 
     if user_id in SUDO_USERS:
-        rt += "Demoting status of this Dragon to Demon"
+        rt += "Requested HA to deomote this Dragon to Demon"
         data['sudos'].remove(user_id)
         SUDO_USERS.remove(user_id)
 
@@ -111,7 +111,7 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
         return ""
 
     if user_id in WHITELIST_USERS:
-        rt += "Promoting Disaster level from Wolf to Demon"
+        rt += "Requested HA to promote this Wolf Disaster to Demon"
         data['whitelists'].remove(user_id)
         WHITELIST_USERS.remove(user_id)
 
@@ -206,7 +206,7 @@ def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
         data = json.load(infile)
 
     if user_id in SUDO_USERS:
-        message.reply_text("Demoting to normal user")
+        message.reply_text("Requested HA to demote this user to Civilian")
         SUDO_USERS.remove(user_id)
         data['sudos'].remove(user_id)
 
@@ -247,7 +247,7 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
         data = json.load(infile)
 
     if user_id in SUPPORT_USERS:
-        message.reply_text("Demoting to Civilian")
+        message.reply_text("Requested HA to demote this user to Civilian")
         SUPPORT_USERS.remove(user_id)
         data['supports'].remove(user_id)
 
@@ -311,7 +311,7 @@ def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @whitelist_plus
 def whitelistlist(bot: Bot, update: Update):
-    reply = "<b>Wolf Disasters 🐺:</b>\n"
+    reply = "<b>Known Wolf Disasters 🐺:</b>\n"
     for each_user in WHITELIST_USERS:
         user_id = int(each_user)
         try:
@@ -326,7 +326,7 @@ def whitelistlist(bot: Bot, update: Update):
 @run_async
 @whitelist_plus
 def supportlist(bot: Bot, update: Update):
-    reply = "<b>Demon Disasters 👹:</b>\n"
+    reply = "<b>Known Demon Disasters 👹:</b>\n"
     for each_user in SUPPORT_USERS:
         user_id = int(each_user)
         try:
@@ -341,7 +341,7 @@ def supportlist(bot: Bot, update: Update):
 @whitelist_plus
 def sudolist(bot: Bot, update: Update):
     true_sudo = list(set(SUDO_USERS) - set(DEV_USERS))
-    reply = "<b>Dragon Disasters 🐉:</b>\n"
+    reply = "<b>Known Dragon Disasters 🐉:</b>\n"
     for each_user in true_sudo:
         user_id = int(each_user)
         try:
@@ -368,10 +368,12 @@ def devlist(bot: Bot, update: Update):
 
 
 __help__ = """
- - /whitelistlist - List whitelisted users.
- - /supportlist - List support users.
- - /sudolist - List sudo users.
- - /devlist - List dev users.
+ - /heroes - List all Hero Association members.
+ - /dragons - List all Dragon disasters.
+ - /demons - List all Demon disasters.
+ - /wolves - List all Wolf disasters.
+ Note: These commands list users with special bot priveleges and can only be used by them.
+ You can visit @OnePunchSupport to query more about these.
 """
 
 SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo, pass_args=True)
