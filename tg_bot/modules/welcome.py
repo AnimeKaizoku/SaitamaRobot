@@ -33,7 +33,7 @@ ENUM_FUNC_MAP = {
     sql.Types.VIDEO.value: dispatcher.bot.send_video
 }
 
-VERIFIED_USER_WAITLIST = set()
+VERIFIED_USER_WAITLIST = {}
 
 # do not async
 def send(update, message, keyboard, backup_message):
@@ -86,6 +86,9 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
 
         welcome_log = None
         sent = None
+        should_mute = True
+        welcome_bool = True
+
         if should_welc:
 
             # Give the owner a special welcome
@@ -154,19 +157,6 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                 backup_message = random.choice(sql.DEFAULT_WELCOME_MESSAGES).format(first=escape_markdown(first_name))
                 keyboard = InlineKeyboardMarkup(keyb)
 
-                if welc_mutes != "strong":
-                    sent = send(update, res, keyboard, backup_message)
-
-                    prev_welc = sql.get_clean_pref(chat.id)
-                    if prev_welc:
-                        try:
-                            bot.delete_message(chat.id, prev_welc)
-                        except BadRequest:
-                            pass
-
-                        if sent:
-                            sql.set_clean_welcome(chat.id, sent.message_id)
-
         else:
             res = None
             keyboard = None
@@ -174,38 +164,63 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
 
         # User exceptions from welcomemutes
         if is_user_ban_protected(chat, new_mem.id, chat.get_member(new_mem.id)) or human_checks:
-            continue
+            should_mute = False
         # Join welcome: soft mute
         if new_mem.is_bot:
-            continue
+            should_mute = False
 
-        if welc_mutes == "soft":
-            bot.restrict_chat_member(chat.id, new_mem.id,
-                                     can_send_messages=True,
-                                     can_send_media_messages=False,
-                                     can_send_other_messages=False,
-                                     can_add_web_page_previews=False,
-                                     until_date=(int(time.time() + 24 * 60 * 60)))
+        if user.id == new_mem.id:
+            if should_mute:
+                if welc_mutes == "soft":
+                    bot.restrict_chat_member(chat.id, new_mem.id,
+                                             can_send_messages=True,
+                                             can_send_media_messages=False,
+                                             can_send_other_messages=False,
+                                             can_add_web_page_previews=False,
+                                             until_date=(int(time.time() + 24 * 60 * 60)))
 
-        if welc_mutes == "strong":
-            new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
-            message = msg.reply_text(f"{new_join_mem}, click the button below to prove you're human.\nYou have 30 seconds.",
-                                     reply_markup=InlineKeyboardMarkup([{InlineKeyboardButton(
-                                         text="Yes, I'm human.",
-                                         callback_data=f"user_join_({new_mem.id})")}]),
-                                     parse_mode=ParseMode.MARKDOWN)
-            bot.restrict_chat_member(chat.id, new_mem.id,
-                                     can_send_messages=False,
-                                     can_send_media_messages=False,
-                                     can_send_other_messages=False,
-                                     can_add_web_page_previews=False)
+                if welc_mutes == "strong":
+                    welcome_bool = False
+                    VERIFIED_USER_WAITLIST.update({
+                        new_mem.id : {
+                            "should_welc" : should_welc,
+                            "status" : False,
+                            "update" : update,
+                            "res" : res,
+                            "keyboard" : keyboard,
+                            "backup_message" : backup_message
+                        }
+                    })
+                    new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
+                    message = msg.reply_text(f"{new_join_mem}, click the button below to prove you're human.\nYou have 30 seconds.",
+                                             reply_markup=InlineKeyboardMarkup([{InlineKeyboardButton(
+                                                 text="Yes, I'm human.",
+                                                 callback_data=f"user_join_({new_mem.id})")}]),
+                                             parse_mode=ParseMode.MARKDOWN)
+                    bot.restrict_chat_member(chat.id, new_mem.id,
+                                             can_send_messages=False,
+                                             can_send_media_messages=False,
+                                             can_send_other_messages=False,
+                                             can_add_web_page_previews=False)
 
-            job_queue.run_once(
-                partial(
-                    check_not_bot, new_mem, chat.id, message.message_id,
-                    update, res, keyboard, backup_message, should_welc
-                ), 30, name="wlcmute"
-            )
+                    job_queue.run_once(
+                        partial(
+                            check_not_bot, new_mem, chat.id, message.message_id
+                        ), 30, name="wlcmute"
+                    )
+
+        if welcome_bool:
+            sent = send(update, res, keyboard, backup_message)
+
+            prev_welc = sql.get_clean_pref(chat.id)
+            if prev_welc:
+                try:
+                    bot.delete_message(chat.id, prev_welc)
+                except BadRequest:
+                    pass
+
+                if sent:
+                    sql.set_clean_welcome(chat.id, sent.message_id)
 
         if welcome_log:
             return welcome_log
@@ -218,28 +233,11 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
     return ""
 
 
-def check_not_bot(member, chat_id, message_id,
-                  update, res, keyboard, backup_message, should_welc,
-                  bot, job):
+def check_not_bot(member, chat_id, message_id, bot, job):
 
-    if member.id in VERIFIED_USER_WAITLIST:
-        VERIFIED_USER_WAITLIST.remove(member.id)
-
-        sent = None
-        if should_welc:
-            sent = send(update, res, keyboard, backup_message)
-
-        prev_welc = sql.get_clean_pref(chat_id)
-        if prev_welc:
-            try:
-                bot.delete_message(chat_id, prev_welc)
-            except BadRequest:
-                pass
-
-            if sent:
-                sql.set_clean_welcome(chat_id, sent.message_id)
-
-    else:
+    member_dict = VERIFIED_USER_WAITLIST.pop(member.id)
+    member_status = member_dict.get("status")
+    if not member_status:
         try:
             bot.unban_chat_member(chat_id, member.id)
         except:
@@ -564,13 +562,28 @@ def user_button(bot: Bot, update: Update):
     join_user = int(match.group(1))
 
     if join_user == user.id:
-        VERIFIED_USER_WAITLIST.add(user.id)
+        member_dict = VERIFIED_USER_WAITLIST.pop(user.id)
+        member_dict["status"] = True
+        VERIFIED_USER_WAITLIST.update({user.id: member_dict})
         query.answer(text="Yeet! You're a human, unmuted!")
         bot.restrict_chat_member(chat.id, user.id, can_send_messages=True,
                                  can_send_media_messages=True,
                                  can_send_other_messages=True,
                                  can_add_web_page_previews=True)
         bot.deleteMessage(chat.id, message.message_id)
+        if member_dict["should_welc"]:
+            sent = send(member_dict["update"], member_dict["res"], member_dict["keyboard"], member_dict["backup_message"])
+
+            prev_welc = sql.get_clean_pref(chat.id)
+            if prev_welc:
+                try:
+                    bot.delete_message(chat.id, prev_welc)
+                except BadRequest:
+                    pass
+
+                if sent:
+                    sql.set_clean_welcome(chat.id, sent.message_id)
+
     else:
         query.answer(text="You're not allowed to do this!")
 
