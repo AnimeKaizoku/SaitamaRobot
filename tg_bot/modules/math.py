@@ -106,7 +106,7 @@ To compute fractions, enter expressions as numerator(over)denominator. For examp
 
 __mod_name__ = "Math"
 
-SIMPLIFY_HANDLER = DisableAbleCommandHandler("simplify", simplify, pass_args=True)
+SIMPLIFY_HANDLER = DisableAbleCommandHandler("math", simplify, pass_args=True)
 FACTOR_HANDLER = DisableAbleCommandHandler("factor", factor, pass_args=True)
 DERIVE_HANDLER = DisableAbleCommandHandler("derive", derive, pass_args=True)
 INTEGRATE_HANDLER = DisableAbleCommandHandler("integrate", integrate, pass_args=True)
