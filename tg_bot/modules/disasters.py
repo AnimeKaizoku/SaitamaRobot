@@ -9,7 +9,7 @@ from telegram.ext import CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
 from tg_bot import dispatcher, WHITELIST_USERS, TIGER_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS, OWNER_ID
-from tg_bot.modules.helper_funcs.chat_status import whitelist_plus, dev_plus
+from tg_bot.modules.helper_funcs.chat_status import whitelist_plus, dev_plus, sudo_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user
 from tg_bot.modules.log_channel import gloggable
 
@@ -82,7 +82,7 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
@@ -134,7 +134,7 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
@@ -187,7 +187,7 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def addtiger(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
@@ -286,7 +286,7 @@ def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
@@ -327,7 +327,7 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
@@ -367,7 +367,7 @@ def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def removetiger(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
