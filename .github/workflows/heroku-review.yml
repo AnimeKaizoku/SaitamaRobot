@@ -3,7 +3,6 @@ name: heroku-review
 on:
     pull_request:
         branches:
-        - master
 
 jobs:
   review-app-test:
