@@ -9,7 +9,7 @@ from telegram.ext import CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
 from tg_bot import dispatcher, WHITELIST_USERS, TIGER_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS, OWNER_ID
-from tg_bot.modules.helper_funcs.chat_status import whitelist_plus, dev_plus
+from tg_bot.modules.helper_funcs.chat_status import whitelist_plus, dev_plus, sudo_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user
 from tg_bot.modules.log_channel import gloggable
 
@@ -82,7 +82,7 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
@@ -134,7 +134,7 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
@@ -177,6 +177,64 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
         rt + f"\nSuccessfully promoted {user_member.first_name} to a Wolf Disaster!")
 
     log_message = (f"#WHITELIST\n"
+                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
+                   f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+
+    if chat.type != 'private':
+        log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
+
+    return log_message
+
+
+@run_async
+@sudo_plus
+@gloggable
+def addtiger(bot: Bot, update: Update, args: List[str]) -> str:
+    message = update.effective_message
+    user = update.effective_user
+    chat = update.effective_chat
+
+    user_id = extract_user(message, args)
+    user_member = bot.getChat(user_id)
+    rt = ""
+
+    reply = check_user_id(user_id, bot)
+    if reply:
+        message.reply_text(reply)
+        return ""
+
+    with open(ELEVATED_USERS_FILE, 'r') as infile:
+        data = json.load(infile)
+
+    if user_id in SUDO_USERS:
+        rt += "This member is a Dragon Disaster, Demoting to Tiger."
+        data['sudos'].remove(user_id)
+        SUDO_USERS.remove(user_id)
+
+    if user_id in SUPPORT_USERS:
+        rt += "This user is already a Demon Disaster, Demoting to Tiger."
+        data['supports'].remove(user_id)
+        SUPPORT_USERS.remove(user_id)
+
+    if user_id in WHITELIST_USERS:
+        rt += "This user is already a Wolf Disaster, Demoting to Tiger."
+        data['whitelists'].remove(user_id)
+        WHITELIST_USERS.remove(user_id)
+
+    if user_id in TIGER_USERS:
+        message.reply_text("This user is already a Tiger.")
+        return ""
+
+    data['tigers'].append(user_id)
+    TIGER_USERS.append(user_id)
+
+    with open(ELEVATED_USERS_FILE, 'w') as outfile:
+        json.dump(data, outfile, indent=4)
+
+    update.effective_message.reply_text(
+        rt + f"\nSuccessfully promoted {user_member.first_name} to a Tiger Disaster!")
+
+    log_message = (f"#TIGER\n"
                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
                    f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
 
@@ -286,7 +344,7 @@ def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
@@ -327,7 +385,7 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
@@ -367,7 +425,7 @@ def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-@dev_plus
+@sudo_plus
 @gloggable
 def removetiger(bot: Bot, update: Update, args: List[str]) -> str:
     message = update.effective_message
