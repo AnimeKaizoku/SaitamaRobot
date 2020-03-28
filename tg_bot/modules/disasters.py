@@ -27,9 +27,21 @@ def check_user_id(user_id: int, bot: Bot) -> Optional[str]:
         reply = None
     return reply
 
+#I added extra new lines 
+disasters = """ Saitama has bot access levels we call as *"Disaster Levels"*
+\n*Heroes Association* - Devs who can access the bots server and can execute, edit, modify bot code. Can also manage other Disasters
+\n*God* - Only one exists, bot owner. 
+Owner has complete bot access, including bot adminship in chats Saitama is at.
+\n*Dragons* - Have super user access, can gban, manage disasters lower than them and are admins in Saitama.
+\n*Demons* - Have access go globally ban users across Saitama.
+\n*Tigers* - Same as wolves but can unban themselves if banned.
+\n*Wolves* - Cannot be banned, muted flood kicked but can be manually banned by admins.
+\n*Disclaimer*: The disaster levels in Saitama are there for troubleshooting, support, banning potential scammers.
+Report abuse or ask us more on these at [Heroes Association](https://t.me/OnePunchSupport).
+"""
+
 def send_disasters(update):
-  disasters = "There are levels with saitama\nGod Disaster level  - bot owner\nHero Association - bot devs with access to the server\nDragon disaster - sudo\nDemon disasters - gban access allowed\nWolf disasters - whitelisted users from any bans or gbans"
-  update.effective_message.reply_text(disasters)
+   update.effective_message.reply_text(disasters, parse_mode=ParseMode.MARKDOWN)
 
 @run_async
 @dev_plus
