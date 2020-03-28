@@ -114,7 +114,6 @@ def test(bot: Bot, update: Update):
     update.effective_message.reply_text("This person edited a message")
     print(update.effective_message)
 
-disasters = "There are levels with saitama\nGod Disaster level  - bot owner\nHero Association - bot devs with access to the server\nDragon disaster - sudo\nDemon disasters - gban access allowed\nWolf disasters - whitelisted users from any bans or gbans"
 @run_async
 def start(bot: Bot, update: Update, args: List[str]):
     if update.effective_chat.type == "private":
@@ -122,7 +121,7 @@ def start(bot: Bot, update: Update, args: List[str]):
             if args[0].lower() == "help":
                 send_help(update.effective_chat.id, HELP_STRINGS)
             elif args[0].lower() == "disasters":
-                update.effective_message.reply_text(disasters)
+                IMPORTED["disasters"].send_disasters(update)
             elif args[0].lower().startswith("stngs_"):
                 match = re.match("stngs_(.*)", args[0].lower())
                 chat = dispatcher.bot.getChat(match.group(1))
