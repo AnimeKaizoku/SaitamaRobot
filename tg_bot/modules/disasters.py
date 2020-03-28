@@ -39,9 +39,9 @@ Owner has complete bot access, including bot adminship in chats Saitama is at.
 \n*Disclaimer*: The disaster levels in Saitama are there for troubleshooting, support, banning potential scammers.
 Report abuse or ask us more on these at [Heroes Association](https://t.me/OnePunchSupport).
 """
-
+# do not async, not a handler 
 def send_disasters(update):
-   update.effective_message.reply_text(disasters, parse_mode=ParseMode.MARKDOWN)
+   update.effective_message.reply_text(disasters, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
 @run_async
 @dev_plus
