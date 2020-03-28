@@ -27,6 +27,9 @@ def check_user_id(user_id: int, bot: Bot) -> Optional[str]:
         reply = None
     return reply
 
+def send_disasters(update):
+  disasters = "There are levels with saitama\nGod Disaster level  - bot owner\nHero Association - bot devs with access to the server\nDragon disaster - sudo\nDemon disasters - gban access allowed\nWolf disasters - whitelisted users from any bans or gbans"
+  update.effective_message.reply_text(disasters)
 
 @run_async
 @dev_plus
