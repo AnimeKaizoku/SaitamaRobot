@@ -23,6 +23,7 @@ I am an Anime themed group management bot.
 You can find the list of available commands with /help.
 
 [Saitama's Repo](github.com/AnimeKaizoku/SaitamaRobot) 
+See [Basic Configuration Checklist](t.me/OnePunchUpdates/29) on how to secure your groups.
 The support group chat is at @OnePunchSupport
 """
 
