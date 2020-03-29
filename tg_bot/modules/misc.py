@@ -206,6 +206,7 @@ def stats(bot: Bot, update: Update):
 
 __help__ = """
  - /id: get the current group id. If used by replying to a message, gets that user's id.
+ - /gifid: reply to a gif to me to tell you its file ID.
  - /info: get information about a user.
  - /markdownhelp: quick summary of how markdown works in telegram - can only be called in private chats.
 """
