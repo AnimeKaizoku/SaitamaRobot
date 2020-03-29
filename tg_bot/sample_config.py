@@ -19,9 +19,9 @@ class Config(object):
     # RECOMMENDED
     SQLALCHEMY_DATABASE_URI = 'sqldbtype://username:pw@hostname:port/db_name'  # needed for any database modules
     MESSAGE_DUMP = None  # needed to make sure 'save from' messages persist
-    GBAN_LOGS = None
+    GBAN_LOGS = None #Channel ID here with -
     LOAD = []
-    NO_LOAD = ['translation', 'rss']
+    NO_LOAD = ['translation', 'rss']   
     WEBHOOK = False
     URL = None
 
@@ -34,9 +34,9 @@ class Config(object):
     DONATION_LINK = None  # EG, paypal
     CERT_PATH = None
     PORT = 5000
-    DEL_CMDS = False  # Whether or not you should delete "blue text must click" commands
+    DEL_CMDS = False  #Delete commands that users dont have access to, like delete /ban if a non admin uses it.
     STRICT_GBAN = False
-    WORKERS = 8  # Number of subthreads to use. This is the recommended amount - see for yourself what works best!
+    WORKERS = 8  # Number of subthreads to use. Set as number of threads your processor uses
     BAN_STICKER = 'CAADAgADOwADPPEcAXkko5EB3YGYAg'  # banhammer marie sticker
     ALLOW_EXCL = False  # Allow ! commands as well as /
     CASH_API_KEY = None # Get one from https://www.alphavantage.co/support/#api-key
