@@ -16,7 +16,7 @@
       "BAN_STICKER": {
          "description": "ID of the sticker you want to use when banning people.",
          "required": false,
-         "value": "CAACAgQAAx0CU\_rCTAACrS9eX6aSdWGlWOAAASV7RAsMxyOmU08AAjUAA5OB2QL9q4NuR9MogxgE"
+         "value": ""
       },
       "DEL_CMDS": {
          "description": "Set this to True if you want to delete command messages from users who don't have the perms to run that command.",
