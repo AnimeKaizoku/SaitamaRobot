@@ -78,6 +78,16 @@ def get_id(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
+def gifid(bot: Bot, update: Update):
+    msg = update.effective_message
+    if msg.reply_to_message and msg.reply_to_message.animation:
+        update.effective_message.reply_text(f"Gif ID:\n<code>{msg.reply_to_message.animation.file_id}</code>",
+                                            parse_mode=ParseMode.HTML)
+    else:
+        update.effective_message.reply_text("Please reply to a gif to get its ID.")
+
+
+@run_async
 def info(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message
     chat = update.effective_chat
@@ -201,12 +211,14 @@ __help__ = """
 """
 
 ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)
+GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid, pass_args=True)
 INFO_HANDLER = DisableAbleCommandHandler("info", info, pass_args=True)
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
 STATS_HANDLER = CommandHandler("stats", stats)
 
 dispatcher.add_handler(ID_HANDLER)
+dispatcher.add_handler(GIFID_HANDLER)
 dispatcher.add_handler(INFO_HANDLER)
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
@@ -214,4 +226,4 @@ dispatcher.add_handler(STATS_HANDLER)
 
 __mod_name__ = "Misc"
 __command_list__ = ["id", "info", "echo"]
-__handlers__ = [ID_HANDLER, INFO_HANDLER, ECHO_HANDLER, MD_HELP_HANDLER, STATS_HANDLER]
+__handlers__ = [ID_HANDLER, GIFID_HANDLER, INFO_HANDLER, ECHO_HANDLER, MD_HELP_HANDLER, STATS_HANDLER]
