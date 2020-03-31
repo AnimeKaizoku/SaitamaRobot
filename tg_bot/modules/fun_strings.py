@@ -167,6 +167,7 @@ SLAP_TEMPLATES = (
     "{user1} muda muda's {user2}.",
     "{user2} was turned into a Jojo reference!",
     "{user1} hits {user2} with {item}.",
+    "Round 2!..Ready? .. FIGHT!!",
 )
 
 PING_STRING = (
