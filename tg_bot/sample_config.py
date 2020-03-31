@@ -41,6 +41,7 @@ class Config(object):
     ALLOW_EXCL = False  # Allow ! commands as well as /
     CASH_API_KEY = None # Get one from https://www.alphavantage.co/support/#api-key
     TIME_API_KEY = None # Get one from https://timezonedb.com/register
+    AI_API_KEY = None # Coffeehouse chatbot api key, gte one from https://coffeehouse.intellivoid.info/
 
 
 class Production(Config):
