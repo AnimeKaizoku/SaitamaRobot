@@ -128,7 +128,7 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
                    f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
 
     if chat.type != 'private':
-        log_message = "<b>{html.escape(chat.title)}:</b>\n" + log_message
+        log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
 
     return log_message
 
