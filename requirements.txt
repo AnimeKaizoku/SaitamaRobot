@@ -18,3 +18,4 @@ CurrencyConverter
 googletrans
 jikanpy
 speedtest-cli
+coffeehouse

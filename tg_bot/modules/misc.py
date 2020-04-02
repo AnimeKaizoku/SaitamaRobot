@@ -156,7 +156,7 @@ def info(bot: Bot, update: Update, args: List[str]):
         disaster_level_present = True
 
     if disaster_level_present:
-        text += ' [<a href="https://t.me/OnePunchSupport/18340">?</a>]'
+        text += ' [<a href="http://t.me/{}?start=disasters">?</a>]'.format(bot.username)
 
     text += "\n"
     for mod in USER_INFO:
@@ -206,6 +206,7 @@ def stats(bot: Bot, update: Update):
 
 __help__ = """
  - /id: get the current group id. If used by replying to a message, gets that user's id.
+ - /gifid: reply to a gif to me to tell you its file ID.
  - /info: get information about a user.
  - /markdownhelp: quick summary of how markdown works in telegram - can only be called in private chats.
 """

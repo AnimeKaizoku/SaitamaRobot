@@ -1845,6 +1845,7 @@ Command:
  - /fednotif <on / off>: Federation settings not in PM when there are users who are fban / unfban.
  - /fedchats: Get all the chats that are connected in the Federation.
  - /importfbans: Reply to the Federation backup message file to import the banned list to the Federation now.
+ - /fbanstat: Shows if you/or the user you are replying to or their username is fbanned somewhere or not.
 """
 
 #NEW_FED_HANDLER = CommandHandler("newfed", new_fed, filters=Filters.user(DEV_USERS))
@@ -1901,5 +1902,4 @@ dispatcher.add_handler(SUBS_FED)
 dispatcher.add_handler(UNSUBS_FED)
 dispatcher.add_handler(MY_SUB_FED)
 dispatcher.add_handler(MY_FEDS_LIST)
-
 dispatcher.add_handler(DELETEBTN_FED_HANDLER)
