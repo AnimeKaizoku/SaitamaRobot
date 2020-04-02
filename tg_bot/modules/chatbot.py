@@ -86,7 +86,21 @@ def chatbot(bot: Bot, update: Update):
         except CFError as e:
             bot.send_message(OWNER_ID, f"Chatbot error: {e} occurred in {chat_id}!")
                     
-                    
+
+__mod_name__ = "Chatbot"
+
+__help__ = """
+Chatbot utilizes CoffeeHouse API and allows Saitama to chat with your users making your chat more interactive.
+This is an ongoing upgrade and is only available in your chats if you reach out to @OnePunchSupport and ask for it. 
+
+In future we might make it open for any chat and controllable by group admins.
+
+Powered by CoffeeHouse (https://coffeehouse.intellivoid.net/) from @Intellivoid
+Commands: These only work for Saitama Staff users. 
+ - /addchat : Enables Chatbot mode in the chat.
+ - /rmchat  : Disables Chatbot mode in the chat.
+"""
+                  
 ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat, filters=CustomFilters.dev_filter)
 REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat, filters=CustomFilters.dev_filter)
 CHATBOT_HANDLER = MessageHandler(Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
