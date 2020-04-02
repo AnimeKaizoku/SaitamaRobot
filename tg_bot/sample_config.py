@@ -42,6 +42,7 @@ class Config(object):
     CASH_API_KEY = None # Get one from https://www.alphavantage.co/support/#api-key
     TIME_API_KEY = None # Get one from https://timezonedb.com/register
     AI_API_KEY = None # Coffeehouse chatbot api key, get one from https://coffeehouse.intellivoid.info/
+    WALL_API = None # Get one from https://wall.alphacoders.com/api.php
 
 
 class Production(Config):
