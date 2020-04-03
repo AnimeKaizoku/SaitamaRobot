@@ -30,7 +30,7 @@ GBAN_ERRORS = {
     "Only the creator of a basic group can kick group administrators",
     "Channel_private",
     "Not in the chat",
-    "Could not gban due to Can't remove chat owner",
+    "Can't remove chat owner"
 }
 
 UNGBAN_ERRORS = {
