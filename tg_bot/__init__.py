@@ -76,6 +76,7 @@ if ENV:
     TIME_API_KEY = os.environ.get('TIME_API_KEY', None)
     AI_API_KEY = os.environ.get('AI_API_KEY', None)
     WALL_API = os.environ.get('WALL_API', None)
+    STRICT_GMUTE = bool(os.environ.get('STRICT_GMUTE', False))
 
 
 else:
@@ -134,7 +135,9 @@ else:
     CASH_API_KEY = Config.CASH_API_KEY
     TIME_API_KEY = Config.TIME_API_KEY
     AI_API_KEY = Config.AI_API_KEY
-    WALL_API = Config.WALL_API    
+    WALL_API = Config.WALL_API
+    STRICT_GMUTE = Config.STRICT_GMUTE
+    
 
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
