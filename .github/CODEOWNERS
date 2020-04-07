@@ -2,5 +2,5 @@
 # Default owners for everything in the repo, unless a later match takes precedence
 
 #Phoenix owns the files under blacklist thingies 
-/modules/blacklist.py @rsktg
-/modules/sql/blacklistusers_sql.py @rsktg
+modules/blacklistusers.py @rsktg
+modules/sql/blacklistusers_sql.py @rsktg
