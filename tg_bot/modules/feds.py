@@ -39,29 +39,21 @@ from tg_bot.modules.helper_funcs.alternate import send_message
 # LOGGER.info("Original federation module by MrYacha, reworked by Mizukito Akito (@peaktogoo) on Telegram.")
 
 FBAN_ERRORS = {
-	"User is an administrator of the chat",
-	"Chat not found",
+	"User is an administrator of the chat", "Chat not found",
 	"Not enough rights to restrict/unrestrict chat member",
-	"User_not_participant",
-	"Peer_id_invalid",
-	"Group chat was deactivated",
+	"User_not_participant", "Peer_id_invalid", "Group chat was deactivated",
 	"Need to be inviter of a user to kick it from a basic group",
 	"Chat_admin_required",
 	"Only the creator of a basic group can kick group administrators",
-	"Channel_private",
-	"Not in the chat",
-	"Have no rights to send a message"
+	"Channel_private", "Not in the chat", "Have no rights to send a message"
 }
 
 UNFBAN_ERRORS = {
-	"User is an administrator of the chat",
-	"Chat not found",
+	"User is an administrator of the chat", "Chat not found",
 	"Not enough rights to restrict/unrestrict chat member",
 	"User_not_participant",
 	"Method is available for supergroup and channel chats only",
-	"Not in the chat",
-	"Channel_private",
-	"Chat_admin_required",
+	"Not in the chat", "Channel_private", "Chat_admin_required",
 	"Have no rights to send a message"
 }
 
@@ -81,11 +73,9 @@ def new_fed(bot: Bot, update: Update):
 		fed_id = str(uuid.uuid4())
 		fed_name = fednam
 		LOGGER.info(fed_id)
-
-		# Currently only for creator
-		#if fednam == "Team Nusantara Disciplinary Circle":
-			 #fed_id = "TeamNusantaraDevs"
-
+	if user.id == int(OWNER_ID):
+            fed_id = fed_name
+  
 		x = sql.new_fed(user.id, fed_name, fed_id)
 		if not x:
 			update.effective_message.reply_text("Can't federate! Please contact @OnePunchSupport if the problem persists.")
@@ -98,7 +88,9 @@ def new_fed(bot: Bot, update: Update):
 											"\n`/joinfed {}`".format(fed_name, fed_id, fed_id), parse_mode=ParseMode.MARKDOWN)
 		try:
 			bot.send_message(GBAN_LOGS,
-				"Federation <b>{}</b> has been created with ID: <pre>{}</pre>".format(fed_name, fed_id), parse_mode=ParseMode.HTML)
+							"Federation <b>{}</b> has been created with ID: <pre>{}</pre>".format(
+                                 fed_name, fed_id),
+       						parse_mode=ParseMode.HTML)
 		except:
 			LOGGER.warning("Cannot send a message to GBAN_LOGS")
 	else:
