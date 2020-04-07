@@ -75,7 +75,7 @@ def new_fed(bot: Bot, update: Update):
 		LOGGER.info(fed_id)
 	if user.id == int(OWNER_ID):
             fed_id = fed_name
-  
+
 		x = sql.new_fed(user.id, fed_name, fed_id)
 		if not x:
 			update.effective_message.reply_text("Can't federate! Please contact @OnePunchSupport if the problem persists.")
