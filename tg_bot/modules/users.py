@@ -11,6 +11,7 @@ from tg_bot import dispatcher, OWNER_ID, LOGGER, DEV_USERS
 from tg_bot.modules.helper_funcs.chat_status import sudo_plus, dev_plus
 
 USERS_GROUP = 4
+CHAT_GROUP = 5
 DEV_AND_MORE = DEV_USERS.append(int(OWNER_ID))
 
 
@@ -102,6 +103,10 @@ def chats(bot: Bot, update: Update):
         update.effective_message.reply_document(document=output, filename="chatlist.txt",
                                                 caption="Here is the list of chats in my Hit List.")
 
+@run_async
+def chat_checker(bot: Bot, update: Update):
+  if update.effective_message.chat.get_member(bot.id).can_send_messages == False:
+    bot.leaveChat(update.effective_message.chat.id)
 
 def __stats__():
     return f"{sql.num_users()} users, across {sql.num_chats()} chats"
@@ -115,11 +120,13 @@ __help__ = ""  # no help string
 
 BROADCAST_HANDLER = CommandHandler("broadcast", broadcast)
 USER_HANDLER = MessageHandler(Filters.all & Filters.group, log_user)
+CHAT_CHECKER_HANDLER = MessageHandler(Filters.all & Filters.group, chat_checker)
 CHATLIST_HANDLER = CommandHandler("chatlist", chats)
 
 dispatcher.add_handler(USER_HANDLER, USERS_GROUP)
 dispatcher.add_handler(BROADCAST_HANDLER)
 dispatcher.add_handler(CHATLIST_HANDLER)
+dispatcher.add_handler(CHAT_CHECKER_HANDLER, CHAT_GROUP)
 
 __mod_name__ = "Users"
 __handlers__ = [(USER_HANDLER, USERS_GROUP), BROADCAST_HANDLER, CHATLIST_HANDLER]
