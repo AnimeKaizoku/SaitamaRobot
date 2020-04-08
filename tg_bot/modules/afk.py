@@ -20,16 +20,16 @@ AFK_REPLY_GROUP = 8
 def afk(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
-        if len(args) >= 2:
+    if len(args) >= 2:
         reason = args[1]
-        else:
+    else:
         reason = ""
 
     sql.set_afk(update.effective_user.id, reason)
     fname = update.effective_user.first_name
     update.effective_message.reply_text("{} is now away!".format(fname))
 
-
+    
 @run_async
 def no_longer_afk(bot: Bot, update: Update):
     user = update.effective_user  # type: Optional[User]
@@ -81,7 +81,7 @@ def reply_afk(bot: Bot, update: Update):
                     return
                 chk_users.append(user_id)
                 
-                elif ent.type == MessageEntity.MENTION:
+            elif ent.type == MessageEntity.MENTION:
                 user_id = get_user_id(message.text[ent.offset:ent.offset +
                                                    ent.length])
                 if not user_id:
