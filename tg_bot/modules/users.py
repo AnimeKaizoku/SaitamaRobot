@@ -92,16 +92,30 @@ def log_user(bot: Bot, update: Update):
 @run_async
 @sudo_plus
 def chats(bot: Bot, update: Update):
-
     all_chats = sql.get_all_chats() or []
-    chatfile = 'List of chats.\n'
+    chatfile = 'List of chats.\n0. Chat name | Chat ID | Members count | Invitelink\n'
+    P = 1
     for chat in all_chats:
-        chatfile += f"{chat.chat_name} - ({chat.chat_id})\n"
+        try:
+            curr_chat = bot.getChat(chat.chat_id)
+            bot_member = curr_chat.get_member(bot.id)
+            chat_members = curr_chat.get_members_count(bot.id)
+            if bot_member.can_invite_users:
+                invitelink = bot.exportChatInviteLink(chat.chat_id)
+            else:
+                invitelink = "0"
+            chatfile += "{}. {} | {} | {} | {}\n".format(
+                P, chat.chat_name, chat.chat_id, chat_members, invitelink)
+            P = P + 1
+        except:
+            pass
 
     with BytesIO(str.encode(chatfile)) as output:
         output.name = "chatlist.txt"
-        update.effective_message.reply_document(document=output, filename="chatlist.txt",
-                                                caption="Here is the list of chats in my Hit List.")
+        update.effective_message.reply_document(
+            document=output,
+            filename="chatlist.txt",
+            caption="Here is the list of chats in my database.")
 
 @run_async
 def chat_checker(bot: Bot, update: Update):
