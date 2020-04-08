@@ -81,7 +81,7 @@ def reply_afk(bot: Bot, update: Update):
                     return
                 chk_users.append(user_id)
                 
-            elif ent.type == MessageEntity.MENTION:
+            if ent.type == MessageEntity.MENTION:
                 user_id = get_user_id(message.text[ent.offset:ent.offset +
                                                    ent.length])
                 if not user_id:
@@ -123,7 +123,7 @@ def check_afk(bot, update, user_id, fst_name, userc_id):
         else:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} is afk, reason: {}".format(fst_name, user.reason)
+            res = "{} is afk.\nReason: {}".format(fst_name, user.reason)
             update.effective_message.reply_text(res)
 
 
