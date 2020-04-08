@@ -47,7 +47,7 @@ def remove_chat(bot: Bot, update: Update):
         
 def check_message(bot: Bot, message):
     reply_msg = message.reply_to_message
-    if message.text.lower() == "phoenix":
+    if message.text.lower() == "saitama":
         return True
     if reply_msg:
         if reply_msg.from_user.id == bot.get_me().id:

@@ -132,7 +132,7 @@ def flood(bot: Bot, update: Update):
         update.effective_message.reply_text(f"I'm not currently enforcing flood control{chat_name}!",
                                             parse_mode=ParseMode.HTML)
     else:
-        update.effective_message.reply_text(f"I'm currently punching users if they send "
+        update.effective_message.reply_text(f"I'm currently muting users if they send "
                                             f"more than {limit} consecutive messages{chat_name}.",
                                             parse_mode=ParseMode.HTML)
 
@@ -154,6 +154,8 @@ __help__ = """
 
 *Admin only:*
  - /setflood <int/'no'/'off'>: enables or disables flood control
+ Example: /setflood 10
+ This will mute users if they send more than 10 messages in a row, bots are ignored.
 """
 
 FLOOD_BAN_HANDLER = MessageHandler(Filters.all & ~Filters.status_update & Filters.group, check_flood)

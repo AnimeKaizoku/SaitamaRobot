@@ -76,6 +76,7 @@ if ENV:
     TIME_API_KEY = os.environ.get('TIME_API_KEY', None)
     AI_API_KEY = os.environ.get('AI_API_KEY', None)
     WALL_API = os.environ.get('WALL_API', None)
+    STRICT_GMUTE = bool(os.environ.get('STRICT_GMUTE', False))
 
 
 else:
@@ -135,6 +136,8 @@ else:
     TIME_API_KEY = Config.TIME_API_KEY
     AI_API_KEY = Config.AI_API_KEY
     WALL_API = Config.WALL_API
+    STRICT_GMUTE = Config.STRICT_GMUTE
+    
 
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
@@ -156,11 +159,3 @@ from tg_bot.modules.helper_funcs.handlers import CustomCommandHandler, CustomReg
 tg.RegexHandler = CustomRegexHandler
 tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler
-
-def spamfilters(text, user_id, chat_id):
-    #print("{} | {} | {}".format(text, user_id, chat_id))
-    if int(user_id) in SPAMMERS:
-        print("This user is a spammer!")
-        return True
-    else:
-        return False
