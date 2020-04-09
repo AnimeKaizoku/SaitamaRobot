@@ -83,6 +83,9 @@ def new_fed(bot: Bot, update: Update):
     fed_name = message.text.split(None, 1)[1]
     if not fed_name == '':
         fed_id = str(uuid.uuid4())
+    else:
+        update.effective_message.reply_text("Please write down the name of the federation")
+        return
 
     if user.id == int(OWNER_ID):
         fed_id = fed_name
@@ -104,8 +107,6 @@ def new_fed(bot: Bot, update: Update):
                              parse_mode=ParseMode.HTML)
         except:
             LOGGER.warning("Cannot send a message to GBAN_LOGS")
-    else:
-        update.effective_message.reply_text("Please write down the name of the federation")
 
 
 @run_async
