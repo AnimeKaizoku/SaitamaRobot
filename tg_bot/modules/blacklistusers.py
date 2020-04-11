@@ -125,7 +125,7 @@ def bl_users(bot: Bot, update: Update):
 def __user_info__(user_id):
     is_blacklisted = sql.is_user_blacklisted(user_id)
 
-    text = "Globally Ignored: <b>{}</b>"
+    text = "Blacklisted: <b>{}</b>"
 
     if is_blacklisted:
         text = text.format("Yes")
