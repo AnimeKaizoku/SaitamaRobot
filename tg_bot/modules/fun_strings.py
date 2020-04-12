@@ -168,6 +168,7 @@ SLAP_TEMPLATES = (
     "{user2} was turned into a Jojo reference!",
     "{user1} hits {user2} with {item}.",
     "Round 2!..Ready? .. FIGHT!!",
+    "WhoPixel will oof {user2}, to infinity and beyond."
 )
 
 PING_STRING = (
