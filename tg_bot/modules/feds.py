@@ -1440,7 +1440,6 @@ def unsubs_feds(bot, update, args):
 def get_myfedsubs(bot, update, args):
     chat = update.effective_chat
     user = update.effective_user
-
     if chat.type == 'private':
         send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
         return
@@ -1510,7 +1509,6 @@ def is_user_fed_owner(fed_id, user_id):
 def welcome_fed(bot, update):
     chat = update.effective_chat
     user = update.effective_user 
-
     fed_id = sql.get_fed_id(chat.id)
     fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user.id)
     if fban:
