@@ -1,10 +1,9 @@
 # See https://help.github.com/articles/about-codeowners/ for valid syntax for entries.
 # Default owners for everything in the repo, unless a later match takes precedence
 
-# Testing edit
-* @TsunayoshiSawada
-
 # Phoenix owns the files under blacklist thingies
 /tg_bot/modules/blacklistusers.py @rsktg
 /tg_bot/modules/sql/blacklistusers_sql.py @rsktg
-
+#pep8-ing the code doesn't change maker
+/tg_bot/modules/paste.py @DragSama
+/tg_bit/modules/speed_test.py @DragSama

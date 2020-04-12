@@ -1440,7 +1440,6 @@ def unsubs_feds(bot, update, args):
 def get_myfedsubs(bot, update, args):
     chat = update.effective_chat
     user = update.effective_user
-
     if chat.type == 'private':
         send_message(update.effective_message, "This command is specific to the group, not to the PM! ")
         return
@@ -1510,7 +1509,6 @@ def is_user_fed_owner(fed_id, user_id):
 def welcome_fed(bot, update):
     chat = update.effective_chat
     user = update.effective_user 
-
     fed_id = sql.get_fed_id(chat.id)
     fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user.id)
     if fban:
@@ -1540,10 +1538,10 @@ def __user_info__(user_id, chat_id):
             text = "This user is the admin of the current Federation: <b>{}</b>.".format(infoname)
 
         elif fban:
-            text = "Banned in current Fed: <b>Yes</b>"
+            text = "Prohibited in the current Federation: <b>Yes</b>"
             text += "\n<b>Reason:</b> {}".format(fbanreason)
         else:
-            text = "Banned in current Fed: <b>No</b>"
+            text = "Prohibited in the current Federation: <b>No</b>"
     else:
         text = ""
     return text
@@ -1572,10 +1570,8 @@ __mod_name__ = "Federations"
 __help__ = """
 Ah, group management. Everything is fun, until the spammer starts entering your group, and you have to block it. Then you need to start banning more, and more, and it hurts.
 But then you have many groups, and you don't want this spammer to be in one of your groups - how can you deal? Do you have to manually block it, in all your groups?
-
 No longer! With Federation, you can make a ban in one chat overlap with all other chats.
 You can even designate admin federations, so your trusted admin can ban all the chats you want to protect.
-
 Command:
  - /newfed <fedname>: Create a new Federation with the name given. Users are only allowed to have one Federation. This method can also be used to rename the Federation. (max. 64 characters)
  - /delfed: Delete your Federation, and any information related to it. Will not cancel blocked users.
