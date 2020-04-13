@@ -315,8 +315,8 @@ UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
 
 INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite, filters=Filters.group)
 
-PROMOTE_HANDLER = CommandHandler("promote", promote, pass_args=True)
-DEMOTE_HANDLER = CommandHandler("demote", demote, pass_args=True)
+PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote, pass_args=True)
+DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote, pass_args=True)
 
 SET_TITLE_HANDLER = CommandHandler("settitle", set_title, pass_args=True)
 
@@ -329,6 +329,6 @@ dispatcher.add_handler(DEMOTE_HANDLER)
 dispatcher.add_handler(SET_TITLE_HANDLER)
 
 __mod_name__ = "Admin"
-__command_list__ = ["adminlist", "admins", "invitelink"]
+__command_list__ = ["adminlist", "admins", "invitelink", "promote", "demote"]
 __handlers__ = [ADMINLIST_HANDLER, PIN_HANDLER, UNPIN_HANDLER,
                 INVITE_HANDLER, PROMOTE_HANDLER, DEMOTE_HANDLER, SET_TITLE_HANDLER]
