@@ -21,7 +21,7 @@ def afk(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
     if len(args) >= 2:
-        reason = args[1]
+        reason = f"[{args[1]}](https://google.com)"
     else:
         reason = ""
 
