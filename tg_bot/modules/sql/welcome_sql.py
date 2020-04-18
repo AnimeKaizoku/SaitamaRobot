@@ -90,7 +90,7 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first} joined the group, read by Mark Zuckerberg, CIA and 35 others.",
     "Welcome {first}, Watch out for falling monkeys.",
     "Everyone stop what you’re doing, We and now in the presence of {first}.",
-    "Hey {first}, Do you know how I got these scars?",
+    "Hey {first}, Do you wanna know how I got these scars?",
     "Welcome {first}, drop your weapons and proceed to the spy scanner.",
     "Stay safe {first}, Keep 3 meters social distances between your messages.",
     "Hey {first}, Do you know I once One-punched a meteorite?",
@@ -106,6 +106,13 @@ DEFAULT_WELCOME_MESSAGES = [
     "Coast is clear! You can come out guys, it’s just {first}.",
     "Welcome {first}, Pay no attention to that guy lurking.",
     "Welcome {first}, May the force be with you.",
+    "May the {first} be with you.",
+    "{first} just joined.Hey, where's Perry?",
+    "{first} just joined. Oh, there you are, Perry.",
+    "Ladies and gentlemen, I give you ...  {first}."
+    "Behold my new evil scheme, the {first}-Inator.",
+    "Ah, {first} the Platypus, you're just in time... to be trapped.",
+    "*snaps fingers and teleports {first} here*",
     
 ]
 DEFAULT_GOODBYE_MESSAGES = [
