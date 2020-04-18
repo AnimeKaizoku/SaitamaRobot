@@ -46,7 +46,7 @@ def getRepo(bot, update, reponame):
     repo = sql.get_repo(str(chat_id), reponame)
     if repo:
         return repo.value, repo.backoffset
-    return None
+    return None, None
 
 @run_async
 def getRelease(bot: Bot, update: Update, args: List[str]):
@@ -69,6 +69,9 @@ def hashFetch(bot: Bot, update: Update): #kanged from notes
     fst_word = message.split()[0]
     no_hash = fst_word[1:]
     url, index = getRepo(bot, update, no_hash)
+    if url is None and index is None:
+        msg.reply_text("There was a problem parsing your request. Likely this is not a saved repo shortcut", parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+        return
     text = getData(url, index)
     msg.reply_text(text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
     return
@@ -80,6 +83,9 @@ def cmdFetch(bot: Bot, update: Update, args: List[str]):
         msg.reply_text("Invalid repo name")
         return
     url, index = getRepo(bot, update, args[0])
+    if url is None and index is None:
+        msg.reply_text("There was a problem parsing your request. Likely this is not a saved repo shortcut", parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+        return
     text = getData(url, index)
     msg.reply_text(text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
     return
