@@ -173,7 +173,7 @@ SLAP_TEMPLATES = (
     "{user1} folded {user2} into a paper plane",
     "{user1} exchanged {user2}'s life-force for a cup of chocolate.",
     "{user2} did a 69 with a cactus.",
-    "{user1} crammed {user2}'s mouth with a roasted bat.",
+    "{user1} served {user2} some bat soup.",
     "{user2} was sent to his home, the planet of apes.",
     "{user1} kicked {user2} out of a moving train.",
     "{user1} traveled to the future and spat on {user2}'s grave.",
@@ -188,8 +188,6 @@ SLAP_TEMPLATES = (
     "{user1} learned why being a crocodile dentist was a bad idea.",
     "You know what’s worse than Dad jokes? {user2}!",
     "{user1} took all of {user2}'s cookies.",
-    "{user1} puppeteered {user2} to commit suicide.",
-
 )
 
 PING_STRING = (
