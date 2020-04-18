@@ -169,6 +169,27 @@ SLAP_TEMPLATES = (
     "{user1} hits {user2} with {item}.",
     "Round 2!..Ready? .. FIGHT!!",
     "WhoPixel will oof {user2}, to infinity and beyond."
+    "{user2} ate a bat and discovered a new disease.",
+    "{user1} folded {user2} into a paper plane",
+    "{user1} exchanged {user2}'s life-force for a cup of chocolate.",
+    "{user2} did a 69 with a cactus.",
+    "{user1} crammed {user2}'s mouth with a roasted bat.",
+    "{user2} was sent to his home, the planet of apes.",
+    "{user1} kicked {user2} out of a moving train.",
+    "{user1} traveled to the future and spat on {user2}'s grave.",
+    "{user2} died from talk-no-jutsu.",
+    "{user2} was placed as a carpet for a stomp dance competition.",
+    "{user2} just killed John Wick’s dog.",
+    "{user1} performed an Avada Kedavra spell on {user2}.",
+    "{user1} subjected {user2} to a fiery furnace.",
+    "Sakura Haruno just got more useful than {user2}",
+    "{user1} unplugged {user2}'s life support.",
+    "{user1} subscribed {user2}' to 5 years of bad internet.",
+    "{user1} learned why being a crocodile dentist was a bad idea.",
+    "You know what’s worse than Dad jokes? {user2}!",
+    "{user1} took all of {user2}'s cookies.",
+    "{user1} puppeteered {user2} to commit suicide.",
+
 )
 
 PING_STRING = (
