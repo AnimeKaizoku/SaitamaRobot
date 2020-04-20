@@ -93,19 +93,15 @@ def log_user(bot: Bot, update: Update):
 @sudo_plus
 def chats(bot: Bot, update: Update):
     all_chats = sql.get_all_chats() or []
-    chatfile = 'List of chats.\n0. Chat name | Chat ID | Members count | Invitelink\n'
+    chatfile = 'List of chats.\n0. Chat name | Chat ID | Members count\n'
     P = 1
     for chat in all_chats:
         try:
             curr_chat = bot.getChat(chat.chat_id)
             bot_member = curr_chat.get_member(bot.id)
             chat_members = curr_chat.get_members_count(bot.id)
-            if bot_member.can_invite_users:
-                invitelink = bot.exportChatInviteLink(chat.chat_id)
-            else:
-                invitelink = "0"
-            chatfile += "{}. {} | {} | {} | {}\n".format(
-                P, chat.chat_name, chat.chat_id, chat_members, invitelink)
+            chatfile += "{}. {} | {} | {}\n".format(
+                P, chat.chat_name, chat.chat_id, chat_members)
             P = P + 1
         except:
             pass
