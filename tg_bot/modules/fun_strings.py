@@ -114,7 +114,7 @@ SLAP_TEMPLATES = (
     "( ･_･)ﾉ⌒●~* (･.･;) <-{user2}",
     "Take this {user2}\n(ﾉﾟДﾟ)ﾉ ))))●~* ",
     "Here {user2} hold this\n(｀・ω・)つ ●~＊",
-    "( ・_・)ノΞ●~*  {user2},Shinaeeeee!!.",
+    "( ・_・)ノΞ●~*  {user2}\nDieeeee!!.",
     "( ・∀・)ｒ鹵~<≪巛;ﾟДﾟ)ﾉ\n*Bug sprays {user2}*.",
     "( ﾟДﾟ)ﾉ占~<巛巛巛.\n-{user2} You pest!",
     "( う-´)づ︻╦̵̵̿╤── \(˚☐˚”)/ {user2}.",
