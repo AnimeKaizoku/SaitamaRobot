@@ -23,12 +23,12 @@
          "value": "True"
       },
       "DONATION_LINK": {
-         "description": "Optional: link where you would like to receive donations.",
+         "description": "Optional: link where you would like to receive donations. If you are a noob, better leave it linking to paul",
          "required": false,
          "value": "https://www.paypal.me/PaulSonOfLars"
       },
       "ENV": {
-         "description": "Setting this to ANYTHING will enable environment variables.",
+         "description": "Setting this to ANYTHING will enable environment variables. Leave it as it is",
          "value": "ANYTHING"
       },
       "SQLALCHEMY_DATABASE_URI": {
@@ -45,7 +45,7 @@
          "value": "AnimeKaizoku"
       },
       "DEV_USERS": {
-         "description": "ID of users who are Dev (can use /py etc.)",
+         "description": "ID of users who are Devs of your bot (can use /py etc.)",
          "required": false,
          "value": "660565862 792109647"
       },
