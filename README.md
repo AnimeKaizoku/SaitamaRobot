@@ -13,11 +13,9 @@ The Support group can be reached out to at [One Punch Support](https://t.me/OneP
 
 News channel as at [One Punch Updates](https://t.me/OnePunchUpdates) 
 
-## Setting up the bot on your own server(Heroku deployers can ignore):
+## How to setup/deploy.
 
-# How to setup/deploy.
-
-## Read these notes carefully before proceeding 
+### Read these notes carefully before proceeding 
  - Edit any mentions of @OnePunchSupport to your own support chat. 
  - We do not support forks, once you fork the bot and deploy the headache of bugs and support is your own, please do not come to our support chat asking technical help.
  - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot. [See this](https://github.com/AnimeKaizoku/SaitamaRobot/blob/shiken/tg_bot/__main__.py#L25)
@@ -28,12 +26,15 @@ News channel as at [One Punch Updates](https://t.me/OnePunchUpdates)
 <details>
   <summary>Steps to deploy on Heroku !! </summary>
 
-  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
-
-Fill in all the details, Deploy.
+```
+Fill in all the details, Deploy!
 Now go to https://dashboard.heroku.com/apps/(app-name)/resources ( Replace (app-name) with your app name )
 Turn on worker dyno (Don't worry It's free :D)
 Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.com/apps/(app-name)/settings and remove webhook and port.
+```
+
+  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
+
 </details>  
 <details>
   <summary>Steps to self Host!! </summary>
