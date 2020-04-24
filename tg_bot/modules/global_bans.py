@@ -406,7 +406,7 @@ __help__ = """
  - /gbanstat <on/off/yes/no>: Will disable the effect of global bans on your group, or return your current settings.
 
 Gbans, also known as global bans, are used by the bot owners to ban spammers across all groups. This helps protect \
-you and your groups by removing spam flooders as quickly as possible. They can be disabled for you group by calling \
+you and your groups by removing spam flooders as quickly as possible. They can be disabled for your group by calling \
 /gbanstat
 Note: You can appeal gbans or ask gbans at @OnePunchSupport
 """

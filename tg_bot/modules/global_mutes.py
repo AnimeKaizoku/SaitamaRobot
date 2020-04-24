@@ -311,7 +311,7 @@ __help__ = """
 *Admin only:*
  - /gmutestat <on/off/yes/no>: Will disable the effect of global mutes on your group, or return your current settings.
 Gmutes, also known as global mutes, are used by the bot owners to mute spammers across all groups. This helps protect \
-you and your groups by removing spam flooders as quickly as possible. They can be disabled for you group by calling \
+you and your groups by removing spam flooders as quickly as possible. They can be disabled for your group by calling \
 /gmutestat
 """
 
