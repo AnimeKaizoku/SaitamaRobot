@@ -109,7 +109,7 @@ DEFAULT_WELCOME_MESSAGES = [
     "May the {first} be with you.",
     "{first} just joined.Hey, where's Perry?",
     "{first} just joined. Oh, there you are, Perry.",
-    "Ladies and gentlemen, I give you ...  {first}."
+    "Ladies and gentlemen, I give you ...  {first}.",
     "Behold my new evil scheme, the {first}-Inator.",
     "Ah, {first} the Platypus, you're just in time... to be trapped.",
     "*snaps fingers and teleports {first} here*",
