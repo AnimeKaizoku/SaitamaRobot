@@ -7,7 +7,7 @@ from telegram import Bot, Update, ParseMode, TelegramError
 from telegram.ext import CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, WHITELIST_USERS, TIGER_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS, OWNER_ID
+from tg_bot import dispatcher, WHITELIST_USERS, TIGER_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS, OWNER_ID, SUPPORT_CHAT
 from tg_bot.modules.helper_funcs.chat_status import whitelist_plus, dev_plus, sudo_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user
 from tg_bot.modules.log_channel import gloggable
@@ -493,14 +493,14 @@ def devlist(bot: Bot, update: Update):
     update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
 
 
-__help__ = """
+__help__ = f"""
  - /heroes - Lists all Hero Association members.
  - /dragons - Lists all Dragon disasters.
  - /demons - Lists all Demon disasters.
  - /tigers - Lists all Tigers disasters.
  - /wolves - Lists all Wolf disasters.
  Note: These commands list users with special bot priveleges and can only be used by them.
- You can visit @OnePunchSupport to query more about these.
+ You can visit {SUPPORT_CHAT} to query more about these.
 """
 
 SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo, pass_args=True)
