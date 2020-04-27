@@ -460,7 +460,7 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
     fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user_id)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect.")
         return
 
     if user_id == bot.id:

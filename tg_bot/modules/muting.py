@@ -17,7 +17,7 @@ from tg_bot.modules.log_channel import loggable
 
 def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
     if not user_id:
-        reply = "You don't seem to be referring to a user."
+        reply = "You don't seem to be referring to a user or the ID specified is incorrect.."
         return reply
 
     try:
