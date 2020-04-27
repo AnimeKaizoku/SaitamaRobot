@@ -10,7 +10,7 @@ from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
 import tg_bot.modules.sql.global_bans_sql as sql
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, STRICT_GBAN, GBAN_LOGS
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, STRICT_GBAN, GBAN_LOGS, SUPPORT_CHAT
 from tg_bot.modules.helper_funcs.chat_status import user_admin, is_user_admin, support_plus
 from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from tg_bot.modules.helper_funcs.misc import send_to_list
@@ -57,7 +57,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
         return
 
     if int(user_id) in DEV_USERS:
@@ -197,7 +197,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
     try:
         bot.send_message(user_id,
                          "You have been globally banned from all groups where I have administrative permissions."
-                         "If you think that this was a mistake, you may appeal your ban here: @OnePunchSupport",
+                         f"If you think that this was a mistake, you may appeal your ban here: {SUPPORT_CHAT}",
                          parse_mode=ParseMode.HTML)
     except:
         pass  # bot probably blocked by user
@@ -214,7 +214,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
     user_id = extract_user(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
         return
 
     user_chat = bot.get_chat(user_id)
@@ -328,7 +328,7 @@ def check_and_ban(update, user_id, should_message=True):
         if should_message:
             update.effective_message.reply_text("Alert: This user is globally banned.\n"
                                                 "*bans them from here*.\n"
-                                                "Appeal chat: @OnePunchSupport")
+                                                f"Appeal chat: {SUPPORT_CHAT}")
 
 
 @run_async
@@ -387,7 +387,7 @@ def __user_info__(user_id):
         user = sql.get_gbanned_user(user_id)
         if user.reason:
             text += f"\n<b>Reason:</b> {html.escape(user.reason)}"
-        text += "\n<b>Appeal Chat:</b> @OnePunchSupport"
+        text += f"\n<b>Appeal Chat:</b> {SUPPORT_CHAT}"
     else:
         text = text.format("No")
     return text
@@ -401,14 +401,14 @@ def __chat_settings__(chat_id, user_id):
     return f"This chat is enforcing *gbans*: `{sql.does_chat_gban(chat_id)}`."
 
 
-__help__ = """
+__help__ = f"""
 *Admin only:*
  - /gbanstat <on/off/yes/no>: Will disable the effect of global bans on your group, or return your current settings.
 
 Gbans, also known as global bans, are used by the bot owners to ban spammers across all groups. This helps protect \
-you and your groups by removing spam flooders as quickly as possible. They can be disabled for you group by calling \
+you and your groups by removing spam flooders as quickly as possible. They can be disabled for your group by calling \
 /gbanstat
-Note: You can appeal gbans or ask gbans at @OnePunchSupport
+Note: You can appeal gbans or ask gbans at {SUPPORT_CHAT}
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban, pass_args=True)

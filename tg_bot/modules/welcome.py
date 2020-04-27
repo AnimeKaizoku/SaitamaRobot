@@ -5,13 +5,14 @@ import time
 from typing import List
 from functools import partial
 
-from telegram import Update, Bot, CallbackQuery
+from telegram import Update, Bot
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import BadRequest
 from telegram.ext import MessageHandler, Filters, CommandHandler, run_async, CallbackQueryHandler, JobQueue
 from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
 
 import tg_bot.modules.sql.welcome_sql as sql
+from tg_bot.modules.sql.global_bans_sql import is_user_gbanned
 from tg_bot import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, LOGGER
 from tg_bot.modules.helper_funcs.chat_status import user_admin, is_user_ban_protected
 from tg_bot.modules.helper_funcs.misc import build_keyboard, revert_buttons
@@ -37,25 +38,35 @@ VERIFIED_USER_WAITLIST = {}
 
 # do not async
 def send(update, message, keyboard, backup_message):
+    chat = update.effective_chat
+    cleanserv = sql.clean_service(chat.id)
+    reply = update.message.message_id
+    # Clean service welcome
+    if cleanserv:
+        try:
+            dispatcher.bot.delete_message(chat.id, update.message.message_id)
+        except BadRequest:
+            pass
+        reply = False
     try:
-        msg = update.effective_message.reply_text(message, parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard)
+        msg = update.effective_message.reply_text(message, parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard, reply_to_message_id=reply)
     except BadRequest as excp:
         if excp.message == "Button_url_invalid":
             msg = update.effective_message.reply_text(markdown_parser(backup_message +
                                                                       "\nNote: the current message has an invalid url "
                                                                       "in one of its buttons. Please update."),
-                                                      parse_mode=ParseMode.MARKDOWN)
+                                                      parse_mode=ParseMode.MARKDOWN, reply_to_message_id=reply)
         elif excp.message == "Unsupported url protocol":
             msg = update.effective_message.reply_text(markdown_parser(backup_message +
                                                                       "\nNote: the current message has buttons which "
                                                                       "use url protocols that are unsupported by "
                                                                       "telegram. Please update."),
-                                                      parse_mode=ParseMode.MARKDOWN)
+                                                      parse_mode=ParseMode.MARKDOWN, reply_to_message_id=reply)
         elif excp.message == "Wrong url host":
             msg = update.effective_message.reply_text(markdown_parser(backup_message +
                                                                       "\nNote: the current message has some bad urls. "
                                                                       "Please update."),
-                                                      parse_mode=ParseMode.MARKDOWN)
+                                                      parse_mode=ParseMode.MARKDOWN, reply_to_message_id=reply)
             LOGGER.warning(message)
             LOGGER.warning(keyboard)
             LOGGER.exception("Could not parse! got invalid url host errors")
@@ -63,7 +74,7 @@ def send(update, message, keyboard, backup_message):
             msg = update.effective_message.reply_text(markdown_parser(backup_message +
                                                                       "\nNote: An error occured when sending the "
                                                                       "custom message. Please update."),
-                                                      parse_mode=ParseMode.MARKDOWN)
+                                                      parse_mode=ParseMode.MARKDOWN, reply_to_message_id=reply)
             LOGGER.exception()
 
     return msg
@@ -91,36 +102,47 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
 
         if should_welc:
 
+            reply = update.message.message_id
+            cleanserv = sql.clean_service(chat.id)
+            # Clean service welcome
+            if cleanserv:
+                try:
+                    dispatcher.bot.delete_message(
+                        chat.id, update.message.message_id)
+                except BadRequest:
+                    pass
+                reply = False
+
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
-                update.effective_message.reply_text("Oh, Genos? Let's get this moving.")
+                update.effective_message.reply_text("Oh, Genos? Let's get this moving.", reply_to_message_id=reply)
                 welcome_log = (f"{html.escape(chat.title)}\n"
                                f"#USER_JOINED\n"
                                f"Bot Owner just joined the chat")
 
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
-                update.effective_message.reply_text("Whoa! A member of the Heroes Association just joined!")
+                update.effective_message.reply_text("Whoa! A member of the Heroes Association just joined!", reply_to_message_id=reply)
 
             # Welcome Sudos
             elif new_mem.id in SUDO_USERS:
-                update.effective_message.reply_text("Huh! A Dragon disaster just joined! Stay Alert!")
+                update.effective_message.reply_text("Huh! A Dragon disaster just joined! Stay Alert!", reply_to_message_id=reply)
 
             # Welcome Support
             elif new_mem.id in SUPPORT_USERS:
-                update.effective_message.reply_text("Huh! Someone with a Demon disaster level just joined!")
+                update.effective_message.reply_text("Huh! Someone with a Demon disaster level just joined!", reply_to_message_id=reply)
 
             # Welcome Whitelisted
             elif new_mem.id in TIGER_USERS:
-                update.effective_message.reply_text("Oof! A Tiger disaster just joined!")
+                update.effective_message.reply_text("Oof! A Tiger disaster just joined!", reply_to_message_id=reply)
 
             # Welcome Tigers
             elif new_mem.id in WHITELIST_USERS:
-                update.effective_message.reply_text("Oof! A Wolf disaster just joined!")
+                update.effective_message.reply_text("Oof! A Wolf disaster just joined!", reply_to_message_id=reply)
 
             # Welcome yourself
             elif new_mem.id == bot.id:
-                update.effective_message.reply_text("Watashi ga kitta!")
+                update.effective_message.reply_text("Watashi ga kitta!", reply_to_message_id=reply)
 
             else:
                 # If welcome message is media, send with appropriate function
@@ -201,7 +223,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                                              reply_markup=InlineKeyboardMarkup([{InlineKeyboardButton(
                                                  text="Yes, I'm human.",
                                                  callback_data=f"user_join_({new_mem.id})")}]),
-                                             parse_mode=ParseMode.MARKDOWN)
+                                             parse_mode=ParseMode.MARKDOWN, reply_to_message_id=reply)
                     bot.restrict_chat_member(chat.id, new_mem.id,
                                              can_send_messages=False,
                                              can_send_media_messages=False,
@@ -264,24 +286,35 @@ def left_member(bot: Bot, update: Update):
         return
 
     if should_goodbye:
+        reply = update.message.message_id
+        cleanserv = sql.clean_service(chat.id)
+        # Clean service welcome
+        if cleanserv:
+            try:
+                dispatcher.bot.delete_message(
+                    chat.id, update.message.message_id)
+            except BadRequest:
+                pass
+            reply = False
+
         left_mem = update.effective_message.left_chat_member
         if left_mem:
             # Dont say goodbyes to gbanned users
             if is_user_gbanned(left_mem.id):
                 return
-            
+
             # Ignore bot being kicked
             if left_mem.id == bot.id:
                 return
 
             # Give the owner a special goodbye
             if left_mem.id == OWNER_ID:
-                update.effective_message.reply_text("Oi! Genos! He left..")
+                update.effective_message.reply_text("Oi! Genos! He left..", reply_to_message_id=reply)
                 return
 
             # Give the devs a special goodbye
             elif left_mem.id in DEV_USERS:
-                update.effective_message.reply_text("See you later at the Hero's Association!")
+                update.effective_message.reply_text("See you later at the Hero's Association!", reply_to_message_id=reply)
                 return
 
             # if media goodbye, use appropriate function for it
@@ -560,6 +593,34 @@ def clean_welcome(bot: Bot, update: Update, args: List[str]) -> str:
         update.effective_message.reply_text("I understand 'on/yes' or 'off/no' only!")
         return ""
 
+@run_async
+@user_admin
+def cleanservice(bot: Bot, update: Update, args: List[str]) -> str:
+    chat = update.effective_chat  # type: Optional[Chat]
+    if chat.type != chat.PRIVATE:
+        if len(args) >= 1:
+            var = args[0]
+            if (var == "no" or var == "off"):
+                sql.set_clean_service(chat.id, False)
+                update.effective_message.reply_text('Welcome clean service is : off')
+            elif (var == "yes" or var == "on"):
+                sql.set_clean_service(chat.id, True)
+                update.effective_message.reply_text('Welcome clean service is : on')
+            else:
+                update.effective_message.reply_text("Invalid option",
+                    parse_mode=ParseMode.MARKDOWN)
+        else:
+            update.effective_message.reply_text("Usage is on/yes or off/no",
+                                                parse_mode=ParseMode.MARKDOWN)
+    else:
+        curr = sql.clean_service(chat.id)
+        if curr:
+            update.effective_message.reply_text('Welcome clean service is : on',
+                                                parse_mode=ParseMode.MARKDOWN)
+        else:
+            update.effective_message.reply_text('Welcome clean service is : off',
+                                                parse_mode=ParseMode.MARKDOWN)
+
 
 @run_async
 def user_button(bot: Bot, update: Update):
@@ -691,6 +752,7 @@ SET_GOODBYE = CommandHandler("setgoodbye", set_goodbye, filters=Filters.group)
 RESET_WELCOME = CommandHandler("resetwelcome", reset_welcome, filters=Filters.group)
 RESET_GOODBYE = CommandHandler("resetgoodbye", reset_goodbye, filters=Filters.group)
 WELCOMEMUTE_HANDLER = CommandHandler("welcomemute", welcomemute, pass_args=True, filters=Filters.group)
+CLEAN_SERVICE_HANDLER = CommandHandler("cleanservice", cleanservice, pass_args=True, filters=Filters.group)
 CLEAN_WELCOME = CommandHandler("cleanwelcome", clean_welcome, pass_args=True, filters=Filters.group)
 WELCOME_HELP = CommandHandler("welcomehelp", welcome_help)
 WELCOME_MUTE_HELP = CommandHandler("welcomemutehelp", welcome_mute_help)
@@ -707,12 +769,13 @@ dispatcher.add_handler(RESET_GOODBYE)
 dispatcher.add_handler(CLEAN_WELCOME)
 dispatcher.add_handler(WELCOME_HELP)
 dispatcher.add_handler(WELCOMEMUTE_HANDLER)
+dispatcher.add_handler(CLEAN_SERVICE_HANDLER)
 dispatcher.add_handler(BUTTON_VERIFY_HANDLER)
 dispatcher.add_handler(WELCOME_MUTE_HELP)
 
 __mod_name__ = "Welcomes/Goodbyes"
-__command_list__ = ["welcome", "goodbye", "setwelcome", "setgoodbye", "resetwelcome", "resetgoodbye",
-                    "welcomemute", "cleanwelcome", "welcomehelp", "welcomemutehelp"]
+__command_list__ = []
 __handlers__ = [NEW_MEM_HANDLER, LEFT_MEM_HANDLER, WELC_PREF_HANDLER, GOODBYE_PREF_HANDLER,
                 SET_WELCOME, SET_GOODBYE, RESET_WELCOME, RESET_GOODBYE, CLEAN_WELCOME,
-                WELCOME_HELP, WELCOMEMUTE_HANDLER, BUTTON_VERIFY_HANDLER, WELCOME_MUTE_HELP]
+                WELCOME_HELP, WELCOMEMUTE_HANDLER, CLEAN_SERVICE_HANDLER, BUTTON_VERIFY_HANDLER,
+                WELCOME_MUTE_HELP]

@@ -95,7 +95,7 @@ def rban(bot: Bot, update: Update, args: List[str]):
     user_id, chat_id = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
         return
     elif not chat_id:
         message.reply_text("You don't seem to be referring to a chat.")
@@ -162,7 +162,7 @@ def runban(bot: Bot, update: Update, args: List[str]):
     user_id, chat_id = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
         return
     elif not chat_id:
         message.reply_text("You don't seem to be referring to a chat.")
@@ -229,7 +229,7 @@ def rkick(bot: Bot, update: Update, args: List[str]):
     user_id, chat_id = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
         return
     elif not chat_id:
         message.reply_text("You don't seem to be referring to a chat.")
@@ -296,7 +296,7 @@ def rmute(bot: Bot, update: Update, args: List[str]):
     user_id, chat_id = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
         return
     elif not chat_id:
         message.reply_text("You don't seem to be referring to a chat.")
@@ -363,7 +363,7 @@ def runmute(bot: Bot, update: Update, args: List[str]):
     user_id, chat_id = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
         return
     elif not chat_id:
         message.reply_text("You don't seem to be referring to a chat.")

@@ -7,7 +7,7 @@ from time import sleep
 from telegram import Message, Chat, Update, Bot
 from telegram.ext import run_async
 
-from tg_bot import dispatcher, WALL_API
+from tg_bot import dispatcher, WALL_API, SUPPORT_CHAT
 from tg_bot.modules.disable import DisableAbleCommandHandler
 
 
@@ -25,7 +25,7 @@ def wall(bot: Bot, update: Update, args):
         term = query.replace(" ", "%20")
         json_rep = r.get(f"https://wall.alphacoders.com/api2.0/get.php?auth={WALL_API}&method=search&term={term}").json()
         if not json_rep.get("success"):
-            msg.reply_text("An error occurred! Report this @OnePunchSupport")
+            msg.reply_text(f"An error occurred! Report this {SUPPORT_CHAT}")
         else:
             wallpapers = json_rep.get("wallpapers")
             if not wallpapers:

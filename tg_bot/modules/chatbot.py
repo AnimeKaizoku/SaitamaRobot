@@ -7,8 +7,9 @@ from coffeehouse.exception import CoffeeHouseError as CFError
 
 from telegram import Message, Chat, User, Update, Bot
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
+from telegram.error import BadRequest, Unauthorized, RetryAfter
 
-from tg_bot import dispatcher, AI_API_KEY, OWNER_ID
+from tg_bot import dispatcher, AI_API_KEY, OWNER_ID, SUPPORT_CHAT
 import tg_bot.modules.sql.chatbot_sql as sql
 from tg_bot.modules.helper_funcs.filters import CustomFilters
 
@@ -86,27 +87,47 @@ def chatbot(bot: Bot, update: Update):
         except CFError as e:
             bot.send_message(OWNER_ID, f"Chatbot error: {e} occurred in {chat_id}!")
                     
+@run_async
+def list_chatbot_chats(bot: Bot, update: Update):
+    chats = sql.get_all_chats()
+    text = "<b>AI-Enabled Chats</b>\n"
+    for chat in chats:
+        try:
+            x = bot.get_chat(int(*chat))
+            name = x.title if x.title else x.first_name
+            text += f"• <code>{name}</code>\n"
+        except BadRequest:
+            sql.rem_chat(*chat)
+        except Unauthorized:
+            sql.rem_chat(*chat)
+        except RetryAfter as e:
+            sleep(e.retry_after)
+    update.effective_message.reply_text(text, parse_mode="HTML")
 
 __mod_name__ = "Chatbot"
 
-__help__ = """
+__help__ = f"""
 Chatbot utilizes the CoffeeHouse API and allows Saitama to talk back making your chat more interactive.
-This is an ongoing upgrade and is only available in your chats if you reach out to @OnePunchSupport and ask for it. 
+This is an ongoing upgrade and is only available in your chats if you reach out to {SUPPORT_CHAT} and ask for it. 
 
 In future we might make it open for any chat and controllable by group admins.
 
 Powered by CoffeeHouse (https://coffeehouse.intellivoid.net/) from @Intellivoid
 Commands: These only work for Saitama Staff users. 
- - /addchat : Enables Chatbot mode in the chat.
- - /rmchat  : Disables Chatbot mode in the chat.
-"""
-                  
+ - /addchat     : Enables Chatbot mode in the chat.
+ - /rmchat      : Disables Chatbot mode in the chat.
+ - /listaichats : Lists the chats the chatmode is enabled in.
+"""         
+                    
+                    
 ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat, filters=CustomFilters.dev_filter)
 REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat, filters=CustomFilters.dev_filter)
 CHATBOT_HANDLER = MessageHandler(Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
                                   & ~Filters.regex(r"^s\/")), chatbot)
+LIST_CB_CHATS_HANDLER = CommandHandler("listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter)
 # Filters for ignoring #note messages, !commands and sed.
 
 dispatcher.add_handler(ADD_CHAT_HANDLER)
 dispatcher.add_handler(REMOVE_CHAT_HANDLER)
 dispatcher.add_handler(CHATBOT_HANDLER)
+dispatcher.add_handler(LIST_CB_CHATS_HANDLER)

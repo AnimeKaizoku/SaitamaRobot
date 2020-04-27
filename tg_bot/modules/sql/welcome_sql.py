@@ -1,5 +1,6 @@
 import random
 import threading
+from typing import Union
 
 from sqlalchemy import Column, String, Boolean, UnicodeText, Integer, BigInteger
 
@@ -73,6 +74,47 @@ DEFAULT_WELCOME_MESSAGES = [
     "Call the Avengers! - {first} just joined the chat.",
     "{first} joined. You must construct additional pylons.",
     "Ermagherd. {first} is here.",
+    "Come for the Snail Racing, Stay for the Chimichangas!",
+    "Who needs Google? You're everything we were searching for.",
+    "This place must have free WiFi, cause I'm feeling a connection.",
+    "You shall not pass!",
+    "Speak friend and enter.",
+    "Welcome you are",
+    "Welcome {first}, your princess is in another castle.",
+    "Hi {first}, welcome to the dark side.",
+    "Hola {first}, beware of people with disaster levels",
+    "Hey {first}, we have the droids you are looking for.",
+    "Hi {first}\nThis isn't a strange place, this is my home, it's the people who are strange.",
+    "Oh, hey {first} what's the password?",
+    "Hey {first}, I know what we're gonna do today",
+    "{first} just joined, be at alert they could be a spy.",
+    "{first} joined the group, read by Mark Zuckerberg, CIA and 35 others.",
+    "Welcome {first}, Watch out for falling monkeys.",
+    "Everyone stop what you’re doing, We and now in the presence of {first}.",
+    "Hey {first}, Do you wanna know how I got these scars?",
+    "Welcome {first}, drop your weapons and proceed to the spy scanner.",
+    "Stay safe {first}, Keep 3 meters social distances between your messages.",
+    "Hey {first}, Do you know I once One-punched a meteorite?",
+    "You’re here now {first}, Resistance is futile",
+    "{first} just arrived, the force is strong with this one.",
+    "{first} just joined on president’s orders.",
+    "Hi {first}, is the glass half full or half empty?",
+    "Yipee Kayaye {first} arrived.",
+    "Welcome {first}, if you’re a secret agent press 1, otherwise start a conversation",
+    "{first}, I have a feeling we’re not in Kansas anymore.",
+    "They may take our lives, but they’ll never take our {first}.",
+    "You has me at {first} joined the group.",
+    "Coast is clear! You can come out guys, it’s just {first}.",
+    "Welcome {first}, Pay no attention to that guy lurking.",
+    "Welcome {first}, May the force be with you.",
+    "May the {first} be with you.",
+    "{first} just joined.Hey, where's Perry?",
+    "{first} just joined. Oh, there you are, Perry.",
+    "Ladies and gentlemen, I give you ...  {first}.",
+    "Behold my new evil scheme, the {first}-Inator.",
+    "Ah, {first} the Platypus, you're just in time... to be trapped.",
+    "*snaps fingers and teleports {first} here*",
+    
 ]
 DEFAULT_GOODBYE_MESSAGES = [
     "{first} will be missed.",
@@ -94,8 +136,50 @@ DEFAULT_GOODBYE_MESSAGES = [
     "Congratulations, {first}! You're officially free of this mess.",
     "{first}. You were an opponent worth fighting.",
     "You're leaving, {first}? Yare Yare Daze.",
-]
+    "Bring him the photo",
+    "Go outside!",
+    "Ask again later",
+    "Think for yourself",
+    "Question authority",
+    "You are worshiping a sun god",
+    "Don't leave the house today",
+    "Give up!",
+    "Marry and reproduce",
+    "Stay asleep",
+    "Wake up",
+    "Look to la luna",
+    "Steven lives",
+    "Meet strangers without prejudice",
+    "A hanged man will bring you no luck today",
+    "What do you want to do today?",
+    "You are dark inside",
+    "Have you seen the exit?",
+    "Get a baby pet it will cheer you up.",
+    "Your princess is in another castle.",
+    "You are playing it wrong give me the controller",
+    "Trust good people",
+    "Live to die.",
+    "When life gives you lemons reroll!",
+    "Well that was worthless",
+    "I feel asleep!",
+    "May your troubles be many",
+    "Your old life lies in ruin",
+    "Always look on the bright side",
+    "It is dangerous to go alone",
+    "You will never be forgiven",
+    "You have nobody to blame but yourself",
+    "Only a sinner",
+    "Use bombs wisely",
+    "Nobody knows the troubles you have seen",
+    "You look fat you should exercise more",
+    "Follow the zebra",
+    "Why so blue?",
+    "The devil in disguise",
+    "Go outside",
+    "Always your head in the clouds",
 
+]
+# Line 111 to 152 are references from https://bindingofisaac.fandom.com/wiki/Fortune_Telling_Machine
 
 class Welcome(BASE):
     __tablename__ = "welcome_pref"
@@ -171,17 +255,30 @@ class WelcomeMuteUsers(BASE):
         self.chat_id = str(chat_id)
         self.human_check = human_check
 
+class CleanServiceSetting(BASE):
+    __tablename__ = "clean_service"
+    chat_id = Column(String(14), primary_key=True)
+    clean_service = Column(Boolean, default=True)
+
+    def __init__(self, chat_id):
+        self.chat_id = str(chat_id)
+
+    def __repr__(self):
+        return "<Chat used clean service ({})>".format(self.chat_id)
+
 
 Welcome.__table__.create(checkfirst=True)
 WelcomeButtons.__table__.create(checkfirst=True)
 GoodbyeButtons.__table__.create(checkfirst=True)
 WelcomeMute.__table__.create(checkfirst=True)
 WelcomeMuteUsers.__table__.create(checkfirst=True)
+CleanServiceSetting.__table__.create(checkfirst=True)
 
 INSERTION_LOCK = threading.RLock()
 WELC_BTN_LOCK = threading.RLock()
 LEAVE_BTN_LOCK = threading.RLock()
 WM_LOCK = threading.RLock()
+CS_LOCK = threading.RLock()
 
 
 def welcome_mutes(chat_id):
@@ -402,6 +499,27 @@ def get_gdbye_buttons(chat_id):
             GoodbyeButtons.id).all()
     finally:
         SESSION.close()
+
+
+def clean_service(chat_id: Union[str, int]) -> bool:
+    try:
+        chat_setting = SESSION.query(CleanServiceSetting).get(str(chat_id))
+        if chat_setting:
+            return chat_setting.clean_service
+        return False
+    finally:
+        SESSION.close()
+
+
+def set_clean_service(chat_id: Union[int, str], setting: bool):
+    with CS_LOCK:
+        chat_setting = SESSION.query(CleanServiceSetting).get(str(chat_id))
+        if not chat_setting:
+            chat_setting = CleanServiceSetting(chat_id)
+
+        chat_setting.clean_service = setting
+        SESSION.add(chat_setting)
+        SESSION.commit()
 
 
 def migrate_chat(old_chat_id, new_chat_id):

@@ -5,6 +5,7 @@ from telegram import Bot, Update
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async
 
+from tg_bot import SUPPORT_CHAT
 from tg_bot import dispatcher, LOGGER
 from tg_bot.__main__ import DATA_IMPORT
 from tg_bot.modules.helper_funcs.chat_status import user_admin
@@ -47,7 +48,7 @@ def import_data(bot: Bot, update: Update):
                 mod.__import_data__(str(chat.id), data)
         except Exception:
             msg.reply_text("An exception occured while restoring your data. The process may not be complete. If "
-                           "you're having issues with this, message @OnePunchSupport with your backup file so the "
+                           f"you're having issues with this, message {SUPPORT_CHAT} with your backup file so the "
                            "issue can be debugged. My owners would be happy to help, and every bug "
                            "reported makes me better! Thanks! :)")
             LOGGER.exception("Import for chatid %s with name %s failed.", str(chat.id), str(chat.title))

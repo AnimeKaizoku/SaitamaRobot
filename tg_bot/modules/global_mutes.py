@@ -25,7 +25,7 @@ def gmute(bot: Bot, update: Update, args: List[str]):
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
         return
 
     if int(user_id) in SUDO_USERS:
@@ -136,7 +136,7 @@ def ungmute(bot: Bot, update: Update, args: List[str]):
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
         return
 
     user_chat = bot.get_chat(user_id)
@@ -311,7 +311,7 @@ __help__ = """
 *Admin only:*
  - /gmutestat <on/off/yes/no>: Will disable the effect of global mutes on your group, or return your current settings.
 Gmutes, also known as global mutes, are used by the bot owners to mute spammers across all groups. This helps protect \
-you and your groups by removing spam flooders as quickly as possible. They can be disabled for you group by calling \
+you and your groups by removing spam flooders as quickly as possible. They can be disabled for your group by calling \
 /gmutestat
 """
 

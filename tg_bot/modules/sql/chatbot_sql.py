@@ -65,3 +65,10 @@ def rem_chat(chat_id):
             SESSION.delete(autochat)
             
         SESSION.commit()
+
+
+def get_all_chats():
+    try:
+        return SESSION.query(ChatbotChats.chat_id).all()
+    finally:
+        SESSION.close()
