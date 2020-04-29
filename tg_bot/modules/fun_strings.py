@@ -209,24 +209,6 @@ HIT = (
 
 )
 
-ABUSE_STRINGS = (
-    "Fuck off",
-    "Stfu go fuck yourself",
-    "Ur mum gey",
-    "Ur dad lesbo",
-    "Bsdk",
-    "Nigga",
-    "Ur granny tranny",
-    "you noob",
-    "Relax your Rear,ders nothing to fear,The Rape train is finally here",
-    "Stfu bc",
-    "Stfu and Gtfo U nub",
-    "GTFO bsdk",
-    "CUnt",
-    " Gay is here",
-    "Ur dad gey bc ",
-)
-
 EYES = [
     ['⌐■', '■'],
     [' ͠°', ' °'],
