@@ -44,7 +44,7 @@ class Config(object):
     TIME_API_KEY = None # Get one from https://timezonedb.com/register
     AI_API_KEY = None # Coffeehouse chatbot api key, get one from https://coffeehouse.intellivoid.info/
     WALL_API = None # Get one from https://wall.alphacoders.com/api.php
-    SUPPORT_CHAT = None # Your telegram support chat username, must have the "@" Example: @MyBotSupportGroupChat
+    SUPPORT_CHAT = "No Support Chat exists" # Your telegram support chat username, must have the "@" Example: @MyBotSupportGroupChat
 
 
 class Production(Config):
