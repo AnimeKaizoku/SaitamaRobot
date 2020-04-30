@@ -13,9 +13,9 @@ from tg_bot.modules.helper_funcs.chat_status import is_user_admin
 from tg_bot.modules.helper_funcs.extraction import extract_user
 
 #sleep how many times after each edit in 'police' 
-EDIT_SLEEP = 0.5
+EDIT_SLEEP = 1
 #edit how many times in 'police' 
-EDIT_TIMES = 10
+EDIT_TIMES = 3
 
 police_siren = [
             "🔴🔴🔴⬜️⬜️⬜️🔵🔵🔵\n🔴🔴🔴⬜️⬜️⬜️🔵🔵🔵\n🔴🔴🔴⬜️⬜️⬜️🔵🔵🔵",
