@@ -9,9 +9,18 @@ from telegram.ext import run_async
 import tg_bot.modules.fun_strings as fun_strings
 from tg_bot import dispatcher
 from tg_bot.modules.disable import DisableAbleCommandHandler
-from tg_bot.modules.helper_funcs.chat_status import is_user_admin
+from tg_bot.modules.helper_funcs.chat_status import is_user_admin, user_admin
 from tg_bot.modules.helper_funcs.extraction import extract_user
 
+#sleep how many times after each edit in 'police' 
+EDIT_SLEEP = 1
+#edit how many times in 'police' 
+EDIT_TIMES = 3
+
+police_siren = [
+            "🔴🔴🔴⬜️⬜️⬜️🔵🔵🔵\n🔴🔴🔴⬜️⬜️⬜️🔵🔵🔵\n🔴🔴🔴⬜️⬜️⬜️🔵🔵🔵",
+            "🔵🔵🔵⬜️⬜️⬜️🔴🔴🔴\n🔵🔵🔵⬜️⬜️⬜️🔴🔴🔴\n🔵🔵🔵⬜️⬜️⬜️🔴🔴🔴"
+]
 
 @run_async
 def runs(bot: Bot, update: Update):
@@ -75,13 +84,6 @@ def toss(bot: Bot, update: Update):
 
 
 @run_async
-def abuse(bot: Bot, update: Update):
-    msg = update.effective_message
-    reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
-    reply_text(random.choice(fun_strings.ABUSE_STRINGS))
-
-
-@run_async
 def shrug(bot: Bot, update: Update):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
@@ -118,6 +120,15 @@ def table(bot: Bot, update: Update):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.TABLE))
 
+@user_admin
+@run_async
+def police(bot: Bot, update: Update):
+    msg = update.effective_message.reply_text('Police is coming!') 
+    for x in range(EDIT_TIMES):
+        msg.edit_text(police_siren[x%2])
+        time.sleep(EDIT_SLEEP)
+    msg.edit_text('Police is here!')
+
 
 __help__ = """
  - /runs: reply a random string from an array of replies.
@@ -126,10 +137,10 @@ __help__ = """
  - /table : get flip/unflip :v.
  - /decide : Randomly answers yes/no/maybe
  - /toss : Tosses A coin
- - /abuse : Abuses the cunt
  - /bluetext : check urself :V
  - /roll : Roll a dice.
  - /rlg : Join ears,nose,mouth and create an emo ;-;
+- /police : Try it ;) 
 """
 
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
@@ -141,6 +152,7 @@ BLUETEXT_HANDLER = DisableAbleCommandHandler("bluetext", bluetext)
 RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg)
 DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
+POLICE_HANDLER = DisableAbleCommandHandler("police", police)
 
 dispatcher.add_handler(RUNS_HANDLER)
 dispatcher.add_handler(SLAP_HANDLER)
@@ -151,8 +163,9 @@ dispatcher.add_handler(BLUETEXT_HANDLER)
 dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
+dispatcher.add_handler(POLICE_HANDLER)
 
 __mod_name__ = "Fun"
-__command_list__ = ["runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide", "table"]
+__command_list__ = ["runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide", "table", "police"]
 __handlers__ = [RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER,
-                DECIDE_HANDLER, TABLE_HANDLER]
+                DECIDE_HANDLER, TABLE_HANDLER, POLICE_HANDLER]

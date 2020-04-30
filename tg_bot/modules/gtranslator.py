@@ -124,8 +124,7 @@ Example: /tr en - translates something to english.
          /tr hi-en - translates hindi to english.
 """
 
-TRANSLATE_HANDLER = DisableAbleCommandHandler("tr", totranslate)
-TRANSLATE_HANDLER = DisableAbleCommandHandler("tl", totranslate)
+TRANSLATE_HANDLER = DisableAbleCommandHandler(["tr", "tl"], totranslate)
 
 dispatcher.add_handler(TRANSLATE_HANDLER)
 
