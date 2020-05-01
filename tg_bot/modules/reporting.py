@@ -6,13 +6,14 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CommandHandler, RegexHandler, run_async, Filters
 from telegram.utils.helpers import mention_html
-from tg_bot import DEV_USERS as devs, WHITELIST_USERS as verified_spammers
+
 from tg_bot import dispatcher, LOGGER
 from tg_bot.modules.helper_funcs.chat_status import user_not_admin, user_admin
 from tg_bot.modules.log_channel import loggable
 from tg_bot.modules.sql import reporting_sql as sql
 
 REPORT_GROUP = 5
+
 
 @run_async
 @user_admin
@@ -61,12 +62,6 @@ def report(bot: Bot, update: Update) -> str:
         chat_name = chat.title or chat.first or chat.username
         admin_list = chat.get_administrators()
         messages = update.effective_message  # type: Optional[Message]
-        if user.id == reported_user.id or reported_user.id == bot.id:
-            messages.reply_text("Uh yeah, Sure.")
-            return ""
-        if int(reported_user.id) in verified_spammers or int(reported_user.id) in devs:
-            messages.reply_text("Uh? You reporting whitelisted users?")
-            return "" 
         if chat.username and chat.type == Chat.SUPERGROUP:
             reported = "{} reported {} to the admins!".format(mention_html(user.id, user.first_name),
                                                               mention_html(reported_user.id, reported_user.first_name))
