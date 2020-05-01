@@ -50,6 +50,7 @@ def totranslate(bot: Bot, update: Update):
                 source_lang = None
 
             exclude_list = UNICODE_EMOJI.keys()
+            exclude_list.extend([🏻,🏼,🏽,🏾,🏿])
             for emoji in exclude_list:
                 if emoji in text:
                     text = text.replace(emoji, '')
@@ -71,6 +72,7 @@ def totranslate(bot: Bot, update: Update):
             source_lang = args[1]
             text = args[2]
             exclude_list = UNICODE_EMOJI.keys()
+            exclude_list.extend([🏻,🏼,🏽,🏾,🏿])
             for emoji in exclude_list:
                 if emoji in text:
                     text = text.replace(emoji, '')
