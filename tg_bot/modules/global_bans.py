@@ -30,7 +30,7 @@ GBAN_ERRORS = {
     "Only the creator of a basic group can kick group administrators",
     "Channel_private",
     "Not in the chat",
-    "Can't remove chat owner"
+    "Can't remove chat owner",
 }
 
 UNGBAN_ERRORS = {
@@ -43,6 +43,7 @@ UNGBAN_ERRORS = {
     "Channel_private",
     "Chat_admin_required",
     "Peer_id_invalid",
+    "User not found",
 }
 
 
