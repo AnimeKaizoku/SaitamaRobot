@@ -29,7 +29,7 @@ News channel as at [One Punch Updates](https://t.me/OnePunchUpdates)
 ```
 Fill in all the details, Deploy!
 Now go to https://dashboard.heroku.com/apps/(app-name)/resources ( Replace (app-name) with your app name )
-Turn on worker dyno (Don't worry It's free :D)
+Turn on worker dyno (Don't worry It's free :D) & Webhook
 Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.com/apps/(app-name)/settings and remove webhook and port.
 ```
 
