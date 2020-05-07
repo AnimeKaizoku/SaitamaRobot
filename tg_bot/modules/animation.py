@@ -6,9 +6,9 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin
 
 #sleep how many times after each edit in 'police' 
-EDIT_SLEEP = 1
+EDIT_SLEEP = 2
 #edit how many times in 'police' 
-EDIT_TIMES = 10
+EDIT_TIMES = 3
 
 police_siren = [
             "🔴🔴🔴⬜️⬜️⬜️🔵🔵🔵\n🔴🔴🔴⬜️⬜️⬜️🔵🔵🔵\n🔴🔴🔴⬜️⬜️⬜️🔵🔵🔵",
