@@ -227,7 +227,7 @@ def punchme(bot: Bot, update: Update):
 
     res = update.effective_chat.unban_member(user_id)  # unban on current user = kick
     if res:
-        update.effective_message.reply_text("No problem.")
+        update.effective_message.reply_text("*punches you out of the group*")
     else:
         update.effective_message.reply_text("Huh? I can't :/")
 
