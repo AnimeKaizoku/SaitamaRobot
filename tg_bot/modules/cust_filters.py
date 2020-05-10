@@ -175,7 +175,6 @@ def reply_filter(bot: Bot, update: Update):
         except Exception:
             message.reply_text(f"Removing filter {keyword} due to broken regex.")
             sql.remove_filter(chat.id, keyword)
-            raise DispatcherHandlerStop
             return
         if match:
             filt = sql.get_filter(chat.id, keyword)
