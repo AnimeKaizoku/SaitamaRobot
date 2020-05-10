@@ -89,24 +89,24 @@ def new_fed(bot: Bot, update: Update):
 
     if user.id == int(OWNER_ID):
         fed_id = fed_name
+    
+    fed = sql.new_fed(user.id, fed_name, fed_id)
+    if not fed:
+         update.effective_message.reply_text(f"Can't federate! Please contact {SUPPORT_CHAT} if the problem persists.")
+         return
 
-        fed = sql.new_fed(user.id, fed_name, fed_id)
-        if not fed:
-            update.effective_message.reply_text(f"Can't federate! Please contact {SUPPORT_CHAT} if the problem persists.")
-            return
-
-        update.effective_message.reply_text("*You have succeeded in creating a new federation!*"\
+    update.effective_message.reply_text("*You have succeeded in creating a new federation!*"\
                                             "\nName: `{}`"\
                                             "\nID: `{}`"
                                             "\n\nUse the command below to join the federation:"
                                             "\n`/joinfed {}`".format(fed_name, fed_id, fed_id), parse_mode=ParseMode.MARKDOWN)
-        try:
-            bot.send_message(GBAN_LOGS,
-                             "Federation <b>{}</b> has been created with ID: <pre>{}</pre>".format(
-                                 fed_name, fed_id),
-                             parse_mode=ParseMode.HTML)
-        except:
-            LOGGER.warning("Cannot send a message to GBAN_LOGS")
+    try:
+       bot.send_message(GBAN_LOGS,
+                        "Federation <b>{}</b> has been created with ID: <pre>{}</pre>".format(
+                            fed_name, fed_id),
+                        parse_mode=ParseMode.HTML)
+    except:
+       LOGGER.warning("Cannot send a message to GBAN_LOGS")
 
 
 @run_async
