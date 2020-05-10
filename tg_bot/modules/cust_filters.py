@@ -169,8 +169,15 @@ def reply_filter(bot: Bot, update: Update):
 
     chat_filters = sql.get_chat_triggers(chat.id)
     for keyword in chat_filters:
-        pattern = r"( |^|[^\w])" + keyword + r"( |$|[^\w])"
-        if re.search(pattern, to_match, flags=re.IGNORECASE):
+        try:
+          pattern = r"( |^|[^\w])" + keyword + r"( |$|[^\w])"
+          match = re.search(pattern, to_match, flags=re.IGNORECASE)
+        except Exception:
+            message.reply_text(f"Removing filter {keyword} due to broken regex.")
+            sql.remove_filter(chat.id, keyword)
+            raise DispatcherHandlerStop
+            return
+        if match:
             filt = sql.get_filter(chat.id, keyword)
             if filt.is_sticker:
                 message.reply_sticker(filt.reply)
