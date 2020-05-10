@@ -67,6 +67,11 @@ def add_blacklist(bot: Bot, update: Update):
         to_blacklist = list(set(trigger.strip() for trigger in text.split("\n") if trigger.strip()))
 
         for trigger in to_blacklist:
+            try:
+                re.compile(trigger)
+            except Exception as exce:
+                msg.reply_text(f"Couldn't add regex, Error:
+                               {exce}")
             sql.add_to_blacklist(chat.id, trigger.lower())
 
         if len(to_blacklist) == 1:
