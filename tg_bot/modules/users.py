@@ -65,7 +65,7 @@ def broadcast(bot: Bot, update: Update):
             except TelegramError:
                 failed += 1
                 LOGGER.warning("Couldn't send broadcast to %s, group name %s", str(chat.chat_id), str(chat.chat_name))
-        for user in users
+        for user in users:
             try:
                 bot.sendMessage(int(user.user_id), to_send[1])
                 sleep(0.1)
