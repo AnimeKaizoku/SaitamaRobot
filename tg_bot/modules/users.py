@@ -70,7 +70,7 @@ def broadcast(bot: Bot, update: Update):
                 bot.sendMessage(int(user.user_id), to_send[1])
                 sleep(0.1)
             except TelegramError:
-                failed_users += 1
+                failed_user += 1
                 LOGGER.warning("Couldn't send broadcast to %s", str(user.user_id))
 
         update.effective_message.reply_text(
