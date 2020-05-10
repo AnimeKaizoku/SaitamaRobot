@@ -70,8 +70,8 @@ def add_blacklist(bot: Bot, update: Update):
             try:
                 re.compile(trigger)
             except Exception as exce:
-                msg.reply_text(f"Couldn't add regex, Error:
-                               {exce}")
+                msg.reply_text(f"Couldn't add regex, Error: {exce}")
+                return
             sql.add_to_blacklist(chat.id, trigger.lower())
 
         if len(to_blacklist) == 1:
@@ -144,6 +144,7 @@ def del_blacklist(bot: Bot, update: Update):
         except Exception:
           sql.rm_from_blacklist(chat.id, trigger)
           msg.reply_text(f'Removed {trigger} from blacklist because of broken regex')
+          return
         if match:
             try:
                 message.delete()
