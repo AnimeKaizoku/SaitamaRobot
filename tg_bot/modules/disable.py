@@ -27,7 +27,7 @@ if is_module_loaded(FILENAME):
 
     class DisableAbleCommandHandler(CustomCommandHandler):
 
-        def __init__(self, command, callback, admin_ok=False, filters=None, **kwargs):
+        def __init__(self, command, callback, admin_ok=True, filters=None, **kwargs):
             super().__init__(command, callback, **kwargs)
             self.admin_ok = admin_ok
             self.filters = filters
