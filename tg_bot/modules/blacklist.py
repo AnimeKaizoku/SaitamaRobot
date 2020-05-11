@@ -15,6 +15,9 @@ from tg_bot.modules.helper_funcs.misc import split_message
 
 BLACKLIST_GROUP = 11
 
+def infinite_loop_check(regex):
+     match_1 = re.search('\((.[\+\*]){1,}\)[\+\*].', regex)
+     return True if match_1 else False
 
 @run_async
 @connection_status
@@ -72,7 +75,12 @@ def add_blacklist(bot: Bot, update: Update):
             except Exception as exce:
                 msg.reply_text(f"Couldn't add regex, Error: {exce}")
                 return
-            sql.add_to_blacklist(chat.id, trigger.lower())
+            check = infinite_loop_check(trigger)
+            if not check:
+               sql.add_to_blacklist(chat.id, trigger.lower())
+            else:
+                msg.reply_text("I'm afraid I can't add that regex.")
+                return
 
         if len(to_blacklist) == 1:
             msg.reply_text(f"Added <code>{html.escape(to_blacklist[0])}</code> to the blacklist!",

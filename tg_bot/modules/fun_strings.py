@@ -388,7 +388,7 @@ TOSS = (
 
 DECIDE = (
     "Yes.",
-    "NoU.",
+    "No.",
     "Maybe."
 )
 

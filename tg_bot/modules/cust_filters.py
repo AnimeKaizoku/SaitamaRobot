@@ -9,6 +9,7 @@ from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, 
 from telegram.utils.helpers import escape_markdown
 
 from tg_bot import dispatcher, LOGGER, SUPPORT_CHAT
+from tg_bot.modules.blacklist import infinite_loop_check
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin, connection_status
 from tg_bot.modules.helper_funcs.extraction import extract_text
@@ -72,8 +73,7 @@ def filters(bot: Bot, update: Update):
     if len(extracted) < 1:
         return
     # set trigger -> lower, so as to avoid adding duplicate filters with different cases
-    keyword = extracted[0].lower()
-
+    keyword = extracted[0]
     is_sticker = False
     is_document = False
     is_image = False
@@ -118,7 +118,9 @@ def filters(bot: Bot, update: Update):
     else:
         msg.reply_text("You didn't specify what to reply with!")
         return
-
+    if infinite_loop_check(keyword):
+        msg.reply_text("I'm afraid I can't add that regex")
+        return
     # Add the filter
     # Note: perhaps handlers can be removed somehow using sql.get_chat_filters
     for handler in dispatcher.handlers.get(HANDLER_GROUP, []):

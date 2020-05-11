@@ -4,7 +4,7 @@ from time import sleep
 from telegram import Bot, Update, TelegramError
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
-
+from tg_bot.modules.sql.users_sql import get_all_users
 import tg_bot.modules.sql.users_sql as sql
 
 from tg_bot import dispatcher, OWNER_ID, LOGGER, DEV_USERS
@@ -55,7 +55,9 @@ def broadcast(bot: Bot, update: Update):
 
     if len(to_send) >= 2:
         chats = sql.get_all_chats() or []
+        users = get_all_users()
         failed = 0
+        failed_user = 0
         for chat in chats:
             try:
                 bot.sendMessage(int(chat.chat_id), to_send[1])
@@ -63,9 +65,17 @@ def broadcast(bot: Bot, update: Update):
             except TelegramError:
                 failed += 1
                 LOGGER.warning("Couldn't send broadcast to %s, group name %s", str(chat.chat_id), str(chat.chat_name))
+        for user in users:
+            try:
+                bot.sendMessage(int(user.user_id), to_send[1])
+                sleep(0.1)
+            except TelegramError:
+                failed_user += 1
+                LOGGER.warning("Couldn't send broadcast to %s", str(user.user_id))
 
         update.effective_message.reply_text(
-            f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked.")
+            f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked. {failed_user} failed to receive message, probably due to being blocked"
+            )
 
 
 @run_async
