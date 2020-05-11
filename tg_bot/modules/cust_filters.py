@@ -73,10 +73,7 @@ def filters(bot: Bot, update: Update):
     if len(extracted) < 1:
         return
     # set trigger -> lower, so as to avoid adding duplicate filters with different cases
-    keyword = extracted[0].lower()
-    if not infinite_loop_check(keyword):
-        msg.reply_text("I'm afraid I can't add that regex")
-        return
+    keyword = extracted[0]
     is_sticker = False
     is_document = False
     is_image = False
@@ -121,7 +118,9 @@ def filters(bot: Bot, update: Update):
     else:
         msg.reply_text("You didn't specify what to reply with!")
         return
-
+    if not infinite_loop_check(keyword):
+        msg.reply_text("I'm afraid I can't add that regex")
+        return
     # Add the filter
     # Note: perhaps handlers can be removed somehow using sql.get_chat_filters
     for handler in dispatcher.handlers.get(HANDLER_GROUP, []):
