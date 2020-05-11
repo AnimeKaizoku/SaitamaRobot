@@ -16,8 +16,10 @@ from tg_bot.modules.helper_funcs.misc import split_message
 BLACKLIST_GROUP = 11
 
 def infinite_loop_check(regex):
-     match_1 = re.search('\((.[\+\*]){1,}\)[\+\*].', regex)
-     return True if match_1 else False
+     loop_matches = [r'\((.[\+\*]){1,}\)[\+\*].', r'[\(\[](\{\d(,)?\})[\)\]]\{\d(,)?\}']
+     for match in loop_matches:
+          match_1 = re.search(match, regex)
+          if match_1: return True
 
 @run_async
 @connection_status
