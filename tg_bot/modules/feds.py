@@ -664,6 +664,9 @@ def fed_broadcast(bot: Bot, update: Update, args: List[str]):
 	msg = update.effective_message  # type: Optional[Message]
 	user = update.effective_user  # type: Optional[User]
 	if args:
+                if is_user_fed_admin(fed_id, user.id) == False:
+			update.effective_message.reply_text("Only federation admins can do this!")
+			return
 		chat = update.effective_chat  # type: Optional[Chat]
 		fed_id = sql.get_fed_id(chat.id)
 		fedinfo = sql.get_fed_info(fed_id)
