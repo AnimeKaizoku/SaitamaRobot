@@ -80,6 +80,7 @@ def add_blacklist(bot: Bot, update: Update):
                sql.add_to_blacklist(chat.id, trigger.lower())
             else:
                 msg.reply_text("I'm afraid I can't add that regex.")
+                return
 
         if len(to_blacklist) == 1:
             msg.reply_text(f"Added <code>{html.escape(to_blacklist[0])}</code> to the blacklist!",
