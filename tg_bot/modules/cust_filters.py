@@ -118,7 +118,7 @@ def filters(bot: Bot, update: Update):
     else:
         msg.reply_text("You didn't specify what to reply with!")
         return
-    if not infinite_loop_check(keyword):
+    if infinite_loop_check(keyword):
         msg.reply_text("I'm afraid I can't add that regex")
         return
     # Add the filter
