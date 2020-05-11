@@ -516,9 +516,8 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 
     if reason == "":
         reason = "No reason given."
-
+    fed_name = info['fname']
     if fban:
-        fed_name = info['fname']
         starting = "The reason fban is replaced for {} in the Federation <b>{}</b>.".format(user_target, fed_name)
         temp = sql.un_fban_user(fed_id, fban_user_id)
         if not temp:
