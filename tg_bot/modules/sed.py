@@ -1,6 +1,6 @@
 import re
 import sre_constants
-
+from tg_bot.modules.blacklist import infinite_loop_check
 import telegram
 from telegram import Update, Bot
 from telegram.ext import run_async
@@ -61,7 +61,6 @@ def sed(bot: Bot, update: Update):
             return
 
         repl, repl_with, flags = sed_result
-
         if not repl:
             update.effective_message.reply_to_message.reply_text("You're trying to replace... "
                                                                  "nothing with something?")
@@ -75,7 +74,9 @@ def sed(bot: Bot, update: Update):
                                                                      "me say stuff I don't wanna "
                                                                      "say!".format(update.effective_user.first_name))
                 return
-
+            if infinite_loop_check(repl):
+                update.effective_message.reply_text("I'm afraid I can't run that regex.")
+                return
             if 'i' in flags and 'g' in flags:
                 text = re.sub(repl, repl_with, to_fix, flags=re.I).strip()
             elif 'i' in flags:
