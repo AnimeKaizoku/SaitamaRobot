@@ -9,6 +9,7 @@ from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, 
 from telegram.utils.helpers import escape_markdown
 
 from tg_bot import dispatcher, LOGGER, SUPPORT_CHAT
+from tg_bot.modules.blacklist import infinite_loop_check
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin, connection_status
 from tg_bot.modules.helper_funcs.extraction import extract_text
@@ -73,7 +74,9 @@ def filters(bot: Bot, update: Update):
         return
     # set trigger -> lower, so as to avoid adding duplicate filters with different cases
     keyword = extracted[0].lower()
-
+    if not infinite_loop_check(keyword):
+        msg.reply_text("I'm afraid I can't add that regex")
+        return
     is_sticker = False
     is_document = False
     is_image = False
