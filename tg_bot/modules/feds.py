@@ -667,6 +667,9 @@ def fed_broadcast(bot: Bot, update: Update, args: List[str]):
 		chat = update.effective_chat  # type: Optional[Chat]
 		fed_id = sql.get_fed_id(chat.id)
 		fedinfo = sql.get_fed_info(fed_id)
+                if is_user_fed_owner(fed_id, user.id) == False:
+                  update.effective_message.reply_text("Only federation owners can do this!")
+                  return
 		text = "*New broadcast from the Federation {}*\n".format(fedinfo['fname'])
 		# Parsing md
 		raw_text = msg.text
