@@ -252,7 +252,6 @@ def user_join_fed(bot: Bot, update: Update, args: List[str]):
 	else:
 		update.effective_message.reply_text("Only federation owners can do this!")
 
-
 @run_async
 def user_demote_fed(bot: Bot, update: Update, args: List[str]):
 	chat = update.effective_chat  # type: Optional[Chat]
