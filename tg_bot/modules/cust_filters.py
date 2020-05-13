@@ -45,7 +45,7 @@ def list_handlers(bot: Bot, update: Update):
 
     filter_list = ""
     for keyword in all_handlers:
-        entry = f" - {escape_markdown(keyword)}\n"
+        entry = f" - <code>{html.escape(keyword)}</code>\n"
         if len(entry) + len(filter_list) + len(BASIC_FILTER_STRING) > telegram.MAX_MESSAGE_LENGTH:
             filter_list = BASIC_FILTER_STRING + html.escape(filter_list)
             update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.HTML)
@@ -54,7 +54,7 @@ def list_handlers(bot: Bot, update: Update):
             filter_list += entry
 
     if not filter_list == BASIC_FILTER_STRING:
-        filter_list = BASIC_FILTER_STRING + html.escape(filter_list)
+        filter_list = BASIC_FILTER_STRING + filter_list
         update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.HTML)
 
 
