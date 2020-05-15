@@ -1,11 +1,17 @@
 import timeout_decorator
 import re
 
+
 #Not using signals because Saitama is hosted on Windows
 @timeout_decorator.timeout(5, use_signals=False) 
+def regex_runnner(regex, string):
+   search = re.search(regex, string)
+   return search
+
+ 
 def regex_searcher(regex, string):
    try:
-     search = re.search(regex, string)
+     search = regex_runner(regex, string)
    except timeout_decorator.timeout_decorator.TimeoutError:
      return 'Timeout'
    except Exception as e:
