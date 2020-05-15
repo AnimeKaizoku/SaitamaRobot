@@ -9,7 +9,7 @@ def regex_searcher(regex, string):
    except timeout_decorator.timeout_decorator.TimeoutError:
      return 'Timeout'
    except Exception as e:
-     return e
+     raise e
    return search
 
 def infinite_loop_check(regex):
