@@ -172,7 +172,7 @@ def reply_filter(bot: Bot, update: Update):
     chat_filters = sql.get_chat_triggers(chat.id)
     for keyword in chat_filters:
         pattern = r"( |^|[^\w])" + keyword + r"( |$|[^\w])"
-        match = r_helper.regex_searcher(pattern, to_match)
+        match = regex_searcher(pattern, to_match)
         if match == 'Timeout':
            reason, error = match, True
         elif match == 'Broken':
