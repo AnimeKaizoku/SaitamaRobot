@@ -180,7 +180,7 @@ def reply_filter(bot: Bot, update: Update):
            reason, error = match, True
         if error:
            sql.remove_filter(chat.id, keyword)
-           msg.reply_text(f'Removed {trigger} from blacklist because of {reason}')
+           message.reply_text(f'Removed {trigger} from blacklist because of {reason}')
            return
         
         if match:
