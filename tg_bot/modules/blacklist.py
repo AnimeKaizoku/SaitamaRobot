@@ -12,14 +12,9 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin, user_not_admin, connection_status
 from tg_bot.modules.helper_funcs.extraction import extract_text
 from tg_bot.modules.helper_funcs.misc import split_message
+from tg_bot.modules.helper_funcs.regex_helper import regex_searcher, infinite_loop_check
 
 BLACKLIST_GROUP = 11
-
-def infinite_loop_check(regex):
-     loop_matches = [r'\((.{1,}[\+\*]){1,}\)[\+\*].', r'[\(\[].{1,}\{\d(,)?\}[\)\]]\{\d(,)?\}', r'\(.{1,}\)\{.{1,}(,)?\}\(.*\)(\+|\* |\{.*\})']
-     for match in loop_matches:
-          match_1 = re.search(match, regex)
-          if match_1: return True
 
 @run_async
 @connection_status
@@ -147,14 +142,19 @@ def del_blacklist(bot: Bot, update: Update):
         return
 
     chat_filters = sql.get_chat_blacklist(chat.id)
+    error, match = False, False
     for trigger in chat_filters:
         pattern = r"( |^|[^\w])" + trigger + r"( |$|[^\w])"
         try:
-          match = re.search(pattern, to_match, flags=re.IGNORECASE)
+          match = regex_searcher(pattern, to_match)
         except Exception:
-          sql.rm_from_blacklist(chat.id, trigger)
-          msg.reply_text(f'Removed {trigger} from blacklist because of broken regex')
-          return
+          error, reason = True, 'Broken regex'
+        if match == 'Timeout':
+           reason, error = match, True
+        if error:
+           sql.rm_from_blacklist(chat.id, trigger)
+           msg.reply_text(f'Removed {trigger} from blacklist because of {reason}')
+           return
         if match:
             try:
                 message.delete()
