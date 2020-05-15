@@ -4,7 +4,7 @@ import re
 
 #Not using signals because Saitama is hosted on Windows
 @timeout_decorator.timeout(5, use_signals=False) 
-def regex_runnner(regex, string):
+def regex_runner(regex, string):
    search = re.search(regex, string)
    return search
 
