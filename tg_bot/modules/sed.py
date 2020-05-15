@@ -1,6 +1,6 @@
 import re
 import sre_constants
-from tg_bot.modules.blacklist import infinite_loop_check
+from tg_bot.modules.helper_func.regex_helper import infinite_loop_check, regex_runner
 import telegram
 from telegram import Update, Bot
 from telegram.ext import run_async
