@@ -9,7 +9,7 @@ from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, 
 from telegram.utils.helpers import escape_markdown
 
 from tg_bot import dispatcher, LOGGER, SUPPORT_CHAT
-from tg_bot.modules.helper_func.regex_helper import infinite_loop_check, regex_runner
+from tg_bot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin, connection_status
 from tg_bot.modules.helper_funcs.extraction import extract_text
