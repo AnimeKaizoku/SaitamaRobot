@@ -445,7 +445,7 @@ def site_search(bot: Bot, update: Update, site: str):
         if search_result:
             result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>: \n"
             for entry in search_result:
-                post_link = entry.a['href']
+                post_link = 'https://AnimeKaizoku.com/' + entry.a['href']
                 post_name = html.escape(entry.text)
                 result += f"• <a href='{post_link}'>{post_name}</a>\n"
         else:

@@ -9,7 +9,7 @@ from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, 
 from telegram.utils.helpers import escape_markdown
 
 from tg_bot import dispatcher, LOGGER, SUPPORT_CHAT
-from tg_bot.modules.blacklist import infinite_loop_check
+from tg_bot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin, connection_status
 from tg_bot.modules.helper_funcs.extraction import extract_text
@@ -168,16 +168,20 @@ def reply_filter(bot: Bot, update: Update):
 
     if not to_match:
         return
-
+    match, error = False, False
     chat_filters = sql.get_chat_triggers(chat.id)
     for keyword in chat_filters:
-        try:
-          pattern = r"( |^|[^\w])" + keyword + r"( |$|[^\w])"
-          match = re.search(pattern, to_match, flags=re.IGNORECASE)
-        except Exception:
-            message.reply_text(f"Removing filter {keyword} due to broken regex.")
-            sql.remove_filter(chat.id, keyword)
-            return
+        pattern = r"( |^|[^\w])" + keyword + r"( |$|[^\w])"
+        match = regex_searcher(pattern, to_match)
+        if match == 'Timeout':
+           reason, error = match, True
+        elif match == 'Broken':
+            reason, error = 'Broken regex', True
+        if error:
+           sql.remove_filter(chat.id, keyword)
+           message.reply_text(f'Removed {keyword} from Filters because of {reason}')
+           return
+        
         if match:
             filt = sql.get_filter(chat.id, keyword)
             if filt.is_sticker:
