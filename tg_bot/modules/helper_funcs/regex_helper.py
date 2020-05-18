@@ -12,9 +12,11 @@ def regex_runner(regex, string):
 def regex_searcher(regex, string):
    try:
      search = regex_runner(regex, string)
-   except timeout_decorator.timeout_decorator.TimeoutError:
+   except timeout_decorator.timeout_decorator.TimeoutError as t:
+     print(t)
      return 'Timeout'
    except Exception as e:
+      print(e)
      return 'Broken'
    return search
 
