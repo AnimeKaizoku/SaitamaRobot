@@ -17,7 +17,7 @@ def regex_searcher(regex, string):
      return 'Timeout'
    except Exception as e:
       print(e)
-     return 'Broken'
+      return 'Broken'
    return search
 
 def infinite_loop_check(regex):
