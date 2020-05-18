@@ -173,15 +173,8 @@ def reply_filter(bot: Bot, update: Update):
     for keyword in chat_filters:
         pattern = r"( |^|[^\w])" + keyword + r"( |$|[^\w])"
         match = regex_searcher(pattern, to_match)
-        if match == 'Timeout':
-           reason, error = match, True
-        elif match == 'Broken':
-            reason, error = 'Broken regex', True
-        if error:
-           sql.remove_filter(chat.id, keyword)
-           message.reply_text(f'Removed {keyword} from Filters because of {reason}')
-           return
-        
+        if not match:
+            return        
         if match:
             filt = sql.get_filter(chat.id, keyword)
             if filt.is_sticker:
