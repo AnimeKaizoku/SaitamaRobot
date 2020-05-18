@@ -15,7 +15,6 @@ def regex_searcher(regex, string):
    except timeout_decorator.timeout_decorator.TimeoutError:
      return 'Timeout'
    except Exception as e:
-     print(e)
      return 'Broken'
    return search
 
