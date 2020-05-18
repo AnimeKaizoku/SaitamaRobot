@@ -174,7 +174,8 @@ def reply_filter(bot: Bot, update: Update):
         pattern = r"( |^|[^\w])" + keyword + r"( |$|[^\w])"
         match = regex_searcher(pattern, to_match)
         if not match:
-            return        
+            #Skip to next item
+            continue        
         if match:
             filt = sql.get_filter(chat.id, keyword)
             if filt.is_sticker:
