@@ -146,7 +146,9 @@ def del_blacklist(bot: Bot, update: Update):
     for trigger in chat_filters:
         pattern = r"( |^|[^\w])" + trigger + r"( |$|[^\w])"
         match = r_helper.regex_searcher(pattern, to_match)
-        if not match: return
+        if not match:
+            #Skip to next item in blacklist
+            continue
         if match:
             try:
                 message.delete()
