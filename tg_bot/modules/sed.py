@@ -1,10 +1,10 @@
 import re
 import sre_constants
 from tg_bot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
-import telegram
 from telegram import Update, Bot
 from telegram.ext import run_async
-
+import telegram
+import regex
 from tg_bot import dispatcher, LOGGER
 from tg_bot.modules.disable import DisableAbleRegexHandler
 
