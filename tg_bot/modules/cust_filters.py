@@ -14,6 +14,7 @@ from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin, connection_status
 from tg_bot.modules.helper_funcs.extraction import extract_text
 from tg_bot.modules.helper_funcs.filters import CustomFilters
+from tg_bot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
 from tg_bot.modules.helper_funcs.misc import build_keyboard
 from tg_bot.modules.helper_funcs.string_handling import split_quotes, button_markdown_parser
 from tg_bot.modules.sql import cust_filters_sql as sql
