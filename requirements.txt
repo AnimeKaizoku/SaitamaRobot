@@ -19,4 +19,4 @@ googletrans
 jikanpy
 speedtest-cli
 coffeehouse
-timeout-decorator
+regex

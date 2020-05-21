@@ -149,12 +149,10 @@ def del_blacklist(bot: Bot, update: Update):
     chat_filters = sql.get_chat_blacklist(chat.id)
     for trigger in chat_filters:
         pattern = r"( |^|[^\w])" + trigger + r"( |$|[^\w])"
-        try:
-          match = re.search(pattern, to_match, flags=re.IGNORECASE)
-        except Exception:
-          sql.rm_from_blacklist(chat.id, trigger)
-          msg.reply_text(f'Removed {trigger} from blacklist because of broken regex')
-          return
+        match = r_helper.regex_searcher(pattern, to_match)
+        if not match:
+            #Skip to next item in blacklist
+            continue
         if match:
             try:
                 message.delete()

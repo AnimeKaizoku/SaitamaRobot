@@ -1,10 +1,15 @@
 import re
 import sre_constants
+<<<<<<< HEAD
 from tg_bot.modules.blacklist import infinite_loop_check
 import telegram
+=======
+from tg_bot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
+>>>>>>> origin/shiken
 from telegram import Update, Bot
 from telegram.ext import run_async
-
+import telegram
+import regex
 from tg_bot import dispatcher, LOGGER
 from tg_bot.modules.disable import DisableAbleRegexHandler
 
@@ -67,8 +72,10 @@ def sed(bot: Bot, update: Update):
             return
 
         try:
-            check = re.match(repl, to_fix, flags=re.IGNORECASE)
-
+            try:
+              check = regex.match(repl, to_fix, flags=re.IGNORECASE, timeout = 5)
+            except TimeoutError:
+              return
             if check and check.group(0).lower() == to_fix.lower():
                 update.effective_message.reply_to_message.reply_text("Hey everyone, {} is trying to make "
                                                                      "me say stuff I don't wanna "
