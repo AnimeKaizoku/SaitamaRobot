@@ -28,7 +28,7 @@ kamehameha_stickers = [
     'CAACAgUAAxkBAAIJo17HbtVsWuJ1L9DhQo5ltyus0wABmAAChQcAAk-iNi-BeHflbIs0ChkE'
 ]
     
-kamehameha_send_order = [1, 2, 3, 4, 5, 6, 5, 6, 5, 2, 1]
+kamehameha_send_order = [0, 1, 2, 3, 4, 5, 4, 5, 2, 1, 0]
 
 @user_admin
 @run_async
