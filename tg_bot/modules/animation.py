@@ -27,15 +27,8 @@ kamehameha_stickers = [
     'CAACAgUAAxkBAAIJol7HbtOKQb413CrlT9mmgVQDBdz3AAKEBwACT6I2L1KCKIMJlTt2GQQ',
     'CAACAgUAAxkBAAIJo17HbtVsWuJ1L9DhQo5ltyus0wABmAAChQcAAk-iNi-BeHflbIs0ChkE'
 ]
-kamehameha_text = [
-    'KA-',
-    'ME-',
-    'HA-'
-    'ME-',
-    'HAA!',
-    'HAAA!!'
-]
     
+kamehameha_send_order = [1, 2, 3, 4, 5, 6, 5, 6, 5, 2, 1]
 
 @user_admin
 @run_async
@@ -59,13 +52,10 @@ def fbi(bot: Bot, update: Update):
 @run_async
 def kamehameha(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
-    msg = update.effective_message.reply_text('KA...')
-    for sticker, text in zip(kamehameha_stickers, kamehameha_text):
-        sticker_message = bot.send_sticker(chat_id, sticker)
-        msg.edit_text(text)
+    for x in kamehameha_send_order:
+        sticker_message = bot.send_sticker(chat_id, stickers[x])
         time.sleep(0.5)
         sticker_message.delete()
-    msg.delete()
         
 
 
