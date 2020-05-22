@@ -53,7 +53,7 @@ def fbi(bot: Bot, update: Update):
 def kamehameha(bot: Bot, update: Update):
     chat_id = update.effective_chat.id
     for x in kamehameha_send_order:
-        sticker_message = bot.send_sticker(chat_id, stickers[x])
+        sticker_message = bot.send_sticker(chat_id, kamehameha_stickers[x])
         time.sleep(0.5)
         sticker_message.delete()
         
