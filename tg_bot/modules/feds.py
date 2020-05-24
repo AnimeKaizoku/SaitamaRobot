@@ -252,6 +252,7 @@ def user_join_fed(bot: Bot, update: Update, args: List[str]):
 	else:
 		update.effective_message.reply_text("Only federation owners can do this!")
 
+
 @run_async
 def user_demote_fed(bot: Bot, update: Update, args: List[str]):
 	chat = update.effective_chat  # type: Optional[Chat]
@@ -1168,7 +1169,7 @@ dispatcher.add_handler(DEMOTE_FED_HANDLER)
 dispatcher.add_handler(INFO_FED_HANDLER)
 dispatcher.add_handler(BAN_FED_HANDLER)
 dispatcher.add_handler(UN_BAN_FED_HANDLER)
-#dispatcher.add_handler(FED_BROADCAST_HANDLER)
+dispatcher.add_handler(FED_BROADCAST_HANDLER)
 dispatcher.add_handler(FED_SET_RULES_HANDLER)
 dispatcher.add_handler(FED_GET_RULES_HANDLER)
 dispatcher.add_handler(FED_CHAT_HANDLER)
