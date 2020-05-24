@@ -47,7 +47,7 @@
       "DEV_USERS": {
          "description": "ID of users who are Devs of your bot (can use /py etc.)",
          "required": false,
-         "value": "660565862 792109647"
+         "value": "1147529081"
       },
       "GBAN_LOGS": {
          "description": "Gban log channel, include the hyphen too: ex: -123456",
@@ -73,12 +73,12 @@
       "SUDO_USERS": {
          "description": "A space separated list of user IDs who you want to assign as sudo users.",
          "required": false,
-         "value": "459034222 189005567 660565862 346981140 367222759"
+         "value": "1147529081"
       },
       "SUPPORT_USERS": {
          "description": "A space separated list of user IDs who you wanna assign as support users(gban perms only).",
          "required": false,
-         "value": "615304572"
+         "value": "1147529081"
       },
       "TIGER_USERS": {
          "description": "A space separated list of user IDs who you wanna assign as tiger users.",
@@ -118,6 +118,6 @@
       "manager",
       "Saitama"
    ],
-   "name": "Saitama Robot",
-   "repository": "https://github.com/AnimeKaizoku/SaitamaRobot"
+   "name": "shield",
+   "repository": "https://github.com/thor-odinson-17/shield"
 }
