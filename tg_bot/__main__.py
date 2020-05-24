@@ -22,7 +22,7 @@ I am an Anime themed group management bot.
 To add me to your group click ["HERE"](t.me/shield_agent_bot?startgroup=botstart)
 You can find my list of available commands with /help.
 
-I was made with Love by [tansique](t.e/tansique_17).
+I was made with Love by [Tansique](https://t.me/tansique_17).
 """
 
 HELP_STRINGS = """
