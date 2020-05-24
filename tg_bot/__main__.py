@@ -18,7 +18,8 @@ from tg_bot.modules.helper_funcs.misc import paginate_modules
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am an Anime themed group management bot.
+
+I am an Comic themed group management bot.
 To add me to your group click ["HERE"](t.me/shield_agent_bot?startgroup=botstart)
 You can find my list of available commands with /help.
 
@@ -27,6 +28,7 @@ I was made with Love by [Tansique](https://t.me/tansique_17).
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
+
 I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
 the things I can help you with.
 
