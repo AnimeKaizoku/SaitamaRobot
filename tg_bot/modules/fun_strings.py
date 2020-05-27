@@ -37,12 +37,12 @@ SLAP_TEMPLATES = (
     "{user2} drowned whilst trying to escape {user1}.",
     "{user2} fell into a patch of cacti.",
     "{user2} went up in flames.",
-    "{user2} burned to death.",
+    "{user2} burned to a fine crisp.",
     "{user2} was burnt to a crisp whilst fighting {user1}.",
     "{user2} was struck by lightning.",
     "{user2} was slain by {user1}.",
     "{user2} was killed by magic.",
-    "{user2} starved to death.",
+    "{user2} starved without pats.",
     "{user2} fell out of the world.",
     "{user2} was knocked into the void by {user1}.",
     "{user2}'s bones are scraped clean by the desolate wind.",
@@ -54,7 +54,6 @@ SLAP_TEMPLATES = (
     "{user2} was sawn in half by {user1}.",
     "{user2}'s melon was split by {user1}.",
     "{user2} was sliced and diced by {user1}.",
-    "{user2}'s death put another notch in {user1}'s axe.",
     "{user2} died from {user1}'s mysterious tropical disease.",
     "{user2} played hot-potato with a grenade.",
     "{user2} was knifed by {user1}.",
@@ -159,6 +158,7 @@ SLAP_TEMPLATES = (
     "{user1} learned why being a crocodile dentist was a bad idea.",
     "You know what’s worse than Dad jokes? {user2}!",
     "{user1} took all of {user2}'s cookies.",
+    "{user2} wa mou.......Shindeiru! - {user1}.",
 )
 
 PING_STRING = (
