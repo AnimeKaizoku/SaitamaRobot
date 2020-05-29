@@ -66,7 +66,7 @@ DEFAULT_WELCOME_MESSAGES = [
     "I'm looking for Garo, oh wait nvm it's {first}.",
     "Welcome {first}, Leaving is not an option!",
     "Run Forest! ..I mean...{first}.",
-    "{first} do 100 push-ups, 100 sit-ups, 100 squats, and a 10km running EVERY SINGLE DAY!!!",
+    "{first} do 100 push-ups, 100 sit-ups, 100 squats, and 10km running EVERY SINGLE DAY!!!",
     "Huh?\nDid someone with a disaster level just join?\nOh wait, it's just {first}.",
     "Hey, {first}, ever heard the King Engine?",
     "Hey, {first}, Empty your pockets.",
