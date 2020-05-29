@@ -99,6 +99,12 @@ def get_fed_id(chat_id):
 	else:
 		return get['fid']
 
+def get_user_owner_fed_full(user_id):
+    user_feds = []
+    for f in FEDERATION_BYFEDID:
+        if int(user_id) == int(eval(FEDERATION_BYFEDID[f]['fusers'])['owner']):
+            user_feds.append({"fed_id": f, "fed": FEDERATION_BYFEDID[f]})
+    return user_feds	
 
 def new_fed(owner_id, fed_name, fed_id):
 	with FEDS_LOCK:
@@ -141,8 +147,10 @@ def del_fed(fed_id):
 				if banlist:
 					SESSION.delete(banlist)
 					SESSION.commit()
-		FEDERATION_BANNED_USERID.pop(fed_id)
-		FEDERATION_BANNED_FULL.pop(fed_id)
+		if FEDERATION_BANNED_USERID.get(fed_id):
+                    FEDERATION_BANNED_USERID.pop(fed_id)
+		if FEDERATION_BANNED_FULL.get(fed_id):
+			FEDERATION_BANNED_FULL.pop(fed_id)
 		# Delete from database
 		curr = SESSION.query(Federations).get(fed_id)
 		if curr:
