@@ -67,7 +67,7 @@ def sed(bot: Bot, update: Update):
 
         try:
             try:	
-              check = regex.match(repl, to_fix, flags=re.IGNORECASE, timeout = 5)	
+              check = regex.match(repl, to_fix, flags=regex.IGNORECASE, timeout = 5)	
             except TimeoutError:	
               return
             if check and check.group(0).lower() == to_fix.lower():
