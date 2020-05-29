@@ -1,4 +1,3 @@
-import re
 import sre_constants
 from tg_bot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
 from telegram import Update, Bot
@@ -67,10 +66,6 @@ def sed(bot: Bot, update: Update):
             return
 
         try:
-            try:
-              check = regex.match(repl, to_fix, flags=re.IGNORECASE, timeout = 5)
-            except TimeoutError:
-              return
             if check and check.group(0).lower() == to_fix.lower():
                 update.effective_message.reply_to_message.reply_text("Hey everyone, {} is trying to make "
                                                                      "me say stuff I don't wanna "
@@ -80,13 +75,16 @@ def sed(bot: Bot, update: Update):
                 update.effective_message.reply_text("I'm afraid I can't run that regex.")
                 return
             if 'i' in flags and 'g' in flags:
-                text = re.sub(repl, repl_with, to_fix, flags=re.I).strip()
+                text = regex.sub(repl, repl_with, to_fix, flags=regex.I, timeout=3).strip()
             elif 'i' in flags:
-                text = re.sub(repl, repl_with, to_fix, count=1, flags=re.I).strip()
+                text = regex.sub(repl, repl_with, to_fix, count=1, flags=regex.I, timeout=3).strip()
             elif 'g' in flags:
-                text = re.sub(repl, repl_with, to_fix).strip()
+                text = regex.sub(repl, repl_with, to_fix, timeout=3).strip()
             else:
-                text = re.sub(repl, repl_with, to_fix, count=1).strip()
+                text = regex.sub(repl, repl_with, to_fix, count=1, timeout=3).strip()
+        except TimeoutError:
+            update.effective_message.reply_text('Timeout')
+            return
         except sre_constants.error:
             LOGGER.warning(update.effective_message.text)
             LOGGER.exception("SRE constant error")
