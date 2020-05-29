@@ -66,6 +66,10 @@ def sed(bot: Bot, update: Update):
             return
 
         try:
+            try:	
+              check = regex.match(repl, to_fix, flags=re.IGNORECASE, timeout = 5)	
+            except TimeoutError:	
+              return
             if check and check.group(0).lower() == to_fix.lower():
                 update.effective_message.reply_to_message.reply_text("Hey everyone, {} is trying to make "
                                                                      "me say stuff I don't wanna "
