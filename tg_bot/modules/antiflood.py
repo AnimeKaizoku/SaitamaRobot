@@ -3,7 +3,7 @@ import re
 from typing import Optional, List
 
 from telegram import Message, Chat, Update, Bot, User, \
-InlineKeyboardButton, InlineKeyboardMarkup
+InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import Filters, MessageHandler, CommandHandler, CallbackQueryHandler, run_async
 from telegram.utils.helpers import mention_html
