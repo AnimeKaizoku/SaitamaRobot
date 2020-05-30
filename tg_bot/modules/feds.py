@@ -1727,7 +1727,7 @@ You can even designate admin federations, so your trusted admin can ban all the 
 *👑 Fed Owner Only:*
  - `/newfed <Fedname>`: Creates new Federation. Users are only allowed to have one Federation. This method can also be used to rename the Federation. (max. 64 characters)
  - `/delfed <FedID>`  : Delete your Federation, and any information related to it. Will not cancel blocked users.
- - `/fpromote <user>` : Assigns the user as a federation admin. Enables all commands for the user under _Fed Admins_.
+ - `/fpromote <user>` : Assigns the user as a federation admin. Enables all commands for the user under `Fed Admins`.
  - `/fdemote <user>`  : Drops the User from the admin Federation to a normal User.
  - `/subfed <FedID>`: Subscribes to a given fed ID, bans from that subscribed fed will also happen in your fed.
  - `/unsubfed <FedID>`: Unsubscribes to a given fed ID, bans from unsubscribed fed wont be valid in your fed anymore.
