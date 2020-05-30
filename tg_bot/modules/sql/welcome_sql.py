@@ -39,7 +39,6 @@ DEFAULT_WELCOME_MESSAGES = [
     "It's {first}! Praise the sun! \o/",
     "Never gonna give {first} up. Never gonna let {first} down.",
     "Ha! {first} has joined! You activated my trap card!",
-    "Cheers, love! {first}'s here!",
     "Hey! Listen! {first} has joined!",
     "We've been expecting you {first}",
     "It's dangerous to go alone, take {first}!",
