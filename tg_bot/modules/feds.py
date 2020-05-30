@@ -16,7 +16,7 @@ from telegram import ParseMode, Update, Bot, Chat, User, MessageEntity, InlineKe
 from telegram.ext import run_async, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
 
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, WHITELIST_USERS, GBAN_LOGS, LOGGER, spamfilters
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, WHITELIST_USERS, GBAN_LOGS, LOGGER
 from tg_bot.modules.helper_funcs.handlers import CMD_STARTERS
 from tg_bot.modules.helper_funcs.misc import is_module_loaded, send_to_list
 from tg_bot.modules.helper_funcs.chat_status import is_user_admin
@@ -72,10 +72,6 @@ UNFBAN_ERRORS = {
 
 @run_async
 def new_fed(bot: Bot, update: Update):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	message = update.effective_message
@@ -115,10 +111,6 @@ def new_fed(bot: Bot, update: Update):
 
 @run_async
 def del_fed(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	if chat.type != "private":
@@ -150,10 +142,6 @@ def del_fed(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def fed_chat(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	fed_id = sql.get_fed_id(chat.id)
@@ -178,10 +166,6 @@ def fed_chat(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def join_fed(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 
@@ -228,10 +212,6 @@ def join_fed(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def leave_fed(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 
@@ -258,10 +238,6 @@ def leave_fed(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def user_join_fed(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
@@ -310,10 +286,6 @@ def user_join_fed(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def user_demote_fed(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 
@@ -359,10 +331,6 @@ def user_demote_fed(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def fed_info(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	if args:
@@ -406,10 +374,6 @@ def fed_info(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def fed_admin(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 
@@ -454,10 +418,6 @@ def fed_admin(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def fed_ban(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 
@@ -756,10 +716,6 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def unfban(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	message = update.effective_message  # type: Optional[Message]
@@ -929,10 +885,6 @@ def unfban(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def set_frules(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 
@@ -976,10 +928,6 @@ def set_frules(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def get_frules(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 
 	if chat.type == 'private':
@@ -999,10 +947,6 @@ def get_frules(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def fed_broadcast(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	msg = update.effective_message  # type: Optional[Message]
 	user = update.effective_user  # type: Optional[User]
 	chat = update.effective_chat  # type: Optional[Chat]
@@ -1051,10 +995,6 @@ def fed_broadcast(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def fed_ban_list(bot: Bot, update: Update, args: List[str], chat_data):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 
@@ -1170,10 +1110,6 @@ def fed_ban_list(bot: Bot, update: Update, args: List[str], chat_data):
 
 @run_async
 def fed_notif(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
@@ -1198,10 +1134,6 @@ def fed_notif(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def fed_chats(bot: Bot, update: Update, args: List[str]):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 
@@ -1247,10 +1179,6 @@ def fed_chats(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 def fed_import_bans(bot: Bot, update: Update, chat_data):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return update.effective_message.reply_text("Spammer detected! *Ignores user*.")
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
@@ -1447,10 +1375,6 @@ def del_fed_button(bot, update):
 
 @run_async
 def fed_stat_user(bot, update, args):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
@@ -1535,10 +1459,6 @@ def fed_stat_user(bot, update, args):
 
 @run_async
 def set_fed_log(bot, update, args):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
@@ -1564,10 +1484,6 @@ def set_fed_log(bot, update, args):
 
 @run_async
 def unset_fed_log(bot, update, args):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
@@ -1594,10 +1510,6 @@ def unset_fed_log(bot, update, args):
 
 @run_async
 def subs_feds(bot, update, args):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
@@ -1636,10 +1548,6 @@ def subs_feds(bot, update, args):
 
 @run_async
 def unsubs_feds(bot, update, args):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
@@ -1678,10 +1586,6 @@ def unsubs_feds(bot, update, args):
 
 @run_async
 def get_myfedsubs(bot, update, args):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
@@ -1715,10 +1619,6 @@ def get_myfedsubs(bot, update, args):
 
 @run_async
 def get_myfeds_list(bot, update):
-	spam = spamfilters(update.effective_message.text, update.effective_message.from_user.id, update.effective_chat.id)
-	if spam == True:
-		return
-
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
@@ -1761,7 +1661,6 @@ def is_user_fed_owner(fed_id, user_id):
 def welcome_fed(bot, update):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-
 	fed_id = sql.get_fed_id(chat.id)
 	fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user.id)
 	if fban:
