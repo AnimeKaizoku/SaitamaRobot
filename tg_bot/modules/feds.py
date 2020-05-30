@@ -1714,6 +1714,39 @@ def get_chat(chat_id, chat_data):
 	except KeyError:
 		return {"status": False, "value": False}
 
+@run_async
+def fed_owner_help(bot: Bot, update: Update):
+   update.effective_message.reply_text("""*👑 Fed Owner Only:*
+ - `/newfed <Fedname>`: Creates new Federation. Users are only allowed to have one Federation. This method can also be used to rename the Federation. (max. 64 characters)
+ - `/delfed <FedID>`  : Delete your Federation, and any information related to it. Will not cancel blocked users.
+ - `/fpromote <user>` : Assigns the user as a federation admin. Enables all commands for the user under `Fed Admins`.
+ - `/fdemote <user>`  : Drops the User from the admin Federation to a normal User.
+ - `/subfed <FedID>`: Subscribes to a given fed ID, bans from that subscribed fed will also happen in your fed.
+ - `/unsubfed <FedID>`: Unsubscribes to a given fed ID, bans from unsubscribed fed wont be valid in your fed anymore.
+ - `/fedsubs`: Shows the feds your group is subscribed to. `(broken currently)`
+ - `/setfedlog <FedID>`: Sets the group as a fed log report base for the federation.
+ - `/unsetfedlog <FedID>`: Removed the group as a fed log report base for the federation.
+ - `/fbroadcast <message>`: Broadcasts a messages to all groups that have joined your fed.""", parse_mode = ParseMode.MARKDOWN)
+   
+@run_async
+def fed_admin_help(bot: Bot, update: Update):
+   update.effective_message.reply_text("""*🔱 Fed Admins:*
+ - `/fedinfo <FedID>`: Information about the specified Federation.
+ - `/joinfed <FedID>`: Join the current chat to the Federation. Only chat owners can do this. Every chat can only be in one Federation.
+ - `/leavefed <FedID>`: Leave the Federation given. Only chat owners can do this.
+ - `/fban/unfban <user> <reason>`: Fed bans and unbans a user.
+ - `/setfrules <rules here>`: Arrange Federation rules.
+ - `/frules`: See Federation regulations.
+ - `/fedadmins`: Show Federation admin.
+ - `/fbanlist`: Displays all users who are victimized at the Federation at this time.
+ - `/fednotif <on/off>`: Federation settings not in PM when there are users who are fbaned/unfbanned.
+ - `/fedchats`: Get all the chats that are connected in the Federation.\n""", parse_mode = ParseMode.MARKDOWN)
+   
+@run_async
+def fed_user_help(bot: Bot, update: Update):
+   update.effective_message.reply_text("""*🎩 Any user:*
+- `/fbanstat`: Shows if you/or the user you are replying to or their username is fbanned somewhere or not.
+- `/chatfed`: See the Federation in the current chat.\n""", parse_mode = ParseMode.MARKDOWN)   
 
 __mod_name__ = "Federations"
 
@@ -1724,31 +1757,11 @@ But then you have many groups, and you don't want this spammer to be in one of y
 You can even designate federation admins, so your trusted admin can ban all the spammers from chats you want to protect.\n
 
 *Commands:*\n
-*👑 Fed Owner Only:*
- - `/newfed <Fedname>`: Creates new Federation. Users are only allowed to have one Federation. This method can also be used to rename the Federation. (max. 64 characters)
- - `/delfed <FedID>`  : Delete your Federation, and any information related to it. Will not cancel blocked users.
- - `/fpromote <user>` : Assigns the user as a federation admin. Enables all commands for the user under `Fed Admins`.
- - `/fdemote <user>`  : Drops the User from the admin Federation to a normal User.
- - `/subfed <FedID>`: Subscribes to a given fed ID, bans from that subscribed fed will also happen in your fed.
- - `/unsubfed <FedID>`: Unsubscribes to a given fed ID, bans from unsubscribed fed wont be valid in your fed anymore.
- - `/fedsubs`: Shows the feds your group is subscribed to. `(broken currently)`
- - `/setfedlog <FedID>`: Sets the group as a fed log report base for the federation.
- - `/unsetfedlog <FedID>`: Removed the group as a fed log report base for the federation.
- - `/fbroadcast <message>`: Broadcasts a messages to all groups that have joined your fed.\n
-*🔱 Fed Admins:*
- - `/fedinfo <FedID>`: Information about the specified Federation.
- - `/joinfed <FedID>`: Join the current chat to the Federation. Only chat owners can do this. Every chat can only be in one Federation.
- - `/leavefed <FedID>`: Leave the Federation given. Only chat owners can do this.
- - `/fban/unfban <user> <reason>`: Fed bans and unbans a user respectively.
- - `/setfrules <rules here>`: Arrange Federation rules.
- - `/frules`: See Federation regulations.
- - `/fedadmins`: Show Federation admin.
- - `/fbanlist`: Displays all users who are victimized at the Federation at this time.
- - `/fednotif <on/off>`: Federation settings not in PM when there are users who are fban / unfban.
- - `/fedchats`: Get all the chats that are connected in the Federation.\n
-*🎩 Any user:*
-- `/fbanstat`: Shows if you/or the user you are replying to or their username is fbanned somewhere or not.
-- `/chatfed`: See the Federation in the current chat.\n
+Feds are now divided into 3 sections for your ease. 
+- /fedownerhelp *:* Provides help for fed creation and owner only commands.
+- /fedadminhelp *:* Provides help for fed administration commands.
+- /feduserhelp  *:* Provides help for commands anyone can use.
+
 """
 
 NEW_FED_HANDLER = CommandHandler("newfed", new_fed)
@@ -1776,8 +1789,10 @@ SUBS_FED = CommandHandler("subfed", subs_feds, pass_args=True)
 UNSUBS_FED = CommandHandler("unsubfed", unsubs_feds, pass_args=True)
 MY_SUB_FED = CommandHandler("fedsubs", get_myfedsubs, pass_args=True)
 MY_FEDS_LIST = CommandHandler("myfeds", get_myfeds_list)
-
 DELETEBTN_FED_HANDLER = CallbackQueryHandler(del_fed_button, pattern=r"rmfed_")
+FED_OWNER_HELP_HANDLER = CommandHandler("fedownerhelp", fed_owner_help)
+FED_ADMIN_HELP_HANDLER = CommandHandler("fedadminhelp", fed_admin_help)
+FED_USER_HELP_HANDLER = CommandHandler("feduserhelp", fed_user_help)
 
 dispatcher.add_handler(NEW_FED_HANDLER)
 dispatcher.add_handler(DEL_FED_HANDLER)
@@ -1804,5 +1819,7 @@ dispatcher.add_handler(SUBS_FED)
 dispatcher.add_handler(UNSUBS_FED)
 dispatcher.add_handler(MY_SUB_FED)
 dispatcher.add_handler(MY_FEDS_LIST)
-
 dispatcher.add_handler(DELETEBTN_FED_HANDLER)
+dispatcher.add_handler(FED_OWNER_HELP_HANDLER)
+dispatcher.add_handler(FED_ADMIN_HELP_HANDLER)
+dispatcher.add_handler(FED_USER_HELP_HANDLER)
