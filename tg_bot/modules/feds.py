@@ -959,6 +959,9 @@ def fed_broadcast(bot: Bot, update: Update, args: List[str]):
 		chat = update.effective_chat  # type: Optional[Chat]
 		fed_id = sql.get_fed_id(chat.id)
 		fedinfo = sql.get_fed_info(fed_id)
+		if is_user_fed_owner(fed_id, user.id) == False:
+			update.effective_message.reply_text("Only federation owners can do this!")
+			return  
 		# Parsing md
 		raw_text = msg.text
 		args = raw_text.split(None, 1)  # use python's maxsplit to separate cmd and args
@@ -1726,7 +1729,7 @@ But then you have many groups, and you don't want this spammer to be in one of y
 No longer! With Federation, you can make a ban in one chat overlap with all other chats.
 You can even designate admin federations, so your trusted admin can ban all the chats you want to protect.
 
-Command:
+Commands:
  - /newfed <fedname>: Create a new Federation with the name given. Users are only allowed to have one Federation. This method can also be used to rename the Federation. (max. 64 characters)
  - /delfed: Delete your Federation, and any information related to it. Will not cancel blocked users.
  - /fedinfo <FedID>: Information about the specified Federation.
@@ -1743,7 +1746,8 @@ Command:
  - /fbanlist: Displays all users who are victimized at the Federation at this time.
  - /fednotif <on / off>: Federation settings not in PM when there are users who are fban / unfban.
  - /fedchats: Get all the chats that are connected in the Federation.
- - /importfbans: Reply to the Federation backup message file to import the banned list to the Federation now.
+ - /fbanstat: Shows if you/or the user you are replying to or their username is fbanned somewhere or not.
+
 """
 
 #NEW_FED_HANDLER = CommandHandler("newfed", new_fed, filters=Filters.user(DEV_USERS))
