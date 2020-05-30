@@ -1743,7 +1743,7 @@ You can even designate admin federations, so your trusted admin can ban all the 
  - `/setfrules <rules here>`: Arrange Federation rules.
  - `/frules`: See Federation regulations.
  - `/fedadmins`: Show Federation admin.
- - `/fbanlist: Displays all users who are victimized at the Federation at this time.
+ - `/fbanlist`: Displays all users who are victimized at the Federation at this time.
  - `/fednotif <on/off>`: Federation settings not in PM when there are users who are fban / unfban.
  - `/fedchats`: Get all the chats that are connected in the Federation.\n
 *🎩 Any user:*
