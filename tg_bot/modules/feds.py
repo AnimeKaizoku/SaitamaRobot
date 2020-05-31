@@ -1603,7 +1603,11 @@ def get_myfedsubs(bot, update, args):
 		send_message(update.effective_message, "Only fed owner can do this!")
 		return
 
-	getmy = sql.get_mysubs(fed_id)
+	try:
+		getmy = sql.get_mysubs(fed_id)
+	except:
+		getmy = []
+	 
 
 	if len(getmy) == 0:
 		send_message(update.effective_message, "Federation `{}` is not subscribing any federation.".format(fedinfo['fname']), parse_mode="markdown")
