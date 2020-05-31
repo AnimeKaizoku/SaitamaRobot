@@ -96,6 +96,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
     for new_mem in new_members:
 
         welcome_log = None
+        res = None
         sent = None
         should_mute = True
         welcome_bool = True
