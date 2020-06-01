@@ -43,7 +43,7 @@ def translate(bot: Bot, update: Update):
                 prev_end = end
 
         curr_string += msg.text[prev_end:]
-        print(curr_string)
+        # print(curr_string)
         update.effective_message.reply_text(curr_string)
 
 
