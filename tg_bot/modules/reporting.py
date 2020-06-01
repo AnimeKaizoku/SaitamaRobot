@@ -82,7 +82,7 @@ def report(bot: Bot, update: Update) -> str:
             msg = (f"<b>⚠️ Report: </b>{html.escape(chat.title)}\n"
                    f"<b> • Report by:</b> {mention_html(user.id, user.first_name)}(<code>{user.id}</code>)\n"
                    f"<b> • Reported user:</b> {mention_html(reported_user.id, reported_user.first_name)} (<code>{reported_user.id}</code>)\n")
-            link = f'\n<b>Reported message:</b> <a href="https://t.me/{chat.username}/{message.reply_to_message.message_id}">click here</a>'
+            link = f'\n<b> • Reported message:</b> <a href="https://t.me/{chat.username}/{message.reply_to_message.message_id}">click here</a>'
             should_forward = False
             keyboard = [
                 [InlineKeyboardButton(u"➡ Message", url=f"https://t.me/{chat.username}/{message.reply_to_message.message_id}")],
