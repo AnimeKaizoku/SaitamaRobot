@@ -102,7 +102,6 @@ def report(bot: Bot, update: Update) -> str:
             link = ""
             should_forward = True
 
-        message.reply_text(reported, parse_mode=ParseMode.HTML)
         for admin in admin_list:
             if admin.user.is_bot:  # can't message bots
                 continue
