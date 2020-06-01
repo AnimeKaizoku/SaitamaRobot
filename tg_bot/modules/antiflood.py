@@ -1,13 +1,16 @@
 import html
-from typing import List
+import re
+from typing import Optional, List
 
-from telegram import Bot, Update, ParseMode
+from telegram import Message, Chat, Update, Bot, User, \
+InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import MessageHandler, CommandHandler, Filters, run_async
+from telegram.ext import Filters, MessageHandler, CommandHandler, CallbackQueryHandler, run_async
 from telegram.utils.helpers import mention_html
 
 from tg_bot import dispatcher, WHITELIST_USERS, TIGER_USERS
-from tg_bot.modules.helper_funcs.chat_status import is_user_admin, user_admin, can_restrict, connection_status
+from tg_bot.modules.helper_funcs.chat_status import is_user_admin, user_admin, can_restrict, \
+bot_admin, user_admin_no_reply, connection_status
 from tg_bot.modules.log_channel import loggable
 from tg_bot.modules.sql import antiflood_sql as sql
 
@@ -32,22 +35,35 @@ def check_flood(bot: Bot, update: Update) -> str:
         sql.update_flood(chat.id, None)
         return log_message
 
-    should_ban = sql.update_flood(chat.id, user.id)
-    if not should_ban:
-        return log_message
+    should_mute = sql.update_flood(chat.id, user.id)
+    if not should_mute:
+        return ""
 
     try:
-        bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
-        msg.reply_text(f"*mutes {mention_html(user.id, user.first_name)} permanently*\nStop flooding the group!", parse_mode=ParseMode.HTML)
-        log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                       f"#MUTED\n"
-                       f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"Flooded the group.\nMuted until an admin unmutes")
+        bot.restrict_chat_member(
+            chat.id,
+            user.id,
+            can_send_messages=False
+        )
+        
+        keyboard = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Unmute", callback_data="unmute_flooder({})".format(user.id))]]
+        )
+        bot.send_message(chat.id,
+            f"{mention_html(user.id, user.first_name)} has been muted for flooding the group!",
+            reply_markup=keyboard,
+            parse_mode="HTML"
+        )
+            
 
-        return log_message
+        return "<b>{}:</b>" \
+               "\n#MUTED" \
+               "\n<b>User:</b> {}" \
+               "\nFlooded the group.\nMuted until an admin unmutes".format(html.escape(chat.title),
+                                             mention_html(user.id, user.first_name))
 
     except BadRequest:
-        msg.reply_text("I can't kick people here, give me permissions first! Until then, I'll disable antiflood.")
+        msg.reply_text("I can't mute people here, give me permissions first! Until then, I'll disable antiflood.")
         sql.set_flood(chat.id, 0)
         log_message = ("<b>{chat.title}:</b>\n"
                        "#INFO\n"
@@ -57,7 +73,33 @@ def check_flood(bot: Bot, update: Update) -> str:
 
 
 @run_async
-@connection_status
+@user_admin_no_reply
+@bot_admin
+def flood_button(bot: Bot, update: Update):
+    query = update.callback_query
+    user = update.effective_user
+    match = re.match(r"unmute_flooder\((.+?)\)", query.data)
+    if match:
+        user_id = match.group(1)
+        chat = update.effective_chat.id
+        try:
+            bot.restrict_chat_member(
+                chat,
+                int(user_id),
+                can_send_messages=True,
+                can_send_media_messages=True,
+                can_send_other_messages=True,
+                can_add_web_page_previews=True
+            )
+            update.effective_message.edit_text(
+                f"Unmuted by {mention_html(user.id, user.first_name)}.",
+                parse_mode="HTML"
+            )
+        except:
+            pass
+
+
+@run_async
 @user_admin
 @can_restrict
 @loggable
@@ -159,12 +201,15 @@ __help__ = """
 """
 
 FLOOD_BAN_HANDLER = MessageHandler(Filters.all & ~Filters.status_update & Filters.group, check_flood)
-SET_FLOOD_HANDLER = CommandHandler("setflood", set_flood, pass_args=True)
-FLOOD_HANDLER = CommandHandler("flood", flood)
+FLOOD_QUERY_HANDLER = CallbackQueryHandler(flood_button, pattern=r"unmute_flooder")
+SET_FLOOD_HANDLER = CommandHandler("setflood", set_flood, pass_args=True, filters=Filters.group)
+FLOOD_HANDLER = CommandHandler("flood", flood, filters=Filters.group)
 
 dispatcher.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
+dispatcher.add_handler(FLOOD_QUERY_HANDLER)
 dispatcher.add_handler(SET_FLOOD_HANDLER)
 dispatcher.add_handler(FLOOD_HANDLER)
 
 __mod_name__ = "AntiFlood"
 __handlers__ = [(FLOOD_BAN_HANDLER, FLOOD_GROUP), SET_FLOOD_HANDLER, FLOOD_HANDLER]
+dispatcher.add_handler(FLOOD_HANDLER)

@@ -119,7 +119,7 @@ def gban(bot: Bot, update: Update, args: List[str]):
     message.reply_text("On it!")
 
     start_time = time.time()
-    datetime_fmt = "%H:%M - %d-%m-%Y"
+    datetime_fmt = "%Y-%m-%dT%H:%M"
     current_time = datetime.utcnow().strftime(datetime_fmt)
 
     if chat.type != 'private':
@@ -128,17 +128,17 @@ def gban(bot: Bot, update: Update, args: List[str]):
         chat_origin = "<b>{}</b>\n".format(chat.id)
 
     log_message = (f"#GBANNED\n"
-                   f"<b>Originated from:</b> {chat_origin}\n"
+                   f"<b>Originated from:</b> <code>{chat_origin}</code>\n"
                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                    f"<b>Banned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
-                   f"<b>Banned User ID:</b> {user_chat.id}\n"
-                   f"<b>Event Stamp:</b> {current_time}")
+                   f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n"
+                   f"<b>Event Stamp:</b> <code>{current_time}</code>")
 
     if reason:
         if chat.type == chat.SUPERGROUP and chat.username:
             log_message += f"\n<b>Reason:</b> <a href=\"http://telegram.me/{chat.username}/{message.message_id}\">{reason}</a>"
         else:
-            log_message += f"\n<b>Reason:</b> {reason}"
+            log_message += f"\n<b>Reason:</b> <code>{reason}</code>"
 
     if GBAN_LOGS:
         try:
@@ -182,22 +182,23 @@ def gban(bot: Bot, update: Update, args: List[str]):
             pass
 
     if GBAN_LOGS:
-        log.edit_text(log_message + f"\n<b>Chats affected:</b> {gbanned_chats}", parse_mode=ParseMode.HTML)
+        log.edit_text(log_message + f"\n<b>Chats affected:</b> <code>{gbanned_chats}</code>", parse_mode=ParseMode.HTML)
     else:
-        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, f"Gban complete! (User banned in {gbanned_chats} chats)")
+        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, f"Gban complete! (User banned in <code>{gbanned_chats}</code> chats)")
 
     end_time = time.time()
     gban_time = round((end_time - start_time), 2)
 
     if gban_time > 60:
         gban_time = round((gban_time / 60), 2)
-        message.reply_text(f"Done! This gban affected {gbanned_chats} chats, Took {gban_time} min")
+        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} min")
     else:
-        message.reply_text(f"Done! This gban affected {gbanned_chats} chats, Took {gban_time} sec")
+        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} sec")
 
     try:
         bot.send_message(user_id,
                          "You have been globally banned from all groups where I have administrative permissions."
+                         "To see the reason click on /info"
                          f"If you think that this was a mistake, you may appeal your ban here: {SUPPORT_CHAT}",
                          parse_mode=ParseMode.HTML)
     except:
@@ -230,7 +231,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
     message.reply_text(f"I'll give {user_chat.first_name} a second chance, globally.")
 
     start_time = time.time()
-    datetime_fmt = "%H:%M - %d-%m-%Y"
+    datetime_fmt = "%Y-%m-%dT%H:%M"
     current_time = datetime.utcnow().strftime(datetime_fmt)
 
     if chat.type != 'private':
@@ -239,11 +240,11 @@ def ungban(bot: Bot, update: Update, args: List[str]):
         chat_origin = f"<b>{chat.id}</b>\n"
 
     log_message = (f"#UNGBANNED\n"
-                   f"<b>Originated from:</b> {chat_origin}\n"
+                   f"<b>Originated from:</b> <code>{chat_origin}</code>\n"
                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                    f"<b>Unbanned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
-                   f"<b>Unbanned User ID:</b> {user_chat.id}\n"
-                   f"<b>Event Stamp:</b> {current_time}")
+                   f"<b>Unbanned User ID:</b> <code>{user_chat.id}</code>\n"
+                   f"<b>Event Stamp:</b> <code>{current_time}</code>")
 
     if GBAN_LOGS:
         try:
@@ -327,8 +328,8 @@ def check_and_ban(update, user_id, should_message=True):
     if sql.is_user_gbanned(user_id):
         update.effective_chat.kick_member(user_id)
         if should_message:
-            update.effective_message.reply_text("Alert: This user is globally banned.\n"
-                                                "*bans them from here*.\n"
+            update.effective_message.reply_text("</b>Alert:</b> This user is globally banned.\n"
+                                                "<code>*bans them from here*.</code>\n"
                                                 f"Appeal chat: {SUPPORT_CHAT}")
 
 
@@ -387,7 +388,7 @@ def __user_info__(user_id):
         text = text.format("Yes")
         user = sql.get_gbanned_user(user_id)
         if user.reason:
-            text += f"\n<b>Reason:</b> {html.escape(user.reason)}"
+            text += f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
         text += f"\n<b>Appeal Chat:</b> {SUPPORT_CHAT}"
     else:
         text = text.format("No")

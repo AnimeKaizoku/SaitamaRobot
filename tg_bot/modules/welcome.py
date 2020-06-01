@@ -96,6 +96,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
     for new_mem in new_members:
 
         welcome_log = None
+        res = None
         sent = None
         should_mute = True
         welcome_bool = True
@@ -219,7 +220,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                         }
                     })
                     new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
-                    message = msg.reply_text(f"{new_join_mem}, click the button below to prove you're human.\nYou have 160 seconds.",
+                    message = msg.reply_text(f"{new_join_mem}, click the button below to prove you're human.\nYou have 120 seconds.",
                                              reply_markup=InlineKeyboardMarkup([{InlineKeyboardButton(
                                                  text="Yes, I'm human.",
                                                  callback_data=f"user_join_({new_mem.id})")}]),
@@ -233,7 +234,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                     job_queue.run_once(
                         partial(
                             check_not_bot, new_mem, chat.id, message.message_id
-                        ), 160, name="welcomemute"
+                        ), 120, name="welcomemute"
                     )
 
         if welcome_bool:
@@ -544,7 +545,7 @@ def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
                     f"Has toggled welcome mute to <b>SOFT</b>.")
         elif args[0].lower() in ["strong"]:
             sql.set_welcome_mutes(chat.id, "strong")
-            msg.reply_text("I will now mute people when they join until they prove they're not a bot.\nThey will have 160seconds before they get kicked.")
+            msg.reply_text("I will now mute people when they join until they prove they're not a bot.\nThey will have 120seconds before they get kicked.")
             return (f"<b>{html.escape(chat.title)}:</b>\n"
                     f"#WELCOME_MUTE\n"
                     f"<b>• Admin:</b> {mention_html(user.id, user.first_name)}\n"

@@ -7,7 +7,7 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from tg_bot import dispatcher, TOKEN
+from tg_bot import dispatcher, TOKEN, SUDO_USERS
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, connection_status
 from tg_bot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
@@ -25,6 +25,12 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
     chat = update.effective_chat
     user = update.effective_user
     log_message = ""
+
+    promoter = chat.get_member(user.id)
+    
+    if not (promoter.can_promote_members or promoter.status == "creator") and not user.id in SUDO_USERS:
+        message.reply_text("You don't have the necessary rights to do that!")
+        return ""
 
     user_id = extract_user(message, args)
 
