@@ -189,6 +189,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
             res = None
             keyboard = None
             backup_message = None
+            reply = None
 
         # User exceptions from welcomemutes
         if is_user_ban_protected(chat, new_mem.id, chat.get_member(new_mem.id)) or human_checks:
