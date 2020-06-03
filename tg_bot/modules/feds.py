@@ -16,7 +16,7 @@ from telegram import ParseMode, Update, Bot, Chat, User, MessageEntity, InlineKe
 from telegram.ext import run_async, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
 
-from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, WHITELIST_USERS, GBAN_LOGS, LOGGER
+from tg_bot import dispatcher, OWNER_ID, SUDO_USERS, WHITELIST_USERS, TIGER_USERS, GBAN_LOGS, LOGGER
 from tg_bot.modules.helper_funcs.handlers import CMD_STARTERS
 from tg_bot.modules.helper_funcs.misc import is_module_loaded, send_to_list
 from tg_bot.modules.helper_funcs.chat_status import is_user_admin
@@ -243,7 +243,7 @@ def user_join_fed(bot: Bot, update: Update, args: List[str]):
 
 	fed_id = sql.get_fed_id(chat.id)
 
-	if is_user_fed_owner(fed_id, user.id) or user.id in DEV_USERS:
+	if is_user_fed_owner(fed_id, user.id) or user.id in SUDO_USERS:
 		user_id = extract_user(msg, args)
 		if user_id:
 			user = bot.get_chat(user_id)
@@ -456,15 +456,19 @@ def fed_ban(bot: Bot, update: Update, args: List[str]):
 		return
 
 	if user_id == OWNER_ID:
-		message.reply_text("That's a very stupid idea!")
+		message.reply_text("Diaster level God cannot be fed banned!")
 		return
 
 	if int(user_id) in SUDO_USERS:
-		message.reply_text("I will not use sudo fban!")
+		message.reply_text("Dragons cannot be fed banned!")
+		return
+
+	if int(user_id) in TIGER_USERS:
+		message.reply_text("Tigers cannot be fed banned!")
 		return
 
 	if int(user_id) in WHITELIST_USERS:
-		message.reply_text("This person can't be fbanned!")
+		message.reply_text("Wolves cannot be fed banned!")
 		return
 
 	try:
@@ -1268,6 +1272,9 @@ def fed_import_bans(bot: Bot, update: Update, chat_data):
 					if int(import_userid) in SUDO_USERS:
 						failed += 1
 						continue
+					if int(import_userid) in TIGER_USERS:
+						failed += 1
+						continue  
 					if int(import_userid) in WHITELIST_USERS:
 						failed += 1
 						continue
@@ -1325,6 +1332,9 @@ def fed_import_bans(bot: Bot, update: Update, chat_data):
 					if int(import_userid) in SUDO_USERS:
 						failed += 1
 						continue
+					if int(import_userid) in TIGER_USERS:
+						failed += 1
+						continue  
 					if int(import_userid) in WHITELIST_USERS:
 						failed += 1
 						continue
