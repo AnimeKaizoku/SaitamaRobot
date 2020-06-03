@@ -18,8 +18,14 @@ def shell(bot: Bot, update: Update):
    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr = subprocess.PIPE)
    stdout, stderr = process.communicate()
    reply = ''
-   if stdout.decode(): reply += f"*STDOUT*\n`{stdout.decode()}`\n"
-   if stderr.decode(): reply += f"*STDERR*\n`{stderr.decode()}`\n"
+   stderr = stderr.decode()
+   stdout = stdout.decode()
+   if stdout: 
+      reply += f"*Stdout*\n`{stdout}`\n"
+      LOGGER.info(f"Shell - {cmd} - {stdout}")
+   if stderr: 
+      reply +=  f"*Stderr*\n`{stderr}`\n"
+      LOGGER.error(f"Shell - {cmd} - {stderr}")
    if len(reply) > 3000:
      with open('shell_output.txt', 'w') as file:
         file.write(reply)
