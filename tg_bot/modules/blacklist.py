@@ -5,16 +5,21 @@ from typing import List
 from telegram import Bot, Update, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
-
+from tg_bot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
 import tg_bot.modules.sql.blacklist_sql as sql
 from tg_bot import dispatcher, LOGGER
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot.modules.helper_funcs.chat_status import user_admin, user_not_admin, connection_status
 from tg_bot.modules.helper_funcs.extraction import extract_text
 from tg_bot.modules.helper_funcs.misc import split_message
-import tg_bot.modules.helper_funcs.regex_helper as r_helper
 
 BLACKLIST_GROUP = 11
+
+def infinite_loop_check(regex):
+     loop_matches = [r'\((.{1,}[\+\*]){1,}\)[\+\*].', r'[\(\[].{1,}\{\d(,)?\}[\)\]]\{\d(,)?\}', r'\(.{1,}\)\{.{1,}(,)?\}\(.*\)(\+|\* |\{.*\})']
+     for match in loop_matches:
+          match_1 = re.search(match, regex)
+          if match_1: return True
 
 @run_async
 @connection_status
@@ -72,7 +77,7 @@ def add_blacklist(bot: Bot, update: Update):
             except Exception as exce:
                 msg.reply_text(f"Couldn't add regex, Error: {exce}")
                 return
-            check = r_helper.infinite_loop_check(trigger)
+            check = infinite_loop_check(trigger)
             if not check:
                sql.add_to_blacklist(chat.id, trigger.lower())
             else:
@@ -142,10 +147,9 @@ def del_blacklist(bot: Bot, update: Update):
         return
 
     chat_filters = sql.get_chat_blacklist(chat.id)
-    error, match = False, False
     for trigger in chat_filters:
         pattern = r"( |^|[^\w])" + trigger + r"( |$|[^\w])"
-        match = r_helper.regex_searcher(pattern, to_match)
+        match = regex_searcher(pattern, to_match)
         if not match:
             #Skip to next item in blacklist
             continue
