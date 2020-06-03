@@ -184,16 +184,16 @@ def gban(bot: Bot, update: Update, args: List[str]):
     if GBAN_LOGS:
         log.edit_text(log_message + f"\n<b>Chats affected:</b> <code>{gbanned_chats}</code>", parse_mode=ParseMode.HTML)
     else:
-        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, f"Gban complete! (User banned in <code>{gbanned_chats}</code> chats)")
+        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, f"Gban complete! (User banned in <code>{gbanned_chats}</code> chats)", parse_mode=ParseMode.HTML)
 
     end_time = time.time()
     gban_time = round((end_time - start_time), 2)
 
     if gban_time > 60:
         gban_time = round((gban_time / 60), 2)
-        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} min")
+        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} min", parse_mode=ParseMode.HTML)
     else:
-        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} sec")
+        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} sec", parse_mode=ParseMode.HTML)
 
     try:
         bot.send_message(user_id,
@@ -330,7 +330,7 @@ def check_and_ban(update, user_id, should_message=True):
         if should_message:
             update.effective_message.reply_text("</b>Alert:</b> This user is globally banned.\n"
                                                 "<code>*bans them from here*.</code>\n"
-                                                f"Appeal chat: {SUPPORT_CHAT}")
+                                                f"Appeal chat: {SUPPORT_CHAT}", parse_mode=ParseMode.HTML)
 
 
 @run_async
