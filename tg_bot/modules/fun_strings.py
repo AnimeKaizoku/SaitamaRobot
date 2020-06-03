@@ -138,7 +138,7 @@ SLAP_TEMPLATES = (
     "{user2} was turned into a Jojo reference!",
     "{user1} hits {user2} with {item}.",
     "Round 2!..Ready? .. FIGHT!!",
-    "WhoPixel will oof {user2}, to infinity and beyond."
+    "WhoPixel will oof {user2}, to infinity and beyond.",
     "{user2} ate a bat and discovered a new disease.",
     "{user1} folded {user2} into a paper plane",
     "{user1} exchanged {user2}'s life-force for a cup of chocolate.",
