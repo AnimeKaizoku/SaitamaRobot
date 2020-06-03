@@ -239,8 +239,8 @@ __help__ = """
 *Admins only:*
  • `/filter <keyword> <reply message>`*:* adds a filter to this chat. The bot will now reply that message whenever 'keyword'\
 is mentioned. If you reply to a sticker with a keyword, the bot will reply with that sticker. \
-If you want your keyword to be a sentence, use quotes. eg: /filter "hey there" How you \
-doin?
+If you want your keyword to be a sentence, use quotes. 
+*Example:* `/filter "hey there" How you doin?`
  • `/stop <filter keyword>`*:* stop that filter.
 Note: Filters now have regex so any existing filters you have are case insensitive by default.\
 To save case insensitive regex use\

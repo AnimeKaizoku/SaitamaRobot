@@ -320,7 +320,7 @@ __help__ = """
  • `/locks`*:* the current list of locks in this chat.
 
 Locks can be used to restrict a group's users.
-eg:
+*Example:*
 Locking urls will auto-delete all messages with urls which haven't been whitelisted, locking stickers will delete all \
 stickers, etc.
 Locking bots will stop non-admins from adding bots to the chat.

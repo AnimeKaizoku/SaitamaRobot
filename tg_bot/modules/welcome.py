@@ -682,7 +682,7 @@ WELC_HELP_TXT = ("Your group's welcome/goodbye messages can be personalised in m
                  "go. Note that group ids are usually preceded by a `-` sign; this is required, so please don't "
                  "remove it.\n"
                  "You can even set images/gifs/videos/voice messages as the welcome message by "
-                 "replying to the desired media, and calling /setwelcome.")
+                 "replying to the desired media, and calling `/setwelcome`.")
 
 WELC_MUTE_HELP_TXT = (
     "You can get the bot to mute new people who join your group and hence prevent spambots from flooding your group. "
@@ -735,7 +735,7 @@ __help__ = """
  • `/welcome <on/off>`*:* enable/disable welcome messages.
  • `/welcome`*:* shows current welcome settings.
  • `/welcome noformat`*:* shows current welcome settings, without the formatting - useful to recycle your welcome messages!
- • `/goodbye`*:* same usage and args as /welcome.
+ • `/goodbye`*:* same usage and args as `/welcome`.
  • `/setwelcome <sometext>`*:* set a custom welcome message. If used replying to media, uses that media.
  • `/setgoodbye <sometext>`*:* set a custom goodbye message. If used replying to media, uses that media.
  • `/resetwelcome`*:* reset to the default welcome message.

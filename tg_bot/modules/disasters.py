@@ -494,12 +494,12 @@ def devlist(bot: Bot, update: Update):
 
 
 __help__ = f"""
- • `/heroes - Lists all Hero Association members.
- • `/dragons - Lists all Dragon disasters.
- • `/demons - Lists all Demon disasters.
- • `/tigers - Lists all Tigers disasters.
- • `/wolves - Lists all Wolf disasters.
- Note: These commands list users with special bot priveleges and can only be used by them.
+ • `/heroes`*:* Lists all Hero Association members.
+ • `/dragons`*:* Lists all Dragon disasters.
+ • `/demons`*:* Lists all Demon disasters.
+ • `/tigers`*:* Lists all Tigers disasters.
+ • `/wolves`*:* Lists all Wolf disasters.
+ *Note:* These commands list users with special bot priveleges and can only be used by them.
  You can visit {SUPPORT_CHAT} to query more about these.
 """
 

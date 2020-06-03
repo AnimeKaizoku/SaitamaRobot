@@ -24,7 +24,7 @@ def shout(bot: Bot, update: Update, args: List[str]):
 __help__ = """
  A little piece of fun wording! Give a loud shout out in the chatroom.
  
- i.e /shout HELP, bot replies with huge coded HELP letters within the square. 
+ i.e `/shout HELP`, bot replies with huge coded *HELP* letters within the square. 
  
  • `/shout <keyword>`*:* write anything you want to give loud shout.
     ```
