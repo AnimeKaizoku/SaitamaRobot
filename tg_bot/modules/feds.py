@@ -401,7 +401,7 @@ def fed_admin(bot: Bot, update: Update, args: List[str]):
 
 	members = sql.all_fed_members(fed_id)
 	if len(members) == 0:
-		text += "\n🔱 There is no admin in this federation"
+		text += "\n🔱 There are no admins in this federation"
 	else:
 		text += "\n🔱 Admin:\n"
 		for x in members:
