@@ -15,10 +15,6 @@ police_siren = [
             "🔵🔵🔵⬜️⬜️⬜️🔴🔴🔴\n🔵🔵🔵⬜️⬜️⬜️🔴🔴🔴\n🔵🔵🔵⬜️⬜️⬜️🔴🔴🔴"
 ]
 
-fbi_ig = [
-  "\O_O",
-  "O_O/"
-]
 
 @user_admin
 @run_async
@@ -29,25 +25,14 @@ def police(bot: Bot, update: Update):
         time.sleep(EDIT_SLEEP)
     msg.edit_text('Police is here!')
 
-@user_admin
-@run_async
-def fbi(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text('FBI is coming!')
-    for x in range(EDIT_TIMES):
-        msg.edit_text(fbi_ig[x%2]) 
-        time.sleep(EDIT_SLEEP)
-    msg.edit_text('Police is here!')
     
 __help__ = """
 • `/police`*:* Sends a police emoji animation. 
-• `/fbi`*:* Send O\_O animation
 """
     
 POLICE_HANDLER = DisableAbleCommandHandler("police", police)
-FBI_HANDLER = DisableAbleCommandHandler("fbi", fbi)
 dispatcher.add_handler(POLICE_HANDLER)    
-dispatcher.add_handler(FBI_HANDLER)
 
 __mod_name__ = "Animation"
-__command_list__ = ["police", "fbi"]	
-__handlers__ = [POLICE_HANDLER, FBI_HANDLER]
+__command_list__ = ["police"]	
+__handlers__ = [POLICE_HANDLER]
