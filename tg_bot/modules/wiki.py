@@ -36,7 +36,7 @@ def wiki(bot: Bot, update: Update):
                     reply_to_message_id=update.message.message_id, chat_id=update.effective_chat.id,
                     parse_mode=ParseMode.HTML)
         else:
-            update.message.reply_text(result, parse_mode=ParseMode.HTML, disable_web_page_preview=False)
+            update.message.reply_text(result, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 __help__ = """
 WIKIPEDIA!!
 *Available commands:*
