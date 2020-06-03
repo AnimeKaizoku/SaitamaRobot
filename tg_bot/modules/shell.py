@@ -15,7 +15,7 @@ def shell(bot: Bot, update: Update):
      message.reply_text('No command to execute was given.')
      return
    cmd = cmd[1]
-   process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr = subprocess.PIPE)
+   process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr = subprocess.PIPE, shell=True)
    stdout, stderr = process.communicate()
    reply = ''
    stderr = stderr.decode()
