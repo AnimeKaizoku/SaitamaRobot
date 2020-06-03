@@ -312,15 +312,15 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
- - /locktypes: a list of possible locktypes
+ • `/locktypes`*:* a list of possible locktypes
 
-*Admin only:*
- - /lock <type>: lock items of a certain type (not available in private)
- - /unlock <type>: unlock items of a certain type (not available in private)
- - /locks: the current list of locks in this chat.
+*Admins only:*
+ • `/lock <type>`*:* lock items of a certain type (not available in private)
+ • `/unlock <type>`*:* unlock items of a certain type (not available in private)
+ • `/locks`*:* the current list of locks in this chat.
 
 Locks can be used to restrict a group's users.
-eg:
+*Example:*
 Locking urls will auto-delete all messages with urls which haven't been whitelisted, locking stickers will delete all \
 stickers, etc.
 Locking bots will stop non-admins from adding bots to the chat.

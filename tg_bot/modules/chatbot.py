@@ -112,14 +112,16 @@ This is an ongoing upgrade and is only available in your chats if you reach out 
 
 In future we might make it open for any chat and controllable by group admins.
 
-Powered by CoffeeHouse (https://coffeehouse.intellivoid.net/) from @Intellivoid
-Commands: These only work for Saitama Staff users. 
- - /addchat     : Enables Chatbot mode in the chat.
- - /rmchat      : Disables Chatbot mode in the chat.
- - /listaichats : Lists the chats the chatmode is enabled in.
+*If you want this enabled then please comt to @OnePunchSupport and ask.`*
+
+*Commands:* These only work for Saitama Staff users. 
+ • `/addchat`*:* Enables Chatbot mode in the chat.
+ • `/rmchat`*:* Disables Chatbot mode in the chat.
+ • `/listaichats`*:* Lists the chats the chatmode is enabled in.
+*Powered by CoffeeHouse* (https://coffeehouse.intellivoid.net/) from @Intellivoid
 """         
-                    
-                    
+
+
 ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat, filters=CustomFilters.dev_filter)
 REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat, filters=CustomFilters.dev_filter)
 CHATBOT_HANDLER = MessageHandler(Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")

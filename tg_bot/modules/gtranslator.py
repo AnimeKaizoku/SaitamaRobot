@@ -119,9 +119,9 @@ def totranslate(bot: Bot, update: Update):
 
 
 __help__ = """
-- /tr or /tl (language code) as reply to a long message.
-Example: /tr en - translates something to english. 
-         /tr hi-en - translates hindi to english.
+• `/tr` or `/tl` (language code) as reply to a long message.
+*Example:* `/tr en`*:* translates something to english. 
+         `/tr hi-en`*:* translates hindi to english.
 """
 
 TRANSLATE_HANDLER = DisableAbleCommandHandler(["tr", "tl"], totranslate)

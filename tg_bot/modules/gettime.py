@@ -77,9 +77,9 @@ def gettime(bot: Bot, update: Update):
 
 
 __help__ = """
- - /time <query> : Gives information about a timezone.
+ • `/time <query>`*:* Gives information about a timezone.
 
-Available queries : Country Code/Country Name/Timezone Name
+*Available queries:* Country Code/Country Name/Timezone Name
 """
 
 TIME_HANDLER = DisableAbleCommandHandler("time", gettime)

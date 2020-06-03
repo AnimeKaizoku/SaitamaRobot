@@ -139,7 +139,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
         return log_message
     except BadRequest:
         message.reply_text("Could not demote. I might not be admin, or the admin status was appointed by another"
-                           "user, so I can't act upon them!")
+                           " user, so I can't act upon them!")
         return log_message
 
 
@@ -303,15 +303,15 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
- - /adminlist: list of admins in the chat
+ • `/adminlist`*:* list of admins in the chat
 
-*Admin only:*
- - /pin: silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
- - /unpin: unpins the currently pinned message
- - /invitelink: gets invitelink
- - /promote: promotes the user replied to
- - /demote: demotes the user replied to
- - /settitle: sets a custom title for an admin that the bot promoted
+*Admins only:*
+ • `/pin`*:* silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users.
+ • `/unpin`*:* unpins the currently pinned message
+ • `/invitelink`*:* gets invitelink
+ • `/promote`*:* promotes the user replied to
+ • `/demote`*:* demotes the user replied to
+ • `/settitle`*:* sets a custom title for an admin that the bot promoted
 """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler(["adminlist", "admins"], adminlist)

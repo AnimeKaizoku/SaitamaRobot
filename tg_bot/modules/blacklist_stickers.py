@@ -42,7 +42,7 @@ def blackliststicker(bot: Bot, update: Update, args: List[str]):
 			chat_id = update.effective_chat.id
 			chat_name = chat.title
 		
-	sticker_list = "<b>List black stickers currently in {}:</b>\n".format(chat_name)
+	sticker_list = "<b>List blacklisted stickers currently in {}:</b>\n".format(chat_name)
 
 	all_stickerlist = sql.get_chat_stickers(chat_id)
 
@@ -55,8 +55,8 @@ def blackliststicker(bot: Bot, update: Update, args: List[str]):
 
 	split_text = split_message(sticker_list)
 	for text in split_text:
-		if sticker_list == "<b>List black stickers currently in {}:</b>\n".format(chat_name).format(chat_name):
-			send_message(update.effective_message, "There is no blacklist sticker in <b>{}</b>!".format(chat_name), parse_mode=ParseMode.HTML)
+		if sticker_list == "<b>List blacklisted stickers currently in {}:</b>\n".format(chat_name).format(chat_name):
+			send_message(update.effective_message, "There are no blacklist stickers in <b>{}</b>!".format(chat_name), parse_mode=ParseMode.HTML)
 			return
 	send_message(update.effective_message, text, parse_mode=ParseMode.HTML)
 
@@ -118,7 +118,7 @@ def add_blackliststicker(bot: Bot, update: Update):
 
 		send_message(update.effective_message, "Sticker <code>{}</code> added to blacklist stickers in <b>{}</b>!".format(trigger, chat_name), parse_mode=ParseMode.HTML)
 	else:
-		send_message(update.effective_message, "Tell me what stickers you want to add to the blacklist stickers.")
+		send_message(update.effective_message, "Tell me what stickers you want to add to the blacklist.")
 
 @run_async
 @user_admin
@@ -154,7 +154,7 @@ def unblackliststicker(bot: Bot, update: Update):
 				send_message(update.effective_message, "Sticker <code>{}</code> deleted from blacklist in <b>{}</b>!".format(html.escape(to_unblacklist[0]), chat_name),
 							   parse_mode=ParseMode.HTML)
 			else:
-				send_message(update.effective_message, "This is not on the blacklist stickers...!")
+				send_message(update.effective_message, "This sticker is not on the blacklist...!")
 
 		elif successful == len(to_unblacklist):
 			send_message(update.effective_message, "Sticker <code>{}</code> deleted from blacklist in <b>{}</b>!".format(
@@ -180,7 +180,7 @@ def unblackliststicker(bot: Bot, update: Update):
 		else:
 			send_message(update.effective_message, "{} not found on blacklisted stickers...!".format(trigger))
 	else:
-		send_message(update.effective_message, "Tell me what stickers you want to add to the blacklist stickers.")
+		send_message(update.effective_message, "Tell me what stickers you want to add to the blacklist.")
 
 @run_async
 @loggable
@@ -243,13 +243,13 @@ def blacklist_mode(bot: Bot, update: Update, args: List[str]):
 			send_message(update.effective_message, "I only understand off/del/warn/ban/kick/mute/tban/tmute!")
 			return
 		if conn:
-			text = "Blacklist sticker mode changed, will `{}` at *{}*!".format(settypeblacklist, chat_name)
+			text = "Blacklist sticker mode changed, users will be `{}` at *{}*!".format(settypeblacklist, chat_name)
 		else:
-			text = "Blacklist sticker mode changed, will `{}`!".format(settypeblacklist)
+			text = "Blacklist sticker mode changed, users will be `{}`!".format(settypeblacklist)
 		send_message(update.effective_message, text, parse_mode="markdown")
 		return "<b>{}:</b>\n" \
 				"<b>Admin:</b> {}\n" \
-				"Changed sticker blacklist mode. Will {}.".format(html.escape(chat.title),
+				"Changed sticker blacklist mode. users will be {}.".format(html.escape(chat.title),
 																			mention_html(user.id, user.first_name), settypeblacklist)
 	else:
 		getmode, getvalue = sql.get_blacklist_setting(chat.id)
@@ -357,14 +357,14 @@ def __stats__():
 __help__ = """
 Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
 *NOTE:* Blacklist stickers do not affect the group admin.
- - /blsticker: See current blacklisted sticker.
+ • `/blsticker`*:* See current blacklisted sticker.
 *Only admin:*
- - /addblsticker <sticker link>: Add the sticker trigger to the black list. Can be added via reply sticker.
- - /unblsticker <sticker link>: Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once.
- - /rmblsticker <sticker link>: Same as above.
- - /blstickermode ban/tban/mute/tmute .
+ • `/addblsticker <sticker link>`*:* Add the sticker trigger to the black list. Can be added via reply sticker.
+ • `/unblsticker <sticker link>`*:* Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once.
+ • `/rmblsticker <sticker link>`*:* Same as above.
+ • `/blstickermode <ban/tban/mute/tmute>`*:* sets up a default action on what to do if users use blacklisted stickers. (`tmute seems broken right now`)
 Note:
- - `<sticker link>` can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message.
+ • `<sticker link>` can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message.
 """
 
 __mod_name__ = "Sticker Blacklist"

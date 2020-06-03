@@ -105,6 +105,11 @@
          "required": false,
          "value": ""
       },
+      "BL_CHATS": {
+         "description": "List of chats you want blacklisted.",
+         "required": false,
+         "value": ""
+      },      
       "WHITELIST_USERS": {
          "description": "A space separated list of user IDs who you want to assign as whitelisted - can't be banned with your bot.",
          "required": false,

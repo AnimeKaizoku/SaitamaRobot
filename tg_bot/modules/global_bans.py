@@ -184,16 +184,16 @@ def gban(bot: Bot, update: Update, args: List[str]):
     if GBAN_LOGS:
         log.edit_text(log_message + f"\n<b>Chats affected:</b> <code>{gbanned_chats}</code>", parse_mode=ParseMode.HTML)
     else:
-        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, f"Gban complete! (User banned in <code>{gbanned_chats}</code> chats)")
+        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, f"Gban complete! (User banned in <code>{gbanned_chats}</code> chats)", parse_mode=ParseMode.HTML)
 
     end_time = time.time()
     gban_time = round((end_time - start_time), 2)
 
     if gban_time > 60:
         gban_time = round((gban_time / 60), 2)
-        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} min")
+        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} min", parse_mode=ParseMode.HTML)
     else:
-        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} sec")
+        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} sec", parse_mode=ParseMode.HTML)
 
     try:
         bot.send_message(user_id,
@@ -328,9 +328,9 @@ def check_and_ban(update, user_id, should_message=True):
     if sql.is_user_gbanned(user_id):
         update.effective_chat.kick_member(user_id)
         if should_message:
-            update.effective_message.reply_text("</b>Alert:</b> This user is globally banned.\n"
+            update.effective_message.reply_text("<b>Alert:</b> This user is globally banned.\n"
                                                 "<code>*bans them from here*.</code>\n"
-                                                f"Appeal chat: {SUPPORT_CHAT}")
+                                                f"Appeal chat: {SUPPORT_CHAT}", parse_mode=ParseMode.HTML)
 
 
 @run_async
@@ -343,12 +343,13 @@ def enforce_gban(bot: Bot, update: Update):
 
         if user and not is_user_admin(chat, user.id):
             check_and_ban(update, user.id)
+            return
 
         if msg.new_chat_members:
             new_members = update.effective_message.new_chat_members
             for mem in new_members:
                 check_and_ban(update, mem.id)
-
+        
         if msg.reply_to_message:
             user = msg.reply_to_message.from_user
             if user and not is_user_admin(chat, user.id):
@@ -404,13 +405,13 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = f"""
-*Admin only:*
- - /gbanstat <on/off/yes/no>: Will disable the effect of global bans on your group, or return your current settings.
+*Admins only:*
+ • `/gbanstat <on/off/yes/no>`*:* Will disable the effect of global bans on your group, or return your current settings.
 
 Gbans, also known as global bans, are used by the bot owners to ban spammers across all groups. This helps protect \
 you and your groups by removing spam flooders as quickly as possible. They can be disabled for your group by calling \
-/gbanstat
-Note: You can appeal gbans or ask gbans at {SUPPORT_CHAT}
+`/gbanstat`
+*Note:* Users can appeal gbans or report spammers at {SUPPORT_CHAT}
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban, pass_args=True)

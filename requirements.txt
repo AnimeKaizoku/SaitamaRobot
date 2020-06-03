@@ -20,3 +20,4 @@ jikanpy
 speedtest-cli
 coffeehouse
 regex
+wikipedia
