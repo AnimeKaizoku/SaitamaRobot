@@ -328,7 +328,7 @@ def check_and_ban(update, user_id, should_message=True):
     if sql.is_user_gbanned(user_id):
         update.effective_chat.kick_member(user_id)
         if should_message:
-            update.effective_message.reply_text("</b>Alert:</b> This user is globally banned.\n"
+            update.effective_message.reply_text("<b>Alert:</b> This user is globally banned.\n"
                                                 "<code>*bans them from here*.</code>\n"
                                                 f"Appeal chat: {SUPPORT_CHAT}", parse_mode=ParseMode.HTML)
 
