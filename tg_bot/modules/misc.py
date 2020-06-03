@@ -19,17 +19,17 @@ MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
 saved messages are correctly parsed, and to allow you to create buttons.
 
-- <code>_italic_</code>: wrapping text with '_' will produce italic text
-- <code>*bold*</code>: wrapping text with '*' will produce bold text
-- <code>`code`</code>: wrapping text with '`' will produce monospaced text, also known as 'code'
-- <code>[sometext](someURL)</code>: this will create a link - the message will just show <code>sometext</code>, \
+• <code>_italic_</code>*:* wrapping text with '_' will produce italic text
+• <code>*bold*</code>*:* wrapping text with '*' will produce bold text
+• <code>`code`</code>*:* wrapping text with '`' will produce monospaced text, also known as 'code'
+• <code>[sometext](someURL)</code>*:* this will create a link - the message will just show <code>sometext</code>, \
 and tapping on it will open the page at <code>someURL</code>.
-EG: <code>[test](example.com)</code>
+*Example:* <code>[test](example.com)</code>
 
-- <code>[buttontext](buttonurl:someURL)</code>: this is a special enhancement to allow users to have telegram \
+• <code>[buttontext](buttonurl:someURL)</code>*:* this is a special enhancement to allow users to have telegram \
 buttons in their markdown. <code>buttontext</code> will be what is displayed on the button, and <code>someurl</code> \
 will be the url which is opened.
-EG: <code>[This is a button](buttonurl:example.com)</code>
+*Example:<b> <code>[This is a button](buttonurl:example.com)</code>
 
 If you want multiple buttons on the same line, use :same, as such:
 <code>[one](buttonurl://example.com)
@@ -198,10 +198,10 @@ def stats(bot: Bot, update: Update):
 
 
 __help__ = """
- - /id: get the current group id. If used by replying to a message, gets that user's id.
- - /gifid: reply to a gif to me to tell you its file ID.
- - /info: get information about a user.
- - /markdownhelp: quick summary of how markdown works in telegram - can only be called in private chats.
+ • `/id`*:* get the current group id. If used by replying to a message, gets that user's id.
+ • `/gifid`*:* reply to a gif to me to tell you its file ID.
+ • `/info`*:* get information about a user.
+ • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats.
 """
 
 ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)

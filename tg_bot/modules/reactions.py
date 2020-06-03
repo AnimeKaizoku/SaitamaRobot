@@ -223,7 +223,7 @@ def react(bot: Bot, update: Update):
 
 
 __help__ = """
- - /react: Reacts with a random reaction
+ • `/react`*:* Reacts with a random reaction
 """
 
 REACT_HANDLER = DisableAbleCommandHandler("react", react)

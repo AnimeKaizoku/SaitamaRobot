@@ -112,15 +112,15 @@ def table(bot: Bot, update: Update):
 
 
 __help__ = """
- - /runs: reply a random string from an array of replies.
- - /slap: slap a user, or get slapped if not a reply.
- - /shrug : get shrug XD.
- - /table : get flip/unflip :v.
- - /decide : Randomly answers yes/no/maybe
- - /toss : Tosses A coin
- - /bluetext : check urself :V
- - /roll : Roll a dice.
- - /rlg : Join ears,nose,mouth and create an emo ;-;
+ • `/runs`*:* reply a random string from an array of replies.
+ • `/slap`*:* slap a user, or get slapped if not a reply.
+ • `/shrug`*:* get shrug XD.
+ • `/table`*:* get flip/unflip :v.
+ • `/decide`*:* Randomly answers yes/no/maybe
+ • `/toss`*:* Tosses A coin
+ • `/bluetext`*:* check urself :V
+ • `/roll`*:* Roll a dice.
+ • `/rlg`*:* Join ears,nose,mouth and create an emo ;-;
 """
 
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)

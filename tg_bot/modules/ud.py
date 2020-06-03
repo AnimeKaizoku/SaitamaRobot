@@ -19,8 +19,8 @@ def ud(bot: Bot, update: Update):
 
 
 __help__ = """
- - /ud <word>: Type the word or expression you want to search use.
- - /urban <word>: Same as /ud
+ • `/ud <word>`*:* Type the word or expression you want to search use.
+ • `/urban <word>`*:* Same as /ud
 """
 
 UD_HANDLER = DisableAbleCommandHandler(["ud", "urban"], ud)

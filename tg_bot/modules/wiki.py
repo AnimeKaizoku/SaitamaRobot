@@ -40,7 +40,7 @@ def wiki(bot: Bot, update: Update):
 __help__ = """
 WIKIPEDIA!!
 *Available commands:*
- - `/wiki <query>`*:* wiki your query.
+ • `/wiki <query>`*:* wiki your query.
 """
 
 __mod_name__ = "Wiki"

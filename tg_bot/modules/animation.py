@@ -39,8 +39,8 @@ def fbi(bot: Bot, update: Update):
     msg.edit_text('Police is here!')
     
 __help__ = """
-- /police : Sends a police emoji animation. 
-- /fbi : Send O\_O animation
+• `/police`*:* Sends a police emoji animation. 
+• `/fbi`*:* Send O\_O animation
 """
     
 POLICE_HANDLER = DisableAbleCommandHandler("police", police)

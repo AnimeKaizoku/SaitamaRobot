@@ -94,8 +94,8 @@ def pingall(bot: Bot, update: Update):
 
 
 __help__ = """
- - /ping - get ping time of bot to telegram server
- - /pingall - get all listed ping time
+ • `/ping`*:* get ping time of bot to telegram server
+ • `/pingall`*:* get all listed ping time
 """
 
 PING_HANDLER = DisableAbleCommandHandler("ping", ping)

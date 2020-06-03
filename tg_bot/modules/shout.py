@@ -26,7 +26,7 @@ __help__ = """
  
  i.e /shout HELP, bot replies with huge coded HELP letters within the square. 
  
- - /shout <keyword>: write anything you want to give loud shout.
+ • `/shout <keyword>`*:* write anything you want to give loud shout.
     ```
     t e s t
     e e
