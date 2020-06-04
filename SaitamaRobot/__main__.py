@@ -2,9 +2,9 @@ import importlib
 import re
 from typing import Optional, List
 
-from telegram import Bot, Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import Unauthorized, BadRequest, TimedOut, NetworkError, ChatMigrated, TelegramError
-from telegram.ext import CommandHandler, MessageHandler, CallbackQueryHandler, Filters
+from telegram.ext import CommandHandler, MessageHandler, CallbackQueryHandler, Filters, CallbackContext
 from telegram.ext.dispatcher import run_async, DispatcherHandlerStop
 from telegram.utils.helpers import escape_markdown
 
