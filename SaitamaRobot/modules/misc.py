@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 import re
 from typing import List
@@ -78,7 +79,7 @@ def get_id(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def gifid(bot: Bot, update: Update):
+def gifid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
         update.effective_message.reply_text(f"Gif ID:\n<code>{msg.reply_to_message.animation.file_id}</code>",
@@ -168,7 +169,7 @@ def info(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def echo(bot: Bot, update: Update):
+def echo(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
 
@@ -181,7 +182,7 @@ def echo(bot: Bot, update: Update):
 
 
 @run_async
-def markdown_help(bot: Bot, update: Update):
+def markdown_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text("Try forwarding the following message to me, and you'll see!")
     update.effective_message.reply_text("/save test This is a markdown test. _italics_, *bold*, `code`, "
@@ -191,7 +192,7 @@ def markdown_help(bot: Bot, update: Update):
 
 @run_async
 @sudo_plus
-def stats(bot: Bot, update: Update):
+def stats(update: Update, context: CallbackContext):
     stats = "Current stats:\n" + "\n".join([mod.__stats__() for mod in STATS])
     result = re.sub(r'(\d+)', r'<code>\1</code>', stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)

@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 from typing import Optional
 
 from telegram import Message, Update, Bot, User
@@ -13,7 +14,7 @@ from SaitamaRobot.modules.helper_funcs.string_handling import markdown_parser
 
 
 @run_async
-def get_rules(bot: Bot, update: Update):
+def get_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     send_rules(update, chat_id)
 
@@ -52,7 +53,7 @@ def send_rules(update, chat_id, from_pm=False):
 
 @run_async
 @user_admin
-def set_rules(bot: Bot, update: Update):
+def set_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     msg = update.effective_message  # type: Optional[Message]
     raw_text = msg.text
@@ -68,7 +69,7 @@ def set_rules(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def clear_rules(bot: Bot, update: Update):
+def clear_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     sql.set_rules(chat_id, "")
     update.effective_message.reply_text("Successfully cleared rules!")

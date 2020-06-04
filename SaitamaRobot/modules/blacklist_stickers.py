@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 from typing import Optional, List
 
@@ -63,7 +64,7 @@ def blackliststicker(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def add_blackliststicker(bot: Bot, update: Update):
+def add_blackliststicker(update: Update, context: CallbackContext):
 	msg = update.effective_message  # type: Optional[Message]
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -122,7 +123,7 @@ def add_blackliststicker(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def unblackliststicker(bot: Bot, update: Update):
+def unblackliststicker(update: Update, context: CallbackContext):
 	msg = update.effective_message  # type: Optional[Message]
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -278,7 +279,7 @@ def blacklist_mode(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_not_admin
-def del_blackliststicker(bot: Bot, update: Update):
+def del_blackliststicker(update: Update, context: CallbackContext):
 	chat = update.effective_chat  # type: Optional[Chat]
 	message = update.effective_message  # type: Optional[Message]
 	user = update.effective_user

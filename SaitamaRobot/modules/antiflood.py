@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 import re
 from typing import Optional, List
@@ -75,7 +76,7 @@ def check_flood(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin_no_reply
 @bot_admin
-def flood_button(bot: Bot, update: Update):
+def flood_button(update: Update, context: CallbackContext):
     query = update.callback_query
     user = update.effective_user
     match = re.match(r"unmute_flooder\((.+?)\)", query.data)
@@ -158,7 +159,7 @@ def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @connection_status
-def flood(bot: Bot, update: Update):
+def flood(update: Update, context: CallbackContext):
     chat = update.effective_chat
     update_chat_title = chat.title
     message_chat_title = update.effective_message.chat.title

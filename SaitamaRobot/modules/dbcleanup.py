@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 from time import sleep
 
 from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton
@@ -81,7 +82,7 @@ def get_invalid_gban(bot: Bot, update: Update, remove: bool = False):
 
 @run_async
 @dev_plus
-def dbcleanup(bot: Bot, update: Update):
+def dbcleanup(update: Update, context: CallbackContext):
     msg = update.effective_message
 
     msg.reply_text("Getting invalid chat count ...")
@@ -151,7 +152,7 @@ def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
 
 @run_async
 @dev_plus
-def leave_muted_chats(bot: Bot, update: Update):
+def leave_muted_chats(update: Update, context: CallbackContext):
     message = update.effective_message
     progress_message = message.reply_text("Getting chat count ...")
     muted_chats = get_muted_chats(bot, update)
@@ -166,7 +167,7 @@ def leave_muted_chats(bot: Bot, update: Update):
 
 
 @run_async
-def callback_button(bot: Bot, update: Update):
+def callback_button(update: Update, context: CallbackContext):
     query = update.callback_query
     message = query.message
     chat_id = update.effective_chat.id

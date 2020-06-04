@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import importlib
 
 from telegram import Bot, Update, ParseMode
@@ -11,7 +12,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, dev_plus
 
 @run_async
 @dev_plus
-def load(bot: Bot, update: Update):
+def load(update: Update, context: CallbackContext):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
     load_messasge = message.reply_text(f"Attempting to load module : <b>{text}</b>", parse_mode=ParseMode.HTML)
@@ -73,7 +74,7 @@ def load(bot: Bot, update: Update):
 
 @run_async
 @dev_plus
-def unload(bot: Bot, update: Update):
+def unload(update: Update, context: CallbackContext):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
     unload_messasge = message.reply_text(f"Attempting to unload module : <b>{text}</b>", parse_mode=ParseMode.HTML)
@@ -136,7 +137,7 @@ def unload(bot: Bot, update: Update):
 
 @run_async
 @sudo_plus
-def listmodules(bot: Bot, update: Update):
+def listmodules(update: Update, context: CallbackContext):
     message = update.effective_message
     module_list = []
 

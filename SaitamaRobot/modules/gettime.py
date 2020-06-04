@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import datetime
 from typing import List
 
@@ -53,7 +54,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
 
 
 @run_async
-def gettime(bot: Bot, update: Update):
+def gettime(update: Update, context: CallbackContext):
     message = update.effective_message
 
     try:

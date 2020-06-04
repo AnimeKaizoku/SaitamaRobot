@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import io
 import os
 # Common imports for eval

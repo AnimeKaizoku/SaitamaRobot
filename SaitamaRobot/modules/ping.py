@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import time
 from typing import List
 
@@ -68,7 +69,7 @@ def ping_func(to_ping: List[str]) -> List[str]:
 
 
 @run_async
-def ping(bot: Bot, update: Update):
+def ping(update: Update, context: CallbackContext):
     telegram_ping = ping_func(["Telegram"])[0].split(": ", 1)[1]
     uptime = get_readable_time((time.time() - StartTime))
 
@@ -80,7 +81,7 @@ def ping(bot: Bot, update: Update):
 
 
 @run_async
-def pingall(bot: Bot, update: Update):
+def pingall(update: Update, context: CallbackContext):
     to_ping = ["Kaizoku", "Kayo", "Telegram", "Jikan"]
     pinged_list = ping_func(to_ping)
     pinged_list.insert(2, '')

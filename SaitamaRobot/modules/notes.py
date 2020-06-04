@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import re
 from io import BytesIO
 from typing import Optional, List
@@ -120,7 +121,7 @@ def cmd_get(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def hash_get(bot: Bot, update: Update):
+def hash_get(update: Update, context: CallbackContext):
     message = update.effective_message.text
     fst_word = message.split()[0]
     no_hash = fst_word[1:].lower()
@@ -129,7 +130,7 @@ def hash_get(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def save(bot: Bot, update: Update):
+def save(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     msg = update.effective_message  # type: Optional[Message]
 
@@ -171,7 +172,7 @@ def clear(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def list_notes(bot: Bot, update: Update):
+def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
 

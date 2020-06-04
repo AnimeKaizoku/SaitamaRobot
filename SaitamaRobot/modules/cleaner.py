@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 
 from typing import List
@@ -27,7 +28,7 @@ for handler_list in dispatcher.handlers:
 
 
 @run_async
-def clean_blue_text_must_click(bot: Bot, update: Update):
+def clean_blue_text_must_click(update: Update, context: CallbackContext):
 
     chat = update.effective_chat
     message = update.effective_message
@@ -167,7 +168,7 @@ def remove_bluetext_ignore_global(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @dev_plus
-def bluetext_ignore_list(bot: Bot, update: Update):
+def bluetext_ignore_list(update: Update, context: CallbackContext):
 
     message = update.effective_message
     chat = update.effective_chat

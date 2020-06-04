@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 import random
 import re
@@ -279,7 +280,7 @@ def check_not_bot(member, chat_id, message_id, bot, job):
 
 
 @run_async
-def left_member(bot: Bot, update: Update):
+def left_member(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
     should_goodbye, cust_goodbye, goodbye_type = sql.get_gdbye_pref(chat.id)
@@ -625,7 +626,7 @@ def cleanservice(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-def user_button(bot: Bot, update: Update):
+def user_button(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
     query = update.callback_query
@@ -695,13 +696,13 @@ WELC_MUTE_HELP_TXT = (
 
 @run_async
 @user_admin
-def welcome_help(bot: Bot, update: Update):
+def welcome_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
 @user_admin
-def welcome_mute_help(bot: Bot, update: Update):
+def welcome_mute_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(WELC_MUTE_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
 

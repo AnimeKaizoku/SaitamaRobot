@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 from io import BytesIO
 from typing import Optional, List
@@ -66,7 +67,7 @@ UNFBAN_ERRORS = {
 }
 
 @run_async
-def new_fed(bot: Bot, update: Update):
+def new_fed(update: Update, context: CallbackContext):
 	chat = update.effective_chat  
 	user = update.effective_user  
 	message = update.effective_message
@@ -1729,7 +1730,7 @@ def get_chat(chat_id, chat_data):
 		return {"status": False, "value": False}
 
 @run_async
-def fed_owner_help(bot: Bot, update: Update):
+def fed_owner_help(update: Update, context: CallbackContext):
    update.effective_message.reply_text("""*👑 Fed Owner Only:*
  • `/newfed <fed_name>`*:* Creates a Federation, One allowed per user. Can also be used to rename the Fed. (max. 64 chars)
  • `/delfed <fed_id>`*:* Delete a Federation, and any information related to it. Will not cancel blocked users.
@@ -1743,7 +1744,7 @@ def fed_owner_help(bot: Bot, update: Update):
  • `/fedsubs`*:* Shows the feds your group is subscribed to. `(broken rn)`""", parse_mode = ParseMode.MARKDOWN)
    
 @run_async
-def fed_admin_help(bot: Bot, update: Update):
+def fed_admin_help(update: Update, context: CallbackContext):
    update.effective_message.reply_text("""*🔱 Fed Admins:*
  • `/fban <user> <reason>`*:* Fed bans a user.
  • `/unfban <user> <reason>`*:* Removes a user from a fed ban.
@@ -1758,7 +1759,7 @@ def fed_admin_help(bot: Bot, update: Update):
  • `/fedchats`*:* Get all the chats that are connected in the Federation.\n""", parse_mode = ParseMode.MARKDOWN)
    
 @run_async
-def fed_user_help(bot: Bot, update: Update):
+def fed_user_help(update: Update, context: CallbackContext):
    update.effective_message.reply_text("""*🎩 Any user:*
 • `/fbanstat`*:* Shows if you/or the user you are replying to or their username is fbanned somewhere or not.
 • `/chatfed `*:* See the Federation in the current chat.\n""", parse_mode = ParseMode.MARKDOWN)   

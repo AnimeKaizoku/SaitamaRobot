@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 import json
 import os
@@ -422,7 +423,7 @@ def removetiger(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @whitelist_plus
-def whitelistlist(bot: Bot, update: Update):
+def whitelistlist(update: Update, context: CallbackContext):
     reply = "<b>Known Wolf Disasters 🐺:</b>\n"
     for each_user in WHITELIST_USERS:
         user_id = int(each_user)
@@ -437,7 +438,7 @@ def whitelistlist(bot: Bot, update: Update):
 
 @run_async
 @whitelist_plus
-def tigerlist(bot: Bot, update: Update):
+def tigerlist(update: Update, context: CallbackContext):
     reply = "<b>Known Tiger Disasters 🐯:</b>\n"
     for each_user in TIGER_USERS:
         user_id = int(each_user)
@@ -451,7 +452,7 @@ def tigerlist(bot: Bot, update: Update):
 
 @run_async
 @whitelist_plus
-def supportlist(bot: Bot, update: Update):
+def supportlist(update: Update, context: CallbackContext):
     reply = "<b>Known Demon Disasters 👹:</b>\n"
     for each_user in SUPPORT_USERS:
         user_id = int(each_user)
@@ -465,7 +466,7 @@ def supportlist(bot: Bot, update: Update):
 
 @run_async
 @whitelist_plus
-def sudolist(bot: Bot, update: Update):
+def sudolist(update: Update, context: CallbackContext):
     true_sudo = list(set(SUDO_USERS) - set(DEV_USERS))
     reply = "<b>Known Dragon Disasters 🐉:</b>\n"
     for each_user in true_sudo:
@@ -480,7 +481,7 @@ def sudolist(bot: Bot, update: Update):
 
 @run_async
 @whitelist_plus
-def devlist(bot: Bot, update: Update):
+def devlist(update: Update, context: CallbackContext):
     true_dev = list(set(DEV_USERS) - {OWNER_ID})
     reply = "<b>Hero Association Members ⚡️:</b>\n"
     for each_user in true_dev:

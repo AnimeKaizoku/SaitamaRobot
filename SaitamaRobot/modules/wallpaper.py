@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 # Wallpapers module by @TheRealPhoenix using wall.alphacoders.com
 
 import requests as r

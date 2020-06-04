@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import re
 import time
 from typing import List
@@ -46,7 +47,7 @@ def allow_connections(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def connection_chat(bot: Bot, update: Update):
+def connection_chat(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -172,7 +173,7 @@ def connect_chat(bot: Bot, update: Update, args: List[str]):
             send_message(msg, "Connection to this chat is not allowed!")
 
 
-def disconnect_chat(bot: Bot, update: Update):
+def disconnect_chat(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
 
@@ -217,7 +218,7 @@ def connected(bot, update, chat, user_id, need_admin=True):
 
 
 @run_async
-def help_connect_chat(bot: Bot, update: Update):
+def help_connect_chat(update: Update, context: CallbackContext):
     msg = update.effective_message
 
     if msg.chat.type != "private":
@@ -228,7 +229,7 @@ def help_connect_chat(bot: Bot, update: Update):
 
 
 @run_async
-def connect_button(bot: Bot, update: Update):
+def connect_button(update: Update, context: CallbackContext):
     query = update.callback_query
     chat = update.effective_chat
     user = update.effective_user

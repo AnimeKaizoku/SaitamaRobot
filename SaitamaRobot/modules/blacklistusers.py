@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
 from typing import List
 
@@ -100,7 +101,7 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @dev_plus
-def bl_users(bot: Bot, update: Update):
+def bl_users(update: Update, context: CallbackContext):
     users = []
 
     for each_user in sql.BLACKLIST_USERS:

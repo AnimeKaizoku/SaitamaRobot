@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 from typing import List
 
@@ -255,7 +256,7 @@ def unpin(bot: Bot, update: Update) -> str:
 @run_async
 @bot_admin
 @user_admin
-def invite(bot: Bot, update: Update):
+def invite(update: Update, context: CallbackContext):
     chat = update.effective_chat
 
     if chat.username:
@@ -273,7 +274,7 @@ def invite(bot: Bot, update: Update):
 
 @run_async
 @connection_status
-def adminlist(bot: Bot, update: Update):
+def adminlist(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
 

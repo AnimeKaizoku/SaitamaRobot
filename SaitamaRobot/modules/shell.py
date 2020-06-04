@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 from telegram.ext.dispatcher import run_async
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from telegram.ext import CommandHandler
@@ -8,7 +9,7 @@ import subprocess
 
 @dev_plus
 @run_async
-def shell(bot: Bot, update: Update):
+def shell(update: Update, context: CallbackContext):
    message = update.effective_message
    cmd = message.text.split(' ', 1)
    if len(cmd) == 1:

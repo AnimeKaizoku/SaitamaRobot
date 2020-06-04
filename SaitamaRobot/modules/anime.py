@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import datetime
 import html
 import textwrap
@@ -181,7 +182,7 @@ def get_anime_manga(mal_id, search_type, user_id):
 
 
 @run_async
-def anime(bot: Bot, update: Update):
+def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -212,7 +213,7 @@ def anime(bot: Bot, update: Update):
 
 
 @run_async
-def manga(bot: Bot, update: Update):
+def manga(update: Update, context: CallbackContext):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -240,7 +241,7 @@ def manga(bot: Bot, update: Update):
 
 
 @run_async
-def character(bot: Bot, update: Update):
+def character(update: Update, context: CallbackContext):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -304,7 +305,7 @@ def character(bot: Bot, update: Update):
 
 
 @run_async
-def user(bot: Bot, update: Update):
+def user(update: Update, context: CallbackContext):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -382,7 +383,7 @@ def user(bot: Bot, update: Update):
 
 
 @run_async
-def upcoming(bot: Bot, update: Update):
+def upcoming(update: Update, context: CallbackContext):
     jikan = jikanpy.jikan.Jikan()
     upcoming = jikan.top('anime', page=1, subtype="upcoming")
 
@@ -482,12 +483,12 @@ def site_search(bot: Bot, update: Update, site: str):
 
 
 @run_async
-def kaizoku(bot: Bot, update: Update):
+def kaizoku(update: Update, context: CallbackContext):
     site_search(bot, update, "kaizoku")
 
 
 @run_async
-def kayo(bot: Bot, update: Update):
+def kayo(update: Update, context: CallbackContext):
     site_search(bot, update, "kayo")
 
 

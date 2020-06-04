@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 from datetime import datetime
 from functools import wraps
 
@@ -92,7 +93,7 @@ if is_module_loaded(FILENAME):
 
     @run_async
     @user_admin
-    def logging(bot: Bot, update: Update):
+    def logging(update: Update, context: CallbackContext):
 
         message = update.effective_message
         chat = update.effective_chat
@@ -110,7 +111,7 @@ if is_module_loaded(FILENAME):
 
     @run_async
     @user_admin
-    def setlog(bot: Bot, update: Update):
+    def setlog(update: Update, context: CallbackContext):
 
         message = update.effective_message
         chat = update.effective_chat
@@ -147,7 +148,7 @@ if is_module_loaded(FILENAME):
 
     @run_async
     @user_admin
-    def unsetlog(bot: Bot, update: Update):
+    def unsetlog(update: Update, context: CallbackContext):
 
         message = update.effective_message
         chat = update.effective_chat

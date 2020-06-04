@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import hashlib
 import math
 import os
@@ -16,7 +17,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def stickerid(bot: Bot, update: Update):
+def stickerid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         update.effective_message.reply_text("Sticker ID:\n```" +
@@ -27,7 +28,7 @@ def stickerid(bot: Bot, update: Update):
 
 
 @run_async
-def getsticker(bot: Bot, update: Update):
+def getsticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat_id = update.effective_chat.id
     if msg.reply_to_message and msg.reply_to_message.sticker:

@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import os
 import subprocess
 import sys
@@ -27,7 +28,7 @@ def leave(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @dev_plus
-def gitpull(bot: Bot, update: Update):
+def gitpull(update: Update, context: CallbackContext):
     sent_msg = update.effective_message.reply_text("Pulling all changes from remote and then attempting to restart.")
     subprocess.Popen('git pull', stdout=subprocess.PIPE, shell=True)
 
@@ -45,7 +46,7 @@ def gitpull(bot: Bot, update: Update):
 
 @run_async
 @dev_plus
-def restart(bot: Bot, update: Update):
+def restart(update: Update, context: CallbackContext):
     update.effective_message.reply_text("Starting a new instance and shutting down this one")
 
     os.system('restart.bat')

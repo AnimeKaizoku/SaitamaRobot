@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 import time
 from datetime import datetime
@@ -304,7 +305,7 @@ def ungban(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @support_plus
-def gbanlist(bot: Bot, update: Update):
+def gbanlist(update: Update, context: CallbackContext):
     banned_users = sql.get_gban_list()
 
     if not banned_users:
@@ -334,7 +335,7 @@ def check_and_ban(update, user_id, should_message=True):
 
 
 @run_async
-def enforce_gban(bot: Bot, update: Update):
+def enforce_gban(update: Update, context: CallbackContext):
     # Not using @restrict handler to avoid spamming - just ignore if cant gban.
     if sql.does_chat_gban(update.effective_chat.id) and update.effective_chat.get_member(bot.id).can_restrict_members:
         user = update.effective_user

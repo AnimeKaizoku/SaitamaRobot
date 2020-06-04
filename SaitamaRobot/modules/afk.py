@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import random
 from typing import Optional
 
@@ -17,7 +18,7 @@ AFK_REPLY_GROUP = 8
 
 
 @run_async
-def afk(bot: Bot, update: Update):
+def afk(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
     if len(args) >= 2:
@@ -31,7 +32,7 @@ def afk(bot: Bot, update: Update):
 
     
 @run_async
-def no_longer_afk(bot: Bot, update: Update):
+def no_longer_afk(update: Update, context: CallbackContext):
     user = update.effective_user  # type: Optional[User]
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
@@ -62,7 +63,7 @@ def no_longer_afk(bot: Bot, update: Update):
 
 
 @run_async
-def reply_afk(bot: Bot, update: Update):
+def reply_afk(update: Update, context: CallbackContext):
     message = update.effective_message  # type: Optional[Message]
     userc = update.effective_user  # type: Optional[User]
     userc_id = userc.id

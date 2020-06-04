@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 from typing import List
 
@@ -93,7 +94,7 @@ def unrestr_members(bot, chat_id, members, messages=True, media=True, other=True
 
 @run_async
 @connection_status
-def locktypes(bot: Bot, update: Update):
+def locktypes(update: Update, context: CallbackContext):
     update.effective_message.reply_text("\n - ".join(["Locks: "] + list(LOCK_TYPES) + list(RESTRICTION_TYPES)))
 
 
@@ -205,7 +206,7 @@ def unlock(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @user_not_admin
-def del_lockables(bot: Bot, update: Update):
+def del_lockables(update: Update, context: CallbackContext):
     chat = update.effective_chat
     message = update.effective_message
 
@@ -236,7 +237,7 @@ def del_lockables(bot: Bot, update: Update):
 
 @run_async
 @user_not_admin
-def rest_handler(bot: Bot, update: Update):
+def rest_handler(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     for restriction, _filter in RESTRICTION_TYPES.items():
@@ -295,7 +296,7 @@ def build_lock_message(chat_id):
 @run_async
 @connection_status
 @user_admin
-def list_locks(bot: Bot, update: Update):
+def list_locks(update: Update, context: CallbackContext):
     chat = update.effective_chat
 
     res = build_lock_message(chat.id)

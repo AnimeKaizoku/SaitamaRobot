@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 import re
 from typing import List
@@ -62,7 +63,7 @@ def blacklist(bot: Bot, update: Update, args: List[str]):
 @run_async
 @connection_status
 @user_admin
-def add_blacklist(bot: Bot, update: Update):
+def add_blacklist(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -99,7 +100,7 @@ def add_blacklist(bot: Bot, update: Update):
 @run_async
 @connection_status
 @user_admin
-def unblacklist(bot: Bot, update: Update):
+def unblacklist(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -138,7 +139,7 @@ def unblacklist(bot: Bot, update: Update):
 @run_async
 @connection_status
 @user_not_admin
-def del_blacklist(bot: Bot, update: Update):
+def del_blacklist(update: Update, context: CallbackContext):
     chat = update.effective_chat
     message = update.effective_message
     to_match = extract_text(message)
