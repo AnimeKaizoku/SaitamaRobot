@@ -24,12 +24,12 @@ saved messages are correctly parsed, and to allow you to create buttons.
 • <code>`code`</code>*:* wrapping text with '`' will produce monospaced text, also known as 'code'
 • <code>[sometext](someURL)</code>*:* this will create a link - the message will just show <code>sometext</code>, \
 and tapping on it will open the page at <code>someURL</code>.
-*Example:* <code>[test](example.com)</code>
+<b>Example:</b>Example:<b>Example:</b> <code>[test](example.com)</code>
 
 • <code>[buttontext](buttonurl:someURL)</code>*:* this is a special enhancement to allow users to have telegram \
 buttons in their markdown. <code>buttontext</code> will be what is displayed on the button, and <code>someurl</code> \
 will be the url which is opened.
-*Example:<b> <code>[This is a button](buttonurl:example.com)</code>
+<b>Example:</b> <code>[This is a button](buttonurl:example.com)</code>
 
 If you want multiple buttons on the same line, use :same, as such:
 <code>[one](buttonurl://example.com)
