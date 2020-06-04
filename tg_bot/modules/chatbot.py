@@ -112,7 +112,7 @@ This is an ongoing upgrade and is only available in your chats if you reach out 
 
 In future we might make it open for any chat and controllable by group admins.
 
-*If you want this enabled then please comt to @OnePunchSupport and ask.`*
+*If you want this enabled then please come to @OnePunchSupport and ask.*
 
 *Commands:* These only work for Saitama Staff users. 
  • `/addchat`*:* Enables Chatbot mode in the chat.
