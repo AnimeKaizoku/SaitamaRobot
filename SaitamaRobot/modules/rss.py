@@ -11,9 +11,10 @@ from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.sql import rss_sql as sql
 
 
-def show_url(bot, update, args):
+def show_url(update, context):
     tg_chat_id = str(update.effective_chat.id)
-
+    bot = context.bot
+    args = context.args
     if len(args) >= 1:
         tg_feed_link = args[0]
         link_processed = parse(tg_feed_link)
@@ -52,9 +53,9 @@ def show_url(bot, update, args):
         update.effective_message.reply_text("URL missing")
 
 
-def list_urls(bot, update):
+def list_urls(context, update):
     tg_chat_id = str(update.effective_chat.id)
-
+    bot = context.bot
     user_data = sql.get_urls(tg_chat_id)
 
     # this loops gets every link from the DB based on the filter above and appends it to the list
@@ -73,10 +74,11 @@ def list_urls(bot, update):
 
 
 @user_admin
-def add_url(bot, update, args):
+def add_url(update, context):
+    bot = context.bot
+    args = context.args
     if len(args) >= 1:
         chat = update.effective_chat
-
         tg_chat_id = str(update.effective_chat.id)
 
         tg_feed_link = args[0]
@@ -107,7 +109,9 @@ def add_url(bot, update, args):
 
 
 @user_admin
-def remove_url(bot, update, args):
+def remove_url(update, context):
+    bot = context.bot
+    args = contet.args
     if len(args) >= 1:
         tg_chat_id = str(update.effective_chat.id)
 
@@ -130,9 +134,10 @@ def remove_url(bot, update, args):
         update.effective_message.reply_text("URL missing")
 
 
-def rss_update(bot, job):
+def rss_update(context):
     user_data = sql.get_all()
-
+    job = context.job
+    bot = context.bot
     # this loop checks for every row in the DB
     for row in user_data:
         row_id = row.id
@@ -186,9 +191,9 @@ def rss_update(bot, job):
                              .format(len(new_entry_links) - 5))
 
 
-def rss_set(bot, job):
+def rss_set(context):
     user_data = sql.get_all()
-
+    bot, job = context.bot, context.job
     # this loop checks for every row in the DB
     for row in user_data:
         row_id = row.id
