@@ -116,7 +116,8 @@ def test(update: Update, context: CallbackContext):
     print(update.effective_message)
 
 @run_async
-def start(bot: Bot, update: Update, args: List[str]):
+def start(context: CallbackContext, update: Update):
+    args = context.args
     if update.effective_chat.type == "private":
         if len(args) >= 1:
             if args[0].lower() == "help":
@@ -145,7 +146,8 @@ def start(bot: Bot, update: Update, args: List[str]):
 
 
 # for test purposes
-def error_callback(bot, update, error):
+def error_callback(context):
+    error = context.error
     try:
         raise error
     except Unauthorized:
@@ -278,6 +280,7 @@ def send_settings(chat_id, user_id, user=False):
 def settings_button(update: Update, context: CallbackContext):
     query = update.callback_query
     user = update.effective_user
+    bot = context.bot
     mod_match = re.match(r"stngs_module\((.+?),(.+?)\)", query.data)
     prev_match = re.match(r"stngs_prev\((.+?),(.+?)\)", query.data)
     next_match = re.match(r"stngs_next\((.+?),(.+?)\)", query.data)
@@ -366,7 +369,7 @@ def get_settings(update: Update, context: CallbackContext):
 def donate(update: Update, context: CallbackContext):
     user = update.effective_message.from_user
     chat = update.effective_chat  # type: Optional[Chat]
-
+    bot = context.bot
     if chat.type == "private":
         update.effective_message.reply_text(DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
