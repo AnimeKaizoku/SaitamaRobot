@@ -2,7 +2,7 @@
 TITLE Saitama Robot
 py -3.7 --version
 IF "%ERRORLEVEL%" == "0" (
-    py -3.7 -m tg_bot
+    py -3.7 -m SaitamaRobot
 ) ELSE (
-    py -m tg_bot
+    py -m SaitamaRobot
 )
