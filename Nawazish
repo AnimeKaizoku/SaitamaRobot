@@ -1,0 +1,32 @@
+git clone https://github.com/udf/uniborg.git
+cd uniborg
+virtualenv -p /usr/bin/python3 venv
+. ./venv/bin/activate
+pip install -r requirements.txt
+# <from sample_config import Config
+
+class Development(Config):
+  APP_ID = 1353618
+  API_HASH = "b0438b020fb61f165ff5f148c118305d"
+  TG_BOT_TOKEN_BF_HER = "1162027595:AAHAqIWTMVSlYFBaTpicAfBOT0jsmZGyukw"
+  TG_BOT_USER_NAME_BF_HER = "@chotanawazishbot"
+  UB_BLACK_LIST_CHAT = [
+    -1001220993104,
+    -1001365798550,
+    -1001158304289,
+    -1001212593743,
+    -1001195845680,
+    -1001330468518,
+    -1001221185967,
+    -1001340243678,
+    -1001311056733,
+    -1001135438308,
+    -1001038774929,
+    -1001070622614,
+    -1001119331451,
+    -1001095401841
+  ]
+  # specify LOAD and NO_LOAD
+  LOAD = []
+  NO_LOAD = []>
+python3 -m stdborg YourSessionName
