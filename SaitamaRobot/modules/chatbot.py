@@ -13,7 +13,7 @@ from SaitamaRobot import dispatcher, AI_API_KEY, OWNER_ID, SUPPORT_CHAT
 import SaitamaRobot.modules.sql.chatbot_sql as sql
 from SaitamaRobot.modules.log_channel import gloggable
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
-from SaitamaRobot.helper_func.chat_status import user_admin
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 
 CoffeeHouseAPI = API(AI_API_KEY)
 api_client = LydiaAI(CoffeeHouseAPI)
