@@ -1,5 +1,6 @@
 # AI module using Intellivoid's Coffeehouse API by @TheRealPhoenix
 from time import time, sleep
+impor html
 
 from coffeehouse.lydia import LydiaAI
 from coffeehouse.api import API
@@ -8,6 +9,7 @@ from coffeehouse.exception import CoffeeHouseError as CFError
 from telegram import Message, Chat, User, Update, Bot
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.error import BadRequest, Unauthorized, RetryAfter
+from telegram.utils.helpers import mention_html
 
 from SaitamaRobot import dispatcher, AI_API_KEY, OWNER_ID, SUPPORT_CHAT
 import SaitamaRobot.modules.sql.chatbot_sql as sql
@@ -26,6 +28,7 @@ def add_chat(bot: Bot, update: Update):
     global api_client
     chat = update.effective_chat
     msg = update.effective_message
+    user = update.effective_user
     is_chat = sql.is_chat(chat.id)
     if not is_chat:
         ses = api_client.create_session()
@@ -33,11 +36,13 @@ def add_chat(bot: Bot, update: Update):
         expires = str(ses.expires)
         sql.set_ses(chat.id, ses_id, expires)
         msg.reply_text("AI successfully enabled for this chat!")
-        return f"{chat.title}({chat.id}) just enabled AI mode!"
+        message = (f"<b>{html.escape(chat.title)}:</b>\n"
+                  f"#AI_ENABLED\n"
+                  f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
+        return message
     else:
         msg.reply_text("AI is already enabled for this chat!")
-        return ""
-        
+        return ""    
         
 @run_async
 @user_admin
@@ -45,6 +50,7 @@ def add_chat(bot: Bot, update: Update):
 def remove_chat(bot: Bot, update: Update):
     msg = update.effective_message
     chat = update.effective_chat
+    user = update.effective_user
     is_chat = sql.is_chat(chat.id)
     if not is_chat:
         msg.reply_text("AI isn't enabled here in the first place!")
@@ -52,7 +58,10 @@ def remove_chat(bot: Bot, update: Update):
     else:
         sql.rem_chat(chat.id)
         msg.reply_text("AI disabled successfully!")
-        return f"{chat.title}({chat.id}) disabled AI."
+        message = (f"<b>{html.escape(chat.title)}:</b>\n"
+                  f"#AI_ENABLED\n"
+                  f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
+        return message
         
         
 def check_message(bot: Bot, message):
