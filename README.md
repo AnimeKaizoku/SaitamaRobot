@@ -18,7 +18,7 @@ News channel as at [One Punch Updates](https://t.me/OnePunchUpdates)
 ### Read these notes carefully before proceeding 
  - Edit any mentions of @OnePunchSupport to your own support chat. 
  - We do not support forks, once you fork the bot and deploy the headache of bugs and support is your own, please do not come to our support chat asking technical help.
- - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot. [See this](https://github.com/AnimeKaizoku/SaitamaRobot/blob/shiken/tg_bot/__main__.py#L25)
+ - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot. [See this](https://github.com/AnimeKaizoku/SaitamaRobot/blob/shiken/SaitamaRobot/__main__.py#L25)
  - If you come to our support chat on Telegram asking help about a "fork" or a technical issue with a module, you will end up getting ignored or banned. 
  - Lastly, if you are found to run this repo without the code being open sourced or the repository link not mentioned in the bot, we will push a gban for you in our network because of being in violation of the license, you are free to be a dick and not respect the open source code (we do not mind) but we will not be having you around our chats.
 
@@ -50,7 +50,7 @@ This is because markdown parsing is done by iterating through a dict, which is o
 There are two possible ways of configuring your bot: a config.py file, or ENV variables.
 
 The preferred version is to use a `config.py` file, as it makes it easier to see all your settings grouped together.
-This file should be placed in your `tg_bot` folder, alongside the `__main__.py` file. 
+This file should be placed in your `SaitamaRobot` folder, alongside the `__main__.py` file. 
 This is where your bot token will be loaded from, as well as your database URI (if you're using a database), and most of 
 your other settings.
 
@@ -59,7 +59,7 @@ defaults set in the sample_config, hence making it easier to upgrade.
 
 An example `config.py` file could be:
 ```
-from tg_bot.sample_config import Config
+from SaitamaRobot.sample_config import Config
 
 class Development(Config):
     OWNER_ID = 254318997  # your telegram ID
@@ -173,7 +173,7 @@ All that is needed is that your .py file is in the modules folder.
 
 To add commands, make sure to import the dispatcher via
 
-`from tg_bot import dispatcher`.
+`from SaitamaRobot import dispatcher`.
 
 You can then add commands using the usual
 
@@ -193,7 +193,7 @@ through the `/stats` command, which is only available to the bot owner.
 
 Once you've set up your database and your configuration is complete, simply run the bat file(if on windows) or run (Linux):
 
-`python3 -m tg_bot`
+`python3 -m SaitamaRobot`
 
 You can use [nssm](https://nssm.cc/usage) to install the bot as service on windows and set it to restart on /gitpull 
 Make sure to edit the start and restart bats to your needs. 
