@@ -24,18 +24,19 @@ api_client = LydiaAI(CoffeeHouseAPI)
 @gloggable
 def add_chat(bot: Bot, update: Update):
     global api_client
-    chat_id = update.effective_chat.id
+    chat = update.effective_chat
     msg = update.effective_message
-    is_chat = sql.is_chat(chat_id)
+    is_chat = sql.is_chat(chat.id)
     if not is_chat:
         ses = api_client.create_session()
         ses_id = str(ses.id)
         expires = str(ses.expires)
-        sql.set_ses(chat_id, ses_id, expires)
+        sql.set_ses(chat.id, ses_id, expires)
         msg.reply_text("AI successfully enabled for this chat!")
-        return f"{chat_id} just enabled AI mode!"
+        return f"{chat.title}({chat.id}) just enabled AI mode!"
     else:
         msg.reply_text("AI is already enabled for this chat!")
+        return ""
         
         
 @run_async
@@ -43,15 +44,15 @@ def add_chat(bot: Bot, update: Update):
 @gloggable
 def remove_chat(bot: Bot, update: Update):
     msg = update.effective_message
-    chat_id = update.effective_chat.id
-    is_chat = sql.is_chat(chat_id)
+    chat = update.effective_chat
+    is_chat = sql.is_chat(chat.id)
     if not is_chat:
         msg.reply_text("AI isn't enabled here in the first place!")
         return ""
     else:
-        sql.rem_chat(chat_id)
+        sql.rem_chat(chat.id)
         msg.reply_text("AI disabled successfully!")
-        return f"{chat_id} disabled AI."
+        return f"{chat.title}({chat.id}) disabled AI."
         
         
 def check_message(bot: Bot, message):
