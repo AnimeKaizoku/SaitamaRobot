@@ -11,14 +11,17 @@ from telegram.error import BadRequest, Unauthorized, RetryAfter
 
 from SaitamaRobot import dispatcher, AI_API_KEY, OWNER_ID, SUPPORT_CHAT
 import SaitamaRobot.modules.sql.chatbot_sql as sql
+from SaitamaRobot.modules.log_channel import gloggable
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
-
+from SaitamaRobot.helper_func.chat_status import user_admin
 
 CoffeeHouseAPI = API(AI_API_KEY)
 api_client = LydiaAI(CoffeeHouseAPI)
 
 
 @run_async
+@user_admin
+@gloggable
 def add_chat(bot: Bot, update: Update):
     global api_client
     chat_id = update.effective_chat.id
@@ -30,20 +33,25 @@ def add_chat(bot: Bot, update: Update):
         expires = str(ses.expires)
         sql.set_ses(chat_id, ses_id, expires)
         msg.reply_text("AI successfully enabled for this chat!")
+        return f"{chat_id} just enabled AI mode!"
     else:
         msg.reply_text("AI is already enabled for this chat!")
         
         
 @run_async
+@user_admin
+@gloggable
 def remove_chat(bot: Bot, update: Update):
     msg = update.effective_message
     chat_id = update.effective_chat.id
     is_chat = sql.is_chat(chat_id)
     if not is_chat:
         msg.reply_text("AI isn't enabled here in the first place!")
+        return ""
     else:
         sql.rem_chat(chat_id)
         msg.reply_text("AI disabled successfully!")
+        return f"{chat_id} disabled AI."
         
         
 def check_message(bot: Bot, message):
@@ -107,23 +115,23 @@ def list_chatbot_chats(bot: Bot, update: Update):
 __mod_name__ = "Chatbot"
 
 __help__ = f"""
-Chatbot utilizes the CoffeeHouse API and allows Saitama to talk back making your chat more interactive.
-This is an ongoing upgrade and is only available in your chats if you reach out to {SUPPORT_CHAT} and ask for it. 
+Chatbot utilizes the CoffeeHouse API and allows Saitama to talk and provides a more interactive group chat experience.
 
-In future we might make it open for any chat and controllable by group admins.
-
-*If you want this enabled then please come to @OnePunchSupport and ask.*
-
-*Commands:* These only work for Saitama Staff users. 
+*Commands:* 
+*Admins only:*
  • `/addchat`*:* Enables Chatbot mode in the chat.
  • `/rmchat`*:* Disables Chatbot mode in the chat.
+ 
+*Dragons or higher only:* 
  • `/listaichats`*:* Lists the chats the chatmode is enabled in.
+
+Reports bugs at {SUPPORT_CHAT}
 *Powered by CoffeeHouse* (https://coffeehouse.intellivoid.net/) from @Intellivoid
 """         
 
 
-ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat, filters=CustomFilters.dev_filter)
-REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat, filters=CustomFilters.dev_filter)
+ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
+REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat)
 CHATBOT_HANDLER = MessageHandler(Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
                                   & ~Filters.regex(r"^s\/")), chatbot)
 LIST_CB_CHATS_HANDLER = CommandHandler("listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter)
