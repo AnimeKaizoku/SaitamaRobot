@@ -51,6 +51,9 @@ def getRepo(bot, update, reponame):
 @run_async
 def getRelease(bot: Bot, update: Update, args: List[str]):
     msg = update.effective_message
+    if len(args) == 0:
+        msg.reply_text("Please use some arguments!")
+        return
     if(len(args) != 1 and not (len(args) == 2 and args[1].isdigit()) and not ("/" in args[0])):
         msg.reply_text("Please specify a valid combination of <user>/<repo>")
         return
