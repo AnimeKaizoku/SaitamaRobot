@@ -141,7 +141,7 @@ else:
     AI_API_KEY = Config.AI_API_KEY
     WALL_API = Config.WALL_API
     SUPPORT_CHAT = Config.SUPPORT_CHAT
-    
+
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
     except ValueError:
