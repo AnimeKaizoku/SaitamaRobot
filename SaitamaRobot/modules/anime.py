@@ -1,4 +1,3 @@
-from telegram.ext import CallbackContext
 import datetime
 import html
 import textwrap
@@ -6,8 +5,8 @@ import textwrap
 import bs4
 import jikanpy
 import requests
-from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
-from telegram.ext import CallbackQueryHandler, run_async
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
+from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
 
 from SaitamaRobot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -289,7 +288,7 @@ def character(update: Update, context: CallbackContext):
     about_string = ' '.join(about)
 
     for entity in character:
-        if character[entity] == None:
+        if not character[entity]:
             character[entity] = "Unknown"
 
     caption += f"\n*About*: {about_string}..."
@@ -398,7 +397,8 @@ def upcoming(update: Update, context: CallbackContext):
     update.effective_message.reply_text(upcoming_message)
 
 
-def button(bot, update):
+def button(update: Update, context: CallbackContext):
+    bot = context.bot
     query = update.callback_query
     message = query.message
     data = query.data.split(", ")
@@ -426,7 +426,7 @@ def button(bot, update):
             query.answer("You are not allowed to use this.")
 
 
-def site_search(bot: Bot, update: Update, site: str):
+def site_search(update: Update, context: CallbackContext, site: str):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
     more_results = True
@@ -484,12 +484,12 @@ def site_search(bot: Bot, update: Update, site: str):
 
 @run_async
 def kaizoku(update: Update, context: CallbackContext):
-    site_search(bot, update, "kaizoku")
+    site_search(update, context, "kaizoku")
 
 
 @run_async
 def kayo(update: Update, context: CallbackContext):
-    site_search(bot, update, "kayo")
+    site_search(update, context, "kayo")
 
 
 __help__ = """
