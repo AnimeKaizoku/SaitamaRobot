@@ -20,7 +20,8 @@ FLOOD_GROUP = 3
 
 @run_async
 @loggable
-def check_flood(bot: Bot, update: Update) -> str:
+def check_flood(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
     user = update.effective_user
     chat = update.effective_chat
     msg = update.effective_message
@@ -46,7 +47,7 @@ def check_flood(bot: Bot, update: Update) -> str:
             user.id,
             can_send_messages=False
         )
-        
+
         keyboard = InlineKeyboardMarkup(
             [[InlineKeyboardButton("Unmute", callback_data="unmute_flooder({})".format(user.id))]]
         )
@@ -55,7 +56,6 @@ def check_flood(bot: Bot, update: Update) -> str:
             reply_markup=keyboard,
             parse_mode="HTML"
         )
-            
 
         return "<b>{}:</b>" \
                "\n#MUTED" \
@@ -77,6 +77,7 @@ def check_flood(bot: Bot, update: Update) -> str:
 @user_admin_no_reply
 @bot_admin
 def flood_button(update: Update, context: CallbackContext):
+    bot = context.bot
     query = update.callback_query
     user = update.effective_user
     match = re.match(r"unmute_flooder\((.+?)\)", query.data)
@@ -104,7 +105,9 @@ def flood_button(update: Update, context: CallbackContext):
 @user_admin
 @can_restrict
 @loggable
-def set_flood(bot: Bot, update: Update, args: List[str]) -> str:
+def set_flood(update: Update, context: CallbackContext) -> str:
+    args = context.args
+
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -203,7 +206,7 @@ __help__ = """
 
 FLOOD_BAN_HANDLER = MessageHandler(Filters.all & ~Filters.status_update & Filters.group, check_flood)
 FLOOD_QUERY_HANDLER = CallbackQueryHandler(flood_button, pattern=r"unmute_flooder")
-SET_FLOOD_HANDLER = CommandHandler("setflood", set_flood, pass_args=True, filters=Filters.group)
+SET_FLOOD_HANDLER = CommandHandler("setflood", set_flood, filters=Filters.group)
 FLOOD_HANDLER = CommandHandler("flood", flood, filters=Filters.group)
 
 dispatcher.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
@@ -213,4 +216,3 @@ dispatcher.add_handler(FLOOD_HANDLER)
 
 __mod_name__ = "AntiFlood"
 __handlers__ = [(FLOOD_BAN_HANDLER, FLOOD_GROUP), SET_FLOOD_HANDLER, FLOOD_HANDLER]
-dispatcher.add_handler(FLOOD_HANDLER)
