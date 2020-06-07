@@ -1,6 +1,6 @@
 import importlib
 import re
-from typing import Optional, List
+from typing import Optional
 
 from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import Unauthorized, BadRequest, TimedOut, NetworkError, ChatMigrated, TelegramError
@@ -139,7 +139,7 @@ def start(context: CallbackContext, update: Update):
         else:
             first_name = update.effective_user.first_name
             update.effective_message.reply_text(
-                PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(bot.first_name), SUPPORT_CHAT),
+                PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(context.bot.first_name), SUPPORT_CHAT),
                 parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
     else:
         update.effective_message.reply_text("Yo, whadup?")
@@ -212,7 +212,7 @@ def help_button(update: Update, context: CallbackContext):
                                      reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help")))
 
         # ensure no spinny white circle
-        bot.answer_callback_query(query.id)
+        context.bot.answer_callback_query(query.id)
         query.message.delete()
     except BadRequest as excp:
         if excp.message == "Message is not modified":
@@ -237,7 +237,7 @@ def get_help(update: Update, context: CallbackContext):
                                             reply_markup=InlineKeyboardMarkup(
                                                 [[InlineKeyboardButton(text="Help",
                                                                        url="t.me/{}?start=help".format(
-                                                                           bot.username))]]))
+                                                                           context.bot.username))]]))
         return
 
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
@@ -347,7 +347,6 @@ def get_settings(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     msg = update.effective_message  # type: Optional[Message]
-    args = msg.text.split(None, 1)
 
     # ONLY send settings in PM
     if chat.type != chat.PRIVATE:
@@ -357,7 +356,7 @@ def get_settings(update: Update, context: CallbackContext):
                            reply_markup=InlineKeyboardMarkup(
                                [[InlineKeyboardButton(text="Settings",
                                                       url="t.me/{}?start=stngs_{}".format(
-                                                          bot.username, chat.id))]]))
+                                                          context.bot.username, chat.id))]]))
         else:
             text = "Click here to check your settings."
 
