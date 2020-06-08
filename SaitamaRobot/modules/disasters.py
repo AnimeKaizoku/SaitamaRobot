@@ -16,7 +16,8 @@ from SaitamaRobot.modules.log_channel import gloggable
 ELEVATED_USERS_FILE = os.path.join(os.getcwd(), 'SaitamaRobot/elevated_users.json')
 
 
-def check_user_id(user_id: int, bot: Bot) -> Optional[str]:
+def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
+    bot = context.bot
     if not user_id:
         reply = "That...is a chat! baka ka omae?"
 
@@ -46,11 +47,11 @@ def send_disasters(update):
 @run_async
 @dev_plus
 @gloggable
-def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
+def addsudo(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
     rt = ""
@@ -99,11 +100,11 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
+def addsupport(context: CallbackContext, update: Update,) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
     rt = ""
@@ -151,11 +152,11 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
+def addwhitelist(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
     rt = ""
@@ -204,11 +205,11 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addtiger(bot: Bot, update: Update, args: List[str]) -> str:
+def addtiger(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
     rt = ""
@@ -262,11 +263,11 @@ def addtiger(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @dev_plus
 @gloggable
-def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
+def removesudo(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
@@ -303,11 +304,11 @@ def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
+def removesupport(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
@@ -344,11 +345,11 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
+def removewhitelist(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
@@ -384,11 +385,11 @@ def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removetiger(bot: Bot, update: Update, args: List[str]) -> str:
+def removetiger(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
@@ -425,6 +426,7 @@ def removetiger(bot: Bot, update: Update, args: List[str]) -> str:
 @whitelist_plus
 def whitelistlist(update: Update, context: CallbackContext):
     reply = "<b>Known Wolf Disasters 🐺:</b>\n"
+    bot = context.bot
     for each_user in WHITELIST_USERS:
         user_id = int(each_user)
         try:
@@ -440,6 +442,7 @@ def whitelistlist(update: Update, context: CallbackContext):
 @whitelist_plus
 def tigerlist(update: Update, context: CallbackContext):
     reply = "<b>Known Tiger Disasters 🐯:</b>\n"
+    bot = context.bot
     for each_user in TIGER_USERS:
         user_id = int(each_user)
         try:
@@ -453,6 +456,7 @@ def tigerlist(update: Update, context: CallbackContext):
 @run_async
 @whitelist_plus
 def supportlist(update: Update, context: CallbackContext):
+    bot = context.bot
     reply = "<b>Known Demon Disasters 👹:</b>\n"
     for each_user in SUPPORT_USERS:
         user_id = int(each_user)
@@ -467,6 +471,7 @@ def supportlist(update: Update, context: CallbackContext):
 @run_async
 @whitelist_plus
 def sudolist(update: Update, context: CallbackContext):
+    bot = context.bot
     true_sudo = list(set(SUDO_USERS) - set(DEV_USERS))
     reply = "<b>Known Dragon Disasters 🐉:</b>\n"
     for each_user in true_sudo:
@@ -482,6 +487,7 @@ def sudolist(update: Update, context: CallbackContext):
 @run_async
 @whitelist_plus
 def devlist(update: Update, context: CallbackContext):
+    bot = context.bot
     true_dev = list(set(DEV_USERS) - {OWNER_ID})
     reply = "<b>Hero Association Members ⚡️:</b>\n"
     for each_user in true_dev:
