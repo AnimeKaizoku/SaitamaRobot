@@ -6,7 +6,7 @@ from coffeehouse.lydia import LydiaAI
 from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError as CFError
 
-from telegram import Message, Chat, User, Update, Bot
+from telegram import Message, Chat, User, Update
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.error import BadRequest, Unauthorized, RetryAfter
 
@@ -47,12 +47,12 @@ def remove_chat(update: Update, context: CallbackContext):
         msg.reply_text("AI disabled successfully!")
         
         
-def check_message(bot: Bot, message):
+def check_message(context: CallbackContext,message):
     reply_msg = message.reply_to_message
     if message.text.lower() == "saitama":
         return True
     if reply_msg:
-        if reply_msg.from_user.id == bot.get_me().id:
+        if reply_msg.from_user.id == context.bot.get_me().id:
             return True
     else:
         return False
@@ -64,10 +64,11 @@ def chatbot(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat_id = update.effective_chat.id
     is_chat = sql.is_chat(chat_id)
+    bot = context.bot
     if not is_chat:
         return
     if msg.text and not msg.document:
-        if not check_message(bot, msg):
+        if not check_message(context, msg):
             return
         sesh, exp = sql.get_ses(chat_id)
         query = msg.text
