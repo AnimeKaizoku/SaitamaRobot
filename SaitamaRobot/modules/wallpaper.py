@@ -13,10 +13,12 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def wall(bot: Bot, update: Update, args):
+def wall(context: CallbackContext, update: Update):
     chat_id = update.effective_chat.id
     msg = update.effective_message
+    args = context.args
     msg_id = update.effective_message.message_id
+    bot = context.bot
     query = " ".join(args)
     if not query:
         msg.reply_text("Please enter a query!")
