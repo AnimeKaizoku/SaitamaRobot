@@ -42,7 +42,9 @@ def getsticker(update: Update, context: CallbackContext):
 
 
 @run_async
-def kang(bot: Bot, update: Update, args: List[str]):
+def kang(context: CallbackContext, update: Update):
+    args = context.args
+    bot = context.bot
     msg = update.effective_message
     user = update.effective_user
     _hash = hashlib.sha1(bytearray(user.id)).hexdigest()
