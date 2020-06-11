@@ -23,12 +23,13 @@ from SaitamaRobot.modules.log_channel import loggable, gloggable
 @user_admin
 @user_can_ban
 @loggable
-def ban(bot: Bot, update: Update, args: List[str]) -> str:
+def ban(update: Update, context:CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
     log_message = ""
-
+    bot = context.bot
+    args = context.args
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -88,12 +89,12 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
 @user_admin
 @user_can_ban
 @loggable
-def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
+def temp_ban(context:CallbackContext, update: Update) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
     log_message = ""
-
+    bot, args = context.bot, context.args
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -171,12 +172,12 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
 @user_admin
 @user_can_ban
 @loggable
-def punch(bot: Bot, update: Update, args: List[str]) -> str:
+def punch(update:Update, context:CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
     log_message = ""
-
+    bot, args = context.bot, context.args
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -243,12 +244,12 @@ def punchme(update: Update, context: CallbackContext):
 @user_admin
 @user_can_ban
 @loggable
-def unban(bot: Bot, update: Update, args: List[str]) -> str:
+def unban(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
     log_message = ""
-
+    bot, args = context.bot, context.args
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -290,10 +291,10 @@ def unban(bot: Bot, update: Update, args: List[str]) -> str:
 @bot_admin
 @can_restrict
 @gloggable
-def selfunban(bot: Bot, update: Update, args: List[str]) -> str:
+def selfunban(context: CallbackContext , update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
-
+    bot, args = context.bot, context.args
     if user.id not in SUDO_USERS or user.id not in TIGER_USERS:
         return
 
