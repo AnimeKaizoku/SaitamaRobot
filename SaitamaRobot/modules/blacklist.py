@@ -16,19 +16,13 @@ from SaitamaRobot.modules.helper_funcs.misc import split_message
 
 BLACKLIST_GROUP = 11
 
-def infinite_loop_check(regex):
-     loop_matches = [r'\((.{1,}[\+\*]){1,}\)[\+\*].', r'[\(\[].{1,}\{\d(,)?\}[\)\]]\{\d(,)?\}', r'\(.{1,}\)\{.{1,}(,)?\}\(.*\)(\+|\* |\{.*\})']
-     for match in loop_matches:
-          match_1 = re.search(match, regex)
-          if match_1: return True
-
 @run_async
 @connection_status
 @user_admin
-def blacklist(bot: Bot, update: Update, args: List[str]):
+def blacklist(context: CallbackContext, update: Update):
     msg = update.effective_message
     chat = update.effective_chat
-
+    args = context.args
     update_chat_title = chat.title
     message_chat_title = update.effective_message.chat.title
 
