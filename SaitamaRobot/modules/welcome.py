@@ -143,7 +143,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
 
             # Welcome yourself
             elif new_mem.id == bot.id:
-                update.effective_message.reply_text("Watashi ga kitta!", reply_to_message_id=reply)
+                update.effective_message.reply_text("Watashi ga kita!", reply_to_message_id=reply)
 
             else:
                 # If welcome message is media, send with appropriate function
