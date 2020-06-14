@@ -20,14 +20,18 @@ AFK_REPLY_GROUP = 8
 def afk(bot: Bot, update: Update):
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
+    notice = ""
     if len(args) >= 2:
         reason = args[1]
+        if len(reason) > 100:
+            reason = reason[:100]
+            notice = "\nYour afk reason was shortened to 100 characters."
     else:
         reason = ""
 
     sql.set_afk(update.effective_user.id, reason)
     fname = update.effective_user.first_name
-    update.effective_message.reply_text("{} is now away!".format(fname))
+    update.effective_message.reply_text("{} is now away!{}".format(fname, notice))
 
     
 @run_async
