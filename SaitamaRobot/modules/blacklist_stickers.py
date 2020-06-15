@@ -26,12 +26,11 @@ from SaitamaRobot.modules.helper_funcs.alternate import send_message
 
 
 @run_async
-def blackliststicker(bot: Bot, update: Update, args: List[str]):
+def blackliststicker(context: CallbackContext, update: Update):
 	msg = update.effective_message  # type: Optional[Message]
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	
-		
+	bot, args = context.bot, context.args
 	conn = connected(bot, update, chat, user.id, need_admin=False)
 	if conn:
 		chat_id = conn
@@ -69,7 +68,7 @@ def add_blackliststicker(update: Update, context: CallbackContext):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	words = msg.text.split(None, 1)
-
+	bot = context.bot
 	conn = connected(bot, update, chat, user.id)
 	if conn:
 		chat_id = conn
@@ -128,7 +127,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	words = msg.text.split(None, 1)
-
+	bot = context.bot
 	conn = connected(bot, update, chat, user.id)
 	if conn:
 		chat_id = conn
@@ -186,12 +185,11 @@ def unblackliststicker(update: Update, context: CallbackContext):
 @run_async
 @loggable
 @user_admin
-def blacklist_mode(bot: Bot, update: Update, args: List[str]):
+def blacklist_mode(context: CallbackContext, update: Update):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
-	
-
+	bot, args = context.bot, context.args
 	conn = connected(bot, update, chat, user.id, need_admin=True)
 	if conn:
 		chat = dispatcher.bot.getChat(conn)
@@ -286,7 +284,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
 	to_match = message.sticker
 	if not to_match:
 		return
-
+	bot = context.bot
 	getmode, value = sql.get_blacklist_setting(chat.id)
 
 	chat_filters = sql.get_chat_stickers(chat.id)
