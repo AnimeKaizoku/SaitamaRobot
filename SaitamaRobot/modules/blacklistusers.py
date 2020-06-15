@@ -20,10 +20,10 @@ BLABLEUSERS = [OWNER_ID] + DEV_USERS
 @run_async
 @dev_plus
 @gloggable
-def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
+def bl_user(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
-
+    bot, args = context.bot, context.args
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -61,10 +61,10 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @dev_plus
 @gloggable
-def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
+def unbl_user(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
 
     if not user_id:
@@ -103,9 +103,8 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
 @dev_plus
 def bl_users(update: Update, context: CallbackContext):
     users = []
-
+    bot = context.bot
     for each_user in sql.BLACKLIST_USERS:
-
         user = bot.get_chat(each_user)
         reason = sql.get_reason(each_user)
 
