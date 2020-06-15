@@ -20,9 +20,9 @@ MEMBER_STAUS = ('member',)
 
 @user_admin
 @run_async
-def allow_connections(bot: Bot, update: Update, args: List[str]):
+def allow_connections(context: CallbackContext, update: Update):
     chat = update.effective_chat
-
+    args = context.args
     if chat.type != chat.PRIVATE:
         if len(args) >= 1:
             var = args[0]
@@ -69,11 +69,11 @@ def connection_chat(update: Update, context: CallbackContext):
 
 
 @run_async
-def connect_chat(bot: Bot, update: Update, args: List[str]):
+def connect_chat(context: CallbackContext, update: Update):
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
-
+    bot, args = context.bot, context.args
     if chat.type == 'private':
         if len(args) >= 1:
             try:
@@ -176,7 +176,6 @@ def connect_chat(bot: Bot, update: Update, args: List[str]):
 def disconnect_chat(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
-
     if chat.type == 'private':
         disconnection_status = sql.disconnect(msg.from_user.id)
         if disconnection_status:
@@ -220,7 +219,6 @@ def connected(bot, update, chat, user_id, need_admin=True):
 @run_async
 def help_connect_chat(update: Update, context: CallbackContext):
     msg = update.effective_message
-
     if msg.chat.type != "private":
         send_message(msg, "PM me with that command to get help.")
         return
@@ -233,7 +231,7 @@ def connect_button(update: Update, context: CallbackContext):
     query = update.callback_query
     chat = update.effective_chat
     user = update.effective_user
-
+    bot = context.bot
     connect_match = re.match(r"connect\((.+?)\)", query.data)
     disconnect_match = query.data == "connect_disconnect"
     clear_match = query.data == "connect_clear"
@@ -250,7 +248,7 @@ def connect_button(update: Update, context: CallbackContext):
             connection_status = sql.connect(query.from_user.id, target_chat)
 
             if connection_status:
-                conn_chat = dispatcher.bot.getChat(connected(bot, update, chat, user.id, need_admin=False))
+                conn_chat = bot.getChat(connected(bot, update, chat, user.id, need_admin=False))
                 chat_name = conn_chat.title
                 query.message.edit_text(f"Successfully connected to *{chat_name}*."
                                         f" Use /connection for see current available commands.",
