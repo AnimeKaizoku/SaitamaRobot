@@ -12,7 +12,7 @@ from SaitamaRobot.modules.sql import reporting_sql as sql
 from SaitamaRobot import dispatcher, LOGGER, SUDO_USERS, TIGER_USERS, WHITELIST_USERS
 
 REPORT_GROUP = 12
-REPORT_IMMUNE_USERS = SUDO_USERS + TIGER_USERS + WHITELIST_USERS
+REPORT_IMMUNE_USERS = SUDO_USERS + TIGER_USERS + WHITELIST_USERS + user_admin
 
 @run_async
 @user_admin
