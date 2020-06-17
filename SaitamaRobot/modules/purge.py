@@ -16,7 +16,8 @@ from SaitamaRobot.modules.log_channel import loggable
 @run_async
 @user_admin
 @loggable
-def purge(bot: Bot, update: Update, args: List[str]) -> str:
+def purge(context: CallbackContext, update: Update) -> str:
+    bot, args = context.bot, context.args
     msg = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -81,7 +82,8 @@ def purge(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @user_admin
 @loggable
-def del_message(bot: Bot, update: Update) -> str:
+def del_message(context: CallbackContext, update: Update) -> str:
+    bot, args = context.bot, context.args
     if update.effective_message.reply_to_message:
         user = update.effective_user
         chat = update.effective_chat
@@ -107,7 +109,7 @@ __help__ = """
 """
 
 DELETE_HANDLER = DisableAbleCommandHandler("del", del_message, filters=Filters.group)
-PURGE_HANDLER = DisableAbleCommandHandler("purge", purge, filters=Filters.group, pass_args=True)
+PURGE_HANDLER = DisableAbleCommandHandler("purge", purge, filters=Filters.group)
 
 dispatcher.add_handler(DELETE_HANDLER)
 dispatcher.add_handler(PURGE_HANDLER)
