@@ -26,7 +26,7 @@ from SaitamaRobot.modules.helper_funcs.alternate import send_message
 
 
 @run_async
-def blackliststicker(context: CallbackContext, update: Update):
+def blackliststicker(update: Update, context: CallbackContext):
 	msg = update.effective_message  # type: Optional[Message]
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
@@ -185,7 +185,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
 @run_async
 @loggable
 @user_admin
-def blacklist_mode(context: CallbackContext, update: Update):
+def blacklist_mode(update: Update, context: CallbackContext):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]

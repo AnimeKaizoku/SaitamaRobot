@@ -20,7 +20,7 @@ BLABLEUSERS = [OWNER_ID] + DEV_USERS
 @run_async
 @dev_plus
 @gloggable
-def bl_user(context: CallbackContext, update: Update) -> str:
+def bl_user(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     bot, args = context.bot, context.args
@@ -61,7 +61,7 @@ def bl_user(context: CallbackContext, update: Update) -> str:
 @run_async
 @dev_plus
 @gloggable
-def unbl_user(context: CallbackContext, update: Update) -> str:
+def unbl_user(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     bot, args = context.bot, context.args

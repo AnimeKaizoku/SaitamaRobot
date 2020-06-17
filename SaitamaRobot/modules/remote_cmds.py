@@ -86,7 +86,7 @@ RUNMUTE_ERRORS = {
 
 @run_async
 @bot_admin
-def rban(context: CallbackContext, update: Update):
+def rban(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
 
@@ -154,7 +154,7 @@ def rban(context: CallbackContext, update: Update):
 
 @run_async
 @bot_admin
-def runban(context: CallbackContext, update: Update):
+def runban(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
 
@@ -222,7 +222,7 @@ def runban(context: CallbackContext, update: Update):
 
 @run_async
 @bot_admin
-def rkick(context: CallbackContext, update: Update):
+def rkick(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
 
@@ -290,7 +290,7 @@ def rkick(context: CallbackContext, update: Update):
 
 @run_async
 @bot_admin
-def rmute(context: CallbackContext, update: Update):
+def rmute(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
 
@@ -358,7 +358,7 @@ def rmute(context: CallbackContext, update: Update):
 
 @run_async
 @bot_admin
-def runmute(context: CallbackContext, update: Update):
+def runmute(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
 

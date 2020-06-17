@@ -47,7 +47,7 @@ def send_disasters(update):
 @run_async
 @dev_plus
 @gloggable
-def addsudo(context: CallbackContext, update: Update) -> str:
+def addsudo(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -100,7 +100,7 @@ def addsudo(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addsupport(context: CallbackContext, update: Update,) -> str:
+def addsupport(update: Update, context: CallbackContext,) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -152,7 +152,7 @@ def addsupport(context: CallbackContext, update: Update,) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addwhitelist(context: CallbackContext, update: Update) -> str:
+def addwhitelist(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -205,7 +205,7 @@ def addwhitelist(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addtiger(context: CallbackContext, update: Update) -> str:
+def addtiger(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -263,7 +263,7 @@ def addtiger(context: CallbackContext, update: Update) -> str:
 @run_async
 @dev_plus
 @gloggable
-def removesudo(context: CallbackContext, update: Update) -> str:
+def removesudo(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -304,7 +304,7 @@ def removesudo(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removesupport(context: CallbackContext, update: Update) -> str:
+def removesupport(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -345,7 +345,7 @@ def removesupport(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removewhitelist(context: CallbackContext, update: Update) -> str:
+def removewhitelist(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -385,7 +385,7 @@ def removewhitelist(context: CallbackContext, update: Update) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removetiger(context: CallbackContext, update: Update) -> str:
+def removetiger(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat

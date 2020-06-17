@@ -95,7 +95,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def disable(context: CallbackContext, update: Update):
+    def disable(update: Update, context: CallbackContext):
         args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
@@ -117,7 +117,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def disable_module(context: CallbackContext, update: Update):
+    def disable_module(update: Update, context: CallbackContext):
         args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
@@ -165,7 +165,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def enable(context: CallbackContext, update: Update):
+    def enable(update: Update, context: CallbackContext):
         args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
@@ -186,7 +186,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def enable_module(context: CallbackContext, update: Update):
+    def enable_module(update: Update, context: CallbackContext):
         args = context.args
         chat = update.effective_chat
 

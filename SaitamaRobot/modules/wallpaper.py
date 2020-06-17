@@ -13,7 +13,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def wall(context: CallbackContext, update: Update):
+def wall(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     msg = update.effective_message
     args = context.args

@@ -14,7 +14,7 @@ from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 
 
 @run_async
-def get_user_common_chats(context: CallbackContext, update: Update):
+def get_user_common_chats(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message
     user = extract_user(msg, args)

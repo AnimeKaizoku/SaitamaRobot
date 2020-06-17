@@ -111,7 +111,7 @@ def get(bot, update, notename, show_none=True, no_format=False):
 
 
 @run_async
-def cmd_get(context: CallbackContext, update: Update):
+def cmd_get(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     if len(args) >= 2 and args[1].lower() == "noformat":
         get(bot, update, args[0].lower(), show_none=True, no_format=True)
@@ -161,7 +161,7 @@ def save(update: Update, context: CallbackContext):
 
 @run_async
 @user_admin
-def clear(context: CallbackContext, update: Update):
+def clear(update: Update, context: CallbackContext):
     args = context.args
     chat_id = update.effective_chat.id
     if len(args) >= 1:

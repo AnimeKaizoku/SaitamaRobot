@@ -17,7 +17,7 @@ REPORT_IMMUNE_USERS = SUDO_USERS + TIGER_USERS + WHITELIST_USERS
 
 @run_async
 @user_admin
-def report_setting(context: CallbackContext, update: Update):
+def report_setting(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     chat = update.effective_chat
     msg = update.effective_message
@@ -53,7 +53,7 @@ def report_setting(context: CallbackContext, update: Update):
 @run_async
 @user_not_admin
 @loggable
-def report(context: CallbackContext, update: Update) -> str:
+def report(update: Update, context: CallbackContext) -> str:
     bot = context.bot
     message = update.effective_message
     chat = update.effective_chat
@@ -166,7 +166,7 @@ def __user_settings__(bot, update, user):
     return text, keyboard
 
     
-def buttons(context: CallbackContext, update: Update):
+def buttons(update: Update, context: CallbackContext):
     bot = context.bot
     query = update.callback_query
     splitter = query.data.replace("report_", "").split("=")

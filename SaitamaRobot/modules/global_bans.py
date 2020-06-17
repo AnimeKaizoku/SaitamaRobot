@@ -50,7 +50,7 @@ UNGBAN_ERRORS = {
 
 @run_async
 @support_plus
-def gban(context: CallbackContext, update: Update):
+def gban(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
     user = update.effective_user
@@ -209,7 +209,7 @@ def gban(context: CallbackContext, update: Update):
 
 @run_async
 @support_plus
-def ungban(context: CallbackContext, update: Update):
+def ungban(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
     user = update.effective_user
@@ -362,7 +362,7 @@ def enforce_gban(update: Update, context: CallbackContext):
 
 @run_async
 @user_admin
-def gbanstat(context: CallbackContext, update: Update):
+def gbanstat(update: Update, context: CallbackContext):
     args = context.args
     if len(args) > 0:
         if args[0].lower() in ["on", "yes"]:
