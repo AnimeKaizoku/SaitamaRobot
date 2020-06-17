@@ -18,7 +18,7 @@ import time
 import traceback
 from contextlib import redirect_stdout
 
-from telegram import ParseMode
+from telegram import ParseMode, Update
 from telegram.ext import CommandHandler, run_async
 
 from SaitamaRobot import dispatcher, LOGGER
