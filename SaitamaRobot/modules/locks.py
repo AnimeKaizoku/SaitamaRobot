@@ -3,7 +3,7 @@ import html
 from typing import List
 
 import telegram.ext as tg
-from telegram import Bot, Update, ParseMode, MessageEntity
+from telegram import Update, ParseMode, MessageEntity
 from telegram import TelegramError
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
@@ -102,7 +102,8 @@ def locktypes(update: Update, context: CallbackContext):
 @connection_status
 @bot_can_delete
 @loggable
-def lock(bot: Bot, update: Update, args: List[str]) -> str:
+def lock(update: Update, context: CallbackContext) -> str:
+    bot, args = context.bot, context.args
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -155,7 +156,8 @@ def lock(bot: Bot, update: Update, args: List[str]) -> str:
 @connection_status
 @user_admin
 @loggable
-def unlock(bot: Bot, update: Update, args: List[str]) -> str:
+def unlock(update: Update, context: CallbackContext) -> str:
+    bot, args = context.bot, context.args
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -328,8 +330,8 @@ Locking bots will stop non-admins from adding bots to the chat.
 """
 
 LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes)
-LOCK_HANDLER = CommandHandler("lock", lock, pass_args=True)
-UNLOCK_HANDLER = CommandHandler("unlock", unlock, pass_args=True)
+LOCK_HANDLER = CommandHandler("lock", lock)
+UNLOCK_HANDLER = CommandHandler("unlock", unlock)
 LOCKED_HANDLER = CommandHandler("locks", list_locks)
 LOCKABLE_HANDLER = MessageHandler(Filters.all & Filters.group, del_lockables)
 RESTRICTION_HANDLER = MessageHandler(Filters.all & Filters.group, rest_handler)

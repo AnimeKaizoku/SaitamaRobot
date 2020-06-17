@@ -13,7 +13,8 @@ from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 
 
 @run_async
-def about_me(bot: Bot, update: Update, args: List[str]):
+def about_me(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
     user_id = extract_user(message, args)
 
@@ -60,7 +61,8 @@ def set_about_me(update: Update, context: CallbackContext):
 
 
 @run_async
-def about_bio(bot: Bot, update: Update, args: List[str]):
+def about_bio(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
 
     user_id = extract_user(message, args)
@@ -134,10 +136,10 @@ __help__ = """
 """
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)
-GET_BIO_HANDLER = DisableAbleCommandHandler("bio", about_bio, pass_args=True)
+GET_BIO_HANDLER = DisableAbleCommandHandler("bio", about_bio)
 
 SET_ABOUT_HANDLER = DisableAbleCommandHandler("setme", set_about_me)
-GET_ABOUT_HANDLER = DisableAbleCommandHandler("me", about_me, pass_args=True)
+GET_ABOUT_HANDLER = DisableAbleCommandHandler("me", about_me)
 
 dispatcher.add_handler(SET_BIO_HANDLER)
 dispatcher.add_handler(GET_BIO_HANDLER)

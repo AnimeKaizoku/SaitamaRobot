@@ -46,7 +46,8 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
 @bot_admin
 @user_admin
 @loggable
-def mute(bot: Bot, update: Update, args: List[str]) -> str:
+def mute(context: CallbackContext, update: Update) -> str:
+    bot, args = context.bot, context.args
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -85,7 +86,8 @@ def mute(bot: Bot, update: Update, args: List[str]) -> str:
 @bot_admin
 @user_admin
 @loggable
-def unmute(bot: Bot, update: Update, args: List[str]) -> str:
+def unmute(context: CallbackContext, update: Update) -> str:
+    bot, args = context.bot, context.args
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -128,7 +130,8 @@ def unmute(bot: Bot, update: Update, args: List[str]) -> str:
 @can_restrict
 @user_admin
 @loggable
-def temp_mute(bot: Bot, update: Update, args: List[str]) -> str:
+def temp_mute(context: CallbackContext, update: Update) -> str:
+    bot, args = context.bot, context.args
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -197,9 +200,9 @@ __help__ = """
  • `/unmute <userhandle>`*:* unmutes a user. Can also be used as a reply, muting the replied to user.
 """
 
-MUTE_HANDLER = CommandHandler("mute", mute, pass_args=True)
-UNMUTE_HANDLER = CommandHandler("unmute", unmute, pass_args=True)
-TEMPMUTE_HANDLER = CommandHandler(["tmute", "tempmute"], temp_mute, pass_args=True)
+MUTE_HANDLER = CommandHandler("mute", mute)
+UNMUTE_HANDLER = CommandHandler("unmute", unmute)
+TEMPMUTE_HANDLER = CommandHandler(["tmute", "tempmute"], temp_mute)
 
 dispatcher.add_handler(MUTE_HANDLER)
 dispatcher.add_handler(UNMUTE_HANDLER)

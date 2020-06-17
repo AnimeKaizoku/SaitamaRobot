@@ -5,7 +5,7 @@ from datetime import datetime
 from io import BytesIO
 from typing import List
 
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.error import BadRequest, TelegramError
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
@@ -50,7 +50,8 @@ UNGBAN_ERRORS = {
 
 @run_async
 @support_plus
-def gban(bot: Bot, update: Update, args: List[str]):
+def gban(context: CallbackContext, update: Update):
+    bot, args = context.bot, context.args
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -208,7 +209,8 @@ def gban(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @support_plus
-def ungban(bot: Bot, update: Update, args: List[str]):
+def ungban(context: CallbackContext, update: Update):
+    bot, args = context.bot, context.args
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -337,6 +339,7 @@ def check_and_ban(update, user_id, should_message=True):
 @run_async
 def enforce_gban(update: Update, context: CallbackContext):
     # Not using @restrict handler to avoid spamming - just ignore if cant gban.
+    bot = context.bot
     if sql.does_chat_gban(update.effective_chat.id) and update.effective_chat.get_member(bot.id).can_restrict_members:
         user = update.effective_user
         chat = update.effective_chat
@@ -359,7 +362,8 @@ def enforce_gban(update: Update, context: CallbackContext):
 
 @run_async
 @user_admin
-def gbanstat(bot: Bot, update: Update, args: List[str]):
+def gbanstat(context: CallbackContext, update: Update):
+    args = context.args
     if len(args) > 0:
         if args[0].lower() in ["on", "yes"]:
             sql.enable_gbans(update.effective_chat.id)
@@ -415,11 +419,11 @@ you and your groups by removing spam flooders as quickly as possible. They can b
 *Note:* Users can appeal gbans or report spammers at {SUPPORT_CHAT}
 """
 
-GBAN_HANDLER = CommandHandler("gban", gban, pass_args=True)
-UNGBAN_HANDLER = CommandHandler("ungban", ungban, pass_args=True)
+GBAN_HANDLER = CommandHandler("gban", gban)
+UNGBAN_HANDLER = CommandHandler("ungban", ungban)
 GBAN_LIST = CommandHandler("gbanlist", gbanlist)
 
-GBAN_STATUS = CommandHandler("gbanstat", gbanstat, pass_args=True, filters=Filters.group)
+GBAN_STATUS = CommandHandler("gbanstat", gbanstat, filters=Filters.group)
 
 GBAN_ENFORCER = MessageHandler(Filters.all & Filters.group, enforce_gban)
 

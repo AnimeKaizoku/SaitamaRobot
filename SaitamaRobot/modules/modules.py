@@ -1,7 +1,7 @@
 from telegram.ext import CallbackContext
 import importlib
 
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.ext import CommandHandler, run_async
 
 from SaitamaRobot import dispatcher

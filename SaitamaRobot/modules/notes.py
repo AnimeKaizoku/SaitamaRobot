@@ -111,7 +111,8 @@ def get(bot, update, notename, show_none=True, no_format=False):
 
 
 @run_async
-def cmd_get(bot: Bot, update: Update, args: List[str]):
+def cmd_get(context: CallbackContext, update: Update):
+    bot, args = context.bot, context.args
     if len(args) >= 2 and args[1].lower() == "noformat":
         get(bot, update, args[0].lower(), show_none=True, no_format=True)
     elif len(args) >= 1:
@@ -160,7 +161,8 @@ def save(update: Update, context: CallbackContext):
 
 @run_async
 @user_admin
-def clear(bot: Bot, update: Update, args: List[str]):
+def clear(context: CallbackContext, update: Update):
+    args = context.args
     chat_id = update.effective_chat.id
     if len(args) >= 1:
         notename = args[0].lower()
@@ -245,11 +247,11 @@ A button can be added to a note by using standard markdown link syntax - the lin
 
 __mod_name__ = "Notes"
 
-GET_HANDLER = CommandHandler("get", cmd_get, pass_args=True)
+GET_HANDLER = CommandHandler("get", cmd_get)
 HASH_GET_HANDLER = RegexHandler(r"^#[^\s]+", hash_get)
 
 SAVE_HANDLER = CommandHandler("save", save)
-DELETE_HANDLER = CommandHandler("clear", clear, pass_args=True)
+DELETE_HANDLER = CommandHandler("clear", clear)
 
 LIST_HANDLER = DisableAbleCommandHandler(["notes", "saved"], list_notes, admin_ok=True)
 
