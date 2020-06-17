@@ -4,7 +4,7 @@ import json
 import os
 from typing import List, Optional
 
-from telegram import Bot, Update, ParseMode, TelegramError
+from telegram import Update, ParseMode, TelegramError
 from telegram.ext import CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 

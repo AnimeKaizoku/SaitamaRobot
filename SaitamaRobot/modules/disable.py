@@ -3,7 +3,7 @@ import importlib
 from typing import Union, List
 
 from future.utils import string_types
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.ext import CommandHandler, RegexHandler, MessageHandler
 from telegram.utils.helpers import escape_markdown
 
@@ -95,7 +95,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def disable(bot: Bot, update: Update, args: List[str]):
+    def disable(context: CallbackContext, update: Update):
+        args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
             disable_cmd = args[0]
@@ -116,7 +117,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def disable_module(bot: Bot, update: Update, args: List[str]):
+    def disable_module(context: CallbackContext, update: Update):
+        args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
             disable_module = "SaitamaRobot.modules." + args[0].rsplit(".", 1)[0]
@@ -163,8 +165,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def enable(bot: Bot, update: Update, args: List[str]):
-
+    def enable(context: CallbackContext, update: Update):
+        args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
             enable_cmd = args[0]
@@ -184,7 +186,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def enable_module(bot: Bot, update: Update, args: List[str]):
+    def enable_module(context: CallbackContext, update: Update):
+        args = context.args
         chat = update.effective_chat
 
         if len(args) >= 1:
@@ -273,10 +276,10 @@ if is_module_loaded(FILENAME):
         return build_curr_disabled(chat_id)
 
 
-    DISABLE_HANDLER = CommandHandler("disable", disable, pass_args=True)
-    DISABLE_MODULE_HANDLER = CommandHandler("disablemodule", disable_module, pass_args=True)
-    ENABLE_HANDLER = CommandHandler("enable", enable, pass_args=True)
-    ENABLE_MODULE_HANDLER = CommandHandler("enablemodule", enable_module, pass_args=True)
+    DISABLE_HANDLER = CommandHandler("disable", disable)
+    DISABLE_MODULE_HANDLER = CommandHandler("disablemodule", disable_module)
+    ENABLE_HANDLER = CommandHandler("enable", enable)
+    ENABLE_MODULE_HANDLER = CommandHandler("enablemodule", enable_module)
     COMMANDS_HANDLER = CommandHandler(["cmds", "disabled"], commands)
     TOGGLE_HANDLER = CommandHandler("listcmds", list_cmds)
 

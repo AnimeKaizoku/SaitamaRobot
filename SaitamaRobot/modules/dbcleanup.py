@@ -1,7 +1,7 @@
 from telegram.ext import CallbackContext
 from time import sleep
 
-from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
 
@@ -11,7 +11,8 @@ from SaitamaRobot import dispatcher, OWNER_ID, DEV_USERS
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
 
-def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
+def get_invalid_chats(context: CallbackContext, update: Update, remove: bool = False):
+    bot = context.bot
     chat_id = update.effective_chat.id
     chats = user_sql.get_all_chats()
     kicked_chats, progress = 0, 0
@@ -55,7 +56,8 @@ def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
         return kicked_chats
 
 
-def get_invalid_gban(bot: Bot, update: Update, remove: bool = False):
+def get_invalid_gban(context: CallbackContext, update: Update, remove: bool = False):
+    bot = context.bot
     banned = gban_sql.get_gban_list()
     ungbanned_users = 0
     ungban_list = []
@@ -101,7 +103,8 @@ def dbcleanup(update: Update, context: CallbackContext):
     update.effective_message.reply_text(reply, reply_markup=InlineKeyboardMarkup(buttons))
 
 
-def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
+def get_muted_chats(context: CallbackContext, update: Update, leave: bool = False):
+    bot = context.bot
     chat_id = update.effective_chat.id
     chats = user_sql.get_all_chats()
     muted_chats, progress = 0, 0
@@ -168,6 +171,7 @@ def leave_muted_chats(update: Update, context: CallbackContext):
 
 @run_async
 def callback_button(update: Update, context: CallbackContext):
+    bot = context.bot
     query = update.callback_query
     message = query.message
     chat_id = update.effective_chat.id
