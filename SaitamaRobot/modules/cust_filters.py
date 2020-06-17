@@ -3,7 +3,7 @@ import html
 import re
 
 import telegram
-from telegram import Bot, Update
+from telegram import Update
 from telegram import ParseMode, InlineKeyboardMarkup
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, run_async
@@ -164,6 +164,7 @@ def stop_filter(update: Update, context: CallbackContext):
 
 @run_async
 def reply_filter(update: Update, context: CallbackContext):
+    bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
     to_match = extract_text(message)
