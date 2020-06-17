@@ -19,11 +19,11 @@ if is_module_loaded(FILENAME):
 
     def loggable(func):
         @wraps(func)
-        def log_action(context: CallbackContext, update: Update, job_queue: JobQueue = None, *args, **kwargs):
+        def log_action(update: Update, context: CallbackContext, job_queue: JobQueue = None, *args, **kwargs):
             if not job_queue:
-                result = func(context, update, *args, **kwargs)
+                result = func(update, context, *args, **kwargs)
             else:
-                result = func(context, update, job_queue, *args, **kwargs)
+                result = func(update, context, job_queue, *args, **kwargs)
 
             chat = update.effective_chat
             message = update.effective_message
@@ -49,8 +49,8 @@ if is_module_loaded(FILENAME):
 
     def gloggable(func):
         @wraps(func)
-        def glog_action(context: CallbackContext, update: Update, *args, **kwargs):
-            result = func(context, update, *args, **kwargs)
+        def glog_action(update: Update, context: CallbackContext, *args, **kwargs):
+            result = func(update, context, *args, **kwargs)
             chat = update.effective_chat
             message = update.effective_message
 

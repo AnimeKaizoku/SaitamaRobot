@@ -126,8 +126,9 @@ def chats(update: Update, context: CallbackContext):
 
 @run_async
 def chat_checker(update: Update, context: CallbackContext):
-  if update.effective_message.chat.get_member(bot.id).can_send_messages == False:
-    bot.leaveChat(update.effective_message.chat.id)
+    bot = context.bot
+    if update.effective_message.chat.get_member(bot.id).can_send_messages == False:
+        bot.leaveChat(update.effective_message.chat.id)
 
 def __user_info__(user_id):
     if user_id == dispatcher.bot.id:

@@ -19,7 +19,7 @@ BLACKLIST_GROUP = 11
 @run_async
 @connection_status
 @user_admin
-def blacklist(context: CallbackContext, update: Update):
+def blacklist(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     args = context.args

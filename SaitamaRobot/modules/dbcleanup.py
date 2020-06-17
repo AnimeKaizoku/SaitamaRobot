@@ -11,7 +11,7 @@ from SaitamaRobot import dispatcher, OWNER_ID, DEV_USERS
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
 
-def get_invalid_chats(context: CallbackContext, update: Update, remove: bool = False):
+def get_invalid_chats(update: Update, context: CallbackContext, remove: bool = False):
     bot = context.bot
     chat_id = update.effective_chat.id
     chats = user_sql.get_all_chats()
@@ -56,7 +56,7 @@ def get_invalid_chats(context: CallbackContext, update: Update, remove: bool = F
         return kicked_chats
 
 
-def get_invalid_gban(context: CallbackContext, update: Update, remove: bool = False):
+def get_invalid_gban(update: Update, context: CallbackContext, remove: bool = False):
     bot = context.bot
     banned = gban_sql.get_gban_list()
     ungbanned_users = 0
@@ -103,7 +103,7 @@ def dbcleanup(update: Update, context: CallbackContext):
     update.effective_message.reply_text(reply, reply_markup=InlineKeyboardMarkup(buttons))
 
 
-def get_muted_chats(context: CallbackContext, update: Update, leave: bool = False):
+def get_muted_chats(update: Update, context: CallbackContext, leave: bool = False):
     bot = context.bot
     chat_id = update.effective_chat.id
     chats = user_sql.get_all_chats()

@@ -16,7 +16,7 @@ from SaitamaRobot.modules.log_channel import loggable
 @run_async
 @user_admin
 @loggable
-def purge(context: CallbackContext, update: Update) -> str:
+def purge(update: Update, context: CallbackContext) -> str:
     bot, args = context.bot, context.args
     msg = update.effective_message
     user = update.effective_user
@@ -82,7 +82,7 @@ def purge(context: CallbackContext, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def del_message(context: CallbackContext, update: Update) -> str:
+def del_message(update: Update, context: CallbackContext) -> str:
     bot, args = context.bot, context.args
     if update.effective_message.reply_to_message:
         user = update.effective_user

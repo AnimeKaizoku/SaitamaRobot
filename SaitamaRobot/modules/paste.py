@@ -10,7 +10,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def paste(context: CallbackContext, update: Update):
+def paste(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
 

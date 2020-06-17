@@ -20,7 +20,7 @@ MEMBER_STAUS = ('member',)
 
 @user_admin
 @run_async
-def allow_connections(context: CallbackContext, update: Update):
+def allow_connections(update: Update, context: CallbackContext):
     chat = update.effective_chat
     args = context.args
     if chat.type != chat.PRIVATE:
@@ -69,7 +69,7 @@ def connection_chat(update: Update, context: CallbackContext):
 
 
 @run_async
-def connect_chat(context: CallbackContext, update: Update):
+def connect_chat(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message

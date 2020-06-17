@@ -42,7 +42,7 @@ def getsticker(update: Update, context: CallbackContext):
 
 
 @run_async
-def kang(context: CallbackContext, update: Update):
+def kang(update: Update, context: CallbackContext):
     args = context.args
     bot = context.bot
     msg = update.effective_message
