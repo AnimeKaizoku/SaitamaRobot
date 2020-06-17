@@ -3,7 +3,7 @@ import json
 from pprint import pprint
 
 import requests
-from telegram import Update, Bot
+from telegram import Update
 from telegram.ext import CommandHandler
 
 from SaitamaRobot import dispatcher
