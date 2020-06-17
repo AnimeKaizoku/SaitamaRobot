@@ -5,7 +5,7 @@ import sys
 from time import sleep
 from typing import List
 
-from telegram import Bot, Update, TelegramError
+from telegram import Update, TelegramError
 from telegram.ext import CommandHandler, run_async
 
 from SaitamaRobot import dispatcher
@@ -14,7 +14,9 @@ from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
 @run_async
 @dev_plus
-def leave(bot: Bot, update: Update, args: List[str]):
+def leave(context: CallbackContext, update: Update):
+    bot = context.bot
+    args = context.args
     if args:
         chat_id = str(args[0])
         try:
@@ -53,7 +55,7 @@ def restart(update: Update, context: CallbackContext):
     os.execv('start.bat', sys.argv)
 
 
-LEAVE_HANDLER = CommandHandler("leave", leave, pass_args=True)
+LEAVE_HANDLER = CommandHandler("leave", leave)
 GITPULL_HANDLER = CommandHandler("gitpull", gitpull)
 RESTART_HANDLER = CommandHandler("reboot", restart)
 
