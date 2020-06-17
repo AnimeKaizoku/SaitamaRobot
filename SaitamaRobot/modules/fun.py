@@ -4,7 +4,7 @@ import random
 import time
 from typing import List
 
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.ext import run_async
 
 import SaitamaRobot.modules.fun_strings as fun_strings
@@ -19,7 +19,8 @@ def runs(update: Update, context: CallbackContext):
 
 
 @run_async
-def slap(bot: Bot, update: Update, args: List[str]):
+def slap(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
     chat = update.effective_chat
 
@@ -125,7 +126,7 @@ __help__ = """
 """
 
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
-SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, pass_args=True)
+SLAP_HANDLER = DisableAbleCommandHandler("slap", slap)
 ROLL_HANDLER = DisableAbleCommandHandler("roll", roll)
 TOSS_HANDLER = DisableAbleCommandHandler("toss", toss)
 SHRUG_HANDLER = DisableAbleCommandHandler("shrug", shrug)
