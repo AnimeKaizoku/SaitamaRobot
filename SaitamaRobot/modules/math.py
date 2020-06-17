@@ -1,7 +1,7 @@
 from telegram.ext import CallbackContext
 from typing import List
 import requests
-from telegram import Message, Update, Bot, MessageEntity
+from telegram import Message, Update, MessageEntity
 from telegram.ext import CommandHandler, run_async
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -9,77 +9,92 @@ import pynewtonmath as newton
 import math
 
 @run_async
-def simplify(bot: Bot, update: Update, args: List[str]):
+def simplify(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(newton.simplify('{}'.format(args[0])))
 
 @run_async
-def factor(bot: Bot, update: Update, args: List[str]):
+def factor(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(newton.factor('{}'.format(args[0])))
 
 @run_async
-def derive(bot: Bot, update: Update, args: List[str]):
+def derive(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(newton.derive('{}'.format(args[0])))
 
 @run_async
-def integrate(bot: Bot, update: Update, args: List[str]):
+def integrate(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(newton.integrate('{}'.format(args[0])))
 
 @run_async
-def zeroes(bot: Bot, update: Update, args: List[str]):
+def zeroes(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(newton.zeroes('{}'.format(args[0])))
 
 @run_async
-def tangent(bot: Bot, update: Update, args: List[str]):
+def tangent(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(newton.tangent('{}'.format(args[0])))
 
 @run_async
-def area(bot: Bot, update: Update, args: List[str]):
+def area(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(newton.area('{}'.format(args[0])))
 
 @run_async
-def cos(bot: Bot, update: Update, args):
+def cos(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(math.cos(int(args[0])))
 
 @run_async
-def sin(bot: Bot, update: Update, args):
+def sin(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(math.sin(int(args[0])))
 
 @run_async
-def tan(bot: Bot, update: Update, args):
+def tan(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(math.tan(int(args[0])))
 
 @run_async
-def arccos(bot: Bot, update: Update, args):
+def arccos(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(math.acos(int(args[0])))
 
 @run_async
-def arcsin(bot: Bot, update: Update, args):
+def arcsin(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(math.asin(int(args[0])))
 
 @run_async
-def arctan(bot: Bot, update: Update, args):
+def arctan(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(math.atan(int(args[0])))
 
 @run_async
-def abs(bot: Bot, update: Update, args):
+def abs(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(math.fabs(int(args[0])))
 
 @run_async
-def log(bot: Bot, update: Update, args):
+def log(context: CallbackContext, update: Update):
+    args = context.args
     message = update.effective_message
     message.reply_text(math.log(int(args[0])))
 
@@ -108,21 +123,21 @@ To compute fractions, enter expressions as numerator(over)denominator. For examp
 
 __mod_name__ = "Math"
 
-SIMPLIFY_HANDLER = DisableAbleCommandHandler("math", simplify, pass_args=True)
-FACTOR_HANDLER = DisableAbleCommandHandler("factor", factor, pass_args=True)
-DERIVE_HANDLER = DisableAbleCommandHandler("derive", derive, pass_args=True)
-INTEGRATE_HANDLER = DisableAbleCommandHandler("integrate", integrate, pass_args=True)
-ZEROES_HANDLER = DisableAbleCommandHandler("zeroes", zeroes, pass_args=True)
-TANGENT_HANDLER = DisableAbleCommandHandler("tangent", tangent, pass_args=True)
-AREA_HANDLER = DisableAbleCommandHandler("area", area, pass_args=True)
-COS_HANDLER = DisableAbleCommandHandler("cos", cos, pass_args=True)
-SIN_HANDLER = DisableAbleCommandHandler("sin", sin, pass_args=True)
-TAN_HANDLER = DisableAbleCommandHandler("tan", tan, pass_args=True)
-ARCCOS_HANDLER = DisableAbleCommandHandler("arccos", arccos, pass_args=True)
-ARCSIN_HANDLER = DisableAbleCommandHandler("arcsin", arcsin, pass_args=True)
-ARCTAN_HANDLER = DisableAbleCommandHandler("arctan", arctan, pass_args=True)
-ABS_HANDLER = DisableAbleCommandHandler("abs", abs, pass_args=True)
-LOG_HANDLER = DisableAbleCommandHandler("log", log, pass_args=True)
+SIMPLIFY_HANDLER = DisableAbleCommandHandler("math", simplify)
+FACTOR_HANDLER = DisableAbleCommandHandler("factor", factor)
+DERIVE_HANDLER = DisableAbleCommandHandler("derive", derive)
+INTEGRATE_HANDLER = DisableAbleCommandHandler("integrate", integrate)
+ZEROES_HANDLER = DisableAbleCommandHandler("zeroes", zeroes)
+TANGENT_HANDLER = DisableAbleCommandHandler("tangent", tangent)
+AREA_HANDLER = DisableAbleCommandHandler("area", area)
+COS_HANDLER = DisableAbleCommandHandler("cos", cos)
+SIN_HANDLER = DisableAbleCommandHandler("sin", sin)
+TAN_HANDLER = DisableAbleCommandHandler("tan", tan)
+ARCCOS_HANDLER = DisableAbleCommandHandler("arccos", arccos)
+ARCSIN_HANDLER = DisableAbleCommandHandler("arcsin", arcsin)
+ARCTAN_HANDLER = DisableAbleCommandHandler("arctan", arctan)
+ABS_HANDLER = DisableAbleCommandHandler("abs", abs)
+LOG_HANDLER = DisableAbleCommandHandler("log", log)
 
 dispatcher.add_handler(SIMPLIFY_HANDLER)
 dispatcher.add_handler(FACTOR_HANDLER)
