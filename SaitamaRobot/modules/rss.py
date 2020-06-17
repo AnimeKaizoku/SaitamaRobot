@@ -11,7 +11,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.sql import rss_sql as sql
 
 
-def show_url(update, context):
+def show_url(update: Update, context: CallbackContext):
     tg_chat_id = str(update.effective_chat.id)
     bot = context.bot
     args = context.args
@@ -53,7 +53,7 @@ def show_url(update, context):
         update.effective_message.reply_text("URL missing")
 
 
-def list_urls(context, update):
+def list_urls(update: Update, context: CallbackContext):
     tg_chat_id = str(update.effective_chat.id)
     bot = context.bot
     user_data = sql.get_urls(tg_chat_id)
@@ -74,7 +74,7 @@ def list_urls(context, update):
 
 
 @user_admin
-def add_url(update, context):
+def add_url(update: Update, context: CallbackContext):
     bot = context.bot
     args = context.args
     if len(args) >= 1:
@@ -109,7 +109,7 @@ def add_url(update, context):
 
 
 @user_admin
-def remove_url(update, context):
+def remove_url(update: Update, context: CallbackContext):
     bot = context.bot
     args = contet.args
     if len(args) >= 1:
@@ -134,7 +134,7 @@ def remove_url(update, context):
         update.effective_message.reply_text("URL missing")
 
 
-def rss_update(context):
+def rss_update(context: CallbackContext):
     user_data = sql.get_all()
     job = context.job
     bot = context.bot
@@ -191,7 +191,7 @@ def rss_update(context):
                              .format(len(new_entry_links) - 5))
 
 
-def rss_set(context):
+def rss_set(context: CallbackContext):
     user_data = sql.get_all()
     bot, job = context.bot, context.job
     # this loop checks for every row in the DB
@@ -239,9 +239,9 @@ job_rss_update = job.run_repeating(rss_update, interval=60, first=60)
 job_rss_set.enabled = True
 job_rss_update.enabled = True
 
-SHOW_URL_HANDLER = CommandHandler("rss", show_url, pass_args=True)
-ADD_URL_HANDLER = CommandHandler("addrss", add_url, pass_args=True)
-REMOVE_URL_HANDLER = CommandHandler("removerss", remove_url, pass_args=True)
+SHOW_URL_HANDLER = CommandHandler("rss", show_url)
+ADD_URL_HANDLER = CommandHandler("addrss", add_url)
+REMOVE_URL_HANDLER = CommandHandler("removerss", remove_url)
 LIST_URLS_HANDLER = CommandHandler("listrss", list_urls)
 
 dispatcher.add_handler(SHOW_URL_HANDLER)
