@@ -4,7 +4,7 @@ import re
 from typing import List
 
 import requests
-from telegram import Bot, Update, MessageEntity, ParseMode
+from telegram import Update, MessageEntity, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import mention_html
@@ -42,7 +42,8 @@ Keep in mind that your message <b>MUST</b> contain some text other than just a b
 
 
 @run_async
-def get_id(bot: Bot, update: Update, args: List[str]):
+def get_id(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
     chat = update.effective_chat
     msg = update.effective_message
@@ -89,7 +90,8 @@ def gifid(update: Update, context: CallbackContext):
 
 
 @run_async
-def info(bot: Bot, update: Update, args: List[str]):
+def info(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
     chat = update.effective_chat
     user_id = extract_user(update.effective_message, args)
@@ -205,9 +207,9 @@ __help__ = """
  • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats.
 """
 
-ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)
+ID_HANDLER = DisableAbleCommandHandler("id", get_id)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid)
-INFO_HANDLER = DisableAbleCommandHandler(["info", "appraise", "appraisal"], info, pass_args=True)
+INFO_HANDLER = DisableAbleCommandHandler(["info", "appraise", "appraisal"], info)
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
 STATS_HANDLER = CommandHandler("stats", stats)
