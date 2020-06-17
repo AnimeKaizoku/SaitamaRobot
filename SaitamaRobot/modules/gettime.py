@@ -3,7 +3,7 @@ import datetime
 from typing import List
 
 import requests
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.ext import run_async
 
 from SaitamaRobot import dispatcher, TIME_API_KEY
