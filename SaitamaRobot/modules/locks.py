@@ -212,14 +212,9 @@ def del_lockables(update: Update, context: CallbackContext):
     chat = update.effective_chat
     message = update.effective_message
 
-    #filter() expects Update object when filters are merged, otherwise Message object
-    chk = message
-
     for lockable, filter in LOCK_TYPES.items():
         LOGGER.info("-- del_lockables -- " + lockable + " -- init")
-        if lockable == "gif" or lockable == "url":
-            chk = update
-        if filter(chk) and sql.is_locked(chat.id, lockable) and can_delete(chat, bot.id):
+        if filter(update) and sql.is_locked(chat.id, lockable) and can_delete(chat, bot.id):
             if lockable == "bots":
                 new_members = update.effective_message.new_chat_members
                 for new_mem in new_members:
@@ -248,16 +243,9 @@ def del_lockables(update: Update, context: CallbackContext):
 def rest_handler(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
-
-    #filter() expects Update object when filters are merged, otherwise Message object
-    _chk = msg
-
     for restriction, _filter in RESTRICTION_TYPES.items():
         LOGGER.info("-- rest_handler -- " + restriction + " -- init")
-        if restriction != 'all':
-            # all others are merged filters
-            _chk = update
-        if _filter(_chk) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, bot.id):
+        if _filter(update) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, bot.id):
             try:
                 msg.delete()
             except BadRequest as excp:
