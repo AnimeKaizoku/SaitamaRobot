@@ -38,7 +38,7 @@ class CustomCommandHandler(CommandHandler):
                     elif isinstance(self.filters, list):
                         res = any(func(message) for func in self.filters)
                     else:
-                        res = self.filters(message)
+                        res = self.filters(update)
 
                     return res and (command[0].lower() in self.command
                                     and command[1].lower() == message.bot.username.lower())
