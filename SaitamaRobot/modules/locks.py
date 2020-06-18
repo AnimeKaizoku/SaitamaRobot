@@ -213,7 +213,6 @@ def del_lockables(update: Update, context: CallbackContext):
     message = update.effective_message
 
     for lockable, filter in LOCK_TYPES.items():
-        LOGGER.info("-- del_lockables -- " + lockable + " -- init")
         if filter(update) and sql.is_locked(chat.id, lockable) and can_delete(chat, bot.id):
             if lockable == "bots":
                 new_members = update.effective_message.new_chat_members
@@ -236,7 +235,6 @@ def del_lockables(update: Update, context: CallbackContext):
                         LOGGER.exception("ERROR in lockables")
 
             break
-        LOGGER.info("-- del_lockables -- " + lockable + " -- done")
 
 @run_async
 @user_not_admin
@@ -244,7 +242,6 @@ def rest_handler(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     for restriction, _filter in RESTRICTION_TYPES.items():
-        LOGGER.info("-- rest_handler -- " + restriction + " -- init")
         if _filter(update) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, bot.id):
             try:
                 msg.delete()
@@ -254,7 +251,6 @@ def rest_handler(update: Update, context: CallbackContext):
                 else:
                     LOGGER.exception("ERROR in restrictions")
             break
-        LOGGER.info("-- rest_handler -- " + restriction + " -- done")
 
 
 def format_lines(lst, spaces):
