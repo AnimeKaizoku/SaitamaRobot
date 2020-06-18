@@ -52,7 +52,7 @@ def connection_chat(update: Update, context: CallbackContext):
     user = update.effective_user
     msg = update.effective_message
 
-    conn = connected(bot, update, chat, user.id, need_admin=True)
+    conn = connected(update, context, chat, user.id, need_admin=True)
 
     if conn:
         chat_name = dispatcher.bot.getChat(conn).title
@@ -99,7 +99,7 @@ def connect_chat(update: Update, context: CallbackContext):
             if isadmin or (isallow and ismember) or (user.id in SUDO_USERS) or (user.id in DEV_USERS):
                 connection_status = sql.connect(msg.from_user.id, connect_chat)
                 if connection_status:
-                    conn_chat = dispatcher.bot.getChat(connected(bot, update, chat, user.id, need_admin=False))
+                    conn_chat = dispatcher.bot.getChat(connected(update, context, chat, user.id, need_admin=False))
                     chat_name = conn_chat.title
                     send_message(msg, "Successfully connected to *{chat_name}*."
                                       " Use /connection for see current available commands.",
@@ -118,7 +118,7 @@ def connect_chat(update: Update, context: CallbackContext):
                 ]
             else:
                 buttons = []
-            conn = connected(bot, update, chat, user.id, need_admin=False)
+            conn = connected(update, context, chat, user.id, need_admin=False)
             if conn:
                 connectedchat = dispatcher.bot.getChat(conn)
                 text = "You are connected to *{}* (`{}`)".format(connectedchat.title, conn)
@@ -186,7 +186,7 @@ def disconnect_chat(update: Update, context: CallbackContext):
         send_message(msg, "This command is only available in PM.")
 
 
-def connected(bot, update, chat, user_id, need_admin=True):
+def connected(update, context, chat, user_id, need_admin=True):
     user = update.effective_user
     msg = update.effective_message
 
@@ -210,7 +210,7 @@ def connected(bot, update, chat, user_id, need_admin=True):
         else:
             send_message(msg, "The group changed the connection rights or you are no longer an admin.\n"
                               "I've disconnected you.")
-            disconnect_chat(bot, update)
+            disconnect_chat(update, context)
             raise Exception("Not admin!")
     else:
         return False
@@ -248,7 +248,7 @@ def connect_button(update: Update, context: CallbackContext):
             connection_status = sql.connect(query.from_user.id, target_chat)
 
             if connection_status:
-                conn_chat = bot.getChat(connected(bot, update, chat, user.id, need_admin=False))
+                conn_chat = bot.getChat(connected(update, context, chat, user.id, need_admin=False))
                 chat_name = conn_chat.title
                 query.message.edit_text(f"Successfully connected to *{chat_name}*."
                                         f" Use /connection for see current available commands.",
@@ -270,7 +270,7 @@ def connect_button(update: Update, context: CallbackContext):
     elif connect_close:
         query.message.edit_text("Closed.\nTo open again, type /connect")
     else:
-        connect_chat(bot, update, [])
+        connect_chat(update, context, [])
 
 
 __help__ = """
@@ -283,10 +283,10 @@ __help__ = """
  • `/allowconnect <yes/no>`*:* allow a user to connect to a chat
 """
 
-CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat, pass_args=True)
+CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat)
 CONNECTION_CHAT_HANDLER = CommandHandler("connection", connection_chat)
 DISCONNECT_CHAT_HANDLER = CommandHandler("disconnect", disconnect_chat)
-ALLOW_CONNECTIONS_HANDLER = CommandHandler("allowconnect", allow_connections, pass_args=True)
+ALLOW_CONNECTIONS_HANDLER = CommandHandler("allowconnect", allow_connections)
 HELP_CONNECT_CHAT_HANDLER = CommandHandler("helpconnect", help_connect_chat)
 CONNECT_BTN_HANDLER = CallbackQueryHandler(connect_button, pattern=r"connect")
 

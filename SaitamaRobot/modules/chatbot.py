@@ -95,7 +95,7 @@ def list_chatbot_chats(update: Update, context: CallbackContext):
     text = "<b>AI-Enabled Chats</b>\n"
     for chat in chats:
         try:
-            x = bot.get_chat(int(*chat))
+            x = context.bot.get_chat(int(*chat))
             name = x.title if x.title else x.first_name
             text += f"• <code>{name}</code>\n"
         except BadRequest:

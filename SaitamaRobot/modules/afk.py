@@ -100,15 +100,15 @@ def reply_afk(update: Update, context: CallbackContext):
             else:
                 return
 
-            check_afk(bot, update, user_id, fst_name, userc_id)
+            check_afk(update, context, user_id, fst_name, userc_id)
 
     elif message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
         fst_name = message.reply_to_message.from_user.first_name
-        check_afk(bot, update, user_id, fst_name, userc_id)
+        check_afk(update, context, user_id, fst_name, userc_id)
 
 
-def check_afk(bot, update, user_id, fst_name, userc_id):
+def check_afk(update, context, user_id, fst_name, userc_id):
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
         if not user.reason:
