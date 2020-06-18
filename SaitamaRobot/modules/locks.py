@@ -216,6 +216,7 @@ def del_lockables(update: Update, context: CallbackContext):
     chk = message
 
     for lockable, filter in LOCK_TYPES.items():
+        LOGGER.info("-- del_lockables -- " + lockable + " -- init")
         if lockable == "gif" or lockable == "url":
             chk = update
         if filter(chk) and sql.is_locked(chat.id, lockable) and can_delete(chat, bot.id):
@@ -240,7 +241,7 @@ def del_lockables(update: Update, context: CallbackContext):
                         LOGGER.exception("ERROR in lockables")
 
             break
-
+        LOGGER.info("-- del_lockables -- " + lockable + " -- done")
 
 @run_async
 @user_not_admin
@@ -252,6 +253,7 @@ def rest_handler(update: Update, context: CallbackContext):
     _chk = msg
 
     for restriction, _filter in RESTRICTION_TYPES.items():
+        LOGGER.info("-- rest_handler -- " + restriction + " -- init")
         if restriction != 'all':
             # all others are merged filters
             _chk = update
@@ -264,6 +266,7 @@ def rest_handler(update: Update, context: CallbackContext):
                 else:
                     LOGGER.exception("ERROR in restrictions")
             break
+        LOGGER.info("-- rest_handler -- " + restriction + " -- done")
 
 
 def format_lines(lst, spaces):
