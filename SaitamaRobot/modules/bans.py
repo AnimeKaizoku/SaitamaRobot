@@ -339,11 +339,11 @@ __help__ = """
  • `/punch <userhandle>`*:* Punches a user out of the group, (via handle, or reply)
 """
 
-BAN_HANDLER = CommandHandler("ban", ban, pass_args=True)
-TEMPBAN_HANDLER = CommandHandler(["tban", "tempban"], temp_ban, pass_args=True)
-PUNCH_HANDLER = CommandHandler("punch", punch, pass_args=True)
-UNBAN_HANDLER = CommandHandler("unban", unban, pass_args=True)
-ROAR_HANDLER = CommandHandler("roar", selfunban, pass_args=True)
+BAN_HANDLER = CommandHandler("ban", ban)
+TEMPBAN_HANDLER = CommandHandler(["tban", "tempban"], temp_ban)
+PUNCH_HANDLER = CommandHandler("punch", punch)
+UNBAN_HANDLER = CommandHandler("unban", unban)
+ROAR_HANDLER = CommandHandler("roar", selfunban)
 PUNCHME_HANDLER = DisableAbleCommandHandler("punchme", punchme, filters=Filters.group)
 
 dispatcher.add_handler(BAN_HANDLER)

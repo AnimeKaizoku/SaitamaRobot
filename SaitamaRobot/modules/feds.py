@@ -1384,7 +1384,7 @@ def fed_import_bans(update: Update, context: CallbackContext):
 		send_message(update.effective_message, text)
 
 @run_async
-def del_fed_button(bot, update):
+def del_fed_button(update: Update, context: CallbackContext):
 	query = update.callback_query
 	userid = query.message.chat.id
 	fed_id = query.data.split("_")[1]
@@ -1400,7 +1400,8 @@ def del_fed_button(bot, update):
 			query.message.edit_text("You have removed your Federation! Now all the Groups that are connected with `{}` do not have a Federation.".format(getfed['fname']), parse_mode='markdown')
 
 @run_async
-def fed_stat_user(bot, update, args):
+def fed_stat_user(update: Update, context: CallbackContext):
+	bot, args = context.bot, context.args
 	chat = update.effective_chat  
 	user = update.effective_user  
 	msg = update.effective_message  
@@ -1484,7 +1485,8 @@ def fed_stat_user(bot, update, args):
 
 
 @run_async
-def set_fed_log(bot, update, args):
+def set_fed_log(update: Update, context: CallbackContext):
+	args = context.args
 	chat = update.effective_chat  
 	user = update.effective_user  
 	msg = update.effective_message  
@@ -1509,7 +1511,8 @@ def set_fed_log(bot, update, args):
 		send_message(update.effective_message, "You have not provided your federated ID!")
 
 @run_async
-def unset_fed_log(bot, update, args):
+def unset_fed_log(update: Update, context: CallbackContext):
+	args = context.args
 	chat = update.effective_chat  
 	user = update.effective_user  
 	msg = update.effective_message  
@@ -1535,7 +1538,8 @@ def unset_fed_log(bot, update, args):
 
 
 @run_async
-def subs_feds(bot, update, args):
+def subs_feds(update: Update, context: CallbackContext):
+	bot, args = context.bot, context.args
 	chat = update.effective_chat  
 	user = update.effective_user  
 	msg = update.effective_message  
@@ -1573,7 +1577,8 @@ def subs_feds(bot, update, args):
 		send_message(update.effective_message, "You have not provided your federated ID!")
 
 @run_async
-def unsubs_feds(bot, update, args):
+def unsubs_feds(update: Update, context: CallbackContext):
+	bot, args = context.bot, context.args
 	chat = update.effective_chat  
 	user = update.effective_user  
 	msg = update.effective_message  
@@ -1611,7 +1616,8 @@ def unsubs_feds(bot, update, args):
 		send_message(update.effective_message, "You have not provided your federated ID!")
 
 @run_async
-def get_myfedsubs(bot, update, args):
+def get_myfedsubs(update: Update, context: CallbackContext):
+	args = context.args 
 	chat = update.effective_chat  
 	user = update.effective_user  
 	msg = update.effective_message  
@@ -1648,7 +1654,7 @@ def get_myfedsubs(bot, update, args):
 		send_message(update.effective_message, listfed, parse_mode="markdown")
 
 @run_async
-def get_myfeds_list(bot, update):
+def get_myfeds_list(update: Update, context: CallbackContext):
 	chat = update.effective_chat  
 	user = update.effective_user  
 	msg = update.effective_message  
@@ -1687,8 +1693,10 @@ def is_user_fed_owner(fed_id, user_id):
 		return False
 
 
+# There's no handler for this yet, but updating for v12 in case its used
 @run_async
-def welcome_fed(bot, update):
+def welcome_fed(update: Update, context: CallbackContext):
+	bot, args = context.bot, context.args
 	chat = update.effective_chat  
 	user = update.effective_user  
 	fed_id = sql.get_fed_id(chat.id)

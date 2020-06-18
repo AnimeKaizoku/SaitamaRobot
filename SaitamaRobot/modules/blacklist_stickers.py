@@ -31,7 +31,7 @@ def blackliststicker(update: Update, context: CallbackContext):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	bot, args = context.bot, context.args
-	conn = connected(bot, update, chat, user.id, need_admin=False)
+	conn = connected(update, context, chat, user.id, need_admin=False)
 	if conn:
 		chat_id = conn
 		chat_name = dispatcher.bot.getChat(conn).title
@@ -64,12 +64,13 @@ def blackliststicker(update: Update, context: CallbackContext):
 @run_async
 @user_admin
 def add_blackliststicker(update: Update, context: CallbackContext):
+	bot = context.bot
 	msg = update.effective_message  # type: Optional[Message]
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	words = msg.text.split(None, 1)
 	bot = context.bot
-	conn = connected(bot, update, chat, user.id)
+	conn = connected(update, context, chat, user.id)
 	if conn:
 		chat_id = conn
 		chat_name = dispatcher.bot.getChat(conn).title
@@ -123,12 +124,13 @@ def add_blackliststicker(update: Update, context: CallbackContext):
 @run_async
 @user_admin
 def unblackliststicker(update: Update, context: CallbackContext):
+	bot = context.bot
 	msg = update.effective_message  # type: Optional[Message]
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	words = msg.text.split(None, 1)
 	bot = context.bot
-	conn = connected(bot, update, chat, user.id)
+	conn = connected(update, context, chat, user.id)
 	if conn:
 		chat_id = conn
 		chat_name = dispatcher.bot.getChat(conn).title
@@ -190,7 +192,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
 	bot, args = context.bot, context.args
-	conn = connected(bot, update, chat, user.id, need_admin=True)
+	conn = connected(update, context, chat, user.id, need_admin=True)
 	if conn:
 		chat = dispatcher.bot.getChat(conn)
 		chat_id = conn
@@ -278,6 +280,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
 @run_async
 @user_not_admin
 def del_blackliststicker(update: Update, context: CallbackContext):
+	bot = context.bot
 	chat = update.effective_chat  # type: Optional[Chat]
 	message = update.effective_message  # type: Optional[Message]
 	user = update.effective_user
@@ -368,10 +371,10 @@ Note:
 
 __mod_name__ = "Sticker Blacklist"
 
-BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler("blsticker", blackliststicker, pass_args=True, admin_ok=True)
+BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler("blsticker", blackliststicker, admin_ok=True)
 ADDBLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler("addblsticker", add_blackliststicker)
 UNBLACKLIST_STICKER_HANDLER = CommandHandler(["unblsticker", "rmblsticker"], unblackliststicker)
-BLACKLISTMODE_HANDLER = CommandHandler("blstickermode", blacklist_mode, pass_args=True)
+BLACKLISTMODE_HANDLER = CommandHandler("blstickermode", blacklist_mode)
 BLACKLIST_STICKER_DEL_HANDLER = MessageHandler(Filters.sticker & Filters.group, del_blackliststicker)
 
 dispatcher.add_handler(BLACKLIST_STICKER_HANDLER)

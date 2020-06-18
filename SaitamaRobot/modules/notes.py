@@ -32,7 +32,8 @@ ENUM_FUNC_MAP = {
 
 
 # Do not async
-def get(bot, update, notename, show_none=True, no_format=False):
+def get(update, context, notename, show_none=True, no_format=False):
+    bot = context.bot
     chat_id = update.effective_chat.id
     note = sql.get_note(chat_id, notename)
     message = update.effective_message  # type: Optional[Message]
@@ -114,9 +115,9 @@ def get(bot, update, notename, show_none=True, no_format=False):
 def cmd_get(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     if len(args) >= 2 and args[1].lower() == "noformat":
-        get(bot, update, args[0].lower(), show_none=True, no_format=True)
+        get(update, context, args[0].lower(), show_none=True, no_format=True)
     elif len(args) >= 1:
-        get(bot, update, args[0].lower(), show_none=True)
+        get(update, context, args[0].lower(), show_none=True)
     else:
         update.effective_message.reply_text("Get rekt")
 
@@ -126,7 +127,7 @@ def hash_get(update: Update, context: CallbackContext):
     message = update.effective_message.text
     fst_word = message.split()[0]
     no_hash = fst_word[1:].lower()
-    get(bot, update, no_hash, show_none=False)
+    get(update, context, no_hash, show_none=False)
 
 
 @run_async

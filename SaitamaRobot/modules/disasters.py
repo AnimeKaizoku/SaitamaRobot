@@ -510,14 +510,14 @@ __help__ = f"""
  You can visit {SUPPORT_CHAT} to query more about these.
 """
 
-SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo, pass_args=True)
-SUPPORT_HANDLER = CommandHandler(("addsupport", "adddemon"), addsupport, pass_args=True)
-TIGER_HANDLER = CommandHandler(("addtiger"), addtiger, pass_args=True)
-WHITELIST_HANDLER = CommandHandler(("addwhitelist", "addwolf"), addwhitelist, pass_args=True)
-UNSUDO_HANDLER = CommandHandler(("removesudo", "removedragon"), removesudo, pass_args=True)
-UNSUPPORT_HANDLER = CommandHandler(("removesupport", "removedemon"), removesupport, pass_args=True)
-UNTIGER_HANDLER = CommandHandler(("removetiger"), removetiger, pass_args=True)
-UNWHITELIST_HANDLER = CommandHandler(("removewhitelist", "removewolf"), removewhitelist, pass_args=True)
+SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo)
+SUPPORT_HANDLER = CommandHandler(("addsupport", "adddemon"), addsupport)
+TIGER_HANDLER = CommandHandler(("addtiger"), addtiger)
+WHITELIST_HANDLER = CommandHandler(("addwhitelist", "addwolf"), addwhitelist)
+UNSUDO_HANDLER = CommandHandler(("removesudo", "removedragon"), removesudo)
+UNSUPPORT_HANDLER = CommandHandler(("removesupport", "removedemon"), removesupport)
+UNTIGER_HANDLER = CommandHandler(("removetiger"), removetiger)
+UNWHITELIST_HANDLER = CommandHandler(("removewhitelist", "removewolf"), removewhitelist)
 
 WHITELISTLIST_HANDLER = CommandHandler(["whitelistlist", "wolves"], whitelistlist)
 TIGERLIST_HANDLER = CommandHandler(["tigers"], tigerlist)
