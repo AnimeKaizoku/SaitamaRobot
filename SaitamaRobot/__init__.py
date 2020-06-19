@@ -151,9 +151,9 @@ SUPPORT_USERS = list(SUPPORT_USERS)
 TIGER_USERS = list(TIGER_USERS)
 
 # Load at end to ensure all prev variables have been set
-from SaitamaRobot.modules.helper_funcs.handlers import CustomCommandHandler, CustomRegexHandler, CustomMessageHandler
+from SaitamaRobot.modules.helper_funcs.handlers import CustomCommandHandler, CustomMessageHandler
 
-# make sure the regex handler can take extra kwargs
-tg.RegexHandler = CustomRegexHandler
+# make sure the message handler can take extra kwargs
+
 tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler

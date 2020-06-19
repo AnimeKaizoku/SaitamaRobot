@@ -6,7 +6,7 @@ from typing import Optional, List
 from telegram import MAX_MESSAGE_LENGTH, ParseMode, InlineKeyboardMarkup
 from telegram import Message, Update, Bot
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, RegexHandler
+from telegram.ext import CommandHandler, MessageHandler, Filters
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown
 
@@ -249,7 +249,7 @@ A button can be added to a note by using standard markdown link syntax - the lin
 __mod_name__ = "Notes"
 
 GET_HANDLER = CommandHandler("get", cmd_get)
-HASH_GET_HANDLER = RegexHandler(r"^#[^\s]+", hash_get)
+HASH_GET_HANDLER = MessageHandler(Filters.regex(r"^#[^\s]+"), hash_get)
 
 SAVE_HANDLER = CommandHandler("save", save)
 DELETE_HANDLER = CommandHandler("clear", clear)

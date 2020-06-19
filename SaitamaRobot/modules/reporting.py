@@ -4,7 +4,7 @@ from typing import Optional, List
 import re
 from telegram import Message, Chat, Update, Bot, User, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, RegexHandler, run_async, Filters, CallbackQueryHandler
+from telegram.ext import CommandHandler, MessageHandler, run_async, Filters, CallbackQueryHandler
 from telegram.utils.helpers import mention_html
 
 from SaitamaRobot.modules.helper_funcs.chat_status import user_not_admin, user_admin
@@ -210,7 +210,7 @@ __help__ = """
 
 SETTING_HANDLER = CommandHandler("reports", report_setting)
 REPORT_HANDLER = CommandHandler("report", report, filters=Filters.group)
-ADMIN_REPORT_HANDLER = RegexHandler("(?i)@admin(s)?", report)
+ADMIN_REPORT_HANDLER = MessageHandler(Filters.regex("(?i)@admin(s)?"), report)
 
 report_button_user_handler = CallbackQueryHandler(buttons, pattern=r"report_")
 dispatcher.add_handler(report_button_user_handler)
