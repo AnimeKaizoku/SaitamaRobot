@@ -6,7 +6,7 @@ import time
 from typing import List
 from functools import partial
 
-from telegram import Update, Bot
+from telegram import Update, Bot, ChatPermissions
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import BadRequest
 from telegram.ext import MessageHandler, Filters, CommandHandler, run_async, CallbackQueryHandler, JobQueue
@@ -204,10 +204,11 @@ def new_member(update: Update, context: CallbackContext):
             if should_mute:
                 if welc_mutes == "soft":
                     bot.restrict_chat_member(chat.id, new_mem.id,
-                                             can_send_messages=True,
-                                             can_send_media_messages=False,
-                                             can_send_other_messages=False,
-                                             can_add_web_page_previews=False,
+                                             ChatPermissions(can_send_messages=True,
+                                                can_send_media_messages=False,
+                                                can_send_other_messages=False,
+                                                can_add_web_page_previews=False,
+                                                ),
                                              until_date=(int(time.time() + 24 * 60 * 60)))
 
                 if welc_mutes == "strong":
@@ -229,10 +230,10 @@ def new_member(update: Update, context: CallbackContext):
                                                  callback_data=f"user_join_({new_mem.id})")}]),
                                              parse_mode=ParseMode.MARKDOWN, reply_to_message_id=reply)
                     bot.restrict_chat_member(chat.id, new_mem.id,
-                                             can_send_messages=False,
-                                             can_send_media_messages=False,
-                                             can_send_other_messages=False,
-                                             can_add_web_page_previews=False)
+                                             ChatPermissions(can_send_messages=False,
+                                                can_send_media_messages=False,
+                                                can_send_other_messages=False,
+                                                can_add_web_page_previews=False))
 
                     job_queue.run_once(
                         partial(
@@ -645,10 +646,11 @@ def user_button(update: Update, context: CallbackContext):
         member_dict["status"] = True
         VERIFIED_USER_WAITLIST.update({user.id: member_dict})
         query.answer(text="Yeet! You're a human, unmuted!")
-        bot.restrict_chat_member(chat.id, user.id, can_send_messages=True,
-                                 can_send_media_messages=True,
-                                 can_send_other_messages=True,
-                                 can_add_web_page_previews=True)
+        bot.restrict_chat_member(chat.id, user.id,
+                                 ChatPermissions(can_send_messages=True,
+                                    can_send_media_messages=True,
+                                    can_send_other_messages=True,
+                                    can_add_web_page_previews=True))
         bot.deleteMessage(chat.id, message.message_id)
         if member_dict["should_welc"]:
             sent = send(member_dict["update"], member_dict["res"], member_dict["keyboard"], member_dict["backup_message"])

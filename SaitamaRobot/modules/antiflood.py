@@ -5,6 +5,7 @@ from typing import Optional, List
 
 from telegram import Message, Chat, Update, Bot, User, \
 InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from telegram import ChatPermissions
 from telegram.error import BadRequest
 from telegram.ext import Filters, MessageHandler, CommandHandler, CallbackQueryHandler, run_async
 from telegram.utils.helpers import mention_html
@@ -45,7 +46,7 @@ def check_flood(update: Update, context: CallbackContext) -> str:
         bot.restrict_chat_member(
             chat.id,
             user.id,
-            can_send_messages=False
+            ChatPermissions(can_send_messages=False)
         )
 
         keyboard = InlineKeyboardMarkup(
@@ -88,10 +89,10 @@ def flood_button(update: Update, context: CallbackContext):
             bot.restrict_chat_member(
                 chat,
                 int(user_id),
-                can_send_messages=True,
-                can_send_media_messages=True,
-                can_send_other_messages=True,
-                can_add_web_page_previews=True
+                ChatPermissions(can_send_messages=True,
+                    can_send_media_messages=True,
+                    can_send_other_messages=True,
+                    can_add_web_page_previews=True)
             )
             update.effective_message.edit_text(
                 f"Unmuted by {mention_html(user.id, user.first_name)}.",
