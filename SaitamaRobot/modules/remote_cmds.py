@@ -2,7 +2,7 @@ from telegram.ext import CallbackContext
 import html
 from typing import Optional, List
 
-from telegram import Message, Chat, Update, Bot, User
+from telegram import Message, Chat, Update, Bot, User, ChatPermissions
 from telegram.error import BadRequest
 from telegram.ext import run_async, CommandHandler, Filters
 from telegram.utils.helpers import mention_html
@@ -342,7 +342,7 @@ def rmute(update: Update, context: CallbackContext):
         return
 
     try:
-        bot.restrict_chat_member(chat.id, user_id, can_send_messages=False)
+        bot.restrict_chat_member(chat.id, user_id, ChatPermissions(can_send_messages=False))
         message.reply_text("Muted from the chat!")
     except BadRequest as excp:
         if excp.message == "Reply message not found":
@@ -413,10 +413,10 @@ def runmute(update: Update, context: CallbackContext):
 
     try:
         bot.restrict_chat_member(chat.id, int(user_id),
-                                     can_send_messages=True,
+                                     ChatPermissions(can_send_messages=True,
                                      can_send_media_messages=True,
                                      can_send_other_messages=True,
-                                     can_add_web_page_previews=True)
+                                     can_add_web_page_previews=True))
         message.reply_text("Yep, this user can talk in that chat!")
     except BadRequest as excp:
         if excp.message == "Reply message not found":

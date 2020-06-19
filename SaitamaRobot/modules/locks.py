@@ -3,7 +3,7 @@ import html
 from typing import List
 
 import telegram.ext as tg
-from telegram import Update, ParseMode, MessageEntity
+from telegram import Update, ParseMode, MessageEntity, ChatPermissions
 from telegram import TelegramError
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
@@ -71,10 +71,10 @@ def restr_members(bot, chat_id, members, messages=False, media=False, other=Fals
             pass
         try:
             bot.restrict_chat_member(chat_id, mem.user,
-                                     can_send_messages=messages,
-                                     can_send_media_messages=media,
-                                     can_send_other_messages=other,
-                                     can_add_web_page_previews=previews)
+                                     ChatPermissions(can_send_messages=messages,
+                                        can_send_media_messages=media,
+                                        can_send_other_messages=other,
+                                        can_add_web_page_previews=previews))
         except TelegramError:
             pass
 
@@ -84,10 +84,10 @@ def unrestr_members(bot, chat_id, members, messages=True, media=True, other=True
     for mem in members:
         try:
             bot.restrict_chat_member(chat_id, mem.user,
-                                     can_send_messages=messages,
-                                     can_send_media_messages=media,
-                                     can_send_other_messages=other,
-                                     can_add_web_page_previews=previews)
+                                     ChatPermissions(can_send_messages=messages,
+                                        can_send_media_messages=media,
+                                        can_send_other_messages=other,
+                                        can_add_web_page_previews=previews))
         except TelegramError:
             pass
 

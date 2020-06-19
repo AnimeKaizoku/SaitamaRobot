@@ -3,7 +3,7 @@ import html
 from typing import Optional, List
 
 import telegram.ext as tg
-from telegram import Message, Chat, Update, Bot, ParseMode, User, MessageEntity
+from telegram import Message, Chat, Update, Bot, ParseMode, User, MessageEntity, ChatPermissions
 from telegram import TelegramError
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters
@@ -304,7 +304,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
 					return
 				elif getmode == 3:
 					message.delete()
-					bot.restrict_chat_member(chat.id, update.effective_user.id, can_send_messages=False)
+					bot.restrict_chat_member(chat.id, update.effective_user.id, ChatPermissions(can_send_messages=False))
 					bot.sendMessage(chat.id, "{} muted because using '{}' which in blacklist stickers".format(mention_markdown(user.id, user.first_name), trigger), parse_mode="markdown")
 					return
 				elif getmode == 4:
@@ -327,7 +327,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
 				elif getmode == 7:
 					message.delete()
 					mutetime = extract_time(message, value)
-					bot.restrict_chat_member(chat.id, user.id, until_date=mutetime, can_send_messages=False)
+					bot.restrict_chat_member(chat.id, user.id, ChatPermissions(can_send_messages=False), until_date=mutetime)
 					bot.sendMessage(chat.id, "{} muted for {} because using '{}' which in blacklist stickers".format(mention_markdown(user.id, user.first_name), value, trigger), parse_mode="markdown")
 					return
 			except BadRequest as excp:

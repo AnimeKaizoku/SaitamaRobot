@@ -3,7 +3,7 @@ import html
 
 from typing import Optional, List
 
-from telegram import Bot, Chat, Update, ParseMode
+from telegram import Bot, Chat, Update, ParseMode, ChatPermissions
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async
 from telegram.utils.helpers import mention_html
@@ -70,7 +70,7 @@ def mute(update: Update, context: CallbackContext) -> str:
         log += f"\n<b>Reason:</b> {reason}"
 
     if member.can_send_messages is None or member.can_send_messages:
-        bot.restrict_chat_member(chat.id, user_id, can_send_messages=False)
+        bot.restrict_chat_member(chat.id, user_id, ChatPermissions(can_send_messages=False))
         bot.sendMessage(chat.id, f"Muted <b>{html.escape(member.user.first_name)}</b> with no expiration date!",
                         parse_mode=ParseMode.HTML)
         return log
@@ -107,10 +107,10 @@ def unmute(update: Update, context: CallbackContext) -> str:
             message.reply_text("This user already has the right to speak.")
         else:
             bot.restrict_chat_member(chat.id, int(user_id),
-                                     can_send_messages=True,
-                                     can_send_media_messages=True,
-                                     can_send_other_messages=True,
-                                     can_add_web_page_previews=True)
+                                     ChatPermissions(can_send_messages=True,
+                                        can_send_media_messages=True,
+                                        can_send_other_messages=True,
+                                        can_add_web_page_previews=True))
             bot.sendMessage(chat.id, f"I shall allow <b>{html.escape(member.user.first_name)}</b> to text!",
                             parse_mode=ParseMode.HTML)
             return (f"<b>{html.escape(chat.title)}:</b>\n"
@@ -172,7 +172,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
 
     try:
         if member.can_send_messages is None or member.can_send_messages:
-            bot.restrict_chat_member(chat.id, user_id, until_date=mutetime, can_send_messages=False)
+            bot.restrict_chat_member(chat.id, user_id, ChatPermissions(can_send_messages=False), until_date=mutetime)
             bot.sendMessage(chat.id, f"Muted <b>{html.escape(member.user.first_name)}</b> for {time_val}!",
                             parse_mode=ParseMode.HTML)
             return log
