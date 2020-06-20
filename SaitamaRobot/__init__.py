@@ -156,4 +156,3 @@ from SaitamaRobot.modules.helper_funcs.handlers import CustomCommandHandler, Cus
 # make sure the message handler can take extra kwargs
 
 tg.CommandHandler = CustomCommandHandler
-tg.MessageHandler = CustomMessageHandler
