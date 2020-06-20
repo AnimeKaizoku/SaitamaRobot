@@ -14,7 +14,8 @@ from SaitamaRobot.modules.helper_funcs.misc import is_module_loaded
 FILENAME = __name__.rsplit(".", 1)[-1]
 
 # If module is due to be loaded, then setup all the magical handlers
-if is_module_loaded(FILENAME):
+# if is_module_loaded(FILENAME):
+if False:
 
     from telegram.ext.dispatcher import run_async
 
