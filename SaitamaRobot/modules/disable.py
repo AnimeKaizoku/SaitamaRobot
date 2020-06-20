@@ -302,5 +302,5 @@ if False:
     __mod_name__ = "Command disabling"
 
 else:
-    DisableAbleCommandHandler = CommandHandler
+    DisableAbleCommandHandler = CustomCommandHandler
     DisableAbleMessageHandler = MessageHandler
