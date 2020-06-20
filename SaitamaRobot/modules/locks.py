@@ -107,7 +107,6 @@ def lock(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
-
     if can_delete(chat, bot.id):
         if len(args) >= 1:
             if args[0] in LOCK_TYPES:
@@ -242,7 +241,7 @@ def rest_handler(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     for restriction, _filter in RESTRICTION_TYPES.items():
-        if _filter(update) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, bot.id):
+        if _filter(update) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, context.bot.id):
             try:
                 msg.delete()
             except BadRequest as excp:
