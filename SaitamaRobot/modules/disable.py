@@ -3,7 +3,7 @@ import importlib
 from typing import Union, List
 
 from future.utils import string_types
-from telegram import Update, ParseMode
+from telegram import Update, ParseMode, MessageEntity
 from telegram.ext import CommandHandler, MessageHandler
 from telegram.utils.helpers import escape_markdown
 
@@ -42,39 +42,51 @@ if is_module_loaded(FILENAME):
                     ADMIN_CMDS.extend(command)
 
         def check_update(self, update):
-            chat = update.effective_chat
-            user = update.effective_user
+            if isinstance(update, Update) and update.effective_message:
+                message = update.effective_message
 
-            if super().check_update(update):
+                if (message.entities and message.entities[0].type == MessageEntity.BOT_COMMAND
+                        and message.entities[0].offset == 0):
+                    command = message.text[1:message.entities[0].length]
+                    args = message.text.split()[1:]
+                    command = command.split('@')
+                    command.append(message.bot.username)
 
-                # Should be safe since check_update passed.
-                command = update.effective_message.text_html.split(None, 1)[0][1:].split('@')[0]
+                    if not (command[0].lower() in self.command
+                            and command[1].lower() == message.bot.username.lower()):
+                        return None
 
-                # disabled, admincmd, user admin
-                if sql.is_command_disabled(chat.id, command):
-                    if command in ADMIN_CMDS and is_user_admin(chat, user.id):
-                        return True
+                    filter_result = self.filters(update)
+                    if filter_result:
+                        chat = update.effective_chat
+                        # disabled, admincmd, user admin
+                        if sql.is_command_disabled(chat.id, command[0].lower()):
+                            # check if command was disabled
+                            is_disabled = command[0] in ADMIN_CMDS and is_user_admin(chat, user.id)
+                            if not is_disabled:
+                                # disabled and should delete
+                                update.effective_message.delete()
+                            if not is_disabled:
+                                return None
+                            else:
+                                return args, filter_result
 
-                # not disabled
-                else:
-                    return True
+                        return args, filter_result
+                    else:
+                        return False
 
 
     class DisableAbleMessageHandler(MessageHandler):
         def __init__(self, filters, callback, friendly, **kwargs):
             super().__init__(filters, callback, **kwargs)
-            DISABLE_OTHER.append(friendly)
+            DISABLE_OTHER.append(friendly or filters)
             self.friendly = friendly
             self.filters = filters
 
         def check_update(self, update):
-
-            chat = update.effective_chat
-            if super().check_update(update):
-                if sql.is_command_disabled(chat.id, self.friendly):
-                    return False
-                else:
-                    return True
+            if isinstance(update, Update) and update.effective_message:
+                chat = update.effective_chat
+                return self.filters(update) and not sql.is_command_disabled(chat.id, self.friendly)
 
     @run_async
     @connection_status
