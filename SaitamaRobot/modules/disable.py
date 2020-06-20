@@ -77,11 +77,12 @@ if is_module_loaded(FILENAME):
 
 
     class DisableAbleMessageHandler(MessageHandler):
-        def __init__(self, filters, callback, friendly, **kwargs):
+        def __init__(self, filters, callback, friendly = "", **kwargs):
             super().__init__(filters, callback, **kwargs)
-            DISABLE_OTHER.append(friendly or filters)
-            self.friendly = friendly
-            self.filters = filters
+            if friendly:
+                DISABLE_OTHER.append(friendly or filters)
+                self.friendly = friendly
+                self.filters = filters
 
         def check_update(self, update):
             if isinstance(update, Update) and update.effective_message:
