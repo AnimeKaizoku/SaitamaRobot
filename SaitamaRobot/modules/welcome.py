@@ -286,7 +286,7 @@ def left_member(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
     should_goodbye, cust_goodbye, goodbye_type = sql.get_gdbye_pref(chat.id)
-
+    bot = context.bot
     if user.id == bot.id:
         return
 
@@ -640,7 +640,7 @@ def user_button(update: Update, context: CallbackContext):
     match = re.match(r"user_join_\((.+?)\)", query.data)
     message = update.effective_message
     join_user = int(match.group(1))
-
+    bot = contex.bot
     if join_user == user.id:
         member_dict = VERIFIED_USER_WAITLIST.pop(user.id)
         member_dict["status"] = True
