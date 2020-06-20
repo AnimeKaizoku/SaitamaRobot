@@ -39,7 +39,3 @@ class CustomCommandHandler(CommandHandler):
                         return args, filter_result
                     else:
                         return False
-
-class CustomMessageHandler(MessageHandler):
-    def __init__(self, filters, callback, friendly="", **kwargs):
-        super().__init__(filters, callback, **kwargs)
