@@ -209,6 +209,7 @@ def unlock(update: Update, context: CallbackContext) -> str:
 @run_async
 @user_not_admin
 def del_lockables(update: Update, context: CallbackContext):
+    bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
 
@@ -218,7 +219,7 @@ def del_lockables(update: Update, context: CallbackContext):
     for lockable, filter in LOCK_TYPES.items():
         if lockable == "gif" or lockable == "url":
             chk = update
-        if filter(chk) and sql.is_locked(chat.id, lockable) and can_delete(chat, bot.id):
+        if filter(update) and sql.is_locked(chat.id, lockable) and can_delete(chat, bot.id):
             if lockable == "bots":
                 new_members = update.effective_message.new_chat_members
                 for new_mem in new_members:
@@ -245,6 +246,7 @@ def del_lockables(update: Update, context: CallbackContext):
 @run_async
 @user_not_admin
 def rest_handler(update: Update, context: CallbackContext):
+    bot = context.bot
     msg = update.effective_message
     chat = update.effective_chat
 
@@ -255,7 +257,7 @@ def rest_handler(update: Update, context: CallbackContext):
         if restriction != 'all':
             # all others are merged filters
             _chk = update
-        if _filter(_chk) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, bot.id):
+        if _filter(update) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, bot.id):
             try:
                 msg.delete()
             except BadRequest as excp:
