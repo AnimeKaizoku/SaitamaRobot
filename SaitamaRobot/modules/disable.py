@@ -87,7 +87,10 @@ if is_module_loaded(FILENAME):
             message = update.effective_message
             filter_result = self.filters(update)
 
-            args = message.text.split()[1:]
+            try:
+                args = message.text.split()[1:]
+            except:
+                args = []
 
             if super().check_update(update):
                 if sql.is_command_disabled(chat.id, self.friendly):
