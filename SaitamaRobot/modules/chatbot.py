@@ -127,7 +127,7 @@ In future we might make it open for any chat and controllable by group admins.
 ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat, filters=CustomFilters.dev_filter)
 REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat, filters=CustomFilters.dev_filter)
 CHATBOT_HANDLER = MessageHandler(Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
-                                  & ~Filters.regex(r"^s\/")), chatbot)
+                                  & ~Filters.regex(r"^\/")), chatbot)
 LIST_CB_CHATS_HANDLER = CommandHandler("listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter)
 # Filters for ignoring #note messages, !commands and sed.
 

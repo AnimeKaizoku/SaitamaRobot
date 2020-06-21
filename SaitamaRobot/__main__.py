@@ -146,7 +146,7 @@ def start(update: Update, context: CallbackContext):
 
 
 # for test purposes
-def error_callback(context):
+def error_callback(update: Update, context: CallbackContext):
     error = context.error
     try:
         raise error

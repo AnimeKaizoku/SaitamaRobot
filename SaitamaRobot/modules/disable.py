@@ -3,8 +3,8 @@ import importlib
 from typing import Union, List
 
 from future.utils import string_types
-from telegram import Update, ParseMode
-from telegram.ext import CommandHandler, RegexHandler, MessageHandler
+from telegram import Update, ParseMode, MessageEntity
+from telegram.ext import CommandHandler, RegexHandler, MessageHandler, Filters
 from telegram.utils.helpers import escape_markdown
 
 from SaitamaRobot import dispatcher
@@ -31,7 +31,10 @@ if is_module_loaded(FILENAME):
         def __init__(self, command, callback, admin_ok=False, filters=None, **kwargs):
             super().__init__(command, callback, **kwargs)
             self.admin_ok = admin_ok
-            self.filters = filters
+            if filters:
+                self.filters = Filters.command & filters
+            else:
+                self.filters = Filters.command
             if isinstance(command, string_types):
                 DISABLE_CMDS.append(command)
                 if admin_ok:
@@ -44,37 +47,53 @@ if is_module_loaded(FILENAME):
         def check_update(self, update):
             chat = update.effective_chat
             user = update.effective_user
+            message = update.effective_message
+            filter_result = self.filters(update)
 
-            if super().check_update(update):
+            if (message.entities and message.entities[0].type == MessageEntity.BOT_COMMAND and message.entities[0].offset == 0):
 
-                # Should be safe since check_update passed.
-                command = update.effective_message.text_html.split(None, 1)[0][1:].split('@')[0]
+                args = message.text.split()[1:]
 
-                # disabled, admincmd, user admin
-                if sql.is_command_disabled(chat.id, command):
-                    if command in ADMIN_CMDS and is_user_admin(chat, user.id):
-                        return True
+                if super().check_update(update):
 
-                # not disabled
-                else:
-                    return True
+                    # Should be safe since check_update passed.
+                    command = update.effective_message.text_html.split(None, 1)[0][1:].split('@')[0]
+
+                    # disabled, admincmd, user admin
+                    if sql.is_command_disabled(chat.id, command):
+                        if command in ADMIN_CMDS and is_user_admin(chat, user.id):
+                            return args, filter_result
+
+                    # not disabled
+                    else:
+                        return args, filter_result
 
 
     class DisableAbleMessageHandler(MessageHandler):
+
         def __init__(self, filters, callback, friendly, **kwargs):
+
             super().__init__(filters, callback, **kwargs)
             DISABLE_OTHER.append(friendly)
             self.friendly = friendly
-            self.filters = filters
+            if filters:
+                self.filters = Filters.update.messages & filters
+            else:
+                self.filters = Filters.update.messages
 
         def check_update(self, update):
 
             chat = update.effective_chat
+            message = update.effective_message
+            filter_result = self.filters(update)
+
+            args = message.text.split()[1:]
+
             if super().check_update(update):
                 if sql.is_command_disabled(chat.id, self.friendly):
                     return False
                 else:
-                    return True
+                    return args, filter_result
 
 
     class DisableAbleRegexHandler(RegexHandler):

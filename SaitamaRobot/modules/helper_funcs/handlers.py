@@ -1,8 +1,10 @@
-from telegram import Update
-from telegram.ext import CommandHandler, RegexHandler, MessageHandler
+from future.utils import string_types
+
+from telegram import Update, MessageEntity
+from telegram.ext import CommandHandler, RegexHandler, MessageHandler, Filters
 
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
-from SaitamaRobot import ALLOW_EXCL
+from SaitamaRobot import ALLOW_EXCL, dispatcher
 
 if ALLOW_EXCL:
     CMD_STARTERS = ('/', '!')
@@ -12,16 +14,16 @@ else:
 
 class CustomCommandHandler(CommandHandler):
 
-    def __init__(self, command, callback, **kwargs):
-
-        if "admin_ok" in kwargs:
-            del kwargs["admin_ok"]
+    def __init__(self, command, callback, admin_ok=False, filters=None, **kwargs):
         super().__init__(command, callback, **kwargs)
+        if filters:
+            self.filters = Filters.update.messages & filters
+        else:
+            self.filters = Filters.update.messages
 
     def check_update(self, update):
-
-        if isinstance(update, Update) and (update.message or update.edited_message and self.allow_edited):
-            message = update.message or update.edited_message
+        if isinstance(update, Update) and update.effective_message:
+            message = update.effective_message
 
             if sql.is_user_blacklisted(update.effective_user.id):
                 return False
@@ -32,16 +34,16 @@ class CustomCommandHandler(CommandHandler):
                 if len(fst_word) > 1 and any(fst_word.startswith(start) for start in CMD_STARTERS):
                     command = fst_word[1:].split('@')
                     command.append(message.bot.username)  # in case the command was sent without a username
+                    args = message.text.split()[1:]
 
-                    if self.filters is None:
-                        res = True
-                    elif isinstance(self.filters, list):
-                        res = any(func(message) for func in self.filters)
+                    if not (command[0].lower() in self.command and command[1].lower() == message.bot.username.lower()):
+                        return None
+
+                    res = self.filters(update)
+                    if res:
+                        return args, res
                     else:
-                        res = self.filters(message)
-
-                    return res and (command[0].lower() in self.command
-                                    and command[1].lower() == message.bot.username.lower())
+                        return False
 
             return False
 
