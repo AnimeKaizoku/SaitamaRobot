@@ -29,6 +29,7 @@ def stickerid(update: Update, context: CallbackContext):
 
 @run_async
 def getsticker(update: Update, context: CallbackContext):
+    bot = context.bot
     msg = update.effective_message
     chat_id = update.effective_chat.id
     if msg.reply_to_message and msg.reply_to_message.sticker:
