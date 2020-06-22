@@ -39,6 +39,7 @@ def about_me(update: Update, context: CallbackContext):
 def set_about_me(update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = message.from_user.id
+    bot = context.bot
     if message.reply_to_message:
         repl_message = message.reply_to_message
         repl_user_id = repl_message.from_user.id
@@ -87,6 +88,7 @@ def about_bio(update: Update, context: CallbackContext):
 def set_about_bio(update: Update, context: CallbackContext):
     message = update.effective_message
     sender_id = update.effective_user.id
+    bot = context.bot
 
     if message.reply_to_message:
         repl_message = message.reply_to_message
