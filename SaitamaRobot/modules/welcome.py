@@ -282,6 +282,7 @@ def check_not_bot(member, chat_id, message_id, bot, job):
 
 @run_async
 def left_member(update: Update, context: CallbackContext):
+    bot = context.bot
     chat = update.effective_chat
     user = update.effective_user
     should_goodbye, cust_goodbye, goodbye_type = sql.get_gdbye_pref(chat.id)
