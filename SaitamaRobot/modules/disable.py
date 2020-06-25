@@ -44,29 +44,37 @@ if is_module_loaded(FILENAME):
                 if admin_ok:
                     ADMIN_CMDS.extend(command)
 
+
         def check_update(self, update):
-            chat = update.effective_chat
             user = update.effective_user
-            message = update.effective_message
-            filter_result = self.filters(update)
+            chat = update.effective_chat
 
-            if (message.entities and message.entities[0].type == MessageEntity.BOT_COMMAND and message.entities[0].offset == 0):
+            if isinstance(update, Update) and update.effective_message:
+                message = update.effective_message
 
-                args = message.text.split()[1:]
+                if (message.entities and message.entities[0].type == MessageEntity.BOT_COMMAND
+                        and message.entities[0].offset == 0):
+                    command = message.text[1:message.entities[0].length]
+                    args = message.text.split()[1:]
+                    command = command.split('@')
+                    command.append(message.bot.username)
 
-                if super().check_update(update):
+                    if not (command[0].lower() in self.command
+                            and command[1].lower() == message.bot.username.lower()):
+                        return None
 
-                    # Should be safe since check_update passed.
-                    command = update.effective_message.text_html.split(None, 1)[0][1:].split('@')[0]
+                    filter_result = self.filters(update)
+                    if filter_result:
+                        # disabled, admincmd, user admin
+                        if sql.is_command_disabled(chat.id, command):
+                            if command in ADMIN_CMDS and is_user_admin(chat, user.id):
+                                return args, filter_result
 
-                    # disabled, admincmd, user admin
-                    if sql.is_command_disabled(chat.id, command):
-                        if command in ADMIN_CMDS and is_user_admin(chat, user.id):
+                        # not disabled
+                        else:
                             return args, filter_result
-
-                    # not disabled
                     else:
-                        return args, filter_result
+                        return False
 
 
     class DisableAbleMessageHandler(MessageHandler):

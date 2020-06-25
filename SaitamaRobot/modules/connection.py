@@ -1,11 +1,10 @@
-from telegram.ext import CallbackContext
 import re
 import time
 from typing import List
 
 from telegram import Bot, Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
+from telegram.ext import CommandHandler, CallbackQueryHandler, run_async, CallbackContext
 
 import SaitamaRobot.modules.sql.connection_sql as sql
 from SaitamaRobot import dispatcher, SUDO_USERS, DEV_USERS
@@ -193,7 +192,7 @@ def connected(update, context, chat, user_id, need_admin=True):
     if chat.type == chat.PRIVATE and sql.get_connected_chat(user_id):
 
         conn_id = sql.get_connected_chat(user_id).chat_id
-        getstatusadmin = bot.get_chat_member(conn_id, msg.from_user.id)
+        getstatusadmin = context.bot.get_chat_member(conn_id, msg.from_user.id)
         isadmin = getstatusadmin.status in ADMIN_STATUS
         ismember = getstatusadmin.status in MEMBER_STAUS
         isallow = sql.allow_connect_to_chat(conn_id)

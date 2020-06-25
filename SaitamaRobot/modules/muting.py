@@ -1,11 +1,10 @@
-from telegram.ext import CallbackContext
 import html
 
 from typing import Optional, List
 
-from telegram import Bot, Chat, Update, ParseMode
+from telegram import Bot, Chat, Update, ParseMode, ChatPermissions
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async
+from telegram.ext import CallbackContext, CommandHandler, run_async, Filters
 from telegram.utils.helpers import mention_html
 
 from SaitamaRobot import dispatcher, LOGGER, TIGER_USERS
@@ -47,7 +46,9 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
 @user_admin
 @loggable
 def mute(update: Update, context: CallbackContext) -> str:
-    bot, args = context.bot, context.args
+    bot = context.bot
+    args = context.args
+
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -70,7 +71,8 @@ def mute(update: Update, context: CallbackContext) -> str:
         log += f"\n<b>Reason:</b> {reason}"
 
     if member.can_send_messages is None or member.can_send_messages:
-        bot.restrict_chat_member(chat.id, user_id, can_send_messages=False)
+        chat_permissions = ChatPermissions(can_send_messages=False)
+        bot.restrict_chat_member(chat.id, user_id, chat_permissions)
         bot.sendMessage(chat.id, f"Muted <b>{html.escape(member.user.first_name)}</b> with no expiration date!",
                         parse_mode=ParseMode.HTML)
         return log
@@ -106,11 +108,11 @@ def unmute(update: Update, context: CallbackContext) -> str:
                 and member.can_add_web_page_previews):
             message.reply_text("This user already has the right to speak.")
         else:
-            bot.restrict_chat_member(chat.id, int(user_id),
-                                     can_send_messages=True,
-                                     can_send_media_messages=True,
-                                     can_send_other_messages=True,
-                                     can_add_web_page_previews=True)
+            chat_permissions = ChatPermissions(can_send_messages=True,
+                                               can_send_media_messages=True,
+                                               can_send_other_messages=True,
+                                               can_add_web_page_previews=True)
+            bot.restrict_chat_member(chat.id, int(user_id), chat_permissions)
             bot.sendMessage(chat.id, f"I shall allow <b>{html.escape(member.user.first_name)}</b> to text!",
                             parse_mode=ParseMode.HTML)
             return (f"<b>{html.escape(chat.title)}:</b>\n"
@@ -172,7 +174,8 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
 
     try:
         if member.can_send_messages is None or member.can_send_messages:
-            bot.restrict_chat_member(chat.id, user_id, until_date=mutetime, can_send_messages=False)
+            chat_permissions = ChatPermissions(can_send_messages=False)
+            bot.restrict_chat_member(chat.id, user_id, chat_permissions, until_date=mutetime)
             bot.sendMessage(chat.id, f"Muted <b>{html.escape(member.user.first_name)}</b> for {time_val}!",
                             parse_mode=ParseMode.HTML)
             return log

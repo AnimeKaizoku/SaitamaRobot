@@ -14,38 +14,48 @@ else:
 
 class CustomCommandHandler(CommandHandler):
 
-    def __init__(self, command, callback, admin_ok=False, filters=None, **kwargs):
+    def __init__(self, command, callback, admin_ok=False, **kwargs):
         super().__init__(command, callback, **kwargs)
-        if filters:
-            self.filters = Filters.update.messages & filters
-        else:
-            self.filters = Filters.update.messages
 
     def check_update(self, update):
         if isinstance(update, Update) and update.effective_message:
             message = update.effective_message
 
             if sql.is_user_blacklisted(update.effective_user.id):
-                return False
+                return None
 
-            if message.text and len(message.text) > 1:
-                fst_word = message.text_html.split(None, 1)[0]
+            if (message.entities and message.entities[0].type == MessageEntity.BOT_COMMAND
+                    and message.entities[0].offset == 0):
+                command = message.text[1:message.entities[0].length]
+                args = message.text.split()[1:]
+                command = command.split('@')
+                command.append(message.bot.username)
 
-                if len(fst_word) > 1 and any(fst_word.startswith(start) for start in CMD_STARTERS):
-                    command = fst_word[1:].split('@')
-                    command.append(message.bot.username)  # in case the command was sent without a username
-                    args = message.text.split()[1:]
+                if not (command[0].lower() in self.command
+                        and command[1].lower() == message.bot.username.lower()):
+                    return None
 
-                    if not (command[0].lower() in self.command and command[1].lower() == message.bot.username.lower()):
-                        return None
+                filter_result = self.filters(update)
+                if filter_result:
+                    return args, filter_result
+                else:
+                    return False
 
-                    res = self.filters(update)
-                    if res:
-                        return args, res
-                    else:
-                        return False
+    def handle_update(self, update, dispatcher, check_result, context=None):
+        if context:
+            self.collect_additional_context(context, update, dispatcher, check_result)
+            return self.callback(update, context)
+        else:
+            optional_args = self.collect_optional_args(dispatcher, update, check_result)
+            return self.callback(dispatcher.bot, update, **optional_args)
 
-            return False
+    def collect_additional_context(self, context, update, dispatcher, check_result):
+        if isinstance(check_result, bool):
+            context.args = update.effective_message.text.split()[1:]
+        else:
+            context.args = check_result[0]
+            if isinstance(check_result[1], dict):
+                context.update(check_result[1])
 
 
 class CustomRegexHandler(RegexHandler):
