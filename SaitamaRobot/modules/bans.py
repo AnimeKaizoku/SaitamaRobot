@@ -6,7 +6,7 @@ from telegram.error import BadRequest
 from telegram.ext import CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from SaitamaRobot import dispatcher, LOGGER, DEV_USERS, SUDO_USERS, TIGER_USERS
+from SaitamaRobot import dispatcher, LOGGER, OWNER_ID, DEV_USERS, SUDO_USERS, SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin, user_admin, is_user_ban_protected, can_restrict,
                                                      is_user_admin, is_user_in_chat, connection_status, can_delete, user_can_ban)
@@ -47,10 +47,22 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
         message.reply_text("Oh yeah, ban myself, noob!")
         return log_message
 
-    # dev users to bypass whitelist protection incase of abuse
     if is_user_ban_protected(chat, user_id, member) and user not in DEV_USERS:
-        message.reply_text("This user has immunity - I can't ban them.")
-        return log_message
+        if user_id == OWNER_ID:
+            message.reply_text("Trying to put me against a God level disaster huh?")
+        elif user_id in DEV_USERS:
+            message.reply_text("I can't act against our own.")
+        elif user_id in SUDO_USERS:
+            message.reply_text("I'll punch a Dragon disaster for you if Heroes Association orders me.")
+        elif user_id in SUPPORT_USERS:
+            message.reply_text("I'll punch a Demon disaster for you if Heroes Association orders me.")
+        elif user_id in TIGER_USERS:
+            message.reply_text("That's a Tiger Disaster!\nYou need to put a orders through Heroes Association to handle those.")
+        elif user_id in WHITELIST_USERS:
+            message.reply_text("That's a Tiger Disaster!\nYou need to put a orders through Heroes Association to handle those.")
+        else:
+            message.reply_text("This user has immunity - I can't ban them.")
+            return log_message
 
     log = (f"<b>{html.escape(chat.title)}:</b>\n"
            f"#BANNED\n"
