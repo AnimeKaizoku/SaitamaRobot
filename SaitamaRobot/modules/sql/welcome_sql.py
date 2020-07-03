@@ -114,6 +114,7 @@ DEFAULT_WELCOME_MESSAGES = [
     "Ah, {first} the Platypus, you're just in time... to be trapped.",
     "*snaps fingers and teleports {first} here*",
     "{first}! What is a fish and a rabbit combined?",
+    "{first} just arrived. Diable Jamble!",
     
 ]
 DEFAULT_GOODBYE_MESSAGES = [

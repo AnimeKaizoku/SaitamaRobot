@@ -62,7 +62,6 @@ SLAP_TEMPLATES = (
     "{user2} was terminated by {user1}.",
     "{user2} was shot before being thrown out of a plane.",
     "{user2} has encountered an error.",
-    "{user2} died and reincarnated as a goat.",
     "{user1} threw {user2} off a building.",
     "{user2} got a premature burial.",
     "{user1} spammed {user2}'s email.",

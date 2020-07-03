@@ -466,7 +466,7 @@ def fed_ban(update: Update, context: CallbackContext):
 		return
 
 	if user_id == OWNER_ID:
-		message.reply_text("Diaster level God cannot be fed banned!")
+		message.reply_text("Disaster level God cannot be fed banned!")
 		return
 
 	if int(user_id) in SUDO_USERS:

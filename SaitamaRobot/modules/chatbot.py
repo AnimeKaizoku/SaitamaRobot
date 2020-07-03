@@ -1,6 +1,7 @@
 from telegram.ext import CallbackContext
 # AI module using Intellivoid's Coffeehouse API by @TheRealPhoenix
 from time import time, sleep
+import html
 
 from coffeehouse.lydia import LydiaAI
 from coffeehouse.api import API
@@ -9,42 +10,59 @@ from coffeehouse.exception import CoffeeHouseError as CFError
 from telegram import Message, Chat, User, Update
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.error import BadRequest, Unauthorized, RetryAfter
+from telegram.utils.helpers import mention_html
 
 from SaitamaRobot import dispatcher, AI_API_KEY, OWNER_ID, SUPPORT_CHAT
 import SaitamaRobot.modules.sql.chatbot_sql as sql
+from SaitamaRobot.modules.log_channel import gloggable
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
-
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 
 CoffeeHouseAPI = API(AI_API_KEY)
 api_client = LydiaAI(CoffeeHouseAPI)
 
 
 @run_async
+@user_admin
+@gloggable
 def add_chat(update: Update, context: CallbackContext):
     global api_client
-    chat_id = update.effective_chat.id
+    chat = update.effective_chat
     msg = update.effective_message
-    is_chat = sql.is_chat(chat_id)
+    user = update.effective_user
+    is_chat = sql.is_chat(chat.id)
     if not is_chat:
         ses = api_client.create_session()
         ses_id = str(ses.id)
         expires = str(ses.expires)
-        sql.set_ses(chat_id, ses_id, expires)
+        sql.set_ses(chat.id, ses_id, expires)
         msg.reply_text("AI successfully enabled for this chat!")
+        message = (f"<b>{html.escape(chat.title)}:</b>\n"
+                  f"#AI_ENABLED\n"
+                  f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
+        return message
     else:
         msg.reply_text("AI is already enabled for this chat!")
-        
+        return ""    
         
 @run_async
+@user_admin
+@gloggable
 def remove_chat(update: Update, context: CallbackContext):
     msg = update.effective_message
-    chat_id = update.effective_chat.id
-    is_chat = sql.is_chat(chat_id)
+    chat = update.effective_chat
+    user = update.effective_user
+    is_chat = sql.is_chat(chat.id)
     if not is_chat:
         msg.reply_text("AI isn't enabled here in the first place!")
+        return ""
     else:
-        sql.rem_chat(chat_id)
+        sql.rem_chat(chat.id)
         msg.reply_text("AI disabled successfully!")
+        message = (f"<b>{html.escape(chat.title)}:</b>\n"
+                  f"#AI_DISABLED\n"
+                  f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
+        return message
         
         
 def check_message(context: CallbackContext,message):
@@ -109,23 +127,23 @@ def list_chatbot_chats(update: Update, context: CallbackContext):
 __mod_name__ = "Chatbot"
 
 __help__ = f"""
-Chatbot utilizes the CoffeeHouse API and allows Saitama to talk back making your chat more interactive.
-This is an ongoing upgrade and is only available in your chats if you reach out to {SUPPORT_CHAT} and ask for it. 
+Chatbot utilizes the CoffeeHouse API and allows Saitama to talk and provides a more interactive group chat experience.
 
-In future we might make it open for any chat and controllable by group admins.
-
-*If you want this enabled then please come to @OnePunchSupport and ask.*
-
-*Commands:* These only work for Saitama Staff users. 
+*Commands:* 
+*Admins only:*
  • `/addchat`*:* Enables Chatbot mode in the chat.
  • `/rmchat`*:* Disables Chatbot mode in the chat.
+ 
+*Dragons or higher only:* 
  • `/listaichats`*:* Lists the chats the chatmode is enabled in.
+
+Reports bugs at {SUPPORT_CHAT}
 *Powered by CoffeeHouse* (https://coffeehouse.intellivoid.net/) from @Intellivoid
 """         
 
 
-ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat, filters=CustomFilters.dev_filter)
-REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat, filters=CustomFilters.dev_filter)
+ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
+REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat)
 CHATBOT_HANDLER = MessageHandler(Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
                                   & ~Filters.regex(r"^\/")), chatbot)
 LIST_CB_CHATS_HANDLER = CommandHandler("listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter)

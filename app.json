@@ -16,7 +16,7 @@
       "BAN_STICKER": {
          "description": "ID of the sticker you want to use when banning people.",
          "required": false,
-         "value": ""
+         "value": "CAACAgQAAx0CU\_rCTAACrS9eX6aSdWGlWOAAASV7RAsMxyOmU08AAjUAA5OB2QL9q4NuR9MogxgE"
       },
       "DEL_CMDS": {
          "description": "Set this to True if you want to delete command messages from users who don't have the perms to run that command.",
@@ -42,16 +42,16 @@
       },
       "OWNER_USERNAME": {
          "description": "Your username",
-         "value": "AnimeKaizoku"
+         "value": "Sawada"
       },
       "DEV_USERS": {
          "description": "ID of users who are Devs of your bot (can use /py etc.)",
          "required": false,
-         "value": "660565862 792109647"
+         "value": "660565862 459034222 189005567 346981140 367222759"
       },
       "GBAN_LOGS": {
          "description": "Gban log channel, include the hyphen too: ex: -123456",
-         "value": "-123"
+         "value": "-1001300439833"
       },
       "CASH_API_KEY": {
          "description": "Required for currency converter",
@@ -93,7 +93,7 @@
       "SUPPORT_CHAT": {
          "description": "Your Telegram support group chat username where your users will go and bother you with shit But be like: @MyGroupChatUsernameBlah. If this ever points to saitama support than consider you made an enemy.",
          "required": true,
-         "value": ""
+         "value": "@OnePunchDev"
       },   
       "URL": {
          "description": "The Heroku App URL :-  https://<appname>.herokuapp.com/",
