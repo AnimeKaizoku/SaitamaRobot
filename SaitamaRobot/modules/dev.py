@@ -1,10 +1,11 @@
+from telegram.ext import CallbackContext
 import os
 import subprocess
 import sys
 from time import sleep
 from typing import List
 
-from telegram import Bot, Update, TelegramError
+from telegram import Update, TelegramError
 from telegram.ext import CommandHandler, run_async
 
 from SaitamaRobot import dispatcher
@@ -13,7 +14,9 @@ from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
 @run_async
 @dev_plus
-def leave(bot: Bot, update: Update, args: List[str]):
+def leave(update: Update, context: CallbackContext):
+    bot = context.bot
+    args = context.args
     if args:
         chat_id = str(args[0])
         try:
@@ -27,7 +30,7 @@ def leave(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @dev_plus
-def gitpull(bot: Bot, update: Update):
+def gitpull(update: Update, context: CallbackContext):
     sent_msg = update.effective_message.reply_text("Pulling all changes from remote and then attempting to restart.")
     subprocess.Popen('git pull', stdout=subprocess.PIPE, shell=True)
 
@@ -45,14 +48,14 @@ def gitpull(bot: Bot, update: Update):
 
 @run_async
 @dev_plus
-def restart(bot: Bot, update: Update):
+def restart(update: Update, context: CallbackContext):
     update.effective_message.reply_text("Starting a new instance and shutting down this one")
 
     os.system('restart.bat')
     os.execv('start.bat', sys.argv)
 
 
-LEAVE_HANDLER = CommandHandler("leave", leave, pass_args=True)
+LEAVE_HANDLER = CommandHandler("leave", leave)
 GITPULL_HANDLER = CommandHandler("gitpull", gitpull)
 RESTART_HANDLER = CommandHandler("reboot", restart)
 

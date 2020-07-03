@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 
 from typing import List
@@ -27,11 +28,10 @@ for handler_list in dispatcher.handlers:
 
 
 @run_async
-def clean_blue_text_must_click(bot: Bot, update: Update):
-
+def clean_blue_text_must_click(update: Update, context: CallbackContext):
+    bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
-
     if chat.get_member(bot.id).can_delete_messages:
         if sql.is_enabled(chat.id):
             fst_word = message.text.strip().split(None, 1)[0]
@@ -53,11 +53,10 @@ def clean_blue_text_must_click(bot: Bot, update: Update):
 @connection_status
 @bot_can_delete
 @user_admin
-def set_blue_text_must_click(bot: Bot, update: Update, args: List[str]):
-
+def set_blue_text_must_click(update: Update, context: CallbackContext):
     chat = update.effective_chat
     message = update.effective_message
-
+    bot, args = context.bot, context.args
     if len(args) >= 1:
         val = args[0].lower()
         if val == "off" or val == "no":
@@ -85,11 +84,10 @@ def set_blue_text_must_click(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def add_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
-
+def add_bluetext_ignore(update: Update, context: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
-
+    args = context.args
     if len(args) >= 1:
         val = args[0].lower()
         added = sql.chat_ignore_command(chat.id, val)
@@ -106,11 +104,10 @@ def add_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def remove_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
-
+def remove_bluetext_ignore(update: Update, context: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
-
+    args = context.args
     if len(args) >= 1:
         val = args[0].lower()
         removed = sql.chat_unignore_command(chat.id, val)
@@ -127,10 +124,9 @@ def remove_bluetext_ignore(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def add_bluetext_ignore_global(bot: Bot, update: Update, args: List[str]):
-
+def add_bluetext_ignore_global(update: Update, context: CallbackContext):
     message = update.effective_message
-
+    args = context.args
     if len(args) >= 1:
         val = args[0].lower()
         added = sql.global_ignore_command(val)
@@ -147,10 +143,9 @@ def add_bluetext_ignore_global(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @dev_plus
-def remove_bluetext_ignore_global(bot: Bot, update: Update, args: List[str]):
-
+def remove_bluetext_ignore_global(update: Update, context: CallbackContext):
     message = update.effective_message
-
+    args = context.args
     if len(args) >= 1:
         val = args[0].lower()
         removed = sql.global_unignore_command(val)
@@ -167,7 +162,7 @@ def remove_bluetext_ignore_global(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @dev_plus
-def bluetext_ignore_list(bot: Bot, update: Update):
+def bluetext_ignore_list(update: Update, context: CallbackContext):
 
     message = update.effective_message
     chat = update.effective_chat
@@ -208,11 +203,11 @@ Blue text cleaner removed any made up commands that people send in your chat.
  • `/ungignoreblue <word>`*:* remove said command from global cleaning list
 """
 
-SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("cleanblue", set_blue_text_must_click, pass_args=True)
-ADD_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("ignoreblue", add_bluetext_ignore, pass_args=True)
-REMOVE_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("unignoreblue", remove_bluetext_ignore, pass_args=True)
-ADD_CLEAN_BLUE_TEXT_GLOBAL_HANDLER = CommandHandler("gignoreblue", add_bluetext_ignore_global, pass_args=True)
-REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER = CommandHandler("ungignoreblue", remove_bluetext_ignore_global, pass_args=True)
+SET_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("cleanblue", set_blue_text_must_click)
+ADD_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("ignoreblue", add_bluetext_ignore)
+REMOVE_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("unignoreblue", remove_bluetext_ignore)
+ADD_CLEAN_BLUE_TEXT_GLOBAL_HANDLER = CommandHandler("gignoreblue", add_bluetext_ignore_global)
+REMOVE_CLEAN_BLUE_TEXT_GLOBAL_HANDLER = CommandHandler("ungignoreblue", remove_bluetext_ignore_global)
 LIST_CLEAN_BLUE_TEXT_HANDLER = CommandHandler("listblue", bluetext_ignore_list)
 CLEAN_BLUE_TEXT_HANDLER = MessageHandler(Filters.command & Filters.group, clean_blue_text_must_click)
 

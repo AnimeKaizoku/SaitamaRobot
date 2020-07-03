@@ -1,7 +1,5 @@
-from typing import List
-
-from telegram import Bot, Update
-from telegram.ext import run_async
+from telegram import Update, ParseMode
+from telegram.ext import CallbackContext, run_async
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -13,14 +11,26 @@ weebyfont = ['卂', '乃', '匚', '刀', '乇', '下', '厶', '卄', '工', '丁
 
 
 @run_async
-def weebify(bot: Bot, update: Update, args: List[str]):
-    string = '  '.join(args).lower()
+def weebify(update: Update, context: CallbackContext):
+    args = context.args
+    message = update.effective_message
+    string = ""
+
+    if message.reply_to_message:
+        string = message.reply_to_message.text.lower().replace(" ", "  ")
+
+    if args:
+        string = '  '.join(args).lower()
+
+    if not string:
+        message.reply_text("Usage is `/weebify <text>`", parse_mode=ParseMode.MARKDOWN)
+        return
+
     for normiecharacter in string:
         if normiecharacter in normiefont:
             weebycharacter = weebyfont[normiefont.index(normiecharacter)]
             string = string.replace(normiecharacter, weebycharacter)
 
-    message = update.effective_message
     if message.reply_to_message:
         message.reply_to_message.reply_text(string)
     else:
@@ -31,7 +41,7 @@ __help__ = """
  • `/weebify <text>`*:* returns a weebified text
  """
 
-WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify, pass_args=True)
+WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify)
 
 dispatcher.add_handler(WEEBIFY_HANDLER)
 

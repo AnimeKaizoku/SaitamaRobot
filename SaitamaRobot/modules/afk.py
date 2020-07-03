@@ -1,10 +1,8 @@
 import random
-from typing import Optional
 
-from telegram import Message, Update, Bot, User
-from telegram import MessageEntity, ParseMode
+from telegram import Update, MessageEntity
 from telegram.error import BadRequest
-from telegram.ext import Filters, MessageHandler, run_async
+from telegram.ext import CallbackContext, Filters, MessageHandler, run_async
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler, DisableAbleRegexHandler
@@ -17,8 +15,7 @@ AFK_REPLY_GROUP = 8
 
 
 @run_async
-def afk(bot: Bot, update: Update):
-    chat = update.effective_chat  # type: Optional[Chat]
+def afk(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(None, 1)
     notice = ""
     if len(args) >= 2:
@@ -33,12 +30,11 @@ def afk(bot: Bot, update: Update):
     fname = update.effective_user.first_name
     update.effective_message.reply_text("{} is now away!{}".format(fname, notice))
 
-    
+
 @run_async
-def no_longer_afk(bot: Bot, update: Update):
-    user = update.effective_user  # type: Optional[User]
-    chat = update.effective_chat  # type: Optional[Chat]
-    message = update.effective_message  # type: Optional[Message]
+def no_longer_afk(update: Update, context: CallbackContext):
+    user = update.effective_user
+    message = update.effective_message
 
     if not user:  # ignore channels
         return
@@ -66,9 +62,10 @@ def no_longer_afk(bot: Bot, update: Update):
 
 
 @run_async
-def reply_afk(bot: Bot, update: Update):
-    message = update.effective_message  # type: Optional[Message]
-    userc = update.effective_user  # type: Optional[User]
+def reply_afk(update: Update, context: CallbackContext):
+    bot = context.bot
+    message = update.effective_message
+    userc = update.effective_user
     userc_id = userc.id
     if message.entities and message.parse_entities(
         [MessageEntity.TEXT_MENTION, MessageEntity.MENTION]):
@@ -84,14 +81,14 @@ def reply_afk(bot: Bot, update: Update):
                 if user_id in chk_users:
                     return
                 chk_users.append(user_id)
-                
+
             if ent.type == MessageEntity.MENTION:
                 user_id = get_user_id(message.text[ent.offset:ent.offset +
                                                    ent.length])
                 if not user_id:
                     # Should never happen, since for a user to become AFK they must have spoken. Maybe changed username?
                     return
-                
+
                 if user_id in chk_users:
                     return
                 chk_users.append(user_id)
@@ -107,16 +104,15 @@ def reply_afk(bot: Bot, update: Update):
             else:
                 return
 
-            check_afk(bot, update, user_id, fst_name, userc_id)
-            
+            check_afk(update, context, user_id, fst_name, userc_id)
+
     elif message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
         fst_name = message.reply_to_message.from_user.first_name
-        check_afk(bot, update, user_id, fst_name, userc_id)
+        check_afk(update, context, user_id, fst_name, userc_id)
 
 
-def check_afk(bot, update, user_id, fst_name, userc_id):
-    chat = update.effective_chat  # type: Optional[Chat]
+def check_afk(update, context, user_id, fst_name, userc_id):
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
         if not user.reason:
@@ -138,7 +134,7 @@ When marked as AFK, any mentions will be replied to with a message to say you're
 """
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
-AFK_REGEX_HANDLER = DisableAbleRegexHandler("(?i)brb", afk, friendly="afk")
+AFK_REGEX_HANDLER = MessageHandler(Filters.regex(r"(?i)brb"), afk, friendly="afk")
 NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.group, no_longer_afk)
 AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.group, reply_afk)
 

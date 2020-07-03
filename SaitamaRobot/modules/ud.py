@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import requests
 from telegram import Update, Bot, ParseMode
 from telegram.ext import run_async
@@ -7,7 +8,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def ud(bot: Bot, update: Update):
+def ud(update: Update, context: CallbackContext):
     message = update.effective_message
     text = message.text[len('/ud '):]
     results = requests.get(f'http://api.urbandictionary.com/v0/define?term={text}').json()

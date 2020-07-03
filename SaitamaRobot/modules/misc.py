@@ -1,9 +1,10 @@
+from telegram.ext import CallbackContext
 import html
 import re
 from typing import List
 
 import requests
-from telegram import Bot, Update, MessageEntity, ParseMode
+from telegram import Update, MessageEntity, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async, Filters
 from telegram.utils.helpers import mention_html
@@ -41,7 +42,8 @@ Keep in mind that your message <b>MUST</b> contain some text other than just a b
 
 
 @run_async
-def get_id(bot: Bot, update: Update, args: List[str]):
+def get_id(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
     chat = update.effective_chat
     msg = update.effective_message
@@ -78,7 +80,7 @@ def get_id(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def gifid(bot: Bot, update: Update):
+def gifid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
         update.effective_message.reply_text(f"Gif ID:\n<code>{msg.reply_to_message.animation.file_id}</code>",
@@ -88,7 +90,8 @@ def gifid(bot: Bot, update: Update):
 
 
 @run_async
-def info(bot: Bot, update: Update, args: List[str]):
+def info(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
     chat = update.effective_chat
     user_id = extract_user(update.effective_message, args)
@@ -168,7 +171,7 @@ def info(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def echo(bot: Bot, update: Update):
+def echo(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
 
@@ -181,7 +184,7 @@ def echo(bot: Bot, update: Update):
 
 
 @run_async
-def markdown_help(bot: Bot, update: Update):
+def markdown_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text("Try forwarding the following message to me, and you'll see!")
     update.effective_message.reply_text("/save test This is a markdown test. _italics_, *bold*, `code`, "
@@ -191,7 +194,7 @@ def markdown_help(bot: Bot, update: Update):
 
 @run_async
 @sudo_plus
-def stats(bot: Bot, update: Update):
+def stats(update: Update, context: CallbackContext):
     stats = "Current stats:\n" + "\n".join([mod.__stats__() for mod in STATS])
     result = re.sub(r'(\d+)', r'<code>\1</code>', stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
@@ -204,9 +207,9 @@ __help__ = """
  • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats.
 """
 
-ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)
+ID_HANDLER = DisableAbleCommandHandler("id", get_id)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid)
-INFO_HANDLER = DisableAbleCommandHandler(["info", "appraise", "appraisal"], info, pass_args=True)
+INFO_HANDLER = DisableAbleCommandHandler(["info", "appraise", "appraisal"], info)
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
 STATS_HANDLER = CommandHandler("stats", stats)

@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
 from typing import List
 
@@ -19,10 +20,10 @@ BLABLEUSERS = [OWNER_ID] + DEV_USERS
 @run_async
 @dev_plus
 @gloggable
-def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
+def bl_user(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
-
+    bot, args = context.bot, context.args
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -60,10 +61,10 @@ def bl_user(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @dev_plus
 @gloggable
-def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
+def unbl_user(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
 
     if not user_id:
@@ -100,11 +101,10 @@ def unbl_user(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @dev_plus
-def bl_users(bot: Bot, update: Update):
+def bl_users(update: Update, context: CallbackContext):
     users = []
-
+    bot = context.bot
     for each_user in sql.BLACKLIST_USERS:
-
         user = bot.get_chat(each_user)
         reason = sql.get_reason(each_user)
 
@@ -138,8 +138,8 @@ def __user_info__(user_id):
     return text
 
 
-BL_HANDLER = CommandHandler("ignore", bl_user, pass_args=True)
-UNBL_HANDLER = CommandHandler("notice", unbl_user, pass_args=True)
+BL_HANDLER = CommandHandler("ignore", bl_user)
+UNBL_HANDLER = CommandHandler("notice", unbl_user)
 BLUSERS_HANDLER = CommandHandler("ignoredlist", bl_users)
 
 dispatcher.add_handler(BL_HANDLER)

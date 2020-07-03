@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import speedtest
 from telegram import Update, Bot, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import run_async, CallbackQueryHandler
@@ -12,7 +13,7 @@ def convert(speed):
 
 @dev_plus
 @run_async
-def speedtestxyz(bot: Bot, update: Update):
+def speedtestxyz(update: Update, context: CallbackContext):
     buttons = [
         [InlineKeyboardButton("Image", callback_data="speedtest_image"), InlineKeyboardButton("Text", callback_data="speedtest_text")]
     ]
@@ -21,7 +22,7 @@ def speedtestxyz(bot: Bot, update: Update):
 
 
 @run_async
-def speedtestxyz_callback(bot: Bot, update: Update):
+def speedtestxyz_callback(update: Update, context: CallbackContext):
     query = update.callback_query
 
     if query.from_user.id in DEV_USERS:

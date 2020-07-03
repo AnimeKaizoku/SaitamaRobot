@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 from typing import Optional, List
 
@@ -25,13 +26,12 @@ from SaitamaRobot.modules.helper_funcs.alternate import send_message
 
 
 @run_async
-def blackliststicker(bot: Bot, update: Update, args: List[str]):
+def blackliststicker(update: Update, context: CallbackContext):
 	msg = update.effective_message  # type: Optional[Message]
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
-	
-		
-	conn = connected(bot, update, chat, user.id, need_admin=False)
+	bot, args = context.bot, context.args
+	conn = connected(update, context, chat, user.id, need_admin=False)
 	if conn:
 		chat_id = conn
 		chat_name = dispatcher.bot.getChat(conn).title
@@ -63,13 +63,14 @@ def blackliststicker(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def add_blackliststicker(bot: Bot, update: Update):
+def add_blackliststicker(update: Update, context: CallbackContext):
+	bot = context.bot
 	msg = update.effective_message  # type: Optional[Message]
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	words = msg.text.split(None, 1)
-
-	conn = connected(bot, update, chat, user.id)
+	bot = context.bot
+	conn = connected(update, context, chat, user.id)
 	if conn:
 		chat_id = conn
 		chat_name = dispatcher.bot.getChat(conn).title
@@ -122,13 +123,14 @@ def add_blackliststicker(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def unblackliststicker(bot: Bot, update: Update):
+def unblackliststicker(update: Update, context: CallbackContext):
+	bot = context.bot
 	msg = update.effective_message  # type: Optional[Message]
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	words = msg.text.split(None, 1)
-
-	conn = connected(bot, update, chat, user.id)
+	bot = context.bot
+	conn = connected(update, context, chat, user.id)
 	if conn:
 		chat_id = conn
 		chat_name = dispatcher.bot.getChat(conn).title
@@ -185,13 +187,12 @@ def unblackliststicker(bot: Bot, update: Update):
 @run_async
 @loggable
 @user_admin
-def blacklist_mode(bot: Bot, update: Update, args: List[str]):
+def blacklist_mode(update: Update, context: CallbackContext):
 	chat = update.effective_chat  # type: Optional[Chat]
 	user = update.effective_user  # type: Optional[User]
 	msg = update.effective_message  # type: Optional[Message]
-	
-
-	conn = connected(bot, update, chat, user.id, need_admin=True)
+	bot, args = context.bot, context.args
+	conn = connected(update, context, chat, user.id, need_admin=True)
 	if conn:
 		chat = dispatcher.bot.getChat(conn)
 		chat_id = conn
@@ -278,14 +279,15 @@ def blacklist_mode(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_not_admin
-def del_blackliststicker(bot: Bot, update: Update):
+def del_blackliststicker(update: Update, context: CallbackContext):
+	bot = context.bot
 	chat = update.effective_chat  # type: Optional[Chat]
 	message = update.effective_message  # type: Optional[Message]
 	user = update.effective_user
 	to_match = message.sticker
 	if not to_match:
 		return
-
+	bot = context.bot
 	getmode, value = sql.get_blacklist_setting(chat.id)
 
 	chat_filters = sql.get_chat_stickers(chat.id)
@@ -369,10 +371,10 @@ Note:
 
 __mod_name__ = "Sticker Blacklist"
 
-BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler("blsticker", blackliststicker, pass_args=True, admin_ok=True)
+BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler("blsticker", blackliststicker, admin_ok=True)
 ADDBLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler("addblsticker", add_blackliststicker)
 UNBLACKLIST_STICKER_HANDLER = CommandHandler(["unblsticker", "rmblsticker"], unblackliststicker)
-BLACKLISTMODE_HANDLER = CommandHandler("blstickermode", blacklist_mode, pass_args=True)
+BLACKLISTMODE_HANDLER = CommandHandler("blstickermode", blacklist_mode)
 BLACKLIST_STICKER_DEL_HANDLER = MessageHandler(Filters.sticker & Filters.group, del_blackliststicker)
 
 dispatcher.add_handler(BLACKLIST_STICKER_HANDLER)

@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 from typing import List
 
 from telegram import Update, Bot
@@ -8,7 +9,8 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def shout(bot: Bot, update: Update, args: List[str]):
+def shout(update: Update, context: CallbackContext):
+    args = context.args
     text = " ".join(args)
     result = []
     result.append(' '.join([s for s in text]))
@@ -35,7 +37,7 @@ __help__ = """
     ```
 """
 
-SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout, pass_args=True)
+SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout)
 
 dispatcher.add_handler(SHOUT_HANDLER)
 

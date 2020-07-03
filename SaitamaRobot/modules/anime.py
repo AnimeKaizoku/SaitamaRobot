@@ -5,8 +5,8 @@ import textwrap
 import bs4
 import jikanpy
 import requests
-from telegram import Bot, Update, InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
-from telegram.ext import CallbackQueryHandler, run_async
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
+from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
 
 from SaitamaRobot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -181,7 +181,7 @@ def get_anime_manga(mal_id, search_type, user_id):
 
 
 @run_async
-def anime(bot: Bot, update: Update):
+def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -212,7 +212,7 @@ def anime(bot: Bot, update: Update):
 
 
 @run_async
-def manga(bot: Bot, update: Update):
+def manga(update: Update, context: CallbackContext):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -240,7 +240,7 @@ def manga(bot: Bot, update: Update):
 
 
 @run_async
-def character(bot: Bot, update: Update):
+def character(update: Update, context: CallbackContext):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -288,7 +288,7 @@ def character(bot: Bot, update: Update):
     about_string = ' '.join(about)
 
     for entity in character:
-        if character[entity] == None:
+        if not character[entity]:
             character[entity] = "Unknown"
 
     caption += f"\n*About*: {about_string}..."
@@ -304,7 +304,7 @@ def character(bot: Bot, update: Update):
 
 
 @run_async
-def user(bot: Bot, update: Update):
+def user(update: Update, context: CallbackContext):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -382,7 +382,7 @@ def user(bot: Bot, update: Update):
 
 
 @run_async
-def upcoming(bot: Bot, update: Update):
+def upcoming(update: Update, context: CallbackContext):
     jikan = jikanpy.jikan.Jikan()
     upcoming = jikan.top('anime', page=1, subtype="upcoming")
 
@@ -397,7 +397,8 @@ def upcoming(bot: Bot, update: Update):
     update.effective_message.reply_text(upcoming_message)
 
 
-def button(bot, update):
+def button(update: Update, context: CallbackContext):
+    bot = context.bot
     query = update.callback_query
     message = query.message
     data = query.data.split(", ")
@@ -425,7 +426,7 @@ def button(bot, update):
             query.answer("You are not allowed to use this.")
 
 
-def site_search(bot: Bot, update: Update, site: str):
+def site_search(update: Update, context: CallbackContext, site: str):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
     more_results = True
@@ -482,13 +483,13 @@ def site_search(bot: Bot, update: Update, site: str):
 
 
 @run_async
-def kaizoku(bot: Bot, update: Update):
-    site_search(bot, update, "kaizoku")
+def kaizoku(update: Update, context: CallbackContext):
+    site_search(update, context, "kaizoku")
 
 
 @run_async
-def kayo(bot: Bot, update: Update):
-    site_search(bot, update, "kayo")
+def kayo(update: Update, context: CallbackContext):
+    site_search(update, context, "kayo")
 
 
 __help__ = """

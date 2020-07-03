@@ -1,8 +1,9 @@
+from telegram.ext import CallbackContext
 import json
 from pprint import pprint
 
 import requests
-from telegram import Update, Bot
+from telegram import Update
 from telegram.ext import CommandHandler
 
 from SaitamaRobot import dispatcher
@@ -12,7 +13,7 @@ API_KEY = "6ae0c3a0-afdc-4532-a810-82ded0054236"
 URL = "http://services.gingersoftware.com/Ginger/correct/json/GingerTheText"
 
 
-def translate(bot: Bot, update: Update):
+def translate(update: Update, context: CallbackContext):
     if update.effective_message.reply_to_message:
         msg = update.effective_message.reply_to_message
 

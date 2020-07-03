@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import random
 
 from telegram import Bot, Update
@@ -213,7 +214,7 @@ reactions = [
 
 
 @run_async
-def react(bot: Bot, update: Update):
+def react(update: Update, context: CallbackContext):
     message = update.effective_message
     react = random.choice(reactions)
     if message.reply_to_message:

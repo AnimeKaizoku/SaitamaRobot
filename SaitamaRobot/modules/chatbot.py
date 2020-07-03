@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 # AI module using Intellivoid's Coffeehouse API by @TheRealPhoenix
 from time import time, sleep
 import html
@@ -6,7 +7,7 @@ from coffeehouse.lydia import LydiaAI
 from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError as CFError
 
-from telegram import Message, Chat, User, Update, Bot
+from telegram import Message, Chat, User, Update
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
 from telegram.error import BadRequest, Unauthorized, RetryAfter
 from telegram.utils.helpers import mention_html
@@ -24,7 +25,7 @@ api_client = LydiaAI(CoffeeHouseAPI)
 @run_async
 @user_admin
 @gloggable
-def add_chat(bot: Bot, update: Update):
+def add_chat(update: Update, context: CallbackContext):
     global api_client
     chat = update.effective_chat
     msg = update.effective_message
@@ -47,7 +48,7 @@ def add_chat(bot: Bot, update: Update):
 @run_async
 @user_admin
 @gloggable
-def remove_chat(bot: Bot, update: Update):
+def remove_chat(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -64,27 +65,28 @@ def remove_chat(bot: Bot, update: Update):
         return message
         
         
-def check_message(bot: Bot, message):
+def check_message(context: CallbackContext,message):
     reply_msg = message.reply_to_message
     if message.text.lower() == "saitama":
         return True
     if reply_msg:
-        if reply_msg.from_user.id == bot.get_me().id:
+        if reply_msg.from_user.id == context.bot.get_me().id:
             return True
     else:
         return False
                 
         
 @run_async
-def chatbot(bot: Bot, update: Update):
+def chatbot(update: Update, context: CallbackContext):
     global api_client
     msg = update.effective_message
     chat_id = update.effective_chat.id
     is_chat = sql.is_chat(chat_id)
+    bot = context.bot
     if not is_chat:
         return
     if msg.text and not msg.document:
-        if not check_message(bot, msg):
+        if not check_message(context, msg):
             return
         sesh, exp = sql.get_ses(chat_id)
         query = msg.text
@@ -106,12 +108,12 @@ def chatbot(bot: Bot, update: Update):
             bot.send_message(OWNER_ID, f"Chatbot error: {e} occurred in {chat_id}!")
                     
 @run_async
-def list_chatbot_chats(bot: Bot, update: Update):
+def list_chatbot_chats(update: Update, context: CallbackContext):
     chats = sql.get_all_chats()
     text = "<b>AI-Enabled Chats</b>\n"
     for chat in chats:
         try:
-            x = bot.get_chat(int(*chat))
+            x = context.bot.get_chat(int(*chat))
             name = x.title if x.title else x.first_name
             text += f"• <code>{name}</code>\n"
         except BadRequest:
@@ -143,7 +145,7 @@ Reports bugs at {SUPPORT_CHAT}
 ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
 REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat)
 CHATBOT_HANDLER = MessageHandler(Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
-                                  & ~Filters.regex(r"^s\/")), chatbot)
+                                  & ~Filters.regex(r"^\/")), chatbot)
 LIST_CB_CHATS_HANDLER = CommandHandler("listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter)
 # Filters for ignoring #note messages, !commands and sed.
 

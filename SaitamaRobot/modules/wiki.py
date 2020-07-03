@@ -1,16 +1,17 @@
+from telegram.ext import CallbackContext
 import re
 import json
 import urllib.request
 import urllib.parse
 import wikipedia
 from wikipedia.exceptions import DisambiguationError, PageError
-from telegram import Message, Chat, Update, Bot, ParseMode
+from telegram import Message, Chat, Update, ParseMode
 from telegram.ext import run_async
-
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+
 @run_async
-def wiki(bot: Bot, update: Update):
+def wiki(update: Update, context: CallbackContext):
     msg = update.effective_message.reply_to_message if update.effective_message.reply_to_message else update.effective_message
     res = ""
     if msg == update.effective_message:
@@ -32,7 +33,7 @@ def wiki(bot: Bot, update: Update):
             with open("result.txt", 'w') as f:
                 f.write(f"{result}\n\nUwU OwO OmO UmU")
             with open("result.txt", 'rb') as f:
-                bot.send_document(document=f, filename=f.name,
+                context.bot.send_document(document=f, filename=f.name,
                     reply_to_message_id=update.message.message_id, chat_id=update.effective_chat.id,
                     parse_mode=ParseMode.HTML)
         else:

@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 import random
 import re
@@ -82,7 +83,8 @@ def send(update, message, keyboard, backup_message):
 
 @run_async
 @loggable
-def new_member(bot: Bot, update: Update, job_queue: JobQueue):
+def new_member(update: Update, context: CallbackContext):
+    bot, job_queue = context.bot, context.job_queue
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -279,7 +281,8 @@ def check_not_bot(member, chat_id, message_id, bot, job):
 
 
 @run_async
-def left_member(bot: Bot, update: Update):
+def left_member(update: Update, context: CallbackContext):
+    bot = context.bot
     chat = update.effective_chat
     user = update.effective_user
     should_goodbye, cust_goodbye, goodbye_type = sql.get_gdbye_pref(chat.id)
@@ -358,7 +361,8 @@ def left_member(bot: Bot, update: Update):
 
 @run_async
 @user_admin
-def welcome(bot: Bot, update: Update, args: List[str]):
+def welcome(update: Update, context: CallbackContext):
+    args = context.args
     chat = update.effective_chat
     # if no args, show current replies.
     if not args or args[0].lower() == "noformat":
@@ -402,7 +406,8 @@ def welcome(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @user_admin
-def goodbye(bot: Bot, update: Update, args: List[str]):
+def goodbye(update: Update, context: CallbackContext):
+    args = context.args
     chat = update.effective_chat
 
     if not args or args[0] == "noformat":
@@ -448,7 +453,7 @@ def goodbye(bot: Bot, update: Update, args: List[str]):
 @run_async
 @user_admin
 @loggable
-def set_welcome(bot: Bot, update: Update) -> str:
+def set_welcome(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -471,7 +476,7 @@ def set_welcome(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def reset_welcome(bot: Bot, update: Update) -> str:
+def reset_welcome(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
 
@@ -487,7 +492,7 @@ def reset_welcome(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def set_goodbye(bot: Bot, update: Update) -> str:
+def set_goodbye(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -508,7 +513,7 @@ def set_goodbye(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def reset_goodbye(bot: Bot, update: Update) -> str:
+def reset_goodbye(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
 
@@ -524,7 +529,8 @@ def reset_goodbye(bot: Bot, update: Update) -> str:
 @run_async
 @user_admin
 @loggable
-def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
+def welcomemute(update: Update, context: CallbackContext) -> str:
+    args = context.args
     chat = update.effective_chat
     user = update.effective_user
     msg = update.effective_message
@@ -565,7 +571,8 @@ def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @user_admin
 @loggable
-def clean_welcome(bot: Bot, update: Update, args: List[str]) -> str:
+def clean_welcome(update: Update, context: CallbackContext) -> str:
+    args = context.args
     chat = update.effective_chat
     user = update.effective_user
 
@@ -597,7 +604,8 @@ def clean_welcome(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @user_admin
-def cleanservice(bot: Bot, update: Update, args: List[str]) -> str:
+def cleanservice(update: Update, context: CallbackContext) -> str:
+    args = context.args
     chat = update.effective_chat  # type: Optional[Chat]
     if chat.type != chat.PRIVATE:
         if len(args) >= 1:
@@ -625,7 +633,7 @@ def cleanservice(bot: Bot, update: Update, args: List[str]) -> str:
 
 
 @run_async
-def user_button(bot: Bot, update: Update):
+def user_button(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
     query = update.callback_query
@@ -695,13 +703,13 @@ WELC_MUTE_HELP_TXT = (
 
 @run_async
 @user_admin
-def welcome_help(bot: Bot, update: Update):
+def welcome_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
 @user_admin
-def welcome_mute_help(bot: Bot, update: Update):
+def welcome_mute_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(WELC_MUTE_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
 
@@ -747,17 +755,17 @@ __help__ = """
  *Example:* user joined chat, user left chat.
 """.format(WELC_HELP_TXT)
 
-NEW_MEM_HANDLER = MessageHandler(Filters.status_update.new_chat_members, new_member, pass_job_queue=True)
+NEW_MEM_HANDLER = MessageHandler(Filters.status_update.new_chat_members, new_member)
 LEFT_MEM_HANDLER = MessageHandler(Filters.status_update.left_chat_member, left_member)
-WELC_PREF_HANDLER = CommandHandler("welcome", welcome, pass_args=True, filters=Filters.group)
-GOODBYE_PREF_HANDLER = CommandHandler("goodbye", goodbye, pass_args=True, filters=Filters.group)
+WELC_PREF_HANDLER = CommandHandler("welcome", welcome, filters=Filters.group)
+GOODBYE_PREF_HANDLER = CommandHandler("goodbye", goodbye, filters=Filters.group)
 SET_WELCOME = CommandHandler("setwelcome", set_welcome, filters=Filters.group)
 SET_GOODBYE = CommandHandler("setgoodbye", set_goodbye, filters=Filters.group)
 RESET_WELCOME = CommandHandler("resetwelcome", reset_welcome, filters=Filters.group)
 RESET_GOODBYE = CommandHandler("resetgoodbye", reset_goodbye, filters=Filters.group)
-WELCOMEMUTE_HANDLER = CommandHandler("welcomemute", welcomemute, pass_args=True, filters=Filters.group)
-CLEAN_SERVICE_HANDLER = CommandHandler("cleanservice", cleanservice, pass_args=True, filters=Filters.group)
-CLEAN_WELCOME = CommandHandler("cleanwelcome", clean_welcome, pass_args=True, filters=Filters.group)
+WELCOMEMUTE_HANDLER = CommandHandler("welcomemute", welcomemute, filters=Filters.group)
+CLEAN_SERVICE_HANDLER = CommandHandler("cleanservice", cleanservice, filters=Filters.group)
+CLEAN_WELCOME = CommandHandler("cleanwelcome", clean_welcome, filters=Filters.group)
 WELCOME_HELP = CommandHandler("welcomehelp", welcome_help)
 WELCOME_MUTE_HELP = CommandHandler("welcomemutehelp", welcome_mute_help)
 BUTTON_VERIFY_HANDLER = CallbackQueryHandler(user_button, pattern=r"user_join_")

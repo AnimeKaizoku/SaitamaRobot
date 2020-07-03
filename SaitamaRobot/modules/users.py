@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 from io import BytesIO
 from time import sleep
 
@@ -49,7 +50,7 @@ def get_user_id(username):
 
 @run_async
 @dev_plus
-def broadcast(bot: Bot, update: Update):
+def broadcast(update: Update, context: CallbackContext):
 
     to_send = update.effective_message.text.split(None, 1)
 
@@ -79,7 +80,7 @@ def broadcast(bot: Bot, update: Update):
 
 
 @run_async
-def log_user(bot: Bot, update: Update):
+def log_user(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
 
@@ -101,7 +102,7 @@ def log_user(bot: Bot, update: Update):
 
 @run_async
 @sudo_plus
-def chats(bot: Bot, update: Update):
+def chats(update: Update, context: CallbackContext):
     all_chats = sql.get_all_chats() or []
     chatfile = 'List of chats.\n0. Chat name | Chat ID | Members count\n'
     P = 1
@@ -124,9 +125,10 @@ def chats(bot: Bot, update: Update):
             caption="Here is the list of chats in my database.")
 
 @run_async
-def chat_checker(bot: Bot, update: Update):
-  if update.effective_message.chat.get_member(bot.id).can_send_messages == False:
-    bot.leaveChat(update.effective_message.chat.id)
+def chat_checker(update: Update, context: CallbackContext):
+    bot = context.bot
+    if update.effective_message.chat.get_member(bot.id).can_send_messages == False:
+        bot.leaveChat(update.effective_message.chat.id)
 
 def __user_info__(user_id):
     if user_id == dispatcher.bot.id:

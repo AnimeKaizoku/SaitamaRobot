@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 from typing import List
 
@@ -12,7 +13,8 @@ from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 
 
 @run_async
-def about_me(bot: Bot, update: Update, args: List[str]):
+def about_me(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
     user_id = extract_user(message, args)
 
@@ -34,9 +36,10 @@ def about_me(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def set_about_me(bot: Bot, update: Update):
+def set_about_me(update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = message.from_user.id
+    bot = context.bot
     if message.reply_to_message:
         repl_message = message.reply_to_message
         repl_user_id = repl_message.from_user.id
@@ -59,7 +62,8 @@ def set_about_me(bot: Bot, update: Update):
 
 
 @run_async
-def about_bio(bot: Bot, update: Update, args: List[str]):
+def about_bio(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
 
     user_id = extract_user(message, args)
@@ -81,9 +85,10 @@ def about_bio(bot: Bot, update: Update, args: List[str]):
 
 
 @run_async
-def set_about_bio(bot: Bot, update: Update):
+def set_about_bio(update: Update, context: CallbackContext):
     message = update.effective_message
     sender_id = update.effective_user.id
+    bot = context.bot
 
     if message.reply_to_message:
         repl_message = message.reply_to_message
@@ -133,10 +138,10 @@ __help__ = """
 """
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)
-GET_BIO_HANDLER = DisableAbleCommandHandler("bio", about_bio, pass_args=True)
+GET_BIO_HANDLER = DisableAbleCommandHandler("bio", about_bio)
 
 SET_ABOUT_HANDLER = DisableAbleCommandHandler("setme", set_about_me)
-GET_ABOUT_HANDLER = DisableAbleCommandHandler("me", about_me, pass_args=True)
+GET_ABOUT_HANDLER = DisableAbleCommandHandler("me", about_me)
 
 dispatcher.add_handler(SET_BIO_HANDLER)
 dispatcher.add_handler(GET_BIO_HANDLER)

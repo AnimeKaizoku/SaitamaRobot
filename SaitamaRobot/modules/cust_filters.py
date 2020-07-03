@@ -1,8 +1,9 @@
+from telegram.ext import CallbackContext
 import html
 import re
 
 import telegram
-from telegram import Bot, Update
+from telegram import Update
 from telegram import ParseMode, InlineKeyboardMarkup
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, run_async
@@ -24,7 +25,7 @@ HANDLER_GROUP = 10
 
 @run_async
 @connection_status
-def list_handlers(bot: Bot, update: Update):
+def list_handlers(update: Update, context: CallbackContext):
     chat = update.effective_chat
     all_handlers = sql.get_chat_triggers(chat.id)
 
@@ -62,7 +63,7 @@ def list_handlers(bot: Bot, update: Update):
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
 @connection_status
 @user_admin
-def filters(bot: Bot, update: Update):
+def filters(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
     args = msg.text.split(None, 1)
@@ -138,7 +139,7 @@ def filters(bot: Bot, update: Update):
 # NOT ASYNC BECAUSE DISPATCHER HANDLER RAISED
 @connection_status
 @user_admin
-def stop_filter(bot: Bot, update: Update):
+def stop_filter(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
     args = msg.text.split(None, 1)
@@ -162,7 +163,8 @@ def stop_filter(bot: Bot, update: Update):
 
 
 @run_async
-def reply_filter(bot: Bot, update: Update):
+def reply_filter(update: Update, context: CallbackContext):
+    bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
     to_match = extract_text(message)

@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 from typing import Optional, List
 
@@ -85,7 +86,8 @@ RUNMUTE_ERRORS = {
 
 @run_async
 @bot_admin
-def rban(bot: Bot, update: Update, args: List[str]):
+def rban(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
 
     if not args:
@@ -152,7 +154,8 @@ def rban(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @bot_admin
-def runban(bot: Bot, update: Update, args: List[str]):
+def runban(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
 
     if not args:
@@ -219,7 +222,8 @@ def runban(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @bot_admin
-def rkick(bot: Bot, update: Update, args: List[str]):
+def rkick(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
 
     if not args:
@@ -286,7 +290,8 @@ def rkick(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @bot_admin
-def rmute(bot: Bot, update: Update, args: List[str]):
+def rmute(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
 
     if not args:
@@ -353,7 +358,8 @@ def rmute(bot: Bot, update: Update, args: List[str]):
 
 @run_async
 @bot_admin
-def runmute(bot: Bot, update: Update, args: List[str]):
+def runmute(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
 
     if not args:
@@ -428,11 +434,11 @@ __help__ = ""
 
 __mod_name__ = "Remote Commands"
 
-RBAN_HANDLER = CommandHandler("rban", rban, pass_args=True, filters=CustomFilters.sudo_filter)
-RUNBAN_HANDLER = CommandHandler("runban", runban, pass_args=True, filters=CustomFilters.sudo_filter)
-RKICK_HANDLER = CommandHandler("rkick", rkick, pass_args=True, filters=CustomFilters.sudo_filter)
-RMUTE_HANDLER = CommandHandler("rmute", rmute, pass_args=True, filters=CustomFilters.sudo_filter)
-RUNMUTE_HANDLER = CommandHandler("runmute", runmute, pass_args=True, filters=CustomFilters.sudo_filter)
+RBAN_HANDLER = CommandHandler("rban", rban, filters=CustomFilters.sudo_filter)
+RUNBAN_HANDLER = CommandHandler("runban", runban, filters=CustomFilters.sudo_filter)
+RKICK_HANDLER = CommandHandler("rkick", rkick, filters=CustomFilters.sudo_filter)
+RMUTE_HANDLER = CommandHandler("rmute", rmute, filters=CustomFilters.sudo_filter)
+RUNMUTE_HANDLER = CommandHandler("runmute", runmute, filters=CustomFilters.sudo_filter)
 
 dispatcher.add_handler(RBAN_HANDLER)
 dispatcher.add_handler(RUNBAN_HANDLER)

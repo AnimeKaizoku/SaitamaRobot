@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 from typing import List
 
 import requests
@@ -9,7 +10,8 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def paste(bot: Bot, update: Update, args: List[str]):
+def paste(update: Update, context: CallbackContext):
+    args = context.args
     message = update.effective_message
 
     if message.reply_to_message:
@@ -34,7 +36,7 @@ __help__ = """
  • `/paste`*:* Do a paste at `neko.bin`
 """
 
-PASTE_HANDLER = DisableAbleCommandHandler("paste", paste, pass_args=True)
+PASTE_HANDLER = DisableAbleCommandHandler("paste", paste)
 dispatcher.add_handler(PASTE_HANDLER)
 
 __mod_name__ = "Paste"

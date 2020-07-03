@@ -1,8 +1,9 @@
+from telegram.ext import CallbackContext
 import html
 from typing import List
 
 import telegram.ext as tg
-from telegram import Bot, Update, ParseMode, MessageEntity
+from telegram import Update, ParseMode, MessageEntity
 from telegram import TelegramError
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
@@ -93,7 +94,7 @@ def unrestr_members(bot, chat_id, members, messages=True, media=True, other=True
 
 @run_async
 @connection_status
-def locktypes(bot: Bot, update: Update):
+def locktypes(update: Update, context: CallbackContext):
     update.effective_message.reply_text("\n - ".join(["Locks: "] + list(LOCK_TYPES) + list(RESTRICTION_TYPES)))
 
 
@@ -101,7 +102,8 @@ def locktypes(bot: Bot, update: Update):
 @connection_status
 @bot_can_delete
 @loggable
-def lock(bot: Bot, update: Update, args: List[str]) -> str:
+def lock(update: Update, context: CallbackContext) -> str:
+    bot, args = context.bot, context.args
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -154,7 +156,8 @@ def lock(bot: Bot, update: Update, args: List[str]) -> str:
 @connection_status
 @user_admin
 @loggable
-def unlock(bot: Bot, update: Update, args: List[str]) -> str:
+def unlock(update: Update, context: CallbackContext) -> str:
+    bot, args = context.bot, context.args
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
@@ -205,12 +208,18 @@ def unlock(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @user_not_admin
-def del_lockables(bot: Bot, update: Update):
+def del_lockables(update: Update, context: CallbackContext):
+    bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
 
+    #filter() expects Update object when filters are merged, otherwise Message object
+    chk = message
+
     for lockable, filter in LOCK_TYPES.items():
-        if filter(message) and sql.is_locked(chat.id, lockable) and can_delete(chat, bot.id):
+        if lockable == "gif" or lockable == "url":
+            chk = update
+        if filter(update) and sql.is_locked(chat.id, lockable) and can_delete(chat, bot.id):
             if lockable == "bots":
                 new_members = update.effective_message.new_chat_members
                 for new_mem in new_members:
@@ -236,11 +245,19 @@ def del_lockables(bot: Bot, update: Update):
 
 @run_async
 @user_not_admin
-def rest_handler(bot: Bot, update: Update):
+def rest_handler(update: Update, context: CallbackContext):
+    bot = context.bot
     msg = update.effective_message
     chat = update.effective_chat
+
+    #filter() expects Update object when filters are merged, otherwise Message object
+    _chk = msg
+
     for restriction, _filter in RESTRICTION_TYPES.items():
-        if _filter(msg) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, bot.id):
+        if restriction != 'all':
+            # all others are merged filters
+            _chk = update
+        if _filter(update) and sql.is_restr_locked(chat.id, restriction) and can_delete(chat, bot.id):
             try:
                 msg.delete()
             except BadRequest as excp:
@@ -295,7 +312,7 @@ def build_lock_message(chat_id):
 @run_async
 @connection_status
 @user_admin
-def list_locks(bot: Bot, update: Update):
+def list_locks(update: Update, context: CallbackContext):
     chat = update.effective_chat
 
     res = build_lock_message(chat.id)
@@ -327,8 +344,8 @@ Locking bots will stop non-admins from adding bots to the chat.
 """
 
 LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes)
-LOCK_HANDLER = CommandHandler("lock", lock, pass_args=True)
-UNLOCK_HANDLER = CommandHandler("unlock", unlock, pass_args=True)
+LOCK_HANDLER = CommandHandler("lock", lock)
+UNLOCK_HANDLER = CommandHandler("unlock", unlock)
 LOCKED_HANDLER = CommandHandler("locks", list_locks)
 LOCKABLE_HANDLER = MessageHandler(Filters.all & Filters.group, del_lockables)
 RESTRICTION_HANDLER = MessageHandler(Filters.all & Filters.group, rest_handler)

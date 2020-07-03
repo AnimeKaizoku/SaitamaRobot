@@ -1,13 +1,11 @@
 import html
-from typing import List
 
-import requests
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters, run_async
+from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from SaitamaRobot import dispatcher, TOKEN, SUDO_USERS
+from SaitamaRobot import dispatcher, SUDO_USERS
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import bot_admin, can_promote, user_admin, can_pin, connection_status
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
@@ -20,17 +18,20 @@ from SaitamaRobot.modules.log_channel import loggable
 @can_promote
 @user_admin
 @loggable
-def promote(bot: Bot, update: Update, args: List[str]) -> str:
+def promote(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
+    args = context.args
+
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
     log_message = ""
 
     promoter = chat.get_member(user.id)
-    
+
     if not (promoter.can_promote_members or promoter.status == "creator") and not user.id in SUDO_USERS:
         message.reply_text("You don't have the necessary rights to do that!")
-        return ""
+        return log_message
 
     user_id = extract_user(message, args)
 
@@ -89,7 +90,10 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
 @can_promote
 @user_admin
 @loggable
-def demote(bot: Bot, update: Update, args: List[str]) -> str:
+def demote(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
+    args = context.args
+
     chat = update.effective_chat
     message = update.effective_message
     user = update.effective_user
@@ -149,7 +153,10 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 @bot_admin
 @can_promote
 @user_admin
-def set_title(bot: Bot, update: Update, args: List[str]):
+def set_title(update: Update, context: CallbackContext):
+    bot = context.bot
+    args = context.args
+
     chat = update.effective_chat
     message = update.effective_message
 
@@ -182,19 +189,14 @@ def set_title(bot: Bot, update: Update, args: List[str]):
     if len(title) > 16:
         message.reply_text("The title length is longer than 16 characters.\nTruncating it to 16 characters.")
 
-    result = requests.post(f"https://api.telegram.org/bot{TOKEN}/setChatAdministratorCustomTitle"
-                           f"?chat_id={chat.id}"
-                           f"&user_id={user_id}"
-                           f"&custom_title={title}")
-    status = result.json()["ok"]
+    try:
+        bot.setChatAdministratorCustomTitle(chat.id, user_id, title)
+    except BadRequest:
+        message.reply_text("I can't set custom title for admins that I didn't promote!")
+        return
 
-    if status is True:
-        bot.sendMessage(chat.id, f"Sucessfully set title for <code>{user_member.user.first_name or user_id}</code> "
-                                 f"to <code>{title[:16]}</code>!", parse_mode=ParseMode.HTML)
-    else:
-        description = result.json()["description"]
-        if description == "Bad Request: not enough rights to change custom title of the user":
-            message.reply_text("I can't set custom title for admins that I didn't promote!")
+    bot.sendMessage(chat.id, f"Sucessfully set title for <code>{user_member.user.first_name or user_id}</code> "
+                                f"to <code>{title[:16]}</code>!", parse_mode=ParseMode.HTML)
 
 
 @run_async
@@ -202,7 +204,10 @@ def set_title(bot: Bot, update: Update, args: List[str]):
 @can_pin
 @user_admin
 @loggable
-def pin(bot: Bot, update: Update, args: List[str]) -> str:
+def pin(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
+    args = context.args
+
     user = update.effective_user
     chat = update.effective_chat
 
@@ -233,7 +238,8 @@ def pin(bot: Bot, update: Update, args: List[str]) -> str:
 @can_pin
 @user_admin
 @loggable
-def unpin(bot: Bot, update: Update) -> str:
+def unpin(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
     chat = update.effective_chat
     user = update.effective_user
 
@@ -255,7 +261,8 @@ def unpin(bot: Bot, update: Update) -> str:
 @run_async
 @bot_admin
 @user_admin
-def invite(bot: Bot, update: Update):
+def invite(update: Update, context: CallbackContext):
+    bot = context.bot
     chat = update.effective_chat
 
     if chat.username:
@@ -273,7 +280,8 @@ def invite(bot: Bot, update: Update):
 
 @run_async
 @connection_status
-def adminlist(bot: Bot, update: Update):
+def adminlist(update: Update, context: CallbackContext):
+    bot = context.bot
     chat = update.effective_chat
     user = update.effective_user
 
@@ -316,15 +324,15 @@ __help__ = """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler(["adminlist", "admins"], adminlist)
 
-PIN_HANDLER = CommandHandler("pin", pin, pass_args=True, filters=Filters.group)
+PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.group)
 UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
 
 INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite, filters=Filters.group)
 
-PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote, pass_args=True)
-DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote, pass_args=True)
+PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
+DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
 
-SET_TITLE_HANDLER = CommandHandler("settitle", set_title, pass_args=True)
+SET_TITLE_HANDLER = CommandHandler("settitle", set_title)
 
 dispatcher.add_handler(ADMINLIST_HANDLER)
 dispatcher.add_handler(PIN_HANDLER)

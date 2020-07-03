@@ -1,9 +1,10 @@
+from telegram.ext import CallbackContext
 import html
 from typing import Optional, List
 import re
 from telegram import Message, Chat, Update, Bot, User, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, RegexHandler, run_async, Filters, CallbackQueryHandler
+from telegram.ext import CommandHandler, RegexHandler, run_async, Filters, CallbackQueryHandler, MessageHandler
 from telegram.utils.helpers import mention_html
 
 from SaitamaRobot.modules.helper_funcs.chat_status import user_not_admin, user_admin
@@ -16,7 +17,8 @@ REPORT_IMMUNE_USERS = SUDO_USERS + TIGER_USERS + WHITELIST_USERS
 
 @run_async
 @user_admin
-def report_setting(bot: Bot, update: Update, args: List[str]):
+def report_setting(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     chat = update.effective_chat
     msg = update.effective_message
 
@@ -51,7 +53,8 @@ def report_setting(bot: Bot, update: Update, args: List[str]):
 @run_async
 @user_not_admin
 @loggable
-def report(bot: Bot, update: Update) -> str:
+def report(update: Update, context: CallbackContext) -> str:
+    bot = context.bot
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -149,10 +152,10 @@ def __migrate__(old_chat_id, new_chat_id):
     sql.migrate_chat(old_chat_id, new_chat_id)
 
 
-def __chat_settings__(bot, update, chat, chatP, user):
+def __chat_settings__(update, context, chat, chatP, user):
     return f"This chat is setup to send user reports to admins, via /report and @admin: `{sql.chat_should_report(chat_id)}`"
 
-def __user_settings__(bot, update, user):
+def __user_settings__(update, context, user):
     if sql.user_should_report(user.id) == True:
         text = "You will receive reports from chats you're admin."
         keyboard = [[InlineKeyboardButton(text="Disable reporting", callback_data="panel_reporting_U_disable")]]
@@ -163,7 +166,8 @@ def __user_settings__(bot, update, user):
     return text, keyboard
 
     
-def buttons(bot: Bot, update):
+def buttons(update: Update, context: CallbackContext):
+    bot = context.bot
     query = update.callback_query
     splitter = query.data.replace("report_", "").split("=")
     if splitter[1] == "kick":
@@ -204,12 +208,12 @@ __help__ = """
    • If in group, toggles that groups's status.
 """
 
-SETTING_HANDLER = CommandHandler("reports", report_setting, pass_args=True)
+SETTING_HANDLER = CommandHandler("reports", report_setting)
 REPORT_HANDLER = CommandHandler("report", report, filters=Filters.group)
-ADMIN_REPORT_HANDLER = RegexHandler("(?i)@admin(s)?", report)
+ADMIN_REPORT_HANDLER = MessageHandler(Filters.regex(r"(?i)@admin(s)?"), report)
 
-report_button_user_handler = CallbackQueryHandler(buttons, pattern=r"report_")
-dispatcher.add_handler(report_button_user_handler)
+REPORT_BUTTON_USER_HANDLER = CallbackQueryHandler(buttons, pattern=r"report_")
+dispatcher.add_handler(REPORT_BUTTON_USER_HANDLER)
 
 dispatcher.add_handler(SETTING_HANDLER)
 dispatcher.add_handler(REPORT_HANDLER, REPORT_GROUP)

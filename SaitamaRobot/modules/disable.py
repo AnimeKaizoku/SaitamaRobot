@@ -1,9 +1,10 @@
+from telegram.ext import CallbackContext
 import importlib
 from typing import Union, List
 
 from future.utils import string_types
-from telegram import Bot, Update, ParseMode
-from telegram.ext import CommandHandler, RegexHandler, MessageHandler
+from telegram import Update, ParseMode, MessageEntity
+from telegram.ext import CommandHandler, RegexHandler, MessageHandler, Filters
 from telegram.utils.helpers import escape_markdown
 
 from SaitamaRobot import dispatcher
@@ -30,7 +31,10 @@ if is_module_loaded(FILENAME):
         def __init__(self, command, callback, admin_ok=False, filters=None, **kwargs):
             super().__init__(command, callback, **kwargs)
             self.admin_ok = admin_ok
-            self.filters = filters
+            if filters:
+                self.filters = Filters.command & filters
+            else:
+                self.filters = Filters.command
             if isinstance(command, string_types):
                 DISABLE_CMDS.append(command)
                 if admin_ok:
@@ -40,40 +44,67 @@ if is_module_loaded(FILENAME):
                 if admin_ok:
                     ADMIN_CMDS.extend(command)
 
+
         def check_update(self, update):
-            chat = update.effective_chat
             user = update.effective_user
+            chat = update.effective_chat
 
-            if super().check_update(update):
+            if isinstance(update, Update) and update.effective_message:
+                message = update.effective_message
 
-                # Should be safe since check_update passed.
-                command = update.effective_message.text_html.split(None, 1)[0][1:].split('@')[0]
+                if (message.entities and message.entities[0].type == MessageEntity.BOT_COMMAND
+                        and message.entities[0].offset == 0):
+                    command = message.text[1:message.entities[0].length]
+                    args = message.text.split()[1:]
+                    command = command.split('@')
+                    command.append(message.bot.username)
 
-                # disabled, admincmd, user admin
-                if sql.is_command_disabled(chat.id, command):
-                    if command in ADMIN_CMDS and is_user_admin(chat, user.id):
-                        return True
+                    if not (command[0].lower() in self.command
+                            and command[1].lower() == message.bot.username.lower()):
+                        return None
 
-                # not disabled
-                else:
-                    return True
+                    filter_result = self.filters(update)
+                    if filter_result:
+                        # disabled, admincmd, user admin
+                        if sql.is_command_disabled(chat.id, command):
+                            if command in ADMIN_CMDS and is_user_admin(chat, user.id):
+                                return args, filter_result
+
+                        # not disabled
+                        else:
+                            return args, filter_result
+                    else:
+                        return False
 
 
     class DisableAbleMessageHandler(MessageHandler):
+
         def __init__(self, filters, callback, friendly, **kwargs):
+
             super().__init__(filters, callback, **kwargs)
             DISABLE_OTHER.append(friendly)
             self.friendly = friendly
-            self.filters = filters
+            if filters:
+                self.filters = Filters.update.messages & filters
+            else:
+                self.filters = Filters.update.messages
 
         def check_update(self, update):
 
             chat = update.effective_chat
+            message = update.effective_message
+            filter_result = self.filters(update)
+
+            try:
+                args = message.text.split()[1:]
+            except:
+                args = []
+
             if super().check_update(update):
                 if sql.is_command_disabled(chat.id, self.friendly):
                     return False
                 else:
-                    return True
+                    return args, filter_result
 
 
     class DisableAbleRegexHandler(RegexHandler):
@@ -94,7 +125,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def disable(bot: Bot, update: Update, args: List[str]):
+    def disable(update: Update, context: CallbackContext):
+        args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
             disable_cmd = args[0]
@@ -115,7 +147,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def disable_module(bot: Bot, update: Update, args: List[str]):
+    def disable_module(update: Update, context: CallbackContext):
+        args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
             disable_module = "SaitamaRobot.modules." + args[0].rsplit(".", 1)[0]
@@ -162,8 +195,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def enable(bot: Bot, update: Update, args: List[str]):
-
+    def enable(update: Update, context: CallbackContext):
+        args = context.args
         chat = update.effective_chat
         if len(args) >= 1:
             enable_cmd = args[0]
@@ -183,7 +216,8 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def enable_module(bot: Bot, update: Update, args: List[str]):
+    def enable_module(update: Update, context: CallbackContext):
+        args = context.args
         chat = update.effective_chat
 
         if len(args) >= 1:
@@ -230,7 +264,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @connection_status
     @user_admin
-    def list_cmds(bot: Bot, update: Update):
+    def list_cmds(update: Update, context: CallbackContext):
         if DISABLE_CMDS + DISABLE_OTHER:
             result = ""
             for cmd in set(DISABLE_CMDS + DISABLE_OTHER):
@@ -255,7 +289,7 @@ if is_module_loaded(FILENAME):
 
     @run_async
     @connection_status
-    def commands(bot: Bot, update: Update):
+    def commands(update: Update, context: CallbackContext):
         chat = update.effective_chat
         update.effective_message.reply_text(build_curr_disabled(chat.id), parse_mode=ParseMode.MARKDOWN)
 
@@ -272,10 +306,10 @@ if is_module_loaded(FILENAME):
         return build_curr_disabled(chat_id)
 
 
-    DISABLE_HANDLER = CommandHandler("disable", disable, pass_args=True)
-    DISABLE_MODULE_HANDLER = CommandHandler("disablemodule", disable_module, pass_args=True)
-    ENABLE_HANDLER = CommandHandler("enable", enable, pass_args=True)
-    ENABLE_MODULE_HANDLER = CommandHandler("enablemodule", enable_module, pass_args=True)
+    DISABLE_HANDLER = CommandHandler("disable", disable)
+    DISABLE_MODULE_HANDLER = CommandHandler("disablemodule", disable_module)
+    ENABLE_HANDLER = CommandHandler("enable", enable)
+    ENABLE_MODULE_HANDLER = CommandHandler("enablemodule", enable_module)
     COMMANDS_HANDLER = CommandHandler(["cmds", "disabled"], commands)
     TOGGLE_HANDLER = CommandHandler("listcmds", list_cmds)
 

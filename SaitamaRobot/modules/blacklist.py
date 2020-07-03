@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 import re
 from typing import List
@@ -15,19 +16,13 @@ from SaitamaRobot.modules.helper_funcs.misc import split_message
 
 BLACKLIST_GROUP = 11
 
-def infinite_loop_check(regex):
-     loop_matches = [r'\((.{1,}[\+\*]){1,}\)[\+\*].', r'[\(\[].{1,}\{\d(,)?\}[\)\]]\{\d(,)?\}', r'\(.{1,}\)\{.{1,}(,)?\}\(.*\)(\+|\* |\{.*\})']
-     for match in loop_matches:
-          match_1 = re.search(match, regex)
-          if match_1: return True
-
 @run_async
 @connection_status
 @user_admin
-def blacklist(bot: Bot, update: Update, args: List[str]):
+def blacklist(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
-
+    args = context.args
     update_chat_title = chat.title
     message_chat_title = update.effective_message.chat.title
 
@@ -62,7 +57,7 @@ def blacklist(bot: Bot, update: Update, args: List[str]):
 @run_async
 @connection_status
 @user_admin
-def add_blacklist(bot: Bot, update: Update):
+def add_blacklist(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -99,7 +94,7 @@ def add_blacklist(bot: Bot, update: Update):
 @run_async
 @connection_status
 @user_admin
-def unblacklist(bot: Bot, update: Update):
+def unblacklist(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     words = msg.text.split(None, 1)
@@ -138,7 +133,7 @@ def unblacklist(bot: Bot, update: Update):
 @run_async
 @connection_status
 @user_not_admin
-def del_blacklist(bot: Bot, update: Update):
+def del_blacklist(update: Update, context: CallbackContext):
     chat = update.effective_chat
     message = update.effective_message
     to_match = extract_text(message)
@@ -194,10 +189,10 @@ multiple triggers at once.
  • `/rmblacklist <triggers>`*:* Same as above.
 """
 
-BLACKLIST_HANDLER = DisableAbleCommandHandler("blacklist", blacklist, pass_args=True)
+BLACKLIST_HANDLER = DisableAbleCommandHandler("blacklist", blacklist)
 ADD_BLACKLIST_HANDLER = CommandHandler("addblacklist", add_blacklist)
 UNBLACKLIST_HANDLER = CommandHandler(["unblacklist", "rmblacklist"], unblacklist)
-BLACKLIST_DEL_HANDLER = MessageHandler((Filters.text | Filters.command | Filters.sticker | Filters.photo) & Filters.group, del_blacklist, edited_updates=True)
+BLACKLIST_DEL_HANDLER = MessageHandler((Filters.text | Filters.command | Filters.sticker | Filters.photo) & Filters.group, del_blacklist)
 dispatcher.add_handler(BLACKLIST_HANDLER)
 dispatcher.add_handler(ADD_BLACKLIST_HANDLER)
 dispatcher.add_handler(UNBLACKLIST_HANDLER)

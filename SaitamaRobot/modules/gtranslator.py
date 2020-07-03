@@ -1,6 +1,7 @@
+from telegram.ext import CallbackContext
 from emoji import UNICODE_EMOJI
 from googletrans import Translator, LANGUAGES
-from telegram import Bot, Update, ParseMode
+from telegram import Update, ParseMode
 from telegram.ext import run_async
 
 from SaitamaRobot import dispatcher
@@ -8,7 +9,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def totranslate(bot: Bot, update: Update):
+def totranslate(update: Update, context: CallbackContext):
     msg = update.effective_message
     problem_lang_code = []
     for key in LANGUAGES:

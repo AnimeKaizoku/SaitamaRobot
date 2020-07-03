@@ -1,11 +1,12 @@
+from telegram.ext import CallbackContext
 import sre_constants
 from SaitamaRobot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
 from telegram import Update, Bot
-from telegram.ext import run_async
+from telegram.ext import run_async, MessageHandler, Filters
 import telegram
 import regex
 from SaitamaRobot import dispatcher, LOGGER
-from SaitamaRobot.modules.disable import DisableAbleRegexHandler
+from SaitamaRobot.modules.disable import DisableAbleMessageHandler
 
 DELIMITERS = ("/", ":", "|", "_")
 
@@ -49,7 +50,7 @@ def separate_sed(sed_string):
 
 
 @run_async
-def sed(bot: Bot, update: Update):
+def sed(update: Update, context: CallbackContext):
     sed_result = separate_sed(update.effective_message.text)
     if sed_result and update.effective_message.reply_to_message:
         if update.effective_message.reply_to_message.text:
@@ -115,7 +116,6 @@ If you want to use these characters, make sure you escape them!
 
 __mod_name__ = "Sed/Regex"
 
-
-SED_HANDLER = DisableAbleRegexHandler(r's([{}]).*?\1.*'.format("".join(DELIMITERS)), sed, friendly="sed")
+SED_HANDLER = DisableAbleMessageHandler(Filters.regex(r's([{}]).*?\1.*'.format("".join(DELIMITERS))), sed, friendly="sed")
 
 dispatcher.add_handler(SED_HANDLER)

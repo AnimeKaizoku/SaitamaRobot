@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import io
 import os
 # Common imports for eval
@@ -17,7 +18,7 @@ import time
 import traceback
 from contextlib import redirect_stdout
 
-from telegram import ParseMode
+from telegram import ParseMode, Update
 from telegram.ext import CommandHandler, run_async
 
 from SaitamaRobot import dispatcher, LOGGER
@@ -53,13 +54,15 @@ def send(msg, bot, update):
 
 @dev_plus
 @run_async
-def evaluate(bot, update):
+def evaluate(update: Update, context: CallbackContext):
+    bot = context.bot
     send(do(eval, bot, update), bot, update)
 
 
 @dev_plus
 @run_async
-def execute(bot, update):
+def execute(update: Update, context: CallbackContext):
+    bot = context.bot
     send(do(exec, bot, update), bot, update)
 
 
@@ -117,7 +120,8 @@ def do(func, bot, update):
 
 @dev_plus
 @run_async
-def clear(bot, update):
+def clear(update: Update, context: CallbackContext):
+    bot = context.bot
     log_input(update)
     global namespaces
     if update.message.chat_id in namespaces:
@@ -125,12 +129,12 @@ def clear(bot, update):
     send("Cleared locals.", bot, update)
 
 
-eval_handler = CommandHandler(('e', 'ev', 'eva', 'eval'), evaluate)
-exec_handler = CommandHandler(('x', 'ex', 'exe', 'exec', 'py'), execute)
-clear_handler = CommandHandler('clearlocals', clear)
+EVAL_HANDLER = CommandHandler(('e', 'ev', 'eva', 'eval'), evaluate)
+EXEC_HANDLER = CommandHandler(('x', 'ex', 'exe', 'exec', 'py'), execute)
+CLEAR_HANDLER = CommandHandler('clearlocals', clear)
 
-dispatcher.add_handler(eval_handler)
-dispatcher.add_handler(exec_handler)
-dispatcher.add_handler(clear_handler)
+dispatcher.add_handler(EVAL_HANDLER)
+dispatcher.add_handler(EXEC_HANDLER)
+dispatcher.add_handler(CLEAR_HANDLER)
 
 __mod_name__ = "Eval Module"

@@ -1,3 +1,4 @@
+from telegram.ext import CallbackContext
 import html
 from typing import List
 
@@ -22,12 +23,13 @@ from SaitamaRobot.modules.log_channel import loggable, gloggable
 @user_admin
 @user_can_ban
 @loggable
-def ban(bot: Bot, update: Update, args: List[str]) -> str:
+def ban(update: Update, context:CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
     log_message = ""
-
+    bot = context.bot
+    args = context.args
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -99,12 +101,12 @@ def ban(bot: Bot, update: Update, args: List[str]) -> str:
 @user_admin
 @user_can_ban
 @loggable
-def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
+def temp_ban(context:CallbackContext, update: Update) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
     log_message = ""
-
+    bot, args = context.bot, context.args
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -182,12 +184,12 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
 @user_admin
 @user_can_ban
 @loggable
-def punch(bot: Bot, update: Update, args: List[str]) -> str:
+def punch(update:Update, context:CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
     log_message = ""
-
+    bot, args = context.bot, context.args
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -234,7 +236,7 @@ def punch(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @bot_admin
 @can_restrict
-def punchme(bot: Bot, update: Update):
+def punchme(update: Update, context: CallbackContext):
     user_id = update.effective_message.from_user.id
     if is_user_admin(update.effective_chat, user_id):
         update.effective_message.reply_text("I wish I could... but you're an admin.")
@@ -254,12 +256,12 @@ def punchme(bot: Bot, update: Update):
 @user_admin
 @user_can_ban
 @loggable
-def unban(bot: Bot, update: Update, args: List[str]) -> str:
+def unban(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
     log_message = ""
-
+    bot, args = context.bot, context.args
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -301,10 +303,10 @@ def unban(bot: Bot, update: Update, args: List[str]) -> str:
 @bot_admin
 @can_restrict
 @gloggable
-def selfunban(bot: Bot, update: Update, args: List[str]) -> str:
+def selfunban(context: CallbackContext , update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
-
+    bot, args = context.bot, context.args
     if user.id not in SUDO_USERS or user.id not in TIGER_USERS:
         return
 
@@ -349,11 +351,11 @@ __help__ = """
  • `/punch <userhandle>`*:* Punches a user out of the group, (via handle, or reply)
 """
 
-BAN_HANDLER = CommandHandler("ban", ban, pass_args=True)
-TEMPBAN_HANDLER = CommandHandler(["tban", "tempban"], temp_ban, pass_args=True)
-PUNCH_HANDLER = CommandHandler("punch", punch, pass_args=True)
-UNBAN_HANDLER = CommandHandler("unban", unban, pass_args=True)
-ROAR_HANDLER = CommandHandler("roar", selfunban, pass_args=True)
+BAN_HANDLER = CommandHandler("ban", ban)
+TEMPBAN_HANDLER = CommandHandler(["tban", "tempban"], temp_ban)
+PUNCH_HANDLER = CommandHandler("punch", punch)
+UNBAN_HANDLER = CommandHandler("unban", unban)
+ROAR_HANDLER = CommandHandler("roar", selfunban)
 PUNCHME_HANDLER = DisableAbleCommandHandler("punchme", punchme, filters=Filters.group)
 
 dispatcher.add_handler(BAN_HANDLER)
