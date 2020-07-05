@@ -29,13 +29,13 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
     promoter = chat.get_member(user.id)
     
     if not (promoter.can_promote_members or promoter.status == "creator") and not user.id in SUDO_USERS:
-        message.reply_text("You don't have the necessary rights to do that!")
+        message.reply_text("Bunu yapmak için gerekli haklara sahip değilsiniz!")
         return ""
 
     user_id = extract_user(message, args)
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
+        message.reply_text("Bir kullanıcıya atıfta bulunmuyorsunuz veya belirtilen kimlik yanlış..")
         return log_message
 
     try:
@@ -44,11 +44,11 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
         return log_message
 
     if user_member.status == 'administrator' or user_member.status == 'creator':
-        message.reply_text("How am I meant to promote someone that's already an admin?")
+        message.reply_text("Zaten yönetici olan birini tanıtmak için ne yapmam gerekiyor?")
         return log_message
 
     if user_id == bot.id:
-        message.reply_text("I can't promote myself! Get an admin to do it for me.")
+        message.reply_text("Kendimi tanıtamıyorum! Benim için yapacak bir yönetici edinin.")
         return log_message
 
     # set same perms as bot - bot can't assign higher perms than itself!
@@ -66,13 +66,13 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
                               can_pin_messages=bot_member.can_pin_messages)
     except BadRequest as err:
         if err.message == "User_not_mutual_contact":
-            message.reply_text("I can't promote someone who isn't in the group.")
+            message.reply_text("Grupta olmayan birini tanıtamam.")
             return log_message
         else:
-            message.reply_text("An error occured while promoting.")
+            message.reply_text("Tanıtım yapılırken bir hata oluştu.")
             return log_message
 
-    bot.sendMessage(chat.id, f"Sucessfully promoted <b>{user_member.user.first_name or user_id}</b>!",
+    bot.sendMessage(chat.id, f"Başarıyla terfi etti <b>{user_member.user.first_name or user_id}</b>!",
                     parse_mode=ParseMode.HTML)
 
     log_message += (f"<b>{html.escape(chat.title)}:</b>\n"
@@ -97,7 +97,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
+        message.reply_text("Bir kullanıcıya atıfta bulunmuyorsunuz veya belirtilen kimlik yanlış..")
         return log_message
 
     try:
@@ -106,15 +106,15 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
         return log_message
 
     if user_member.status == 'creator':
-        message.reply_text("This person CREATED the chat, how would I demote them?")
+        message.reply_text("Bu kişi sohbeti YARATTI, nasıl indirgeyim?")
         return log_message
 
     if not user_member.status == 'administrator':
-        message.reply_text("Can't demote what wasn't promoted!")
+        message.reply_text("Tanıtılamayanları indiremezsiniz!")
         return log_message
 
     if user_id == bot.id:
-        message.reply_text("I can't demote myself! Get an admin to do it for me.")
+        message.reply_text("Kendimi küçültemem! Benim için yapacak bir yönetici edinin.")
         return log_message
 
     try:
@@ -128,7 +128,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
                               can_pin_messages=False,
                               can_promote_members=False)
 
-        bot.sendMessage(chat.id, f"Sucessfully demoted <b>{user_member.user.first_name or user_id}</b>!",
+        bot.sendMessage(chat.id, f"Başarıyla düşürüldü <b>{user_member.user.first_name or user_id}</b>!",
                         parse_mode=ParseMode.HTML)
 
         log_message += (f"<b>{html.escape(chat.title)}:</b>\n"
@@ -138,8 +138,8 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
         return log_message
     except BadRequest:
-        message.reply_text("Could not demote. I might not be admin, or the admin status was appointed by another"
-                           " user, so I can't act upon them!")
+        message.reply_text("Düşürülemedi. Yönetici olmayabilirim veya yönetici durumu başka biri tarafından atanmış olabilir"
+                           " kullanıcı, bu yüzden onlara hareket edemiyorum!")
         return log_message
 
 
@@ -160,27 +160,27 @@ def set_title(bot: Bot, update: Update, args: List[str]):
         return
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
+        message.reply_text("Bir kullanıcıya atıfta bulunmuyorsunuz veya belirtilen kimlik doğru değil..")
         return
 
     if user_member.status == 'creator':
-        message.reply_text("This person CREATED the chat, how can i set custom title for him?")
+        message.reply_text("Bu kişi sohbeti YARATTI, onun için nasıl özel başlık ayarlayabilirim?")
         return
 
     if not user_member.status == 'administrator':
-        message.reply_text("Can't set title for non-admins!\nPromote them first to set custom title!")
+        message.reply_text("Yönetici olmayanlar için başlık ayarlanamıyor!\nÖzel başlık ayarlamak için önce onları tanıtın!")
         return
 
     if user_id == bot.id:
-        message.reply_text("I can't set my own title myself! Get the one who made me admin to do it for me.")
+        message.reply_text("Kendi başlığımı kendim belirleyemiyorum! Beni yönetici yapmasını sağlayanı benim için yapsın.")
         return
 
     if not title:
-        message.reply_text("Setting blank title doesn't do anything!")
+        message.reply_text("Boş başlık ayarlamak hiçbir şey yapmaz!")
         return
 
     if len(title) > 16:
-        message.reply_text("The title length is longer than 16 characters.\nTruncating it to 16 characters.")
+        message.reply_text("Başlık uzunluğu 16 karakterden uzun.\n16 karaktere kısaltma.")
 
     result = requests.post(f"https://api.telegram.org/bot{TOKEN}/setChatAdministratorCustomTitle"
                            f"?chat_id={chat.id}"
@@ -189,12 +189,12 @@ def set_title(bot: Bot, update: Update, args: List[str]):
     status = result.json()["ok"]
 
     if status is True:
-        bot.sendMessage(chat.id, f"Sucessfully set title for <code>{user_member.user.first_name or user_id}</code> "
+        bot.sendMessage(chat.id, f"Başlık başarıyla ayarlandı for <code>{user_member.user.first_name or user_id}</code> "
                                  f"to <code>{title[:16]}</code>!", parse_mode=ParseMode.HTML)
     else:
         description = result.json()["description"]
-        if description == "Bad Request: not enough rights to change custom title of the user":
-            message.reply_text("I can't set custom title for admins that I didn't promote!")
+        if description == "Bad Request: kullanıcının özel başlığını değiştirmek için yeterli hak yok":
+            message.reply_text("Tanıtmadığım yöneticiler için özel başlık ayarlayamıyorum!")
 
 
 @run_async
@@ -266,9 +266,9 @@ def invite(bot: Bot, update: Update):
             invitelink = bot.exportChatInviteLink(chat.id)
             update.effective_message.reply_text(invitelink)
         else:
-            update.effective_message.reply_text("I don't have access to the invite link, try changing my permissions!")
+            update.effective_message.reply_text("Davet bağlantısına erişimim yok, izinlerimi değiştirmeyi deneyin!")
     else:
-        update.effective_message.reply_text("I can only give you invite links for supergroups and channels, sorry!")
+        update.effective_message.reply_text("Size sadece üst gruplar ve kanallar için davet bağlantıları verebilirim, üzgünüm!")
 
 
 @run_async
@@ -303,15 +303,15 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
- • `/adminlist`*:* list of admins in the chat
+ • `/adminlist`*:* bölümdeki yöneticilerin listesit
 
 *Admins only:*
- • `/pin`*:* silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users.
- • `/unpin`*:* unpins the currently pinned message
- • `/invitelink`*:* gets invitelink
- • `/promote`*:* promotes the user replied to
- • `/demote`*:* demotes the user replied to
- • `/settitle`*:* sets a custom title for an admin that the bot promoted
+ • `/pin`*:* cevaplanan mesajı sessizce sabitler - kullanıcıya bildirim vermek için `` yüksek sesle '' veya `` bildir '' ekle.
+ • `/unpin`*:* o anda sabitlenmiş olan mesajı kaldırır
+ • `/invitelink`*:* davet bağlantısı alır
+ • `/promote`*:* Kullanıcıya Moderatörlük Yetkisi Verir
+ • `/demote`*:* Kullanıcıdan Yetkileri Geri Alır
+ • `/settitle`*:* botun tanıttığı bir yönetici için özel bir başlık belirler
 """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler(["adminlist", "admins"], adminlist)
