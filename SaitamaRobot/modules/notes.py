@@ -181,7 +181,7 @@ def list_notes(update: Update, context: CallbackContext):
 
     msg = "*Notes in chat:*\n"
     for note in note_list:
-        note_name = escape_markdown(f" • #{note.name.lower()}\n")
+        note_name = f"• `#{escape_markdown(note.name.lower())}`\n"
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
             msg = ""
