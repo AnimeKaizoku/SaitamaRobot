@@ -21,3 +21,4 @@ speedtest-cli
 coffeehouse
 regex
 wikipedia
+telethon

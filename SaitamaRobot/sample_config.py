@@ -10,6 +10,9 @@ def get_user_list(config, key):
 # Create a new config.py or rename this to config.py file in same dir and import, then extend this class.
 class Config(object):
     LOGGER = True
+    # Login to https://my.telegram.org and fill in these slots with the details given by it
+    API_ID =  ""
+    API_HASH = ""
 
     # REQUIRED
     API_KEY = "YOUR BOT TOKEN HERE"
