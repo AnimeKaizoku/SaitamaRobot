@@ -1,6 +1,7 @@
 import importlib
 import re
 from typing import Optional
+from sys import argv
 
 from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.error import Unauthorized, BadRequest, TimedOut, NetworkError, ChatMigrated, TelegramError
@@ -9,7 +10,7 @@ from telegram.ext.dispatcher import run_async, DispatcherHandlerStop
 from telegram.utils.helpers import escape_markdown
 
 from SaitamaRobot import dispatcher, updater, TOKEN, WEBHOOK, OWNER_ID, SUPPORT_CHAT, DONATION_LINK, CERT_PATH, PORT, URL, LOGGER, \
-    ALLOW_EXCL
+    ALLOW_EXCL, telethn
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
@@ -447,9 +448,15 @@ def main():
         LOGGER.info("Using long polling.")
         updater.start_polling(timeout=15, read_latency=4, clean=True)
 
+    if len(argv) not in (1, 3, 4):
+        telethn.disconnect()
+    else:
+        telethn.run_until_disconnected()
+
     updater.idle()
 
 
 if __name__ == '__main__':
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
+    telethn.start(bot_token=TOKEN)
     main()
