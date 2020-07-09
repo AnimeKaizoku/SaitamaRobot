@@ -76,7 +76,7 @@ def add_note_to_db(chat_id, note_name, note_data, msgtype, buttons=None, file=No
 def get_note(chat_id, note_name):
     try:
         return SESSION.query(Notes).filter(
-            func.lower(Notes.name) == note_name,
+            Notes.name == note_name,
             Notes.chat_id == str(chat_id)
         ).first()
     finally:
@@ -86,7 +86,7 @@ def get_note(chat_id, note_name):
 def rm_note(chat_id, note_name):
     with NOTES_INSERTION_LOCK:
         note = SESSION.query(Notes).filter(
-            func.lower(Notes.name) == note_name,
+            Notes.name == note_name,
             Notes.chat_id == str(chat_id)
         ).first()
         if note:
