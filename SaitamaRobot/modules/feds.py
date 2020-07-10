@@ -1760,7 +1760,7 @@ def fed_owner_help(update: Update, context: CallbackContext):
  • `/newfed <fed_name>`*:* Creates a Federation, One allowed per user. Can also be used to rename the Fed. (max. 64 chars)
  • `/delfed <fed_id>`*:* Delete a Federation, and any information related to it. Will not cancel blocked users.
  • `/fpromote <user>`*:* Assigns the user as a federation admin. Enables all commands for the user under `Fed Admins`.
- • `/fdemote  <user>`*:* Drops the User from the admin Federation to a normal User.
+ • `/fdemote <user>`*:* Drops the User from the admin Federation to a normal User.
  • `/subfed <fed_id>`*:* Subscribes to a given fed ID, bans from that subscribed fed will also happen in your fed.
  • `/unsubfed <fed_id>`*:* Unsubscribes to a given fed ID.
  • `/setfedlog <fed_id>`*:* Sets the group as a fed log report base for the federation.
