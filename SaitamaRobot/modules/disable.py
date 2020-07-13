@@ -26,15 +26,10 @@ if is_module_loaded(FILENAME):
     ADMIN_CMDS = []
 
 
-    class DisableAbleCommandHandler(CustomCommandHandler):
-
-        def __init__(self, command, callback, admin_ok=False, filters=None, **kwargs):
+    class DisableAbleCommandHandler(CommandHandler):
+        def __init__(self, command, callback, admin_ok=False, **kwargs):
             super().__init__(command, callback, **kwargs)
             self.admin_ok = admin_ok
-            if filters:
-                self.filters = Filters.command & filters
-            else:
-                self.filters = Filters.command
             if isinstance(command, string_types):
                 DISABLE_CMDS.append(command)
                 if admin_ok:
@@ -44,37 +39,43 @@ if is_module_loaded(FILENAME):
                 if admin_ok:
                     ADMIN_CMDS.extend(command)
 
-
         def check_update(self, update):
-            user = update.effective_user
-            chat = update.effective_chat
-
             if isinstance(update, Update) and update.effective_message:
                 message = update.effective_message
 
-                if (message.entities and message.entities[0].type == MessageEntity.BOT_COMMAND
-                        and message.entities[0].offset == 0):
-                    command = message.text[1:message.entities[0].length]
-                    args = message.text.split()[1:]
-                    command = command.split('@')
-                    command.append(message.bot.username)
+                if message.text and len(message.text) > 1:
+                    fst_word = message.text.split(None, 1)[0]
+                    if len(fst_word) > 1 and any(
+                        fst_word.startswith(start) for start in CMD_STARTERS
+                    ):
+                        args = message.text.split()[1:]
+                        command = fst_word[1:].split("@")
+                        command.append(message.bot.username)
 
-                    if not (command[0].lower() in self.command
-                            and command[1].lower() == message.bot.username.lower()):
-                        return None
+                        if not (
+                            command[0].lower() in self.command
+                            and command[1].lower() == message.bot.username.lower()
+                        ):
+                            return None
 
-                    filter_result = self.filters(update)
-                    if filter_result:
-                        # disabled, admincmd, user admin
-                        if sql.is_command_disabled(chat.id, command):
-                            if command in ADMIN_CMDS and is_user_admin(chat, user.id):
-                                return args, filter_result
+                        filter_result = self.filters(update)
+                        if filter_result:
+                            chat = update.effective_chat
+                            user = update.effective_user
+                            # disabled, admincmd, user admin
+                            if sql.is_command_disabled(chat.id, command[0].lower()):
+                                # check if command was disabled
+                                is_disabled = command[
+                                    0
+                                ] in ADMIN_CMDS and is_user_admin(chat, user.id)
+                                if not is_disabled:
+                                    return None
+                                else:
+                                    return args, filter_result
 
-                        # not disabled
-                        else:
                             return args, filter_result
-                    else:
-                        return False
+                        else:
+                            return False
 
 
     class DisableAbleMessageHandler(MessageHandler):
