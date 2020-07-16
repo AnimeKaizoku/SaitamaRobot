@@ -1,0 +1,25 @@
+name: Format Python code
+on: 
+  push: 
+    branches: [shiken]
+  pull_request:
+    branches: [shiken]
+jobs:
+  Autoyapf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Auto yapf
+        uses: Accipiter7/yapf-action@master
+        with:
+          args: --recursive --in-place --style yapf
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@master
+        with:
+          commit-message: Autoyapf Fixes
+          committer: Accipiter7<Accipiter7@users.noreply.github.com>
+          title: Fixes by Autoyapf
+          body: This is an AutoMated PR with fixes according to selected style
+          labels: Code Formatting
+          reviewers: Accipiter7 
+          branch: autofix
