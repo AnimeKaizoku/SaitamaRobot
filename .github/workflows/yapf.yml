@@ -1,28 +1,25 @@
-name: Format Python Code
-on:
-  push:
-    branches: [ shiken ]
+name: Format Python code
+on: 
+  push: 
+    branches: [shiken]
   pull_request:
-    branches: [ shiken ]
-    
+    branches: [shiken]
 jobs:
   Autoyapf:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Auto Yapf
-      run: Accipiter7/yapf-action@master
+      - uses: actions/checkout@master
+      - name: Auto yapf
+        uses: Accipiter7/yapf-action@master
         with:
-          args: --recursive --in-place  --style pep8
-
-    - name: Run a multi-line script
+          args: --recursive --in-place --style pep8
+      - name: Create Pull Request
         uses: peter-evans/create-pull-request@master
         with:
-          commit-message: AutoYapf Fixes
+          commit-message: Autoyapf Fixes
           committer: Accipiter7 <Accipiter7@users.noreply.github.com>
-          title: Fixes by Yapf Action
-          body: This is an AutoMated PR with fixes by autopep8.
+          title: Fixes by Autoyapf
+          body: This is an AutoMated PR with fixes by pep8.
           labels: Code Formatting
           reviewers: Accipiter7
           branch: autofix
-
