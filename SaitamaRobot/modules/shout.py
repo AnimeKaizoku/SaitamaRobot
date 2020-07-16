@@ -10,17 +10,17 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 @run_async
 def shout(update: Update, context: CallbackContext):
-    args = context.args
-    text = " ".join(args)
-    result = []
-    result.append(' '.join([s for s in text]))
-    for pos, symbol in enumerate(text[1:]):
-        result.append(symbol + ' ' + '  ' * pos + symbol)
-    result = list("\n".join(result))
-    result[0] = text[0]
-    result = "".join(result)
-    msg = "```\n" + result + "```"
-    return update.effective_message.reply_text(msg, parse_mode="MARKDOWN")
+  args = context.args
+  text = " ".join(args)
+  result = []
+  result.append(' '.join([s for s in text]))
+  for pos, symbol in enumerate(text[1:]):
+    result.append(symbol + ' ' + '  ' * pos + symbol)
+  result = list("\n".join(result))
+  result[0] = text[0]
+  result = "".join(result)
+  msg = "```\n" + result + "```"
+  return update.effective_message.reply_text(msg, parse_mode="MARKDOWN")
 
 
 __help__ = """

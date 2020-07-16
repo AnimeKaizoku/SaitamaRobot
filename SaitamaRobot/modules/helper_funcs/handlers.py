@@ -7,65 +7,67 @@ import SaitamaRobot.modules.sql.blacklistusers_sql as sql
 from SaitamaRobot import ALLOW_EXCL, dispatcher
 
 if ALLOW_EXCL:
-    CMD_STARTERS = ('/', '!')
+  CMD_STARTERS = ('/', '!')
 else:
-    CMD_STARTERS = ('/', )
+  CMD_STARTERS = ('/',)
 
 
 class CustomCommandHandler(CommandHandler):
-    def __init__(self, command, callback, admin_ok=False, **kwargs):
-        super().__init__(command, callback, **kwargs)
 
-    def check_update(self, update):
-        if isinstance(update, Update) and update.effective_message:
-            message = update.effective_message
+  def __init__(self, command, callback, admin_ok=False, **kwargs):
+    super().__init__(command, callback, **kwargs)
 
-            if sql.is_user_blacklisted(update.effective_user.id):
-                return None
+  def check_update(self, update):
+    if isinstance(update, Update) and update.effective_message:
+      message = update.effective_message
 
-            if (message.entities
-                    and message.entities[0].type == MessageEntity.BOT_COMMAND
-                    and message.entities[0].offset == 0):
-                command = message.text[1:message.entities[0].length]
-                args = message.text.split()[1:]
-                command = command.split('@')
-                command.append(message.bot.username)
+      if sql.is_user_blacklisted(update.effective_user.id):
+        return None
 
-                if not (command[0].lower() in self.command and
-                        command[1].lower() == message.bot.username.lower()):
-                    return None
+      if (message.entities and
+          message.entities[0].type == MessageEntity.BOT_COMMAND and
+          message.entities[0].offset == 0):
+        command = message.text[1:message.entities[0].length]
+        args = message.text.split()[1:]
+        command = command.split('@')
+        command.append(message.bot.username)
 
-                filter_result = self.filters(update)
-                if filter_result:
-                    return args, filter_result
-                else:
-                    return False
+        if not (command[0].lower() in self.command and
+                command[1].lower() == message.bot.username.lower()):
+          return None
 
-    def handle_update(self, update, dispatcher, check_result, context=None):
-        if context:
-            self.collect_additional_context(context, update, dispatcher,
-                                            check_result)
-            return self.callback(update, context)
+        filter_result = self.filters(update)
+        if filter_result:
+          return args, filter_result
         else:
-            optional_args = self.collect_optional_args(dispatcher, update,
-                                                       check_result)
-            return self.callback(dispatcher.bot, update, **optional_args)
+          return False
 
-    def collect_additional_context(self, context, update, dispatcher,
-                                   check_result):
-        if isinstance(check_result, bool):
-            context.args = update.effective_message.text.split()[1:]
-        else:
-            context.args = check_result[0]
-            if isinstance(check_result[1], dict):
-                context.update(check_result[1])
+  def handle_update(self, update, dispatcher, check_result, context=None):
+    if context:
+      self.collect_additional_context(context, update, dispatcher, check_result)
+      return self.callback(update, context)
+    else:
+      optional_args = self.collect_optional_args(dispatcher, update,
+                                                 check_result)
+      return self.callback(dispatcher.bot, update, **optional_args)
+
+  def collect_additional_context(self, context, update, dispatcher,
+                                 check_result):
+    if isinstance(check_result, bool):
+      context.args = update.effective_message.text.split()[1:]
+    else:
+      context.args = check_result[0]
+      if isinstance(check_result[1], dict):
+        context.update(check_result[1])
 
 
 class CustomRegexHandler(RegexHandler):
-    def __init__(self, pattern, callback, friendly="", **kwargs):
-        super().__init__(pattern, callback, **kwargs)
+
+  def __init__(self, pattern, callback, friendly="", **kwargs):
+    super().__init__(pattern, callback, **kwargs)
 
 
 class CustomMessageHandler(MessageHandler):
-    def __init__(self, filters, callback, friendly="", **kwargs):
-        super().__init__(filters, callback, **kwargs)
+
+  def __init__(self, filters, callback, friendly="", **kwargs):
+    super().__init__(filters, callback, **kwargs)
