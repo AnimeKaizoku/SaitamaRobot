@@ -8,15 +8,19 @@ from telethon import TelegramClient
 StartTime = time.time()
 
 # enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    handlers=[logging.FileHandler('log.txt'), logging.StreamHandler()],
-                    level=logging.INFO)
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.FileHandler('log.txt'),
+              logging.StreamHandler()],
+    level=logging.INFO)
 
 LOGGER = logging.getLogger(__name__)
 
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 6:
-    LOGGER.error("You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting.")
+    LOGGER.error(
+        "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting."
+    )
     quit(1)
 
 ENV = bool(os.environ.get('ENV', False))
@@ -33,25 +37,34 @@ if ENV:
     OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
 
     try:
-        SUDO_USERS = set(int(x) for x in os.environ.get("SUDO_USERS", "").split())
-        DEV_USERS = set(int(x) for x in os.environ.get("DEV_USERS", "").split())
+        SUDO_USERS = set(
+            int(x) for x in os.environ.get("SUDO_USERS", "").split())
+        DEV_USERS = set(
+            int(x) for x in os.environ.get("DEV_USERS", "").split())
     except ValueError:
-        raise Exception("Your sudo or dev users list does not contain valid integers.")
+        raise Exception(
+            "Your sudo or dev users list does not contain valid integers.")
 
     try:
-        SUPPORT_USERS = set(int(x) for x in os.environ.get("SUPPORT_USERS", "").split())
+        SUPPORT_USERS = set(
+            int(x) for x in os.environ.get("SUPPORT_USERS", "").split())
     except ValueError:
-        raise Exception("Your support users list does not contain valid integers.")
+        raise Exception(
+            "Your support users list does not contain valid integers.")
 
     try:
-        WHITELIST_USERS = set(int(x) for x in os.environ.get("WHITELIST_USERS", "").split())
+        WHITELIST_USERS = set(
+            int(x) for x in os.environ.get("WHITELIST_USERS", "").split())
     except ValueError:
-        raise Exception("Your whitelisted users list does not contain valid integers.")
+        raise Exception(
+            "Your whitelisted users list does not contain valid integers.")
 
     try:
-        TIGER_USERS = set(int(x) for x in os.environ.get("TIGER_USERS", "").split())
+        TIGER_USERS = set(
+            int(x) for x in os.environ.get("TIGER_USERS", "").split())
     except ValueError:
-        raise Exception("Your tiger users list does not contain valid integers.")
+        raise Exception(
+            "Your tiger users list does not contain valid integers.")
 
     GBAN_LOGS = os.environ.get('GBAN_LOGS', None)
     WEBHOOK = bool(os.environ.get('WEBHOOK', False))
@@ -68,7 +81,8 @@ if ENV:
     DEL_CMDS = bool(os.environ.get('DEL_CMDS', False))
     STRICT_GBAN = bool(os.environ.get('STRICT_GBAN', False))
     WORKERS = int(os.environ.get('WORKERS', 8))
-    BAN_STICKER = os.environ.get('BAN_STICKER', 'CAADAgADOwADPPEcAXkko5EB3YGYAg')
+    BAN_STICKER = os.environ.get('BAN_STICKER',
+                                 'CAADAgADOwADPPEcAXkko5EB3YGYAg')
     ALLOW_EXCL = os.environ.get('ALLOW_EXCL', False)
     CASH_API_KEY = os.environ.get('CASH_API_KEY', None)
     TIME_API_KEY = os.environ.get('TIME_API_KEY', None)
@@ -79,7 +93,8 @@ if ENV:
     try:
         BL_CHATS = set(int(x) for x in os.environ.get('BL_CHATS', "").split())
     except ValueError:
-        raise Exception("Your blacklisted chats list does not contain valid integers.")
+        raise Exception(
+            "Your blacklisted chats list does not contain valid integers.")
 
 else:
     from SaitamaRobot.config import Development as Config
@@ -97,29 +112,33 @@ else:
         SUDO_USERS = set(int(x) for x in Config.SUDO_USERS or [])
         DEV_USERS = set(int(x) for x in Config.DEV_USERS or [])
     except ValueError:
-        raise Exception("Your sudo or dev users list does not contain valid integers.")
+        raise Exception(
+            "Your sudo or dev users list does not contain valid integers.")
 
     try:
         SUPPORT_USERS = set(int(x) for x in Config.SUPPORT_USERS or [])
     except ValueError:
-        raise Exception("Your support users list does not contain valid integers.")
+        raise Exception(
+            "Your support users list does not contain valid integers.")
 
     try:
         WHITELIST_USERS = set(int(x) for x in Config.WHITELIST_USERS or [])
     except ValueError:
-        raise Exception("Your whitelisted users list does not contain valid integers.")
+        raise Exception(
+            "Your whitelisted users list does not contain valid integers.")
 
     try:
         TIGER_USERS = set(int(x) for x in Config.TIGER_USERS or [])
     except ValueError:
-        raise Exception("Your tiger users list does not contain valid integers.")
+        raise Exception(
+            "Your tiger users list does not contain valid integers.")
 
     GBAN_LOGS = Config.GBAN_LOGS
     WEBHOOK = Config.WEBHOOK
     URL = Config.URL
     PORT = Config.PORT
     CERT_PATH = Config.CERT_PATH
-    API_ID =  Config.API_ID
+    API_ID = Config.API_ID
     API_HASH = Config.API_HASH
 
     DB_URI = Config.SQLALCHEMY_DATABASE_URI
@@ -140,8 +159,8 @@ else:
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
     except ValueError:
-        raise Exception ("Your blacklisted chats list does not contain valid integers.")
-
+        raise Exception(
+            "Your blacklisted chats list does not contain valid integers.")
 
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)

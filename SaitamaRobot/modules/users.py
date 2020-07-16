@@ -65,18 +65,20 @@ def broadcast(update: Update, context: CallbackContext):
                 sleep(0.1)
             except TelegramError:
                 failed += 1
-                LOGGER.warning("Couldn't send broadcast to %s, group name %s", str(chat.chat_id), str(chat.chat_name))
+                LOGGER.warning("Couldn't send broadcast to %s, group name %s",
+                               str(chat.chat_id), str(chat.chat_name))
         for user in users:
             try:
                 bot.sendMessage(int(user.user_id), to_send[1])
                 sleep(0.1)
             except TelegramError:
                 failed_user += 1
-                LOGGER.warning("Couldn't send broadcast to %s", str(user.user_id))
+                LOGGER.warning("Couldn't send broadcast to %s",
+                               str(user.user_id))
 
         update.effective_message.reply_text(
             f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked. {failed_user} failed to receive message, probably due to being blocked"
-            )
+        )
 
 
 @run_async
@@ -84,20 +86,16 @@ def log_user(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
 
-    sql.update_user(msg.from_user.id,
-                    msg.from_user.username,
-                    chat.id,
+    sql.update_user(msg.from_user.id, msg.from_user.username, chat.id,
                     chat.title)
 
     if msg.reply_to_message:
         sql.update_user(msg.reply_to_message.from_user.id,
-                        msg.reply_to_message.from_user.username,
-                        chat.id,
+                        msg.reply_to_message.from_user.username, chat.id,
                         chat.title)
 
     if msg.forward_from:
-        sql.update_user(msg.forward_from.id,
-                        msg.forward_from.username)
+        sql.update_user(msg.forward_from.id, msg.forward_from.username)
 
 
 @run_async
@@ -111,8 +109,8 @@ def chats(update: Update, context: CallbackContext):
             curr_chat = bot.getChat(chat.chat_id)
             bot_member = curr_chat.get_member(bot.id)
             chat_members = curr_chat.get_members_count(bot.id)
-            chatfile += "{}. {} | {} | {}\n".format(
-                P, chat.chat_name, chat.chat_id, chat_members)
+            chatfile += "{}. {} | {} | {}\n".format(P, chat.chat_name,
+                                                    chat.chat_id, chat_members)
             P = P + 1
         except:
             pass
@@ -124,17 +122,21 @@ def chats(update: Update, context: CallbackContext):
             filename="chatlist.txt",
             caption="Here is the list of chats in my database.")
 
+
 @run_async
 def chat_checker(update: Update, context: CallbackContext):
     bot = context.bot
-    if update.effective_message.chat.get_member(bot.id).can_send_messages == False:
+    if update.effective_message.chat.get_member(
+            bot.id).can_send_messages == False:
         bot.leaveChat(update.effective_message.chat.id)
+
 
 def __user_info__(user_id):
     if user_id == dispatcher.bot.id:
         return """I've seen them in... Wow. Are they stalking me? They're in all the same places I am... oh. It's me."""
     num_chats = sql.get_user_num_chats(user_id)
     return f"""I've seen them in <code>{num_chats}</code> chats in total."""
+
 
 def __stats__():
     return f"{sql.num_users()} users, across {sql.num_chats()} chats"
@@ -148,7 +150,8 @@ __help__ = ""  # no help string
 
 BROADCAST_HANDLER = CommandHandler("broadcast", broadcast)
 USER_HANDLER = MessageHandler(Filters.all & Filters.group, log_user)
-CHAT_CHECKER_HANDLER = MessageHandler(Filters.all & Filters.group, chat_checker)
+CHAT_CHECKER_HANDLER = MessageHandler(Filters.all & Filters.group,
+                                      chat_checker)
 CHATLIST_HANDLER = CommandHandler("chatlist", chats)
 
 dispatcher.add_handler(USER_HANDLER, USERS_GROUP)
@@ -157,4 +160,5 @@ dispatcher.add_handler(CHATLIST_HANDLER)
 dispatcher.add_handler(CHAT_CHECKER_HANDLER, CHAT_GROUP)
 
 __mod_name__ = "Users"
-__handlers__ = [(USER_HANDLER, USERS_GROUP), BROADCAST_HANDLER, CHATLIST_HANDLER]
+__handlers__ = [(USER_HANDLER, USERS_GROUP), BROADCAST_HANDLER,
+                CHATLIST_HANDLER]

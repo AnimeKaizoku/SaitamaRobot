@@ -15,7 +15,6 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, sudo_plus
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 
-
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
 saved messages are correctly parsed, and to allow you to create buttons.
@@ -56,17 +55,19 @@ def get_id(update: Update, context: CallbackContext):
             user1 = message.reply_to_message.from_user
             user2 = message.reply_to_message.forward_from
 
-            msg.reply_text(f"The original sender, {html.escape(user2.first_name)},"
-                           f" has an ID of <code>{user2.id}</code>.\n"
-                           f"The forwarder, {html.escape(user1.first_name)},"
-                           f" has an ID of <code>{user1.id}</code>.",
-                           parse_mode=ParseMode.HTML)
+            msg.reply_text(
+                f"The original sender, {html.escape(user2.first_name)},"
+                f" has an ID of <code>{user2.id}</code>.\n"
+                f"The forwarder, {html.escape(user1.first_name)},"
+                f" has an ID of <code>{user1.id}</code>.",
+                parse_mode=ParseMode.HTML)
 
         else:
 
             user = bot.get_chat(user_id)
-            msg.reply_text(f"{html.escape(user.first_name)}'s id is <code>{user.id}</code>.",
-                           parse_mode=ParseMode.HTML)
+            msg.reply_text(
+                f"{html.escape(user.first_name)}'s id is <code>{user.id}</code>.",
+                parse_mode=ParseMode.HTML)
 
     else:
 
@@ -83,10 +84,12 @@ def get_id(update: Update, context: CallbackContext):
 def gifid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
-        update.effective_message.reply_text(f"Gif ID:\n<code>{msg.reply_to_message.animation.file_id}</code>",
-                                            parse_mode=ParseMode.HTML)
+        update.effective_message.reply_text(
+            f"Gif ID:\n<code>{msg.reply_to_message.animation.file_id}</code>",
+            parse_mode=ParseMode.HTML)
     else:
-        update.effective_message.reply_text("Please reply to a gif to get its ID.")
+        update.effective_message.reply_text(
+            "Please reply to a gif to get its ID.")
 
 
 @run_async
@@ -102,9 +105,11 @@ def info(update: Update, context: CallbackContext):
     elif not message.reply_to_message and not args:
         user = message.from_user
 
-    elif not message.reply_to_message and (not args or (
-            len(args) >= 1 and not args[0].startswith("@") and not args[0].isdigit() and not message.parse_entities(
-        [MessageEntity.TEXT_MENTION]))):
+    elif not message.reply_to_message and (
+            not args or
+        (len(args) >= 1 and not args[0].startswith("@")
+         and not args[0].isdigit()
+         and not message.parse_entities([MessageEntity.TEXT_MENTION]))):
         message.reply_text("I can't extract a user from this.")
         return
 
@@ -145,12 +150,15 @@ def info(update: Update, context: CallbackContext):
         disaster_level_present = True
 
     if disaster_level_present:
-        text += ' [<a href="http://t.me/{}?start=disasters">?</a>]'.format(bot.username)
+        text += ' [<a href="http://t.me/{}?start=disasters">?</a>]'.format(
+            bot.username)
 
     try:
         user_member = chat.get_member(user.id)
         if user_member.status == 'administrator':
-            result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}")
+            result = requests.post(
+                f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}"
+            )
             result = result.json()["result"]
             if "custom_title" in result.keys():
                 custom_title = result['custom_title']
@@ -166,7 +174,9 @@ def info(update: Update, context: CallbackContext):
         if mod_info:
             text += "\n\n" + mod_info
 
-    update.effective_message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+    update.effective_message.reply_text(text,
+                                        parse_mode=ParseMode.HTML,
+                                        disable_web_page_preview=True)
 
 
 @run_async
@@ -185,11 +195,14 @@ def echo(update: Update, context: CallbackContext):
 
 @run_async
 def markdown_help(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
-    update.effective_message.reply_text("Try forwarding the following message to me, and you'll see!")
-    update.effective_message.reply_text("/save test This is a markdown test. _italics_, *bold*, `code`, "
-                                        "[URL](example.com) [button](buttonurl:github.com) "
-                                        "[button2](buttonurl://google.com:same)")
+    update.effective_message.reply_text(MARKDOWN_HELP,
+                                        parse_mode=ParseMode.HTML)
+    update.effective_message.reply_text(
+        "Try forwarding the following message to me, and you'll see!")
+    update.effective_message.reply_text(
+        "/save test This is a markdown test. _italics_, *bold*, `code`, "
+        "[URL](example.com) [button](buttonurl:github.com) "
+        "[button2](buttonurl://google.com:same)")
 
 
 @run_async
@@ -209,9 +222,12 @@ __help__ = """
 
 ID_HANDLER = DisableAbleCommandHandler("id", get_id)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid)
-INFO_HANDLER = DisableAbleCommandHandler(["info", "appraise", "appraisal"], info)
+INFO_HANDLER = DisableAbleCommandHandler(["info", "appraise", "appraisal"],
+                                         info)
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
-MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
+MD_HELP_HANDLER = CommandHandler("markdownhelp",
+                                 markdown_help,
+                                 filters=Filters.private)
 STATS_HANDLER = CommandHandler("stats", stats)
 
 dispatcher.add_handler(ID_HANDLER)
@@ -223,4 +239,7 @@ dispatcher.add_handler(STATS_HANDLER)
 
 __mod_name__ = "Misc"
 __command_list__ = ["id", "info", "echo"]
-__handlers__ = [ID_HANDLER, GIFID_HANDLER, INFO_HANDLER, ECHO_HANDLER, MD_HELP_HANDLER, STATS_HANDLER]
+__handlers__ = [
+    ID_HANDLER, GIFID_HANDLER, INFO_HANDLER, ECHO_HANDLER, MD_HELP_HANDLER,
+    STATS_HANDLER
+]
