@@ -38,13 +38,14 @@ def add_chat(update: Update, context: CallbackContext):
         sql.set_ses(chat.id, ses_id, expires)
         msg.reply_text("AI successfully enabled for this chat!")
         message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                  f"#AI_ENABLED\n"
-                  f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
+                   f"#AI_ENABLED\n"
+                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
         return message
     else:
         msg.reply_text("AI is already enabled for this chat!")
-        return ""    
-        
+        return ""
+
+
 @run_async
 @user_admin
 @gloggable
@@ -60,12 +61,12 @@ def remove_chat(update: Update, context: CallbackContext):
         sql.rem_chat(chat.id)
         msg.reply_text("AI disabled successfully!")
         message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                  f"#AI_DISABLED\n"
-                  f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
+                   f"#AI_DISABLED\n"
+                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
         return message
-        
-        
-def check_message(context: CallbackContext,message):
+
+
+def check_message(context: CallbackContext, message):
     reply_msg = message.reply_to_message
     if message.text.lower() == "saitama":
         return True
@@ -74,8 +75,8 @@ def check_message(context: CallbackContext,message):
             return True
     else:
         return False
-                
-        
+
+
 @run_async
 def chatbot(update: Update, context: CallbackContext):
     global api_client
@@ -105,8 +106,10 @@ def chatbot(update: Update, context: CallbackContext):
             sleep(0.3)
             msg.reply_text(rep, timeout=60)
         except CFError as e:
-            bot.send_message(OWNER_ID, f"Chatbot error: {e} occurred in {chat_id}!")
-                    
+            bot.send_message(OWNER_ID,
+                             f"Chatbot error: {e} occurred in {chat_id}!")
+
+
 @run_async
 def list_chatbot_chats(update: Update, context: CallbackContext):
     chats = sql.get_all_chats()
@@ -124,6 +127,7 @@ def list_chatbot_chats(update: Update, context: CallbackContext):
             sleep(e.retry_after)
     update.effective_message.reply_text(text, parse_mode="HTML")
 
+
 __mod_name__ = "Chatbot"
 
 __help__ = f"""
@@ -139,14 +143,16 @@ Chatbot utilizes the CoffeeHouse API and allows Saitama to talk and provides a m
 
 Reports bugs at {SUPPORT_CHAT}
 *Powered by CoffeeHouse* (https://coffeehouse.intellivoid.net/) from @Intellivoid
-"""         
-
+"""
 
 ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
 REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat)
-CHATBOT_HANDLER = MessageHandler(Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
-                                  & ~Filters.regex(r"^\/")), chatbot)
-LIST_CB_CHATS_HANDLER = CommandHandler("listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter)
+CHATBOT_HANDLER = MessageHandler(
+    Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
+                    & ~Filters.regex(r"^\/")), chatbot)
+LIST_CB_CHATS_HANDLER = CommandHandler("listaichats",
+                                       list_chatbot_chats,
+                                       filters=CustomFilters.dev_filter)
 # Filters for ignoring #note messages, !commands and sed.
 
 dispatcher.add_handler(ADD_CHAT_HANDLER)

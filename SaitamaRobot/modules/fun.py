@@ -13,6 +13,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin, user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 
+
 @run_async
 def runs(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
@@ -39,7 +40,10 @@ def slap(update: Update, context: CallbackContext):
                     return
 
                 mutetime = int(time.time() + 60)
-                bot.restrict_chat_member(chat.id, message.from_user.id, until_date=mutetime, can_send_messages=False)
+                bot.restrict_chat_member(chat.id,
+                                         message.from_user.id,
+                                         until_date=mutetime,
+                                         can_send_messages=False)
             reply_text(temp[0])
         else:
             reply_text(temp)
@@ -60,7 +64,11 @@ def slap(update: Update, context: CallbackContext):
     hit = random.choice(fun_strings.HIT)
     throw = random.choice(fun_strings.THROW)
 
-    reply = temp.format(user1=user1, user2=user2, item=item, hits=hit, throws=throw)
+    reply = temp.format(user1=user1,
+                        user2=user2,
+                        item=item,
+                        hits=hit,
+                        throws=throw)
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
@@ -86,7 +94,9 @@ def shrug(update: Update, context: CallbackContext):
 def bluetext(update: Update, context: CallbackContext):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
-    reply_text("/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS")
+    reply_text(
+        "/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS"
+    )
 
 
 @run_async
@@ -106,6 +116,7 @@ def rlg(update: Update, context: CallbackContext):
 def decide(update: Update, context: CallbackContext):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.DECIDE))
+
 
 @run_async
 def table(update: Update, context: CallbackContext):
@@ -145,8 +156,12 @@ dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
 
-
 __mod_name__ = "Fun"
-__command_list__ = ["runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide", "table"]
-__handlers__ = [RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER,
-                DECIDE_HANDLER, TABLE_HANDLER]
+__command_list__ = [
+    "runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide",
+    "table"
+]
+__handlers__ = [
+    RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER,
+    BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER
+]

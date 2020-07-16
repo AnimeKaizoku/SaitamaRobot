@@ -4,10 +4,14 @@ from telegram.ext import CallbackContext, run_async
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
-normiefont = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
-              'v', 'w', 'x', 'y', 'z']
-weebyfont = ['卂', '乃', '匚', '刀', '乇', '下', '厶', '卄', '工', '丁', '长', '乚', '从', '𠘨', '口', '尸', '㔿', '尺', '丂', '丅', '凵',
-             'リ', '山', '乂', '丫', '乙']
+normiefont = [
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+    'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+]
+weebyfont = [
+    '卂', '乃', '匚', '刀', '乇', '下', '厶', '卄', '工', '丁', '长', '乚', '从', '𠘨', '口',
+    '尸', '㔿', '尺', '丂', '丅', '凵', 'リ', '山', '乂', '丫', '乙'
+]
 
 
 @run_async
@@ -23,7 +27,8 @@ def weebify(update: Update, context: CallbackContext):
         string = '  '.join(args).lower()
 
     if not string:
-        message.reply_text("Usage is `/weebify <text>`", parse_mode=ParseMode.MARKDOWN)
+        message.reply_text("Usage is `/weebify <text>`",
+                           parse_mode=ParseMode.MARKDOWN)
         return
 
     for normiecharacter in string:

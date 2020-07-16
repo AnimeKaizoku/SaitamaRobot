@@ -9,11 +9,10 @@ from SaitamaRobot import ALLOW_EXCL, dispatcher
 if ALLOW_EXCL:
     CMD_STARTERS = ('/', '!')
 else:
-    CMD_STARTERS = ('/',)
+    CMD_STARTERS = ('/', )
 
 
 class CustomCommandHandler(CommandHandler):
-
     def __init__(self, command, callback, admin_ok=False, **kwargs):
         super().__init__(command, callback, **kwargs)
 
@@ -24,15 +23,16 @@ class CustomCommandHandler(CommandHandler):
             if sql.is_user_blacklisted(update.effective_user.id):
                 return None
 
-            if (message.entities and message.entities[0].type == MessageEntity.BOT_COMMAND
+            if (message.entities
+                    and message.entities[0].type == MessageEntity.BOT_COMMAND
                     and message.entities[0].offset == 0):
                 command = message.text[1:message.entities[0].length]
                 args = message.text.split()[1:]
                 command = command.split('@')
                 command.append(message.bot.username)
 
-                if not (command[0].lower() in self.command
-                        and command[1].lower() == message.bot.username.lower()):
+                if not (command[0].lower() in self.command and
+                        command[1].lower() == message.bot.username.lower()):
                     return None
 
                 filter_result = self.filters(update)
@@ -43,13 +43,16 @@ class CustomCommandHandler(CommandHandler):
 
     def handle_update(self, update, dispatcher, check_result, context=None):
         if context:
-            self.collect_additional_context(context, update, dispatcher, check_result)
+            self.collect_additional_context(context, update, dispatcher,
+                                            check_result)
             return self.callback(update, context)
         else:
-            optional_args = self.collect_optional_args(dispatcher, update, check_result)
+            optional_args = self.collect_optional_args(dispatcher, update,
+                                                       check_result)
             return self.callback(dispatcher.bot, update, **optional_args)
 
-    def collect_additional_context(self, context, update, dispatcher, check_result):
+    def collect_additional_context(self, context, update, dispatcher,
+                                   check_result):
         if isinstance(check_result, bool):
             context.args = update.effective_message.text.split()[1:]
         else:

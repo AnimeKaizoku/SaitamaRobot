@@ -19,8 +19,7 @@ async def purge_messages(event):
     message = await event.get_reply_message()
     if not message:
         await event.reply(
-            "Reply to a message to select where to start purging from."
-        )
+            "Reply to a message to select where to start purging from.")
         return
     messages = []
     message_id = message.id
@@ -59,6 +58,7 @@ async def delete_messages(event):
     chat = await event.get_input_chat()
     del_message = [message, event.message]
     await event.client.delete_messages(chat, del_message)
+
 
 __help__ = """
 *Admin only:*

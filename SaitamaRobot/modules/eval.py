@@ -44,12 +44,15 @@ def namespace_of(chat, update, bot):
 def log_input(update):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    LOGGER.info(f"IN: {update.effective_message.text} (user={user}, chat={chat})")
+    LOGGER.info(
+        f"IN: {update.effective_message.text} (user={user}, chat={chat})")
 
 
 def send(msg, bot, update):
     LOGGER.info(f"OUT: '{msg}'")
-    bot.send_message(chat_id=update.effective_chat.id, text=f"`{msg}`", parse_mode=ParseMode.MARKDOWN)
+    bot.send_message(chat_id=update.effective_chat.id,
+                     text=f"`{msg}`",
+                     parse_mode=ParseMode.MARKDOWN)
 
 
 @dev_plus
@@ -79,7 +82,10 @@ def do(func, bot, update):
     env = namespace_of(update.message.chat_id, update, bot)
 
     os.chdir(os.getcwd())
-    with open(os.path.join(os.getcwd(), 'SaitamaRobot/modules/helper_funcs/temp.txt'), 'w') as temp:
+    with open(
+            os.path.join(os.getcwd(),
+                         'SaitamaRobot/modules/helper_funcs/temp.txt'),
+            'w') as temp:
         temp.write(body)
 
     stdout = io.StringIO()

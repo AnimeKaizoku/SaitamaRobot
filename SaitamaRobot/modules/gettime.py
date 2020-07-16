@@ -11,10 +11,12 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 def generate_time(to_find: str, findtype: List[str]) -> str:
-    data = requests.get(f"http://api.timezonedb.com/v2.1/list-time-zone"
-                        f"?key={TIME_API_KEY}"
-                        f"&format=json"
-                        f"&fields=countryCode,countryName,zoneName,gmtOffset,timestamp,dst").json()
+    data = requests.get(
+        f"http://api.timezonedb.com/v2.1/list-time-zone"
+        f"?key={TIME_API_KEY}"
+        f"&format=json"
+        f"&fields=countryCode,countryName,zoneName,gmtOffset,timestamp,dst"
+    ).json()
 
     for zone in data["zones"]:
         for eachtype in findtype:
@@ -32,7 +34,9 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                 time_fmt = r"%H:%M:%S"
                 day_fmt = r"%A"
                 gmt_offset = zone['gmtOffset']
-                timestamp = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=gmt_offset)
+                timestamp = datetime.datetime.now(
+                    datetime.timezone.utc) + datetime.timedelta(
+                        seconds=gmt_offset)
                 current_date = timestamp.strftime(date_fmt)
                 current_time = timestamp.strftime(time_fmt)
                 current_day = timestamp.strftime(day_fmt)
@@ -60,9 +64,11 @@ def gettime(update: Update, context: CallbackContext):
     try:
         query = message.text.strip().split(" ", 1)[1]
     except:
-        message.reply_text("Provide a country name/abbreviation/timezone to find.")
+        message.reply_text(
+            "Provide a country name/abbreviation/timezone to find.")
         return
-    send_message = message.reply_text(f"Finding timezone info for <b>{query}</b>", parse_mode=ParseMode.HTML)
+    send_message = message.reply_text(
+        f"Finding timezone info for <b>{query}</b>", parse_mode=ParseMode.HTML)
 
     query_timezone = query.lower()
     if len(query_timezone) == 2:
@@ -71,7 +77,9 @@ def gettime(update: Update, context: CallbackContext):
         result = generate_time(query_timezone, ["zoneName", "countryName"])
 
     if not result:
-        send_message.edit_text(f"Timezone info not available for <b>{query}</b>", parse_mode=ParseMode.HTML)
+        send_message.edit_text(
+            f"Timezone info not available for <b>{query}</b>",
+            parse_mode=ParseMode.HTML)
         return
 
     send_message.edit_text(result, parse_mode=ParseMode.HTML)

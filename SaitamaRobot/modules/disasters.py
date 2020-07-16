@@ -13,7 +13,8 @@ from SaitamaRobot.modules.helper_funcs.chat_status import whitelist_plus, dev_pl
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from SaitamaRobot.modules.log_channel import gloggable
 
-ELEVATED_USERS_FILE = os.path.join(os.getcwd(), 'SaitamaRobot/elevated_users.json')
+ELEVATED_USERS_FILE = os.path.join(os.getcwd(),
+                                   'SaitamaRobot/elevated_users.json')
 
 
 def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
@@ -28,6 +29,7 @@ def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
         reply = None
     return reply
 
+
 #I added extra new lines
 disasters = """ Saitama has bot access levels we call as *"Disaster Levels"*
 \n*Heroes Association* - Devs who can access the bots server and can execute, edit, modify bot code. Can also manage other Disasters
@@ -40,9 +42,14 @@ Owner has complete bot access, including bot adminship in chats Saitama is at.
 \n*Disclaimer*: The disaster levels in Saitama are there for troubleshooting, support, banning potential scammers.
 Report abuse or ask us more on these at [Heroes Association](https://t.me/OnePunchSupport).
 """
-# do not async, not a handler 
+
+
+# do not async, not a handler
 def send_disasters(update):
-    update.effective_message.reply_text(disasters, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+    update.effective_message.reply_text(disasters,
+                                        parse_mode=ParseMode.MARKDOWN,
+                                        disable_web_page_preview=True)
+
 
 @run_async
 @dev_plus
@@ -85,11 +92,13 @@ def addsudo(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + "\nSuccessfully set Disaster level of {} to Dragon!".format(user_member.first_name))
+        rt + "\nSuccessfully set Disaster level of {} to Dragon!".format(
+            user_member.first_name))
 
-    log_message = (f"#SUDO\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                   f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+    log_message = (
+        f"#SUDO\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -100,7 +109,10 @@ def addsudo(update: Update, context: CallbackContext) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addsupport(update: Update, context: CallbackContext,) -> str:
+def addsupport(
+    update: Update,
+    context: CallbackContext,
+) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
@@ -137,11 +149,13 @@ def addsupport(update: Update, context: CallbackContext,) -> str:
     with open(ELEVATED_USERS_FILE, 'w') as outfile:
         json.dump(data, outfile, indent=4)
 
-    update.effective_message.reply_text(rt + f"\n{user_member.first_name} was added as a Demon Disaster!")
+    update.effective_message.reply_text(
+        rt + f"\n{user_member.first_name} was added as a Demon Disaster!")
 
-    log_message = (f"#SUPPORT\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                   f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+    log_message = (
+        f"#SUPPORT\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -190,11 +204,14 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to a Wolf Disaster!")
+        rt +
+        f"\nSuccessfully promoted {user_member.first_name} to a Wolf Disaster!"
+    )
 
-    log_message = (f"#WHITELIST\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
-                   f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+    log_message = (
+        f"#WHITELIST\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
+        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -248,11 +265,14 @@ def addtiger(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to a Tiger Disaster!")
+        rt +
+        f"\nSuccessfully promoted {user_member.first_name} to a Tiger Disaster!"
+    )
 
-    log_message = (f"#TIGER\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
-                   f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+    log_message = (
+        f"#TIGER\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
+        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -287,12 +307,15 @@ def removesudo(update: Update, context: CallbackContext) -> str:
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
-        log_message = (f"#UNSUDO\n"
-                       f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        log_message = (
+            f"#UNSUDO\n"
+            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+        )
 
         if chat.type != 'private':
-            log_message = "<b>{}:</b>\n".format(html.escape(chat.title)) + log_message
+            log_message = "<b>{}:</b>\n".format(html.escape(
+                chat.title)) + log_message
 
         return log_message
 
@@ -328,9 +351,11 @@ def removesupport(update: Update, context: CallbackContext) -> str:
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
-        log_message = (f"#UNSUPPORT\n"
-                       f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        log_message = (
+            f"#UNSUPPORT\n"
+            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+        )
 
         if chat.type != 'private':
             log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -369,9 +394,11 @@ def removewhitelist(update: Update, context: CallbackContext) -> str:
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
-        log_message = (f"#UNWHITELIST\n"
-                       f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        log_message = (
+            f"#UNWHITELIST\n"
+            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+        )
 
         if chat.type != 'private':
             log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -409,9 +436,11 @@ def removetiger(update: Update, context: CallbackContext) -> str:
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
-        log_message = (f"#UNTIGER\n"
-                       f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        log_message = (
+            f"#UNTIGER\n"
+            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+        )
 
         if chat.type != 'private':
             log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -515,11 +544,14 @@ SUPPORT_HANDLER = CommandHandler(("addsupport", "adddemon"), addsupport)
 TIGER_HANDLER = CommandHandler(("addtiger"), addtiger)
 WHITELIST_HANDLER = CommandHandler(("addwhitelist", "addwolf"), addwhitelist)
 UNSUDO_HANDLER = CommandHandler(("removesudo", "removedragon"), removesudo)
-UNSUPPORT_HANDLER = CommandHandler(("removesupport", "removedemon"), removesupport)
+UNSUPPORT_HANDLER = CommandHandler(("removesupport", "removedemon"),
+                                   removesupport)
 UNTIGER_HANDLER = CommandHandler(("removetiger"), removetiger)
-UNWHITELIST_HANDLER = CommandHandler(("removewhitelist", "removewolf"), removewhitelist)
+UNWHITELIST_HANDLER = CommandHandler(("removewhitelist", "removewolf"),
+                                     removewhitelist)
 
-WHITELISTLIST_HANDLER = CommandHandler(["whitelistlist", "wolves"], whitelistlist)
+WHITELISTLIST_HANDLER = CommandHandler(["whitelistlist", "wolves"],
+                                       whitelistlist)
 TIGERLIST_HANDLER = CommandHandler(["tigers"], tigerlist)
 SUPPORTLIST_HANDLER = CommandHandler(["supportlist", "demons"], supportlist)
 SUDOLIST_HANDLER = CommandHandler(["sudolist", "dragons"], sudolist)
@@ -541,7 +573,9 @@ dispatcher.add_handler(SUDOLIST_HANDLER)
 dispatcher.add_handler(DEVLIST_HANDLER)
 
 __mod_name__ = "Disasters"
-__handlers__ = [SUDO_HANDLER, SUPPORT_HANDLER, TIGER_HANDLER, WHITELIST_HANDLER, 
-                UNSUDO_HANDLER, UNSUPPORT_HANDLER, UNTIGER_HANDLER, UNWHITELIST_HANDLER,
-                WHITELISTLIST_HANDLER, TIGERLIST_HANDLER, SUPPORTLIST_HANDLER,
-                SUDOLIST_HANDLER, DEVLIST_HANDLER]
+__handlers__ = [
+    SUDO_HANDLER, SUPPORT_HANDLER, TIGER_HANDLER, WHITELIST_HANDLER,
+    UNSUDO_HANDLER, UNSUPPORT_HANDLER, UNTIGER_HANDLER, UNWHITELIST_HANDLER,
+    WHITELISTLIST_HANDLER, TIGERLIST_HANDLER, SUPPORTLIST_HANDLER,
+    SUDOLIST_HANDLER, DEVLIST_HANDLER
+]

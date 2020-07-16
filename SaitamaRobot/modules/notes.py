@@ -48,23 +48,29 @@ def get(update, context, notename, show_none=True, no_format=False):
         if note.is_reply:
             if MESSAGE_DUMP:
                 try:
-                    bot.forward_message(chat_id=chat_id, from_chat_id=MESSAGE_DUMP, message_id=note.value)
+                    bot.forward_message(chat_id=chat_id,
+                                        from_chat_id=MESSAGE_DUMP,
+                                        message_id=note.value)
                 except BadRequest as excp:
                     if excp.message == "Message to forward not found":
-                        message.reply_text("This message seems to have been lost - I'll remove it "
-                                           "from your notes list.")
+                        message.reply_text(
+                            "This message seems to have been lost - I'll remove it "
+                            "from your notes list.")
                         sql.rm_note(chat_id, notename)
                     else:
                         raise
             else:
                 try:
-                    bot.forward_message(chat_id=chat_id, from_chat_id=chat_id, message_id=note.value)
+                    bot.forward_message(chat_id=chat_id,
+                                        from_chat_id=chat_id,
+                                        message_id=note.value)
                 except BadRequest as excp:
                     if excp.message == "Message to forward not found":
-                        message.reply_text("Looks like the original sender of this note has deleted "
-                                           "their message - sorry! Get your bot admin to start using a "
-                                           "message dump to avoid this. I'll remove this note from "
-                                           "your saved notes.")
+                        message.reply_text(
+                            "Looks like the original sender of this note has deleted "
+                            "their message - sorry! Get your bot admin to start using a "
+                            "message dump to avoid this. I'll remove this note from "
+                            "your saved notes.")
                         sql.rm_note(chat_id, notename)
                     else:
                         raise
@@ -83,28 +89,39 @@ def get(update, context, notename, show_none=True, no_format=False):
 
             try:
                 if note.msgtype in (sql.Types.BUTTON_TEXT, sql.Types.TEXT):
-                    bot.send_message(chat_id, text, reply_to_message_id=reply_id,
-                                     parse_mode=parseMode, disable_web_page_preview=True,
+                    bot.send_message(chat_id,
+                                     text,
+                                     reply_to_message_id=reply_id,
+                                     parse_mode=parseMode,
+                                     disable_web_page_preview=True,
                                      reply_markup=keyboard)
                 else:
-                    ENUM_FUNC_MAP[note.msgtype](chat_id, note.file, caption=text, reply_to_message_id=reply_id,
-                                                parse_mode=parseMode, disable_web_page_preview=True,
+                    ENUM_FUNC_MAP[note.msgtype](chat_id,
+                                                note.file,
+                                                caption=text,
+                                                reply_to_message_id=reply_id,
+                                                parse_mode=parseMode,
+                                                disable_web_page_preview=True,
                                                 reply_markup=keyboard)
 
             except BadRequest as excp:
                 if excp.message == "Entity_mention_user_invalid":
-                    message.reply_text("Looks like you tried to mention someone I've never seen before. If you really "
-                                       "want to mention them, forward one of their messages to me, and I'll be able "
-                                       "to tag them!")
+                    message.reply_text(
+                        "Looks like you tried to mention someone I've never seen before. If you really "
+                        "want to mention them, forward one of their messages to me, and I'll be able "
+                        "to tag them!")
                 elif FILE_MATCHER.match(note.value):
-                    message.reply_text("This note was an incorrectly imported file from another bot - I can't use "
-                                       "it. If you really need it, you'll have to save it again. In "
-                                       "the meantime, I'll remove it from your notes list.")
+                    message.reply_text(
+                        "This note was an incorrectly imported file from another bot - I can't use "
+                        "it. If you really need it, you'll have to save it again. In "
+                        "the meantime, I'll remove it from your notes list.")
                     sql.rm_note(chat_id, notename)
                 else:
-                    message.reply_text("This note could not be sent, as it is incorrectly formatted. Ask in "
-                                       f"{SUPPORT_CHAT} if you can't figure out why!")
-                    LOGGER.exception("Could not parse message #%s in chat %s", notename, str(chat_id))
+                    message.reply_text(
+                        "This note could not be sent, as it is incorrectly formatted. Ask in "
+                        f"{SUPPORT_CHAT} if you can't figure out why!")
+                    LOGGER.exception("Could not parse message #%s in chat %s",
+                                     notename, str(chat_id))
                     LOGGER.warning("Message was: %s", str(note.value))
         return
     elif show_none:
@@ -142,21 +159,30 @@ def save(update: Update, context: CallbackContext):
         msg.reply_text("Dude, there's no note")
         return
 
-    sql.add_note_to_db(chat_id, note_name, text, data_type, buttons=buttons, file=content)
+    sql.add_note_to_db(chat_id,
+                       note_name,
+                       text,
+                       data_type,
+                       buttons=buttons,
+                       file=content)
 
-    msg.reply_text(f"Yas! Added {note_name}.\nGet it with /get {note_name}, or #{note_name}")
+    msg.reply_text(
+        f"Yas! Added {note_name}.\nGet it with /get {note_name}, or #{note_name}"
+    )
 
     if msg.reply_to_message and msg.reply_to_message.from_user.is_bot:
         if text:
-            msg.reply_text("Seems like you're trying to save a message from a bot. Unfortunately, "
-                           "bots can't forward bot messages, so I can't save the exact message. "
-                           "\nI'll save all the text I can, but if you want more, you'll have to "
-                           "forward the message yourself, and then save it.")
+            msg.reply_text(
+                "Seems like you're trying to save a message from a bot. Unfortunately, "
+                "bots can't forward bot messages, so I can't save the exact message. "
+                "\nI'll save all the text I can, but if you want more, you'll have to "
+                "forward the message yourself, and then save it.")
         else:
-            msg.reply_text("Bots are kinda handicapped by telegram, making it hard for bots to "
-                           "interact with other bots, so I can't save this message "
-                           "like I usually would - do you mind forwarding it and "
-                           "then saving that new message? Thanks!")
+            msg.reply_text(
+                "Bots are kinda handicapped by telegram, making it hard for bots to "
+                "interact with other bots, so I can't save this message "
+                "like I usually would - do you mind forwarding it and "
+                "then saving that new message? Thanks!")
         return
 
 
@@ -171,7 +197,8 @@ def clear(update: Update, context: CallbackContext):
         if sql.rm_note(chat_id, notename):
             update.effective_message.reply_text("Successfully removed note.")
         else:
-            update.effective_message.reply_text("That's not a note in my database!")
+            update.effective_message.reply_text(
+                "That's not a note in my database!")
 
 
 @run_async
@@ -183,7 +210,8 @@ def list_notes(update: Update, context: CallbackContext):
     for note in note_list:
         note_name = f"• `#{(note.name.lower())}`\n"
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
-            update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+            update.effective_message.reply_text(msg,
+                                                parse_mode=ParseMode.MARKDOWN)
             msg = ""
         msg += note_name
 
@@ -203,17 +231,21 @@ def __import_data__(chat_id, data):
             failures.append(notename)
             notedata = notedata[match.end():].strip()
             if notedata:
-                sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
+                sql.add_note_to_db(chat_id, notename[1:], notedata,
+                                   sql.Types.TEXT)
         else:
             sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
 
     if failures:
         with BytesIO(str.encode("\n".join(failures))) as output:
             output.name = "failed_imports.txt"
-            dispatcher.bot.send_document(chat_id, document=output, filename="failed_imports.txt",
-                                         caption="These files/photos failed to import due to originating "
-                                                 "from another bot. This is a telegram API restriction, and can't "
-                                                 "be avoided. Sorry for the inconvenience!")
+            dispatcher.bot.send_document(
+                chat_id,
+                document=output,
+                filename="failed_imports.txt",
+                caption="These files/photos failed to import due to originating "
+                "from another bot. This is a telegram API restriction, and can't "
+                "be avoided. Sorry for the inconvenience!")
 
 
 def __stats__():
@@ -254,7 +286,9 @@ HASH_GET_HANDLER = MessageHandler(Filters.regex(r"^#[^\s]+"), hash_get)
 SAVE_HANDLER = CommandHandler("save", save)
 DELETE_HANDLER = CommandHandler("clear", clear)
 
-LIST_HANDLER = DisableAbleCommandHandler(["notes", "saved"], list_notes, admin_ok=True)
+LIST_HANDLER = DisableAbleCommandHandler(["notes", "saved"],
+                                         list_notes,
+                                         admin_ok=True)
 
 dispatcher.add_handler(GET_HANDLER)
 dispatcher.add_handler(SAVE_HANDLER)
