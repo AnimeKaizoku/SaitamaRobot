@@ -16,30 +16,30 @@ weebyfont = [
 
 @run_async
 def weebify(update: Update, context: CallbackContext):
-    args = context.args
-    message = update.effective_message
-    string = ""
+  args = context.args
+  message = update.effective_message
+  string = ""
 
-    if message.reply_to_message:
-        string = message.reply_to_message.text.lower().replace(" ", "  ")
+  if message.reply_to_message:
+    string = message.reply_to_message.text.lower().replace(" ", "  ")
 
-    if args:
-        string = '  '.join(args).lower()
+  if args:
+    string = '  '.join(args).lower()
 
-    if not string:
-        message.reply_text("Usage is `/weebify <text>`",
-                           parse_mode=ParseMode.MARKDOWN)
-        return
+  if not string:
+    message.reply_text(
+        "Usage is `/weebify <text>`", parse_mode=ParseMode.MARKDOWN)
+    return
 
-    for normiecharacter in string:
-        if normiecharacter in normiefont:
-            weebycharacter = weebyfont[normiefont.index(normiecharacter)]
-            string = string.replace(normiecharacter, weebycharacter)
+  for normiecharacter in string:
+    if normiecharacter in normiefont:
+      weebycharacter = weebyfont[normiefont.index(normiecharacter)]
+      string = string.replace(normiecharacter, weebycharacter)
 
-    if message.reply_to_message:
-        message.reply_to_message.reply_text(string)
-    else:
-        message.reply_text(string)
+  if message.reply_to_message:
+    message.reply_to_message.reply_text(string)
+  else:
+    message.reply_text(string)
 
 
 __help__ = """

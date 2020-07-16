@@ -16,112 +16,110 @@ from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 
 @run_async
 def runs(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
+  update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
 
 
 @run_async
 def slap(update: Update, context: CallbackContext):
-    bot, args = context.bot, context.args
-    message = update.effective_message
-    chat = update.effective_chat
+  bot, args = context.bot, context.args
+  message = update.effective_message
+  chat = update.effective_chat
 
-    reply_text = message.reply_to_message.reply_text if message.reply_to_message else message.reply_text
+  reply_text = message.reply_to_message.reply_text if message.reply_to_message else message.reply_text
 
-    curr_user = html.escape(message.from_user.first_name)
-    user_id = extract_user(message, args)
+  curr_user = html.escape(message.from_user.first_name)
+  user_id = extract_user(message, args)
 
-    if user_id == bot.id:
-        temp = random.choice(fun_strings.SLAP_SAITAMA_TEMPLATES)
+  if user_id == bot.id:
+    temp = random.choice(fun_strings.SLAP_SAITAMA_TEMPLATES)
 
-        if isinstance(temp, list):
-            if temp[2] == "tmute":
-                if is_user_admin(chat, message.from_user.id):
-                    reply_text(temp[1])
-                    return
+    if isinstance(temp, list):
+      if temp[2] == "tmute":
+        if is_user_admin(chat, message.from_user.id):
+          reply_text(temp[1])
+          return
 
-                mutetime = int(time.time() + 60)
-                bot.restrict_chat_member(chat.id,
-                                         message.from_user.id,
-                                         until_date=mutetime,
-                                         can_send_messages=False)
-            reply_text(temp[0])
-        else:
-            reply_text(temp)
-        return
-
-    if user_id:
-
-        slapped_user = bot.get_chat(user_id)
-        user1 = curr_user
-        user2 = html.escape(slapped_user.first_name)
-
+        mutetime = int(time.time() + 60)
+        bot.restrict_chat_member(
+            chat.id,
+            message.from_user.id,
+            until_date=mutetime,
+            can_send_messages=False)
+      reply_text(temp[0])
     else:
-        user1 = bot.first_name
-        user2 = curr_user
+      reply_text(temp)
+    return
 
-    temp = random.choice(fun_strings.SLAP_TEMPLATES)
-    item = random.choice(fun_strings.ITEMS)
-    hit = random.choice(fun_strings.HIT)
-    throw = random.choice(fun_strings.THROW)
+  if user_id:
 
-    reply = temp.format(user1=user1,
-                        user2=user2,
-                        item=item,
-                        hits=hit,
-                        throws=throw)
+    slapped_user = bot.get_chat(user_id)
+    user1 = curr_user
+    user2 = html.escape(slapped_user.first_name)
 
-    reply_text(reply, parse_mode=ParseMode.HTML)
+  else:
+    user1 = bot.first_name
+    user2 = curr_user
+
+  temp = random.choice(fun_strings.SLAP_TEMPLATES)
+  item = random.choice(fun_strings.ITEMS)
+  hit = random.choice(fun_strings.HIT)
+  throw = random.choice(fun_strings.THROW)
+
+  reply = temp.format(
+      user1=user1, user2=user2, item=item, hits=hit, throws=throw)
+
+  reply_text(reply, parse_mode=ParseMode.HTML)
 
 
 @run_async
 def roll(update: Update, context: CallbackContext):
-    update.message.reply_text(random.choice(range(1, 7)))
+  update.message.reply_text(random.choice(range(1, 7)))
 
 
 @run_async
 def toss(update: Update, context: CallbackContext):
-    update.message.reply_text(random.choice(fun_strings.TOSS))
+  update.message.reply_text(random.choice(fun_strings.TOSS))
 
 
 @run_async
 def shrug(update: Update, context: CallbackContext):
-    msg = update.effective_message
-    reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
-    reply_text(r"¯\_(ツ)_/¯")
+  msg = update.effective_message
+  reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
+  reply_text(r"¯\_(ツ)_/¯")
 
 
 @run_async
 def bluetext(update: Update, context: CallbackContext):
-    msg = update.effective_message
-    reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
-    reply_text(
-        "/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS"
-    )
+  msg = update.effective_message
+  reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
+  reply_text(
+      "/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS"
+  )
 
 
 @run_async
 def rlg(update: Update, context: CallbackContext):
-    eyes = random.choice(fun_strings.EYES)
-    mouth = random.choice(fun_strings.MOUTHS)
-    ears = random.choice(fun_strings.EARS)
+  eyes = random.choice(fun_strings.EYES)
+  mouth = random.choice(fun_strings.MOUTHS)
+  ears = random.choice(fun_strings.EARS)
 
-    if len(eyes) == 2:
-        repl = ears[0] + eyes[0] + mouth[0] + eyes[1] + ears[1]
-    else:
-        repl = ears[0] + eyes[0] + mouth[0] + eyes[0] + ears[1]
-    update.message.reply_text(repl)
+  if len(eyes) == 2:
+    repl = ears[0] + eyes[0] + mouth[0] + eyes[1] + ears[1]
+  else:
+    repl = ears[0] + eyes[0] + mouth[0] + eyes[0] + ears[1]
+  update.message.reply_text(repl)
 
 
 @run_async
 def decide(update: Update, context: CallbackContext):
-    reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
-    reply_text(random.choice(fun_strings.DECIDE))
+  reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
+  reply_text(random.choice(fun_strings.DECIDE))
 
 
 @run_async
 def table(update: Update, context: CallbackContext):
-    reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
-    reply_text(random.choice(fun_strings.TABLE))
+  reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
+  reply_text(random.choice(fun_strings.TABLE))
 
 
 __help__ = """

@@ -5,41 +5,44 @@ from SaitamaRobot import SUPPORT_USERS, SUDO_USERS, DEV_USERS
 
 
 class CustomFilters(object):
-    class _Supporters(BaseFilter):
-        def filter(self, message: Message):
-            return bool(message.from_user
-                        and message.from_user.id in SUPPORT_USERS)
 
-    support_filter = _Supporters()
+  class _Supporters(BaseFilter):
 
-    class _Sudoers(BaseFilter):
-        def filter(self, message: Message):
-            return bool(message.from_user
-                        and message.from_user.id in SUDO_USERS)
+    def filter(self, message: Message):
+      return bool(message.from_user and message.from_user.id in SUPPORT_USERS)
 
-    sudo_filter = _Sudoers()
+  support_filter = _Supporters()
 
-    class _Developers(BaseFilter):
-        def filter(self, message: Message):
-            return bool(message.from_user
-                        and message.from_user.id in DEV_USERS)
+  class _Sudoers(BaseFilter):
 
-    dev_filter = _Developers()
+    def filter(self, message: Message):
+      return bool(message.from_user and message.from_user.id in SUDO_USERS)
 
-    class _MimeType(BaseFilter):
-        def __init__(self, mimetype):
-            self.mime_type = mimetype
-            self.name = "CustomFilters.mime_type({})".format(self.mime_type)
+  sudo_filter = _Sudoers()
 
-        def filter(self, message: Message):
-            return bool(message.document
-                        and message.document.mime_type == self.mime_type)
+  class _Developers(BaseFilter):
 
-    mime_type = _MimeType
+    def filter(self, message: Message):
+      return bool(message.from_user and message.from_user.id in DEV_USERS)
 
-    class _HasText(BaseFilter):
-        def filter(self, message: Message):
-            return bool(message.text or message.sticker or message.photo
-                        or message.document or message.video)
+  dev_filter = _Developers()
 
-    has_text = _HasText()
+  class _MimeType(BaseFilter):
+
+    def __init__(self, mimetype):
+      self.mime_type = mimetype
+      self.name = "CustomFilters.mime_type({})".format(self.mime_type)
+
+    def filter(self, message: Message):
+      return bool(message.document and
+                  message.document.mime_type == self.mime_type)
+
+  mime_type = _MimeType
+
+  class _HasText(BaseFilter):
+
+    def filter(self, message: Message):
+      return bool(message.text or message.sticker or message.photo or
+                  message.document or message.video)
+
+  has_text = _HasText()
