@@ -1723,15 +1723,15 @@ def __user_info__(user_id, chat_id):
 		infoname = info['fname']
 
 		if int(info['owner']) == user_id:
-			text = "This user is the owner of the current Federation: <b>{}</b>.".format(infoname)
+			text = "Federation owner of: <b>{}</b>.".format(infoname)
 		elif is_user_fed_admin(fed_id, user_id):
-			text = "This user is the admin of the current Federation: <b>{}</b>.".format(infoname)
+			text = "Federation admin of: <b>{}</b>.".format(infoname)
 
 		elif fban:
-			text = "Prohibited in the current Federation: <b>Yes</b>"
+			text = "Federation banned: <b>Yes</b>"
 			text += "\n<b>Reason:</b> {}".format(fbanreason)
 		else:
-			text = "Prohibited in the current Federation: <b>No</b>"
+			text = "Federation banned: <b>No</b>"
 	else:
 		text = ""
 	return text
@@ -1760,7 +1760,7 @@ def fed_owner_help(update: Update, context: CallbackContext):
  • `/newfed <fed_name>`*:* Creates a Federation, One allowed per user. Can also be used to rename the Fed. (max. 64 chars)
  • `/delfed <fed_id>`*:* Delete a Federation, and any information related to it. Will not cancel blocked users.
  • `/fpromote <user>`*:* Assigns the user as a federation admin. Enables all commands for the user under `Fed Admins`.
- • `/fdemote  <user>`*:* Drops the User from the admin Federation to a normal User.
+ • `/fdemote <user>`*:* Drops the User from the admin Federation to a normal User.
  • `/subfed <fed_id>`*:* Subscribes to a given fed ID, bans from that subscribed fed will also happen in your fed.
  • `/unsubfed <fed_id>`*:* Unsubscribes to a given fed ID.
  • `/setfedlog <fed_id>`*:* Sets the group as a fed log report base for the federation.

@@ -154,7 +154,7 @@ def gban(update: Update, context: CallbackContext):
 
     sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
 
-    chats = get_all_chats()
+    chats = []
     gbanned_chats = 0
 
     for chat in chats:
@@ -193,9 +193,9 @@ def gban(update: Update, context: CallbackContext):
 
     if gban_time > 60:
         gban_time = round((gban_time / 60), 2)
-        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} min", parse_mode=ParseMode.HTML)
+        message.reply_text(f"Done! Gbanned.", parse_mode=ParseMode.HTML)
     else:
-        message.reply_text(f"Done! This gban affected <code>{gbanned_chats}</code> chats, Took {gban_time} sec", parse_mode=ParseMode.HTML)
+        message.reply_text(f"Done! Gbanned.", parse_mode=ParseMode.HTML)
 
     try:
         bot.send_message(user_id,

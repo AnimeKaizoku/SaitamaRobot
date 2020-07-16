@@ -143,7 +143,7 @@ def start(update: Update, context: CallbackContext):
             update.effective_message.reply_photo(SAITAMA_IMG,
                 PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(context.bot.first_name), SUPPORT_CHAT),
                 parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Add Saitama to your group",
-                                                                       url="t.me/{}?startgroup=true".format(bot.username))]]))
+                                                                       url="t.me/{}?startgroup=true".format(context.bot.username))]]))
     else:
         update.effective_message.reply_text("Yo, whadup?")
 

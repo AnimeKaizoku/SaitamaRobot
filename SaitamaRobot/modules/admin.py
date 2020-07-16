@@ -266,7 +266,7 @@ def invite(update: Update, context: CallbackContext):
     chat = update.effective_chat
 
     if chat.username:
-        update.effective_message.reply_text(chat.username)
+        update.effective_message.reply_text(f"https://t.me/{chat.username}")
     elif chat.type == chat.SUPERGROUP or chat.type == chat.CHANNEL:
         bot_member = chat.get_member(bot.id)
         if bot_member.can_invite_users:
