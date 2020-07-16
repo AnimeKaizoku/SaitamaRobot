@@ -12,14 +12,14 @@ jobs:
       - name: Auto yapf
         uses: Accipiter7/yapf-action@master
         with:
-          args: --recursive --in-place --style pep8
+          args: --recursive --in-place --style google
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@master
         with:
           commit-message: Autoyapf Fixes
-          committer: Accipiter7 <Accipiter7@users.noreply.github.com>
+          committer: Accipiter7<Accipiter7@users.noreply.github.com>
           title: Fixes by Autoyapf
           body: This is an AutoMated PR with fixes by pep8.
           labels: Code Formatting
-          reviewers: Accipiter7
+          reviewers: Accipiter7 
           branch: autofix
