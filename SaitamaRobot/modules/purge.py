@@ -1,5 +1,5 @@
 from asyncio import sleep
-from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import user_is_admin 
+from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import user_is_admin
 from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import can_delete_messages
 from SaitamaRobot.saitamabot import saitama
 
@@ -36,7 +36,8 @@ async def purge_messages(event):
 
     message_count = len(messages)
     await event.client.delete_messages(event.chat_id, messages)
-    msg = await event.reply(f"Purged {message_count} messages successfully!", parse_mode='markdown')
+    msg = await event.reply(
+        f"Purged {message_count} messages successfully!", parse_mode='markdown')
     await sleep(5)
     await msg.delete()
 
