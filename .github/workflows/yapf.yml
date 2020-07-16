@@ -12,7 +12,7 @@ jobs:
       - name: Auto yapf
         uses: Accipiter7/yapf-action@master
         with:
-          args: --recursive --in-place --style google
+          args: --recursive --in-place --style pep8
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@master
         with:
