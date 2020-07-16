@@ -33,7 +33,7 @@ class Config(object):
     #ID Seperation format [1,2,3,4]
     SUDO_USERS = get_user_list('elevated_users.json', 'sudos')  # List of id's -  (not usernames) for users which have sudo access to the bot.
     DEV_USERS = get_user_list('elevated_users.json', 'devs')  # List of id's - (not usernames) for developers who will have the same perms as the owner
-    SUPPORT_USERS = get_user_list('elevated_users.json', 'suppsorts')  # List of id's (not usernames) for users which are allowed to gban, but can also be banned.
+    SUPPORT_USERS = get_user_list('elevated_users.json', 'supports')  # List of id's (not usernames) for users which are allowed to gban, but can also be banned.
     TIGER_USERS = get_user_list('elevated_users.json', 'tigers')
     WHITELIST_USERS = get_user_list('elevated_users.json', 'whitelists')  # List of id's (not usernames) for users which WONT be banned/kicked by the bot.
     DONATION_LINK = None  # EG, paypal
