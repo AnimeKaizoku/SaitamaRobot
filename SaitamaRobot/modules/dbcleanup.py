@@ -107,7 +107,6 @@ def dbcleanup(update: Update, context: CallbackContext):
       reply, reply_markup=InlineKeyboardMarkup(buttons))
 
 
-
 @run_async
 def callback_button(update: Update, context: CallbackContext):
   bot = context.bot
