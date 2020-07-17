@@ -163,7 +163,7 @@ def save(update: Update, context: CallbackContext):
       chat_id, note_name, text, data_type, buttons=buttons, file=content)
 
   msg.reply_text(
-      f"Yas! Added {note_name}.\nGet it with /get {note_name}, or #{note_name}")
+      f"Yas! Added `{note_name}`.\nGet it with /get `{note_name}`, or `#{note_name}`", parse_mode=ParseMode.MARKDOWN)
 
   if msg.reply_to_message and msg.reply_to_message.from_user.is_bot:
     if text:
