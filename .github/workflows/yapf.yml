@@ -11,8 +11,6 @@ jobs:
       - uses: actions/checkout@master
       - name: Auto yapf
         uses: Accipiter7/yapf-action@master
-        with:
-          args: --recursive --in-place --style yapf
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@master
         with:
