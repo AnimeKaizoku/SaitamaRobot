@@ -242,11 +242,11 @@ def new_member(update: Update, context: CallbackContext):
               chat.id,
               new_mem.id,
               permissions=ChatPermissions(
-              can_send_messages=True,
-              can_send_media_messages=False,
-              can_send_other_messages=False,
-              can_add_web_page_previews=False,
-              until_date=(int(time.time() + 24 * 60 * 60))))
+                  can_send_messages=True,
+                  can_send_media_messages=False,
+                  can_send_other_messages=False,
+                  can_add_web_page_previews=False,
+                  until_date=(int(time.time() + 24 * 60 * 60))))
 
         if welc_mutes == "strong":
           welcome_bool = False
@@ -274,10 +274,10 @@ def new_member(update: Update, context: CallbackContext):
               chat.id,
               new_mem.id,
               permissions=ChatPermissions(
-              can_send_messages=False,
-              can_send_media_messages=False,
-              can_send_other_messages=False,
-              can_add_web_page_previews=False))
+                  can_send_messages=False,
+                  can_send_media_messages=False,
+                  can_send_other_messages=False,
+                  can_add_web_page_previews=False))
 
           job_queue.run_once(
               partial(check_not_bot, new_mem, chat.id, message.message_id),
@@ -730,10 +730,10 @@ def user_button(update: Update, context: CallbackContext):
         chat.id,
         user.id,
         permissions=ChatPermissions(
-        can_send_messages=True,
-        can_send_media_messages=True,
-        can_send_other_messages=True,
-        can_add_web_page_previews=True))
+            can_send_messages=True,
+            can_send_media_messages=True,
+            can_send_other_messages=True,
+            can_add_web_page_previews=True))
     bot.deleteMessage(chat.id, message.message_id)
     if member_dict["should_welc"]:
       sent = send(member_dict["update"], member_dict["res"],
