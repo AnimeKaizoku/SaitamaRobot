@@ -146,4 +146,4 @@ dispatcher.add_handler(DB_CLEANUP_HANDLER)
 dispatcher.add_handler(BUTTON_HANDLER)
 
 __mod_name__ = "DB Cleanup"
-__handlers__ = [DB_CLEANUP_HANDLER, LEAVE_MUTED_CHATS_HANDLER, BUTTON_HANDLER]
+__handlers__ = [DB_CLEANUP_HANDLER, BUTTON_HANDLER]
