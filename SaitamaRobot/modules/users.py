@@ -61,7 +61,7 @@ def broadcast(update: Update, context: CallbackContext):
     failed_user = 0
     for chat in chats:
       try:
-        bot.sendMessage(int(chat.chat_id), to_send[1])
+        context.bot.sendMessage(int(chat.chat_id), to_send[1])
         sleep(0.1)
       except TelegramError:
         failed += 1
@@ -69,7 +69,7 @@ def broadcast(update: Update, context: CallbackContext):
                        str(chat.chat_id), str(chat.chat_name))
     for user in users:
       try:
-        bot.sendMessage(int(user.user_id), to_send[1])
+        context.bot.sendMessage(int(user.user_id), to_send[1])
         sleep(0.1)
       except TelegramError:
         failed_user += 1

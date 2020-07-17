@@ -113,7 +113,7 @@ def ban(update: Update, context: CallbackContext) -> str:
 @user_admin
 @user_can_ban
 @loggable
-def temp_ban(context: CallbackContext, update: Update) -> str:
+def temp_ban(update: Update, context: CallbackContext) -> str:
   chat = update.effective_chat
   user = update.effective_user
   message = update.effective_message

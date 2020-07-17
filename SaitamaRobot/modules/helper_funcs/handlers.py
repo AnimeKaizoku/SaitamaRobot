@@ -22,7 +22,7 @@ class CustomCommandHandler(CommandHandler):
       message = update.effective_message
 
       if sql.is_user_blacklisted(update.effective_user.id):
-        return None
+        return False
 
       if (message.entities and
           message.entities[0].type == MessageEntity.BOT_COMMAND and
