@@ -107,75 +107,6 @@ def dbcleanup(update: Update, context: CallbackContext):
       reply, reply_markup=InlineKeyboardMarkup(buttons))
 
 
-def get_muted_chats(update: Update,
-                    context: CallbackContext,
-                    leave: bool = False):
-  bot = context.bot
-  chat_id = update.effective_chat.id
-  chats = user_sql.get_all_chats()
-  muted_chats, progress = 0, 0
-  chat_list = []
-  progress_message = None
-
-  for chat in chats:
-
-    if ((100 * chats.index(chat)) / len(chats)) > progress:
-      progress_bar = f"{progress}% completed in getting muted chats."
-      if progress_message:
-        try:
-          bot.editMessageText(progress_bar, chat_id,
-                              progress_message.message_id)
-        except:
-          pass
-      else:
-        progress_message = bot.sendMessage(chat_id, progress_bar)
-      progress += 5
-
-    cid = chat.chat_id
-    sleep(0.1)
-
-    try:
-      bot.send_chat_action(cid, "TYPING", timeout=60)
-    except (BadRequest, Unauthorized):
-      muted_chats += +1
-      chat_list.append(cid)
-    except:
-      pass
-
-  try:
-    progress_message.delete()
-  except:
-    pass
-
-  if not leave:
-    return muted_chats
-  else:
-    for muted_chat in chat_list:
-      sleep(0.1)
-      try:
-        bot.leaveChat(muted_chat, timeout=60)
-      except:
-        pass
-      user_sql.rem_chat(muted_chat)
-    return muted_chats
-
-
-@run_async
-@dev_plus
-def leave_muted_chats(update: Update, context: CallbackContext):
-  message = update.effective_message
-  progress_message = message.reply_text("Getting chat count ...")
-  muted_chats = get_muted_chats(context, update)
-
-  buttons = [[
-      InlineKeyboardButton("Leave chats", callback_data=f"db_leave_chat")
-  ]]
-
-  update.effective_message.reply_text(
-      f"I am muted in {muted_chats} chats.",
-      reply_markup=InlineKeyboardMarkup(buttons))
-  progress_message.delete()
-
 
 @run_async
 def callback_button(update: Update, context: CallbackContext):
@@ -209,11 +140,9 @@ def callback_button(update: Update, context: CallbackContext):
 
 
 DB_CLEANUP_HANDLER = CommandHandler("dbcleanup", dbcleanup)
-LEAVE_MUTED_CHATS_HANDLER = CommandHandler("leavemutedchats", leave_muted_chats)
 BUTTON_HANDLER = CallbackQueryHandler(callback_button, pattern='db_.*')
 
 dispatcher.add_handler(DB_CLEANUP_HANDLER)
-dispatcher.add_handler(LEAVE_MUTED_CHATS_HANDLER)
 dispatcher.add_handler(BUTTON_HANDLER)
 
 __mod_name__ = "DB Cleanup"
