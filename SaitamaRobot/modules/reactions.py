@@ -53,12 +53,12 @@ reactions = [
 
 @run_async
 def react(update: Update, context: CallbackContext):
-  message = update.effective_message
-  react = random.choice(reactions)
-  if message.reply_to_message:
-    message.reply_to_message.reply_text(react)
-  else:
-    message.reply_text(react)
+    message = update.effective_message
+    react = random.choice(reactions)
+    if message.reply_to_message:
+        message.reply_to_message.reply_text(react)
+    else:
+        message.reply_text(react)
 
 
 __help__ = """
