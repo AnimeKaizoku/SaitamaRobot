@@ -9,7 +9,7 @@ from telegram.ext import CommandHandler
 from SaitamaRobot import dispatcher
 
 # Open API key
-API_KEY = "6ae0c3a0-afdc-4532-a810-82ded0054236"
+GRAMMAR_API_KEY = "6ae0c3a0-afdc-4532-a810-82ded0054236"
 URL = "http://services.gingersoftware.com/Ginger/correct/json/GingerTheText"
 
 
@@ -17,7 +17,7 @@ def translate(update: Update, context: CallbackContext):
   if update.effective_message.reply_to_message:
     msg = update.effective_message.reply_to_message
 
-    params = dict(lang="US", clientVersion="2.0", apiKey=API_KEY, text=msg.text)
+    params = dict(lang="US", clientVersion="2.0", apiKey=GRAMMAR_API_KEY, text=msg.text)
 
     res = requests.get(URL, params=params)
     # print(res)
