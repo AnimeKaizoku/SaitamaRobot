@@ -16,10 +16,10 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@master
         with:
-          commit-message: Autoyapf Fixes
+          commit-message: Automated code formatting.
           committer: Accipiter7<Accipiter7@users.noreply.github.com>
-          title: Fixes by Autoyapf
-          body: This is an AutoMated PR with fixes according to selected style
+          title: Automated code formatting.
+          body: This is an automated code formatting pull request.
           labels: Code Formatting
           reviewers: Accipiter7 
           branch: autofix
