@@ -17,7 +17,8 @@ def translate(update: Update, context: CallbackContext):
   if update.effective_message.reply_to_message:
     msg = update.effective_message.reply_to_message
 
-    params = dict(lang="US", clientVersion="2.0", apiKey=GRAMMAR_API_KEY, text=msg.text)
+    params = dict(
+        lang="US", clientVersion="2.0", apiKey=GRAMMAR_API_KEY, text=msg.text)
 
     res = requests.get(URL, params=params)
     # print(res)
