@@ -25,10 +25,10 @@ __help__ = """
  • `/urban <word>`*:* Same as `/ud`
 """
 
-UD_HANDLER = DisableAbleCommandHandler(["ud", "urban"], ud)
+UD_HANDLER = DisableAbleCommandHandler(["ud"], ud)
 
 dispatcher.add_handler(UD_HANDLER)
 
 __mod_name__ = "Urban dictionary"
-__command_list__ = ["ud", "urban"]
+__command_list__ = ["ud"]
 __handlers__ = [UD_HANDLER]
