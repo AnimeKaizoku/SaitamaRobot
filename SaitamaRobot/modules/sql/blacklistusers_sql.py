@@ -1,8 +1,7 @@
 import threading
 
-from sqlalchemy import Column, String, UnicodeText
-
 from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import Column, String, UnicodeText
 
 
 class BlacklistUsers(BASE):

@@ -1,8 +1,7 @@
 import threading
 
-from sqlalchemy import Column, Integer, String
-
 from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import Column, Integer, String
 
 DEF_COUNT = 0
 DEF_LIMIT = 0

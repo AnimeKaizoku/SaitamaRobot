@@ -1,19 +1,17 @@
-from telegram.ext import CallbackContext
 import html
 import re
-from typing import List
 
 import requests
-from telegram import Update, MessageEntity, ParseMode
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async, Filters
-from telegram.utils.helpers import mention_html
-
-from SaitamaRobot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, DEV_USERS, TIGER_USERS, WHITELIST_USERS
-from SaitamaRobot.__main__ import STATS, USER_INFO, TOKEN
+from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
+                          TIGER_USERS, WHITELIST_USERS, dispatcher)
+from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, sudo_plus
+from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
+from telegram import MessageEntity, ParseMode, Update
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
+from telegram.utils.helpers import mention_html
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \

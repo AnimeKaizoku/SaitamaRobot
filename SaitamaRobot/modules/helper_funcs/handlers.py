@@ -1,10 +1,7 @@
-from future.utils import string_types
-
-from telegram import Update, MessageEntity
-from telegram.ext import CommandHandler, RegexHandler, MessageHandler, Filters
-
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
-from SaitamaRobot import ALLOW_EXCL, dispatcher
+from SaitamaRobot import ALLOW_EXCL
+from telegram import MessageEntity, Update
+from telegram.ext import CommandHandler, MessageHandler, RegexHandler
 
 if ALLOW_EXCL:
     CMD_STARTERS = ('/', '!')

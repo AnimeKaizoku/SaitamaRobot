@@ -1,21 +1,24 @@
-from telegram.ext import CallbackContext
 import html
 import time
 from datetime import datetime
 from io import BytesIO
-from typing import List
-
-from telegram import Update, ParseMode
-from telegram.error import BadRequest, TelegramError
-from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
-from telegram.utils.helpers import mention_html
 
 import SaitamaRobot.modules.sql.global_bans_sql as sql
-from SaitamaRobot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS, SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, STRICT_GBAN, GBAN_LOGS, SUPPORT_CHAT
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, is_user_admin, support_plus
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user, extract_user_and_text
+from SaitamaRobot import (DEV_USERS, GBAN_LOGS, OWNER_ID, STRICT_GBAN,
+                          SUDO_USERS, SUPPORT_CHAT, SUPPORT_USERS, TIGER_USERS,
+                          WHITELIST_USERS, dispatcher)
+from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
+                                                           support_plus,
+                                                           user_admin)
+from SaitamaRobot.modules.helper_funcs.extraction import (
+    extract_user, extract_user_and_text)
 from SaitamaRobot.modules.helper_funcs.misc import send_to_list
 from SaitamaRobot.modules.sql.users_sql import get_all_chats
+from telegram import ParseMode, Update
+from telegram.error import BadRequest, TelegramError
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, run_async)
+from telegram.utils.helpers import mention_html
 
 GBAN_ENFORCE_GROUP = 6
 

@@ -1,11 +1,8 @@
-from telegram.ext import CallbackContext
-from typing import List
-
-from telegram import Update, Bot
-from telegram.ext import run_async
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from telegram import Update
+from telegram.ext import CallbackContext, run_async
 
 
 @run_async

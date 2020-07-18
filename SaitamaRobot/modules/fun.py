@@ -1,17 +1,15 @@
-from telegram.ext import CallbackContext
 import html
 import random
 import time
-from typing import List
-
-from telegram import Update, ParseMode
-from telegram.ext import run_async
 
 import SaitamaRobot.modules.fun_strings as fun_strings
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin, user_admin
+from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
+                                                           user_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, run_async
 
 
 @run_async

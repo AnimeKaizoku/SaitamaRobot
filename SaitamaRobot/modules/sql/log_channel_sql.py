@@ -1,8 +1,7 @@
 import threading
 
-from sqlalchemy import Column, String, func, distinct
-
 from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import Column, String, distinct, func
 
 
 class GroupLogs(BASE):

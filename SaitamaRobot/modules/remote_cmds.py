@@ -1,18 +1,13 @@
-from telegram.ext import CallbackContext
-import html
-from typing import Optional, List
-
-from telegram import Message, Chat, Update, Bot, User
-from telegram.error import BadRequest
-from telegram.ext import run_async, CommandHandler, Filters
-from telegram.utils.helpers import mention_html
 
 from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.helper_funcs.chat_status import bot_admin, user_admin, is_user_ban_protected, can_restrict, \
-    is_user_admin, is_user_in_chat, is_bot_admin
+from SaitamaRobot.modules.helper_funcs.chat_status import (
+    bot_admin, can_restrict, is_bot_admin, is_user_admin,
+    is_user_ban_protected, is_user_in_chat, user_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user_and_text
-from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
+from telegram import Update
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler, run_async
 
 RBAN_ERRORS = {
     "User is an administrator of the chat", "Chat not found",

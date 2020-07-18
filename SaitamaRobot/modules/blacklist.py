@@ -1,18 +1,20 @@
-from telegram.ext import CallbackContext
 import html
 import re
-from typing import List
 
-from telegram import Bot, Update, ParseMode
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
-from SaitamaRobot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
 import SaitamaRobot.modules.sql.blacklist_sql as sql
-from SaitamaRobot import dispatcher, LOGGER
+from SaitamaRobot import LOGGER, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, user_not_admin, connection_status
+from SaitamaRobot.modules.helper_funcs.chat_status import (connection_status,
+                                                           user_admin,
+                                                           user_not_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_text
 from SaitamaRobot.modules.helper_funcs.misc import split_message
+from SaitamaRobot.modules.helper_funcs.regex_helper import (
+    infinite_loop_check, regex_searcher)
+from telegram import ParseMode, Update
+from telegram.error import BadRequest
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, run_async)
 
 BLACKLIST_GROUP = 11
 

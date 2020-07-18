@@ -1,19 +1,15 @@
-from telegram.ext import CallbackContext
 import hashlib
 import math
 import os
 import urllib.request as urllib
-from typing import List
 
 from PIL import Image
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram import TelegramError
-from telegram import Update, Bot
-from telegram.ext import run_async
-from telegram.utils.helpers import escape_markdown
-
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from telegram import (Bot, InlineKeyboardButton, InlineKeyboardMarkup,
+                      ParseMode, TelegramError, Update)
+from telegram.ext import CallbackContext, run_async
+from telegram.utils.helpers import escape_markdown
 
 
 @run_async

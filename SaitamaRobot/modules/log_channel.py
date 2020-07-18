@@ -1,20 +1,19 @@
-from telegram.ext import CallbackContext
 from datetime import datetime
 from functools import wraps
 
 from SaitamaRobot.modules.helper_funcs.misc import is_module_loaded
+from telegram.ext import CallbackContext
 
 FILENAME = __name__.rsplit(".", 1)[-1]
 
 if is_module_loaded(FILENAME):
-    from telegram import Update, ParseMode
-    from telegram.error import BadRequest, Unauthorized
-    from telegram.ext import CommandHandler, run_async, JobQueue
-    from telegram.utils.helpers import escape_markdown
-
-    from SaitamaRobot import dispatcher, LOGGER, GBAN_LOGS
+    from SaitamaRobot import GBAN_LOGS, LOGGER, dispatcher
     from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
     from SaitamaRobot.modules.sql import log_channel_sql as sql
+    from telegram import ParseMode, Update
+    from telegram.error import BadRequest, Unauthorized
+    from telegram.ext import CommandHandler, JobQueue, run_async
+    from telegram.utils.helpers import escape_markdown
 
     def loggable(func):
 

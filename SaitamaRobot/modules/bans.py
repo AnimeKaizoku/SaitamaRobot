@@ -1,20 +1,19 @@
-from telegram.ext import CallbackContext
 import html
-from typing import List
 
-from telegram import Bot, Update, ParseMode
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters, run_async
-from telegram.utils.helpers import mention_html
-
-from SaitamaRobot import dispatcher, LOGGER, OWNER_ID, DEV_USERS, SUDO_USERS, SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS
+from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, SUDO_USERS,
+                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
+                          dispatcher)
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
-    bot_admin, user_admin, is_user_ban_protected, can_restrict, is_user_admin,
-    is_user_in_chat, connection_status, can_delete, user_can_ban)
+    bot_admin, can_delete, can_restrict, connection_status, is_user_admin,
+    is_user_ban_protected, is_user_in_chat, user_admin, user_can_ban)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user_and_text
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
-from SaitamaRobot.modules.log_channel import loggable, gloggable
+from SaitamaRobot.modules.log_channel import gloggable, loggable
+from telegram import ParseMode, Update
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
+from telegram.utils.helpers import mention_html
 
 
 @run_async

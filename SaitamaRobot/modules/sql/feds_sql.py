@@ -1,10 +1,9 @@
 import threading
 
-from sqlalchemy import Column, String, UnicodeText, Integer, Boolean
-from telegram.error import BadRequest, Unauthorized
-
 from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.sql import SESSION, BASE
+from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
+from telegram.error import BadRequest, Unauthorized
 
 
 class Federations(BASE):

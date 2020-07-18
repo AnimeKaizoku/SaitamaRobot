@@ -1,25 +1,25 @@
-from telegram.ext import CallbackContext
 import importlib
-from typing import Union, List
+from typing import Union
 
 from future.utils import string_types
-from telegram import Update, ParseMode, MessageEntity
-from telegram.ext import CommandHandler, RegexHandler, MessageHandler, Filters
-from telegram.utils.helpers import escape_markdown
-
 from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.helper_funcs.handlers import CMD_STARTERS, CustomCommandHandler
+from SaitamaRobot.modules.helper_funcs.handlers import (CMD_STARTERS,
+                                                        CustomCommandHandler)
 from SaitamaRobot.modules.helper_funcs.misc import is_module_loaded
+from telegram import ParseMode, Update
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, RegexHandler)
+from telegram.utils.helpers import escape_markdown
 
 FILENAME = __name__.rsplit(".", 1)[-1]
 
 # If module is due to be loaded, then setup all the magical handlers
 if is_module_loaded(FILENAME):
 
-    from telegram.ext.dispatcher import run_async
-
-    from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, is_user_admin, connection_status
+    from SaitamaRobot.modules.helper_funcs.chat_status import (
+        connection_status, is_user_admin, user_admin)
     from SaitamaRobot.modules.sql import disable_sql as sql
+    from telegram.ext.dispatcher import run_async
 
     DISABLE_CMDS = []
     DISABLE_OTHER = []

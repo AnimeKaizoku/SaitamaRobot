@@ -1,9 +1,9 @@
 import threading
 
-from sqlalchemy import Integer, Column, String, UnicodeText, func, distinct, Boolean
+from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import (Boolean, Column, Integer, String, UnicodeText,
+                        distinct, func)
 from sqlalchemy.dialects import postgresql
-
-from SaitamaRobot.modules.sql import SESSION, BASE
 
 
 class Warns(BASE):

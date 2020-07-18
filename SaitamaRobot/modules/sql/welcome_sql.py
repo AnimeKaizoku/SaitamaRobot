@@ -2,10 +2,10 @@ import random
 import threading
 from typing import Union
 
-from sqlalchemy import Column, String, Boolean, UnicodeText, Integer, BigInteger
-
 from SaitamaRobot.modules.helper_funcs.msg_types import Types
-from SaitamaRobot.modules.sql import SESSION, BASE
+from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import (BigInteger, Boolean, Column, Integer, String,
+                        UnicodeText)
 
 DEFAULT_WELCOME = 'Hey {first}, how are you?'
 DEFAULT_GOODBYE = 'Nice knowing ya!'

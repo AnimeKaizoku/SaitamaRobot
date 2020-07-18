@@ -1,9 +1,7 @@
-from telegram.ext import CallbackContext
 import requests
-from telegram import Bot, Update
-from telegram.ext import CommandHandler, run_async
-
-from SaitamaRobot import dispatcher, CASH_API_KEY
+from SaitamaRobot import CASH_API_KEY, dispatcher
+from telegram import Update
+from telegram.ext import CallbackContext, CommandHandler, run_async
 
 
 @run_async
