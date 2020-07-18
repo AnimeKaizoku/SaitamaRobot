@@ -205,10 +205,13 @@ def clear(update: Update, context: CallbackContext):
 def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
-
+    notes = len(note_list) + 1   
     msg = "*Notes in chat:*\n"
-    for note in note_list:
-        note_name = f"• `#{(note.name.lower())}`\n"
+    for note_id, note in zip(range(1, notes), note_list):
+        if note_id < 10:
+            note_name = f"`{note_id:2}.`  `#{(note.name.lower())}`\n"
+        else:
+            note_name =   f"`{note_id}.`  `#{(note.name.lower())}`\n"
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(
                 msg, parse_mode=ParseMode.MARKDOWN)
