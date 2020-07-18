@@ -11,107 +11,107 @@ import math
 
 @run_async
 def simplify(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(newton.simplify('{}'.format(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(newton.simplify('{}'.format(args[0])))
 
 
 @run_async
 def factor(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(newton.factor('{}'.format(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(newton.factor('{}'.format(args[0])))
 
 
 @run_async
 def derive(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(newton.derive('{}'.format(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(newton.derive('{}'.format(args[0])))
 
 
 @run_async
 def integrate(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(newton.integrate('{}'.format(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(newton.integrate('{}'.format(args[0])))
 
 
 @run_async
 def zeroes(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(newton.zeroes('{}'.format(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(newton.zeroes('{}'.format(args[0])))
 
 
 @run_async
 def tangent(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(newton.tangent('{}'.format(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(newton.tangent('{}'.format(args[0])))
 
 
 @run_async
 def area(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(newton.area('{}'.format(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(newton.area('{}'.format(args[0])))
 
 
 @run_async
 def cos(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(math.cos(int(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(math.cos(int(args[0])))
 
 
 @run_async
 def sin(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(math.sin(int(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(math.sin(int(args[0])))
 
 
 @run_async
 def tan(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(math.tan(int(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(math.tan(int(args[0])))
 
 
 @run_async
 def arccos(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(math.acos(int(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(math.acos(int(args[0])))
 
 
 @run_async
 def arcsin(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(math.asin(int(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(math.asin(int(args[0])))
 
 
 @run_async
 def arctan(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(math.atan(int(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(math.atan(int(args[0])))
 
 
 @run_async
 def abs(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(math.fabs(int(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(math.fabs(int(args[0])))
 
 
 @run_async
 def log(update: Update, context: CallbackContext):
-  args = context.args
-  message = update.effective_message
-  message.reply_text(math.log(int(args[0])))
+    args = context.args
+    message = update.effective_message
+    message.reply_text(math.log(int(args[0])))
 
 
 __help__ = """
