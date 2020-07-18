@@ -1,11 +1,10 @@
 import os
 from time import sleep
-from typing import List
 
 from SaitamaRobot import OWNER_ID, dispatcher
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
-from telegram import Message, Update
+from telegram import Update
 from telegram.error import BadRequest, RetryAfter, Unauthorized
 from telegram.ext import CallbackContext, CommandHandler, Filters
 from telegram.ext.dispatcher import run_async

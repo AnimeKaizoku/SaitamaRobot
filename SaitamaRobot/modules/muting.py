@@ -1,5 +1,5 @@
 import html
-from typing import List, Optional
+from typing import Optional
 
 from SaitamaRobot import LOGGER, TIGER_USERS, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
@@ -13,7 +13,7 @@ from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.log_channel import loggable
 from telegram import Bot, Chat, ChatPermissions, ParseMode, Update
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
+from telegram.ext import CallbackContext, CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
 

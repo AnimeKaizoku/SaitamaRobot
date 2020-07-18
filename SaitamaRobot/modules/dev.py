@@ -2,7 +2,6 @@ import os
 import subprocess
 import sys
 from time import sleep
-from typing import List
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus

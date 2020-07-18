@@ -1,6 +1,5 @@
 import html
 import re
-from typing import List
 
 import requests
 from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,

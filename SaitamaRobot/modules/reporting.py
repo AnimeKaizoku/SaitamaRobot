@@ -1,6 +1,4 @@
 import html
-import re
-from typing import List, Optional
 
 from SaitamaRobot import (LOGGER, SUDO_USERS, TIGER_USERS, WHITELIST_USERS,
                           dispatcher)

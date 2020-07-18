@@ -3,7 +3,6 @@ import random
 import re
 import time
 from functools import partial
-from typing import List
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
 from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, SUDO_USERS,

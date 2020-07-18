@@ -1,5 +1,4 @@
 import html
-from typing import List
 
 import SaitamaRobot.modules.sql.locks_sql as sql
 import telegram.ext as tg

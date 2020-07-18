@@ -1,11 +1,10 @@
 import html
-from typing import List
 
 import SaitamaRobot.modules.sql.userinfo_sql as sql
 from SaitamaRobot import DEV_USERS, SUDO_USERS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from telegram import MAX_MESSAGE_LENGTH, Bot, ParseMode, Update
+from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update
 from telegram.ext import CallbackContext
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown

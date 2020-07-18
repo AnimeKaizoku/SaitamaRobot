@@ -1,6 +1,5 @@
 import re
 import time
-from typing import List
 
 import SaitamaRobot.modules.sql.connection_sql as sql
 from SaitamaRobot import DEV_USERS, SUDO_USERS, dispatcher

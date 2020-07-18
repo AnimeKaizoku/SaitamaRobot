@@ -1,6 +1,5 @@
 import html
 import re
-from typing import List
 
 import SaitamaRobot.modules.sql.blacklist_sql as sql
 from SaitamaRobot import LOGGER, dispatcher
@@ -12,7 +11,7 @@ from SaitamaRobot.modules.helper_funcs.extraction import extract_text
 from SaitamaRobot.modules.helper_funcs.misc import split_message
 from SaitamaRobot.modules.helper_funcs.regex_helper import (
     infinite_loop_check, regex_searcher)
-from telegram import Bot, ParseMode, Update
+from telegram import ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
                           MessageHandler, run_async)

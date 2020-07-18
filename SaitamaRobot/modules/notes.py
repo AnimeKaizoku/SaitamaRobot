@@ -1,6 +1,6 @@
 import re
 from io import BytesIO
-from typing import List, Optional
+from typing import Optional
 
 import SaitamaRobot.modules.sql.notes_sql as sql
 from SaitamaRobot import LOGGER, MESSAGE_DUMP, SUPPORT_CHAT, dispatcher
@@ -15,7 +15,6 @@ from telegram.error import BadRequest
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
                           MessageHandler, RegexHandler)
 from telegram.ext.dispatcher import run_async
-from telegram.utils.helpers import escape_markdown
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 

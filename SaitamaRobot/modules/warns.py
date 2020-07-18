@@ -1,6 +1,6 @@
 import html
 import re
-from typing import List, Optional
+from typing import Optional
 
 import telegram
 from SaitamaRobot import BAN_STICKER, TIGER_USERS, WHITELIST_USERS, dispatcher

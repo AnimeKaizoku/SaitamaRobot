@@ -10,7 +10,7 @@ from SaitamaRobot import AI_API_KEY, OWNER_ID, SUPPORT_CHAT, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
 from SaitamaRobot.modules.log_channel import gloggable
-from telegram import Chat, Message, Update, User
+from telegram import Update
 from telegram.error import BadRequest, RetryAfter, Unauthorized
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
                           MessageHandler, run_async)

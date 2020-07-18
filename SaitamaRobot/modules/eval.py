@@ -1,20 +1,10 @@
-import datetime
-import gc
-import glob
-import inspect
 import io
-import json
-import math
 import os
-import shutil
 # Common imports for eval
-import sys
 import textwrap
-import time
 import traceback
 from contextlib import redirect_stdout
 
-import requests
 from SaitamaRobot import LOGGER, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from telegram import ParseMode, Update

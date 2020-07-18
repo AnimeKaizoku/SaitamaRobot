@@ -1,10 +1,9 @@
 from random import randint
-from time import sleep
 
 import requests as r
 from SaitamaRobot import SUPPORT_CHAT, WALL_API, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from telegram import Bot, Chat, Message, Update
+from telegram import Update
 from telegram.ext import CallbackContext, run_async
 
 # Wallpapers module by @TheRealPhoenix using wall.alphacoders.com

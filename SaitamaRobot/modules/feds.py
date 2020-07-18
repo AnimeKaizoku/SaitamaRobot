@@ -1,27 +1,20 @@
 import csv
-import html
 import json
 import os
-import random
 import re
 import time
 import uuid
 from io import BytesIO
-from time import sleep
-from typing import List, Optional
 
 import SaitamaRobot.modules.sql.feds_sql as sql
-from future.utils import string_types
 from SaitamaRobot import (GBAN_LOGS, LOGGER, OWNER_ID, SUDO_USERS, TIGER_USERS,
                           WHITELIST_USERS, dispatcher)
-from SaitamaRobot.modules.connection import connected
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_unt_fedban,
                                                           extract_user,
                                                           extract_user_fban)
-from SaitamaRobot.modules.helper_funcs.handlers import CMD_STARTERS
 from SaitamaRobot.modules.helper_funcs.misc import (is_module_loaded,
                                                     send_to_list)
 from SaitamaRobot.modules.helper_funcs.string_handling import markdown_parser

@@ -2,7 +2,6 @@ import html
 import time
 from datetime import datetime
 from io import BytesIO
-from typing import List
 
 import SaitamaRobot.modules.sql.global_bans_sql as sql
 from SaitamaRobot import (DEV_USERS, GBAN_LOGS, OWNER_ID, STRICT_GBAN,

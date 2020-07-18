@@ -1,8 +1,7 @@
-from typing import List
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from telegram import Bot, Update
+from telegram import Update
 from telegram.ext import CallbackContext, run_async
 
 

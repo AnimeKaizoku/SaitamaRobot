@@ -1,12 +1,8 @@
-import json
-import re
-import urllib.parse
-import urllib.request
 
 import wikipedia
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from telegram import Chat, Message, ParseMode, Update
+from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, run_async
 from wikipedia.exceptions import DisambiguationError, PageError
 

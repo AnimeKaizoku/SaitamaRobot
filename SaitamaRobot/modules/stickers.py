@@ -2,7 +2,6 @@ import hashlib
 import math
 import os
 import urllib.request as urllib
-from typing import List
 
 from PIL import Image
 from SaitamaRobot import dispatcher

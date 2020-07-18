@@ -4,7 +4,7 @@ from typing import List
 import requests
 from SaitamaRobot import StartTime, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from telegram import Bot, ParseMode, Update
+from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, run_async
 
 sites_list = {

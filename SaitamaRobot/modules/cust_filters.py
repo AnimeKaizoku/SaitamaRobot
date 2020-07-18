@@ -1,5 +1,4 @@
 import html
-import re
 
 import telegram
 from SaitamaRobot import LOGGER, SUPPORT_CHAT, dispatcher
@@ -19,7 +18,6 @@ from telegram import InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import (CallbackContext, CommandHandler,
                           DispatcherHandlerStop, MessageHandler, run_async)
-from telegram.utils.helpers import escape_markdown
 
 HANDLER_GROUP = 10
 

@@ -1,6 +1,5 @@
 import html
 import re
-from typing import List, Optional
 
 from SaitamaRobot import TIGER_USERS, WHITELIST_USERS, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,

@@ -1,9 +1,8 @@
 import html
-from typing import List, Optional
+from typing import Optional
 
 import SaitamaRobot.modules.sql.blsticker_sql as sql
-import telegram.ext as tg
-from SaitamaRobot import LOGGER, OWNER_ID, SUDO_USERS, dispatcher
+from SaitamaRobot import LOGGER, dispatcher
 from SaitamaRobot.modules.connection import connected
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
@@ -13,10 +12,8 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (bot_can_delete,
                                                            is_user_admin,
                                                            user_admin,
                                                            user_not_admin)
-from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
 from SaitamaRobot.modules.helper_funcs.misc import split_message
 from SaitamaRobot.modules.log_channel import loggable
-from SaitamaRobot.modules.sql import users_sql
 from SaitamaRobot.modules.warns import warn
 from telegram import (Bot, Chat, Message, MessageEntity, ParseMode,
                       TelegramError, Update, User)
