@@ -1,4 +1,3 @@
-
 import requests
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler

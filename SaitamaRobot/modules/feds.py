@@ -21,8 +21,8 @@ from SaitamaRobot.modules.helper_funcs.string_handling import markdown_parser
 from telegram import (Chat, InlineKeyboardButton, InlineKeyboardMarkup,
                       MessageEntity, ParseMode, Update, User)
 from telegram.error import BadRequest, TelegramError, Unauthorized
-from telegram.ext import (CallbackContext, CallbackQueryHandler,
-                          CommandHandler, Filters, MessageHandler, run_async)
+from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
+                          Filters, MessageHandler, run_async)
 from telegram.utils.helpers import (escape_markdown, mention_html,
                                     mention_markdown)
 

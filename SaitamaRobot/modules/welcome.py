@@ -20,9 +20,8 @@ from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
 from telegram import (Bot, ChatPermissions, InlineKeyboardButton,
                       InlineKeyboardMarkup, ParseMode, Update)
 from telegram.error import BadRequest
-from telegram.ext import (CallbackContext, CallbackQueryHandler,
-                          CommandHandler, Filters, JobQueue, MessageHandler,
-                          run_async)
+from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
+                          Filters, JobQueue, MessageHandler, run_async)
 from telegram.utils.helpers import (escape_markdown, mention_html,
                                     mention_markdown)
 

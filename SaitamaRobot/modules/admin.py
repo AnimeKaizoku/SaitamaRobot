@@ -6,8 +6,8 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin, can_pin,
                                                            can_promote,
                                                            connection_status,
                                                            user_admin)
-from SaitamaRobot.modules.helper_funcs.extraction import (
-    extract_user, extract_user_and_text)
+from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
+                                                          extract_user_and_text)
 from SaitamaRobot.modules.log_channel import loggable
 from telegram import ParseMode, Update
 from telegram.error import BadRequest
