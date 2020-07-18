@@ -1,28 +1,24 @@
-from telegram.ext import CallbackContext
-import io
-import os
-# Common imports for eval
-import sys
+import datetime
+import gc
+import glob
 import inspect
+import io
+import json
+import math
 import os
 import shutil
-import glob
-import math
+# Common imports for eval
+import sys
 import textwrap
-import os
-import requests
-import json
-import gc
-import datetime
 import time
 import traceback
 from contextlib import redirect_stdout
 
-from telegram import ParseMode, Update
-from telegram.ext import CommandHandler, run_async
-
-from SaitamaRobot import dispatcher, LOGGER
+import requests
+from SaitamaRobot import LOGGER, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, CommandHandler, run_async
 
 namespaces = {}
 

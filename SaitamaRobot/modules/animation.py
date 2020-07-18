@@ -1,10 +1,10 @@
 import time
 
-from telegram import Update
-from telegram.ext import CallbackContext, run_async
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
+from telegram import Update
+from telegram.ext import CallbackContext, run_async
 
 #sleep how many times after each edit in 'police'
 EDIT_SLEEP = 2

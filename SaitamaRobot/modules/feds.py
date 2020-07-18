@@ -1,34 +1,38 @@
-from telegram.ext import CallbackContext
-import html
-from io import BytesIO
-from typing import Optional, List
-import random
-import uuid
-import re
-import json
-import time
 import csv
+import html
+import json
 import os
+import random
+import re
+import time
+import uuid
+from io import BytesIO
 from time import sleep
-
-from future.utils import string_types
-from telegram.error import BadRequest, TelegramError, Unauthorized
-from telegram import ParseMode, Update, Chat, User, MessageEntity, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import run_async, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
-from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
-
-from SaitamaRobot import dispatcher, OWNER_ID, SUDO_USERS, WHITELIST_USERS, TIGER_USERS, GBAN_LOGS, LOGGER
-from SaitamaRobot.modules.helper_funcs.handlers import CMD_STARTERS
-from SaitamaRobot.modules.helper_funcs.misc import is_module_loaded, send_to_list
-from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user, extract_unt_fedban, extract_user_fban
-from SaitamaRobot.modules.helper_funcs.string_handling import markdown_parser
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from typing import List, Optional
 
 import SaitamaRobot.modules.sql.feds_sql as sql
-
+from future.utils import string_types
+from SaitamaRobot import (GBAN_LOGS, LOGGER, OWNER_ID, SUDO_USERS, TIGER_USERS,
+                          WHITELIST_USERS, dispatcher)
 from SaitamaRobot.modules.connection import connected
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
+from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
+from SaitamaRobot.modules.helper_funcs.extraction import (extract_unt_fedban,
+                                                          extract_user,
+                                                          extract_user_fban)
+from SaitamaRobot.modules.helper_funcs.handlers import CMD_STARTERS
+from SaitamaRobot.modules.helper_funcs.misc import (is_module_loaded,
+                                                    send_to_list)
+from SaitamaRobot.modules.helper_funcs.string_handling import markdown_parser
+from telegram import (Chat, InlineKeyboardButton, InlineKeyboardMarkup,
+                      MessageEntity, ParseMode, Update, User)
+from telegram.error import BadRequest, TelegramError, Unauthorized
+from telegram.ext import (CallbackContext, CallbackQueryHandler,
+                          CommandHandler, Filters, MessageHandler, run_async)
+from telegram.utils.helpers import (escape_markdown, mention_html,
+                                    mention_markdown)
+
 # Hello bot owner, I spended for feds many hours of my life, Please don't remove this if you still respect MrYacha and peaktogoo and AyraHikari too
 # Federation by MrYacha 2018-2019
 # Federation rework by Mizukito Akito 2019

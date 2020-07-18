@@ -1,12 +1,13 @@
-from telegram.ext import CallbackContext
 import sre_constants
-from SaitamaRobot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
-from telegram import Update, Bot
-from telegram.ext import run_async, MessageHandler, Filters
-import telegram
+
 import regex
-from SaitamaRobot import dispatcher, LOGGER
+import telegram
+from SaitamaRobot import LOGGER, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleMessageHandler
+from SaitamaRobot.modules.helper_funcs.regex_helper import (
+    infinite_loop_check, regex_searcher)
+from telegram import Bot, Update
+from telegram.ext import CallbackContext, Filters, MessageHandler, run_async
 
 DELIMITERS = ("/", ":", "|", "_")
 

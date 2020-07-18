@@ -5,11 +5,11 @@ import textwrap
 import bs4
 import jikanpy
 import requests
-from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
-from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
-
-from SaitamaRobot import dispatcher, OWNER_ID, SUDO_USERS, DEV_USERS
+from SaitamaRobot import DEV_USERS, OWNER_ID, SUDO_USERS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
+                      Update)
+from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
 
 info_btn = "More Information"
 kaizoku_btn = "Kaizoku ☠️"

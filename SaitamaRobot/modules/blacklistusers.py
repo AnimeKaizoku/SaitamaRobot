@@ -1,17 +1,17 @@
-from telegram.ext import CallbackContext
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
 from typing import List
 
-from telegram import Bot, Update, ParseMode
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async
-from telegram.utils.helpers import mention_html
-
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
-from SaitamaRobot import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, WHITELIST_USERS, SUPPORT_USERS
+from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
+                          WHITELIST_USERS, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user_and_text, extract_user
+from SaitamaRobot.modules.helper_funcs.extraction import (
+    extract_user, extract_user_and_text)
 from SaitamaRobot.modules.log_channel import gloggable
+from telegram import Bot, ParseMode, Update
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler, run_async
+from telegram.utils.helpers import mention_html
 
 BLACKLISTWHITELIST = [
     OWNER_ID

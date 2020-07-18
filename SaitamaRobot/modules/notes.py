@@ -1,21 +1,21 @@
-from telegram.ext import CallbackContext
 import re
 from io import BytesIO
-from typing import Optional, List
-
-from telegram import MAX_MESSAGE_LENGTH, ParseMode, InlineKeyboardMarkup
-from telegram import Message, Update, Bot
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, RegexHandler, MessageHandler, Filters
-from telegram.ext.dispatcher import run_async
-from telegram.utils.helpers import escape_markdown
+from typing import List, Optional
 
 import SaitamaRobot.modules.sql.notes_sql as sql
-from SaitamaRobot import dispatcher, MESSAGE_DUMP, LOGGER, SUPPORT_CHAT
+from SaitamaRobot import LOGGER, MESSAGE_DUMP, SUPPORT_CHAT, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
-from SaitamaRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
+from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
+                                                    revert_buttons)
 from SaitamaRobot.modules.helper_funcs.msg_types import get_note_type
+from telegram import (MAX_MESSAGE_LENGTH, Bot, InlineKeyboardMarkup, Message,
+                      ParseMode, Update)
+from telegram.error import BadRequest
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, RegexHandler)
+from telegram.ext.dispatcher import run_async
+from telegram.utils.helpers import escape_markdown
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 

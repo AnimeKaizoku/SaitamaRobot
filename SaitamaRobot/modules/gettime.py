@@ -1,13 +1,11 @@
-from telegram.ext import CallbackContext
 import datetime
 from typing import List
 
 import requests
-from telegram import Update, ParseMode
-from telegram.ext import run_async
-
-from SaitamaRobot import dispatcher, TIME_API_KEY
+from SaitamaRobot import TIME_API_KEY, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, run_async
 
 
 def generate_time(to_find: str, findtype: List[str]) -> str:

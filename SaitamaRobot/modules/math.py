@@ -1,12 +1,12 @@
-from telegram.ext import CallbackContext
+import math
 from typing import List
+
+import pynewtonmath as newton
 import requests
-from telegram import Message, Update, MessageEntity
-from telegram.ext import CommandHandler, run_async
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-import pynewtonmath as newton
-import math
+from telegram import Message, MessageEntity, Update
+from telegram.ext import CallbackContext, CommandHandler, run_async
 
 
 @run_async

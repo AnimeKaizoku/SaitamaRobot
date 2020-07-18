@@ -1,8 +1,7 @@
 import threading
 
-from sqlalchemy import Column, UnicodeText, Integer
-
 from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import Column, Integer, UnicodeText
 
 
 class RSS(BASE):

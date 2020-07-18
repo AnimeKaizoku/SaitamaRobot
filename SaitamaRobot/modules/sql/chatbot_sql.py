@@ -1,8 +1,7 @@
 import threading
 
-from sqlalchemy import Column, String
-
 from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import Column, String
 
 
 class ChatbotChats(BASE):

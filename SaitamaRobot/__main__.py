@@ -1,21 +1,24 @@
 import importlib
 import re
-from typing import Optional
 from sys import argv
+from typing import Optional
 
-from telegram import Update, ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.error import Unauthorized, BadRequest, TimedOut, NetworkError, ChatMigrated, TelegramError
-from telegram.ext import CommandHandler, MessageHandler, CallbackQueryHandler, Filters, CallbackContext
-from telegram.ext.dispatcher import run_async, DispatcherHandlerStop
-from telegram.utils.helpers import escape_markdown
-
-from SaitamaRobot import dispatcher, updater, TOKEN, WEBHOOK, OWNER_ID, SUPPORT_CHAT, DONATION_LINK, CERT_PATH, PORT, URL, LOGGER, \
-    ALLOW_EXCL, telethn
+from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
+                          OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
+                          dispatcher, telethn, updater)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
 from SaitamaRobot.modules.helper_funcs.misc import paginate_modules
+from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
+                      Update)
+from telegram.error import (BadRequest, ChatMigrated, NetworkError,
+                            TelegramError, TimedOut, Unauthorized)
+from telegram.ext import (CallbackContext, CallbackQueryHandler,
+                          CommandHandler, Filters, MessageHandler)
+from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
+from telegram.utils.helpers import escape_markdown
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 

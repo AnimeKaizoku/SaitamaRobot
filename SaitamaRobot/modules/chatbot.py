@@ -1,22 +1,20 @@
-from telegram.ext import CallbackContext
-# AI module using Intellivoid's Coffeehouse API by @TheRealPhoenix
-from time import time, sleep
 import html
+# AI module using Intellivoid's Coffeehouse API by @TheRealPhoenix
+from time import sleep, time
 
-from coffeehouse.lydia import LydiaAI
+import SaitamaRobot.modules.sql.chatbot_sql as sql
 from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError as CFError
-
-from telegram import Message, Chat, User, Update
-from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
-from telegram.error import BadRequest, Unauthorized, RetryAfter
-from telegram.utils.helpers import mention_html
-
-from SaitamaRobot import dispatcher, AI_API_KEY, OWNER_ID, SUPPORT_CHAT
-import SaitamaRobot.modules.sql.chatbot_sql as sql
-from SaitamaRobot.modules.log_channel import gloggable
-from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
+from coffeehouse.lydia import LydiaAI
+from SaitamaRobot import AI_API_KEY, OWNER_ID, SUPPORT_CHAT, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
+from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
+from SaitamaRobot.modules.log_channel import gloggable
+from telegram import Chat, Message, Update, User
+from telegram.error import BadRequest, RetryAfter, Unauthorized
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, run_async)
+from telegram.utils.helpers import mention_html
 
 CoffeeHouseAPI = API(AI_API_KEY)
 api_client = LydiaAI(CoffeeHouseAPI)

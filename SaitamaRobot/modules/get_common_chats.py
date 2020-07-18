@@ -1,16 +1,14 @@
-from telegram.ext import CallbackContext
 import os
 from time import sleep
 from typing import List
 
-from telegram import Update, Message
-from telegram.error import BadRequest, Unauthorized, RetryAfter
-from telegram.ext import CommandHandler, Filters
-from telegram.ext.dispatcher import run_async
-
-from SaitamaRobot import dispatcher, OWNER_ID
-from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
+from SaitamaRobot import OWNER_ID, dispatcher
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
+from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
+from telegram import Message, Update
+from telegram.error import BadRequest, RetryAfter, Unauthorized
+from telegram.ext import CallbackContext, CommandHandler, Filters
+from telegram.ext.dispatcher import run_async
 
 
 @run_async

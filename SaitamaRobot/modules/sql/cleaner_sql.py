@@ -1,8 +1,7 @@
 import threading
 
-from sqlalchemy import Column, UnicodeText, Boolean
-
 from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import Boolean, Column, UnicodeText
 
 
 class CleanerBlueTextChatSettings(BASE):

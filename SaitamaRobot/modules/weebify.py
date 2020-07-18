@@ -1,8 +1,7 @@
-from telegram import Update, ParseMode
-from telegram.ext import CallbackContext, run_async
-
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, run_async
 
 normiefont = [
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',

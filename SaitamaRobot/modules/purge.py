@@ -1,5 +1,5 @@
-from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import user_is_admin
-from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import can_delete_messages
+from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import (
+    can_delete_messages, user_is_admin)
 from SaitamaRobot.saitamabot import saitama
 
 

@@ -2,6 +2,7 @@ import logging
 import os
 import sys
 import time
+
 import telegram.ext as tg
 from telethon import TelegramClient
 
@@ -174,7 +175,9 @@ SUPPORT_USERS = list(SUPPORT_USERS)
 TIGER_USERS = list(TIGER_USERS)
 
 # Load at end to ensure all prev variables have been set
-from SaitamaRobot.modules.helper_funcs.handlers import CustomCommandHandler, CustomRegexHandler, CustomMessageHandler
+from SaitamaRobot.modules.helper_funcs.handlers import (CustomCommandHandler,
+                                                        CustomMessageHandler,
+                                                        CustomRegexHandler)
 
 # make sure the regex handler can take extra kwargs
 tg.RegexHandler = CustomRegexHandler

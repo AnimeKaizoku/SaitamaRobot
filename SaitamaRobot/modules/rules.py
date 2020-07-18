@@ -1,16 +1,14 @@
-from telegram.ext import CallbackContext
 from typing import Optional
-
-from telegram import Message, Update, Bot, User
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async, Filters
-from telegram.utils.helpers import escape_markdown
 
 import SaitamaRobot.modules.sql.rules_sql as sql
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.helper_funcs.string_handling import markdown_parser
+from telegram import (Bot, InlineKeyboardButton, InlineKeyboardMarkup, Message,
+                      ParseMode, Update, User)
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
+from telegram.utils.helpers import escape_markdown
 
 
 @run_async

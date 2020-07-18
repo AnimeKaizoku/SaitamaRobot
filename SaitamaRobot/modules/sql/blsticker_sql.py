@@ -1,8 +1,7 @@
 import threading
 
-from sqlalchemy import func, distinct, Column, String, UnicodeText, Integer
-
-from SaitamaRobot.modules.sql import SESSION, BASE
+from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import Column, Integer, String, UnicodeText, distinct, func
 
 
 class StickersFilters(BASE):

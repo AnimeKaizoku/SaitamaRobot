@@ -1,15 +1,16 @@
-from telegram.ext import CallbackContext
-# Wallpapers module by @TheRealPhoenix using wall.alphacoders.com
-
-import requests as r
 from random import randint
 from time import sleep
 
-from telegram import Message, Chat, Update, Bot
-from telegram.ext import run_async
-
-from SaitamaRobot import dispatcher, WALL_API, SUPPORT_CHAT
+import requests as r
+from SaitamaRobot import SUPPORT_CHAT, WALL_API, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from telegram import Bot, Chat, Message, Update
+from telegram.ext import CallbackContext, run_async
+
+# Wallpapers module by @TheRealPhoenix using wall.alphacoders.com
+
+
+
 
 
 @run_async

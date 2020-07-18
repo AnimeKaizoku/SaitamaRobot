@@ -1,24 +1,25 @@
-from telegram.ext import CallbackContext
 import html
 import re
 
 import telegram
-from telegram import Update
-from telegram import ParseMode, InlineKeyboardMarkup
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, MessageHandler, DispatcherHandlerStop, run_async
-from telegram.utils.helpers import escape_markdown
-
-from SaitamaRobot import dispatcher, LOGGER, SUPPORT_CHAT
+from SaitamaRobot import LOGGER, SUPPORT_CHAT, dispatcher
 from SaitamaRobot.modules.blacklist import infinite_loop_check
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, connection_status
+from SaitamaRobot.modules.helper_funcs.chat_status import (connection_status,
+                                                           user_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_text
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
-from SaitamaRobot.modules.helper_funcs.regex_helper import infinite_loop_check, regex_searcher
 from SaitamaRobot.modules.helper_funcs.misc import build_keyboard
-from SaitamaRobot.modules.helper_funcs.string_handling import split_quotes, button_markdown_parser
+from SaitamaRobot.modules.helper_funcs.regex_helper import (
+    infinite_loop_check, regex_searcher)
+from SaitamaRobot.modules.helper_funcs.string_handling import (
+    button_markdown_parser, split_quotes)
 from SaitamaRobot.modules.sql import cust_filters_sql as sql
+from telegram import InlineKeyboardMarkup, ParseMode, Update
+from telegram.error import BadRequest
+from telegram.ext import (CallbackContext, CommandHandler,
+                          DispatcherHandlerStop, MessageHandler, run_async)
+from telegram.utils.helpers import escape_markdown
 
 HANDLER_GROUP = 10
 

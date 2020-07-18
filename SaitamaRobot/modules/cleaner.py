@@ -1,15 +1,16 @@
-from telegram.ext import CallbackContext
 import html
-
 from typing import List
 
-from telegram import Bot, Update, ParseMode
-from telegram.ext import CommandHandler, MessageHandler, Filters, run_async
-
-from SaitamaRobot import ALLOW_EXCL, dispatcher, CustomCommandHandler
+from SaitamaRobot import ALLOW_EXCL, CustomCommandHandler, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, bot_can_delete, dev_plus, connection_status
+from SaitamaRobot.modules.helper_funcs.chat_status import (bot_can_delete,
+                                                           connection_status,
+                                                           dev_plus,
+                                                           user_admin)
 from SaitamaRobot.modules.sql import cleaner_sql as sql
+from telegram import Bot, ParseMode, Update
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, run_async)
 
 if ALLOW_EXCL:
     CMD_STARTERS = ('/', '!')

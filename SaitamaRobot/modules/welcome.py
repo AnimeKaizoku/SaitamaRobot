@@ -1,26 +1,31 @@
-from telegram.ext import CallbackContext
 import html
 import random
 import re
 import time
-from typing import List
 from functools import partial
-
-from telegram import Update, Bot, ChatPermissions
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.error import BadRequest
-from telegram.ext import MessageHandler, Filters, CommandHandler, run_async, CallbackQueryHandler, JobQueue
-from telegram.utils.helpers import mention_markdown, mention_html, escape_markdown
+from typing import List
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
-from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
-from SaitamaRobot import dispatcher, OWNER_ID, DEV_USERS, SUDO_USERS, SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, LOGGER
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, is_user_ban_protected
-from SaitamaRobot.modules.helper_funcs.misc import build_keyboard, revert_buttons
+from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, SUDO_USERS,
+                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
+                          dispatcher)
+from SaitamaRobot.modules.helper_funcs.chat_status import (
+    is_user_ban_protected, user_admin)
+from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
+                                                    revert_buttons)
 from SaitamaRobot.modules.helper_funcs.msg_types import get_welcome_type
 from SaitamaRobot.modules.helper_funcs.string_handling import (
-    markdown_parser, escape_invalid_curly_brackets)
+    escape_invalid_curly_brackets, markdown_parser)
 from SaitamaRobot.modules.log_channel import loggable
+from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
+from telegram import (Bot, ChatPermissions, InlineKeyboardButton,
+                      InlineKeyboardMarkup, ParseMode, Update)
+from telegram.error import BadRequest
+from telegram.ext import (CallbackContext, CallbackQueryHandler,
+                          CommandHandler, Filters, JobQueue, MessageHandler,
+                          run_async)
+from telegram.utils.helpers import (escape_markdown, mention_html,
+                                    mention_markdown)
 
 VALID_WELCOME_FORMATTERS = [
     'first', 'last', 'fullname', 'username', 'id', 'count', 'chatname',
