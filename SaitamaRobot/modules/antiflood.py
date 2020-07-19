@@ -2,19 +2,16 @@ import html
 import re
 
 from SaitamaRobot import TIGER_USERS, WHITELIST_USERS, dispatcher
-from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
-                                                           can_restrict,
-                                                           connection_status,
-                                                           is_user_admin,
-                                                           user_admin,
-                                                           user_admin_no_reply)
+from SaitamaRobot.modules.helper_funcs.chat_status import (
+    bot_admin, can_restrict, connection_status, is_user_admin, user_admin,
+    user_admin_no_reply)
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.sql import antiflood_sql as sql
 from telegram import (Bot, Chat, InlineKeyboardButton, InlineKeyboardMarkup,
                       Message, ParseMode, Update, User)
 from telegram.error import BadRequest
-from telegram.ext import (CallbackContext, CallbackQueryHandler,
-                          CommandHandler, Filters, MessageHandler, run_async)
+from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
+                          Filters, MessageHandler, run_async)
 from telegram.utils.helpers import mention_html
 
 FLOOD_GROUP = 3

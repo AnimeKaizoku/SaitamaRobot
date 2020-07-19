@@ -8,8 +8,8 @@ from SaitamaRobot.modules.helper_funcs.alternate import send_message
 from telegram import (Bot, InlineKeyboardButton, InlineKeyboardMarkup,
                       ParseMode, Update)
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import (CallbackContext, CallbackQueryHandler,
-                          CommandHandler, run_async)
+from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
+                          run_async)
 
 user_admin = chat_status.user_admin
 

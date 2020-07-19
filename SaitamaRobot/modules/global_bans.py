@@ -10,8 +10,8 @@ from SaitamaRobot import (DEV_USERS, GBAN_LOGS, OWNER_ID, STRICT_GBAN,
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
                                                            support_plus,
                                                            user_admin)
-from SaitamaRobot.modules.helper_funcs.extraction import (
-    extract_user, extract_user_and_text)
+from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
+                                                          extract_user_and_text)
 from SaitamaRobot.modules.helper_funcs.misc import send_to_list
 from SaitamaRobot.modules.sql.users_sql import get_all_chats
 from telegram import ParseMode, Update

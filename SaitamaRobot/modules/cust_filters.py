@@ -9,8 +9,8 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (connection_status,
 from SaitamaRobot.modules.helper_funcs.extraction import extract_text
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
 from SaitamaRobot.modules.helper_funcs.misc import build_keyboard
-from SaitamaRobot.modules.helper_funcs.regex_helper import (
-    infinite_loop_check, regex_searcher)
+from SaitamaRobot.modules.helper_funcs.regex_helper import (infinite_loop_check,
+                                                            regex_searcher)
 from SaitamaRobot.modules.helper_funcs.string_handling import (
     button_markdown_parser, split_quotes)
 from SaitamaRobot.modules.sql import cust_filters_sql as sql

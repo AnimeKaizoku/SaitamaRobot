@@ -4,8 +4,8 @@ import regex
 import telegram
 from SaitamaRobot import LOGGER, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleMessageHandler
-from SaitamaRobot.modules.helper_funcs.regex_helper import (
-    infinite_loop_check, regex_searcher)
+from SaitamaRobot.modules.helper_funcs.regex_helper import (infinite_loop_check,
+                                                            regex_searcher)
 from telegram import Update
 from telegram.ext import CallbackContext, Filters, run_async
 

@@ -10,8 +10,9 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
                                                            is_user_admin,
                                                            user_admin,
                                                            user_admin_no_reply)
-from SaitamaRobot.modules.helper_funcs.extraction import (
-    extract_text, extract_user, extract_user_and_text)
+from SaitamaRobot.modules.helper_funcs.extraction import (extract_text,
+                                                          extract_user,
+                                                          extract_user_and_text)
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
 from SaitamaRobot.modules.helper_funcs.misc import split_message
 from SaitamaRobot.modules.helper_funcs.string_handling import split_quotes
@@ -20,9 +21,9 @@ from SaitamaRobot.modules.sql import warns_sql as sql
 from telegram import (Bot, CallbackQuery, Chat, InlineKeyboardButton,
                       InlineKeyboardMarkup, Message, ParseMode, Update, User)
 from telegram.error import BadRequest
-from telegram.ext import (CallbackContext, CallbackQueryHandler,
-                          CommandHandler, DispatcherHandlerStop, Filters,
-                          MessageHandler, run_async)
+from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
+                          DispatcherHandlerStop, Filters, MessageHandler,
+                          run_async)
 from telegram.utils.helpers import mention_html
 
 WARN_HANDLER_GROUP = 9
