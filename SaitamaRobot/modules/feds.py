@@ -577,8 +577,8 @@ def fed_ban(update: Update, context: CallbackContext):
         #starting = "The reason fban is replaced for {} in the Federation <b>{}</b>.".format(user_target, fed_name)
         #send_message(update.effective_message, starting, parse_mode=ParseMode.HTML)
 
-        if reason == "":
-            reason = "No reason given."
+        #if reason == "":
+        #    reason = "No reason given."
 
         temp = sql.un_fban_user(fed_id, fban_user_id)
         if not temp:
@@ -691,12 +691,12 @@ def fed_ban(update: Update, context: CallbackContext):
 
     fed_name = info['fname']
 
-    starting = "Starting a federation ban for {} in the Federation <b>{}</b>.".format(
-        user_target, fed_name)
-    update.effective_message.reply_text(starting, parse_mode=ParseMode.HTML)
+    #starting = "Starting a federation ban for {} in the Federation <b>{}</b>.".format(
+    #    user_target, fed_name)
+    #update.effective_message.reply_text(starting, parse_mode=ParseMode.HTML)
 
-    if reason == "":
-        reason = "No reason given."
+    #if reason == "":
+    #    reason = "No reason given."
 
     x = sql.fban_user(fed_id, fban_user_id, fban_user_name, fban_user_lname,
                       fban_user_uname, reason, int(time.time()))
@@ -796,11 +796,11 @@ def fed_ban(update: Update, context: CallbackContext):
                                     fedschat, excp.message))
                     except TelegramError:
                         pass
-    if chats_in_fed == 0:
-        send_message(update.effective_message, "Fedban affected 0 chats. ")
-    elif chats_in_fed > 0:
-        send_message(update.effective_message,
-                     "Fedban affected {} chats. ".format(chats_in_fed))
+    #if chats_in_fed == 0:
+    #    send_message(update.effective_message, "Fedban affected 0 chats. ")
+    #elif chats_in_fed > 0:
+    #    send_message(update.effective_message,
+    #                 "Fedban affected {} chats. ".format(chats_in_fed))
 
 
 @run_async
@@ -2111,7 +2111,7 @@ LEAVE_FED_HANDLER = CommandHandler("leavefed", leave_fed)
 PROMOTE_FED_HANDLER = CommandHandler("fpromote", user_join_fed)
 DEMOTE_FED_HANDLER = CommandHandler("fdemote", user_demote_fed)
 INFO_FED_HANDLER = CommandHandler("fedinfo", fed_info)
-BAN_FED_HANDLER = DisableAbleCommandHandler(["fban", "fedban"], fed_ban)
+BAN_FED_HANDLER = DisableAbleCommandHandler("fban", fed_ban)
 UN_BAN_FED_HANDLER = CommandHandler("unfban", unfban)
 FED_BROADCAST_HANDLER = CommandHandler("fbroadcast", fed_broadcast)
 FED_SET_RULES_HANDLER = CommandHandler("setfrules", set_frules)
