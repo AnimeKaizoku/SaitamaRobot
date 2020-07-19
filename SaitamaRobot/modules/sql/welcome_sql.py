@@ -102,7 +102,6 @@ DEFAULT_WELCOME_MESSAGES = [
     "Welcome {first}, if you’re a secret agent press 1, otherwise start a conversation",
     "{first}, I have a feeling we’re not in Kansas anymore.",
     "They may take our lives, but they’ll never take our {first}.",
-    "You has me at {first} joined the group.",
     "Coast is clear! You can come out guys, it’s just {first}.",
     "Welcome {first}, Pay no attention to that guy lurking.",
     "Welcome {first}, May the force be with you.",
@@ -118,6 +117,9 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first} just arrived. Aschente!",  #No Game No Life
     "{first} say Aschente to agree to the pledges.",  #No Game No Life
     "{first} just joined. El psy congroo!",  #Steins Gate
+    "Irasshaimase {first}!", #weeabo shit
+    "Hi {first}, What is 1000-7?", #tokyo ghoul
+
 ]
 DEFAULT_GOODBYE_MESSAGES = [
     "{first} will be missed.",
