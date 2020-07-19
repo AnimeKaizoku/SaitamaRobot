@@ -201,7 +201,7 @@ def __chat_settings__(update, context, chat, chatP, user):
 
 
 def __user_settings__(update, context, user):
-    if sql.user_should_report(user.id) == True:
+    if sql.user_should_report(user.id) is True:
         text = "You will receive reports from chats you're admin."
         keyboard = [[
             InlineKeyboardButton(
