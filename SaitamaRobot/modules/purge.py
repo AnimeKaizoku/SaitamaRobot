@@ -40,7 +40,7 @@ async def purge_messages(event):
 
 @saitama(pattern="^/del$")
 async def delete_messages(event):
-    if event.from_id == None:
+    if event.from_id is None:
         return
 
     if not await user_is_admin(user_id=event.from_id, message=event):

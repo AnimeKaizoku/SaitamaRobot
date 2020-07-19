@@ -41,7 +41,7 @@ def totranslate(update: Update, context: CallbackContext):
                         dest_lang = source_lang
                         source_lang = None
                         break
-                if dest_lang == None:
+                if dest_lang is None:
                     dest_lang = source_lang.split("-")[1]
                     source_lang = source_lang.split("-")[0]
             else:
@@ -54,7 +54,7 @@ def totranslate(update: Update, context: CallbackContext):
                     text = text.replace(emoji, '')
 
             trl = Translator()
-            if source_lang == None:
+            if source_lang is None:
                 detection = trl.detect(text)
                 tekstr = trl.translate(text, dest=dest_lang)
                 return message.reply_text(
@@ -94,7 +94,7 @@ def totranslate(update: Update, context: CallbackContext):
                         dest_lang = temp_source_lang.split("-")[1]
                         source_lang = temp_source_lang.split("-")[0]
             trl = Translator()
-            if dest_lang == None:
+            if dest_lang is None:
                 detection = trl.detect(text)
                 tekstr = trl.translate(text, dest=source_lang)
                 return message.reply_text(

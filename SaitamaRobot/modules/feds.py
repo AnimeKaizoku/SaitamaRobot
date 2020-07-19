@@ -1639,7 +1639,7 @@ def fed_stat_user(update: Update, context: CallbackContext):
                     "Fed {} not found!".format(fed_id),
                     parse_mode="markdown")
                 return
-            if user_name == "" or user_name == None:
+            if user_name == "" or user_name is None:
                 user_name = "He/she"
             if not reason:
                 send_message(
@@ -1657,7 +1657,7 @@ def fed_stat_user(update: Update, context: CallbackContext):
                 user_name = bot.get_chat(user_id).first_name
             except BadRequest:
                 user_name = "He/she"
-            if user_name == "" or user_name == None:
+            if user_name == "" or user_name is None:
                 user_name = "He/she"
         if len(fbanlist) == 0:
             send_message(
@@ -1970,7 +1970,7 @@ def is_user_fed_owner(fed_id, user_id):
     if getsql == False:
         return False
     getfedowner = eval(getsql['fusers'])
-    if getfedowner == None or getfedowner == False:
+    if getfedowner is None or getfedowner == False:
         return False
     getfedowner = getfedowner['owner']
     if str(user_id) == getfedowner or int(user_id) == OWNER_ID:

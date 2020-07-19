@@ -119,7 +119,7 @@ def add_blackliststicker(update: Update, context: CallbackContext):
     elif msg.reply_to_message:
         added = 0
         trigger = msg.reply_to_message.sticker.set_name
-        if trigger == None:
+        if trigger is None:
             send_message(update.effective_message, "Sticker is invalid!")
             return
         try:
@@ -212,7 +212,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.HTML)
     elif msg.reply_to_message:
         trigger = msg.reply_to_message.sticker.set_name
-        if trigger == None:
+        if trigger is None:
             send_message(update.effective_message, "Sticker is invalid!")
             return
         success = sql.rm_from_stickers(chat_id, trigger.lower())
