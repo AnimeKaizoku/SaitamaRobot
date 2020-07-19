@@ -7,7 +7,7 @@ from telegram.ext import CallbackContext, CommandHandler
 
 # Open API key
 GRAMMAR_API_KEY = "6ae0c3a0-afdc-4532-a810-82ded0054236"
-URL = "http://services.gingersoftware.com/Ginger/correct/json/GingerTheText"
+URL = "https://services.gingersoftware.com/Ginger/correct/json/GingerTheText"
 
 
 def translate(update: Update, context: CallbackContext):

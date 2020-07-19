@@ -10,7 +10,7 @@ from telegram.ext import CallbackContext, run_async
 
 def generate_time(to_find: str, findtype: List[str]) -> str:
     data = requests.get(
-        f"http://api.timezonedb.com/v2.1/list-time-zone"
+        f"https://api.timezonedb.com/v2.1/list-time-zone"
         f"?key={TIME_API_KEY}"
         f"&format=json"
         f"&fields=countryCode,countryName,zoneName,gmtOffset,timestamp,dst"
