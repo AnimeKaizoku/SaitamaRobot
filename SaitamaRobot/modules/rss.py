@@ -130,7 +130,7 @@ def add_url(update: Update, context: CallbackContext):
 @user_admin
 def remove_url(update: Update, context: CallbackContext):
     bot = context.bot
-    args = contet.args
+    args = context.args
     if len(args) >= 1:
         tg_chat_id = str(update.effective_chat.id)
 
