@@ -17,11 +17,11 @@ from SaitamaRobot.modules.helper_funcs.string_handling import (
     escape_invalid_curly_brackets, markdown_parser)
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
-from telegram import (Bot, ChatPermissions, InlineKeyboardButton,
+from telegram import (ChatPermissions, InlineKeyboardButton,
                       InlineKeyboardMarkup, ParseMode, Update)
 from telegram.error import BadRequest
 from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
-                          Filters, JobQueue, MessageHandler, run_async)
+                          Filters, MessageHandler, run_async)
 from telegram.utils.helpers import (escape_markdown, mention_html,
                                     mention_markdown)
 

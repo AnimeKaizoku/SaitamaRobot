@@ -6,11 +6,11 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (user_admin,
                                                            user_not_admin)
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.sql import reporting_sql as sql
-from telegram import (Bot, Chat, InlineKeyboardButton, InlineKeyboardMarkup,
-                      Message, ParseMode, Update, User)
+from telegram import (Chat, InlineKeyboardButton, InlineKeyboardMarkup,
+                      ParseMode, Update)
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
-                          Filters, MessageHandler, RegexHandler, run_async)
+                          Filters, MessageHandler, run_async)
 from telegram.utils.helpers import mention_html
 
 REPORT_GROUP = 12

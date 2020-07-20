@@ -1,8 +1,7 @@
 import random
 
 from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.disable import (DisableAbleCommandHandler,
-                                          DisableAbleRegexHandler)
+from SaitamaRobot.modules.disable import (DisableAbleCommandHandler)
 from SaitamaRobot.modules.sql import afk_sql as sql
 from SaitamaRobot.modules.users import get_user_id
 from telegram import MessageEntity, Update
