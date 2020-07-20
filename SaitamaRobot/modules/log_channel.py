@@ -109,7 +109,7 @@ if is_module_loaded(FILENAME):
     @run_async
     @user_admin
     def logging(update: Update, context: CallbackContext):
-
+        bot = context.bot
         message = update.effective_message
         chat = update.effective_chat
 
