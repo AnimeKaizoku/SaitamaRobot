@@ -146,7 +146,7 @@ def button(update: Update, context: CallbackContext) -> str:
             )
         else:
             update.effective_message.edit_text(
-                f"User already has no warns.", parse_mode=ParseMode.HTML)
+                "User already has no warns.", parse_mode=ParseMode.HTML)
 
     return ""
 

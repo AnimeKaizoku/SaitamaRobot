@@ -35,7 +35,7 @@ def convert(update: Update, context: CallbackContext):
             current_rate = float(
                 response['Realtime Currency Exchange Rate']['5. Exchange Rate'])
         except KeyError:
-            update.effective_message.reply_text(f"Currency Not Supported.")
+            update.effective_message.reply_text("Currency Not Supported.")
             return
         new_cur_amount = round(orig_cur_amount * current_rate, 5)
         update.effective_message.reply_text(
