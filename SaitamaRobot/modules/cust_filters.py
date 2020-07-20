@@ -2,7 +2,6 @@ import html
 
 import telegram
 from SaitamaRobot import LOGGER, SUPPORT_CHAT, dispatcher
-from SaitamaRobot.modules.blacklist import infinite_loop_check
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (connection_status,
                                                            user_admin)
