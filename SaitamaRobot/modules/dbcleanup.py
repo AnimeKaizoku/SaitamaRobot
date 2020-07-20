@@ -101,7 +101,7 @@ def dbcleanup(update: Update, context: CallbackContext):
     reply += f"Total invalid gbanned users - {invalid_gban_count}"
 
     buttons = [[
-        InlineKeyboardButton("Cleanup DB", callback_data=f"db_cleanup")
+        InlineKeyboardButton("Cleanup DB", callback_data="db_cleanup")
     ]]
 
     update.effective_message.reply_text(
