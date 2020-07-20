@@ -85,7 +85,7 @@ SLAP_TEMPLATES = (
     "{user1} pokes {user2} with a needle!",
     "{user1} pokes {user2} with a pen!",
     "{user1} pokes {user2} with a stun gun!",
-    "{user2} is secretly a Furry!.",
+    "{user2} is secretly a Furry!",
     "Hey Everybody! {user1} is asking me to be mean!",
     "( ･_･)ﾉ⌒●~* (･.･;) <-{user2}",
     "Take this {user2}\n(ﾉﾟДﾟ)ﾉ ))))●~* ",
