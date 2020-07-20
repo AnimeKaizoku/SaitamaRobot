@@ -69,8 +69,11 @@ class Restrictions(BASE):
   def __repr__(self):
     return "<Restrictions for %s>" % self.chat_id
 
+# For those who faced database error, Just uncomment the
+# line below and run bot for 1 time & remove that line!
 
 Permissions.__table__.create(checkfirst=True)
+# Permissions.__table__.drop()
 Restrictions.__table__.create(checkfirst=True)
 
 PERM_LOCK = threading.RLock()
