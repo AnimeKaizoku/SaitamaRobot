@@ -350,7 +350,7 @@ def user(update: Update, context: CallbackContext):
     user_joined_date_formatted = user_joined_date.strftime(date_format)
 
     for entity in user:
-        if user[entity] == None:
+        if user[entity] is None:
             user[entity] = "Unknown"
 
     about = user['about'].split(" ", 60)
