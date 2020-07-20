@@ -712,11 +712,11 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
     if chat.type != chat.PRIVATE:
         if len(args) >= 1:
             var = args[0]
-            if (var == "no" or var == "off"):
+            if var in ('no', 'off'):
                 sql.set_clean_service(chat.id, False)
                 update.effective_message.reply_text(
                     'Welcome clean service is : off')
-            elif (var == "yes" or var == "on"):
+            elif var in ('yes', 'on'):
                 sql.set_clean_service(chat.id, True)
                 update.effective_message.reply_text(
                     'Welcome clean service is : on')

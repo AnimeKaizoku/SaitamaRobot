@@ -65,13 +65,13 @@ def set_blue_text_must_click(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     if len(args) >= 1:
         val = args[0].lower()
-        if val == "off" or val == "no":
+        if val in ('off', 'no'):
             sql.set_cleanbt(chat.id, False)
             reply = "Bluetext cleaning has been disabled for <b>{}</b>".format(
                 html.escape(chat.title))
             message.reply_text(reply, parse_mode=ParseMode.HTML)
 
-        elif val == "yes" or val == "on":
+        elif val in ('yes', 'on'):
             sql.set_cleanbt(chat.id, True)
             reply = "Bluetext cleaning has been enabled for <b>{}</b>".format(
                 html.escape(chat.title))

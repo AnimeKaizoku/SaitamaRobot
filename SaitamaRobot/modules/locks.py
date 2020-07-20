@@ -258,7 +258,7 @@ def del_lockables(update: Update, context: CallbackContext):
     chk = message
 
     for lockable, filter in LOCK_TYPES.items():
-        if lockable == "gif" or lockable == "url":
+        if lockable in ('gif', 'url'):
             chk = update
         if filter(update) and sql.is_locked(chat.id, lockable) and can_delete(
                 chat, bot.id):
