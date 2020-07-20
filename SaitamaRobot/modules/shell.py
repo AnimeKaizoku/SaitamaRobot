@@ -32,9 +32,9 @@ def shell(update: Update, context: CallbackContext):
         with open('shell_output.txt', 'w') as file:
             file.write(reply)
         with open('shell_output.txt', 'rb') as doc:
-            bot.send_document(
+            context.bot.send_document(
                 document=doc,
-                filename=f.name,
+                filename=doc.name,
                 reply_to_message_id=message.message_id,
                 chat_id=message.chat_id)
     else:
