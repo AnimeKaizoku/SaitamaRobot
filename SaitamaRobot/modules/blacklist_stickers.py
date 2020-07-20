@@ -16,6 +16,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import can_delete, is_user_ad
 		bot_can_delete, is_bot_admin
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
 from SaitamaRobot.modules.helper_funcs.misc import split_message
+from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.warns import warn
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.sql import users_sql
