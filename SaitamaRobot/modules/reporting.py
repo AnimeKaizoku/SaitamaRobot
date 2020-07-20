@@ -65,6 +65,7 @@ def report_setting(update: Update, context: CallbackContext):
 @loggable
 def report(update: Update, context: CallbackContext) -> str:
     bot = context.bot
+    args = context.args
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -74,6 +75,10 @@ def report(update: Update, context: CallbackContext) -> str:
         chat_name = chat.title or chat.first or chat.username
         admin_list = chat.get_administrators()
         message = update.effective_message
+
+        if not args:
+            message.reply_text("Add a reason for reporting first.")
+            return ""
 
         if user.id == reported_user.id:
             message.reply_text("Uh yeah, Sure sure...maso much?")
