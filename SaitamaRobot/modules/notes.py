@@ -9,11 +9,11 @@ from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
                                                     revert_buttons)
 from SaitamaRobot.modules.helper_funcs.msg_types import get_note_type
-from telegram import (MAX_MESSAGE_LENGTH, Bot, InlineKeyboardMarkup, Message,
+from telegram import (MAX_MESSAGE_LENGTH, InlineKeyboardMarkup, Message,
                       ParseMode, Update)
 from telegram.error import BadRequest
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
-                          MessageHandler, RegexHandler)
+                          MessageHandler)
 from telegram.ext.dispatcher import run_async
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")

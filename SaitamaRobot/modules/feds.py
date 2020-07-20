@@ -15,15 +15,13 @@ from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_unt_fedban,
                                                           extract_user,
                                                           extract_user_fban)
-from SaitamaRobot.modules.helper_funcs.misc import (is_module_loaded,
-                                                    send_to_list)
 from SaitamaRobot.modules.helper_funcs.string_handling import markdown_parser
-from telegram import (Chat, InlineKeyboardButton, InlineKeyboardMarkup,
-                      MessageEntity, ParseMode, Update, User)
+from telegram import (InlineKeyboardButton, InlineKeyboardMarkup,
+                      MessageEntity, ParseMode, Update)
 from telegram.error import BadRequest, TelegramError, Unauthorized
 from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
-                          Filters, MessageHandler, run_async)
-from telegram.utils.helpers import (escape_markdown, mention_html,
+                          run_async)
+from telegram.utils.helpers import (mention_html,
                                     mention_markdown)
 
 # Hello bot owner, I spended for feds many hours of my life, Please don't remove this if you still respect MrYacha and peaktogoo and AyraHikari too

@@ -7,13 +7,13 @@ from SaitamaRobot.modules.connection import connected
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
 from SaitamaRobot.modules.helper_funcs.chat_status import (
-    bot_can_delete, can_delete, is_bot_admin, is_user_admin, user_admin,
+    user_admin,
     user_not_admin)
 from SaitamaRobot.modules.helper_funcs.misc import split_message
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.warns import warn
-from telegram import (Bot, Chat, Message, MessageEntity, ParseMode,
-                      TelegramError, Update, User)
+from telegram import (Chat, Message, ParseMode,
+                      Update, User)
 from telegram.error import BadRequest
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
                           MessageHandler)
