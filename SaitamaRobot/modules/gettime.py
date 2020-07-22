@@ -42,13 +42,14 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                 break
 
     try:
-        result = (f"<b>Country :</b> <code>{country_name}</code>\n"
-                  f"<b>Zone Name :</b> <code>{country_zone}</code>\n"
-                  f"<b>Country Code :</b> <code>{country_code}</code>\n"
-                  f"<b>Daylight saving :</b> <code>{daylight_saving}</code>\n"
-                  f"<b>Day :</b> <code>{current_day}</code>\n"
-                  f"<b>Current Time :</b> <code>{current_time}</code>\n"
-                  f"<b>Current Date :</b> <code>{current_date}</code>")
+        result = (f"<b>Country:</b> <code>{country_name}</code>\n"
+                  f"<b>Zone Name:</b> <code>{country_zone}</code>\n"
+                  f"<b>Country Code:</b> <code>{country_code}</code>\n"
+                  f"<b>Daylight saving:</b> <code>{daylight_saving}</code>\n"
+                  f"<b>Day:</b> <code>{current_day}</code>\n"
+                  f"<b>Current Time:</b> <code>{current_time}</code>\n"
+                  f"<b>Current Date:</b> <code>{current_date}</code>\n"
+                   "<b>Timezones:</b> <a href=https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>list here</a>")
     except:
         result = None
 
@@ -76,17 +77,19 @@ def gettime(update: Update, context: CallbackContext):
 
     if not result:
         send_message.edit_text(
-            f"Timezone info not available for <b>{query}</b>",
-            parse_mode=ParseMode.HTML)
+            f"Timezone info not available for <b>{query}</b>\n"
+             "<b>All Timezones:</b><a href=https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>list here</a>",
+            parse_mode=ParseMode.HTML, disable_web_page_preview=True)
         return
 
-    send_message.edit_text(result, parse_mode=ParseMode.HTML)
+    send_message.edit_text(result, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
 
 __help__ = """
  • `/time <query>`*:* Gives information about a timezone.
 
 *Available queries:* Country Code/Country Name/Timezone Name
+• [Timezones list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 """
 
 TIME_HANDLER = DisableAbleCommandHandler("time", gettime)
