@@ -3,7 +3,7 @@ from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import (
 from SaitamaRobot.saitamabot import saitama
 
 
-@saitama(pattern="^/purge")
+@saitama(pattern="^/purge$")
 async def purge_messages(event):
     if event.from_id is None:
         return
