@@ -79,7 +79,7 @@ def gettime(update: Update, context: CallbackContext):
         send_message.edit_text(
             f"Timezone info not available for <b>{query}</b>\n"
              "<b>All Timezones:</b><a href=https://en.wikipedia.org/wiki/List_of_tz_database_time_zones>list here</a>",
-            parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+            parse_mode=ParseMode.HTML)
         return
 
     send_message.edit_text(result, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
