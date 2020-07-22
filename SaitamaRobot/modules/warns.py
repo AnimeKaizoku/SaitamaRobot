@@ -318,7 +318,7 @@ def list_warn_filters(update: Update, context: CallbackContext):
         else:
             filter_list += entry
 
-    if not filter_list == CURRENT_WARNING_FILTER_STRING:
+    if filter_list != CURRENT_WARNING_FILTER_STRING:
         update.effective_message.reply_text(
             filter_list, parse_mode=ParseMode.HTML)
 
