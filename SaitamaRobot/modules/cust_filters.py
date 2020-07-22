@@ -56,7 +56,7 @@ def list_handlers(update: Update, context: CallbackContext):
         else:
             filter_list += entry
 
-    if not filter_list == BASIC_FILTER_STRING:
+    if filter_list != BASIC_FILTER_STRING:
         filter_list = BASIC_FILTER_STRING + filter_list
         update.effective_message.reply_text(
             filter_list, parse_mode=telegram.ParseMode.HTML)
