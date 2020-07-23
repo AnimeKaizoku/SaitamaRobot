@@ -50,30 +50,38 @@ def get_user_id(username):
 @run_async
 @dev_plus
 def broadcast(update: Update, context: CallbackContext):
-
     to_send = update.effective_message.text.split(None, 1)
 
     if len(to_send) >= 2:
+        to_group = to_user = False
+        if to_send[0] == '/broadcastgroup':
+          to_group = True
+        if to_send[0] == '/broadcastuser':
+          to_user = True
+        else:
+          to_group = to_user = True
         chats = sql.get_all_chats() or []
         users = get_all_users()
         failed = 0
         failed_user = 0
-        for chat in chats:
-            try:
-                context.bot.sendMessage(int(chat.chat_id), to_send[1])
-                sleep(0.1)
-            except TelegramError:
-                failed += 1
-                LOGGER.warning("Couldn't send broadcast to %s, group name %s",
-                               str(chat.chat_id), str(chat.chat_name))
-        for user in users:
-            try:
-                context.bot.sendMessage(int(user.user_id), to_send[1])
-                sleep(0.1)
-            except TelegramError:
-                failed_user += 1
-                LOGGER.warning("Couldn't send broadcast to %s",
-                               str(user.user_id))
+        if to_group:
+            for chat in chats:
+                try:
+                    context.bot.sendMessage(int(chat.chat_id), to_send[1])
+                    sleep(0.1)
+                except TelegramError:
+                    failed += 1
+                    LOGGER.warning("Couldn't send broadcast to %s, group name %s",
+                                   str(chat.chat_id), str(chat.chat_name))
+        if to_user:
+            for user in users:
+                try:
+                    context.bot.sendMessage(int(user.user_id), to_send[1])
+                    sleep(0.1)
+                except TelegramError:
+                    failed_user += 1
+                    LOGGER.warning("Couldn't send broadcast to %s",
+                                   str(user.user_id))
 
         update.effective_message.reply_text(
             f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked. {failed_user} failed to receive message, probably due to being blocked"
@@ -147,7 +155,7 @@ def __migrate__(old_chat_id, new_chat_id):
 
 __help__ = ""  # no help string
 
-BROADCAST_HANDLER = CommandHandler("broadcast", broadcast)
+BROADCAST_HANDLER = CommandHandler(["broadcastall", "broadcastuser". "broadcastgroup"], broadcast)
 USER_HANDLER = MessageHandler(Filters.all & Filters.group, log_user)
 CHAT_CHECKER_HANDLER = MessageHandler(Filters.all & Filters.group, chat_checker)
 CHATLIST_HANDLER = CommandHandler("chatlist", chats)
