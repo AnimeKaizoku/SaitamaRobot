@@ -76,7 +76,6 @@ DEFAULT_WELCOME_MESSAGES = [
     "Come for the Snail Racing, Stay for the Chimichangas!",
     "Who needs Google? You're everything we were searching for.",
     "This place must have free WiFi, cause I'm feeling a connection.",
-    "You shall not pass!",
     "Speak friend and enter.",
     "Welcome you are",
     "Welcome {first}, your princess is in another castle.",
