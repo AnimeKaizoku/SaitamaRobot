@@ -35,15 +35,15 @@ def add_chat(bot: Bot, update: Update):
         ses_id = str(ses.id)
         expires = str(ses.expires)
         sql.set_ses(chat.id, ses_id, expires)
-        msg.reply_text("AI successfully enabled for this chat!")
+        chat.send_message("AI successfully enabled for this chat!")
         message = (f"<b>{html.escape(chat.title)}:</b>\n"
                   f"#AI_ENABLED\n"
                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
         return message
     else:
-        msg.reply_text("AI is already enabled for this chat!")
-        return ""    
-        
+        chat.send_message("AI is already enabled for this chat!")
+        return ""
+
 @run_async
 @user_admin
 @gloggable
@@ -53,17 +53,17 @@ def remove_chat(bot: Bot, update: Update):
     user = update.effective_user
     is_chat = sql.is_chat(chat.id)
     if not is_chat:
-        msg.reply_text("AI isn't enabled here in the first place!")
+        chat.send_message("AI isn't enabled here in the first place!")
         return ""
     else:
         sql.rem_chat(chat.id)
-        msg.reply_text("AI disabled successfully!")
+        chat.send_message("AI disabled successfully!")
         message = (f"<b>{html.escape(chat.title)}:</b>\n"
                   f"#AI_DISABLED\n"
                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
         return message
-        
-        
+
+
 def check_message(bot: Bot, message):
     reply_msg = message.reply_to_message
     if message.text.lower() == "saitama":
@@ -73,8 +73,8 @@ def check_message(bot: Bot, message):
             return True
     else:
         return False
-                
-        
+
+
 @run_async
 def chatbot(bot: Bot, update: Update):
     global api_client
@@ -101,10 +101,11 @@ def chatbot(bot: Bot, update: Update):
             bot.send_chat_action(chat_id, action='typing')
             rep = api_client.think_thought(sesh, query)
             sleep(0.3)
-            msg.reply_text(rep, timeout=60)
+            chat.send_message(rep, timeout=60)
         except CFError as e:
             bot.send_message(OWNER_ID, f"Chatbot error: {e} occurred in {chat_id}!")
-                    
+
+
 @run_async
 def list_chatbot_chats(bot: Bot, update: Update):
     chats = sql.get_all_chats()
