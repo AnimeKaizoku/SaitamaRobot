@@ -163,8 +163,7 @@ def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
-        update.effective_message.reply_text(
-            'Format : /anime < anime name >')
+        update.effective_message.reply_text('Format : /anime < anime name >')
         return
     else:
         search = search[1]
@@ -280,7 +279,7 @@ def manga(update: Update, context: CallbackContext):
     if 'errors' in json.keys():
       update.effective_message.reply_text(
             'Manga not found')
-       return
+      return
     if json:
         json = json['data']['Media']
         title, title_native = json['title'].get('romaji',
