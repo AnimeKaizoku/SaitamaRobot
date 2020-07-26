@@ -163,6 +163,8 @@ def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
+        update.effective_message.reply_text(
+            'Format : /anime < anime name >')
         return
     else:
         search = search[1]
@@ -171,8 +173,13 @@ def anime(update: Update, context: CallbackContext):
         url, json={
             'query': anime_query,
             'variables': variables
-        }).json()['data'].get('Media', None)
+        }).json()
+    if 'errors' in json.keys():
+      update.effective_message.reply_text(
+            'Anime not found')
+       return
     if json:
+        json = json['data']['Media']
         msg = f"*{json['title']['romaji']}*(`{json['title']['native']}`)\n*Type*: {json['format']}\n*Status*: {json['status']}\n*Episodes*: {json.get('episodes', 'N/A')}\n*Duration*: {json.get('duration', 'N/A')} Per Ep.\n*Score*: {json['averageScore']}\n*Genres*: `"
         for x in json['genres']:
             msg += f"{x}, "
@@ -234,8 +241,13 @@ def character(update: Update, context: CallbackContext):
         url, json={
             'query': character_query,
             'variables': variables
-        }).json()['data'].get('Character', None)
+        }).json()
+    if 'errors' in json.keys():
+      update.effective_message.reply_text(
+            'Character not found')
+       return
     if json:
+        json = json['data']['Character']
         msg = f"*{json.get('name').get('full')}*(`{json.get('name').get('native')}`)\n"
         description = f"{json['description']}"
         site_url = json.get('siteUrl')
@@ -263,9 +275,14 @@ def manga(update: Update, context: CallbackContext):
         url, json={
             'query': manga_query,
             'variables': variables
-        }).json()['data'].get('Media', None)
+        }).json()
     msg = ''
+    if 'errors' in json.keys():
+      update.effective_message.reply_text(
+            'Manga not found')
+       return
     if json:
+        json = json['data']['Media']
         title, title_native = json['title'].get('romaji',
                                                 False), json['title'].get(
                                                     'native', False)
