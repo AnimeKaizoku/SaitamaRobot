@@ -176,7 +176,7 @@ def anime(update: Update, context: CallbackContext):
     if 'errors' in json.keys():
       update.effective_message.reply_text(
             'Anime not found')
-       return
+      return
     if json:
         json = json['data']['Media']
         msg = f"*{json['title']['romaji']}*(`{json['title']['native']}`)\n*Type*: {json['format']}\n*Status*: {json['status']}\n*Episodes*: {json.get('episodes', 'N/A')}\n*Duration*: {json.get('duration', 'N/A')} Per Ep.\n*Score*: {json['averageScore']}\n*Genres*: `"
@@ -244,7 +244,7 @@ def character(update: Update, context: CallbackContext):
     if 'errors' in json.keys():
       update.effective_message.reply_text(
             'Character not found')
-       return
+      return
     if json:
         json = json['data']['Character']
         msg = f"*{json.get('name').get('full')}*(`{json.get('name').get('native')}`)\n"
