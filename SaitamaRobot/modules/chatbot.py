@@ -79,6 +79,7 @@ def check_message(bot: Bot, message):
 def chatbot(bot: Bot, update: Update):
     global api_client
     msg = update.effective_message
+    chat = update.effective_chat
     chat_id = update.effective_chat.id
     is_chat = sql.is_chat(chat_id)
     if not is_chat:
