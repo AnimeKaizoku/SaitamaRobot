@@ -2,6 +2,7 @@ import logging
 import os
 import sys
 import time
+import spamwatch
 
 import telegram.ext as tg
 from telethon import TelegramClient
@@ -154,6 +155,7 @@ else:
     AI_API_KEY = Config.AI_API_KEY
     WALL_API = Config.WALL_API
     SUPPORT_CHAT = Config.SUPPORT_CHAT
+    
 
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
@@ -163,6 +165,16 @@ else:
 
 SUDO_USERS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
+
+#SpamWatch Thingies
+spamwatch_api = os.environ.get('sw_api', None)
+
+if spamwatch_api == "None":
+    sw = None
+    LOGGER.warning("SpamWatch API key missing! recheck your config.")
+else:
+    sw = spamwatch.Client(spamwatch_api)
+
 
 updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 telethn = TelegramClient("saitama", API_ID, API_HASH)
