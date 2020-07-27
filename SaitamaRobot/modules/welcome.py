@@ -124,7 +124,7 @@ def new_member(update: Update, context: CallbackContext):
         should_mute = True
         welcome_bool = True
 
-            if sw != None:
+        if sw != None:
                 sw_ban = sw.get_ban(new_mem.id)
                 if sw_ban:
                     return
