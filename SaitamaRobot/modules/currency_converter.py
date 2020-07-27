@@ -51,7 +51,7 @@ __help__ = """
 
 """
 
-CONVERTER_HANDLER = CommandHandler('cash', convert)
+CONVERTER_HANDLER = DisableAbleCommandHandler('cash', convert)
 
 dispatcher.add_handler(CONVERTER_HANDLER)
 

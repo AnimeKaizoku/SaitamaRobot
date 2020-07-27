@@ -144,9 +144,9 @@ def __user_info__(user_id):
     return text
 
 
-BL_HANDLER = CommandHandler("ignore", bl_user)
-UNBL_HANDLER = CommandHandler("notice", unbl_user)
-BLUSERS_HANDLER = CommandHandler("ignoredlist", bl_users)
+BL_HANDLER = DisableAbleCommandHandler("ignore", bl_user)
+UNBL_HANDLER = DisableAbleCommandHandler("notice", unbl_user)
+BLUSERS_HANDLER = DisableAbleCommandHandler("ignoredlist", bl_users)
 
 dispatcher.add_handler(BL_HANDLER)
 dispatcher.add_handler(UNBL_HANDLER)

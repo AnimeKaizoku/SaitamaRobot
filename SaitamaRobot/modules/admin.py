@@ -375,8 +375,8 @@ __help__ = """
 ADMINLIST_HANDLER = DisableAbleCommandHandler(["adminlist", "admins"],
                                               adminlist)
 
-PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.group)
-UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
+PIN_HANDLER = DisableAbleCommandHandler("pin", pin, filters=Filters.group)
+UNPIN_HANDLER = DisableAbleCommandHandler("unpin", unpin, filters=Filters.group)
 
 INVITE_HANDLER = DisableAbleCommandHandler(
     "invitelink", invite, filters=Filters.group)
@@ -384,7 +384,7 @@ INVITE_HANDLER = DisableAbleCommandHandler(
 PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
 
-SET_TITLE_HANDLER = CommandHandler("settitle", set_title)
+SET_TITLE_HANDLER = DisableAbleCommandHandler("settitle", set_title)
 
 dispatcher.add_handler(ADMINLIST_HANDLER)
 dispatcher.add_handler(PIN_HANDLER)

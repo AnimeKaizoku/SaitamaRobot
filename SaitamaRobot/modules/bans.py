@@ -376,10 +376,10 @@ __help__ = """
  • `/punch <userhandle>`*:* Punches a user out of the group, (via handle, or reply)
 """
 
-BAN_HANDLER = CommandHandler("ban", ban)
-TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
-PUNCH_HANDLER = CommandHandler("punch", punch)
-UNBAN_HANDLER = CommandHandler("unban", unban)
+BAN_HANDLER = DisableAbleCommandHandler("ban", ban)
+TEMPBAN_HANDLER = DisableAbleCommandHandler(["tban"], temp_ban)
+PUNCH_HANDLER = DisableAbleCommandHandler("punch", punch)
+UNBAN_HANDLER = DisableAbleCommandHandler("unban", unban)
 ROAR_HANDLER = CommandHandler("roar", selfunban)
 PUNCHME_HANDLER = DisableAbleCommandHandler(
     "punchme", punchme, filters=Filters.group)
