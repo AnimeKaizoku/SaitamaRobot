@@ -2,7 +2,7 @@ import html
 import time
 from datetime import datetime
 from io import BytesIO
-
+from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
 import SaitamaRobot.modules.sql.global_bans_sql as sql
 from SaitamaRobot import (DEV_USERS, GBAN_LOGS, OWNER_ID, STRICT_GBAN,
                           SUDO_USERS, SUPPORT_CHAT, SUPPORT_USERS, TIGER_USERS,
@@ -175,11 +175,11 @@ def gban(update: Update, context: CallbackContext):
 
     sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
 
-    chats = []
+    chats = get_user_com_chats(user_id)
     gbanned_chats = 0
 
     for chat in chats:
-        chat_id = chat.chat_id
+        chat_id = int(chats)
 
         # Check if this group has disabled gbans
         if not sql.does_chat_gban(chat_id):
