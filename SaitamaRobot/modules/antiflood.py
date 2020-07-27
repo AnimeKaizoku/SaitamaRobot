@@ -7,8 +7,8 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     user_admin_no_reply)
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.sql import antiflood_sql as sql
-from telegram import (InlineKeyboardButton, InlineKeyboardMarkup,
-                      ParseMode, Update)
+from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
+                      Update)
 from telegram.error import BadRequest
 from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
                           Filters, MessageHandler, run_async)

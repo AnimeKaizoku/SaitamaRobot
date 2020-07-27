@@ -116,9 +116,8 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first} just arrived. Aschente!",  #No Game No Life
     "{first} say Aschente to agree to the pledges.",  #No Game No Life
     "{first} just joined. El psy congroo!",  #Steins Gate
-    "Irasshaimase {first}!", #weeabo shit
-    "Hi {first}, What is 1000-7?", #tokyo ghoul
-
+    "Irasshaimase {first}!",  #weeabo shit
+    "Hi {first}, What is 1000-7?",  #tokyo ghoul
 ]
 DEFAULT_GOODBYE_MESSAGES = [
     "{first} will be missed.",
