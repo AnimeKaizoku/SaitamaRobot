@@ -16,13 +16,12 @@ from SaitamaRobot.modules.helper_funcs.extraction import (extract_unt_fedban,
                                                           extract_user,
                                                           extract_user_fban)
 from SaitamaRobot.modules.helper_funcs.string_handling import markdown_parser
-from telegram import (InlineKeyboardButton, InlineKeyboardMarkup,
-                      MessageEntity, ParseMode, Update)
+from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, MessageEntity,
+                      ParseMode, Update)
 from telegram.error import BadRequest, TelegramError, Unauthorized
 from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
                           run_async)
-from telegram.utils.helpers import (mention_html,
-                                    mention_markdown)
+from telegram.utils.helpers import (mention_html, mention_markdown)
 
 # Hello bot owner, I spended for feds many hours of my life, Please don't remove this if you still respect MrYacha and peaktogoo and AyraHikari too
 # Federation by MrYacha 2018-2019
