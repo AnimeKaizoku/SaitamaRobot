@@ -1,23 +1,25 @@
 import importlib
 
-from telegram import Bot, Update, ParseMode
-from telegram.ext import CommandHandler, run_async
-
 from SaitamaRobot import dispatcher
-from SaitamaRobot.__main__ import (IMPORTED, HELPABLE, MIGRATEABLE, STATS, USER_INFO, DATA_IMPORT, DATA_EXPORT, CHAT_SETTINGS,
-                             USER_SETTINGS)
-from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, dev_plus
+from SaitamaRobot.__main__ import (CHAT_SETTINGS, DATA_EXPORT, DATA_IMPORT,
+                                   HELPABLE, IMPORTED, MIGRATEABLE, STATS,
+                                   USER_INFO, USER_SETTINGS)
+from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus, sudo_plus
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, CommandHandler, run_async
 
 
 @run_async
 @dev_plus
-def load(bot: Bot, update: Update):
+def load(update: Update, context: CallbackContext):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
-    load_messasge = message.reply_text(f"Attempting to load module : <b>{text}</b>", parse_mode=ParseMode.HTML)
+    load_messasge = message.reply_text(
+        f"Attempting to load module : <b>{text}</b>", parse_mode=ParseMode.HTML)
 
     try:
-        imported_module = importlib.import_module("SaitamaRobot.modules." + text)
+        imported_module = importlib.import_module("SaitamaRobot.modules." +
+                                                  text)
     except:
         load_messasge.edit_text("Does that module even exist?")
         return
@@ -68,18 +70,23 @@ def load(bot: Bot, update: Update):
     if hasattr(imported_module, "__user_settings__"):
         USER_SETTINGS[imported_module.__mod_name__.lower()] = imported_module
 
-    load_messasge.edit_text("Successfully loaded module : <b>{}</b>".format(text), parse_mode=ParseMode.HTML)
+    load_messasge.edit_text(
+        "Successfully loaded module : <b>{}</b>".format(text),
+        parse_mode=ParseMode.HTML)
 
 
 @run_async
 @dev_plus
-def unload(bot: Bot, update: Update):
+def unload(update: Update, context: CallbackContext):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
-    unload_messasge = message.reply_text(f"Attempting to unload module : <b>{text}</b>", parse_mode=ParseMode.HTML)
+    unload_messasge = message.reply_text(
+        f"Attempting to unload module : <b>{text}</b>",
+        parse_mode=ParseMode.HTML)
 
     try:
-        imported_module = importlib.import_module("SaitamaRobot.modules." + text)
+        imported_module = importlib.import_module("SaitamaRobot.modules." +
+                                                  text)
     except:
         unload_messasge.edit_text("Does that module even exist?")
         return
@@ -131,12 +138,14 @@ def unload(bot: Bot, update: Update):
     if hasattr(imported_module, "__user_settings__"):
         USER_SETTINGS.pop(imported_module.__mod_name__.lower())
 
-    unload_messasge.edit_text(f"Successfully unloaded module : <b>{text}</b>", parse_mode=ParseMode.HTML)
+    unload_messasge.edit_text(
+        f"Successfully unloaded module : <b>{text}</b>",
+        parse_mode=ParseMode.HTML)
 
 
 @run_async
 @sudo_plus
-def listmodules(bot: Bot, update: Update):
+def listmodules(update: Update, context: CallbackContext):
     message = update.effective_message
     module_list = []
 

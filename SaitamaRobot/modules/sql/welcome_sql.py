@@ -2,16 +2,16 @@ import random
 import threading
 from typing import Union
 
-from sqlalchemy import Column, String, Boolean, UnicodeText, Integer, BigInteger
-
 from SaitamaRobot.modules.helper_funcs.msg_types import Types
-from SaitamaRobot.modules.sql import SESSION, BASE
+from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import (BigInteger, Boolean, Column, Integer, String,
+                        UnicodeText)
 
 DEFAULT_WELCOME = 'Hey {first}, how are you?'
 DEFAULT_GOODBYE = 'Nice knowing ya!'
 
 DEFAULT_WELCOME_MESSAGES = [
-    "{first} is here!",
+    "{first} is here!",  #Discord welcome messages copied
     "Ready player {first}",
     "Genos, {first} is here.",
     "A wild {first} appeared.",
@@ -52,22 +52,22 @@ DEFAULT_WELCOME_MESSAGES = [
     "Roses are red, violets are blue, {first} joined this chat with you",
     "Welcome {first}, Avoid Punches if you can!",
     "It's a bird! It's a plane! - Nope, its {first}!",
-    "{first} Joined! - Ok.",
+    "{first} Joined! - Ok.",  #Discord welcome messages end.
     "All Hail {first}!",
     "Hi, {first}. Don't lurk, Only Villans do that.",
     "{first} has joined the battle bus.",
-    "A new Challenger enters!",
+    "A new Challenger enters!",  #Tekken
     "Ok!",
     "{first} just fell into the chat!",
     "Something just fell from the sky! - oh, its {first}.",
     "{first} Just teleported into the chat!",
-    "Hi, {first}, show me your Hunter License!",
-    "I'm looking for Garo, oh wait nvm it's {first}.",
+    "Hi, {first}, show me your Hunter License!",  #Hunter Hunter
+    "I'm looking for Garo, oh wait nvm it's {first}.",  #One Punch man s2
     "Welcome {first}, Leaving is not an option!",
     "Run Forest! ..I mean...{first}.",
-    "{first} do 100 push-ups, 100 sit-ups, 100 squats, and 10km running EVERY SINGLE DAY!!!",
-    "Huh?\nDid someone with a disaster level just join?\nOh wait, it's just {first}.",
-    "Hey, {first}, ever heard the King Engine?",
+    "{first} do 100 push-ups, 100 sit-ups, 100 squats, and 10km running EVERY SINGLE DAY!!!",  #One Punch ma
+    "Huh?\nDid someone with a disaster level just join?\nOh wait, it's just {first}.",  #One Punch ma 
+    "Hey, {first}, ever heard the King Engine?",  #One Punch ma
     "Hey, {first}, Empty your pockets.",
     "Hey, {first}!, Are you strong?",
     "Call the Avengers! - {first} just joined the chat.",
@@ -76,7 +76,6 @@ DEFAULT_WELCOME_MESSAGES = [
     "Come for the Snail Racing, Stay for the Chimichangas!",
     "Who needs Google? You're everything we were searching for.",
     "This place must have free WiFi, cause I'm feeling a connection.",
-    "You shall not pass!",
     "Speak friend and enter.",
     "Welcome you are",
     "Welcome {first}, your princess is in another castle.",
@@ -92,7 +91,7 @@ DEFAULT_WELCOME_MESSAGES = [
     "Everyone stop what you’re doing, We are now in the presence of {first}.",
     "Hey {first}, Do you wanna know how I got these scars?",
     "Welcome {first}, drop your weapons and proceed to the spy scanner.",
-    "Stay safe {first}, Keep 3 meters social distances between your messages.",
+    "Stay safe {first}, Keep 3 meters social distances between your messages.",  #Corona memes lmao
     "Hey {first}, Do you know I once One-punched a meteorite?",
     "You’re here now {first}, Resistance is futile",
     "{first} just arrived, the force is strong with this one.",
@@ -102,7 +101,6 @@ DEFAULT_WELCOME_MESSAGES = [
     "Welcome {first}, if you’re a secret agent press 1, otherwise start a conversation",
     "{first}, I have a feeling we’re not in Kansas anymore.",
     "They may take our lives, but they’ll never take our {first}.",
-    "You has me at {first} joined the group.",
     "Coast is clear! You can come out guys, it’s just {first}.",
     "Welcome {first}, Pay no attention to that guy lurking.",
     "Welcome {first}, May the force be with you.",
@@ -113,8 +111,13 @@ DEFAULT_WELCOME_MESSAGES = [
     "Behold my new evil scheme, the {first}-Inator.",
     "Ah, {first} the Platypus, you're just in time... to be trapped.",
     "*snaps fingers and teleports {first} here*",
-    "{first}! What is a fish and a rabbit combined?",
-    
+    "{first}! What is a fish and a rabbit combined?",  #Lifereload - kaizoku member.
+    "{first} just arrived. Diable Jamble!",  #One Piece Sanji
+    "{first} just arrived. Aschente!",  #No Game No Life
+    "{first} say Aschente to agree to the pledges.",  #No Game No Life
+    "{first} just joined. El psy congroo!",  #Steins Gate
+    "Irasshaimase {first}!",  #weeabo shit
+    "Hi {first}, What is 1000-7?",  #tokyo ghoul
 ]
 DEFAULT_GOODBYE_MESSAGES = [
     "{first} will be missed.",
@@ -177,9 +180,9 @@ DEFAULT_GOODBYE_MESSAGES = [
     "The devil in disguise",
     "Go outside",
     "Always your head in the clouds",
-
 ]
 # Line 111 to 152 are references from https://bindingofisaac.fandom.com/wiki/Fortune_Telling_Machine
+
 
 class Welcome(BASE):
     __tablename__ = "welcome_pref"
@@ -187,10 +190,12 @@ class Welcome(BASE):
     should_welcome = Column(Boolean, default=True)
     should_goodbye = Column(Boolean, default=True)
 
-    custom_welcome = Column(UnicodeText, default=random.choice(DEFAULT_WELCOME_MESSAGES))
+    custom_welcome = Column(
+        UnicodeText, default=random.choice(DEFAULT_WELCOME_MESSAGES))
     welcome_type = Column(Integer, default=Types.TEXT.value)
 
-    custom_leave = Column(UnicodeText, default=random.choice(DEFAULT_GOODBYE_MESSAGES))
+    custom_leave = Column(
+        UnicodeText, default=random.choice(DEFAULT_GOODBYE_MESSAGES))
     leave_type = Column(Integer, default=Types.TEXT.value)
 
     clean_welcome = Column(BigInteger)
@@ -201,7 +206,8 @@ class Welcome(BASE):
         self.should_goodbye = should_goodbye
 
     def __repr__(self):
-        return "<Chat {} should Welcome new users: {}>".format(self.chat_id, self.should_welcome)
+        return "<Chat {} should Welcome new users: {}>".format(
+            self.chat_id, self.should_welcome)
 
 
 class WelcomeButtons(BASE):
@@ -255,6 +261,7 @@ class WelcomeMuteUsers(BASE):
         self.chat_id = str(chat_id)
         self.human_check = human_check
 
+
 class CleanServiceSetting(BASE):
     __tablename__ = "clean_service"
     chat_id = Column(String(14), primary_key=True)
@@ -303,7 +310,8 @@ def set_welcome_mutes(chat_id, welcomemutes):
 
 def set_human_checks(user_id, chat_id):
     with INSERTION_LOCK:
-        human_check = SESSION.query(WelcomeMuteUsers).get((user_id, str(chat_id)))
+        human_check = SESSION.query(WelcomeMuteUsers).get(
+            (user_id, str(chat_id)))
         if not human_check:
             human_check = WelcomeMuteUsers(user_id, str(chat_id), True)
 
@@ -318,7 +326,8 @@ def set_human_checks(user_id, chat_id):
 
 def get_human_checks(user_id, chat_id):
     try:
-        human_check = SESSION.query(WelcomeMuteUsers).get((user_id, str(chat_id)))
+        human_check = SESSION.query(WelcomeMuteUsers).get(
+            (user_id, str(chat_id)))
         if not human_check:
             return None
         human_check = human_check.human_check
@@ -423,7 +432,8 @@ def set_custom_welcome(chat_id, custom_welcome, welcome_type, buttons=None):
         SESSION.add(welcome_settings)
 
         with WELC_BTN_LOCK:
-            prev_buttons = SESSION.query(WelcomeButtons).filter(WelcomeButtons.chat_id == str(chat_id)).all()
+            prev_buttons = SESSION.query(WelcomeButtons).filter(
+                WelcomeButtons.chat_id == str(chat_id)).all()
             for btn in prev_buttons:
                 SESSION.delete(btn)
 
@@ -464,7 +474,8 @@ def set_custom_gdbye(chat_id, custom_goodbye, goodbye_type, buttons=None):
         SESSION.add(welcome_settings)
 
         with LEAVE_BTN_LOCK:
-            prev_buttons = SESSION.query(GoodbyeButtons).filter(GoodbyeButtons.chat_id == str(chat_id)).all()
+            prev_buttons = SESSION.query(GoodbyeButtons).filter(
+                GoodbyeButtons.chat_id == str(chat_id)).all()
             for btn in prev_buttons:
                 SESSION.delete(btn)
 
@@ -487,16 +498,18 @@ def get_custom_gdbye(chat_id):
 
 def get_welc_buttons(chat_id):
     try:
-        return SESSION.query(WelcomeButtons).filter(WelcomeButtons.chat_id == str(chat_id)).order_by(
-            WelcomeButtons.id).all()
+        return SESSION.query(WelcomeButtons).filter(
+            WelcomeButtons.chat_id == str(chat_id)).order_by(
+                WelcomeButtons.id).all()
     finally:
         SESSION.close()
 
 
 def get_gdbye_buttons(chat_id):
     try:
-        return SESSION.query(GoodbyeButtons).filter(GoodbyeButtons.chat_id == str(chat_id)).order_by(
-            GoodbyeButtons.id).all()
+        return SESSION.query(GoodbyeButtons).filter(
+            GoodbyeButtons.chat_id == str(chat_id)).order_by(
+                GoodbyeButtons.id).all()
     finally:
         SESSION.close()
 
@@ -529,12 +542,14 @@ def migrate_chat(old_chat_id, new_chat_id):
             chat.chat_id = str(new_chat_id)
 
         with WELC_BTN_LOCK:
-            chat_buttons = SESSION.query(WelcomeButtons).filter(WelcomeButtons.chat_id == str(old_chat_id)).all()
+            chat_buttons = SESSION.query(WelcomeButtons).filter(
+                WelcomeButtons.chat_id == str(old_chat_id)).all()
             for btn in chat_buttons:
                 btn.chat_id = str(new_chat_id)
 
         with LEAVE_BTN_LOCK:
-            chat_buttons = SESSION.query(GoodbyeButtons).filter(GoodbyeButtons.chat_id == str(old_chat_id)).all()
+            chat_buttons = SESSION.query(GoodbyeButtons).filter(
+                GoodbyeButtons.chat_id == str(old_chat_id)).all()
             for btn in chat_buttons:
                 btn.chat_id = str(new_chat_id)
 

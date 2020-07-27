@@ -1,24 +1,24 @@
 import html
 import random
 import time
-from typing import List
-
-from telegram import Bot, Update, ParseMode
-from telegram.ext import run_async
 
 import SaitamaRobot.modules.fun_strings as fun_strings
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin, user_admin
+from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, run_async
+
 
 @run_async
-def runs(bot: Bot, update: Update):
+def runs(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
 
 
 @run_async
-def slap(bot: Bot, update: Update, args: List[str]):
+def slap(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
     chat = update.effective_chat
 
@@ -37,7 +37,11 @@ def slap(bot: Bot, update: Update, args: List[str]):
                     return
 
                 mutetime = int(time.time() + 60)
-                bot.restrict_chat_member(chat.id, message.from_user.id, until_date=mutetime, can_send_messages=False)
+                bot.restrict_chat_member(
+                    chat.id,
+                    message.from_user.id,
+                    until_date=mutetime,
+                    can_send_messages=False)
             reply_text(temp[0])
         else:
             reply_text(temp)
@@ -58,37 +62,40 @@ def slap(bot: Bot, update: Update, args: List[str]):
     hit = random.choice(fun_strings.HIT)
     throw = random.choice(fun_strings.THROW)
 
-    reply = temp.format(user1=user1, user2=user2, item=item, hits=hit, throws=throw)
+    reply = temp.format(
+        user1=user1, user2=user2, item=item, hits=hit, throws=throw)
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
 
 @run_async
-def roll(bot: Bot, update: Update):
+def roll(update: Update, context: CallbackContext):
     update.message.reply_text(random.choice(range(1, 7)))
 
 
 @run_async
-def toss(bot: Bot, update: Update):
+def toss(update: Update, context: CallbackContext):
     update.message.reply_text(random.choice(fun_strings.TOSS))
 
 
 @run_async
-def shrug(bot: Bot, update: Update):
+def shrug(update: Update, context: CallbackContext):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(r"¯\_(ツ)_/¯")
 
 
 @run_async
-def bluetext(bot: Bot, update: Update):
+def bluetext(update: Update, context: CallbackContext):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
-    reply_text("/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS")
+    reply_text(
+        "/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS"
+    )
 
 
 @run_async
-def rlg(bot: Bot, update: Update):
+def rlg(update: Update, context: CallbackContext):
     eyes = random.choice(fun_strings.EYES)
     mouth = random.choice(fun_strings.MOUTHS)
     ears = random.choice(fun_strings.EARS)
@@ -101,12 +108,13 @@ def rlg(bot: Bot, update: Update):
 
 
 @run_async
-def decide(bot: Bot, update: Update):
+def decide(update: Update, context: CallbackContext):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.DECIDE))
 
+
 @run_async
-def table(bot: Bot, update: Update):
+def table(update: Update, context: CallbackContext):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.TABLE))
 
@@ -124,7 +132,7 @@ __help__ = """
 """
 
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
-SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, pass_args=True)
+SLAP_HANDLER = DisableAbleCommandHandler("slap", slap)
 ROLL_HANDLER = DisableAbleCommandHandler("roll", roll)
 TOSS_HANDLER = DisableAbleCommandHandler("toss", toss)
 SHRUG_HANDLER = DisableAbleCommandHandler("shrug", shrug)
@@ -143,8 +151,12 @@ dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
 
-
 __mod_name__ = "Fun"
-__command_list__ = ["runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide", "table"]
-__handlers__ = [RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER,
-                DECIDE_HANDLER, TABLE_HANDLER]
+__command_list__ = [
+    "runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide",
+    "table"
+]
+__handlers__ = [
+    RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER,
+    BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER
+]

@@ -1,8 +1,7 @@
-from telegram import Update
-from telegram.ext import CommandHandler, RegexHandler, MessageHandler
-
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
 from SaitamaRobot import ALLOW_EXCL
+from telegram import MessageEntity, Update
+from telegram.ext import CommandHandler, MessageHandler, RegexHandler
 
 if ALLOW_EXCL:
     CMD_STARTERS = ('/', '!')
@@ -12,45 +11,61 @@ else:
 
 class CustomCommandHandler(CommandHandler):
 
-    def __init__(self, command, callback, **kwargs):
-
-        if "admin_ok" in kwargs:
-            del kwargs["admin_ok"]
+    def __init__(self, command, callback, admin_ok=False, **kwargs):
         super().__init__(command, callback, **kwargs)
 
     def check_update(self, update):
-
-        if isinstance(update, Update) and (update.message or update.edited_message and self.allow_edited):
-            message = update.message or update.edited_message
+        if isinstance(update, Update) and update.effective_message:
+            message = update.effective_message
 
             if sql.is_user_blacklisted(update.effective_user.id):
                 return False
 
-            if message.text and len(message.text) > 1:
-                fst_word = message.text_html.split(None, 1)[0]
+            if (message.entities and
+                    message.entities[0].type == MessageEntity.BOT_COMMAND and
+                    message.entities[0].offset == 0):
+                command = message.text[1:message.entities[0].length]
+                args = message.text.split()[1:]
+                command = command.split('@')
+                command.append(message.bot.username)
 
-                if len(fst_word) > 1 and any(fst_word.startswith(start) for start in CMD_STARTERS):
-                    command = fst_word[1:].split('@')
-                    command.append(message.bot.username)  # in case the command was sent without a username
+                if not (command[0].lower() in self.command and
+                        command[1].lower() == message.bot.username.lower()):
+                    return None
 
-                    if self.filters is None:
-                        res = True
-                    elif isinstance(self.filters, list):
-                        res = any(func(message) for func in self.filters)
-                    else:
-                        res = self.filters(message)
+                filter_result = self.filters(update)
+                if filter_result:
+                    return args, filter_result
+                else:
+                    return False
 
-                    return res and (command[0].lower() in self.command
-                                    and command[1].lower() == message.bot.username.lower())
+    def handle_update(self, update, dispatcher, check_result, context=None):
+        if context:
+            self.collect_additional_context(context, update, dispatcher,
+                                            check_result)
+            return self.callback(update, context)
+        else:
+            optional_args = self.collect_optional_args(dispatcher, update,
+                                                       check_result)
+            return self.callback(dispatcher.bot, update, **optional_args)
 
-            return False
+    def collect_additional_context(self, context, update, dispatcher,
+                                   check_result):
+        if isinstance(check_result, bool):
+            context.args = update.effective_message.text.split()[1:]
+        else:
+            context.args = check_result[0]
+            if isinstance(check_result[1], dict):
+                context.update(check_result[1])
 
 
 class CustomRegexHandler(RegexHandler):
+
     def __init__(self, pattern, callback, friendly="", **kwargs):
         super().__init__(pattern, callback, **kwargs)
 
 
 class CustomMessageHandler(MessageHandler):
+
     def __init__(self, filters, callback, friendly="", **kwargs):
         super().__init__(filters, callback, **kwargs)

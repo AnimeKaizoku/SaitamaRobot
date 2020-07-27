@@ -1,19 +1,17 @@
 import html
 import re
-from typing import List
 
 import requests
-from telegram import Bot, Update, MessageEntity, ParseMode
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async, Filters
-from telegram.utils.helpers import mention_html
-
-from SaitamaRobot import dispatcher, OWNER_ID, SUDO_USERS, SUPPORT_USERS, DEV_USERS, TIGER_USERS, WHITELIST_USERS
-from SaitamaRobot.__main__ import STATS, USER_INFO, TOKEN
+from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
+                          TIGER_USERS, WHITELIST_USERS, dispatcher)
+from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, sudo_plus
+from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-
+from telegram import MessageEntity, ParseMode, Update
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
+from telegram.utils.helpers import mention_html
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
@@ -41,7 +39,8 @@ Keep in mind that your message <b>MUST</b> contain some text other than just a b
 
 
 @run_async
-def get_id(bot: Bot, update: Update, args: List[str]):
+def get_id(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
     chat = update.effective_chat
     msg = update.effective_message
@@ -54,41 +53,48 @@ def get_id(bot: Bot, update: Update, args: List[str]):
             user1 = message.reply_to_message.from_user
             user2 = message.reply_to_message.forward_from
 
-            msg.reply_text(f"The original sender, {html.escape(user2.first_name)},"
-                           f" has an ID of <code>{user2.id}</code>.\n"
-                           f"The forwarder, {html.escape(user1.first_name)},"
-                           f" has an ID of <code>{user1.id}</code>.",
-                           parse_mode=ParseMode.HTML)
+            msg.reply_text(
+                f"The original sender, {html.escape(user2.first_name)},"
+                f" has an ID of <code>{user2.id}</code>.\n"
+                f"The forwarder, {html.escape(user1.first_name)},"
+                f" has an ID of <code>{user1.id}</code>.",
+                parse_mode=ParseMode.HTML)
 
         else:
 
             user = bot.get_chat(user_id)
-            msg.reply_text(f"{html.escape(user.first_name)}'s id is <code>{user.id}</code>.",
-                           parse_mode=ParseMode.HTML)
+            msg.reply_text(
+                f"{html.escape(user.first_name)}'s id is <code>{user.id}</code>.",
+                parse_mode=ParseMode.HTML)
 
     else:
 
         if chat.type == "private":
-            msg.reply_text(f"Your id is <code>{chat.id}</code>.",
-                           parse_mode=ParseMode.HTML)
+            msg.reply_text(
+                f"Your id is <code>{chat.id}</code>.",
+                parse_mode=ParseMode.HTML)
 
         else:
-            msg.reply_text(f"This group's id is <code>{chat.id}</code>.",
-                           parse_mode=ParseMode.HTML)
+            msg.reply_text(
+                f"This group's id is <code>{chat.id}</code>.",
+                parse_mode=ParseMode.HTML)
 
 
 @run_async
-def gifid(bot: Bot, update: Update):
+def gifid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
-        update.effective_message.reply_text(f"Gif ID:\n<code>{msg.reply_to_message.animation.file_id}</code>",
-                                            parse_mode=ParseMode.HTML)
+        update.effective_message.reply_text(
+            f"Gif ID:\n<code>{msg.reply_to_message.animation.file_id}</code>",
+            parse_mode=ParseMode.HTML)
     else:
-        update.effective_message.reply_text("Please reply to a gif to get its ID.")
+        update.effective_message.reply_text(
+            "Please reply to a gif to get its ID.")
 
 
 @run_async
-def info(bot: Bot, update: Update, args: List[str]):
+def info(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     message = update.effective_message
     chat = update.effective_chat
     user_id = extract_user(update.effective_message, args)
@@ -99,9 +105,11 @@ def info(bot: Bot, update: Update, args: List[str]):
     elif not message.reply_to_message and not args:
         user = message.from_user
 
-    elif not message.reply_to_message and (not args or (
-            len(args) >= 1 and not args[0].startswith("@") and not args[0].isdigit() and not message.parse_entities(
-        [MessageEntity.TEXT_MENTION]))):
+    elif not message.reply_to_message and (
+            not args or
+        (len(args) >= 1 and not args[0].startswith("@") and
+         not args[0].isdigit() and
+         not message.parse_entities([MessageEntity.TEXT_MENTION]))):
         message.reply_text("I can't extract a user from this.")
         return
 
@@ -142,12 +150,15 @@ def info(bot: Bot, update: Update, args: List[str]):
         disaster_level_present = True
 
     if disaster_level_present:
-        text += ' [<a href="http://t.me/{}?start=disasters">?</a>]'.format(bot.username)
+        text += ' [<a href="https://t.me/{}?start=disasters">?</a>]'.format(
+            bot.username)
 
     try:
         user_member = chat.get_member(user.id)
         if user_member.status == 'administrator':
-            result = requests.post(f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}")
+            result = requests.post(
+                f"https://api.telegram.org/bot{TOKEN}/getChatMember?chat_id={chat.id}&user_id={user.id}"
+            )
             result = result.json()["result"]
             if "custom_title" in result.keys():
                 custom_title = result['custom_title']
@@ -163,12 +174,13 @@ def info(bot: Bot, update: Update, args: List[str]):
         if mod_info:
             text += "\n\n" + mod_info
 
-    update.effective_message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+    update.effective_message.reply_text(
+        text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
 
 @run_async
 @user_admin
-def echo(bot: Bot, update: Update):
+def echo(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
 
@@ -181,17 +193,20 @@ def echo(bot: Bot, update: Update):
 
 
 @run_async
-def markdown_help(bot: Bot, update: Update):
-    update.effective_message.reply_text(MARKDOWN_HELP, parse_mode=ParseMode.HTML)
-    update.effective_message.reply_text("Try forwarding the following message to me, and you'll see!")
-    update.effective_message.reply_text("/save test This is a markdown test. _italics_, *bold*, `code`, "
-                                        "[URL](example.com) [button](buttonurl:github.com) "
-                                        "[button2](buttonurl://google.com:same)")
+def markdown_help(update: Update, context: CallbackContext):
+    update.effective_message.reply_text(
+        MARKDOWN_HELP, parse_mode=ParseMode.HTML)
+    update.effective_message.reply_text(
+        "Try forwarding the following message to me, and you'll see!")
+    update.effective_message.reply_text(
+        "/save test This is a markdown test. _italics_, *bold*, `code`, "
+        "[URL](example.com) [button](buttonurl:github.com) "
+        "[button2](buttonurl://google.com:same)")
 
 
 @run_async
 @sudo_plus
-def stats(bot: Bot, update: Update):
+def stats(update: Update, context: CallbackContext):
     stats = "Current stats:\n" + "\n".join([mod.__stats__() for mod in STATS])
     result = re.sub(r'(\d+)', r'<code>\1</code>', stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
@@ -204,11 +219,13 @@ __help__ = """
  • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats.
 """
 
-ID_HANDLER = DisableAbleCommandHandler("id", get_id, pass_args=True)
+ID_HANDLER = DisableAbleCommandHandler("id", get_id)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid)
-INFO_HANDLER = DisableAbleCommandHandler(["info", "appraise", "appraisal"], info, pass_args=True)
+INFO_HANDLER = DisableAbleCommandHandler(["info", "appraise", "appraisal"],
+                                         info)
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
-MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, filters=Filters.private)
+MD_HELP_HANDLER = CommandHandler(
+    "markdownhelp", markdown_help, filters=Filters.private)
 STATS_HANDLER = CommandHandler("stats", stats)
 
 dispatcher.add_handler(ID_HANDLER)
@@ -220,4 +237,7 @@ dispatcher.add_handler(STATS_HANDLER)
 
 __mod_name__ = "Misc"
 __command_list__ = ["id", "info", "echo"]
-__handlers__ = [ID_HANDLER, GIFID_HANDLER, INFO_HANDLER, ECHO_HANDLER, MD_HELP_HANDLER, STATS_HANDLER]
+__handlers__ = [
+    ID_HANDLER, GIFID_HANDLER, INFO_HANDLER, ECHO_HANDLER, MD_HELP_HANDLER,
+    STATS_HANDLER
+]

@@ -1,8 +1,8 @@
 from enum import IntEnum, unique
 
+from SaitamaRobot.modules.helper_funcs.string_handling import \
+    button_markdown_parser
 from telegram import Message
-
-from SaitamaRobot.modules.helper_funcs.string_handling import button_markdown_parser
 
 
 @unique
@@ -22,15 +22,19 @@ def get_note_type(msg: Message):
     content = None
     text = ""
     raw_text = msg.text or msg.caption
-    args = raw_text.split(None, 2)  # use python's maxsplit to separate cmd and args
+    args = raw_text.split(None,
+                          2)  # use python's maxsplit to separate cmd and args
     note_name = args[1]
 
     buttons = []
     # determine what the contents of the filter are - text, image, sticker, etc
     if len(args) >= 3:
-        offset = len(args[2]) - len(raw_text)  # set correct offset relative to command + notename
-        text, buttons = button_markdown_parser(args[2], entities=msg.parse_entities() or msg.parse_caption_entities(),
-                                               offset=offset)
+        offset = len(args[2]) - len(
+            raw_text)  # set correct offset relative to command + notename
+        text, buttons = button_markdown_parser(
+            args[2],
+            entities=msg.parse_entities() or msg.parse_caption_entities(),
+            offset=offset)
         if buttons:
             data_type = Types.BUTTON_TEXT
         else:
@@ -40,8 +44,7 @@ def get_note_type(msg: Message):
         entities = msg.reply_to_message.parse_entities()
         msgtext = msg.reply_to_message.text or msg.reply_to_message.caption
         if len(args) >= 2 and msg.reply_to_message.text:  # not caption, text
-            text, buttons = button_markdown_parser(msgtext,
-                                                   entities=entities)
+            text, buttons = button_markdown_parser(msgtext, entities=entities)
             if buttons:
                 data_type = Types.BUTTON_TEXT
             else:
@@ -57,7 +60,8 @@ def get_note_type(msg: Message):
             data_type = Types.DOCUMENT
 
         elif msg.reply_to_message.photo:
-            content = msg.reply_to_message.photo[-1].file_id  # last elem = best quality
+            content = msg.reply_to_message.photo[
+                -1].file_id  # last elem = best quality
             text, buttons = button_markdown_parser(msgtext, entities=entities)
             data_type = Types.PHOTO
 
@@ -85,13 +89,16 @@ def get_welcome_type(msg: Message):
     content = None
     text = ""
 
-    args = msg.text.split(None, 1)  # use python's maxsplit to separate cmd and args
+    args = msg.text.split(None,
+                          1)  # use python's maxsplit to separate cmd and args
 
     buttons = []
     # determine what the contents of the filter are - text, image, sticker, etc
     if len(args) >= 2:
-        offset = len(args[1]) - len(msg.text)  # set correct offset relative to command + notename
-        text, buttons = button_markdown_parser(args[1], entities=msg.parse_entities(), offset=offset)
+        offset = len(args[1]) - len(
+            msg.text)  # set correct offset relative to command + notename
+        text, buttons = button_markdown_parser(
+            args[1], entities=msg.parse_entities(), offset=offset)
         if buttons:
             data_type = Types.BUTTON_TEXT
         else:
@@ -108,7 +115,8 @@ def get_welcome_type(msg: Message):
         data_type = Types.DOCUMENT
 
     elif msg.reply_to_message and msg.reply_to_message.photo:
-        content = msg.reply_to_message.photo[-1].file_id  # last elem = best quality
+        content = msg.reply_to_message.photo[
+            -1].file_id  # last elem = best quality
         text = msg.reply_to_message.caption
         data_type = Types.PHOTO
 

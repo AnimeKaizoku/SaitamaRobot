@@ -1,21 +1,25 @@
 import html
 import json
 import os
-from typing import List, Optional
+from typing import Optional
 
-from telegram import Bot, Update, ParseMode, TelegramError
-from telegram.ext import CommandHandler, run_async
-from telegram.utils.helpers import mention_html
-
-from SaitamaRobot import dispatcher, WHITELIST_USERS, TIGER_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS, OWNER_ID, SUPPORT_CHAT
-from SaitamaRobot.modules.helper_funcs.chat_status import whitelist_plus, dev_plus, sudo_plus
+from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_CHAT,
+                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
+                          dispatcher)
+from SaitamaRobot.modules.helper_funcs.chat_status import (dev_plus, sudo_plus,
+                                                           whitelist_plus)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from SaitamaRobot.modules.log_channel import gloggable
+from telegram import ParseMode, TelegramError, Update
+from telegram.ext import CallbackContext, CommandHandler, run_async
+from telegram.utils.helpers import mention_html
 
-ELEVATED_USERS_FILE = os.path.join(os.getcwd(), 'SaitamaRobot/elevated_users.json')
+ELEVATED_USERS_FILE = os.path.join(os.getcwd(),
+                                   'SaitamaRobot/elevated_users.json')
 
 
-def check_user_id(user_id: int, bot: Bot) -> Optional[str]:
+def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
+    bot = context.bot
     if not user_id:
         reply = "That...is a chat! baka ka omae?"
 
@@ -25,6 +29,7 @@ def check_user_id(user_id: int, bot: Bot) -> Optional[str]:
     else:
         reply = None
     return reply
+
 
 #I added extra new lines
 disasters = """ Saitama has bot access levels we call as *"Disaster Levels"*
@@ -38,18 +43,22 @@ Owner has complete bot access, including bot adminship in chats Saitama is at.
 \n*Disclaimer*: The disaster levels in Saitama are there for troubleshooting, support, banning potential scammers.
 Report abuse or ask us more on these at [Heroes Association](https://t.me/OnePunchSupport).
 """
-# do not async, not a handler 
+
+
+# do not async, not a handler
 def send_disasters(update):
-    update.effective_message.reply_text(disasters, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+    update.effective_message.reply_text(
+        disasters, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+
 
 @run_async
 @dev_plus
 @gloggable
-def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
+def addsudo(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
     rt = ""
@@ -83,11 +92,13 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + "\nSuccessfully set Disaster level of {} to Dragon!".format(user_member.first_name))
+        rt + "\nSuccessfully set Disaster level of {} to Dragon!".format(
+            user_member.first_name))
 
-    log_message = (f"#SUDO\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                   f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+    log_message = (
+        f"#SUDO\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -98,11 +109,14 @@ def addsudo(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
+def addsupport(
+    update: Update,
+    context: CallbackContext,
+) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
     rt = ""
@@ -135,11 +149,13 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
     with open(ELEVATED_USERS_FILE, 'w') as outfile:
         json.dump(data, outfile, indent=4)
 
-    update.effective_message.reply_text(rt + f"\n{user_member.first_name} was added as a Demon Disaster!")
+    update.effective_message.reply_text(
+        rt + f"\n{user_member.first_name} was added as a Demon Disaster!")
 
-    log_message = (f"#SUPPORT\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                   f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+    log_message = (
+        f"#SUPPORT\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -150,11 +166,11 @@ def addsupport(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
+def addwhitelist(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
     rt = ""
@@ -188,11 +204,13 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to a Wolf Disaster!")
+        rt +
+        f"\nSuccessfully promoted {user_member.first_name} to a Wolf Disaster!")
 
-    log_message = (f"#WHITELIST\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
-                   f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+    log_message = (
+        f"#WHITELIST\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
+        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -203,11 +221,11 @@ def addwhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def addtiger(bot: Bot, update: Update, args: List[str]) -> str:
+def addtiger(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
     rt = ""
@@ -246,11 +264,14 @@ def addtiger(bot: Bot, update: Update, args: List[str]) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to a Tiger Disaster!")
+        rt +
+        f"\nSuccessfully promoted {user_member.first_name} to a Tiger Disaster!"
+    )
 
-    log_message = (f"#TIGER\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
-                   f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+    log_message = (
+        f"#TIGER\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
+        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -261,11 +282,11 @@ def addtiger(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @dev_plus
 @gloggable
-def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
+def removesudo(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
@@ -285,12 +306,15 @@ def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
-        log_message = (f"#UNSUDO\n"
-                       f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        log_message = (
+            f"#UNSUDO\n"
+            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+        )
 
         if chat.type != 'private':
-            log_message = "<b>{}:</b>\n".format(html.escape(chat.title)) + log_message
+            log_message = "<b>{}:</b>\n".format(html.escape(
+                chat.title)) + log_message
 
         return log_message
 
@@ -302,11 +326,11 @@ def removesudo(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
+def removesupport(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
@@ -326,9 +350,11 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
-        log_message = (f"#UNSUPPORT\n"
-                       f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        log_message = (
+            f"#UNSUPPORT\n"
+            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+        )
 
         if chat.type != 'private':
             log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -343,11 +369,11 @@ def removesupport(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
+def removewhitelist(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
@@ -367,9 +393,11 @@ def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
-        log_message = (f"#UNWHITELIST\n"
-                       f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        log_message = (
+            f"#UNWHITELIST\n"
+            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+        )
 
         if chat.type != 'private':
             log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -383,11 +411,11 @@ def removewhitelist(bot: Bot, update: Update, args: List[str]) -> str:
 @run_async
 @sudo_plus
 @gloggable
-def removetiger(bot: Bot, update: Update, args: List[str]) -> str:
+def removetiger(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
-
+    bot, args = context.bot, context.args
     user_id = extract_user(message, args)
     user_member = bot.getChat(user_id)
 
@@ -407,9 +435,11 @@ def removetiger(bot: Bot, update: Update, args: List[str]) -> str:
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
             json.dump(data, outfile, indent=4)
 
-        log_message = (f"#UNTIGER\n"
-                       f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                       f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        log_message = (
+            f"#UNTIGER\n"
+            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+        )
 
         if chat.type != 'private':
             log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -422,8 +452,9 @@ def removetiger(bot: Bot, update: Update, args: List[str]) -> str:
 
 @run_async
 @whitelist_plus
-def whitelistlist(bot: Bot, update: Update):
+def whitelistlist(update: Update, context: CallbackContext):
     reply = "<b>Known Wolf Disasters 🐺:</b>\n"
+    bot = context.bot
     for each_user in WHITELIST_USERS:
         user_id = int(each_user)
         try:
@@ -437,8 +468,9 @@ def whitelistlist(bot: Bot, update: Update):
 
 @run_async
 @whitelist_plus
-def tigerlist(bot: Bot, update: Update):
+def tigerlist(update: Update, context: CallbackContext):
     reply = "<b>Known Tiger Disasters 🐯:</b>\n"
+    bot = context.bot
     for each_user in TIGER_USERS:
         user_id = int(each_user)
         try:
@@ -451,7 +483,8 @@ def tigerlist(bot: Bot, update: Update):
 
 @run_async
 @whitelist_plus
-def supportlist(bot: Bot, update: Update):
+def supportlist(update: Update, context: CallbackContext):
+    bot = context.bot
     reply = "<b>Known Demon Disasters 👹:</b>\n"
     for each_user in SUPPORT_USERS:
         user_id = int(each_user)
@@ -465,7 +498,8 @@ def supportlist(bot: Bot, update: Update):
 
 @run_async
 @whitelist_plus
-def sudolist(bot: Bot, update: Update):
+def sudolist(update: Update, context: CallbackContext):
+    bot = context.bot
     true_sudo = list(set(SUDO_USERS) - set(DEV_USERS))
     reply = "<b>Known Dragon Disasters 🐉:</b>\n"
     for each_user in true_sudo:
@@ -480,7 +514,8 @@ def sudolist(bot: Bot, update: Update):
 
 @run_async
 @whitelist_plus
-def devlist(bot: Bot, update: Update):
+def devlist(update: Update, context: CallbackContext):
+    bot = context.bot
     true_dev = list(set(DEV_USERS) - {OWNER_ID})
     reply = "<b>Hero Association Members ⚡️:</b>\n"
     for each_user in true_dev:
@@ -503,16 +538,19 @@ __help__ = f"""
  You can visit {SUPPORT_CHAT} to query more about these.
 """
 
-SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo, pass_args=True)
-SUPPORT_HANDLER = CommandHandler(("addsupport", "adddemon"), addsupport, pass_args=True)
-TIGER_HANDLER = CommandHandler(("addtiger"), addtiger, pass_args=True)
-WHITELIST_HANDLER = CommandHandler(("addwhitelist", "addwolf"), addwhitelist, pass_args=True)
-UNSUDO_HANDLER = CommandHandler(("removesudo", "removedragon"), removesudo, pass_args=True)
-UNSUPPORT_HANDLER = CommandHandler(("removesupport", "removedemon"), removesupport, pass_args=True)
-UNTIGER_HANDLER = CommandHandler(("removetiger"), removetiger, pass_args=True)
-UNWHITELIST_HANDLER = CommandHandler(("removewhitelist", "removewolf"), removewhitelist, pass_args=True)
+SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo)
+SUPPORT_HANDLER = CommandHandler(("addsupport", "adddemon"), addsupport)
+TIGER_HANDLER = CommandHandler(("addtiger"), addtiger)
+WHITELIST_HANDLER = CommandHandler(("addwhitelist", "addwolf"), addwhitelist)
+UNSUDO_HANDLER = CommandHandler(("removesudo", "removedragon"), removesudo)
+UNSUPPORT_HANDLER = CommandHandler(("removesupport", "removedemon"),
+                                   removesupport)
+UNTIGER_HANDLER = CommandHandler(("removetiger"), removetiger)
+UNWHITELIST_HANDLER = CommandHandler(("removewhitelist", "removewolf"),
+                                     removewhitelist)
 
-WHITELISTLIST_HANDLER = CommandHandler(["whitelistlist", "wolves"], whitelistlist)
+WHITELISTLIST_HANDLER = CommandHandler(["whitelistlist", "wolves"],
+                                       whitelistlist)
 TIGERLIST_HANDLER = CommandHandler(["tigers"], tigerlist)
 SUPPORTLIST_HANDLER = CommandHandler(["supportlist", "demons"], supportlist)
 SUDOLIST_HANDLER = CommandHandler(["sudolist", "dragons"], sudolist)
@@ -534,7 +572,9 @@ dispatcher.add_handler(SUDOLIST_HANDLER)
 dispatcher.add_handler(DEVLIST_HANDLER)
 
 __mod_name__ = "Disasters"
-__handlers__ = [SUDO_HANDLER, SUPPORT_HANDLER, TIGER_HANDLER, WHITELIST_HANDLER, 
-                UNSUDO_HANDLER, UNSUPPORT_HANDLER, UNTIGER_HANDLER, UNWHITELIST_HANDLER,
-                WHITELISTLIST_HANDLER, TIGERLIST_HANDLER, SUPPORTLIST_HANDLER,
-                SUDOLIST_HANDLER, DEVLIST_HANDLER]
+__handlers__ = [
+    SUDO_HANDLER, SUPPORT_HANDLER, TIGER_HANDLER, WHITELIST_HANDLER,
+    UNSUDO_HANDLER, UNSUPPORT_HANDLER, UNTIGER_HANDLER, UNWHITELIST_HANDLER,
+    WHITELISTLIST_HANDLER, TIGERLIST_HANDLER, SUPPORTLIST_HANDLER,
+    SUDOLIST_HANDLER, DEVLIST_HANDLER
+]

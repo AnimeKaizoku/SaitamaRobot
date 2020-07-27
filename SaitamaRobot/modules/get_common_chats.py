@@ -1,19 +1,18 @@
 import os
 from time import sleep
-from typing import List
 
-from telegram import Update, Message, Bot
-from telegram.error import BadRequest, Unauthorized, RetryAfter
-from telegram.ext import CommandHandler, Filters
-from telegram.ext.dispatcher import run_async
-
-from SaitamaRobot import dispatcher, OWNER_ID
-from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
+from SaitamaRobot import OWNER_ID, dispatcher
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
+from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
+from telegram import Update
+from telegram.error import BadRequest, RetryAfter, Unauthorized
+from telegram.ext import CallbackContext, CommandHandler, Filters
+from telegram.ext.dispatcher import run_async
 
 
 @run_async
-def get_user_common_chats(bot: Bot, update: Update, args: List[str]):
+def get_user_common_chats(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     msg = update.effective_message
     user = extract_user(msg, args)
     if not user:
@@ -36,7 +35,7 @@ def get_user_common_chats(bot: Bot, update: Update, args: List[str]):
             pass
         except RetryAfter as e:
             sleep(e.retry_after)
-            
+
     if len(text) < 4096:
         msg.reply_text(text, parse_mode="HTML")
     else:
@@ -45,12 +44,9 @@ def get_user_common_chats(bot: Bot, update: Update, args: List[str]):
         with open("common_chats.txt", 'rb') as f:
             msg.reply_document(f)
         os.remove("common_chats.txt")
-        
+
+
 COMMON_CHATS_HANDLER = CommandHandler(
-    "getchats",
-    get_user_common_chats,
-    filters=Filters.user(OWNER_ID),
-    pass_args=True
-    )
-    
+    "getchats", get_user_common_chats, filters=Filters.user(OWNER_ID))
+
 dispatcher.add_handler(COMMON_CHATS_HANDLER)

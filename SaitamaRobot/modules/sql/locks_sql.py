@@ -1,9 +1,8 @@
 # New chat added -> setup permissions
 import threading
 
-from sqlalchemy import Column, String, Boolean
-
-from SaitamaRobot.modules.sql import SESSION, BASE
+from SaitamaRobot.modules.sql import BASE, SESSION
+from sqlalchemy import Boolean, Column, String
 
 
 class Permissions(BASE):
@@ -23,6 +22,9 @@ class Permissions(BASE):
     forward = Column(Boolean, default=False)
     game = Column(Boolean, default=False)
     location = Column(Boolean, default=False)
+    rtl = Column(Boolean, default=False)
+    button = Column(Boolean, default=False)
+    egame = Column(Boolean, default=False)
 
     def __init__(self, chat_id):
         self.chat_id = str(chat_id)  # ensure string
@@ -39,6 +41,9 @@ class Permissions(BASE):
         self.forward = False
         self.game = False
         self.location = False
+        self.rtl = False
+        self.button = False
+        self.egame = False
 
     def __repr__(self):
         return "<Permissions for %s>" % self.chat_id
@@ -64,7 +69,11 @@ class Restrictions(BASE):
         return "<Restrictions for %s>" % self.chat_id
 
 
+# For those who faced database error, Just uncomment the
+# line below and run bot for 1 time & remove that line!
+
 Permissions.__table__.create(checkfirst=True)
+# Permissions.__table__.drop()
 Restrictions.__table__.create(checkfirst=True)
 
 PERM_LOCK = threading.RLock()
@@ -125,6 +134,12 @@ def update_lock(chat_id, lock_type, locked):
             curr_perm.game = locked
         elif lock_type == 'location':
             curr_perm.location = locked
+        elif lock_type == 'rtl':
+            curr_perm.rtl = locked
+        elif lock_type == 'button':
+            curr_perm.button = locked
+        elif lock_type == 'egame':
+            curr_perm.egame = locked
 
         SESSION.add(curr_perm)
         SESSION.commit()
@@ -186,6 +201,12 @@ def is_locked(chat_id, lock_type):
         return curr_perm.game
     elif lock_type == "location":
         return curr_perm.location
+    elif lock_type == "rtl":
+        return curr_perm.rtl
+    elif lock_type == "button":
+        return curr_perm.button
+    elif lock_type == "egame":
+        return curr_perm.egame
 
 
 def is_restr_locked(chat_id, lock_type):
