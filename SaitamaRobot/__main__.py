@@ -2,7 +2,7 @@ import importlib
 import re
 from sys import argv
 from typing import Optional
-
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
                           OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
                           dispatcher, telethn, updater)
