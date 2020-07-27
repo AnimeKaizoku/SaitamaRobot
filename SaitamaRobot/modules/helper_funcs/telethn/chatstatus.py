@@ -94,7 +94,11 @@ async def can_add_admins(message):
 
 
 async def can_delete_messages(message):
-    status = False
-    if message.chat.admin_rights:
+
+    if message.is_private:
+        return True
+    elif message.chat.admin_rights:
         status = message.chat.admin_rights.delete_messages
-    return status
+        return status
+    else:
+        return False
