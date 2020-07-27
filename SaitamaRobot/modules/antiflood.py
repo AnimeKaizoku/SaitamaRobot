@@ -1,5 +1,6 @@
 import html
 import re
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 from SaitamaRobot import TIGER_USERS, WHITELIST_USERS, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import (

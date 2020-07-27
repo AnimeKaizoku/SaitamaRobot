@@ -7,6 +7,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.sql import rss_sql as sql
 from telegram import ParseMode, Update, constants
 from telegram.ext import CallbackContext, CommandHandler
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 def show_url(update: Update, context: CallbackContext):
