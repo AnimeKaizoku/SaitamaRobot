@@ -55,11 +55,11 @@ def broadcast(update: Update, context: CallbackContext):
     if len(to_send) >= 2:
         to_group = to_user = False
         if to_send[0] == '/broadcastgroup':
-          to_group = True
+            to_group = True
         if to_send[0] == '/broadcastuser':
-          to_user = True
+            to_user = True
         else:
-          to_group = to_user = True
+            to_group = to_user = True
         chats = sql.get_all_chats() or []
         users = get_all_users()
         failed = 0
@@ -71,8 +71,9 @@ def broadcast(update: Update, context: CallbackContext):
                     sleep(0.1)
                 except TelegramError:
                     failed += 1
-                    LOGGER.warning("Couldn't send broadcast to %s, group name %s",
-                                   str(chat.chat_id), str(chat.chat_name))
+                    LOGGER.warning(
+                        "Couldn't send broadcast to %s, group name %s",
+                        str(chat.chat_id), str(chat.chat_name))
         if to_user:
             for user in users:
                 try:
@@ -155,7 +156,8 @@ def __migrate__(old_chat_id, new_chat_id):
 
 __help__ = ""  # no help string
 
-BROADCAST_HANDLER = CommandHandler(["broadcastall", "broadcastuser", "broadcastgroup"], broadcast)
+BROADCAST_HANDLER = CommandHandler(
+    ["broadcastall", "broadcastuser", "broadcastgroup"], broadcast)
 USER_HANDLER = MessageHandler(Filters.all & Filters.group, log_user)
 CHAT_CHECKER_HANDLER = MessageHandler(Filters.all & Filters.group, chat_checker)
 CHATLIST_HANDLER = CommandHandler("chatlist", chats)

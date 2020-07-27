@@ -100,9 +100,7 @@ def dbcleanup(update: Update, context: CallbackContext):
     reply = f"Total invalid chats - {invalid_chat_count}\n"
     reply += f"Total invalid gbanned users - {invalid_gban_count}"
 
-    buttons = [[
-        InlineKeyboardButton("Cleanup DB", callback_data="db_cleanup")
-    ]]
+    buttons = [[InlineKeyboardButton("Cleanup DB", callback_data="db_cleanup")]]
 
     update.effective_message.reply_text(
         reply, reply_markup=InlineKeyboardMarkup(buttons))
