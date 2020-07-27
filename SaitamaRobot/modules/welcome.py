@@ -372,10 +372,10 @@ def left_member(update: Update, context: CallbackContext):
         if left_mem:
 
            # Thingy for spamwatched users
-           if sw != None:
-                sw_ban = sw.get_ban(left_mem.id)
-                if sw_ban:
-                    return
+            if sw != None:
+                  sw_ban = sw.get_ban(left_mem.id)
+                  if sw_ban:
+                      return
 
             # Dont say goodbyes to gbanned users
             if is_user_gbanned(left_mem.id):
