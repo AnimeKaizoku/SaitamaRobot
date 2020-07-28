@@ -2,7 +2,7 @@ import importlib
 import re
 from sys import argv
 from typing import Optional
-
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
                           OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
                           dispatcher, telethn, updater)
@@ -471,13 +471,13 @@ def migrate_chats(update: Update, context: CallbackContext):
 
 
 def main():
-    test_handler = CommandHandler("test", test)
-    start_handler = CommandHandler("start", start)
+    test_handler = DisableAbleCommandHandler("test", test)
+    start_handler = DisableAbleCommandHandler("start", start)
 
-    help_handler = CommandHandler("help", get_help)
+    help_handler = DisableAbleCommandHandler("help", get_help)
     help_callback_handler = CallbackQueryHandler(help_button, pattern=r"help_")
 
-    settings_handler = CommandHandler("settings", get_settings)
+    settings_handler = DisableAbleCommandHandler("settings", get_settings)
     settings_callback_handler = CallbackQueryHandler(
         settings_button, pattern=r"stngs_")
 

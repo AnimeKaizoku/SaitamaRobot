@@ -16,7 +16,7 @@
       "BAN_STICKER": {
          "description": "ID of the sticker you want to use when banning people.",
          "required": false,
-         "value": "CAACAgQAAx0CU\_rCTAACrS9eX6aSdWGlWOAAASV7RAsMxyOmU08AAjUAA5OB2QL9q4NuR9MogxgE"
+         "value": "CAACAgQAAx0CU_rCTAABAczQXyBOv1TsVK4EfwnkCUT1H0GCkPQAAtwAAwEgTQaYsMtAltpEwhoE"
       },
       "DEL_CMDS": {
          "description": "Set this to True if you want to delete command messages from users who don't have the perms to run that command.",
@@ -105,6 +105,11 @@
          "required": false,
          "value": ""
       },
+      "No_LOAD": {
+         "description": "Dont laod these modules cause they shit, space separation",
+         "required": false,
+         "value": "cleaner rss connection"
+      }, 
       "BL_CHATS": {
          "description": "List of chats you want blacklisted.",
          "required": false,

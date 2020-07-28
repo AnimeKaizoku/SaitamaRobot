@@ -124,6 +124,11 @@ def new_member(update: Update, context: CallbackContext):
         should_mute = True
         welcome_bool = True
 
+        if sw != None:
+                sw_ban = sw.get_ban(new_mem.id)
+                if sw_ban:
+                    return
+
         if should_welc:
 
             reply = update.message.message_id
@@ -365,6 +370,13 @@ def left_member(update: Update, context: CallbackContext):
 
         left_mem = update.effective_message.left_chat_member
         if left_mem:
+
+           # Thingy for spamwatched users
+            if sw != None:
+                  sw_ban = sw.get_ban(left_mem.id)
+                  if sw_ban:
+                      return
+
             # Dont say goodbyes to gbanned users
             if is_user_gbanned(left_mem.id):
                 return

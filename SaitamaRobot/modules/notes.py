@@ -205,7 +205,7 @@ def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
     notes = len(note_list) + 1
-    msg = "*Notes in chat:*\n"
+    msg = "To view a note send #notename where notename is the name of the note\n*Notes in chat:*\n"
     for note_id, note in zip(range(1, notes), note_list):
         if note_id < 10:
             note_name = f"`{note_id:2}.`  `#{(note.name.lower())}`\n"
@@ -282,10 +282,10 @@ A button can be added to a note by using standard markdown link syntax - the lin
 
 __mod_name__ = "Notes"
 
-GET_HANDLER = CommandHandler("get", cmd_get)
+GET_HANDLER = DisableAbleCommandHandler("get", cmd_get)
 HASH_GET_HANDLER = MessageHandler(Filters.regex(r"^#[^\s]+"), hash_get)
 
-SAVE_HANDLER = CommandHandler("save", save)
+SAVE_HANDLER = DisableAbleCommandHandler("save", save)
 DELETE_HANDLER = CommandHandler("clear", clear)
 
 LIST_HANDLER = DisableAbleCommandHandler(["notes", "saved"],

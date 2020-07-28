@@ -1,5 +1,6 @@
 import html
 import re
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 from SaitamaRobot import TIGER_USERS, WHITELIST_USERS, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import (
@@ -217,8 +218,8 @@ FLOOD_BAN_HANDLER = MessageHandler(
     Filters.all & ~Filters.status_update & Filters.group, check_flood)
 FLOOD_QUERY_HANDLER = CallbackQueryHandler(
     flood_button, pattern=r"unmute_flooder")
-SET_FLOOD_HANDLER = CommandHandler("setflood", set_flood, filters=Filters.group)
-FLOOD_HANDLER = CommandHandler("flood", flood, filters=Filters.group)
+SET_FLOOD_HANDLER = DisableAbleCommandHandler("setflood", set_flood, filters=Filters.group)
+FLOOD_HANDLER = DisableAbleCommandHandler("flood", flood, filters=Filters.group)
 
 dispatcher.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
 dispatcher.add_handler(FLOOD_QUERY_HANDLER)
