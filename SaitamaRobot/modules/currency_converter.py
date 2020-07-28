@@ -1,30 +1,26 @@
 import requests
 from SaitamaRobot import CASH_API_KEY, dispatcher
-from telegram import Update
+from telegram import Update, ParseMode
 from telegram.ext import CallbackContext, CommandHandler, run_async
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
 def convert(update: Update, context: CallbackContext):
-    args = update.effective_message.text.split(" ", 3)
-    if len(args) > 1:
+    args = update.effective_message.text.split(" ")
 
-        orig_cur_amount = float(args[1])
-
+    if len(args) == 4:
         try:
-            orig_cur = args[2].upper()
-        except IndexError:
-            update.effective_message.reply_text(
-                "You forgot to mention the currency code.")
-            return
+            orig_cur_amount = float(args[1])
+            
+        except ValueError:
+            update.effective_message.reply_text("Invalid Amount Of Currency")
+            return 
+          
+        orig_cur = args[2].upper()
 
-        try:
-            new_cur = args[3].upper()
-        except IndexError:
-            update.effective_message.reply_text(
-                "You forgot to mention the currency code to convert into.")
-            return
+        new_cur = args[3].upper()
+        
 
         request_url = (f"https://www.alphavantage.co/query"
                        f"?function=CURRENCY_EXCHANGE_RATE"
@@ -41,14 +37,22 @@ def convert(update: Update, context: CallbackContext):
         new_cur_amount = round(orig_cur_amount * current_rate, 5)
         update.effective_message.reply_text(
             f"{orig_cur_amount} {orig_cur} = {new_cur_amount} {new_cur}")
+
+    elif len(args) == 1:
+       update.effective_message.reply_text(__help__,parse_mode=ParseMode.MARKDOWN)
+        
     else:
-        update.effective_message.reply_text(__help__)
+        update.effective_message.reply_text(f"*Invalid Args!!:* Required 3 But Passed {len(args) -1}", 
+parse_mode=ParseMode.MARKDOWN)
 
 
 __help__ = """
  • `/cash`*:* currency converter
- *Example syntax:* `/cash 1 USD INR`
- *Outout:* `1.0 USD = 75.505 INR`
+
+ *Example syntax:*
+ `/cash 1 USD INR`  _OR_   `/cash 1 usd inr`
+
+ *Output:* `1.0 USD = 75.505 INR`
 
 """
 
