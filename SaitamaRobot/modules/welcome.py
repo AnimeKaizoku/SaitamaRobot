@@ -6,7 +6,7 @@ from functools import partial
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
 from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, SUDO_USERS,
-                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
+                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, sw,
                           dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected, user_admin)
