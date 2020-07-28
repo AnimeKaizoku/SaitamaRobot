@@ -1,7 +1,6 @@
 import re
 import time
 
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 import SaitamaRobot.modules.sql.connection_sql as sql
 from SaitamaRobot import DEV_USERS, SUDO_USERS, dispatcher
 from SaitamaRobot.modules.helper_funcs import chat_status
