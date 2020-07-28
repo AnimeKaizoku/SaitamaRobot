@@ -3,7 +3,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin, is_bot_admin, is_user_ban_protected, is_user_in_chat)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user_and_text
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
-from telegram import Update
+from telegram import Update, ChatPermissions
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, run_async
 
@@ -350,7 +350,7 @@ def rmute(update: Update, context: CallbackContext):
         return
 
     try:
-        bot.restrict_chat_member(chat.id, user_id, can_send_messages=False)
+        bot.restrict_chat_member(chat.id, user_id, permissions=ChatPermissions(can_send_messages=False))
         message.reply_text("Muted from the chat!")
     except BadRequest as excp:
         if excp.message == "Reply message not found":
@@ -431,11 +431,11 @@ def runmute(update: Update, context: CallbackContext):
     try:
         bot.restrict_chat_member(
             chat.id,
-            int(user_id),
+            int(user_id), permissions=ChatPermissions(
             can_send_messages=True,
             can_send_media_messages=True,
             can_send_other_messages=True,
-            can_add_web_page_previews=True)
+            can_add_web_page_previews=True))
         message.reply_text("Yep, this user can talk in that chat!")
     except BadRequest as excp:
         if excp.message == "Reply message not found":

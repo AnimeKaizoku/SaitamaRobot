@@ -9,7 +9,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     user_admin, user_not_admin)
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
 from SaitamaRobot.modules.log_channel import loggable
-from telegram import MessageEntity, ParseMode, TelegramError, Update
+from telegram import MessageEntity, ParseMode, TelegramError, Update, ChatPermissions
 from telegram.error import BadRequest
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
                           MessageHandler, run_async)
@@ -91,11 +91,11 @@ def restr_members(bot,
         try:
             bot.restrict_chat_member(
                 chat_id,
-                mem.user,
+                mem.user, permissions=ChatPermissions(
                 can_send_messages=messages,
                 can_send_media_messages=media,
                 can_send_other_messages=other,
-                can_add_web_page_previews=previews)
+                can_add_web_page_previews=previews))
         except TelegramError:
             pass
 
@@ -112,11 +112,11 @@ def unrestr_members(bot,
         try:
             bot.restrict_chat_member(
                 chat_id,
-                mem.user,
+                mem.user, permissions=ChatPermissions(
                 can_send_messages=messages,
                 can_send_media_messages=media,
                 can_send_other_messages=other,
-                can_add_web_page_previews=previews)
+                can_add_web_page_previews=previews))
         except TelegramError:
             pass
 
