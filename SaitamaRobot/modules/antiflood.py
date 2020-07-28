@@ -8,7 +8,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.sql import antiflood_sql as sql
 from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
-                      Update)
+                      Update, ChatPermissions)
 from telegram.error import BadRequest
 from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
                           Filters, MessageHandler, run_async)
@@ -40,7 +40,7 @@ def check_flood(update: Update, context: CallbackContext) -> str:
         return ""
 
     try:
-        bot.restrict_chat_member(chat.id, user.id, can_send_messages=False)
+        bot.restrict_chat_member(chat.id, user.id, permissions=ChatPermissions(can_send_messages=False))
 
         keyboard = InlineKeyboardMarkup([[
             InlineKeyboardButton(
@@ -85,11 +85,11 @@ def flood_button(update: Update, context: CallbackContext):
         try:
             bot.restrict_chat_member(
                 chat,
-                int(user_id),
+                int(user_id), permissions=ChatPermissions(
                 can_send_messages=True,
                 can_send_media_messages=True,
                 can_send_other_messages=True,
-                can_add_web_page_previews=True)
+                can_add_web_page_previews=True))
             update.effective_message.edit_text(
                 f"Unmuted by {mention_html(user.id, user.first_name)}.",
                 parse_mode="HTML")
