@@ -406,7 +406,7 @@ stickers, etc.
 Locking bots will stop non-admins from adding bots to the chat.
 """
 
-LOCKTYPES_HANDLER = CommandHandler("locktypes", locktypes)
+LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes)
 LOCK_HANDLER = CommandHandler("lock", lock)
 UNLOCK_HANDLER = CommandHandler("unlock", unlock)
 LOCKED_HANDLER = CommandHandler("locks", list_locks)

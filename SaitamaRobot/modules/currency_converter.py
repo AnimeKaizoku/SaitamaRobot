@@ -2,7 +2,6 @@ import requests
 from SaitamaRobot import CASH_API_KEY, dispatcher
 from telegram import Update, ParseMode
 from telegram.ext import CallbackContext, CommandHandler, run_async
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async

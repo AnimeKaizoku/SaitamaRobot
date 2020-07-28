@@ -1,5 +1,5 @@
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
 from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
                           WHITELIST_USERS, dispatcher)

@@ -1,5 +1,4 @@
 import html
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 from SaitamaRobot import (LOGGER, SUDO_USERS, TIGER_USERS, WHITELIST_USERS,
                           dispatcher)

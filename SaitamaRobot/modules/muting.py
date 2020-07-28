@@ -1,6 +1,5 @@
 import html
 from typing import Optional
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 from SaitamaRobot import LOGGER, TIGER_USERS, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
