@@ -1,7 +1,6 @@
 import html
 # AI module using Intellivoid's Coffeehouse API by @TheRealPhoenix
 from time import sleep, time
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 import SaitamaRobot.modules.sql.chatbot_sql as sql
 from coffeehouse.api import API
@@ -144,8 +143,8 @@ Reports bugs at {SUPPORT_CHAT}
 *Powered by CoffeeHouse* (https://coffeehouse.intellivoid.net/) from @Intellivoid
 """
 
-ADD_CHAT_HANDLER = DisableAbleCommandHandler("addchat", add_chat)
-REMOVE_CHAT_HANDLER = DisableAbleCommandHandler("rmchat", remove_chat)
+ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
+REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat)
 CHATBOT_HANDLER = MessageHandler(
     Filters.text & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!")
                     & ~Filters.regex(r"^\/")), chatbot)

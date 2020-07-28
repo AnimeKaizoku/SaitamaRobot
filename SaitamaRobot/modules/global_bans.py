@@ -6,7 +6,7 @@ from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
 import SaitamaRobot.modules.sql.global_bans_sql as sql
 from SaitamaRobot import (DEV_USERS, GBAN_LOGS, OWNER_ID, STRICT_GBAN,
                           SUDO_USERS, SUPPORT_CHAT, SUPPORT_USERS, TIGER_USERS,
-                          WHITELIST_USERS, dispatcher)
+                          WHITELIST_USERS, sw, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
                                                            support_plus,
                                                            user_admin)

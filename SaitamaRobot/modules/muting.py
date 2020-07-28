@@ -1,6 +1,5 @@
 import html
 from typing import Optional
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 from SaitamaRobot import LOGGER, TIGER_USERS, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
@@ -221,9 +220,9 @@ __help__ = """
  • `/unmute <userhandle>`*:* unmutes a user. Can also be used as a reply, muting the replied to user.
 """
 
-MUTE_HANDLER = DisableAbleCommandHandler("mute", mute)
+MUTE_HANDLER = CommandHandler("mute", mute)
 UNMUTE_HANDLER = CommandHandler("unmute", unmute)
-TEMPMUTE_HANDLER = DisableAbleCommandHandler(["tmute", "tempmute"], temp_mute)
+TEMPMUTE_HANDLER = CommandHandler(["tmute", "tempmute"], temp_mute)
 
 dispatcher.add_handler(MUTE_HANDLER)
 dispatcher.add_handler(UNMUTE_HANDLER)

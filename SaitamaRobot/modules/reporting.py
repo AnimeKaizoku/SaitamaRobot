@@ -1,5 +1,4 @@
 import html
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 from SaitamaRobot import (LOGGER, SUDO_USERS, TIGER_USERS, WHITELIST_USERS,
                           dispatcher)
@@ -277,7 +276,7 @@ __help__ = """
 """
 
 SETTING_HANDLER = CommandHandler("reports", report_setting)
-REPORT_HANDLER = DisableAbleCommandHandler("report", report, filters=Filters.group)
+REPORT_HANDLER = CommandHandler("report", report, filters=Filters.group)
 ADMIN_REPORT_HANDLER = MessageHandler(Filters.regex(r"(?i)@admin(s)?"), report)
 
 REPORT_BUTTON_USER_HANDLER = CallbackQueryHandler(buttons, pattern=r"report_")
