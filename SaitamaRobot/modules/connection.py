@@ -1,7 +1,7 @@
 import time
 import re
 
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update
+from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update, Bot
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CommandHandler, CallbackQueryHandler, run_async, CallbackContext
 
@@ -262,7 +262,7 @@ def disconnect_chat(update, context):
         send_message(update.effective_message, "This command is only available in PM.")
 
 
-def connected(update: Update, context: CallbackContext, chat, user_id, need_admin=True):
+def connected(bot: Bot, update: Update, context: CallbackContext, chat, user_id, need_admin=True):
     user = update.effective_user
 
     if chat.type == chat.PRIVATE and sql.get_connected_chat(user_id):
