@@ -83,6 +83,3 @@ class CustomMessageHandler(MessageHandler):
         super().__init__(filters, callback, **kwargs)
  
 
-while True:
-    waitlist.clear()
-    sleep(1)
