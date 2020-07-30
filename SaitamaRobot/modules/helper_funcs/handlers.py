@@ -10,15 +10,6 @@ else:
     CMD_STARTERS = ('/',)
 
     
-waitlist = []
-
-def is_user_waitlisted(user):
-    global waitlist
-    if user in waitlist:
-        return True
-    else:
-        waitlist.append(user)
-        return False
 
 class CustomCommandHandler(CommandHandler):
 
@@ -30,8 +21,6 @@ class CustomCommandHandler(CommandHandler):
             message = update.effective_message
 
             if sql.is_user_blacklisted(update.effective_user.id):
-                return False
-            if is_user_waitlisted(update.effective_user.id):
                 return False
             if (message.entities and
                     message.entities[0].type == MessageEntity.BOT_COMMAND and
