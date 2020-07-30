@@ -9,9 +9,11 @@ from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
                                                     revert_buttons)
 from SaitamaRobot.modules.helper_funcs.msg_types import get_note_type
+from SaitamaRobot.modules.helper_funcs.string_handling import escape_invalid_curly_brackets
 from telegram import (MAX_MESSAGE_LENGTH, InlineKeyboardMarkup, Message,
                       ParseMode, Update)
 from telegram.error import BadRequest
+from telegram.utils.helpers import escape_markdown, mention_markdown
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
                           MessageHandler)
 from telegram.ext.dispatcher import run_async
@@ -76,6 +78,15 @@ def get(update, context, notename, show_none=True, no_format=False):
                     else:
                         raise
         else:
+            VALID_NOTE_FORMATTERS = ['first', 'last', 'fullname', 'username', 'id', 'chatname', 'mention']
+            valid_format = escape_invalid_curly_brackets(note.value, VALID_NOTE_FORMATTERS)
+            if valid_format:
+                    text = valid_format.format(first=escape_markdown(message.from_user.first_name),
+                                                                              last=escape_markdown(message.from_user.last_name or message.from_user.first_name),
+                                                                              fullname=escape_markdown(" ".join([message.from_user.first_name, message.from_user.last_name] if message.from_user.last_name else message.from_user.first_name)), username="@" + message.from_user.username if message.from_user.username else mention_markdown(message.from_user.id, message.from_user.first_name), mention=mention_markdown(message.from_user.id, message.from_user.first_name), chatname=escape_markdown(message.chat.title), id=message.from_user.id)
+            else:
+                    text = ""
+
             text = note.value
             keyb = []
             parseMode = ParseMode.MARKDOWN
