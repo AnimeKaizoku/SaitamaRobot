@@ -228,7 +228,7 @@ def list_notes(update: Update, context: CallbackContext):
             msg = ""
         msg += note_name
 
-    if msg == "*Notes in chat:*\n":
+    if not note_list::
         update.effective_message.reply_text("No notes in this chat!")
 
     elif len(msg) != 0:
