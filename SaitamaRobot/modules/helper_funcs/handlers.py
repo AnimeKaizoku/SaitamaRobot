@@ -84,5 +84,5 @@ class CustomMessageHandler(MessageHandler):
  
 
 while True:
-    a.clear()
+    waitlist.clear()
     sleep(1)
