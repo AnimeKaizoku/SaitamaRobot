@@ -220,7 +220,7 @@ def disconnect_chat(update: Update, context: CallbackContext):
         send_message(msg, "This command is only available in PM.")
 
 
-def connected(update, context, chat, user_id, need_admin=True):
+def connected(update: Update, context: CallbackContext, chat, user_id, need_admin=True):
     user = update.effective_user
     msg = update.effective_message
 
