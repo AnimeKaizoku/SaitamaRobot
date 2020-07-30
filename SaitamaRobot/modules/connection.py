@@ -1,9 +1,9 @@
 import time
 import re
 
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
+from telegram.ext import CommandHandler, CallbackQueryHandler, run_async, CallbackContext
 
 import SaitamaRobot.modules.sql.connection_sql as sql
 from SaitamaRobot import dispatcher, SUDO_USERS
