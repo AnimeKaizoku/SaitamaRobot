@@ -260,10 +260,14 @@ def new_member(update: Update, context: CallbackContext):
                         chat.id,
                         new_mem.id,
                         permissions=ChatPermissions(
-                            can_send_messages=True,
-                            can_send_media_messages=False,
+                            can_send_messages=True, 
+                            can_send_media_messages=False, 
                             can_send_other_messages=False,
-                            can_add_web_page_previews=False,
+                            can_invite_users=False,
+                            can_pin_messages=False,
+                            can_send_polls=False,
+                            can_change_info=False,
+                            can_add_web_page_previews=False
                             until_date=(int(time.time() + 24 * 60 * 60))))
 
                 if welc_mutes == "strong":
@@ -292,10 +296,14 @@ def new_member(update: Update, context: CallbackContext):
                         chat.id,
                         new_mem.id,
                         permissions=ChatPermissions(
-                            can_send_messages=False,
-                            can_send_media_messages=False,
-                            can_send_other_messages=False,
-                            can_add_web_page_previews=False))
+                        can_send_messages=False,
+                        can_invite_users=False,
+                        can_pin_messages=False,
+                        can_send_polls=False,
+                        can_change_info=False,
+                        can_send_media_messages=False, 
+                        can_send_other_messages=False, 
+                        can_add_web_page_previews=False))
 
                     job_queue.run_once(
                         partial(check_not_bot, new_mem, chat.id,
@@ -768,8 +776,12 @@ def user_button(update: Update, context: CallbackContext):
             user.id,
             permissions=ChatPermissions(
                 can_send_messages=True,
-                can_send_media_messages=True,
-                can_send_other_messages=True,
+                can_invite_users=True,
+                can_pin_messages=True,
+                can_send_polls=True,
+                can_change_info=True,
+                can_send_media_messages=True, 
+                can_send_other_messages=True, 
                 can_add_web_page_previews=True))
         bot.deleteMessage(chat.id, message.message_id)
         if member_dict["should_welc"]:
