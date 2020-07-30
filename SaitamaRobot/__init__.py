@@ -169,7 +169,7 @@ DEV_USERS.add(OWNER_ID)
 #SpamWatch Thingies
 spamwatch_api = os.environ.get('sw_api', None)
 
-if spamwatch_api == "None":
+if spamwatch_api == None:
     sw = None
     LOGGER.warning("SpamWatch API key missing! recheck your config.")
 else:
