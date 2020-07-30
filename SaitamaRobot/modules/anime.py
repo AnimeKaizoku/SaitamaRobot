@@ -157,6 +157,23 @@ query ($id: Int,$search: String) {
 
 url = 'https://graphql.anilist.co'
 
+@run_async
+def airing(update: Update, context: CallbackContext):
+  message = update.effective_message
+  search_str = message.text.split(' ', 1)
+  if len(search_str) == 1:
+      update.effective_message.reply_text('Tell Anime Name :) ( /airing <anime name>)')
+      return
+  variables = {'search' : search_str[1]}
+  response = requests.post(url, json={'query': airing_query, 'variables': variables}).json()['data']['Media']
+  msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*ID*: `{response['id']}`"
+  if response['nextAiringEpisode']:
+    time = response['nextAiringEpisode']['timeUntilAiring'] * 1000
+    time = t(time)
+    msg += f"\n*Episode*: `{response['nextAiringEpisode']['episode']}`\n*Airing In*: `{time}`"
+  else:
+    msg += f"\n*Episode*:{response['episodes']}\n*Status*: `N/A`"
+  update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 @run_async
 def anime(update: Update, context: CallbackContext):
@@ -540,10 +557,12 @@ Get information about anime, manga or characters from [AniList](anilist.co).
  • `/upcoming`*:* returns a list of new anime in the upcoming seasons.
  • `/kaizoku <anime>`*:* search an anime on animekaizoku.com
  • `/kayo <anime>`*:* search an anime on animekayo.com
+ • `/airing <anime>`*:* returns anime airing info.
 
  """
 
 ANIME_HANDLER = DisableAbleCommandHandler("anime", anime)
+AIRING_HANDLER = DisableAbleCommandHandler("airing", airing)
 CHARACTER_HANDLER = DisableAbleCommandHandler("character", character)
 MANGA_HANDLER = DisableAbleCommandHandler("manga", manga)
 USER_HANDLER = DisableAbleCommandHandler("user", user)
@@ -556,6 +575,7 @@ dispatcher.add_handler(BUTTON_HANDLER)
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
+dispatcher.add_handler(AIRING_HANDLER)
 dispatcher.add_handler(USER_HANDLER)
 dispatcher.add_handler(KAIZOKU_SEARCH_HANDLER)
 dispatcher.add_handler(KAYO_SEARCH_HANDLER)
@@ -563,10 +583,10 @@ dispatcher.add_handler(UPCOMING_HANDLER)
 
 __mod_name__ = "Anime"
 __command_list__ = [
-    "anime", "manga", "character", "user", "upcoming", "kaizoku", "kayo"
+    "anime", "manga", "character", "user", "upcoming", "kaizoku", "airing", "kayo"
 ]
 __handlers__ = [
     ANIME_HANDLER, CHARACTER_HANDLER, MANGA_HANDLER, USER_HANDLER,
     UPCOMING_HANDLER, KAIZOKU_SEARCH_HANDLER, KAYO_SEARCH_HANDLER,
-    BUTTON_HANDLER
+    BUTTON_HANDLER, AIRING_HANDLER
 ]

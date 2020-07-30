@@ -6,7 +6,7 @@ from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
 import SaitamaRobot.modules.sql.global_bans_sql as sql
 from SaitamaRobot import (DEV_USERS, GBAN_LOGS, OWNER_ID, STRICT_GBAN,
                           SUDO_USERS, SUPPORT_CHAT, SUPPORT_USERS, TIGER_USERS,
-                          WHITELIST_USERS, dispatcher)
+                          WHITELIST_USERS, sw, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
                                                            support_plus,
                                                            user_admin)
@@ -376,13 +376,27 @@ def gbanlist(update: Update, context: CallbackContext):
 
 def check_and_ban(update, user_id, should_message=True):
 
+    chat = update.effective_chat  # type: Optional[Chat]
+    sw_ban = sw.get_ban(int(user_id))
+    if sw_ban:
+        update.effective_chat.kick_member(user_id)
+        if should_message:
+            update.effective_message.reply_text(
+                "<b>Spamwatch Alert:</b> This user is not safe!\n"
+                "<code>*rekts them from here*.</code>\n"
+                "<b>Appeal chat:</b> @SpamWatchSupport",
+                parse_mode=ParseMode.HTML)
+            return
+        else:
+            return
+
     if sql.is_user_gbanned(user_id):
         update.effective_chat.kick_member(user_id)
         if should_message:
             update.effective_message.reply_text(
                 "<b>Alert:</b> This user is globally banned.\n"
                 "<code>*bans them from here*.</code>\n"
-                f"Appeal chat: {SUPPORT_CHAT}",
+                f"<b>Appeal chat:</b> {SUPPORT_CHAT}",
                 parse_mode=ParseMode.HTML)
 
 
@@ -472,6 +486,11 @@ Gbans, also known as global bans, are used by the bot owners to ban spammers acr
 you and your groups by removing spam flooders as quickly as possible. They can be disabled for your group by calling \
 `/gbanstat`
 *Note:* Users can appeal gbans or report spammers at {SUPPORT_CHAT}
+
+Saitama also integrates @Spamwatch API into gbans to remove Spammers as much as possible from your chatroom!
+*What is SpamWatch?*
+SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
+Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban)

@@ -20,7 +20,6 @@ def ud(update: Update, context: CallbackContext):
 
 __help__ = """
  • `/ud <word>`*:* Type the word or expression you want to search use.
- • `/urban <word>`*:* Same as `/ud`
 """
 
 UD_HANDLER = DisableAbleCommandHandler(["ud"], ud)

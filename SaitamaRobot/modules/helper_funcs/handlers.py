@@ -2,12 +2,14 @@ import SaitamaRobot.modules.sql.blacklistusers_sql as sql
 from SaitamaRobot import ALLOW_EXCL
 from telegram import MessageEntity, Update
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler
+from time import sleep
 
 if ALLOW_EXCL:
     CMD_STARTERS = ('/', '!')
 else:
     CMD_STARTERS = ('/',)
 
+    
 
 class CustomCommandHandler(CommandHandler):
 
@@ -20,7 +22,6 @@ class CustomCommandHandler(CommandHandler):
 
             if sql.is_user_blacklisted(update.effective_user.id):
                 return False
-
             if (message.entities and
                     message.entities[0].type == MessageEntity.BOT_COMMAND and
                     message.entities[0].offset == 0):
@@ -69,3 +70,5 @@ class CustomMessageHandler(MessageHandler):
 
     def __init__(self, filters, callback, friendly="", **kwargs):
         super().__init__(filters, callback, **kwargs)
+ 
+

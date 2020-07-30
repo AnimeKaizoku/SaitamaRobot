@@ -13,11 +13,26 @@
          "description": "Set this to True if you want ! to be a command prefix along with /",
          "value": "True"
       },
+      "API_ID": {
+         "description": "Get API_ID from my.telegram.org - this is used for telethon based modules.",
+         "required": true,
+         "value": ""
+      },
+      "API_HASH": {
+         "description": "Get API_HASH from my.telegram.org - this is used for telethon based modules.",
+         "required": true,
+         "value": ""
+      },
       "BAN_STICKER": {
          "description": "ID of the sticker you want to use when banning people.",
          "required": false,
-         "value": "CAACAgQAAx0CU\_rCTAACrS9eX6aSdWGlWOAAASV7RAsMxyOmU08AAjUAA5OB2QL9q4NuR9MogxgE"
+         "value": "CAACAgQAAx0CU_rCTAABAczQXyBOv1TsVK4EfwnkCUT1H0GCkPQAAtwAAwEgTQaYsMtAltpEwhoE"
       },
+      "sw_api": {
+         "description": "Spamwatch API Token - Get one from @SpamwatchSupport.",
+         "required": true,
+         "value": ""
+      },     
       "DEL_CMDS": {
          "description": "Set this to True if you want to delete command messages from users who don't have the perms to run that command.",
          "value": "True"
@@ -105,6 +120,11 @@
          "required": false,
          "value": ""
       },
+      "No_LOAD": {
+         "description": "Dont laod these modules cause they shit, space separation",
+         "required": false,
+         "value": "cleaner rss connection"
+      }, 
       "BL_CHATS": {
          "description": "List of chats you want blacklisted.",
          "required": false,
