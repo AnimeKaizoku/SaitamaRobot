@@ -180,7 +180,7 @@ def flood(update, context):
     user = update.effective_user  # type: Optional[User]
     msg = update.effective_message
 
-    conn = connected(update, context.bot, chat, user.id, need_admin=False)
+    conn = connected(context.bot, update, chat, user.id, need_admin=False)
     if conn:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
