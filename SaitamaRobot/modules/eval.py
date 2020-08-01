@@ -35,13 +35,13 @@ def log_input(update):
 
 
 def send(msg, bot, update):
-    if len(str(msg)) > 2000:
+    if len(str(msg)) > 6:
           with io.BytesIO(str.encode(msg)) as out_file:
-             out_file.name = "output.text"
+             out_file.name = "output.txt"
              bot.send_document(
                 chat_id=update.effective_chat.id,
                 document=out_file)
-             os.remove("output.text")
+             os.remove("output.txt")
     else:
        LOGGER.info(f"OUT: '{msg}'")
        bot.send_message(
