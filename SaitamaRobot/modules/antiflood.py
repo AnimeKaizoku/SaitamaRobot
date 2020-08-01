@@ -236,18 +236,18 @@ def set_flood_mode(update, context):
             sql.set_flood_strength(chat_id, 3, "0")
         elif args[0].lower() == 'tban':
             if len(args) == 1:
-                teks = tl(update.effective_message, """It looks like you tried to set time value for antiflood but you didn't specified time; Try, `/setfloodmode tban <timevalue>`.
+                teks = """It looks like you tried to set time value for antiflood but you didn't specified time; Try, `/setfloodmode tban <timevalue>`.
 
-Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.""")
+Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
             settypeflood = ("tban for {}".format(args[1]))
             sql.set_flood_strength(chat_id, 4, str(args[1]))
         elif args[0].lower() == 'tmute':
             if len(args) == 1:
-                teks = tl(update.effective_message, """It looks like you tried to set time value for antiflood but you didn't sspecified time; Try, `/setfloodmode tmute <timevalue>`.
+                teks = update.effective_message, """It looks like you tried to set time value for antiflood but you didn't specified time; Try, `/setfloodmode tmute <timevalue>`.
 
-Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.""")
+Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
             settypeflood = ("tmute for {}".format(args[1]))
@@ -258,7 +258,7 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
         if conn:
             text = msg.reply_text("Exceeding consecutive flood limit will result in {} in {}!".format(settypeflood, chat_name))
         else:
-            text = msg.reply_text("Exceeding consecutive foood limit will result in {}!".format(settypeflood))
+            text = msg.reply_text("Exceeding consecutive flood limit will result in {}!".format(settypeflood))
         return "<b>{}:</b>\n" \
                 "<b>Admin:</b> {}\n" \
                 "Has changed antiflood mode. User will {}.".format(settypeflood, html.escape(chat.title),
@@ -289,9 +289,9 @@ def __migrate__(old_chat_id, new_chat_id):
 def __chat_settings__(chat_id, user_id):
     limit = sql.get_flood_limit(chat_id)
     if limit == 0:
-        return tl(user_id, "Saat ini *Tidak* menegakkan pengendalian pesan beruntun.")
+        return "Not enforcing to flood control."
     else:
-        return tl(user_id, "Anti Pesan Beruntun diatur ke `{}` pesan.").format(limit)
+        return "Antiflood has been set to`{}`.".format(limit)
 
 
 
