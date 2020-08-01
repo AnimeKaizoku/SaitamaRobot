@@ -352,8 +352,8 @@ def connection_status(func):
     def connected_status(update: Update, context: CallbackContext, *args,
                          **kwargs):
         conn = connected(
+            context.bot,
             update,
-            context,
             update.effective_chat,
             update.effective_user.id,
             need_admin=False)

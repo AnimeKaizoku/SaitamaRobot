@@ -125,9 +125,9 @@ def new_member(update: Update, context: CallbackContext):
         welcome_bool = True
 
         if sw != None:
-                sw_ban = sw.get_ban(new_mem.id)
-                if sw_ban:
-                    return
+            sw_ban = sw.get_ban(new_mem.id)
+            if sw_ban:
+                return
 
         if should_welc:
 
@@ -269,7 +269,6 @@ def new_member(update: Update, context: CallbackContext):
                             can_change_info=False,
                             can_add_web_page_previews=False,
                             until_date=(int(time.time() + 24 * 60 * 60))))
-
                 if welc_mutes == "strong":
                     welcome_bool = False
                     VERIFIED_USER_WAITLIST.update({
@@ -296,15 +295,14 @@ def new_member(update: Update, context: CallbackContext):
                         chat.id,
                         new_mem.id,
                         permissions=ChatPermissions(
-                        can_send_messages=False,
-                        can_invite_users=False,
-                        can_pin_messages=False,
-                        can_send_polls=False,
-                        can_change_info=False,
-                        can_send_media_messages=False, 
-                        can_send_other_messages=False, 
-                        can_add_web_page_previews=False))
-
+                            can_send_messages=False,
+                            can_invite_users=False,
+                            can_pin_messages=False,
+                            can_send_polls=False,
+                            can_change_info=False,
+                            can_send_media_messages=False,
+                            can_send_other_messages=False,
+                            can_add_web_page_previews=False))
                     job_queue.run_once(
                         partial(check_not_bot, new_mem, chat.id,
                                 message.message_id),
@@ -335,8 +333,8 @@ def new_member(update: Update, context: CallbackContext):
     return ""
 
 
-def check_not_bot(member, chat_id, message_id, bot, job):
-
+def check_not_bot(member, chat_id, message_id, context):
+    bot = context.bot
     member_dict = VERIFIED_USER_WAITLIST.pop(member.id)
     member_status = member_dict.get("status")
     if not member_status:
@@ -379,11 +377,11 @@ def left_member(update: Update, context: CallbackContext):
         left_mem = update.effective_message.left_chat_member
         if left_mem:
 
-           # Thingy for spamwatched users
+            # Thingy for spamwatched users
             if sw != None:
-                  sw_ban = sw.get_ban(left_mem.id)
-                  if sw_ban:
-                      return
+                sw_ban = sw.get_ban(left_mem.id)
+                if sw_ban:
+                    return
 
             # Dont say goodbyes to gbanned users
             if is_user_gbanned(left_mem.id):
@@ -776,12 +774,12 @@ def user_button(update: Update, context: CallbackContext):
             user.id,
             permissions=ChatPermissions(
                 can_send_messages=True,
-                can_invite_users=True,              
+                can_invite_users=True,
                 can_pin_messages=True,
                 can_send_polls=True,
                 can_change_info=True,
-                can_send_media_messages=True, 
-                can_send_other_messages=True, 
+                can_send_media_messages=True,
+                can_send_other_messages=True,
                 can_add_web_page_previews=True))
         bot.deleteMessage(chat.id, message.message_id)
         if member_dict["should_welc"]:
