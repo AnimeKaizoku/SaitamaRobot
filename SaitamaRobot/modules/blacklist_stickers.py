@@ -6,12 +6,13 @@ from SaitamaRobot import LOGGER, dispatcher
 from SaitamaRobot.modules.connection import connected
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
-from SaitamaRobot.modules.helper_funcs.chat_status import (user_admin,
-                                                           user_not_admin)
+from SaitamaRobot.modules.helper_funcs.chat_status import (user_admin, user_not_admin)
 from SaitamaRobot.modules.helper_funcs.misc import split_message
+from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
+
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.warns import warn
-from telegram import (Chat, Message, ParseMode, Update, User)
+from telegram import (Chat, Message, ParseMode, Update, User, ChatPermissions)
 from telegram.error import BadRequest
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
                           MessageHandler)
@@ -288,8 +289,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
                 send_message(
                     update.effective_message, teks, parse_mode="markdown")
                 return
-            settypeblacklist = tl(update.effective_message,
-                                  'temporary muted for {}').format(args[1])
+            settypeblacklist = 'temporary muted for {}'.format(args[1])
             sql.set_blacklist_strength(chat_id, 7, str(args[1]))
         else:
             send_message(
@@ -373,7 +373,8 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     bot.restrict_chat_member(
                         chat.id,
                         update.effective_user.id,
-                        can_send_messages=False)
+                        permissions=ChatPermissions(
+                        can_send_messages=False))
                     bot.sendMessage(
                         chat.id,
                         "{} muted because using '{}' which in blacklist stickers"
@@ -423,8 +424,9 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     bot.restrict_chat_member(
                         chat.id,
                         user.id,
-                        until_date=mutetime,
-                        can_send_messages=False)
+                        permissions=ChatPermissions(
+                        can_send_messages=False,
+                        until_date=mutetime))
                     bot.sendMessage(
                         chat.id,
                         "{} muted for {} because using '{}' which in blacklist stickers"
