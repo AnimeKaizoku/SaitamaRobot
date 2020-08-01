@@ -35,7 +35,7 @@ def log_input(update):
 
 
 def send(msg, bot, update):
-    if len(str(msg)) > 6:
+    if len(str(msg)) > 2000:
           with io.BytesIO(str.encode(msg)) as out_file:
              out_file.name = "output.text"
              bot.send_document(
