@@ -115,6 +115,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
             message.reply_text("This user already has the right to speak.")
         else:
             chat_permissions = ChatPermissions(
+                can_send_messages=True,
                 can_invite_users=True,
                 can_pin_messages=True,
                 can_send_polls=True,
