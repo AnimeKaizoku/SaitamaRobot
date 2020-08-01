@@ -78,14 +78,34 @@ def get(update, context, notename, show_none=True, no_format=False):
                     else:
                         raise
         else:
-            VALID_NOTE_FORMATTERS = ['first', 'last', 'fullname', 'username', 'id', 'chatname', 'mention']
-            valid_format = escape_invalid_curly_brackets(note.value, VALID_NOTE_FORMATTERS)
+            VALID_NOTE_FORMATTERS = [
+                'first', 'last', 'fullname', 'username', 'id', 'chatname',
+                'mention'
+            ]
+            valid_format = escape_invalid_curly_brackets(
+                note.value, VALID_NOTE_FORMATTERS)
             if valid_format:
-                    text = valid_format.format(first=escape_markdown(message.from_user.first_name),
-                                                                              last=escape_markdown(message.from_user.last_name or message.from_user.first_name),
-                                                                              fullname=escape_markdown(" ".join([message.from_user.first_name, message.from_user.last_name] if message.from_user.last_name else [message.from_user.first_name])), username="@" + message.from_user.username if message.from_user.username else mention_markdown(message.from_user.id, message.from_user.first_name), mention=mention_markdown(message.from_user.id, message.from_user.first_name), chatname=escape_markdown(message.chat.title if message.chat.type != "private" else message.from_user.first_name), id=message.from_user.id)
+                text = valid_format.format(
+                    first=escape_markdown(message.from_user.first_name),
+                    last=escape_markdown(message.from_user.last_name or
+                                         message.from_user.first_name),
+                    fullname=escape_markdown(
+                        " ".join([
+                            message.from_user.first_name, message.from_user
+                            .last_name
+                        ] if message.from_user.last_name else
+                                 [message.from_user.first_name])),
+                    username="@" + message.from_user.username
+                    if message.from_user.username else mention_markdown(
+                        message.from_user.id, message.from_user.first_name),
+                    mention=mention_markdown(message.from_user.id,
+                                             message.from_user.first_name),
+                    chatname=escape_markdown(
+                        message.chat.title if message.chat.type != "private"
+                        else message.from_user.first_name),
+                    id=message.from_user.id)
             else:
-                    text = ""
+                text = ""
 
             keyb = []
             parseMode = ParseMode.MARKDOWN

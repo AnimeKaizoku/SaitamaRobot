@@ -11,15 +11,14 @@ def convert(update: Update, context: CallbackContext):
     if len(args) == 4:
         try:
             orig_cur_amount = float(args[1])
-            
+
         except ValueError:
             update.effective_message.reply_text("Invalid Amount Of Currency")
-            return 
-          
+            return
+
         orig_cur = args[2].upper()
 
         new_cur = args[3].upper()
-        
 
         request_url = (f"https://www.alphavantage.co/query"
                        f"?function=CURRENCY_EXCHANGE_RATE"
@@ -38,11 +37,13 @@ def convert(update: Update, context: CallbackContext):
             f"{orig_cur_amount} {orig_cur} = {new_cur_amount} {new_cur}")
 
     elif len(args) == 1:
-       update.effective_message.reply_text(__help__,parse_mode=ParseMode.MARKDOWN)
-        
+        update.effective_message.reply_text(
+            __help__, parse_mode=ParseMode.MARKDOWN)
+
     else:
-        update.effective_message.reply_text(f"*Invalid Args!!:* Required 3 But Passed {len(args) -1}", 
-parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_text(
+            f"*Invalid Args!!:* Required 3 But Passed {len(args) -1}",
+            parse_mode=ParseMode.MARKDOWN)
 
 
 __help__ = """

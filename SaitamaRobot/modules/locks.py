@@ -91,11 +91,12 @@ def restr_members(bot,
         try:
             bot.restrict_chat_member(
                 chat_id,
-                mem.user, permissions=ChatPermissions(
-                can_send_messages=messages,
-                can_send_media_messages=media,
-                can_send_other_messages=other,
-                can_add_web_page_previews=previews))
+                mem.user,
+                permissions=ChatPermissions(
+                    can_send_messages=messages,
+                    can_send_media_messages=media,
+                    can_send_other_messages=other,
+                    can_add_web_page_previews=previews))
         except TelegramError:
             pass
 
@@ -112,11 +113,12 @@ def unrestr_members(bot,
         try:
             bot.restrict_chat_member(
                 chat_id,
-                mem.user, permissions=ChatPermissions(
-                can_send_messages=messages,
-                can_send_media_messages=media,
-                can_send_other_messages=other,
-                can_add_web_page_previews=previews))
+                mem.user,
+                permissions=ChatPermissions(
+                    can_send_messages=messages,
+                    can_send_media_messages=media,
+                    can_send_other_messages=other,
+                    can_add_web_page_previews=previews))
         except TelegramError:
             pass
 

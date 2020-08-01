@@ -40,8 +40,8 @@ def slap(update: Update, context: CallbackContext):
                 bot.restrict_chat_member(
                     chat.id,
                     message.from_user.id,
-                    until_date=mutetime, permissions=ChatPermissions(
-                    can_send_messages=False))
+                    until_date=mutetime,
+                    permissions=ChatPermissions(can_send_messages=False))
             reply_text(temp[0])
         else:
             reply_text(temp)

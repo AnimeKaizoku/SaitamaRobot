@@ -6,7 +6,8 @@ from SaitamaRobot import LOGGER, dispatcher
 from SaitamaRobot.modules.connection import connected
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
-from SaitamaRobot.modules.helper_funcs.chat_status import (user_admin, user_not_admin)
+from SaitamaRobot.modules.helper_funcs.chat_status import (user_admin,
+                                                           user_not_admin)
 from SaitamaRobot.modules.helper_funcs.misc import split_message
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 
@@ -373,8 +374,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     bot.restrict_chat_member(
                         chat.id,
                         update.effective_user.id,
-                        permissions=ChatPermissions(
-                        can_send_messages=False))
+                        permissions=ChatPermissions(can_send_messages=False))
                     bot.sendMessage(
                         chat.id,
                         "{} muted because using '{}' which in blacklist stickers"
@@ -425,8 +425,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                         chat.id,
                         user.id,
                         permissions=ChatPermissions(
-                        can_send_messages=False,
-                        until_date=mutetime))
+                            can_send_messages=False, until_date=mutetime))
                     bot.sendMessage(
                         chat.id,
                         "{} muted for {} because using '{}' which in blacklist stickers"
