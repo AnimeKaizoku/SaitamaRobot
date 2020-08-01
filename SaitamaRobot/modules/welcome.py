@@ -334,8 +334,8 @@ def new_member(update: Update, context: CallbackContext):
     return ""
 
 
-def check_not_bot(member, chat_id, message_id, bot, job):
-
+def check_not_bot(member, chat_id, message_id, context):
+    bot = context.bot
     member_dict = VERIFIED_USER_WAITLIST.pop(member.id)
     member_status = member_dict.get("status")
     if not member_status:
