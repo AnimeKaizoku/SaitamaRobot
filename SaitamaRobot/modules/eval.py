@@ -36,9 +36,11 @@ def log_input(update):
 
 def send(msg, bot, update):
     if len(str(msg)) > 6:
-       bot.send_document(
-         chat_id=update.effective_chat.id,
-         document=out_file)
+          with io.BytesIO(str.encode(msg)) as out_file:
+             out_file.name = "output.text"
+             bot.send_document(
+                chat_id=update.effective_chat.id,
+                document=out_file)
     else:
        LOGGER.info(f"OUT: '{msg}'")
        bot.send_message(
@@ -110,10 +112,6 @@ def do(func, bot, update):
                     pass
         else:
             result = f'{value}{func_return}'
-        if result:
-            if len(str(result)) > 6:
-                with io.BytesIO(str.encode(result)) as out_file:
-                   out_file.name = "output.text"
             return result
 
 
