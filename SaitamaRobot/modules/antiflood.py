@@ -135,7 +135,7 @@ def set_flood(update, context) -> str:
                 text = message.reply_text("Antiflood has been disabled in {}.".format(chat_name))
             else:
                 text = message.reply_text("Antiflood has been disabled.")
-            send_message(update.effective_message, text, parse_mode="markdown")
+
 
         elif val.isdigit():
             amount = int(val)
@@ -160,7 +160,6 @@ def set_flood(update, context) -> str:
                     text = message.reply_text("Anti-flood has been set to {} in chat: {}".format(amount, chat_name))
                 else:
                     text = message.reply_text("Successfully updated anti-flood limit to {}!".format(amount))
-                send_message(update.effective_message, text, parse_mode="markdown")
                 return "<b>{}:</b>" \
                        "\n#SETFLOOD" \
                        "\n<b>Admin:</b> {}" \
@@ -197,13 +196,11 @@ def flood(update, context):
             text = msg.reply_text("I'm not enforcing any flood control in {}!".format(chat_name))
         else:
             text = msg.reply_text("I'm not enforcing any flood control here!")
-        send_message(update.effective_message, text, parse_mode="markdown")
     else:
         if conn:
             text = msg.reply_text("I'm currently restricting members after {} consecutive messages in {}.".format(limit, chat_name))
         else:
             text = msg.reply_text("I'm currently restricting members after {} consecutive messages.".format(limit))
-        send_message(update.effective_message, text, parse_mode="markdown")
 
 
 @run_async
@@ -262,7 +259,6 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
             text = msg.reply_text("Exceeding consecutive flood limit will result in {} in {}!".format(settypeflood, chat_name))
         else:
             text = msg.reply_text("Exceeding consecutive foood limit will result in {}!".format(settypeflood))
-        send_message(update.effective_message, text, parse_mode="markdown")
         return "<b>{}:</b>\n" \
                 "<b>Admin:</b> {}\n" \
                 "Has changed antiflood mode. User will {}.".format(settypeflood, html.escape(chat.title),
@@ -283,7 +279,6 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
             text = msg.reply_text("Sending more messages than flood limit will result in {} in {}.".format(settypeflood, chat_name))
         else:
             text = msg.reply_text("Sending more message than flood limit will result in {}.".format(settypeflood))
-        send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN)
     return ""
 
 
