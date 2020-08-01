@@ -157,23 +157,30 @@ query ($id: Int,$search: String) {
 
 url = 'https://graphql.anilist.co'
 
+
 @run_async
 def airing(update: Update, context: CallbackContext):
-  message = update.effective_message
-  search_str = message.text.split(' ', 1)
-  if len(search_str) == 1:
-      update.effective_message.reply_text('Tell Anime Name :) ( /airing <anime name>)')
-      return
-  variables = {'search' : search_str[1]}
-  response = requests.post(url, json={'query': airing_query, 'variables': variables}).json()['data']['Media']
-  msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*ID*: `{response['id']}`"
-  if response['nextAiringEpisode']:
-    time = response['nextAiringEpisode']['timeUntilAiring'] * 1000
-    time = t(time)
-    msg += f"\n*Episode*: `{response['nextAiringEpisode']['episode']}`\n*Airing In*: `{time}`"
-  else:
-    msg += f"\n*Episode*:{response['episodes']}\n*Status*: `N/A`"
-  update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+    message = update.effective_message
+    search_str = message.text.split(' ', 1)
+    if len(search_str) == 1:
+        update.effective_message.reply_text(
+            'Tell Anime Name :) ( /airing <anime name>)')
+        return
+    variables = {'search': search_str[1]}
+    response = requests.post(
+        url, json={
+            'query': airing_query,
+            'variables': variables
+        }).json()['data']['Media']
+    msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*ID*: `{response['id']}`"
+    if response['nextAiringEpisode']:
+        time = response['nextAiringEpisode']['timeUntilAiring'] * 1000
+        time = t(time)
+        msg += f"\n*Episode*: `{response['nextAiringEpisode']['episode']}`\n*Airing In*: `{time}`"
+    else:
+        msg += f"\n*Episode*:{response['episodes']}\n*Status*: `N/A`"
+    update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+
 
 @run_async
 def anime(update: Update, context: CallbackContext):
@@ -583,7 +590,8 @@ dispatcher.add_handler(UPCOMING_HANDLER)
 
 __mod_name__ = "Anime"
 __command_list__ = [
-    "anime", "manga", "character", "user", "upcoming", "kaizoku", "airing", "kayo"
+    "anime", "manga", "character", "user", "upcoming", "kaizoku", "airing",
+    "kayo"
 ]
 __handlers__ = [
     ANIME_HANDLER, CHARACTER_HANDLER, MANGA_HANDLER, USER_HANDLER,

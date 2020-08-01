@@ -9,7 +9,6 @@ if ALLOW_EXCL:
 else:
     CMD_STARTERS = ('/',)
 
-    
 
 class CustomCommandHandler(CommandHandler):
 
@@ -70,5 +69,3 @@ class CustomMessageHandler(MessageHandler):
 
     def __init__(self, filters, callback, friendly="", **kwargs):
         super().__init__(filters, callback, **kwargs)
- 
-

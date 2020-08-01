@@ -43,6 +43,7 @@ def add_chat(update: Update, context: CallbackContext):
         msg.reply_text("AI is already enabled for this chat!")
         return ""
 
+
 @run_async
 @user_admin
 @gloggable
