@@ -38,7 +38,7 @@ def send(msg, bot, update):
     if len(str(msg)) > 6:
        bot.send_document(
          chat_id=update.effective_chat.id,
-         document="output.text")
+         document=out_file)
     else:
        LOGGER.info(f"OUT: '{msg}'")
        bot.send_message(
