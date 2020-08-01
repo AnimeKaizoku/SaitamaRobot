@@ -303,7 +303,6 @@ def new_member(update: Update, context: CallbackContext):
                             can_send_media_messages=False,
                             can_send_other_messages=False,
                             can_add_web_page_previews=False))
-
                     job_queue.run_once(
                         partial(check_not_bot, new_mem, chat.id,
                                 message.message_id),
