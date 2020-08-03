@@ -35,11 +35,17 @@ def log_input(update):
 
 
 def send(msg, bot, update):
-    LOGGER.info(f"OUT: '{msg}'")
-    bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=f"`{msg}`",
-        parse_mode=ParseMode.MARKDOWN)
+    if len(str(msg)) > 2000:
+        with io.BytesIO(str.encode(msg)) as out_file:
+            out_file.name = "output.txt"
+            bot.send_document(
+                chat_id=update.effective_chat.id, document=out_file)
+    else:
+        LOGGER.info(f"OUT: '{msg}'")
+        bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=f"`{msg}`",
+            parse_mode=ParseMode.MARKDOWN)
 
 
 @dev_plus
@@ -106,8 +112,6 @@ def do(func, bot, update):
         else:
             result = f'{value}{func_return}'
         if result:
-            if len(str(result)) > 2000:
-                result = 'Output is too long'
             return result
 
 

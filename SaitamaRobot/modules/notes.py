@@ -1,4 +1,4 @@
-import re
+import re, ast
 from io import BytesIO
 from typing import Optional
 
@@ -19,6 +19,14 @@ from telegram.ext import (CallbackContext, CommandHandler, Filters,
 from telegram.ext.dispatcher import run_async
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
+STICKER_MATCHER = re.compile(r"^###sticker(!photo)?###:")
+BUTTON_MATCHER = re.compile(r"^###button(!photo)?###:(.*?)(?:\s|$)")
+MYFILE_MATCHER = re.compile(r"^###file(!photo)?###:")
+MYPHOTO_MATCHER = re.compile(r"^###photo(!photo)?###:")
+MYAUDIO_MATCHER = re.compile(r"^###audio(!photo)?###:")
+MYVOICE_MATCHER = re.compile(r"^###voice(!photo)?###:")
+MYVIDEO_MATCHER = re.compile(r"^###video(!photo)?###:")
+MYVIDEONOTE_MATCHER = re.compile(r"^###video_note(!photo)?###:")
 
 ENUM_FUNC_MAP = {
     sql.Types.TEXT.value: dispatcher.bot.send_message,
@@ -181,6 +189,20 @@ def hash_get(update: Update, context: CallbackContext):
 
 
 @run_async
+def slash_get(update: Update, context: CallbackContext):
+    message, chat_id = update.effective_message.text, update.effective_chat.id
+    no_slash = message[1:]
+    note_list = sql.get_all_chat_notes(chat_id)
+
+    try:
+        noteid = note_list[int(no_slash) - 1]
+        note_name = str(noteid).strip(">").split()[1]
+        get(update, context, note_name, show_none=False)
+    except IndexError:
+        update.effective_message.reply_text("Wrong Note ID 😾")
+
+
+@run_async
 @user_admin
 def save(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -235,7 +257,7 @@ def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
     notes = len(note_list) + 1
-    msg = "To view a note send #notename where notename is the name of the note\n*Notes in chat:*\n"
+    msg = "Get note by /id or #notename \n\n  *ID*    *Note* \n"
     for note_id, note in zip(range(1, notes), note_list):
         if note_id < 10:
             note_name = f"`{note_id:2}.`  `#{(note.name.lower())}`\n"
@@ -256,8 +278,16 @@ def list_notes(update: Update, context: CallbackContext):
 
 def __import_data__(chat_id, data):
     failures = []
-    for notename, notedata in data.get('extra', {}).items():
+    for notename, notedata in data.get("extra", {}).items():
         match = FILE_MATCHER.match(notedata)
+        matchsticker = STICKER_MATCHER.match(notedata)
+        matchbtn = BUTTON_MATCHER.match(notedata)
+        matchfile = MYFILE_MATCHER.match(notedata)
+        matchphoto = MYPHOTO_MATCHER.match(notedata)
+        matchaudio = MYAUDIO_MATCHER.match(notedata)
+        matchvoice = MYVOICE_MATCHER.match(notedata)
+        matchvideo = MYVIDEO_MATCHER.match(notedata)
+        matchvn = MYVIDEONOTE_MATCHER.match(notedata)
 
         if match:
             failures.append(notename)
@@ -265,6 +295,100 @@ def __import_data__(chat_id, data):
             if notedata:
                 sql.add_note_to_db(chat_id, notename[1:], notedata,
                                    sql.Types.TEXT)
+        elif matchsticker:
+            content = notedata[matchsticker.end():].strip()
+            if content:
+                sql.add_note_to_db(
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.STICKER,
+                    file=content)
+        elif matchbtn:
+            parse = notedata[matchbtn.end():].strip()
+            notedata = parse.split("<###button###>")[0]
+            buttons = parse.split("<###button###>")[1]
+            buttons = ast.literal_eval(buttons)
+            if buttons:
+                sql.add_note_to_db(
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.BUTTON_TEXT,
+                    buttons=buttons,
+                )
+        elif matchfile:
+            file = notedata[matchfile.end():].strip()
+            file = file.split("<###TYPESPLIT###>")
+            notedata = file[1]
+            content = file[0]
+            if content:
+                sql.add_note_to_db(
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.DOCUMENT,
+                    file=content)
+        elif matchphoto:
+            photo = notedata[matchphoto.end():].strip()
+            photo = photo.split("<###TYPESPLIT###>")
+            notedata = photo[1]
+            content = photo[0]
+            if content:
+                sql.add_note_to_db(
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.PHOTO,
+                    file=content)
+        elif matchaudio:
+            audio = notedata[matchaudio.end():].strip()
+            audio = audio.split("<###TYPESPLIT###>")
+            notedata = audio[1]
+            content = audio[0]
+            if content:
+                sql.add_note_to_db(
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.AUDIO,
+                    file=content)
+        elif matchvoice:
+            voice = notedata[matchvoice.end():].strip()
+            voice = voice.split("<###TYPESPLIT###>")
+            notedata = voice[1]
+            content = voice[0]
+            if content:
+                sql.add_note_to_db(
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.VOICE,
+                    file=content)
+        elif matchvideo:
+            video = notedata[matchvideo.end():].strip()
+            video = video.split("<###TYPESPLIT###>")
+            notedata = video[1]
+            content = video[0]
+            if content:
+                sql.add_note_to_db(
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.VIDEO,
+                    file=content)
+        elif matchvn:
+            video_note = notedata[matchvn.end():].strip()
+            video_note = video_note.split("<###TYPESPLIT###>")
+            notedata = video_note[1]
+            content = video_note[0]
+            if content:
+                sql.add_note_to_db(
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.VIDEO_NOTE,
+                    file=content)
         else:
             sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
 
@@ -277,7 +401,8 @@ def __import_data__(chat_id, data):
                 filename="failed_imports.txt",
                 caption="These files/photos failed to import due to originating "
                 "from another bot. This is a telegram API restriction, and can't "
-                "be avoided. Sorry for the inconvenience!")
+                "be avoided. Sorry for the inconvenience!",
+            )
 
 
 def __stats__():
@@ -314,7 +439,7 @@ __mod_name__ = "Notes"
 
 GET_HANDLER = CommandHandler("get", cmd_get)
 HASH_GET_HANDLER = MessageHandler(Filters.regex(r"^#[^\s]+"), hash_get)
-
+SLASH_GET_HANDLER = MessageHandler(Filters.regex(r"^\/[0-9]*$"), slash_get)
 SAVE_HANDLER = CommandHandler("save", save)
 DELETE_HANDLER = CommandHandler("clear", clear)
 
@@ -327,3 +452,4 @@ dispatcher.add_handler(SAVE_HANDLER)
 dispatcher.add_handler(LIST_HANDLER)
 dispatcher.add_handler(DELETE_HANDLER)
 dispatcher.add_handler(HASH_GET_HANDLER)
+dispatcher.add_handler(SLASH_GET_HANDLER)
