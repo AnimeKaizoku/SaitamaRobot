@@ -215,7 +215,7 @@ UNBLACKLIST_HANDLER = CommandHandler(["unblacklist", "rmblacklist"],
                                      unblacklist)
 BLACKLIST_DEL_HANDLER = MessageHandler(
     (Filters.text | Filters.command | Filters.sticker | Filters.photo)
-    & Filters.group, del_blacklist)
+    & Filters.group, del_blacklist, allow_edit=True)
 dispatcher.add_handler(BLACKLIST_HANDLER)
 dispatcher.add_handler(ADD_BLACKLIST_HANDLER)
 dispatcher.add_handler(UNBLACKLIST_HANDLER)

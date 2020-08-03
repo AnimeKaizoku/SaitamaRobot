@@ -1,7 +1,7 @@
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
 from SaitamaRobot import ALLOW_EXCL
 from telegram import MessageEntity, Update
-from telegram.ext import CommandHandler, MessageHandler, RegexHandler
+from telegram.ext import CommandHandler, MessageHandler, RegexHandler, Filters
 from time import sleep
 
 if ALLOW_EXCL:
@@ -67,5 +67,13 @@ class CustomRegexHandler(RegexHandler):
 
 class CustomMessageHandler(MessageHandler):
 
-    def __init__(self, filters, callback, friendly="", **kwargs):
+    def __init__(self, filters, callback, friendly="", allow_edit=False, **kwargs):
         super().__init__(filters, callback, **kwargs)
+        if allow_edit is False:
+                self.filters &= ~(Filters.update.edited_message
+                                | Filters.update.edited_channel_post)
+
+        def check_update(self, update):
+            if isinstance(update, Update) and update.effective_message:
+               return self.filters(update)
+
