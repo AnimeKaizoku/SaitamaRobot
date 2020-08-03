@@ -28,7 +28,6 @@ MYVOICE_MATCHER = re.compile(r"^###voice(!photo)?###:")
 MYVIDEO_MATCHER = re.compile(r"^###video(!photo)?###:")
 MYVIDEONOTE_MATCHER = re.compile(r"^###video_note(!photo)?###:")
 
-
 ENUM_FUNC_MAP = {
     sql.Types.TEXT.value: dispatcher.bot.send_message,
     sql.Types.BUTTON_TEXT.value: dispatcher.bot.send_message,
@@ -189,20 +188,19 @@ def hash_get(update: Update, context: CallbackContext):
     get(update, context, no_hash, show_none=False)
 
 
-
 @run_async
 def slash_get(update: Update, context: CallbackContext):
-    message , chat_id = update.effective_message.text , update.effective_chat.id
-    no_slash = message[1:] 
+    message, chat_id = update.effective_message.text, update.effective_chat.id
+    no_slash = message[1:]
     note_list = sql.get_all_chat_notes(chat_id)
-    
+
     try:
-        noteid = note_list[int(no_slash) - 1 ]
+        noteid = note_list[int(no_slash) - 1]
         note_name = str(noteid).strip(">").split()[1]
         get(update, context, note_name, show_none=False)
     except IndexError:
         update.effective_message.reply_text("Wrong Note ID 😾")
-        
+
 
 @run_async
 @user_admin
@@ -278,7 +276,6 @@ def list_notes(update: Update, context: CallbackContext):
         update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
-
 def __import_data__(chat_id, data):
     failures = []
     for notename, notedata in data.get("extra", {}).items():
@@ -294,17 +291,21 @@ def __import_data__(chat_id, data):
 
         if match:
             failures.append(notename)
-            notedata = notedata[match.end() :].strip()
+            notedata = notedata[match.end():].strip()
             if notedata:
-                sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
+                sql.add_note_to_db(chat_id, notename[1:], notedata,
+                                   sql.Types.TEXT)
         elif matchsticker:
-            content = notedata[matchsticker.end() :].strip()
+            content = notedata[matchsticker.end():].strip()
             if content:
                 sql.add_note_to_db(
-                    chat_id, notename[1:], notedata, sql.Types.STICKER, file=content
-                )
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.STICKER,
+                    file=content)
         elif matchbtn:
-            parse = notedata[matchbtn.end() :].strip()
+            parse = notedata[matchbtn.end():].strip()
             notedata = parse.split("<###button###>")[0]
             buttons = parse.split("<###button###>")[1]
             buttons = ast.literal_eval(buttons)
@@ -317,59 +318,77 @@ def __import_data__(chat_id, data):
                     buttons=buttons,
                 )
         elif matchfile:
-            file = notedata[matchfile.end() :].strip()
+            file = notedata[matchfile.end():].strip()
             file = file.split("<###TYPESPLIT###>")
             notedata = file[1]
             content = file[0]
             if content:
                 sql.add_note_to_db(
-                    chat_id, notename[1:], notedata, sql.Types.DOCUMENT, file=content
-                )
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.DOCUMENT,
+                    file=content)
         elif matchphoto:
-            photo = notedata[matchphoto.end() :].strip()
+            photo = notedata[matchphoto.end():].strip()
             photo = photo.split("<###TYPESPLIT###>")
             notedata = photo[1]
             content = photo[0]
             if content:
                 sql.add_note_to_db(
-                    chat_id, notename[1:], notedata, sql.Types.PHOTO, file=content
-                )
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.PHOTO,
+                    file=content)
         elif matchaudio:
-            audio = notedata[matchaudio.end() :].strip()
+            audio = notedata[matchaudio.end():].strip()
             audio = audio.split("<###TYPESPLIT###>")
             notedata = audio[1]
             content = audio[0]
             if content:
                 sql.add_note_to_db(
-                    chat_id, notename[1:], notedata, sql.Types.AUDIO, file=content
-                )
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.AUDIO,
+                    file=content)
         elif matchvoice:
-            voice = notedata[matchvoice.end() :].strip()
+            voice = notedata[matchvoice.end():].strip()
             voice = voice.split("<###TYPESPLIT###>")
             notedata = voice[1]
             content = voice[0]
             if content:
                 sql.add_note_to_db(
-                    chat_id, notename[1:], notedata, sql.Types.VOICE, file=content
-                )
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.VOICE,
+                    file=content)
         elif matchvideo:
-            video = notedata[matchvideo.end() :].strip()
+            video = notedata[matchvideo.end():].strip()
             video = video.split("<###TYPESPLIT###>")
             notedata = video[1]
             content = video[0]
             if content:
                 sql.add_note_to_db(
-                    chat_id, notename[1:], notedata, sql.Types.VIDEO, file=content
-                )
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.VIDEO,
+                    file=content)
         elif matchvn:
-            video_note = notedata[matchvn.end() :].strip()
+            video_note = notedata[matchvn.end():].strip()
             video_note = video_note.split("<###TYPESPLIT###>")
             notedata = video_note[1]
             content = video_note[0]
             if content:
                 sql.add_note_to_db(
-                    chat_id, notename[1:], notedata, sql.Types.VIDEO_NOTE, file=content
-                )
+                    chat_id,
+                    notename[1:],
+                    notedata,
+                    sql.Types.VIDEO_NOTE,
+                    file=content)
         else:
             sql.add_note_to_db(chat_id, notename[1:], notedata, sql.Types.TEXT)
 
