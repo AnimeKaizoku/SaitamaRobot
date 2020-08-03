@@ -12,8 +12,12 @@ else:
 
 class CustomCommandHandler(CommandHandler):
 
-    def __init__(self, command, callback, admin_ok=False, **kwargs):
+    def __init__(self, command, callback, admin_ok=False, allow_edit=False, **kwargs):
         super().__init__(command, callback, **kwargs)
+
+        if allow_edit is False:
+                self.filters &= ~(Filters.update.edited_message
+                                | Filters.update.edited_channel_post)
 
     def check_update(self, update):
         if isinstance(update, Update) and update.effective_message:
