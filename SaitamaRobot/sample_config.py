@@ -15,7 +15,7 @@ class Config(object):
     # REQUIRED
     #Login to https://my.telegram.org and fill in these slots with the details given by it
 
-    API_ID = awoo # integer value, dont use ""
+    API_ID = awoo  # integer value, dont use ""
     API_HASH = "awoo"
     TOKEN = "BOT_TOKEN"
     OWNER_ID = 792109647  # If you dont know, run the bot and do /id in your private chat with it, also an integer
@@ -31,7 +31,7 @@ class Config(object):
     NO_LOAD = ['rss', 'cleaner', 'connection', 'math']
     WEBHOOK = False
     URL = None
-    spamwatch_api = "" # go to support.spamwat.ch to get key
+    spamwatch_api = ""  # go to support.spamwat.ch to get key
 
     #OPTIONAL
     ##List of id's -  (not usernames) for users which have sudo access to the bot.
