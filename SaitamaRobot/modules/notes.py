@@ -180,6 +180,21 @@ def hash_get(update: Update, context: CallbackContext):
     get(update, context, no_hash, show_none=False)
 
 
+
+@run_async
+def slash_get(update: Update, context: CallbackContext):
+    message , chat_id = update.effective_message.text , update.effective_chat.id
+    no_slash = message[1:] 
+    note_list = sql.get_all_chat_notes(chat_id)
+    
+    try:
+        noteid = note_list[int(no_slash) - 1 ]
+        note_name = str(noteid).strip(">").split()[1]
+        get(update, context, note_name, show_none=False)
+    except IndexError:
+        update.effective_message.reply_text("Wrong Note ID 😾")
+        
+
 @run_async
 @user_admin
 def save(update: Update, context: CallbackContext):
@@ -235,7 +250,7 @@ def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
     notes = len(note_list) + 1
-    msg = "To view a note send #notename where notename is the name of the note\n*Notes in chat:*\n"
+    msg = "Get note by /id or #notename \n\n  *ID*    *Note* \n"
     for note_id, note in zip(range(1, notes), note_list):
         if note_id < 10:
             note_name = f"`{note_id:2}.`  `#{(note.name.lower())}`\n"
@@ -314,7 +329,7 @@ __mod_name__ = "Notes"
 
 GET_HANDLER = CommandHandler("get", cmd_get)
 HASH_GET_HANDLER = MessageHandler(Filters.regex(r"^#[^\s]+"), hash_get)
-
+SLASH_GET_HANDLER = MessageHandler(Filters.regex(r"^\/[0-9]*$"), slash_get)
 SAVE_HANDLER = CommandHandler("save", save)
 DELETE_HANDLER = CommandHandler("clear", clear)
 
@@ -327,3 +342,4 @@ dispatcher.add_handler(SAVE_HANDLER)
 dispatcher.add_handler(LIST_HANDLER)
 dispatcher.add_handler(DELETE_HANDLER)
 dispatcher.add_handler(HASH_GET_HANDLER)
+dispatcher.add_handler(SLASH_GET_HANDLER)
