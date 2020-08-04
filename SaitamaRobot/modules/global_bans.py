@@ -382,9 +382,11 @@ def check_and_ban(update, user_id, should_message=True):
         update.effective_chat.kick_member(user_id)
         if should_message:
             update.effective_message.reply_text(
-                "<b>Spamwatch Alert:</b> This user is not safe!\n"
-                "<code>*rekts them from here*.</code>\n"
-                "<b>Appeal chat:</b> @SpamWatchSupport",
+                f"<b>Alert</b>: this user is globally banned.\n"
+                f"<code>*bans them from here*</code>.\n"
+                f"<b>Appeal chat</b>: {SUPPORT_CHAT}"
+                f"<b>User ID</b>: <code>{sw_ban['id']}</code>"
+                f"<b>Ban reason</b>: <code>{sw_ban['reason']}</code>"
                 parse_mode=ParseMode.HTML)
             return
         else:
