@@ -53,24 +53,30 @@ def ban(update: Update, context: CallbackContext) -> str:
         if user_id == OWNER_ID:
             message.reply_text(
                 "Trying to put me against a God level disaster huh?")
+            return log_message
         elif user_id in DEV_USERS:
             message.reply_text("I can't act against our own.")
+            return log_message
         elif user_id in SUDO_USERS:
             message.reply_text(
                 "I'll punch a Dragon disaster for you if Heroes Association orders me."
             )
+            return log_message
         elif user_id in SUPPORT_USERS:
             message.reply_text(
                 "I'll punch a Demon disaster for you if Heroes Association orders me."
             )
+            return log_message
         elif user_id in TIGER_USERS:
             message.reply_text(
                 "That's a Tiger Disaster!\nYou need to put a orders through Heroes Association to handle those."
             )
+            return log_message
         elif user_id in WHITELIST_USERS:
             message.reply_text(
                 "That's a Tiger Disaster!\nYou need to put a orders through Heroes Association to handle those."
             )
+            return log_message
         else:
             message.reply_text("This user has immunity - I can't ban them.")
             return log_message

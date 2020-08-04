@@ -5,8 +5,9 @@ from io import BytesIO
 from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
 import SaitamaRobot.modules.sql.global_bans_sql as sql
 from SaitamaRobot import (DEV_USERS, GBAN_LOGS, OWNER_ID, STRICT_GBAN,
-                          SUDO_USERS, SUPPORT_CHAT, SUPPORT_USERS, TIGER_USERS,
-                          WHITELIST_USERS, sw, dispatcher)
+                          SUDO_USERS, SUPPORT_CHAT, SPAMWATCH_SUPPORT_CHAT,
+                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, sw,
+                          dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
                                                            support_plus,
                                                            user_admin)
@@ -217,7 +218,7 @@ def gban(update: Update, context: CallbackContext):
             bot,
             SUDO_USERS + SUPPORT_USERS,
             f"Gban complete! (User banned in <code>{gbanned_chats}</code> chats)",
-            parse_mode=ParseMode.HTML)
+            html=True)
 
     end_time = time.time()
     gban_time = round((end_time - start_time), 2)
@@ -382,9 +383,11 @@ def check_and_ban(update, user_id, should_message=True):
         update.effective_chat.kick_member(user_id)
         if should_message:
             update.effective_message.reply_text(
-                "<b>Spamwatch Alert:</b> This user is not safe!\n"
-                "<code>*rekts them from here*.</code>\n"
-                "<b>Appeal chat:</b> @SpamWatchSupport",
+                f"<b>Alert</b>: this user is globally banned.\n"
+                f"<code>*bans them from here*</code>.\n"
+                f"<b>Appeal chat</b>: {SPAMWATCH_SUPPORT_CHAT}\n"
+                f"<b>User ID</b>: <code>{sw_ban['id']}</code>\n"
+                f"<b>Ban Reason</b>: <code>{html.escape(sw_ban['reason'])}</code>",
                 parse_mode=ParseMode.HTML)
             return
         else:
@@ -393,11 +396,14 @@ def check_and_ban(update, user_id, should_message=True):
     if sql.is_user_gbanned(user_id):
         update.effective_chat.kick_member(user_id)
         if should_message:
-            update.effective_message.reply_text(
-                "<b>Alert:</b> This user is globally banned.\n"
-                "<code>*bans them from here*.</code>\n"
-                f"<b>Appeal chat:</b> {SUPPORT_CHAT}",
-                parse_mode=ParseMode.HTML)
+            text = f"<b>Alert</b>: this user is globally banned.\n" \
+                   f"<code>*bans them from here*</code>.\n" \
+                   f"<b>Appeal chat</b>: {SUPPORT_CHAT}\n" \
+                   f"<b>User ID</b>: <code>{user_id}</code>"
+            user = sql.get_gbanned_user(user_id)
+            if user.reason:
+                text += f"\n<b>Ban Reason:</b> <code>{html.escape(user.reason)}</code>"
+            update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
 @run_async

@@ -23,3 +23,4 @@ regex
 wikipedia
 telethon
 spamwatch
+alphabet_detector
