@@ -75,7 +75,6 @@ class Restrictions(BASE):
 Permissions.__table__.create(checkfirst=True)
 Restrictions.__table__.create(checkfirst=True)
 
-
 PERM_LOCK = threading.RLock()
 RESTR_LOCK = threading.RLock()
 
@@ -212,6 +211,7 @@ def is_locked(chat_id, lock_type):
     elif lock_type == "inline":
         return curr_perm.inline
 
+
 def is_restr_locked(chat_id, lock_type):
     curr_restr = SESSION.query(Restrictions).get(str(chat_id))
     SESSION.close()
@@ -228,12 +228,8 @@ def is_restr_locked(chat_id, lock_type):
     elif lock_type == "previews":
         return curr_restr.preview
     elif lock_type == "all":
-        return (
-            curr_restr.messages
-            and curr_restr.media
-            and curr_restr.other
-            and curr_restr.preview
-        )
+        return (curr_restr.messages and curr_restr.media and
+                curr_restr.other and curr_restr.preview)
 
 
 def get_locks(chat_id):
