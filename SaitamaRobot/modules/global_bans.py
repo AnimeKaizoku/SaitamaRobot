@@ -386,7 +386,7 @@ def check_and_ban(update, user_id, should_message=True):
                 f"<code>*bans them from here*</code>.\n"
                 f"<b>Appeal chat</b>: {SUPPORT_CHAT}"
                 f"<b>User ID</b>: <code>{sw_ban['id']}</code>"
-                f"<b>Ban reason</b>: <code>{sw_ban['reason']}</code>"
+                f"<b>Ban reason</b>: <code>{sw_ban['reason']}</code>",
                 parse_mode=ParseMode.HTML)
             return
         else:
