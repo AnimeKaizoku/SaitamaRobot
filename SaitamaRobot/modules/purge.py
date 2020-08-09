@@ -1,10 +1,11 @@
 from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import (
     can_delete_messages, user_is_admin)
 from SaitamaRobot.saitamabot import saitama
-
+import time
 
 @saitama(pattern="^/purge$")
 async def purge_messages(event):
+    start = time.perf_counter_ns()
     if event.from_id is None:
         return
 
@@ -34,7 +35,9 @@ async def purge_messages(event):
             messages = []
 
     await event.client.delete_messages(event.chat_id, messages)
-    text = ("Purged Successfully!")
+    end= time.perf_counter_ns()
+    time_taken = (end - start) / (10**9)
+    text = f"Purged Successfully in {time_taken} second(s)"
     await event.respond(text, parse_mode='markdown')
 
 
