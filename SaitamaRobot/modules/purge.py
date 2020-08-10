@@ -5,7 +5,7 @@ import time
 
 @saitama(pattern="^/purge$")
 async def purge_messages(event):
-    start = time.perf_counter_ns()
+    start = time.perf_counter()
     if event.from_id is None:
         return
 
@@ -35,9 +35,8 @@ async def purge_messages(event):
             messages = []
 
     await event.client.delete_messages(event.chat_id, messages)
-    end= time.perf_counter_ns()
-    time_taken = (end - start) / (10**9)
-    text = f"Purged Successfully in {time_taken} second(s)"
+    time_ = time.perf_counter() - start
+    text = f"Purged Successfully in {time_:0.2f} Second(s)"
     await event.respond(text, parse_mode='markdown')
 
 
