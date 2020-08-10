@@ -1,7 +1,7 @@
 import random
 
 from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.disable import (DisableAbleCommandHandler)
+from SaitamaRobot.modules.disable import (DisableAbleCommandHandler, DisableAbleMessageHandler)
 from SaitamaRobot.modules.sql import afk_sql as sql
 from SaitamaRobot.modules.users import get_user_id
 from telegram import MessageEntity, Update
@@ -128,7 +128,7 @@ When marked as AFK, any mentions will be replied to with a message to say you're
 """
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
-AFK_REGEX_HANDLER = MessageHandler(
+AFK_REGEX_HANDLER = DisableAbleMessageHandler(
     Filters.regex(r"(?i)brb"), afk, friendly="afk")
 NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.group, no_longer_afk)
 AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.group, reply_afk)
