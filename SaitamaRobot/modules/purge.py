@@ -17,19 +17,18 @@ async def purge_messages(event):
         await event.reply("Can't seem to purge the message")
         return
 
-    message = await event.get_reply_message()
-    if not message:
+    reply_msg = await event.get_reply_message()
+    if not reply_msg:
         await event.reply(
             "Reply to a message to select where to start purging from.")
         return
     messages = []
-    message_id = message.id
-    delete_to = event.message.id - 1
-    await event.client.delete_messages(event.chat_id, event.message.id)
+    message_id = reply_msg.id
+    delete_to = event.message.id 
 
     messages.append(event.reply_to_msg_id)
-    for message_id in range(delete_to, message_id - 1, -1):
-        messages.append(message_id)
+    for msg_id in range(message_id, delete_to +1 ):
+        messages.append(msg_id)
         if len(messages) == 100:
             await event.client.delete_messages(event.chat_id, messages)
             messages = []
