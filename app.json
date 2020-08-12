@@ -121,7 +121,7 @@
          "value": ""
       },
       "No_LOAD": {
-         "description": "Dont laod these modules cause they shit, space separation",
+         "description": "Dont load these modules cause they shit, space separation",
          "required": false,
          "value": "cleaner rss connection"
       }, 
