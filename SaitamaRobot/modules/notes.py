@@ -422,7 +422,7 @@ __help__ = """
  • `/get <notename>`*:* get the note with this notename
  • `#<notename>`*:* same as /get
  • `/notes` or `/saved`*:* list all saved notes in this chat
-
+ • `/number` *:* Will pull the note of that number in the list. 
 If you would like to retrieve the contents of a note without any formatting, use `/get <notename> noformat`. This can \
 be useful when updating a current note.
 
