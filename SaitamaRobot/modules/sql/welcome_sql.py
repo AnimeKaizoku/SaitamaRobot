@@ -118,18 +118,17 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first} just joined. El psy congroo!",  #Steins Gate
     "Irasshaimase {first}!",  #weeabo shit
     "Hi {first}, What is 1000-7?",  #tokyo ghoul
-    "Come. I don't want to destroy this place", #hunter x hunter
-    "I... am... Whitebeard!...wait..wrong anime.", #one Piece
-    "Hey {first}...have you ever heard these words?", #BNHA
-    "Can't a guy get a little sleep around here?", #Kamina Falls – Gurren Lagann
-    "It's time someone put you in your place, {irst}.", #Hellsing
-    "Unit-01's reactivated..", #Neon Genesis: Evangelion
-    "Prepare for trouble....And make it double", #Pokemon
-    "Hey {first}, Are You Challenging Me?", #Shaggy
-    "Oh? You're Approaching Me?", #jojo
+    "Come. I don't want to destroy this place",  #hunter x hunter
+    "I... am... Whitebeard!...wait..wrong anime.",  #one Piece
+    "Hey {first}...have you ever heard these words?",  #BNHA
+    "Can't a guy get a little sleep around here?",  #Kamina Falls – Gurren Lagann
+    "It's time someone put you in your place, {irst}.",  #Hellsing
+    "Unit-01's reactivated..",  #Neon Genesis: Evangelion
+    "Prepare for trouble....And make it double",  #Pokemon
+    "Hey {first}, Are You Challenging Me?",  #Shaggy
+    "Oh? You're Approaching Me?",  #jojo
     "{first} just warped into the group!",
     "I..it's..it's just {first}.",
-
 ]
 DEFAULT_GOODBYE_MESSAGES = [
     "{first} will be missed.",
