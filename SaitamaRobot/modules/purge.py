@@ -3,6 +3,7 @@ from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import (
 from SaitamaRobot.saitamabot import saitama
 import time
 
+
 @saitama(pattern="^/purge$")
 async def purge_messages(event):
     start = time.perf_counter()
@@ -24,10 +25,10 @@ async def purge_messages(event):
         return
     messages = []
     message_id = reply_msg.id
-    delete_to = event.message.id 
+    delete_to = event.message.id
 
     messages.append(event.reply_to_msg_id)
-    for msg_id in range(message_id, delete_to +1 ):
+    for msg_id in range(message_id, delete_to + 1):
         messages.append(msg_id)
         if len(messages) == 100:
             await event.client.delete_messages(event.chat_id, messages)
