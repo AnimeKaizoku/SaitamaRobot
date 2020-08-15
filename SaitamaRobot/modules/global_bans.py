@@ -382,7 +382,9 @@ def check_and_ban(update, user_id, should_message=True):
         sw_ban = sw.get_ban(int(user_id))
     except AttributeError:
         return
-    update.effective_chat.kick_member(user_id)
+
+    if sw_ban:
+       update.effective_chat.kick_member(user_id)
     if should_message:
             update.effective_message.reply_text(
             f"<b>Alert</b>: this user is globally banned.\n"
