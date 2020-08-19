@@ -122,7 +122,7 @@ DEFAULT_WELCOME_MESSAGES = [
     "I... am... Whitebeard!...wait..wrong anime.",  #one Piece
     "Hey {first}...have you ever heard these words?",  #BNHA
     "Can't a guy get a little sleep around here?",  #Kamina Falls – Gurren Lagann
-    "It's time someone put you in your place, {irst}.",  #Hellsing
+    "It's time someone put you in your place, {first}.",  #Hellsing
     "Unit-01's reactivated..",  #Neon Genesis: Evangelion
     "Prepare for trouble....And make it double",  #Pokemon
     "Hey {first}, Are You Challenging Me?",  #Shaggy
