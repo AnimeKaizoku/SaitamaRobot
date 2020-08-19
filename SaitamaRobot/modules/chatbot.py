@@ -34,7 +34,7 @@ def add_chat(update: Update, context: CallbackContext):
         ses_id = str(ses.id)
         expires = str(ses.expires)
         sql.set_ses(chat.id, ses_id, expires)
-        chat.send_message("AI successfully enabled for this chat!")
+        msg.reply_text("AI successfully enabled for this chat!")
         message = (f"<b>{html.escape(chat.title)}:</b>\n"
                    f"#AI_ENABLED\n"
                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
@@ -53,11 +53,11 @@ def remove_chat(update: Update, context: CallbackContext):
     user = update.effective_user
     is_chat = sql.is_chat(chat.id)
     if not is_chat:
-        chat.send_message("AI isn't enabled here in the first place!")
+        msg.reply_text("AI isn't enabled here in the first place!")
         return ""
     else:
         sql.rem_chat(chat.id)
-        chat.send_message("AI disabled successfully!")
+        msg.reply_text("AI disabled successfully!")
         message = (f"<b>{html.escape(chat.title)}:</b>\n"
                    f"#AI_DISABLED\n"
                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
@@ -79,7 +79,6 @@ def check_message(context: CallbackContext, message):
 def chatbot(update: Update, context: CallbackContext):
     global api_client
     msg = update.effective_message
-    chat = update.effective_chat
     chat_id = update.effective_chat.id
     is_chat = sql.is_chat(chat_id)
     bot = context.bot
@@ -103,7 +102,7 @@ def chatbot(update: Update, context: CallbackContext):
             bot.send_chat_action(chat_id, action='typing')
             rep = api_client.think_thought(sesh, query)
             sleep(0.3)
-            chat.send_message(rep, timeout=60)
+            msg.reply_text(rep, timeout=60)
         except CFError as e:
             bot.send_message(OWNER_ID,
                              f"Chatbot error: {e} occurred in {chat_id}!")
