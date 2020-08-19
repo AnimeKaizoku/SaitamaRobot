@@ -115,16 +115,12 @@ SLAP_TEMPLATES = (
     "{user2} was turned into a Jojo reference!",
     "{user1} hits {user2} with {item}.",
     "Round 2!..Ready? .. FIGHT!!",
-    "WhoPixel will oof {user2}, to infinity and beyond.",
+    "WhoPixel will oof {user2} to infinity and beyond.",
     "{user2} ate a bat and discovered a new disease.",
     "{user1} folded {user2} into a paper plane",
-    "{user2} did a 69 with a cactus.",
     "{user1} served {user2} some bat soup.",
-    "{user2} was sent to his home, the planet of apes.",
+    "{user2} was sent to his home, the planet of the apes.",
     "{user1} kicked {user2} out of a moving train.",
-    "{user1} traveled to the future and spat on {user2}'s grave.",
-    "{user2} died from talk-no-jutsu.",
-    "{user2} was placed as a carpet for a stomp dance competition.",
     "{user2} just killed John Wick’s dog.",
     "{user1} performed an Avada Kedavra spell on {user2}.",
     "{user1} subjected {user2} to a fiery furnace.",
@@ -137,6 +133,9 @@ SLAP_TEMPLATES = (
     "{user2} lost his race piece!",  #No game no life reference
     "Shut up {user2}, you are just {user2}.",  #No game no life reference
     "{user1} hits {user2} with Aka si anse!",  #No game no life reference
+    "@NeoTheKitty scratches {user2}",  #Pixels pet cat - @NeoTheKitty 
+    "Majin buu ate {user2}",  #Dbz
+    "Goblin slayer slays {user2}",  #Goblin Slayer
 )
 
 PING_STRING = (

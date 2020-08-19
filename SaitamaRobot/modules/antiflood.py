@@ -166,7 +166,7 @@ def set_flood(update, context) -> str:
                        "\n<b>Admin:</b> {}" \
                        "\nDisable antiflood.".format(html.escape(chat_name), mention_html(user.id, user.first_name))
 
-            elif amount < 3:
+            elif amount <= 3:
                 send_message(
                     update.effective_message,
                     "Antiflood must be either 0 (disabled) or number greater than 3!"

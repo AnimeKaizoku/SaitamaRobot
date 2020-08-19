@@ -267,8 +267,8 @@ def new_member(update: Update, context: CallbackContext):
                             can_pin_messages=False,
                             can_send_polls=False,
                             can_change_info=False,
-                            can_add_web_page_previews=False,
-                            until_date=(int(time.time() + 24 * 60 * 60))))
+                            can_add_web_page_previews=False),
+                        until_date=(int(time.time() + 24 * 60 * 60)))
                 if welc_mutes == "strong":
                     welcome_bool = False
                     VERIFIED_USER_WAITLIST.update({
