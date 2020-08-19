@@ -119,7 +119,7 @@ def check_afk(update, context, user_id, fst_name, userc_id):
             if int(userc_id) == int(user_id):
                 return
             res = "{} is afk.\nReason: <code>{}</code>".format(fst_name, user.reason)
-            update.effective_message.reply_text(res, parse_mode=ParseMode.HTML)
+            update.effective_message.reply_text(res, parse_mode="html")
 
 
 __help__ = """
