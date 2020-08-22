@@ -136,3 +136,62 @@ def get_welcome_type(msg: Message):
         data_type = Types.VIDEO
 
     return text, data_type, content, buttons
+
+
+def get_filter_type(msg: Message):
+
+    if not msg.reply_to_message and msg.text and len(msg.text.split()) >= 3:
+        content = None
+        text = msg.text.split(None, 2)[2]
+        data_type = Types.TEXT
+
+    elif (
+        msg.reply_to_message
+        and msg.reply_to_message.text
+        and len(msg.text.split()) >= 2
+    ):
+        content = None
+        text = msg.reply_to_message.text
+        data_type = Types.TEXT
+
+    elif msg.reply_to_message and msg.reply_to_message.sticker:
+        content = msg.reply_to_message.sticker.file_id
+        text = None
+        data_type = Types.STICKER
+
+    elif msg.reply_to_message and msg.reply_to_message.document:
+        content = msg.reply_to_message.document.file_id
+        text = msg.reply_to_message.caption
+        data_type = Types.DOCUMENT
+
+    elif msg.reply_to_message and msg.reply_to_message.photo:
+        content = msg.reply_to_message.photo[-1].file_id  # last elem = best quality
+        text = msg.reply_to_message.caption
+        data_type = Types.PHOTO
+
+    elif msg.reply_to_message and msg.reply_to_message.audio:
+        content = msg.reply_to_message.audio.file_id
+        text = msg.reply_to_message.caption
+        data_type = Types.AUDIO
+
+    elif msg.reply_to_message and msg.reply_to_message.voice:
+        content = msg.reply_to_message.voice.file_id
+        text = msg.reply_to_message.caption
+        data_type = Types.VOICE
+
+    elif msg.reply_to_message and msg.reply_to_message.video:
+        content = msg.reply_to_message.video.file_id
+        text = msg.reply_to_message.caption
+        data_type = Types.VIDEO
+
+    elif msg.reply_to_message and msg.reply_to_message.video_note:
+        content = msg.reply_to_message.video_note.file_id
+        text = None
+        data_type = Types.VIDEO_NOTE
+
+    else:
+        text = None
+        data_type = None
+        content = None
+
+    return text, data_type, content
