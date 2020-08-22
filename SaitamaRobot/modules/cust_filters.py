@@ -32,7 +32,7 @@ from SaitamaRobot.modules.connection import connected
 
 from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
 
-HANDLER_GROUP = 15
+HANDLER_GROUP = 10
 
 ENUM_FUNC_MAP = {
     sql.Types.TEXT.value: dispatcher.bot.send_message,
