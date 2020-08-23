@@ -124,7 +124,8 @@ def unmute(update: Update, context: CallbackContext) -> str:
                 can_send_other_messages=True,
                 can_add_web_page_previews=True)
             try:
-                bot.restrict_chat_member(chat.id, int(user_id), chat_permissions)
+                bot.restrict_chat_member(chat.id, int(user_id),
+                                         chat_permissions)
             except BadRequest:
                 pass
             bot.sendMessage(

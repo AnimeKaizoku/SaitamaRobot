@@ -10,6 +10,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
 DEBUG_MODE = False
 
+
 @run_async
 @dev_plus
 def debug(update: Update, context: CallbackContext):
@@ -40,16 +41,18 @@ async def i_do_nothing_yes(event):
             with open('updates.txt', 'r') as f:
                 text = f.read()
             with open('updates.txt', 'w+') as f:
-                f.write(text + f"\n-{event.from_id} ({event.chat_id}) : {event.text}")
+                f.write(text +
+                        f"\n-{event.from_id} ({event.chat_id}) : {event.text}")
         else:
             with open('updates.txt', 'w+') as f:
-                f.write(f"- {event.from_id} ({event.chat_id}) : {event.text} | {datetime.datetime.now()}")
+                f.write(
+                    f"- {event.from_id} ({event.chat_id}) : {event.text} | {datetime.datetime.now()}"
+                )
+
 
 DEBUG_HANDLER = CommandHandler("debug", debug)
 dispatcher.add_handler(DEBUG_HANDLER)
 
 __mod_name__ = "Debug"
 __command_list__ = ["debug"]
-__handlers__ = [
-    DEBUG_HANDLER
-]
+__handlers__ = [DEBUG_HANDLER]
