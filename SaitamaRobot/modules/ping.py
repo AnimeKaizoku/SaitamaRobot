@@ -2,10 +2,12 @@ import time
 from typing import List
 
 import requests
-from SaitamaRobot import StartTime, dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, run_async
+
+from SaitamaRobot import StartTime, dispatcher
+from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 sites_list = {
     "Telegram": "https://api.telegram.org",
@@ -67,13 +69,14 @@ def ping_func(to_ping: List[str]) -> List[str]:
 
 
 @run_async
+@sudo_plus
 def ping(update: Update, context: CallbackContext):
     msg = update.effective_message
 
     start_time = time.time()
     message = msg.reply_text("Pinging...")
     end_time = time.time()
-    telegram_ping = round((end_time - start_time)*1000, 3)
+    telegram_ping = str(round((end_time - start_time)*1000, 3)) + " ms"
     uptime = get_readable_time((time.time() - StartTime))
 
     message.edit_text(
@@ -85,6 +88,7 @@ def ping(update: Update, context: CallbackContext):
 
 
 @run_async
+@sudo_plus
 def pingall(update: Update, context: CallbackContext):
     to_ping = ["Kaizoku", "Kayo", "Telegram", "Jikan"]
     pinged_list = ping_func(to_ping)
