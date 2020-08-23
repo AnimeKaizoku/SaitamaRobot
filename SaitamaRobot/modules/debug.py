@@ -28,7 +28,7 @@ def debug(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
 
-    if args:
+    if len(args) > 1:
         if args[1] in ('yes', 'on'):
             DEBUG_MODE = True
         elif args[1] in ('no', 'off'):
