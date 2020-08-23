@@ -26,7 +26,8 @@ def is_sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     return user_id in SUDO_USERS or user_id in DEV_USERS
 
 
-@MWT(timeout=60*10) # Cache admin status for 10 mins to avoid extra API requests.
+@MWT(timeout=60 * 10
+    )  # Cache admin status for 10 mins to avoid extra API requests.
 def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if (chat.type == 'private' or user_id in SUDO_USERS or
             user_id in DEV_USERS or chat.all_members_are_administrators or
