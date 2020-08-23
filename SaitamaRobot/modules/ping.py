@@ -68,13 +68,19 @@ def ping_func(to_ping: List[str]) -> List[str]:
 
 @run_async
 def ping(update: Update, context: CallbackContext):
-    telegram_ping = ping_func(["Telegram"])[0].split(": ", 1)[1]
+    msg = update.effective_message
+
+    start_time = time.time()
+    message = msg.reply_text("Pinging...")
+    end_time = time.time()
+    telegram_ping = round((end_time - start_time)*1000, 3)
     uptime = get_readable_time((time.time() - StartTime))
 
-    reply_msg = ("PONG!!\n"
-                 "<b>Time Taken:</b> <code>{}</code>\n"
-                 "<b>Service uptime:</b> <code>{}</code>".format(
-                     telegram_ping, uptime))
+    message.edit_text(
+        "PONG!!\n"
+        "<b>Time Taken:</b> <code>{}</code>\n"
+        "<b>Service uptime:</b> <code>{}</code>".format(telegram_ping, uptime)
+    )
 
     update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
 
