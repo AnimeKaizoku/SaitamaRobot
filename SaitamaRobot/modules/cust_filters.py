@@ -208,12 +208,11 @@ def filters(update, context):
         send_message(update.effective_message, "Invalid filter!")
         return
 
-    add = addnew_filter(update, chat_id, keyword, text, file_type, file_id, buttons)
+    sql.new_add_filter(chat_id, keyword, text, file_type, file_id, buttons)
     # This is an old method
     # sql.add_filter(chat_id, keyword, content, is_sticker, is_document, is_image, is_audio, is_voice, is_video, buttons)
 
-    if add == True:
-        send_message(
+    send_message(
             update.effective_message,
             "Saved filter '{}' in *{}*!".format(keyword, chat_name),
             parse_mode=telegram.ParseMode.MARKDOWN,
@@ -501,20 +500,6 @@ def get_exception(excp, filt, chat):
             "Could not parse filter %s in chat %s", str(filt.keyword), str(chat.id)
         )
         return "This data could not be sent because it is incorrectly formatted."
-
-
-# NOT ASYNC NOT A HANDLER
-def addnew_filter(update, chat_id, keyword, text, file_type, file_id, buttons):
-    msg = update.effective_message
-    totalfilt = sql.get_chat_triggers(chat_id)
-    if len(totalfilt) >= 50:  # Idk why i made this like function....
-        msg.reply_text(
-            "You can't have more that fifty filters at once! try removing some before adding new filters."
-        )
-        return False
-    else:
-        sql.new_add_filter(chat_id, keyword, text, file_type, file_id, buttons)
-        return True
 
 
 def __stats__():
