@@ -16,6 +16,14 @@ AFK_REPLY_GROUP = 8
 @run_async
 def afk(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(None, 1)
+    user = update.effective_user
+
+    if not user:  # ignore channels
+        return
+
+    if user.id == 777000:
+        return
+
     notice = ""
     if len(args) >= 2:
         reason = args[1]
