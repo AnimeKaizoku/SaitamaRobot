@@ -35,6 +35,7 @@ def debug(update: Update, context: CallbackContext):
 async def i_do_nothing_yes(event):
     global DEBUG_MODE
     if DEBUG_MODE:
+        print(f"-{event.from_id} ({event.chat_id}) : {event.text}")
         if os.path.exists('updates.txt'):
             with open('updates.txt', 'r') as f:
                 text = f.read()
