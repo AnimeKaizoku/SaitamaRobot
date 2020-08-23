@@ -79,10 +79,9 @@ def ping(update: Update, context: CallbackContext):
     message.edit_text(
         "PONG!!\n"
         "<b>Time Taken:</b> <code>{}</code>\n"
-        "<b>Service uptime:</b> <code>{}</code>".format(telegram_ping, uptime)
+        "<b>Service uptime:</b> <code>{}</code>".format(telegram_ping, uptime),
+        parse_mode=ParseMode.HTML
     )
-
-    update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
 
 
 @run_async
