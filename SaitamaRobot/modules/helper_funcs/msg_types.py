@@ -145,11 +145,8 @@ def get_filter_type(msg: Message):
         text = msg.text.split(None, 2)[2]
         data_type = Types.TEXT
 
-    elif (
-        msg.reply_to_message
-        and msg.reply_to_message.text
-        and len(msg.text.split()) >= 2
-    ):
+    elif (msg.reply_to_message and msg.reply_to_message.text and
+          len(msg.text.split()) >= 2):
         content = None
         text = msg.reply_to_message.text
         data_type = Types.TEXT
@@ -165,7 +162,8 @@ def get_filter_type(msg: Message):
         data_type = Types.DOCUMENT
 
     elif msg.reply_to_message and msg.reply_to_message.photo:
-        content = msg.reply_to_message.photo[-1].file_id  # last elem = best quality
+        content = msg.reply_to_message.photo[
+            -1].file_id  # last elem = best quality
         text = msg.reply_to_message.caption
         data_type = Types.PHOTO
 
