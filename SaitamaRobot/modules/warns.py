@@ -328,7 +328,7 @@ def list_warn_filters(update: Update, context: CallbackContext):
 def reply_filter(update: Update, context: CallbackContext) -> str:
     chat: Optional[Chat] = update.effective_chat
     message: Optional[Message] = update.effective_message
-    user:Optional[User] = update.effective_user
+    user: Optional[User] = update.effective_user
 
     if not user:  #Ignore channel
         return
