@@ -32,7 +32,7 @@ class CustomCommandHandler(CommandHandler):
             try:
                 user_id = update.effective_user.id
             except:
-                pass
+                user_id = None
 
             if user_id:
                 if sql.is_user_blacklisted(user_id):
