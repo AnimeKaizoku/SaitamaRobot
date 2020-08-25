@@ -59,8 +59,7 @@ def ban(update: Update, context: CallbackContext) -> str:
             return log_message
         elif user_id in SUDO_USERS:
             message.reply_text(
-                "Fighting this Dragon here will put civilian lives at risk."
-            )
+                "Fighting this Dragon here will put civilian lives at risk.")
             return log_message
         elif user_id in SUPPORT_USERS:
             message.reply_text(
@@ -73,9 +72,7 @@ def ban(update: Update, context: CallbackContext) -> str:
             )
             return log_message
         elif user_id in WHITELIST_USERS:
-            message.reply_text(
-                "Wolf abilities make them ban immune!"
-            )
+            message.reply_text("Wolf abilities make them ban immune!")
             return log_message
         else:
             message.reply_text("This user has immunity and cannot be banned.")
