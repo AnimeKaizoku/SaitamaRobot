@@ -1,5 +1,6 @@
 future
 emoji
+lxml
 beautifulsoup4
 requests
 sqlalchemy
