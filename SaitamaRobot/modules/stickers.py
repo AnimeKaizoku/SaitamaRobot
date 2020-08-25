@@ -46,14 +46,14 @@ def cb_sticker(update: Update, context: CallbackContext):
     text = requests.get(combot_stickers_url + split[1]).text
     soup = bs(text, 'lxml')
     results  = soup.find_all("a",{'class':"sticker-pack__btn"})
+    titles = soup.find_all("div", "sticker-pack__title")
     if not results:
         msg.reply_text('No results found :(.')
         return
     reply = f"Stickers for *{split[1]}*:"
-    for result in results:
+    for result, title in zip(results, titles):
         link = result['href']
-        name = re.search('[^/]+$', link).group()
-        reply += f"\n• [{name}]" + f"({link})"
+        reply += f"\n• [{title.get_text()}]({link})"
     msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
         
 
