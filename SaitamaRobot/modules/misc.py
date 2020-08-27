@@ -185,9 +185,14 @@ def echo(update: Update, context: CallbackContext):
     message = update.effective_message
 
     if message.reply_to_message:
-        message.reply_to_message.reply_text(args[1], parse_mode="MARKDOWN", disable_web_page_preview=True)
+        message.reply_to_message.reply_text(
+            args[1], parse_mode="MARKDOWN", disable_web_page_preview=True)
     else:
-        message.reply_text(args[1], quote=False, parse_mode="MARKDOWN", disable_web_page_preview=True)
+        message.reply_text(
+            args[1],
+            quote=False,
+            parse_mode="MARKDOWN",
+            disable_web_page_preview=True)
     message.delete()
 
 
