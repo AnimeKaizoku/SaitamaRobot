@@ -85,7 +85,7 @@ def broadcast(update: Update, context: CallbackContext):
                                    str(user.user_id))
 
         update.effective_message.reply_text(
-            f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked. {failed_user} failed to receive message, probably due to being blocked"
+            f"Broadcast complete.\nGroups failed: {failed}.\nUsers failed: {failed_user}."
         )
 
 
