@@ -67,25 +67,27 @@ def broadcast(update: Update, context: CallbackContext):
         if to_group:
             for chat in chats:
                 try:
-                    context.bot.sendMessage(int(chat.chat_id), to_send[1])
+                    context.bot.sendMessage(
+                        int(chat.chat_id),
+                        to_send[1],
+                        parse_mode="MARKDOWN",
+                        disable_web_page_preview=True)
                     sleep(0.1)
                 except TelegramError:
                     failed += 1
-                    LOGGER.warning(
-                        "Couldn't send broadcast to %s, group name %s",
-                        str(chat.chat_id), str(chat.chat_name))
         if to_user:
             for user in users:
                 try:
-                    context.bot.sendMessage(int(user.user_id), to_send[1])
+                    context.bot.sendMessage(
+                        int(user.user_id),
+                        to_send[1],
+                        parse_mode="MARKDOWN",
+                        disable_web_page_preview=True)
                     sleep(0.1)
                 except TelegramError:
                     failed_user += 1
-                    LOGGER.warning("Couldn't send broadcast to %s",
-                                   str(user.user_id))
-
         update.effective_message.reply_text(
-            f"Broadcast complete. {failed} groups failed to receive the message, probably due to being kicked. {failed_user} failed to receive message, probably due to being blocked"
+            f"Broadcast complete.\nGroups failed: {failed}.\nUsers failed: {failed_user}."
         )
 
 
@@ -147,7 +149,7 @@ def __user_info__(user_id):
 
 
 def __stats__():
-    return f"{sql.num_users()} users, across {sql.num_chats()} chats"
+    return f"• {sql.num_users()} users, across {sql.num_chats()} chats"
 
 
 def __migrate__(old_chat_id, new_chat_id):

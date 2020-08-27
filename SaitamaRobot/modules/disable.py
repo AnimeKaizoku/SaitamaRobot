@@ -305,7 +305,7 @@ if is_module_loaded(FILENAME):
             build_curr_disabled(chat.id), parse_mode=ParseMode.MARKDOWN)
 
     def __stats__():
-        return f"{sql.num_disabled()} disabled items, across {sql.num_chats()} chats."
+        return f"• {sql.num_disabled()} disabled items, across {sql.num_chats()} chats."
 
     def __migrate__(old_chat_id, new_chat_id):
         sql.migrate_chat(old_chat_id, new_chat_id)
