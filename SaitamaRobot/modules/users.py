@@ -74,7 +74,7 @@ def broadcast(update: Update, context: CallbackContext):
         if to_user:
             for user in users:
                 try:
-                    context.bot.sendMessage(int(user.user_id), to_send[1], parse_mode="MARKDOWN")
+                    context.bot.sendMessage(int(user.user_id), to_send[1], parse_mode="MARKDOWN", disable_web_page_preview=True)
                     sleep(0.1)
                 except TelegramError:
                     failed_user += 1
