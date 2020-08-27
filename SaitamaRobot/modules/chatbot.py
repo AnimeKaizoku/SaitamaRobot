@@ -126,8 +126,6 @@ def list_chatbot_chats(update: Update, context: CallbackContext):
     update.effective_message.reply_text(text, parse_mode="HTML")
 
 
-__mod_name__ = "Chatbot"
-
 __help__ = f"""
 Chatbot utilizes the CoffeeHouse API and allows Saitama to talk and provides a more interactive group chat experience.
 
@@ -156,3 +154,10 @@ dispatcher.add_handler(ADD_CHAT_HANDLER)
 dispatcher.add_handler(REMOVE_CHAT_HANDLER)
 dispatcher.add_handler(CHATBOT_HANDLER)
 dispatcher.add_handler(LIST_CB_CHATS_HANDLER)
+
+__mod_name__ = "Chatbot"
+__command_list__ = ["addchat", "rmchat", "listaichats"]
+__handlers__ = [
+    ADD_CHAT_HANDLER, REMOVE_CHAT_HANDLER, CHATBOT_HANDLER,
+    LIST_CB_CHATS_HANDLER
+]

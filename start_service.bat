@@ -1,5 +1,6 @@
 @echo off
-
+:: This runs the batch file as an admin - required UAC to be off
+:: This is just an asty hack in to get job done cause we host it on windows dedi.
 :: BatchGotAdmin
 :-------------------------------------
 REM  --> Check for permissions
@@ -24,5 +25,7 @@ if '%errorlevel%' NEQ '0' (
     pushd "%CD%"
     CD /D "%~dp0"
 :--------------------------------------
+:: your commands begin from this point.
+:: stops the service and then starts it 
 net stop SaitamaRobot
 net start SaitamaRobot

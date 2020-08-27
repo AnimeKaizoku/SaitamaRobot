@@ -123,7 +123,11 @@ def unmute(update: Update, context: CallbackContext) -> str:
                 can_send_media_messages=True,
                 can_send_other_messages=True,
                 can_add_web_page_previews=True)
-            bot.restrict_chat_member(chat.id, int(user_id), chat_permissions)
+            try:
+                bot.restrict_chat_member(chat.id, int(user_id),
+                                         chat_permissions)
+            except BadRequest:
+                pass
             bot.sendMessage(
                 chat.id,
                 f"I shall allow <b>{html.escape(member.user.first_name)}</b> to text!",

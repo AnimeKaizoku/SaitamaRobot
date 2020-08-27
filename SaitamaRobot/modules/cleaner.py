@@ -15,7 +15,7 @@ if ALLOW_EXCL:
 else:
     CMD_STARTERS = ('/')
 
-BLUE_TEXT_CLEAN_GROUP = 15
+BLUE_TEXT_CLEAN_GROUP = 13
 CommandHandlerList = (CommandHandler, CustomCommandHandler,
                       DisableAbleCommandHandler)
 command_list = [

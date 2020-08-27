@@ -100,7 +100,7 @@ def remove_warn(user_id, chat_id):
 
         if warned_user and warned_user.num_warns > 0:
             warned_user.num_warns -= 1
-
+            warned_user.reasons = warned_user.reasons[:-1]
             SESSION.add(warned_user)
             SESSION.commit()
             removed = True

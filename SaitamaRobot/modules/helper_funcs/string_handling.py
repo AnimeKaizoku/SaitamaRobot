@@ -2,7 +2,10 @@ import re
 import time
 from typing import Dict, List
 
+import bleach
+import markdown2
 import emoji
+
 from telegram import MessageEntity
 from telegram.utils.helpers import escape_markdown
 
@@ -270,3 +273,14 @@ def extract_time(message, time_val):
             "Invalid time type specified. Expected m,h, or d, got: {}".format(
                 time_val[-1]))
         return ""
+
+
+def markdown_to_html(text):
+    text = text.replace("*", "**")
+    text = text.replace("`", "```")
+    text = text.replace("~", "~~")
+    _html = markdown2.markdown(text, extras=["strike", "underline"])
+    return bleach.clean(
+        _html,
+        tags=["strong", "em", "a", "code", "pre", "strike", "u"],
+        strip=True)[:-1]

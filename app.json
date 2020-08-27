@@ -10,16 +10,16 @@
    "description": "An Anime themed Telegram group management bot.",
    "env": {
       "ALLOW_EXCL": {
-         "description": "Set this to True if you want ! to be a command prefix along with /",
+         "description": "Set this to True if you want ! to be a command prefix along with /. Recommended is True",
          "value": "True"
       },
       "API_ID": {
-         "description": "Get API_ID from my.telegram.org - this is used for telethon based modules.",
+         "description": "Get API_ID from my.telegram.org, used for telethon based modules.",
          "required": true,
          "value": ""
       },
       "API_HASH": {
-         "description": "Get API_HASH from my.telegram.org - this is used for telethon based modules.",
+         "description": "Get API_HASH from my.telegram.org, used for telethon based modules.",
          "required": true,
          "value": ""
       },
@@ -29,7 +29,7 @@
          "value": "CAACAgQAAx0CU_rCTAABAczQXyBOv1TsVK4EfwnkCUT1H0GCkPQAAtwAAwEgTQaYsMtAltpEwhoE"
       },
       "sw_api": {
-         "description": "Spamwatch API Token - Get one from @SpamwatchSupport.",
+         "description": "Spamwatch API Token, Get one from @SpamWatchBot.",
          "required": true,
          "value": ""
       },     
@@ -53,10 +53,11 @@
       },      
       "OWNER_ID": {
          "description": "Your user ID as an integer.",
+         "required": true,
          "value": "792109647"
       },
       "OWNER_USERNAME": {
-         "description": "Your username",
+         "description": "Your username without the @",
          "value": "Sawada"
       },
       "DEV_USERS": {
@@ -65,19 +66,22 @@
          "value": "660565862 459034222 189005567 346981140 367222759"
       },
       "GBAN_LOGS": {
-         "description": "Gban log channel, include the hyphen too: ex: -123456",
-         "value": "-1001300439833"
+         "description": "Gban log channel where your bot is admin, include the hyphen too: ex: '-123456'",
+         "required": true,
+         "value": "-123456798"
       },
       "CASH_API_KEY": {
-         "description": "Required for currency converter",
+         "description": "Required for currency converter. Get yours from https://www.alphavantage.co/support/#api-key",
+         "required": true,
          "value": "-xyz"
       },
       "TIME_API_KEY": {
-         "description": "Required for timezone information",
+         "description": "Required for timezone information. Get yours from https://timezonedb.com/api",
+         "required": true,
          "value": "-xyz"
       },
       "PORT": {
-         "description": "Port to use for your webhooks.",
+         "description": "Port to use for your webhooks. Better leave this as it is on heroku",
          "required": false,
          "value": ""
       },
@@ -108,7 +112,7 @@
       "SUPPORT_CHAT": {
          "description": "Your Telegram support group chat username where your users will go and bother you with shit But be like: @MyGroupChatUsernameBlah. If this ever points to saitama support than consider you made an enemy.",
          "required": true,
-         "value": "@OnePunchDev"
+         "value": "@MyAwesomeSupportGroupGoesHere"
       },   
       "URL": {
          "description": "The Heroku App URL :-  https://<appname>.herokuapp.com/",
@@ -138,7 +142,7 @@
    },
    "keywords": [
       "telegram",
-      "weeb",
+      "anime",
       "group",
       "manager",
       "Saitama"
