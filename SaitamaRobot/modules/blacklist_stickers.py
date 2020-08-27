@@ -459,7 +459,7 @@ def __chat_settings__(chat_id, user_id):
 
 
 def __stats__():
-    return "{} blacklist stickers, across {} chats.".format(
+    return "• {} blacklist stickers, across {} chats.".format(
         sql.num_stickers_filters(), sql.num_stickers_filter_chats())
 
 

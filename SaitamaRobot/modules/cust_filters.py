@@ -492,7 +492,7 @@ def get_exception(excp, filt, chat):
 
 
 def __stats__():
-    return "× {} filters, across {} chats.".format(sql.num_filters(),
+    return "• {} filters, across {} chats.".format(sql.num_filters(),
                                                    sql.num_chats())
 
 
