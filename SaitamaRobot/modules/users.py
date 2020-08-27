@@ -71,9 +71,6 @@ def broadcast(update: Update, context: CallbackContext):
                     sleep(0.1)
                 except TelegramError:
                     failed += 1
-                    LOGGER.warning(
-                        "Couldn't send broadcast to %s, group name %s",
-                        str(chat.chat_id), str(chat.chat_name))
         if to_user:
             for user in users:
                 try:
@@ -81,9 +78,6 @@ def broadcast(update: Update, context: CallbackContext):
                     sleep(0.1)
                 except TelegramError:
                     failed_user += 1
-                    LOGGER.warning("Couldn't send broadcast to %s",
-                                   str(user.user_id))
-
         update.effective_message.reply_text(
             f"Broadcast complete.\nGroups failed: {failed}.\nUsers failed: {failed_user}."
         )
