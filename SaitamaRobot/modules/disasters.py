@@ -533,54 +533,54 @@ __help__ = f"""
 Commands listed here only work for users with special access are mainly used for troubleshooting, debugging purposes.
 Group admins/group owners do not need these commands. 
 
-*• List all special users:*
- ╔ `/heroes`*:* Lists all Hero Association members.
+ ╔ *List all special users:*
+ ╠ `/heroes`*:* Lists all Hero Association members.
  ╠ `/dragons`*:* Lists all Dragon disasters.
  ╠ `/demons`*:* Lists all Demon disasters.
  ╠ `/tigers`*:* Lists all Tigers disasters.
  ╚ `/wolves`*:* Lists all Wolf disasters.
 
-*• Ping:*
- ╔ `/ping`*:* gets ping time of bot to telegram server
+ ╔ *Ping:*
+ ╠ `/ping`*:* gets ping time of bot to telegram server
  ╚ `/pingall`*:* gets all listed ping times
 
-*• Broadcast: (Bot owner only)*
-Note: This supports basic markdown
- ╔ `/broadcastall messagehere`*:* Broadcasts the message everywhere.
+ ╔ *Broadcast: (Bot owner only)*
+ ╠  Note: This supports basic markdown
+ ╠ `/broadcastall messagehere`*:* Broadcasts the message everywhere.
  ╠ `/broadcastusers messagehere`*:* Broadcasts the message too all users of the bot.
  ╚ `/broadcastgroups messagehere`*:* Broadcasts the message too all groups of the bot.
 
-*• Getchats:*
+ ╔ *Getchats:*
  ╚ `/getchats ID`*:* Gets a list of group names the user has been seen in. Bot owner only.
 
-*• Blacklist:* 
- ╔ `/ignore`*:* Blacklists a user from using the bot entirely.
+ ╔ *Blacklist:* 
+ ╠ `/ignore`*:* Blacklists a user from using the bot entirely.
  ╚ `/notice`*:* Whitelists the user to allow bot usage. 
 
-*• Speedtest:*
+ ╔ *Speedtest:*
  ╚ `/speedtest`*:* Runs a speedtest and gives you 2 options to choose from, text or image output.
 
-*• Global Bans:*
- ╔ `/gban user reason`*:* Globally bans a user anywhere the bot is admin in/will be admin in
+ ╔ *Global Bans:*
+ ╠ `/gban user reason`*:* Globally bans a user anywhere the bot is admin in/will be admin in
  ╚ `/ungban user reason`*:* Unbans the user from the global bans list
 
-*• Module loading:*
- ╔ `/listmodules`*:* Lists names of all modules
+ ╔ *Module loading:*
+ ╠ `/listmodules`*:* Lists names of all modules
  ╠ `/load modulename`*:* Loads the said module to memory without restarting the bot
  ╚ `/unload modulename`*:* Loads the said module from memory without restarting the bot 
 
-*• Remote commands:*
- ╔ `/runban usernamne/id groupusername/id`*:* Remotely bans said user in said group
+ ╔ *Remote commands:*
+ ╠ `/runban usernamne/id groupusername/id`*:* Remotely bans said user in said group
  ╠ `/rpunch usernamne/id groupusername/id`*:* Remotely punches said user from said group
  ╠ `/rmute usernamne/id groupusername/id`*:* Remotely mutes said user in said group
  ╚ `/runmute usernamne/id groupusername/id`*:* Remotely unmutes said user in said group
 
-*• Shell commands:* 
- ╔ `/eval`*:* Self explanatory
+ ╔ *Shell commands:* 
+ ╠ `/eval`*:* Self explanatory
  ╚ `/py`*:* Self explanatory
 
-*• Windows self hosted only:*
- ╔ `/restart`*:* Restarts the bots service.
+ ╔ *Windows self hosted only:*
+ ╠ `/restart`*:* Restarts the bots service.
  ╚ `/gitpull`*:* Pulls the repo and then restarts the bots service.
 
 You can visit {SUPPORT_CHAT} if you want details on these.
