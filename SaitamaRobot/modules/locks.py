@@ -541,10 +541,10 @@ def build_lock_message(chat_id):
         locklist.sort()
         # Building lock list string
         for x in locklist:
-            res += "\n × {}".format(x)
+            res += "\n • {}".format(x)
     res += "\n\n*" + "These are the current chat permissions:" + "*"
     for x in permslist:
-        res += "\n × {}".format(x)
+        res += "\n • {}".format(x)
     return res
 
 
