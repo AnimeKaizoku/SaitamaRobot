@@ -221,7 +221,7 @@ __help__ = """
 *Markdown:*
  • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
 *Paste:*
- • `/paste`*:* Saves replied content to `neko.bin` and replies with a url
+ • `/paste`*:* Saves replied content to `nekobin.com` and replies with a url
 *React:*
  • `/react`*:* Reacts with a random reaction 
 *Urban Dictonary:*
@@ -231,13 +231,11 @@ __help__ = """
 
 *Currency converter:* 
  • `/cash`*:* currency converter
-
 Example:
  `/cash 1 USD INR`  
       _OR_
  `/cash 1 usd inr`
-
- Output: `1.0 USD = 75.505 INR`
+Output: `1.0 USD = 75.505 INR`
 
 """
 
