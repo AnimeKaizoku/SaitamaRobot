@@ -467,7 +467,7 @@ def __user_info__(user_id):
     is_gbanned = sql.is_user_gbanned(user_id)
 
     text = "Globally banned: <b>{}</b>"
-    if int(user_id) in SUDO_USERS + SUPPORT_USERS + TIGER_USERS + WHITELIST_USERS:
+    if int(user_id) in SUDO_USERS + TIGER_USERS + WHITELIST_USERS:
         text = text.format("???")
     if is_gbanned:
         text = text.format("Yes")
