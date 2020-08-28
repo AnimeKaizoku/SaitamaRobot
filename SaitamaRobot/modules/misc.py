@@ -228,7 +228,6 @@ __help__ = """
  • `/ud <word>`*:* Type the word or expression you want to search use
 *Wikipedia:*
  • `/wiki <query>`*:* wikipedia your query
-
 *Currency converter:* 
  • `/cash`*:* currency converter
 Example:
@@ -236,7 +235,6 @@ Example:
       _OR_
  `/cash 1 usd inr`
 Output: `1.0 USD = 75.505 INR`
-
 """
 
 ID_HANDLER = DisableAbleCommandHandler("id", get_id)
