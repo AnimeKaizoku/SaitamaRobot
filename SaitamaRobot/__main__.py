@@ -165,7 +165,7 @@ def start(update: Update, context: CallbackContext):
                             context.bot.username))
                 ]]))
     else:
-        update.effective_message.reply_text("Yo, whadup?")
+        update.effective_message.reply_text("I am already online!")
 
 
 # for test purposes
