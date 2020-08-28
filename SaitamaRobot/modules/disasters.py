@@ -538,7 +538,7 @@ Group admins/group owners do not need these commands.
  • `/demons`*:* Lists all Demon disasters.
  • `/tigers`*:* Lists all Tigers disasters.
  • `/wolves`*:* Lists all Wolf disasters.
- 
+
 *Ping:*
  • `/ping`*:* gets ping time of bot to telegram server
  • `/pingall`*:* gets all listed ping times
@@ -555,6 +555,32 @@ Note: This supports basic markdown
 *Blacklist:* 
  • `/ignore`*:* Blacklists a user from using the bot entirely.
  • `/notice`*:* Whitelists the user to allow bot usage. 
+
+*Speedtest:*
+ • `/speedtest`*:* Runs a speedtest and gives you 2 options to choose from, text or image output.
+
+*Global Bans:*
+ • `/gban user reason`*:* Globally bans a user anywhere the bot is admin in/will be admin in
+ • `/ungban user reason`*:* Unbans the user from the global bans list
+
+*Module loading:*
+ • `/listmodules`*:* Lists names of all modules
+ • `/load modulename`*:* Loads the said module to memory without restarting the bot
+ • `/unload modulename`*:* Loads the said module from memory without restarting the bot 
+
+*Remote commands:*
+ • `/runban usernamne/id groupusername/id`*:* Remotely bans said user in said group
+ • `/rpunch usernamne/id groupusername/id`*:* Remotely punches said user from said group
+ • `/rmute usernamne/id groupusername/id`*:* Remotely mutes said user in said group
+ • `/runmute usernamne/id groupusername/id`*:* Remotely unmutes said user in said group
+
+*Shell commands:* 
+ • `/eval`*:* Self explanatory
+ • `/py`*:* Self explanatory
+
+*Windows self hosted only:*
+ • `/restart`*:* Restarts the bots service.
+ • `/gitpull`*:* Pulls the repo and then restarts the bots service.
 
 You can visit {SUPPORT_CHAT} if you want details on these.
 """

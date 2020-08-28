@@ -502,6 +502,7 @@ Saitama also integrates @Spamwatch API into gbans to remove Spammers as much as 
 *What is SpamWatch?*
 SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
 Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
+*Note:* Users can appeal spamwatch bans or report spammers at @SpamwatchSupport
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban)
@@ -517,7 +518,7 @@ dispatcher.add_handler(UNGBAN_HANDLER)
 dispatcher.add_handler(GBAN_LIST)
 dispatcher.add_handler(GBAN_STATUS)
 
-__mod_name__ = "Global Bans"
+__mod_name__ = "Anti-Spam"
 __handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
 
 if STRICT_GBAN:  # enforce GBANS if this is set
