@@ -529,13 +529,34 @@ def devlist(update: Update, context: CallbackContext):
 
 
 __help__ = f"""
+*⚠️ Notice:*
+Commands listed here only work for users with special access are mainly used for troubleshooting, debugging purposes.
+Group admins/group owners do not need these commands. 
+
  • `/heroes`*:* Lists all Hero Association members.
  • `/dragons`*:* Lists all Dragon disasters.
  • `/demons`*:* Lists all Demon disasters.
  • `/tigers`*:* Lists all Tigers disasters.
  • `/wolves`*:* Lists all Wolf disasters.
- *Note:* These commands list users with special bot priveleges and can only be used by them.
- You can visit {SUPPORT_CHAT} to query more about these.
+ 
+*Ping:*
+ • `/ping`*:* gets ping time of bot to telegram server
+ • `/pingall`*:* gets all listed ping times
+
+*Broadcast: (Bot owner only)*
+Note: This supports basic markdown
+ • `/broadcastall messagehere`*:* Broadcasts the message everywhere.
+ • `/broadcastusers messagehere`*:* Broadcasts the message too all users of the bot.
+ • `/broadcastgroups messagehere`*:* Broadcasts the message too all groups of the bot.
+
+*Getchats:*
+ • `/getchats ID`*:* Gets a list of group names the user has been seen in. Bot owner only.
+
+*Blacklist:* 
+ • `/ignore`*:* Blacklists a user from using the bot entirely.
+ • `/notice`*:* Whitelists the user to allow bot usage. 
+
+You can visit {SUPPORT_CHAT} if you want details on these.
 """
 
 SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo)

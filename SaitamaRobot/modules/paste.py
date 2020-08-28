@@ -35,13 +35,8 @@ def paste(update: Update, context: CallbackContext):
         disable_web_page_preview=True)
 
 
-__help__ = """
- • `/paste`*:* Do a paste at `neko.bin`
-"""
-
 PASTE_HANDLER = DisableAbleCommandHandler("paste", paste)
 dispatcher.add_handler(PASTE_HANDLER)
 
-__mod_name__ = "Paste"
 __command_list__ = ["paste"]
 __handlers__ = [PASTE_HANDLER]

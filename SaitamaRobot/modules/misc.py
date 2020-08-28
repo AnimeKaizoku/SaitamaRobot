@@ -217,10 +217,28 @@ def stats(update: Update, context: CallbackContext):
 
 
 __help__ = """
- • `/id`*:* get the current group id. If used by replying to a message, gets that user's id.
- • `/gifid`*:* reply to a gif to me to tell you its file ID.
- • `/info`*:* get information about a user.
- • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats.
+*Available commands:*
+*Markdown:*
+ • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
+*Paste:*
+ • `/paste`*:* Saves replied content to `neko.bin` and replies with a url
+*React:*
+ • `/react`*:* Reacts with a random reaction 
+*Urban Dictonary:*
+ • `/ud <word>`*:* Type the word or expression you want to search use
+*Wikipedia:*
+ • `/wiki <query>`*:* wikipedia your query
+
+*Currency converter:* 
+ • `/cash`*:* currency converter
+
+Example:
+ `/cash 1 USD INR`  
+      _OR_
+ `/cash 1 usd inr`
+
+ Output: `1.0 USD = 75.505 INR`
+
 """
 
 ID_HANDLER = DisableAbleCommandHandler("id", get_id)
@@ -238,7 +256,7 @@ dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
 
-__mod_name__ = "Misc"
+__mod_name__ = "Extras"
 __command_list__ = ["id", "info", "echo"]
 __handlers__ = [
     ID_HANDLER, GIFID_HANDLER, INFO_HANDLER, ECHO_HANDLER, MD_HELP_HANDLER,

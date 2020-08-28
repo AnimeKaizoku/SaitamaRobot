@@ -18,14 +18,9 @@ def ud(update: Update, context: CallbackContext):
     message.reply_text(reply_text, parse_mode=ParseMode.MARKDOWN)
 
 
-__help__ = """
- • `/ud <word>`*:* Type the word or expression you want to search use.
-"""
-
 UD_HANDLER = DisableAbleCommandHandler(["ud"], ud)
 
 dispatcher.add_handler(UD_HANDLER)
 
-__mod_name__ = "Urban dictionary"
 __command_list__ = ["ud"]
 __handlers__ = [UD_HANDLER]

@@ -45,13 +45,5 @@ def wiki(update: Update, context: CallbackContext):
                 disable_web_page_preview=True)
 
 
-__help__ = """
-WIKIPEDIA!!
-*Available commands:*
- • `/wiki <query>`*:* wiki your query.
-"""
-
-__mod_name__ = "Wiki"
-
 WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki)
 dispatcher.add_handler(WIKI_HANDLER)
