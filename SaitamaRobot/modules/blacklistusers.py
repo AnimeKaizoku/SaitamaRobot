@@ -1,7 +1,7 @@
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
 
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
-from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
+from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS, TIGER_USERS,
                           WHITELIST_USERS, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
@@ -132,7 +132,8 @@ def __user_info__(user_id):
     is_blacklisted = sql.is_user_blacklisted(user_id)
 
     text = "Blacklisted: <b>{}</b>"
-
+    if int(user_id) in SUDO_USERS + SUPPORT_USERS + TIGER_USERS + WHITELIST_USERS:
+        text = text.format("???")
     if is_blacklisted:
         text = text.format("Yes")
         reason = sql.get_reason(user_id)
