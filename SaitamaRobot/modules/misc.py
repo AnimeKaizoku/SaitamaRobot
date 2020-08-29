@@ -3,7 +3,7 @@ import re
 
 import requests
 from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
-                          TIGER_USERS, WHITELIST_USERS, dispatcher)
+                          TIGER_USERS, WHITELIST_USERS, dispatcher, sw)
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, user_admin
@@ -127,6 +127,17 @@ def info(update: Update, context: CallbackContext):
         text += f"\nUsername: @{html.escape(user.username)}"
 
     text += f"\nPermanent user link: {mention_html(user.id, 'link')}"
+
+    try:
+       spamwtc = sw.get_ban(int(user.id))
+       if spamwtc:
+          text += "\n\n<b>This person is banned in Spamwatch!</b>"
+          text += f"\nReason: <pre>{spamwtc.reason}</pre>"
+          text += "\nAppeal at @SpamWatchSupport"
+       else:
+           pass
+    except:
+        pass # don't crash if api is down somehow...
 
     disaster_level_present = False
 
