@@ -70,7 +70,7 @@ def import_data(update, context):
 
         # Check if backup is this chat
         try:
-            if data.get(str(chat.id)) == None:
+            if data.get(str(chat.id)) is None:
                 if conn:
                     text = "Backup comes from another chat, I can't return another chat to chat *{}*".format(
                         chat_name)
@@ -347,7 +347,7 @@ def export_data(update, context):
 # Temporary data
 def put_chat(chat_id, value, chat_data):
     # print(chat_data)
-    if value == False:
+    if value is False:
         status = False
     else:
         status = True

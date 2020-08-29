@@ -144,6 +144,28 @@ def del_fed(update: Update, context: CallbackContext):
 
 
 @run_async
+def rename_fed(update, context):
+    user = update.effective_user
+    msg = update.effective_message
+    args = msg.text.split(None, 2)
+
+    if len(args) < 3:
+        return msg.reply_text("usage: /renamefed <fed_id> <newname>")
+
+    fed_id, newname = args[1], args[2]
+    verify_fed = sql.get_fed_info(fed_id)
+
+    if not verify_fed:
+        return msg.reply_text("This fed not exist in my database!")
+
+    if is_user_fed_owner(fed_id, user.id):
+        sql.rename_fed(fed_id, user.id, newname)
+        msg.reply_text(f"Successfully renamed your fed name to {newname}!")
+    else:
+        msg.reply_text("Only federation owner can do this!")
+
+
+@run_async
 def fed_chat(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     chat = update.effective_chat
@@ -405,7 +427,6 @@ def fed_info(update: Update, context: CallbackContext):
     except:
         owner_name = owner.first_name
     FEDADMIN = sql.all_fed_users(fed_id)
-    FEDADMIN.append(int(owner.id))
     TotalAdminFed = len(FEDADMIN)
 
     user = update.effective_user
@@ -2104,6 +2125,7 @@ Feds are now divided into 3 sections for your ease.
 
 NEW_FED_HANDLER = CommandHandler("newfed", new_fed)
 DEL_FED_HANDLER = CommandHandler("delfed", del_fed)
+RENAME_FED = CommandHandler("renamefed", rename_fed)
 JOIN_FED_HANDLER = CommandHandler("joinfed", join_fed)
 LEAVE_FED_HANDLER = CommandHandler("leavefed", leave_fed)
 PROMOTE_FED_HANDLER = CommandHandler("fpromote", user_join_fed)
@@ -2134,6 +2156,7 @@ FED_USER_HELP_HANDLER = CommandHandler("feduserhelp", fed_user_help)
 
 dispatcher.add_handler(NEW_FED_HANDLER)
 dispatcher.add_handler(DEL_FED_HANDLER)
+dispatcher.add_handler(RENAME_FED)
 dispatcher.add_handler(JOIN_FED_HANDLER)
 dispatcher.add_handler(LEAVE_FED_HANDLER)
 dispatcher.add_handler(PROMOTE_FED_HANDLER)

@@ -54,7 +54,7 @@ def list_handlers(update, context):
     user = update.effective_user
 
     conn = connected(context.bot, update, chat, user.id, need_admin=False)
-    if not conn == False:
+    if not conn is False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
         filter_list = "*Filter in {}:*\n"
@@ -105,7 +105,7 @@ def filters(update, context):
         1)  # use python's maxsplit to separate Cmd, keyword, and reply_text
 
     conn = connected(context.bot, update, chat, user.id)
-    if not conn == False:
+    if not conn is False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
@@ -223,7 +223,7 @@ def stop_filter(update, context):
     args = update.effective_message.text.split(None, 1)
 
     conn = connected(context.bot, update, chat, user.id)
-    if not conn == False:
+    if not conn is False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
