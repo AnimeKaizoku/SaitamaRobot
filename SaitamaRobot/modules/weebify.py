@@ -41,14 +41,9 @@ def weebify(update: Update, context: CallbackContext):
         message.reply_text(string)
 
 
-__help__ = """
- • `/weebify <text>`*:* returns a weebified text
- """
-
 WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify)
 
 dispatcher.add_handler(WEEBIFY_HANDLER)
 
-__mod_name__ = "Weebify"
 __command_list__ = ["weebify"]
 __handlers__ = [WEEBIFY_HANDLER]

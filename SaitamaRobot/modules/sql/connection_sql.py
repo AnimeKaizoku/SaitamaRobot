@@ -192,7 +192,7 @@ def __load_user_history():
         HISTORY_CONNECT = {}
         for x in qall:
             check = HISTORY_CONNECT.get(x.user_id)
-            if check == None:
+            if check is None:
                 HISTORY_CONNECT[x.user_id] = {}
             HISTORY_CONNECT[x.user_id][x.conn_time] = {
                 "chat_name": x.chat_name,

@@ -14,10 +14,13 @@ def totranslate(update: Update, context: CallbackContext):
         if "-" in key:
             problem_lang_code.append(key)
     try:
-        if msg.reply_to_message and msg.reply_to_message.text:
-
+        if msg.reply_to_message:
             args = update.effective_message.text.split(None, 1)
-            text = msg.reply_to_message.text
+            if msg.reply_to_message.text:
+                text = msg.reply_to_message.text
+            elif msg.reply_to_message.caption:
+                text = msg.reply_to_message.caption
+
             message = update.effective_message
             dest_lang = None
 

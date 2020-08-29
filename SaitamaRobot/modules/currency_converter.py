@@ -46,20 +46,9 @@ def convert(update: Update, context: CallbackContext):
             parse_mode=ParseMode.MARKDOWN)
 
 
-__help__ = """
- • `/cash`*:* currency converter
-
- *Example syntax:*
- `/cash 1 USD INR`  _OR_   `/cash 1 usd inr`
-
- *Output:* `1.0 USD = 75.505 INR`
-
-"""
-
 CONVERTER_HANDLER = CommandHandler('cash', convert)
 
 dispatcher.add_handler(CONVERTER_HANDLER)
 
-__mod_name__ = "Currency Converter"
 __command_list__ = ["cash"]
 __handlers__ = [CONVERTER_HANDLER]

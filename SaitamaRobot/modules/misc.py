@@ -3,7 +3,7 @@ import re
 
 import requests
 from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
-                          TIGER_USERS, WHITELIST_USERS, dispatcher)
+                          TIGER_USERS, WHITELIST_USERS, dispatcher, sw)
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, user_admin
@@ -128,25 +128,36 @@ def info(update: Update, context: CallbackContext):
 
     text += f"\nPermanent user link: {mention_html(user.id, 'link')}"
 
+    try:
+        spamwtc = sw.get_ban(int(user.id))
+        if spamwtc:
+            text += "\n\n<b>This person is banned in Spamwatch!</b>"
+            text += f"\nReason: <pre>{spamwtc.reason}</pre>"
+            text += "\nAppeal at @SpamWatchSupport"
+        else:
+            pass
+    except:
+        pass  # don't crash if api is down somehow...
+
     disaster_level_present = False
 
     if user.id == OWNER_ID:
-        text += "\nThe Disaster level of this person is 'God'."
+        text += "\n\nThe Disaster level of this person is 'God'."
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\nThis member is one of 'Hero Association'."
+        text += "\n\nThis member is one of 'Hero Association'."
         disaster_level_present = True
     elif user.id in SUDO_USERS:
-        text += "\nThe Disaster level of this person is 'Dragon'."
+        text += "\n\nThe Disaster level of this person is 'Dragon'."
         disaster_level_present = True
     elif user.id in SUPPORT_USERS:
-        text += "\nThe Disaster level of this person is 'Demon'."
+        text += "\n\nThe Disaster level of this person is 'Demon'."
         disaster_level_present = True
     elif user.id in TIGER_USERS:
-        text += "\nThe Disaster level of this person is 'Tiger'."
+        text += "\n\nThe Disaster level of this person is 'Tiger'."
         disaster_level_present = True
     elif user.id in WHITELIST_USERS:
-        text += "\nThe Disaster level of this person is 'Wolf'."
+        text += "\n\nThe Disaster level of this person is 'Wolf'."
         disaster_level_present = True
 
     if disaster_level_present:
@@ -217,10 +228,24 @@ def stats(update: Update, context: CallbackContext):
 
 
 __help__ = """
- • `/id`*:* get the current group id. If used by replying to a message, gets that user's id.
- • `/gifid`*:* reply to a gif to me to tell you its file ID.
- • `/info`*:* get information about a user.
- • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats.
+*Available commands:*
+*Markdown:*
+ • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
+*Paste:*
+ • `/paste`*:* Saves replied content to `nekobin.com` and replies with a url
+*React:*
+ • `/react`*:* Reacts with a random reaction 
+*Urban Dictonary:*
+ • `/ud <word>`*:* Type the word or expression you want to search use
+*Wikipedia:*
+ • `/wiki <query>`*:* wikipedia your query
+*Currency converter:* 
+ • `/cash`*:* currency converter
+Example:
+ `/cash 1 USD INR`  
+      _OR_
+ `/cash 1 usd inr`
+Output: `1.0 USD = 75.505 INR`
 """
 
 ID_HANDLER = DisableAbleCommandHandler("id", get_id)
@@ -238,7 +263,7 @@ dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(STATS_HANDLER)
 
-__mod_name__ = "Misc"
+__mod_name__ = "Extras"
 __command_list__ = ["id", "info", "echo"]
 __handlers__ = [
     ID_HANDLER, GIFID_HANDLER, INFO_HANDLER, ECHO_HANDLER, MD_HELP_HANDLER,
