@@ -428,7 +428,6 @@ def fed_info(update: Update, context: CallbackContext):
     except:
         owner_name = owner.first_name
     FEDADMIN = sql.all_fed_users(fed_id)
-    FEDADMIN.append(int(owner.id))
     TotalAdminFed = len(FEDADMIN)
 
     user = update.effective_user
