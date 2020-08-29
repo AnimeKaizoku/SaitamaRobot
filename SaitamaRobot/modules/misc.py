@@ -129,15 +129,15 @@ def info(update: Update, context: CallbackContext):
     text += f"\nPermanent user link: {mention_html(user.id, 'link')}"
 
     try:
-       spamwtc = sw.get_ban(int(user.id))
-       if spamwtc:
-          text += "\n\n<b>This person is banned in Spamwatch!</b>"
-          text += f"\nReason: <pre>{spamwtc.reason}</pre>"
-          text += "\nAppeal at @SpamWatchSupport"
-       else:
-           pass
+        spamwtc = sw.get_ban(int(user.id))
+        if spamwtc:
+            text += "\n\n<b>This person is banned in Spamwatch!</b>"
+            text += f"\nReason: <pre>{spamwtc.reason}</pre>"
+            text += "\nAppeal at @SpamWatchSupport"
+        else:
+            pass
     except:
-        pass # don't crash if api is down somehow...
+        pass  # don't crash if api is down somehow...
 
     disaster_level_present = False
 

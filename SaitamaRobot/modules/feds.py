@@ -143,7 +143,6 @@ def del_fed(update: Update, context: CallbackContext):
                                  callback_data="rmfed_cancel")]]))
 
 
-
 @run_async
 def rename_fed(update, context):
     user = update.effective_user

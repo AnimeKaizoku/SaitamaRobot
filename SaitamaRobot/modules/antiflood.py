@@ -73,8 +73,8 @@ def check_flood(update, context) -> str:
                 permissions=ChatPermissions(can_send_messages=False))
             execstrings = ("Muted for {}".format(getvalue))
             tag = "TMUTE"
-        send_message(
-            update.effective_message,"Beep Boop! Boop Beep!\n{}!".format(execstrings))
+        send_message(update.effective_message,
+                     "Beep Boop! Boop Beep!\n{}!".format(execstrings))
 
         return "<b>{}:</b>" \
                "\n#{}" \

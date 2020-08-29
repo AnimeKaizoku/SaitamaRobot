@@ -58,6 +58,7 @@ def react(update: Update, context: CallbackContext):
     else:
         message.reply_text(react)
 
+
 REACT_HANDLER = DisableAbleCommandHandler("react", react)
 
 dispatcher.add_handler(REACT_HANDLER)
