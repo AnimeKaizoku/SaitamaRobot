@@ -1,8 +1,8 @@
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
 
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
-from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS, TIGER_USERS,
-                          WHITELIST_USERS, dispatcher)
+from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
+                          TIGER_USERS, WHITELIST_USERS, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
                                                           extract_user_and_text)
