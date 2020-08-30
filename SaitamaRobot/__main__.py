@@ -198,18 +198,25 @@ def error_callback(update: Update, context: CallbackContext):
 
 
 @run_async
-def help_button(update: Update, context: CallbackContext):
+def help_button(update, context):
     query = update.callback_query
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
     prev_match = re.match(r"help_prev\((.+?)\)", query.data)
     next_match = re.match(r"help_next\((.+?)\)", query.data)
     back_match = re.match(r"help_back", query.data)
+
+    print(query.message.chat.id)
+
     try:
         if mod_match:
             module = mod_match.group(1)
-            text = "Here is the help for the *{}* module:\n".format(HELPABLE[module].__mod_name__) \
-                   + HELPABLE[module].__help__
-            query.message.reply_text(
+            text = (
+                "Here is the help for the *{}* module:\n".format(
+                    HELPABLE[module].__mod_name__
+                )
+                + HELPABLE[module].__help__
+            )
+            query.message.edit_text(
                 text=text,
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
@@ -219,40 +226,34 @@ def help_button(update: Update, context: CallbackContext):
                 ]]))
 
         elif prev_match:
-            curr_page = int(prev_match.group(1))
-            query.message.reply_text(
-                HELP_STRINGS,
+                curr_page = int(prev_match.group(1))
+                query.message.edit_text(
+                text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(curr_page - 1, HELPABLE, "help")))
 
         elif next_match:
             next_page = int(next_match.group(1))
-            query.message.reply_text(
-                HELP_STRINGS,
+            query.message.edit_text(
+                text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(next_page + 1, HELPABLE, "help")))
 
         elif back_match:
-            query.message.reply_text(
+            query.message.edit_text(
                 text=HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(
-                    paginate_modules(0, HELPABLE, "help")))
-
+                reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help")))
+            
+            
         # ensure no spinny white circle
         context.bot.answer_callback_query(query.id)
-        query.message.delete()
-    except BadRequest as excp:
-        if excp.message == "Message is not modified":
-            pass
-        elif excp.message == "Query_id_invalid":
-            pass
-        elif excp.message == "Message can't be deleted":
-            pass
-        else:
-            LOGGER.exception("Exception in help buttons. %s", str(query.data))
+        # query.message.delete()
+
+    except BadRequest:
+        pass
 
 
 @run_async
