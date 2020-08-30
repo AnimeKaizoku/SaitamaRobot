@@ -93,9 +93,9 @@ def warn(user: User,
                 "Remove warn", callback_data="rm_warn({})".format(user.id))
         }])
 
-        reply = f"{mention_html(user.id, user.first_name)} has {num_warns}/{limit} warnings... watch out!"
+        reply = f"<b>Warn event:</b>\n<b>User:</b> {mention_html(user.id, user.first_name)}\n<b>Count:</b>{num_warns}/{limit}"
         if reason:
-            reply += f"\nReason for last warn:\n{html.escape(reason)}"
+            reply += f"\n<b>Reason:</b>\n{html.escape(reason)}"
 
         log_reason = (f"<b>{html.escape(chat.title)}:</b>\n"
                       f"#WARN\n"
