@@ -114,7 +114,7 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first}! What is a fish and a rabbit combined?",  #Lifereload - kaizoku member.
     "{first} just arrived. Diable Jamble!",  #One Piece Sanji
     "{first} just arrived. Aschente!",  #No Game No Life
-    "{first} say Aschente to agree to the pledges.",  #No Game No Life
+    "{first} say Aschente to swear by the pledges.",  #No Game No Life
     "{first} just joined. El psy congroo!",  #Steins Gate
     "Irasshaimase {first}!",  #weeabo shit
     "Hi {first}, What is 1000-7?",  #tokyo ghoul
