@@ -132,6 +132,8 @@ def start(update: Update, context: CallbackContext):
         if len(args) >= 1:
             if args[0].lower() == "help":
                 send_help(update.effective_chat.id, HELP_STRINGS)
+            elif args[0].lower() == "markdownhelp":
+                IMPORTED["extras"].markdown_help_sender(update)
             elif args[0].lower() == "disasters":
                 IMPORTED["disasters"].send_disasters(update)
             elif args[0].lower().startswith("stngs_"):
