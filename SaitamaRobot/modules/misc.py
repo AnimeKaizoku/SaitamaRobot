@@ -128,6 +128,17 @@ def info(update: Update, context: CallbackContext):
 
     text += f"\nPermanent user link: {mention_html(user.id, 'link')}"
 
+    if chat.type != "private":
+       status = bot.get_chat_member(chat.id, user.id).status
+       if status:
+          _stext = "\nUser status: {}"
+          if status in {"left", "kicked"}:
+             text += _stext.format("Absent")
+          elif status == "member":
+             text += _stext.format("Present")
+          elif status in {"administrator", "creator"}:
+             text += _stext.format("Admin")
+
     try:
         spamwtc = sw.get_ban(int(user.id))
         if spamwtc:
