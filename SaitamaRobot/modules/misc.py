@@ -6,6 +6,7 @@ from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
                           TIGER_USERS, WHITELIST_USERS, dispatcher, sw)
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.sql.afk_sql import is_afk
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from telegram import MessageEntity, ParseMode, Update
@@ -129,15 +130,20 @@ def info(update: Update, context: CallbackContext):
     text += f"\nPermalink: {mention_html(user.id, 'link')}"
 
     if chat.type != "private":
-       status = bot.get_chat_member(chat.id, user.id).status
-       if status:
-          _stext = "\nStatus: {}"
-          if status in {"left", "kicked"}:
-             text += _stext.format("Absent")
-          elif status == "member":
-             text += _stext.format("Present")
-          elif status in {"administrator", "creator"}:
-             text += _stext.format("Admin")
+       _stext = "\nStatus: {}"
+
+       afk_st = is_afk(user.id)
+       if afk_st:
+          text += _stext.format("Sleeping")
+       else:
+          status = status = bot.get_chat_member(chat.id, user.id).status
+          if status:
+              if status in {"left", "kicked"}:
+                  text += _stext.format("Absent")
+              elif status == "member":
+                  text += _stext.format("Present")
+              elif status in {"administrator", "creator"}:
+                  text += _stext.format("Admin")
 
     try:
         spamwtc = sw.get_ban(int(user.id))
