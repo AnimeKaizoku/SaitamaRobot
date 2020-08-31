@@ -218,16 +218,19 @@ def echo(update: Update, context: CallbackContext):
     message.delete()
 
 
-@run_async
-def markdown_help(update: Update, context: CallbackContext):
+def markdown_help_sender(update: Update):
     update.effective_message.reply_text(
         MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text(
         "Try forwarding the following message to me, and you'll see!")
     update.effective_message.reply_text(
-        "/save test This is a markdown test. _italics_, *bold*, `code`, "
+        "/save test This is a markdown test. _italics_, *bold*, code, "
         "[URL](example.com) [button](buttonurl:github.com) "
         "[button2](buttonurl://google.com:same)")
+
+@run_async
+def markdown_help(update: Update, context: CallbackContext):
+     markdown_help_sender(update)
 
 
 @run_async
