@@ -1,6 +1,6 @@
 import html
 import re
-
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import requests
 from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
                           TIGER_USERS, WHITELIST_USERS, dispatcher, sw)
@@ -230,7 +230,10 @@ def markdown_help_sender(update: Update):
 
 @run_async
 def markdown_help(update: Update, context: CallbackContext):
-     markdown_help_sender(update)
+     if update.effective_chat.type != "private":
+          update.effective_message.reply_text('Contact me in pm', reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("Markdown help", url=f"t.me/{context.bot.username}?start=markdownhelp")]]))
+          return
+    markdown_help_sender(update)
 
 
 @run_async
@@ -267,7 +270,7 @@ GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid)
 INFO_HANDLER = DisableAbleCommandHandler(["info"], info)
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
 MD_HELP_HANDLER = CommandHandler(
-    "markdownhelp", markdown_help, filters=Filters.private)
+    "markdownhelp", markdown_help)
 STATS_HANDLER = CommandHandler("stats", stats)
 
 dispatcher.add_handler(ID_HANDLER)
