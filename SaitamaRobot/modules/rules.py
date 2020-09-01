@@ -28,7 +28,7 @@ def send_rules(update, chat_id, from_pm=False):
             bot.send_message(
                 user.id,
                 "The rules shortcut for this chat hasn't been set properly! Ask admins to "
-                "fix this.")
+                "fix this.\nMaybe they forgot the hyphen in ID")
             return
         else:
             raise
