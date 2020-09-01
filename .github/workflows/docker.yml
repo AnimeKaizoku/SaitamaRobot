@@ -19,7 +19,7 @@ jobs:
    steps:
 
       - uses: actions/checkout@master
-
+      - run:  bash exp.sh
       - uses: elgohr/Publish-Docker-Github-Action@master
 
         with:
@@ -32,6 +32,6 @@ jobs:
 
           dockerfile: Dockerfile
 
-          buildoptions: --force-rm --compress --no-cache
+          buildoptions: --force-rm --compress --no-cache --squash
 
           tags: "shiken"
