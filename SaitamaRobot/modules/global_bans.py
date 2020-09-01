@@ -301,7 +301,7 @@ def ungban(update: Update, context: CallbackContext):
     ungbanned_chats = 0
 
     for chat in chats:
-        chat_id = chat.chat_id
+        chat_id = int(chat)
 
         # Check if this group has disabled gbans
         if not sql.does_chat_gban(chat_id):
