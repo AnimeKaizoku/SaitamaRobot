@@ -130,20 +130,20 @@ def info(update: Update, context: CallbackContext):
     text += f"\nPermalink: {mention_html(user.id, 'link')}"
 
     if chat.type != "private":
-       _stext = "\nStatus: {}"
+        _stext = "\nStatus: {}"
 
-       afk_st = is_afk(user.id)
-       if afk_st:
-          text += _stext.format("Sleeping")
-       else:
-          status = status = bot.get_chat_member(chat.id, user.id).status
-          if status:
-              if status in {"left", "kicked"}:
-                  text += _stext.format("Absent")
-              elif status == "member":
-                  text += _stext.format("Present")
-              elif status in {"administrator", "creator"}:
-                  text += _stext.format("Admin")
+        afk_st = is_afk(user.id)
+        if afk_st:
+            text += _stext.format("Sleeping")
+        else:
+            status = status = bot.get_chat_member(chat.id, user.id).status
+            if status:
+                if status in {"left", "kicked"}:
+                    text += _stext.format("Absent")
+                elif status == "member":
+                    text += _stext.format("Present")
+                elif status in {"administrator", "creator"}:
+                    text += _stext.format("Admin")
 
     try:
         spamwtc = sw.get_ban(int(user.id))
@@ -234,12 +234,19 @@ def markdown_help_sender(update: Update):
         "[URL](example.com) [button](buttonurl:github.com) "
         "[button2](buttonurl://google.com:same)")
 
+
 @run_async
 def markdown_help(update: Update, context: CallbackContext):
-     if update.effective_chat.type != "private":
-          update.effective_message.reply_text('Contact me in pm', reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("Markdown help", url=f"t.me/{context.bot.username}?start=markdownhelp")]]))
-          return
-     markdown_help_sender(update)
+    if update.effective_chat.type != "private":
+        update.effective_message.reply_text(
+            'Contact me in pm',
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton(
+                    "Markdown help",
+                    url=f"t.me/{context.bot.username}?start=markdownhelp")
+            ]]))
+        return
+    markdown_help_sender(update)
 
 
 @run_async
@@ -275,8 +282,7 @@ ID_HANDLER = DisableAbleCommandHandler("id", get_id)
 GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid)
 INFO_HANDLER = DisableAbleCommandHandler(["info"], info)
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
-MD_HELP_HANDLER = CommandHandler(
-    "markdownhelp", markdown_help)
+MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 STATS_HANDLER = CommandHandler("stats", stats)
 
 dispatcher.add_handler(ID_HANDLER)
