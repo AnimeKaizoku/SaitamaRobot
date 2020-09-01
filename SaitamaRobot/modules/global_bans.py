@@ -297,11 +297,11 @@ def ungban(update: Update, context: CallbackContext):
     else:
         send_to_list(bot, SUDO_USERS + SUPPORT_USERS, log_message, html=True)
 
-    chats = get_all_chats()
+    chats = get_user_com_chats(user_id)
     ungbanned_chats = 0
 
     for chat in chats:
-        chat_id = chat.chat_id
+        chat_id = int(chat)
 
         # Check if this group has disabled gbans
         if not sql.does_chat_gban(chat_id):
