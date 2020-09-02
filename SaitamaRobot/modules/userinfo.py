@@ -106,7 +106,7 @@ def hpmanager(user):
     else:
        new_hp = no_by_per(total_hp, 5)
 
-    return {"totalhp": int(total_hp), "earnedhp": int(new_hp),
+    return {"earnedhp": int(new_hp), "totalhp": int(total_hp),
             "percentage": get_percentage(total_hp,new_hp)}
 
 
