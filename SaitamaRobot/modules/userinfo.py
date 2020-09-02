@@ -195,7 +195,7 @@ def info(update: Update, context: CallbackContext):
     else:
         return
 
-    text = (f"<b>Characteristics:</b>\n"
+    text = (f"<b>Appraisal results:</b>\n"
             f"ID: <code>{user.id}</code>\n"
             f"First Name: {html.escape(user.first_name)}")
 
@@ -271,7 +271,7 @@ def info(update: Update, context: CallbackContext):
             result = result.json()["result"]
             if "custom_title" in result.keys():
                 custom_title = result['custom_title']
-                text += f"\n\nThis user holds the title <b>{custom_title}</b> here."
+                text += f"\n\nEarned title: <b>{custom_title}</b>"
     except BadRequest:
         pass
 
