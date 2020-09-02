@@ -134,10 +134,9 @@ def get_id(update: Update, context: CallbackContext):
             user2 = message.reply_to_message.forward_from
 
             msg.reply_text(
-                f"The original sender, {html.escape(user2.first_name)},"
-                f" has an ID of <code>{user2.id}</code>.\n"
-                f"The forwarder, {html.escape(user1.first_name)},"
-                f" has an ID of <code>{user1.id}</code>.",
+                f"<b>Telegram ID:</b>,"
+                f"• {html.escape(user2.first_name)} - <code>{user2.id}</code>.\n"
+                f"• {html.escape(user1.first_name)} - <code>{user1.id}</code>.",
                 parse_mode=ParseMode.HTML)
 
         else:
