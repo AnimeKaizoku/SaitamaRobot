@@ -5,8 +5,7 @@ from SaitamaRobot import dispatcher
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram import MessageEntity, ParseMode, Update
 from telegram.ext.dispatcher import run_async
-from telegram.ext import CallbackContext, Filters
-
+from telegram.ext import CallbackContext, Filters, CommandHandler
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
@@ -54,7 +53,7 @@ def markdown_help_sender(update: Update):
     update.effective_message.reply_text(
         MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text(
-        "Try forwarding the following message to me, and you'll see!")
+        "Try forwarding the following message to me, and you'll see, and Use #test!")
     update.effective_message.reply_text(
         "/save test This is a markdown test. _italics_, *bold*, code, "
         "[URL](example.com) [button](buttonurl:github.com) "
