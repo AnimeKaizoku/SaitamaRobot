@@ -368,7 +368,7 @@ def about_bio(update: Update, context: CallbackContext):
     elif message.reply_to_message:
         username = user.first_name
         update.effective_message.reply_text(
-            f"{username} hasn't had a message set about themselves yet!")
+            f"{username} hasn't had a message set about themselves yet!\nSet one using /setbio")
     else:
         update.effective_message.reply_text(
             "You haven't had a bio set about yourself yet!")
