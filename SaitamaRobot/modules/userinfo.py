@@ -68,27 +68,27 @@ def hpmanager(user):
 
        # if no username decrease 25% of hp.
        if not user.username:
-          new_hp -= no_by_per(new_hp, 25)
+          new_hp -= no_by_per(total_hp, 25)
        try:
           dispatcher.bot.get_user_profile_photos(user.id).photos[0][-1]
        except IndexError:
           # no profile photo ==> -25% of hp
-          new_hp -= no_by_per(new_hp, 25)
+          new_hp -= no_by_per(total_hp, 25)
        # if no /setme exist ==> -20% of hp
        if not sql.get_user_me_info(user.id):
-          new_hp -= no_by_per(new_hp, 20)
+          new_hp -= no_by_per(total_hp, 20)
        # if no bio exsit ==> -10% of hp
        if not sql.get_user_bio(user.id):
-          new_hp -= no_by_per(new_hp, 10)
+          new_hp -= no_by_per(total_hp, 10)
 
        if is_afk(user.id):
           afkst = check_afk_status(user.id)
           # if user is afk and no reason then decrease 7%
           # else if reason exist decrease 5%
           if not afkst.reason:
-             new_hp -= no_by_per(new_hp, 7)
+             new_hp -= no_by_per(total_hp, 7)
           else:
-             new_hp -= no_by_per(new_hp, 5)
+             new_hp -= no_by_per(total_hp, 5)
 
        # fbanned users will have (2*number of fbans) less from max HP
        # Example: if HP is 100 but user has 5 diff fbans
@@ -96,7 +96,7 @@ def hpmanager(user):
        # So.. 10% of 100HP = 90HP
 
        _, fbanlist = get_user_fbanlist(user.id)
-       new_hp -= no_by_per(new_hp, 2*len(fbanlist))
+       new_hp -= no_by_per(total_hp, 2*len(fbanlist))
 
     # Bad status effects:
     # gbanned users will always have 5% HP from max HP
