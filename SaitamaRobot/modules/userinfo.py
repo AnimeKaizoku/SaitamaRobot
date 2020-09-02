@@ -392,7 +392,7 @@ def set_about_bio(update: Update, context: CallbackContext):
 
         if user_id == bot.id and sender_id not in SUDO_USERS and sender_id not in DEV_USERS:
             message.reply_text(
-                "Erm... yeah, I only trust sudo users or developers to set my bio."
+                "Erm... yeah, I only trust Heroes Association to set my bio."
             )
             return
 
@@ -408,10 +408,10 @@ def set_about_bio(update: Update, context: CallbackContext):
                     repl_message.from_user.first_name))
             else:
                 message.reply_text(
-                    "A bio needs to be under {} characters! You tried to set {}."
+                    "Bio needs to be under {} characters! You tried to set {}."
                     .format(MAX_MESSAGE_LENGTH // 4, len(bio[1])))
     else:
-        message.reply_text("Reply to someone's message to set their bio!")
+        message.reply_text("Reply to someone to set their bio!")
 
 
 
