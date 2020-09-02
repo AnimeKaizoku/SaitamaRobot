@@ -310,7 +310,7 @@ def about_me(update: Update, context: CallbackContext):
             f"{username} hasn't set an info message about themselves yet!")
     else:
         update.effective_message.reply_text(
-            "You haven't set an info message about yourself yet!")
+            "There isnt one, use /setme to set one.")
 
 
 @run_async
