@@ -37,7 +37,7 @@ def __user_info__(user_id):
 
 def make_bar(per):
      msg = ""
-     if per =< 1000:
+     if per <= 1000:
         return "■■■■■■■■■■"
      for x in range(int(round(per/10, 0))): msg += '■'
      for x in range(10-len(msg)): msg += '□'
