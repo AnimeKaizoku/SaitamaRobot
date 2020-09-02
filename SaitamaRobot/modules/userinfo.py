@@ -114,8 +114,8 @@ def make_bar(per):
      msg = ""
      if per <= 10000:
         return "■■■■■■■■■■"
-     for x in range(int(round(per/10, 0))): msg += '■'
-     for x in range(10-len(msg)): msg += '□'
+     for x in range(int(round(per/10, 0))): msg += "▰"
+     for x in range(10-len(msg)): msg += "▱"
      return msg
 
 @run_async
