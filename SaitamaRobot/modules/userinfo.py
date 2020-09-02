@@ -22,6 +22,27 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters
 from telegram.utils.helpers import mention_html
 
+
+def __user_info__(user_id):
+    bio = html.escape(sql.get_user_bio(user_id) or "")
+    me = html.escape(sql.get_user_me_info(user_id) or "")
+    if bio and me:
+        return f"<b>About user:</b>\n{me}\n<b>What others say:</b>\n{bio}"
+    elif bio:
+        return f"<b>What others say:</b>\n{bio}\n"
+    elif me:
+        return f"<b>About user:</b>\n{me}"
+    else:
+        return ""
+
+def make_bar(per):
+     msg = ""
+     if per =< 1000:
+        return "■■■■■■■■■■"
+     for x in range(int(round(per/10, 0))): msg += '■'
+     for x in range(10-len(msg)): msg += '□'
+     return msg
+
 @run_async
 def get_id(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -315,18 +336,6 @@ def set_about_bio(update: Update, context: CallbackContext):
     else:
         message.reply_text("Reply to someone's message to set their bio!")
 
-
-def __user_info__(user_id):
-    bio = html.escape(sql.get_user_bio(user_id) or "")
-    me = html.escape(sql.get_user_me_info(user_id) or "")
-    if bio and me:
-        return f"<b>About user:</b>\n{me}\n<b>What others say:</b>\n{bio}"
-    elif bio:
-        return f"<b>What others say:</b>\n{bio}\n"
-    elif me:
-        return f"<b>About user:</b>\n{me}"
-    else:
-        return ""
 
 
 __help__ = """
