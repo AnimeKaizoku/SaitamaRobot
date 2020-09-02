@@ -151,7 +151,7 @@ def info(update: Update, context: CallbackContext):
                   text += _stext.format("Admin")
     hp = (chat_count+1)*50
     percentage = (hp/10000)*100
-    text += f"Health: {hp}/10000\n<code>{make_bar(percentage)}</code> {percentage}%"
+    text += f"\n<b>Health</b>: {hp}/10000\n<code>{make_bar(percentage)}</code> {percentage}%"
     try:
         spamwtc = sw.get_ban(int(user.id))
         if spamwtc:
