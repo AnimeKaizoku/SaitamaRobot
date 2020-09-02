@@ -195,7 +195,7 @@ def info(update: Update, context: CallbackContext):
     else:
         return
 
-    rep = message.reply_text("» Appraising......hold.. »")
+    rep = message.reply_text("Appraising......hold..")
 
     text = (f"<b>Appraisal results:</b>\n"
             f"ID: <code>{user.id}</code>\n"
