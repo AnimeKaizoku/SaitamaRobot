@@ -53,7 +53,7 @@ def get_percentage(totalhp,earnedhp):
 
     matched_less = totalhp - earnedhp
     per_of_totalhp = 100 - matched_less*100.0/totalhp
-    per_of_totalhp = str(int(per_of_totalhp)) + ' %'
+    per_of_totalhp = str(int(per_of_totalhp))
     return per_of_totalhp
 
 
@@ -224,7 +224,7 @@ def info(update: Update, context: CallbackContext):
                   text += _stext.format("Admin")
 
     userhp = hpmanager(user)
-    text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>"
+    text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n{make_bar(userhp['percentage'])} {userhp['percentage']}%"
 
     try:
         spamwtc = sw.get_ban(int(user.id))
