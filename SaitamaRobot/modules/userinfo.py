@@ -10,6 +10,7 @@ from SaitamaRobot import DEV_USERS, SUDO_USERS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from SaitamaRobot.modules.sql.afk_sql import is_afk
+from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 
@@ -37,7 +38,7 @@ def __user_info__(user_id):
 
 def make_bar(per):
      msg = ""
-     if per <= 1000:
+     if per <= 10000:
         return "■■■■■■■■■■"
      for x in range(int(round(per/10, 0))): msg += '■'
      for x in range(10-len(msg)): msg += '□'
@@ -132,7 +133,7 @@ def info(update: Update, context: CallbackContext):
         text += f"\nUsername: @{html.escape(user.username)}"
 
     text += f"\nPermalink: {mention_html(user.id, 'link')}"
-
+    chat_count = get_user_num_chats(user.id)
     if chat.type != "private":
        _stext = "\nStatus: {}"
 
@@ -148,7 +149,9 @@ def info(update: Update, context: CallbackContext):
                   text += _stext.format("Present")
               elif status in {"administrator", "creator"}:
                   text += _stext.format("Admin")
-
+    hp = (chat_count+1)*50
+    percentage = (hp/10000)*100
+    text += f"Health: {hp}/10000\n<code>{make_bar(percentage)}</code> {percentage}%"
     try:
         spamwtc = sw.get_ban(int(user.id))
         if spamwtc:
