@@ -332,9 +332,9 @@ def set_about_me(update: Update, context: CallbackContext):
         if len(info[1]) < MAX_MESSAGE_LENGTH // 4:
             sql.set_user_me_info(user_id, info[1])
             if user_id == bot.id:
-                message.reply_text("Updated my info!")
+                message.reply_text("I have updated my info with the one you provided!")
             else:
-                message.reply_text("Updated your info!")
+                message.reply_text("Information updated!")
         else:
             message.reply_text(
                 "The info needs to be under {} characters! You have {}.".format(
