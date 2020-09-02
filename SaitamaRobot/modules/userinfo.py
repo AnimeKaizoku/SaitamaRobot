@@ -195,6 +195,8 @@ def info(update: Update, context: CallbackContext):
     else:
         return
 
+    rep = message.reply_text("» Appraising......hold.. »")
+
     text = (f"<b>Appraisal results:</b>\n"
             f"ID: <code>{user.id}</code>\n"
             f"First Name: {html.escape(user.first_name)}")
@@ -283,7 +285,7 @@ def info(update: Update, context: CallbackContext):
         if mod_info:
             text += "\n\n" + mod_info
 
-    update.effective_message.reply_text(
+    rep.edit_text(
         text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
 
