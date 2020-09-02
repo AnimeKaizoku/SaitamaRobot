@@ -224,7 +224,7 @@ def info(update: Update, context: CallbackContext):
                   text += _stext.format("Admin")
 
     userhp = hpmanager(user)
-    text += f"\n\n<b>Health:</b> {userhp['totalhp']} / {userhp['earnedhp']}"
+    text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>"
 
     try:
         spamwtc = sw.get_ban(int(user.id))
