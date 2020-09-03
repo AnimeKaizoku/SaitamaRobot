@@ -111,12 +111,8 @@ def hpmanager(user):
 
 
 def make_bar(per):
-     msg = ""
-     if per <= 10000:
-        return "■■■■■■■■■■"
-     for x in range(int(round(per/10, 0))): msg += "■"
-     for x in range(10-len(msg)): msg += "□"
-     return msg
+    done = min(round(per/10), 10)
+    return "■"*done + "□"*(10-done)
 
 @run_async
 def get_id(update: Update, context: CallbackContext):
