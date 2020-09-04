@@ -277,10 +277,10 @@ def character(update: Update, context: CallbackContext):
         if image:
             image = image.get('large')
             update.effective_message.reply_photo(
-                photo=image, caption=msg, parse_mode=ParseMode.MARKDOWN)
+                photo=image, caption=msg.replace('<b>', '</b>'), parse_mode=ParseMode.MARKDOWN)
         else:
             update.effective_message.reply_text(
-                msg, parse_mode=ParseMode.MARKDOWN)
+                msg.replace('<b>', '</b>'), parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
