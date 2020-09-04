@@ -6,4 +6,4 @@
 /SaitamaRobot/modules/sql/blacklistusers_sql.py @rsktg
 #pep8-ing the code doesn't change maker
 /SaitamaRobot/modules/paste.py @DragSama
-/tg_bit/modules/speed_test.py @DragSama
+/tg_bot/modules/speed_test.py @DragSama
