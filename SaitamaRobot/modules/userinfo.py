@@ -298,10 +298,10 @@ def info(update: Update, context: CallbackContext):
             os.remove("ProfilePic.png")
        # Incase user don't have profile pic, send normal text
        except IndexError:
-              msg.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+              message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
     else:
-        msg.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+        message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
     rep.delete()
 
