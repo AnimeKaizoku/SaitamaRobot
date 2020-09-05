@@ -1,9 +1,9 @@
 import html
-import re
+import re, os
 import requests
 
 from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
-                          TIGER_USERS, WHITELIST_USERS, dispatcher, sw)
+                          TIGER_USERS, WHITELIST_USERS, INFOPIC, dispatcher, sw)
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 import SaitamaRobot.modules.sql.userinfo_sql as sql
 from SaitamaRobot import DEV_USERS, SUDO_USERS, dispatcher
@@ -281,9 +281,29 @@ def info(update: Update, context: CallbackContext):
         if mod_info:
             text += "\n\n" + mod_info
 
-    rep.edit_text(
-        text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
+    if INFOPIC:
+       try:
+            profile = context.bot.get_user_profile_photos(user.id).photos[0][-1]
+            _file = bot.get_file(profile["file_id"])
+            file = _file.download("ProfilePic.png")
+
+            context.bot.send_document(
+                chat.id,
+                document=open("ProfilePic.png", "rb"),
+                caption=(text),
+                parse_mode=ParseMode.HTML,
+                disable_web_page_preview=True)
+
+            os.remove("ProfilePic.png")
+       # Incase user don't have profile pic, send normal text
+       except IndexError:
+              msg.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+
+    else:
+        msg.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+
+    rep.delete()
 
 @run_async
 def about_me(update: Update, context: CallbackContext):
