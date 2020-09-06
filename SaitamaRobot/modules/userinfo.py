@@ -206,7 +206,7 @@ def info(update: Update, context: CallbackContext):
     text += f"\nPermalink: {mention_html(user.id, 'link')}"
 
     if chat.type != "private":
-       _stext = "\n<b>Presence:</b> <code>{}</code>"
+       _stext = "\nPresence: <code>{}</code>"
 
        afk_st = is_afk(user.id)
        if afk_st:
