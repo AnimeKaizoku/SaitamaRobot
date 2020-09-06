@@ -193,7 +193,7 @@ def info(update: Update, context: CallbackContext):
 
     rep = message.reply_text("Appraising.....")
 
-    text = (f"<b>Appraisal results:</b>\n"
+    text = (f"<b>• Appraisal results:</b>\n"
             f"ID: <code>{user.id}</code>\n"
             f"First Name: {html.escape(user.first_name)}")
 
