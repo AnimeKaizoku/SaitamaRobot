@@ -458,7 +458,6 @@ Examples:
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)
 GET_BIO_HANDLER = DisableAbleCommandHandler("bio", about_bio)
-SUPPORT_HANDLER = CommandHandler(("addsupport", "adddemon"), addsupport)
 
 STATS_HANDLER = CommandHandler("stats", stats)
 ID_HANDLER = DisableAbleCommandHandler("id", get_id)
