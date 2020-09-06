@@ -288,8 +288,7 @@ def info(update: Update, context: CallbackContext):
             _file = bot.get_file(profile["file_id"])
             file = _file.download("ProfilePic.png")
 
-            context.bot.send_document(
-                chat.id,
+            message.reply_document(
                 document=open("ProfilePic.png", "rb"),
                 caption=(text),
                 parse_mode=ParseMode.HTML,
