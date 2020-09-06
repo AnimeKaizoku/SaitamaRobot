@@ -206,18 +206,18 @@ def info(update: Update, context: CallbackContext):
     text += f"\nPermalink: {mention_html(user.id, 'link')}"
 
     if chat.type != "private":
-       _stext = "\nStatus: {}"
+       _stext = "\n<b>Presence:</b> <code>{}</code>"
 
        afk_st = is_afk(user.id)
        if afk_st:
-          text += _stext.format("Sleeping")
+          text += _stext.format("AFK")
        else:
           status = status = bot.get_chat_member(chat.id, user.id).status
           if status:
               if status in {"left", "kicked"}:
-                  text += _stext.format("Absent")
+                  text += _stext.format("Not here")
               elif status == "member":
-                  text += _stext.format("Present")
+                  text += _stext.format("Detected")
               elif status in {"administrator", "creator"}:
                   text += _stext.format("Admin")
 
