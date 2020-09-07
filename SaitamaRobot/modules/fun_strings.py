@@ -109,6 +109,7 @@ SLAP_TEMPLATES = (
     "Nyaan ate {user2}'s leg. *nomnomnom*",
     "{user1} {throws} a master ball at {user2}, resistance is futile.",
     "{user1} hits {user2} with an action beam...bbbbbb (ง・ω・)ง ====*",
+    "{user1} calls {user2} a fucking weeb.",
     "{user1} ara ara's {user2}.",
     "{user1} ora ora's {user2}.",
     "{user1} muda muda's {user2}.",
