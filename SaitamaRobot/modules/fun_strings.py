@@ -138,20 +138,27 @@ SLAP_TEMPLATES = (
     "Goblin slayer slays {user2}",  #Goblin Slayer
 )
 
-PAT_SAITAMA_TEMPLATES = (
-    "Slap me one more time and I'll mute you.",
-    "Stop slapping me. REEEEEEEEEEEEEE.",
-    [
-        "I am muting you for a minute.",  # normal reply
-        "Stop slapping me just because I can't mute you. REEEEEEEEEE.",  # reply to admin
-        "tmute",  # command
-        "Shut up!",
-        "Silence!"
-    ])
-
 PAT_TEMPLATES = (
-    "{user2} was killed by magic.",
+    "{user1} pats {user2} on the head.",
+    "*gently rubs {user2}'s head*.",
+    "*{user1} mofumofus {user2}'s head*",
+    "*{user1} messes up {user2}'s head*",
+    "*{user1} intensly rubs {user2}'s head*",
+    "*{user2}'s waifu pats their head*",
+    "*{user2}'s got free headpats*",
+    "No pats for {user2}!",
+    "Oh no! We are all out of pats.",
+    "This is a designated no pat zone!",
+    "No pats for {user2}!",
+    "{user1} spoils {user2} with headpats!",
+    "{user2} recieved one free headpat!",
+    "(*´ω´(*｀ω｀)",
+    "(ｏ・_・)ノ”(ᴗ_ ᴗ。)",
+    "(*￣▽￣)ノ”(- -*)",
+    "(っ´ω`)ﾉ(╥ω╥)",
+    "(　´Д｀)ﾉ(´･ω･`)　ﾅﾃﾞﾅﾃﾞ",
 )
+
 
 
 
