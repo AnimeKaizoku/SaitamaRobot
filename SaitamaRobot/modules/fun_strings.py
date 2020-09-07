@@ -159,9 +159,6 @@ PAT_TEMPLATES = (
     "(　´Д｀)ﾉ(´･ω･`)　ﾅﾃﾞﾅﾃﾞ",
 )
 
-
-
-
 PING_STRING = (
     "PONG!!",
     "I am here!",
