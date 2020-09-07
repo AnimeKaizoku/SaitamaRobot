@@ -67,6 +67,33 @@ def slap(update: Update, context: CallbackContext):
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
+@run_async
+def pat(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
+    message = update.effective_message
+    chat = update.effective_chat
+
+    reply_text = message.reply_to_message.reply_text if message.reply_to_message else message.reply_text
+
+    curr_user = html.escape(message.from_user.first_name)
+    user_id = extract_user(message, args)
+
+    if user_id:
+        patted_user = bot.get_chat(user_id)
+        user1 = curr_user
+        user2 = html.escape(patted_user.first_name)
+
+    else:
+        user1 = bot.first_name
+        user2 = curr_user
+
+    temp = random.choice(fun_strings.PAT_TEMPLATES)
+
+    reply = temp.format(
+        user1=user1, user2=user2)
+
+    reply_text(reply, parse_mode=ParseMode.HTML)
+
 
 @run_async
 def roll(update: Update, context: CallbackContext):
@@ -131,10 +158,12 @@ __help__ = """
  • `/rlg`*:* Join ears,nose,mouth and create an emo ;-;
  • `/shout <keyword>`*:* write anything you want to give loud shout
  • `/weebify <text>`*:* returns a weebified text
+ • `/pat`*:* pats a user, or get patted
 """
 
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap)
+PAT_HANDLER = DisableAbleCommandHandler("pat", pat)
 ROLL_HANDLER = DisableAbleCommandHandler("roll", roll)
 TOSS_HANDLER = DisableAbleCommandHandler("toss", toss)
 SHRUG_HANDLER = DisableAbleCommandHandler("shrug", shrug)
@@ -145,6 +174,7 @@ TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 
 dispatcher.add_handler(RUNS_HANDLER)
 dispatcher.add_handler(SLAP_HANDLER)
+dispatcher.add_handler(PAT_HANDLER)
 dispatcher.add_handler(ROLL_HANDLER)
 dispatcher.add_handler(TOSS_HANDLER)
 dispatcher.add_handler(SHRUG_HANDLER)
@@ -156,9 +186,9 @@ dispatcher.add_handler(TABLE_HANDLER)
 __mod_name__ = "Fun"
 __command_list__ = [
     "runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide",
-    "table"
+    "table", "pat"
 ]
 __handlers__ = [
-    RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER,
+    RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER,
     BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER
 ]

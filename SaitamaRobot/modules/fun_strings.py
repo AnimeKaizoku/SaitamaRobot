@@ -138,6 +138,23 @@ SLAP_TEMPLATES = (
     "Goblin slayer slays {user2}",  #Goblin Slayer
 )
 
+PAT_SAITAMA_TEMPLATES = (
+    "Slap me one more time and I'll mute you.",
+    "Stop slapping me. REEEEEEEEEEEEEE.",
+    [
+        "I am muting you for a minute.",  # normal reply
+        "Stop slapping me just because I can't mute you. REEEEEEEEEE.",  # reply to admin
+        "tmute",  # command
+        "Shut up!",
+        "Silence!"
+    ])
+
+PAT_TEMPLATES = (
+    "{user2} was killed by magic.",
+)
+
+
+
 PING_STRING = (
     "PONG!!",
     "I am here!",
