@@ -176,6 +176,16 @@ PAT_TEMPLATES = (
     "( ´Д｀)ﾉ(´･ω･`) ﾅﾃﾞﾅﾃﾞ",
 )
 
+PAT_GIFS = (
+    "CgACAgQAAxkBAALRX19Xs7tBdOH1gQwS_rglVRkTbgVYAAKEAgACmQn9UWlyGa_xy9_aGwQ",
+    "CgACAgEAAxkBAALRYF9Xs8EnhsDfDpld3ILoqTbzDmwxAAJFAAOJxjlHECanwn69E5QbBA"
+)
+
+PAT_STICKERS = (
+    "CAACAgQAAxkBAALRWV9Xs4HH0XaXfhZe-jWaZoXfs-IsAAJYAwACdDgSEHYOt4KvL02oGwQ",
+    "CAACAgQAAxkBAALRXF9Xs6XmIeDbnoL1wiDky0TdX-CvAAKKAQAC1TMzC9A3CtiT2rqVGwQ"
+)
+
 PING_STRING = (
     "PONG!!",
     "I am here!",

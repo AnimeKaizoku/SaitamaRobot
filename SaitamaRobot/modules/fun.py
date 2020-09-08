@@ -70,11 +70,11 @@ def slap(update: Update, context: CallbackContext):
 
 @run_async
 def pat(update: Update, context: CallbackContext):
-    bot, args = context.bot, context.args
+    bot = context.bot
+    args = context.args
     message = update.effective_message
-    chat = update.effective_chat
 
-    reply_text = message.reply_to_message.reply_text if message.reply_to_message else message.reply_text
+    reply_to = message.reply_to_message if message.reply_to_message else message
 
     curr_user = html.escape(message.from_user.first_name)
     user_id = extract_user(message, args)
@@ -88,11 +88,17 @@ def pat(update: Update, context: CallbackContext):
         user1 = bot.first_name
         user2 = curr_user
 
-    temp = random.choice(fun_strings.PAT_TEMPLATES)
-
-    reply = temp.format(user1=user1, user2=user2)
-
-    reply_text(reply, parse_mode=ParseMode.HTML)
+    pat_type = random.choice("Text", "Gif", "Sticker")
+    if pat_type == "Text":
+        temp = random.choice(fun_strings.PAT_TEMPLATES)
+        reply = temp.format(user1=user1, user2=user2)
+        reply_to.reply_text(reply, parse_mode=ParseMode.HTML)
+    elif pat_type == "Gif":
+        temp = random.choice(fun_strings.PAT_GIFS)
+        reply_to.reply_animation(temp)
+    elif pat_type == "Sticker":
+        temp = random.choice(fun_strings.PAT_STICKERS)
+        reply_to.reply_sticker(temp)
 
 
 @run_async
