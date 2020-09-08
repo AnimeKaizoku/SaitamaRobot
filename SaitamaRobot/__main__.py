@@ -6,7 +6,7 @@ from typing import Optional
 
 from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
                           OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
-                          dispatcher,StartTime, telethn, updater)
+                          dispatcher, StartTime, telethn, updater)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
@@ -48,6 +48,7 @@ def get_readable_time(seconds: int) -> str:
     ping_time += ":".join(time_list)
 
     return ping_time
+
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
@@ -196,7 +197,9 @@ def start(update: Update, context: CallbackContext):
                             context.bot.username))
                 ]]))
     else:
-        update.effective_message.reply_text("I'm online!\n<b>Up since:</b> <code>{}</code>".format(uptime), parse_mode=ParseMode.HTML)
+        update.effective_message.reply_text(
+            "I'm online!\n<b>Up since:</b> <code>{}</code>".format(uptime),
+            parse_mode=ParseMode.HTML)
 
 
 # for test purposes

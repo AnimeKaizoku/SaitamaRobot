@@ -67,6 +67,7 @@ def slap(update: Update, context: CallbackContext):
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
+
 @run_async
 def pat(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -89,8 +90,7 @@ def pat(update: Update, context: CallbackContext):
 
     temp = random.choice(fun_strings.PAT_TEMPLATES)
 
-    reply = temp.format(
-        user1=user1, user2=user2)
+    reply = temp.format(user1=user1, user2=user2)
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
@@ -189,6 +189,6 @@ __command_list__ = [
     "table", "pat"
 ]
 __handlers__ = [
-    RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER,
-    BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER
+    RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER,
+    SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER
 ]
