@@ -440,6 +440,17 @@ def set_about_bio(update: Update, context: CallbackContext):
     else:
         message.reply_text("Reply to someone to set their bio!")
 
+def __user_info__(user_id):	
+    bio = html.escape(sql.get_user_bio(user_id) or "")	
+    me = html.escape(sql.get_user_me_info(user_id) or "")	
+    if bio and me:	
+        return f"<b>About user:</b>\n{me}\n<b>What others say:</b>\n{bio}"	
+    elif bio:	
+        return f"<b>What others say:</b>\n{bio}\n"	
+    elif me:	
+        return f"<b>About user:</b>\n{me}"	
+    else:	
+        return ""
 
 __help__ = """
 *ID:*
