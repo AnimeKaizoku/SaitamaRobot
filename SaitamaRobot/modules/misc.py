@@ -59,12 +59,19 @@ def markdown_help_sender(update: Update):
         "[URL](example.com) [button](buttonurl:github.com) "
         "[button2](buttonurl://google.com:same)")
 
+
 @run_async
 def markdown_help(update: Update, context: CallbackContext):
-     if update.effective_chat.type != "private":
-          update.effective_message.reply_text('Contact me in pm', reply_markup = InlineKeyboardMarkup([[InlineKeyboardButton("Markdown help", url=f"t.me/{context.bot.username}?start=markdownhelp")]]))
-          return
-     markdown_help_sender(update)
+    if update.effective_chat.type != "private":
+        update.effective_message.reply_text(
+            'Contact me in pm',
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton(
+                    "Markdown help",
+                    url=f"t.me/{context.bot.username}?start=markdownhelp")
+            ]]))
+        return
+    markdown_help_sender(update)
 
 
 __help__ = """
