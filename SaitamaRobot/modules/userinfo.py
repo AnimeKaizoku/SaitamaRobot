@@ -25,6 +25,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters
 from telegram.utils.helpers import mention_html
 
+
 def __user_info__(user_id):
     bio = html.escape(sql.get_user_bio(user_id) or "")
     me = html.escape(sql.get_user_me_info(user_id) or "")
@@ -45,14 +46,15 @@ def no_by_per(totalhp, percentage):
     """
     return totalhp * percentage / 100
 
-def get_percentage(totalhp,earnedhp):
+
+def get_percentage(totalhp, earnedhp):
     """
     rtype: percentage of `totalhp` num
     eg: (1000, 100) will return 10%
     """
 
     matched_less = totalhp - earnedhp
-    per_of_totalhp = 100 - matched_less*100.0/totalhp
+    per_of_totalhp = 100 - matched_less * 100.0 / totalhp
     per_of_totalhp = str(int(per_of_totalhp))
     return per_of_totalhp
 
@@ -62,41 +64,41 @@ def hpmanager(user):
 
     if not is_user_gbanned(user.id):
 
-       # Assign new var `new_hp` since we need `total_hp` in
-       # end to calculate percentage.
-       new_hp = total_hp
+        # Assign new var `new_hp` since we need `total_hp` in
+        # end to calculate percentage.
+        new_hp = total_hp
 
-       # if no username decrease 25% of hp.
-       if not user.username:
-          new_hp -= no_by_per(total_hp, 25)
-       try:
-          dispatcher.bot.get_user_profile_photos(user.id).photos[0][-1]
-       except IndexError:
-          # no profile photo ==> -25% of hp
-          new_hp -= no_by_per(total_hp, 25)
-       # if no /setme exist ==> -20% of hp
-       if not sql.get_user_me_info(user.id):
-          new_hp -= no_by_per(total_hp, 20)
-       # if no bio exsit ==> -10% of hp
-       if not sql.get_user_bio(user.id):
-          new_hp -= no_by_per(total_hp, 10)
+        # if no username decrease 25% of hp.
+        if not user.username:
+            new_hp -= no_by_per(total_hp, 25)
+        try:
+            dispatcher.bot.get_user_profile_photos(user.id).photos[0][-1]
+        except IndexError:
+            # no profile photo ==> -25% of hp
+            new_hp -= no_by_per(total_hp, 25)
+        # if no /setme exist ==> -20% of hp
+        if not sql.get_user_me_info(user.id):
+            new_hp -= no_by_per(total_hp, 20)
+        # if no bio exsit ==> -10% of hp
+        if not sql.get_user_bio(user.id):
+            new_hp -= no_by_per(total_hp, 10)
 
-       if is_afk(user.id):
-          afkst = check_afk_status(user.id)
-          # if user is afk and no reason then decrease 7%
-          # else if reason exist decrease 5%
-          if not afkst.reason:
-             new_hp -= no_by_per(total_hp, 7)
-          else:
-             new_hp -= no_by_per(total_hp, 5)
+        if is_afk(user.id):
+            afkst = check_afk_status(user.id)
+            # if user is afk and no reason then decrease 7%
+            # else if reason exist decrease 5%
+            if not afkst.reason:
+                new_hp -= no_by_per(total_hp, 7)
+            else:
+                new_hp -= no_by_per(total_hp, 5)
 
-       # fbanned users will have (2*number of fbans) less from max HP
-       # Example: if HP is 100 but user has 5 diff fbans
-       # Available HP is (2*5) = 10% less than Max HP
-       # So.. 10% of 100HP = 90HP
+        # fbanned users will have (2*number of fbans) less from max HP
+        # Example: if HP is 100 but user has 5 diff fbans
+        # Available HP is (2*5) = 10% less than Max HP
+        # So.. 10% of 100HP = 90HP
 
-       _, fbanlist = get_user_fbanlist(user.id)
-       new_hp -= no_by_per(total_hp, 2*len(fbanlist))
+        _, fbanlist = get_user_fbanlist(user.id)
+        new_hp -= no_by_per(total_hp, 2 * len(fbanlist))
 
     # Bad status effects:
     # gbanned users will always have 5% HP from max HP
@@ -104,15 +106,19 @@ def hpmanager(user):
     # Available HP is 5% of 100 = 5HP
 
     else:
-       new_hp = no_by_per(total_hp, 5)
+        new_hp = no_by_per(total_hp, 5)
 
-    return {"earnedhp": int(new_hp), "totalhp": int(total_hp),
-            "percentage": get_percentage(total_hp,new_hp)}
+    return {
+        "earnedhp": int(new_hp),
+        "totalhp": int(total_hp),
+        "percentage": get_percentage(total_hp, new_hp)
+    }
 
 
 def make_bar(per):
-    done = min(round(per/10), 10)
-    return "■"*done + "□"*(10-done)
+    done = min(round(per / 10), 10)
+    return "■" * done + "□" * (10 - done)
+
 
 @run_async
 def get_id(update: Update, context: CallbackContext):
@@ -206,20 +212,20 @@ def info(update: Update, context: CallbackContext):
     text += f"\nPermalink: {mention_html(user.id, 'link')}"
 
     if chat.type != "private":
-       _stext = "\nPresence: <code>{}</code>"
+        _stext = "\nPresence: <code>{}</code>"
 
-       afk_st = is_afk(user.id)
-       if afk_st:
-          text += _stext.format("AFK")
-       else:
-          status = status = bot.get_chat_member(chat.id, user.id).status
-          if status:
-              if status in {"left", "kicked"}:
-                  text += _stext.format("Not here")
-              elif status == "member":
-                  text += _stext.format("Detected")
-              elif status in {"administrator", "creator"}:
-                  text += _stext.format("Admin")
+        afk_st = is_afk(user.id)
+        if afk_st:
+            text += _stext.format("AFK")
+        else:
+            status = status = bot.get_chat_member(chat.id, user.id).status
+            if status:
+                if status in {"left", "kicked"}:
+                    text += _stext.format("Not here")
+                elif status == "member":
+                    text += _stext.format("Detected")
+                elif status in {"administrator", "creator"}:
+                    text += _stext.format("Admin")
 
     userhp = hpmanager(user)
     text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
@@ -281,9 +287,8 @@ def info(update: Update, context: CallbackContext):
         if mod_info:
             text += "\n\n" + mod_info
 
-
     if INFOPIC:
-       try:
+        try:
             profile = context.bot.get_user_profile_photos(user.id).photos[0][-1]
             _file = bot.get_file(profile["file_id"])
             file = _file.download("ProfilePic.png")
@@ -295,14 +300,17 @@ def info(update: Update, context: CallbackContext):
                 disable_web_page_preview=True)
 
             os.remove("ProfilePic.png")
-       # Incase user don't have profile pic, send normal text
-       except IndexError:
-              message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+        # Incase user don't have profile pic, send normal text
+        except IndexError:
+            message.reply_text(
+                text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
     else:
-        message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+        message.reply_text(
+            text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
     rep.delete()
+
 
 @run_async
 def about_me(update: Update, context: CallbackContext):
@@ -349,13 +357,15 @@ def set_about_me(update: Update, context: CallbackContext):
         if len(info[1]) < MAX_MESSAGE_LENGTH // 4:
             sql.set_user_me_info(user_id, info[1])
             if user_id == bot.id:
-                message.reply_text("I have updated my info with the one you provided!")
+                message.reply_text(
+                    "I have updated my info with the one you provided!")
             else:
                 message.reply_text("Information updated!")
         else:
             message.reply_text(
                 "The info needs to be under {} characters! You have {}.".format(
                     MAX_MESSAGE_LENGTH // 4, len(info[1])))
+
 
 @run_async
 @sudo_plus
@@ -385,7 +395,8 @@ def about_bio(update: Update, context: CallbackContext):
     elif message.reply_to_message:
         username = user.first_name
         update.effective_message.reply_text(
-            f"{username} hasn't had a message set about themselves yet!\nSet one using /setbio")
+            f"{username} hasn't had a message set about themselves yet!\nSet one using /setbio"
+        )
     else:
         update.effective_message.reply_text(
             "You haven't had a bio set about yourself yet!")
@@ -409,8 +420,7 @@ def set_about_bio(update: Update, context: CallbackContext):
 
         if user_id == bot.id and sender_id not in SUDO_USERS and sender_id not in DEV_USERS:
             message.reply_text(
-                "Erm... yeah, I only trust Heroes Association to set my bio."
-            )
+                "Erm... yeah, I only trust Heroes Association to set my bio.")
             return
 
         text = message.text
@@ -429,7 +439,6 @@ def set_about_bio(update: Update, context: CallbackContext):
                     .format(MAX_MESSAGE_LENGTH // 4, len(bio[1])))
     else:
         message.reply_text("Reply to someone to set their bio!")
-
 
 
 __help__ = """
@@ -478,5 +487,6 @@ dispatcher.add_handler(GET_ABOUT_HANDLER)
 __mod_name__ = "Info"
 __command_list__ = ["setbio", "bio", "setme", "me", "info"]
 __handlers__ = [
-    ID_HANDLER, GIFID_HANDLER, INFO_HANDLER, SET_BIO_HANDLER, GET_BIO_HANDLER, SET_ABOUT_HANDLER, GET_ABOUT_HANDLER, STATS_HANDLER
+    ID_HANDLER, GIFID_HANDLER, INFO_HANDLER, SET_BIO_HANDLER, GET_BIO_HANDLER,
+    SET_ABOUT_HANDLER, GET_ABOUT_HANDLER, STATS_HANDLER
 ]

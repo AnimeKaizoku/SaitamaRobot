@@ -31,6 +31,7 @@ This will create two buttons on a single line, instead of one button per line.
 Keep in mind that your message <b>MUST</b> contain some text other than just a button!
 """
 
+
 @run_async
 @user_admin
 def echo(update: Update, context: CallbackContext):
@@ -53,7 +54,8 @@ def markdown_help_sender(update: Update):
     update.effective_message.reply_text(
         MARKDOWN_HELP, parse_mode=ParseMode.HTML)
     update.effective_message.reply_text(
-        "Try forwarding the following message to me, and you'll see, and Use #test!")
+        "Try forwarding the following message to me, and you'll see, and Use #test!"
+    )
     update.effective_message.reply_text(
         "/save test This is a markdown test. _italics_, *bold*, code, "
         "[URL](example.com) [button](buttonurl:github.com) "
@@ -95,17 +97,15 @@ Example:
 Output: `1.0 USD = 75.505 INR`
 """
 
-
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
-MD_HELP_HANDLER = CommandHandler(
-    "markdownhelp", markdown_help)
+MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 
-
 __mod_name__ = "Extras"
 __command_list__ = ["id", "echo"]
 __handlers__ = [
-    ECHO_HANDLER, MD_HELP_HANDLER,
+    ECHO_HANDLER,
+    MD_HELP_HANDLER,
 ]
