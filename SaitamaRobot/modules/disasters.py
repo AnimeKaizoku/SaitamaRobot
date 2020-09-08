@@ -534,11 +534,11 @@ Commands listed here only work for users with special access are mainly used for
 Group admins/group owners do not need these commands. 
 
  ╔ *List all special users:*
- ╠ `/dragons`*:* Lists all Dragon disasters.
- ╠ `/demons`*:* Lists all Demon disasters.
- ╠ `/tigers`*:* Lists all Tigers disasters.
- ╠ `/wolves`*:* Lists all Wolf disasters.
- ╚ `/heroes`*:* Lists all Hero Association members.
+ ╠ `/dragons`*:* Lists all Dragon disasters
+ ╠ `/demons`*:* Lists all Demon disasters
+ ╠ `/tigers`*:* Lists all Tigers disasters
+ ╠ `/wolves`*:* Lists all Wolf disasters
+ ╚ `/heroes`*:* Lists all Hero Association members
 
  ╔ *Ping:*
  ╠ `/ping`*:* gets ping time of bot to telegram server
@@ -551,18 +551,18 @@ Group admins/group owners do not need these commands.
  ╚ `/broadcastgroups`*:* Broadcasts too all groups
 
  ╔ *Getchats:*
- ╚ `/getchats ID`*:* Gets a list of group names the user has been seen in. Bot owner only.
+ ╚ `/getchats ID`*:* Gets a list of group names the user has been seen in. Bot owner only
 
  ╔ *Blacklist:* 
  ╠ `/ignore`*:* Blacklists a user from 
- ╠  using the bot entirely.
- ╚ `/notice`*:* Whitelists the user to allow bot usage. 
+ ╠  using the bot entirely
+ ╚ `/notice`*:* Whitelists the user to allow bot usage
 
  ╔ *Speedtest:*
- ╚ `/speedtest`*:* Runs a speedtest and gives you 2 options to choose from, text or image output.
+ ╚ `/speedtest`*:* Runs a speedtest and gives you 2 options to choose from, text or image output
 
  ╔ *Global Bans:*
- ╠ `/gban user reason`*:* Globally bans a user.
+ ╠ `/gban user reason`*:* Globally bans a user
  ╚ `/ungban user reason`*:* Unbans the user from the global bans list
 
  ╔ *Module loading:*
@@ -583,10 +583,13 @@ Group admins/group owners do not need these commands.
  ╚ `/py`*:* Self explanatory
 
  ╔ *Windows self hosted only:*
- ╠ `/restart`*:* Restarts the bots service.
- ╚ `/gitpull`*:* Pulls the repo and then restarts the bots service.
+ ╠ `/restart`*:* Restarts the bots service
+ ╚ `/gitpull`*:* Pulls the repo and then restarts the bots service
 
-You can visit {SUPPORT_CHAT} if you want details on these.
+ ╔ *Chatbot:* 
+ ╚ `/listaichats`*:* Lists the chats the chatmode is enabled in
+
+Visit {SUPPORT_CHAT} if you want details on these.
 """
 
 SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo)
