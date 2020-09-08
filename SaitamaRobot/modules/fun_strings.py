@@ -156,13 +156,13 @@ PAT_TEMPLATES = (
     "{user1} aggressively pats {user2}",
     "{user1} gently strokes {user2}'s head",
     "Pat, pat, pat, pat",
-    "{user2} could not escape {user1}'s headpats"
+    "{user2} could not escape {user1}'s headpats",
     "{user2}.exe has stopped working",
     "{user1} rubs {user2} on the neck",
     "Must... extort... HEADPATS",
     "{user1} headpats {user2}'s head with a pat",
     "{user1} pats {user2} unexpectedly",
-    "{user1} pats {user2} with consent, maybe?"
+    "{user1} pats {user2} with consent, maybe?",
     "Pat pat, {user2} honto kawaii ne!",
     "{user1} headpats {user2} at 420apm",
     "{user1} bellyrubs {user2}",
