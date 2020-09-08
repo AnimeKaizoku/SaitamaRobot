@@ -88,7 +88,7 @@ def pat(update: Update, context: CallbackContext):
         user1 = bot.first_name
         user2 = curr_user
 
-    pat_type = random.choice("Text", "Gif", "Sticker")
+    pat_type = random.choice(("Text", "Gif", "Sticker"))
     if pat_type == "Text":
         temp = random.choice(fun_strings.PAT_TEMPLATES)
         reply = temp.format(user1=user1, user2=user2)
