@@ -2,13 +2,15 @@ import html
 import random
 import time
 
+from telegram import ParseMode, Update, ChatPermissions
+from telegram.ext import CallbackContext, run_async
+from telegram.error import BadRequest
+
 import SaitamaRobot.modules.fun_strings as fun_strings
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from telegram import ParseMode, Update, ChatPermissions
-from telegram.ext import CallbackContext, run_async
 
 
 @run_async
@@ -89,16 +91,24 @@ def pat(update: Update, context: CallbackContext):
         user2 = curr_user
 
     pat_type = random.choice(("Text", "Gif", "Sticker"))
+    if pat_type == "Gif":
+        try:
+            temp = random.choice(fun_strings.PAT_GIFS)
+            reply_to.reply_animation(temp)
+        except BadRequest:
+            pat_type = "Text"
+
+    if pat_type == "Sticker":
+        try:
+            temp = random.choice(fun_strings.PAT_STICKERS)
+            reply_to.reply_sticker(temp)
+        except BadRequest:
+            pat_type = "Text"
+
     if pat_type == "Text":
         temp = random.choice(fun_strings.PAT_TEMPLATES)
         reply = temp.format(user1=user1, user2=user2)
         reply_to.reply_text(reply, parse_mode=ParseMode.HTML)
-    elif pat_type == "Gif":
-        temp = random.choice(fun_strings.PAT_GIFS)
-        reply_to.reply_animation(temp)
-    elif pat_type == "Sticker":
-        temp = random.choice(fun_strings.PAT_STICKERS)
-        reply_to.reply_sticker(temp)
 
 
 @run_async
