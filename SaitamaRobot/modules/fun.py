@@ -12,17 +12,20 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 
+
 @run_async
 def runs(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
+
 
 @run_async
 def sanitize(update: Update, context: CallbackContext):
     message = update.effective_message
     name = message.reply_to_message.from_user.first_name if message.reply_to_message else message.from_user.first_name
     reply_animation = message.reply_to_message.reply_animation if message.reply_to_message else message.reply_animation
-    reply_animation(random.choice(fun_strings.GIFS), caption = f'*Sanitizes {name}*')
-    
+    reply_animation(
+        random.choice(fun_strings.GIFS), caption=f'*Sanitizes {name}*')
+
 
 @run_async
 def slap(update: Update, context: CallbackContext):
@@ -215,5 +218,6 @@ __command_list__ = [
 ]
 __handlers__ = [
     RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER,
-    SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER, SANITIZE_HANDLER
+    SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER,
+    SANITIZE_HANDLER
 ]
