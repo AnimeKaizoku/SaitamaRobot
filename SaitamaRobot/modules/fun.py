@@ -22,7 +22,7 @@ def runs(update: Update, context: CallbackContext):
 def sanitize(update: Update, context: CallbackContext):
     message = update.effective_message
     name = message.reply_to_message.from_user.first_name if message.reply_to_message else message.from_user.first_name
-    update.effective_message.reply_animation(GIF_ID, caption = f'*Santizes {name}*')
+    update.effective_message.reply_animation(GIF_ID, caption = f'*Sanitizes {name}*')
     
 
 @run_async
