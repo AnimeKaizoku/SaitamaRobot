@@ -2,13 +2,15 @@ import html
 import random
 import time
 
+from telegram import ParseMode, Update, ChatPermissions
+from telegram.ext import CallbackContext, run_async
+from telegram.error import BadRequest
+
 import SaitamaRobot.modules.fun_strings as fun_strings
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from telegram import ParseMode, Update, ChatPermissions
-from telegram.ext import CallbackContext, run_async
 
 
 @run_async
@@ -67,13 +69,14 @@ def slap(update: Update, context: CallbackContext):
 
     reply_text(reply, parse_mode=ParseMode.HTML)
 
+
 @run_async
 def pat(update: Update, context: CallbackContext):
-    bot, args = context.bot, context.args
+    bot = context.bot
+    args = context.args
     message = update.effective_message
-    chat = update.effective_chat
 
-    reply_text = message.reply_to_message.reply_text if message.reply_to_message else message.reply_text
+    reply_to = message.reply_to_message if message.reply_to_message else message
 
     curr_user = html.escape(message.from_user.first_name)
     user_id = extract_user(message, args)
@@ -87,12 +90,25 @@ def pat(update: Update, context: CallbackContext):
         user1 = bot.first_name
         user2 = curr_user
 
-    temp = random.choice(fun_strings.PAT_TEMPLATES)
+    pat_type = random.choice(("Text", "Gif", "Sticker"))
+    if pat_type == "Gif":
+        try:
+            temp = random.choice(fun_strings.PAT_GIFS)
+            reply_to.reply_animation(temp)
+        except BadRequest:
+            pat_type = "Text"
 
-    reply = temp.format(
-        user1=user1, user2=user2)
+    if pat_type == "Sticker":
+        try:
+            temp = random.choice(fun_strings.PAT_STICKERS)
+            reply_to.reply_sticker(temp)
+        except BadRequest:
+            pat_type = "Text"
 
-    reply_text(reply, parse_mode=ParseMode.HTML)
+    if pat_type == "Text":
+        temp = random.choice(fun_strings.PAT_TEMPLATES)
+        reply = temp.format(user1=user1, user2=user2)
+        reply_to.reply_text(reply, parse_mode=ParseMode.HTML)
 
 
 @run_async
@@ -189,6 +205,6 @@ __command_list__ = [
     "table", "pat"
 ]
 __handlers__ = [
-    RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER,
-    BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER
+    RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER,
+    SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER
 ]

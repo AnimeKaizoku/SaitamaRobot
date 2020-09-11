@@ -151,12 +151,39 @@ PAT_TEMPLATES = (
     "This is a designated no pat zone!",
     "No pats for {user2}!",
     "{user1} spoils {user2} with headpats!",
-    "{user2} recieved one free headpat!",
+    "{user2} received one free headpat!",
+    "{user1} headpats {user2} whilst giving a lap pillow",
+    "{user1} aggressively pats {user2}",
+    "{user1} gently strokes {user2}'s head",
+    "Pat, pat, pat, pat",
+    "{user2} could not escape {user1}'s headpats",
+    "{user2}.exe has stopped working",
+    "{user1} rubs {user2} on the neck",
+    "Must... extort... HEADPATS",
+    "{user1} headpats {user2}'s head with a pat",
+    "{user1} pats {user2} unexpectedly",
+    "{user1} pats {user2} with consent, maybe?",
+    "Pat pat, {user2} honto kawaii ne!",
+    "{user1} headpats {user2} at 420apm",
+    "{user1} bellyrubs {user2}",
+    "{user1} pats {user2} friendlily",
+    "{user2} uses HEADPATS? O KAWAII KOTO",
+    "*headpats.gif intensifies for {user2}*",
     "(*´ω´(*｀ω｀)",
     "(ｏ・_・)ノ”(ᴗ_ ᴗ。)",
     "(*￣▽￣)ノ”(- -*)",
     "(っ´ω`)ﾉ(╥ω╥)",
-    "(　´Д｀)ﾉ(´･ω･`)　ﾅﾃﾞﾅﾃﾞ",
+    "( ´Д｀)ﾉ(´･ω･`) ﾅﾃﾞﾅﾃﾞ",
+)
+
+PAT_GIFS = (
+    "CgACAgQAAxkBAALRX19Xs7tBdOH1gQwS_rglVRkTbgVYAAKEAgACmQn9UWlyGa_xy9_aGwQ",
+    "CgACAgEAAxkBAALRYF9Xs8EnhsDfDpld3ILoqTbzDmwxAAJFAAOJxjlHECanwn69E5QbBA"
+)
+
+PAT_STICKERS = (
+    "CAACAgQAAxkBAALRWV9Xs4HH0XaXfhZe-jWaZoXfs-IsAAJYAwACdDgSEHYOt4KvL02oGwQ",
+    "CAACAgQAAxkBAALRXF9Xs6XmIeDbnoL1wiDky0TdX-CvAAKKAQAC1TMzC9A3CtiT2rqVGwQ"
 )
 
 PING_STRING = (
