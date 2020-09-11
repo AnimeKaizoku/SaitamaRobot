@@ -166,17 +166,9 @@ dispatcher.add_handler(TABLE_HANDLER)
 __mod_name__ = "Fun"
 __command_list__ = [
     "runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide",
-<<<<<<< HEAD
-    "table"
-]
-__handlers__ = [
-    RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER,
-    BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER
-=======
     "table", "pat", "sanitize"
 ]
 __handlers__ = [
     RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER,
     SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER, SANITIZE_HANDLER
->>>>>>> 608f794... Added /sanitize
 ]
