@@ -10,11 +10,18 @@ from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from telegram import ParseMode, Update, ChatPermissions
 from telegram.ext import CallbackContext, run_async
 
+GIF_ID = 'CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr5nGxsE'
 
 @run_async
 def runs(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
 
+@run_async
+def sanitize(update: Update, context: CallbackContext):
+    message = update.effective_message
+    name = message.reply_to_message.from_user.first_name if message.reply_to_message else message.from_user.first_name
+    update.effective_message.reply_animation(GIF_ID, caption = f'*Santizes {name}*')
+    
 
 @run_async
 def slap(update: Update, context: CallbackContext):
@@ -131,8 +138,10 @@ __help__ = """
  • `/rlg`*:* Join ears,nose,mouth and create an emo ;-;
  • `/shout <keyword>`*:* write anything you want to give loud shout
  • `/weebify <text>`*:* returns a weebified text
-"""
+ • `/sanitize`*:* always use this before /pat or any contact
+ """
 
+SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap)
 ROLL_HANDLER = DisableAbleCommandHandler("roll", roll)
@@ -143,6 +152,7 @@ RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg)
 DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 
+dispatcher.add_handler(SANITIZE_HANDLER)
 dispatcher.add_handler(RUNS_HANDLER)
 dispatcher.add_handler(SLAP_HANDLER)
 dispatcher.add_handler(ROLL_HANDLER)
@@ -156,9 +166,17 @@ dispatcher.add_handler(TABLE_HANDLER)
 __mod_name__ = "Fun"
 __command_list__ = [
     "runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide",
+<<<<<<< HEAD
     "table"
 ]
 __handlers__ = [
     RUNS_HANDLER, SLAP_HANDLER, ROLL_HANDLER, TOSS_HANDLER, SHRUG_HANDLER,
     BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER
+=======
+    "table", "pat", "sanitize"
+]
+__handlers__ = [
+    RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER,
+    SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER, SANITIZE_HANDLER
+>>>>>>> 608f794... Added /sanitize
 ]
