@@ -1,42 +1,25 @@
 import html
-import re, os
+import re
+import os
+
 import requests
+from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update
+from telegram.ext import CallbackContext, CommandHandler
+from telegram.ext.dispatcher import run_async
+from telegram.error import BadRequest
+from telegram.utils.helpers import escape_markdown, mention_html
 
 from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
                           TIGER_USERS, WHITELIST_USERS, INFOPIC, dispatcher, sw)
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 import SaitamaRobot.modules.sql.userinfo_sql as sql
-from SaitamaRobot import DEV_USERS, SUDO_USERS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
 from SaitamaRobot.modules.sql.afk_sql import is_afk, check_afk_status
 from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
 from SaitamaRobot.modules.sql.feds_sql import get_user_fbanlist
-from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, user_admin
+from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update
-from telegram.ext import CallbackContext
-from telegram.ext.dispatcher import run_async
-from telegram.utils.helpers import escape_markdown
-from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters
-from telegram.utils.helpers import mention_html
-
-
-def __user_info__(user_id):
-    bio = html.escape(sql.get_user_bio(user_id) or "")
-    me = html.escape(sql.get_user_me_info(user_id) or "")
-    if bio and me:
-        return f"<b>About user:</b>\n{me}\n<b>What others say:</b>\n{bio}"
-    elif bio:
-        return f"<b>What others say:</b>\n{bio}\n"
-    elif me:
-        return f"<b>About user:</b>\n{me}"
-    else:
-        return ""
 
 
 def no_by_per(totalhp, percentage):
@@ -444,14 +427,15 @@ def set_about_bio(update: Update, context: CallbackContext):
 def __user_info__(user_id):
     bio = html.escape(sql.get_user_bio(user_id) or "")
     me = html.escape(sql.get_user_me_info(user_id) or "")
-    if bio and me:
-        return f"<b>About user:</b>\n{me}\n<b>What others say:</b>\n{bio}"
-    elif bio:
-        return f"<b>What others say:</b>\n{bio}\n"
-    elif me:
-        return f"<b>About user:</b>\n{me}"
-    else:
-        return ""
+    print(f"Me : {me}")
+    print(f"Bio : {bio}")
+    result = ""
+    if me:
+        result += f"<b>About user:</b>\n{me}\n"
+    if bio:
+        result += f"<b>What others say:</b>\n{bio}\n"
+    result = result.strip("\n")
+    return result
 
 
 __help__ = """
