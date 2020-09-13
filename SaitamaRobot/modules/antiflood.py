@@ -1,7 +1,7 @@
 import html
 from typing import Optional, List
 
-from telegram import Message, Chat, Update, User, ChatPermissions
+from telegram import Message, Chat, Bot, Update, User, ChatPermissions
 
 from SaitamaRobot import TIGER_USERS, WHITELIST_USERS, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import (
