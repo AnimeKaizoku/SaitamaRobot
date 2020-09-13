@@ -475,7 +475,7 @@ def left_member(update: Update, context: CallbackContext):
                 return
 
             # Give the devs a special goodbye
-            elif left_mem.id in DEV_USERS:
+            if left_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
                     "See you later at the Hero's Association!",
                     reply_to_message_id=reply,
@@ -744,7 +744,7 @@ def welcomemute(update: Update, context: CallbackContext) -> str:
                 f"#WELCOME_MUTE\n"
                 f"<b>• Admin:</b> {mention_html(user.id, user.first_name)}\n"
                 f"Has toggled welcome mute to <b>OFF</b>.")
-        elif args[0].lower() in ["soft"]:
+        if args[0].lower() in ["soft"]:
             sql.set_welcome_mutes(chat.id, "soft")
             msg.reply_text(
                 "I will restrict users' permission to send media for 24 hours.")
@@ -753,7 +753,7 @@ def welcomemute(update: Update, context: CallbackContext) -> str:
                 f"#WELCOME_MUTE\n"
                 f"<b>• Admin:</b> {mention_html(user.id, user.first_name)}\n"
                 f"Has toggled welcome mute to <b>SOFT</b>.")
-        elif args[0].lower() in ["strong"]:
+        if args[0].lower() in ["strong"]:
             sql.set_welcome_mutes(chat.id, "strong")
             msg.reply_text(
                 "I will now mute people when they join until they prove they're not a bot.\nThey will have 120seconds before they get kicked."
@@ -763,12 +763,11 @@ def welcomemute(update: Update, context: CallbackContext) -> str:
                 f"#WELCOME_MUTE\n"
                 f"<b>• Admin:</b> {mention_html(user.id, user.first_name)}\n"
                 f"Has toggled welcome mute to <b>STRONG</b>.")
-        else:
-            msg.reply_text(
-                "Please enter `off`/`no`/`soft`/`strong`!",
-                parse_mode=ParseMode.MARKDOWN,
-            )
-            return ""
+        msg.reply_text(
+            "Please enter `off`/`no`/`soft`/`strong`!",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+        return ""
     else:
         curr_setting = sql.welcome_mutes(chat.id)
         reply = (
@@ -804,7 +803,7 @@ def clean_welcome(update: Update, context: CallbackContext) -> str:
                 f"#CLEAN_WELCOME\n"
                 f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                 f"Has toggled clean welcomes to <code>ON</code>.")
-    elif args[0].lower() in ("off", "no"):
+    if args[0].lower() in ("off", "no"):
         sql.set_clean_welcome(str(chat.id), False)
         update.effective_message.reply_text(
             "I won't delete old welcome messages.")
@@ -812,10 +811,9 @@ def clean_welcome(update: Update, context: CallbackContext) -> str:
                 f"#CLEAN_WELCOME\n"
                 f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                 f"Has toggled clean welcomes to <code>OFF</code>.")
-    else:
-        update.effective_message.reply_text(
-            "I understand 'on/yes' or 'off/no' only!")
-        return ""
+    update.effective_message.reply_text(
+        "I understand 'on/yes' or 'off/no' only!")
+    return ""
 
 
 @run_async

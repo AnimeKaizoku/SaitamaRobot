@@ -80,9 +80,8 @@ def promote(update: Update, context: CallbackContext) -> str:
             message.reply_text(
                 "I can't promote someone who isn't in the group.")
             return log_message
-        else:
-            message.reply_text("An error occured while promoting.")
-            return log_message
+        message.reply_text("An error occured while promoting.")
+        return log_message
 
     bot.sendMessage(
         chat.id,

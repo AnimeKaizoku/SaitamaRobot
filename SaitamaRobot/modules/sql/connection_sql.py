@@ -115,9 +115,8 @@ def disconnect(user_id):
             SESSION.delete(disconnect)
             SESSION.commit()
             return True
-        else:
-            SESSION.close()
-            return False
+        SESSION.close()
+        return False
 
 
 def add_history_conn(user_id, chat_id, chat_name):

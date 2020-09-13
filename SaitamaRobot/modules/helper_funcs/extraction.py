@@ -55,12 +55,10 @@ def extract_user_and_text(message: Message,
                 "you reply to that person's message instead, or forward one of that user's messages."
             )
             return None, None
-
-        else:
-            user_id = user_id
-            res = message.text.split(None, 2)
-            if len(res) >= 3:
-                text = res[2]
+        user_id = user_id
+        res = message.text.split(None, 2)
+        if len(res) >= 3:
+            text = res[2]
 
     elif len(args) >= 1 and args[0].isdigit():
         user_id = int(args[0])
@@ -129,12 +127,10 @@ def extract_unt_fedban(message: Message,
                 "Anda membalas pesan orang itu, atau meneruskan salah satu dari pesan pengguna itu."
             )
             return None, None
-
-        else:
-            user_id = user_id
-            res = message.text.split(None, 2)
-            if len(res) >= 3:
-                text = res[2]
+        user_id = user_id
+        res = message.text.split(None, 2)
+        if len(res) >= 3:
+            text = res[2]
 
     elif len(args) >= 1 and args[0].isdigit():
         user_id = int(args[0])
@@ -159,10 +155,10 @@ def extract_unt_fedban(message: Message,
                 "(Seperti boneka voodoo, saya butuh sepotong untuk bisa"
                 "untuk menjalankan perintah tertentu...)")
             return None, None
-        elif excp.message != "Chat not found":
+        if excp.message != "Chat not found":
             LOGGER.exception("Exception %s on user %s", excp.message, user_id)
             return None, None
-        elif not isinstance(user_id, int):
+        if not isinstance(user_id, int):
             return None, None
 
     return user_id, text

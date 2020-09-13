@@ -220,8 +220,7 @@ def split_quotes(text: str) -> List:
         if not key:
             key = text[0] + text[0]
         return list(filter(None, [key, rest]))
-    else:
-        return text.split(None, 1)
+    return text.split(None, 1)
 
 
 def remove_escapes(text: str) -> str:
@@ -268,11 +267,10 @@ def extract_time(message, time_val):
             # how even...?
             return ""
         return bantime
-    else:
-        message.reply_text(
-            "Invalid time type specified. Expected m,h, or d, got: {}".format(
-                time_val[-1]))
-        return ""
+    message.reply_text(
+        "Invalid time type specified. Expected m,h, or d, got: {}".format(
+            time_val[-1]))
+    return ""
 
 
 def markdown_to_html(text):

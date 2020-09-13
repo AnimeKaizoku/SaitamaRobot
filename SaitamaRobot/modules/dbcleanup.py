@@ -51,11 +51,10 @@ def get_invalid_chats(update: Update,
 
     if not remove:
         return kicked_chats
-    else:
-        for muted_chat in chat_list:
-            sleep(0.1)
-            user_sql.rem_chat(muted_chat)
-        return kicked_chats
+    for muted_chat in chat_list:
+        sleep(0.1)
+        user_sql.rem_chat(muted_chat)
+    return kicked_chats
 
 
 def get_invalid_gban(update: Update,
@@ -79,11 +78,10 @@ def get_invalid_gban(update: Update,
 
     if not remove:
         return ungbanned_users
-    else:
-        for user_id in ungban_list:
-            sleep(0.1)
-            gban_sql.ungban_user(user_id)
-        return ungbanned_users
+    for user_id in ungban_list:
+        sleep(0.1)
+        gban_sql.ungban_user(user_id)
+    return ungbanned_users
 
 
 @run_async

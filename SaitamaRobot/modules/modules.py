@@ -104,7 +104,7 @@ def unload(update: Update, context: CallbackContext):
             if type(handler) == bool:
                 unload_messasge.edit_text("This module can't be unloaded!")
                 return
-            elif type(handler) != tuple:
+            if type(handler) != tuple:
                 dispatcher.remove_handler(handler)
             else:
                 handler_name, priority = handler

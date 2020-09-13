@@ -138,8 +138,7 @@ def get_blacklist_setting(chat_id):
         setting = CHAT_BLSTICK_BLACKLISTS.get(str(chat_id))
         if setting:
             return setting['blacklist_type'], setting['value']
-        else:
-            return 1, "0"
+        return 1, "0"
 
     finally:
         SESSION.close()

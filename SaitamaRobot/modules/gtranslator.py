@@ -63,11 +63,10 @@ def totranslate(update: Update, context: CallbackContext):
                 return message.reply_text(
                     f"Translated from `{detection.lang}` to `{dest_lang}`:\n`{tekstr.text}`",
                     parse_mode=ParseMode.MARKDOWN)
-            else:
-                tekstr = trl.translate(text, dest=dest_lang, src=source_lang)
-                message.reply_text(
-                    f"Translated from `{source_lang}` to `{dest_lang}`:\n`{tekstr.text}`",
-                    parse_mode=ParseMode.MARKDOWN)
+            tekstr = trl.translate(text, dest=dest_lang, src=source_lang)
+            message.reply_text(
+                f"Translated from `{source_lang}` to `{dest_lang}`:\n`{tekstr.text}`",
+                parse_mode=ParseMode.MARKDOWN)
         else:
             args = update.effective_message.text.split(None, 2)
             message = update.effective_message
@@ -104,12 +103,11 @@ def totranslate(update: Update, context: CallbackContext):
                     "Translated from `{}` to `{}`:\n`{}`".format(
                         detection.lang, source_lang, tekstr.text),
                     parse_mode=ParseMode.MARKDOWN)
-            else:
-                tekstr = trl.translate(text, dest=dest_lang, src=source_lang)
-                message.reply_text(
-                    "Translated from `{}` to `{}`:\n`{}`".format(
-                        source_lang, dest_lang, tekstr.text),
-                    parse_mode=ParseMode.MARKDOWN)
+            tekstr = trl.translate(text, dest=dest_lang, src=source_lang)
+            message.reply_text(
+                "Translated from `{}` to `{}`:\n`{}`".format(
+                    source_lang, dest_lang, tekstr.text),
+                parse_mode=ParseMode.MARKDOWN)
 
     except IndexError:
         update.effective_message.reply_text(

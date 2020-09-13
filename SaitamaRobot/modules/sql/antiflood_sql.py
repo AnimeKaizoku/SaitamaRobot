@@ -112,8 +112,7 @@ def get_flood_setting(chat_id):
         setting = SESSION.query(FloodSettings).get(str(chat_id))
         if setting:
             return setting.flood_type, setting.value
-        else:
-            return 1, "0"
+        return 1, "0"
 
     finally:
         SESSION.close()

@@ -39,9 +39,8 @@ def add_chat(update: Update, context: CallbackContext):
                    f"#AI_ENABLED\n"
                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
         return message
-    else:
-        msg.reply_text("AI is already enabled for this chat!")
-        return ""
+    msg.reply_text("AI is already enabled for this chat!")
+    return ""
 
 
 @run_async
@@ -55,13 +54,12 @@ def remove_chat(update: Update, context: CallbackContext):
     if not is_chat:
         msg.reply_text("AI isn't enabled here in the first place!")
         return ""
-    else:
-        sql.rem_chat(chat.id)
-        msg.reply_text("AI disabled successfully!")
-        message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                   f"#AI_DISABLED\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
-        return message
+    sql.rem_chat(chat.id)
+    msg.reply_text("AI disabled successfully!")
+    message = (f"<b>{html.escape(chat.title)}:</b>\n"
+               f"#AI_DISABLED\n"
+               f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
+    return message
 
 
 def check_message(context: CallbackContext, message):
