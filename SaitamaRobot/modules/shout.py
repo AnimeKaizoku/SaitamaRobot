@@ -9,7 +9,7 @@ def shout(update: Update, context: CallbackContext):
     args = context.args
     text = " ".join(args)
     result = []
-    result.append(' '.join([s for s in text]))
+    result.append(' '.join(list(text)))
     for pos, symbol in enumerate(text[1:]):
         result.append(symbol + ' ' + '  ' * pos + symbol)
     result = list("\n".join(result))
