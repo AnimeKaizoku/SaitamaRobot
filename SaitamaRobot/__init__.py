@@ -39,30 +39,26 @@ if ENV:
     OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
 
     try:
-        SUDO_USERS = set(
-            int(x) for x in os.environ.get("SUDO_USERS", "").split())
-        DEV_USERS = set(int(x) for x in os.environ.get("DEV_USERS", "").split())
+        SUDO_USERS = {int(x) for x in os.environ.get("SUDO_USERS", "").split()}
+        DEV_USERS = {int(x) for x in os.environ.get("DEV_USERS", "").split()}
     except ValueError:
         raise Exception(
             "Your sudo or dev users list does not contain valid integers.")
 
     try:
-        SUPPORT_USERS = set(
-            int(x) for x in os.environ.get("SUPPORT_USERS", "").split())
+        SUPPORT_USERS = {int(x) for x in os.environ.get("SUPPORT_USERS", "").split()}
     except ValueError:
         raise Exception(
             "Your support users list does not contain valid integers.")
 
     try:
-        WHITELIST_USERS = set(
-            int(x) for x in os.environ.get("WHITELIST_USERS", "").split())
+        WHITELIST_USERS = {int(x) for x in os.environ.get("WHITELIST_USERS", "").split()}
     except ValueError:
         raise Exception(
             "Your whitelisted users list does not contain valid integers.")
 
     try:
-        TIGER_USERS = set(
-            int(x) for x in os.environ.get("TIGER_USERS", "").split())
+        TIGER_USERS = {int(x) for x in os.environ.get("TIGER_USERS", "").split()}
     except ValueError:
         raise Exception(
             "Your tiger users list does not contain valid integers.")
@@ -94,7 +90,7 @@ if ENV:
     SPAMWATCH_API = os.environ.get('SPAMWATCH_API', None)
 
     try:
-        BL_CHATS = set(int(x) for x in os.environ.get('BL_CHATS', "").split())
+        BL_CHATS = {int(x) for x in os.environ.get('BL_CHATS', "").split()}
     except ValueError:
         raise Exception(
             "Your blacklisted chats list does not contain valid integers.")
@@ -112,26 +108,26 @@ else:
     OWNER_USERNAME = Config.OWNER_USERNAME
 
     try:
-        SUDO_USERS = set(int(x) for x in Config.SUDO_USERS or [])
-        DEV_USERS = set(int(x) for x in Config.DEV_USERS or [])
+        SUDO_USERS = {int(x) for x in Config.SUDO_USERS or []}
+        DEV_USERS = {int(x) for x in Config.DEV_USERS or []}
     except ValueError:
         raise Exception(
             "Your sudo or dev users list does not contain valid integers.")
 
     try:
-        SUPPORT_USERS = set(int(x) for x in Config.SUPPORT_USERS or [])
+        SUPPORT_USERS = {int(x) for x in Config.SUPPORT_USERS or []}
     except ValueError:
         raise Exception(
             "Your support users list does not contain valid integers.")
 
     try:
-        WHITELIST_USERS = set(int(x) for x in Config.WHITELIST_USERS or [])
+        WHITELIST_USERS = {int(x) for x in Config.WHITELIST_USERS or []}
     except ValueError:
         raise Exception(
             "Your whitelisted users list does not contain valid integers.")
 
     try:
-        TIGER_USERS = set(int(x) for x in Config.TIGER_USERS or [])
+        TIGER_USERS = {int(x) for x in Config.TIGER_USERS or []}
     except ValueError:
         raise Exception(
             "Your tiger users list does not contain valid integers.")
@@ -163,7 +159,7 @@ else:
     INFOPIC = Config.INFOPIC
 
     try:
-        BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
+        BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
     except ValueError:
         raise Exception(
             "Your blacklisted chats list does not contain valid integers.")

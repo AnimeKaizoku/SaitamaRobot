@@ -86,9 +86,9 @@ def add_blackliststicker(update: Update, context: CallbackContext):
     if len(words) > 1:
         text = words[1].replace('https://t.me/addstickers/', '')
         to_blacklist = list(
-            set(trigger.strip()
+            {trigger.strip()
                 for trigger in text.split("\n")
-                if trigger.strip()))
+                if trigger.strip()})
         added = 0
         for trigger in to_blacklist:
             try:
@@ -168,9 +168,9 @@ def unblackliststicker(update: Update, context: CallbackContext):
     if len(words) > 1:
         text = words[1].replace('https://t.me/addstickers/', '')
         to_unblacklist = list(
-            set(trigger.strip()
+            {trigger.strip()
                 for trigger in text.split("\n")
-                if trigger.strip()))
+                if trigger.strip()})
         successful = 0
         for trigger in to_unblacklist:
             success = sql.rm_from_stickers(chat_id, trigger.lower())
