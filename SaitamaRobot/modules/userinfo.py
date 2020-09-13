@@ -13,16 +13,14 @@ from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
 from SaitamaRobot.modules.sql.afk_sql import is_afk, check_afk_status
 from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
 from SaitamaRobot.modules.sql.feds_sql import get_user_fbanlist
-from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus, user_admin
+from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update
 from telegram.ext import CallbackContext
 from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import escape_markdown
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters
+from telegram.ext import CallbackContext, CommandHandler
 from telegram.utils.helpers import mention_html
 
 

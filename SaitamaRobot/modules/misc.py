@@ -3,7 +3,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import dispatcher
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram import MessageEntity, ParseMode, Update
+from telegram import ParseMode, Update
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
 
