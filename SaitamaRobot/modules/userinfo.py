@@ -194,7 +194,7 @@ def info(update: Update, context: CallbackContext):
 
     text += f"\nPermalink: {mention_html(user.id, 'link')}"
 
-    if chat.type != "private":
+    if chat.type != "private" and user_id != bot.id:
         _stext = "\nPresence: <code>{}</code>"
 
         afk_st = is_afk(user.id)
@@ -209,9 +209,9 @@ def info(update: Update, context: CallbackContext):
                     text += _stext.format("Detected")
                 elif status in {"administrator", "creator"}:
                     text += _stext.format("Admin")
-
-    userhp = hpmanager(user)
-    text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
+    if user_id != bot.id:
+        userhp = hpmanager(user)
+        text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
 
     try:
         spamwtc = sw.get_ban(int(user.id))
