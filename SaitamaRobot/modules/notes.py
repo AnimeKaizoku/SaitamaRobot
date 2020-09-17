@@ -439,7 +439,7 @@ __mod_name__ = "Notes"
 
 GET_HANDLER = CommandHandler("get", cmd_get)
 HASH_GET_HANDLER = MessageHandler(Filters.regex(r"^#[^\s]+"), hash_get)
-SLASH_GET_HANDLER = MessageHandler(Filters.regex(r"^\/[0-9]*$"), slash_get)
+SLASH_GET_HANDLER = MessageHandler(Filters.regex(r"^/\d+$"), slash_get)
 SAVE_HANDLER = CommandHandler("save", save)
 DELETE_HANDLER = CommandHandler("clear", clear)
 
