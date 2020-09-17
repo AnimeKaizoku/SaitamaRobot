@@ -2,7 +2,7 @@ import urllib.request as url
 import json
 import datetime
 
-VERSION = "0.1.4"
+VERSION = "1.1.0"
 APIURL = "http://api.github.com/repos/"
 
 def vercheck() -> str:
@@ -18,30 +18,52 @@ def getData(repoURL):
     except:
         return None
 
-def getLastestReleaseData(repoData):
-    return repoData[0]
+def getReleaseData(repoData, index):
+    if index < len(repoData):
+        return repoData[index]
+    else:
+        return None
 
 #Release-wise stuff
 
 def getAuthor(releaseData):
+    if releaseData is None:
+        return None
     return releaseData['author']['login']
     
 def getAuthorUrl(releaseData):
+    if releaseData is None:
+        return None    
     return releaseData['author']['html_url']
     
 def getReleaseName(releaseData):
+    if releaseData is None:
+        return None    
     return releaseData['name']
 
+def getReleaseTag(releaseData):
+    if releaseData is None:
+        return None
+    return releaseData['tag_name']
+
 def getReleaseDate(releaseData):
+    if releaseData is None:
+        return None    
     return releaseData['published_at']
 
 def getAssetsSize(releaseData):
+    if releaseData is None:
+        return None    
     return len(releaseData['assets'])
   
 def getAssets(releaseData):
+    if releaseData is None:
+        return None
     return releaseData['assets']
     
 def getBody(releaseData): #changelog stuff
+    if releaseData is None:
+        return None
     return releaseData['body']
 
 #Asset-wise stuff
