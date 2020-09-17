@@ -469,7 +469,7 @@ def __user_info__(user_id):
     text = "Globally banned: <b>{}</b>"
     if user_id == bot.id:
         return ""    
-    if int(user_id) in SUDO_USERS + TIGER_USERS + WHITELIST_USERS + [dispatcher.bot.id]:
+    if int(user_id) in SUDO_USERS + TIGER_USERS + WHITELIST_USERS + [dispatcher.bot]:
         return ""
     if is_gbanned:
         text = text.format("Yes")
