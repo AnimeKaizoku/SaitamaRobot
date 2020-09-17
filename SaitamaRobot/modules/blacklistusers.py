@@ -132,7 +132,9 @@ def __user_info__(user_id):
     is_blacklisted = sql.is_user_blacklisted(user_id)
 
     text = "Blacklisted: <b>{}</b>"
-    if int(user_id) in SUDO_USERS + TIGER_USERS + WHITELIST_USERS + [dispatcher.bot.id]:
+    if user_id == dispatcher.bot.id:
+        return ""
+    if int(user_id) in SUDO_USERS + TIGER_USERS + WHITELIST_USERS:
         return ""
     if is_blacklisted:
         text = text.format("Yes")
