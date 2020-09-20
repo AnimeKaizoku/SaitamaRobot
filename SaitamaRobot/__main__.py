@@ -26,7 +26,7 @@ I am a Darling in The Franxx group management bot.
 You can find my list of available commands with /help.
 
 [Zero Two's Repo](https://github.com/ninja007-bot/ZeroTwoRepo) 
-Basic Configuration Checklist will be updated soon.
+Some things are yet to be added. Bot will be updated further more with new features.
 The support group chat is at {}.
 """
 
