@@ -5,7 +5,7 @@
 
 A modular Telegram Python bot running on python3 with a sqlalchemy database.
 
-Originally a Marie fork, Saitama evolved further and was built to be more robust and more dedicated to Anime Chats. 
+Originally a Marie fork, Shinobu evolved further and was built to be more robust and more dedicated to Anime Chats. 
 
 Can be found on telegram as [ShinobuKocho](https://t.me/ShinobuKochoBot).
 
@@ -210,4 +210,4 @@ Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (wil
 
 Any other authorship/credits can be seen through the commits.
 
-Should any be missing kindly let us know at [One Punch Support](https://t.me/OnePunchSupport) or simply submit a pull request on the readme.
+Should any be missing kindly let us know at [Shinobu Kocho Support](https://t.me/DemonSlayerOP) or simply submit a pull request on the readme.
