@@ -9,7 +9,7 @@ Zero Two is based on Saitama which is originally based on Marie.
 
 Zero Two can be found on Telegram as [Zero Two Robot](https://t.me/@Zero2Robot).
 
-The Support group can be reached out to at [Franxx Association](https://t.me/Zero2_support), where you can ask for help about @Zero2Robot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [Franxx Association](https://t.me/Zero2support), where you can ask for help about @Zero2Robot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 News channel as at [Franxx Updates](https://https://t.me/zero2updates) 
 
@@ -39,7 +39,7 @@ Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.co
 <details>
   <summary>Steps to self Host!! </summary>
 
-Note: This instruction set is just a copy-paste from Marie, note that [Franxx Association](https://t.me/Zero2_support) aims to handle support for @Zero2Robot and not how to set up your own fork. If you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to set up the bot instance in the support chat, it aims to help our own instance of the bot and not the forks.
+Note: This instruction set is just a copy-paste from Marie, note that [Franxx Association](https://t.me/Zero2support) aims to handle support for @Zero2Robot and not how to set up your own fork. If you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to set up the bot instance in the support chat, it aims to help our own instance of the bot and not the forks.
 
   ## Setting up the bot (Read this before trying to use!):
 Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older Python versions!
@@ -199,7 +199,7 @@ You can use [nssm](https://nssm.cc/usage) to install the bot as service on windo
 Make sure to edit the start and restart bats to your needs. 
 Note: the restart bat requires that User account control be disabled.
 
-For queries or any issues regarding the bot please open an issue ticket or visit us at [Franxx Association](https://https://t.me/zero2_support)
+For queries or any issues regarding the bot please open an issue ticket or visit us at [Franxx Association](https://https://t.me/zero2support)
 ## How to setup on Heroku 
 For starters click on this button 
 </details>  
@@ -212,4 +212,4 @@ Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (wil
 
 Any other authorship/credits can be seen through the commits.
 
-Should any be missing kindly let us know at [Franxx Association](https://t.me/zero2_support) or simply submit a pull request on the readme.
+Should any be missing kindly let us know at [Franxx Association](https://t.me/zero2support) or simply submit a pull request on the readme.
