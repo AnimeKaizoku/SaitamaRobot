@@ -161,7 +161,7 @@ def start(update: Update, context: CallbackContext):
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
-                        text="Add Shinobu to your group",
+                        text="Add Shinobu Kocho to your group",
                         url="t.me/{}?startgroup=true".format(
                             context.bot.username))
                 ]]))
