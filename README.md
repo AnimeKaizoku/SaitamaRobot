@@ -14,7 +14,7 @@ The Support group can be reached out to at [Shinobu Kocho Support](https://t.me/
 ## How to setup/deploy.
 
 ### Read these notes carefully before proceeding 
- - Edit any mentions of @OnePunchSupport to your own support chat. 
+ - Edit any mentions of @DemonSlayerOP to your own support chat. 
  - We do not support forks, once you fork the bot and deploy the headache of bugs and support is your own, please do not come to our support chat asking technical help.
  - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot. [See this](https://github.com/AnimeKaizoku/SaitamaRobot/blob/shiken/SaitamaRobot/__main__.py#L25)
  - If you come to our support chat on Telegram asking help about a "fork" or a technical issue with a module, you will end up getting ignored or banned. 
@@ -31,7 +31,7 @@ Turn on worker dyno (Don't worry It's free :D) & Webhook
 Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.com/apps/(app-name)/settings and remove webhook and port.
 ```
 
-  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
+  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/TNO-THEMEMER/ShinobuKocho.git)
 
 </details>  
 <details>
