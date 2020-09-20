@@ -93,7 +93,9 @@ def warn(user: User,
                 "🔘 Remove warn", callback_data="rm_warn({})".format(user.id))
         }])
 
-        reply = f"<code>❕</code><b>Warn Event</b>\n<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n<code> </code><b>•  Count:</b> {num_warns}/{limit}"
+        reply = (f"<code>❕</code><b>Warn Event</b>\n"
+                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
+                 f"<code> </code><b>•  Count:</b> {num_warns}/{limit}")
         if reason:
             reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
 
