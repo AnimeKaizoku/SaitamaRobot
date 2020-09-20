@@ -33,12 +33,6 @@ Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.co
 
   [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/TNO-THEMEMER/ShinobuKocho.git)
 
-</details>  
-<details>
-  <summary>Steps to self Host!! </summary>
-
-Note: This instruction set is just a copy-paste from Marie, note that [One Punch Support](https://t.me/OnePunchSupport) aims to handle support for @SaitamaRobot and not how to set up your own fork. If you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to set up the bot instance in the support chat, it aims to help our own instance of the bot and not the forks.
-
   ## Setting up the bot (Read this before trying to use!):
 Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older Python versions!
 This is because markdown parsing is done by iterating through a dict, which is ordered by default in 3.6.
