@@ -22,17 +22,17 @@ from telegram.utils.helpers import escape_markdown
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am an Anime themed group management bot.
+I am an group management bot.My theme is Anime
 You can find my list of available commands with /help.
 
-[Saitama's Repo](github.com/AnimeKaizoku/SaitamaRobot) 
+[Shinobu's Repo](github.com/TNO-TheMemer/ShinobuKocho) 
 See [Basic Configuration Checklist](t.me/OnePunchUpdates/29) on how to secure your group.
 The support group chat is at {}.
 """
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
-I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
+I help admins manage their groups with Cuteness! Have a look at the following for an idea of some of \
 the things I can help you with.
 
 *Main* commands available:
