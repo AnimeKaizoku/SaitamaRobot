@@ -16,7 +16,7 @@ from telegram.ext import (CallbackContext, CommandHandler, Filters,
                           MessageHandler, run_async)
 from telegram.utils.helpers import mention_html
 
-CoffeeHouseAPI = API(AI_API_KEY)
+CoffeeHouseAPI = API(473e20a6868b3be43d29284a1cce6db48c891d2b35ae6aadaa653089c7ddb4797e85c0a2772062c910bf4dcc0b470ad63a9f8bef2c6cc9c1879afeece20b1a10)
 api_client = LydiaAI(CoffeeHouseAPI)
 
 
@@ -66,7 +66,7 @@ def remove_chat(update: Update, context: CallbackContext):
 
 def check_message(context: CallbackContext, message):
     reply_msg = message.reply_to_message
-    if message.text.lower() == "saitama":
+    if message.text.lower() == "shinobu":
         return True
     if reply_msg:
         if reply_msg.from_user.id == context.bot.get_me().id:
