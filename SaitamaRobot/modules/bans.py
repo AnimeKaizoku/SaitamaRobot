@@ -95,7 +95,6 @@ def ban(update: Update, context: CallbackContext) -> str:
         if reason:
           reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
         bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML, quote=False)
-        bot.sendMessage(cat.id,f"Muted <b>{html.escape(member.user.first_name)}</b> with no expiration date!", parse_mode=ParseMode.HTML)
         return log
 
 
