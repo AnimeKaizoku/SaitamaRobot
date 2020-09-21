@@ -1,5 +1,10 @@
 import html
 
+from telegram import ParseMode, Update
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
+from telegram.utils.helpers import mention_html
+
 from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, SUDO_USERS,
                           SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
                           dispatcher)
@@ -10,10 +15,6 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user_and_text
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.log_channel import gloggable, loggable
-from telegram import ParseMode, Update
-from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
-from telegram.utils.helpers import mention_html
 
 
 @run_async
@@ -92,7 +93,7 @@ def ban(update: Update, context: CallbackContext) -> str:
         reply = (f"<code>❕</code><b>Ban Event</b>\n"
                  f"<code> </code><b>•  User:</b> {mention_html(member.user.id, member.user.first_name)}")
         if reason:
-          reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
+            reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
         bot.sendMessage(reply)
         return log
 
