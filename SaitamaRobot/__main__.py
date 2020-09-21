@@ -22,7 +22,7 @@ from telegram.utils.helpers import escape_markdown
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am a Darling in The Franxx group management bot.
+I am an anime themed group management bot. I am a character from Darling in the Franxx.
 You can find my list of available commands with /help.
 
 [Zero Two's Repo](https://github.com/ninja007-bot/ZeroTwoRepo) 
