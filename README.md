@@ -15,7 +15,7 @@ News channel as at [AsunaLogs](https://t.me/AsunaBotLogs)
 ## How to setup/deploy.
 
 ### Read these notes carefully before proceeding 
- - Edit any mentions of @OnePunchSupport to your own support chat. 
+ - Edit any mentions of @AsunaYuukiRobotSupport to your own support chat. 
  - We do not support forks, once you fork the bot and deploy the headache of bugs and support is your own, please do not come to our support chat asking technical help.
  - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot. 
  - If you come to our support chat on Telegram asking help about a "fork" or a technical issue with a module, you will end up getting ignored.
