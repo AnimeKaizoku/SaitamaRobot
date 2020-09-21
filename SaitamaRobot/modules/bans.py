@@ -94,8 +94,10 @@ def ban(update: Update, context: CallbackContext) -> str:
                  f"<code> </code><b>•  User:</b> {mention_html(member.user.id, member.user.first_name)}")
         if reason:
           reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
-        bot.sendMessage(chat.id, reply)
+        bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML, quote=False)
+        bot.sendMessage(cat.id,f"Muted <b>{html.escape(member.user.first_name)}</b> with no expiration date!", parse_mode=ParseMode.HTML)
         return log
+
 
     except BadRequest as excp:
         if excp.message == "Reply message not found":
