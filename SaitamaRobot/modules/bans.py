@@ -93,7 +93,7 @@ def ban(update: Update, context: CallbackContext) -> str:
                  f"<code> </code><b>•  User:</b> {mention_html(member.user.id, member.user.first_name)}")
         if reason:
           reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
-        bot.sendMessage(reply)
+        bot.sendMessage(chat.id, reply)
         return log
 
     except BadRequest as excp:
