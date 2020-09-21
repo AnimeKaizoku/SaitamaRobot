@@ -7,7 +7,7 @@ A modular Telegram Python bot running on python3 with a sqlalchemy database.
 
 Zero Two is based on Saitama which is originally based on Marie.
 
-Zero Two can be found on Telegram as [Zero Two Robot](https://t.me/@Zero2Robot).
+Zero Two can be found on Telegram as [Zero Two](https://t.me/@MissZeroTwoRobot).
 
 The Support group can be reached out to at [Franxx Association](https://t.me/Zero2support), where you can ask for help about @Zero2Robot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
@@ -16,7 +16,7 @@ News channel as at [Franxx Updates](https://https://t.me/zero2updates)
 ## How to setup/deploy.
 
 ### Read these notes carefully before proceeding 
- - Edit any mentions of @Zero2Robot to your own support chat. 
+ - Edit any mentions of @MissZeroTwoRobot to your own support chat. 
  - We do not support forks, once you fork the bot and deploy the headache of bugs and support is your own, please do not come to our support chat asking technical help.
  - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot. [See this](https://github.com/AnimeKaizoku/SaitamaRobot/blob/shiken/SaitamaRobot/__main__.py#L25)
  - If you come to our support chat on Telegram asking help about a "fork" or a technical issue with a module, you will end up getting ignored or banned. 
