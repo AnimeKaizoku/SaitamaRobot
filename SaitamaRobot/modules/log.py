@@ -12,7 +12,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 def logs(update: Update, context: CallbackContext):
     message = update.effective_message
     chat_id = message.chat_id
-    if chat_id != -1001230319386:
+    if chat_id != -1001408942668:
         return
     user = update.effective_user
     with open('log.txt', 'rb') as f:
