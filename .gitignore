@@ -18,3 +18,4 @@ venv
 env
 saitama.session-journal
 updates.txt
+*.exe

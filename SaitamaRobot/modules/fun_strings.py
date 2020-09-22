@@ -20,6 +20,12 @@ RUN_STRINGS = (
     "As The Doctor would say... RUN!",
 )
 
+GIFS = [
+    'CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr5nGxsE',
+    'CgACAgUAAx0CU_rCTAABAjdgX1s4NVaeCls6YaH3p43vgdCRwQIAAqsAA4P_MFUYQhyoR-kgpRsE',
+    'CgACAgUAAx0CU_rCTAABAjdSX1s3fq5iEJ64YeQLKI8cD7CSuSEAAlUBAAJu09hW5iqWB0hTPD4bBA'
+]
+
 SLAP_SAITAMA_TEMPLATES = (
     "Slap me one more time and I'll mute you.",
     "Stop slapping me. REEEEEEEEEEEEEE.",
@@ -137,6 +143,52 @@ SLAP_TEMPLATES = (
     "Majin buu ate {user2}",  #Dbz
     "Goblin slayer slays {user2}",  #Goblin Slayer
 )
+
+PAT_TEMPLATES = (
+    "{user1} pats {user2} on the head.",
+    "*gently rubs {user2}'s head*.",
+    "*{user1} mofumofus {user2}'s head*",
+    "*{user1} messes up {user2}'s head*",
+    "*{user1} intensly rubs {user2}'s head*",
+    "*{user2}'s waifu pats their head*",
+    "*{user2}'s got free headpats*",
+    "No pats for {user2}!",
+    "Oh no! We are all out of pats.",
+    "This is a designated no pat zone!",
+    "No pats for {user2}!",
+    "{user1} spoils {user2} with headpats!",
+    "{user2} received one free headpat!",
+    "{user1} headpats {user2} whilst giving a lap pillow",
+    "{user1} aggressively pats {user2}",
+    "{user1} gently strokes {user2}'s head",
+    "Pat, pat, pat, pat",
+    "{user2} could not escape {user1}'s headpats",
+    "{user2}.exe has stopped working",
+    "{user1} rubs {user2} on the neck",
+    "Must... extort... HEADPATS",
+    "{user1} headpats {user2}'s head with a pat",
+    "{user1} pats {user2} unexpectedly",
+    "{user1} pats {user2} with consent, maybe?",
+    "Pat pat, {user2} honto kawaii ne!",
+    "{user1} headpats {user2} at 420apm",
+    "{user1} bellyrubs {user2}",
+    "{user1} pats {user2} friendlily",
+    "{user2} uses HEADPATS? O KAWAII KOTO",
+    "*headpats.gif intensifies for {user2}*",
+    "(*´ω´(*｀ω｀)",
+    "(ｏ・_・)ノ”(ᴗ_ ᴗ。)",
+    "(*￣▽￣)ノ”(- -*)",
+    "(っ´ω`)ﾉ(╥ω╥)",
+    "( ´Д｀)ﾉ(´･ω･`) ﾅﾃﾞﾅﾃﾞ",
+)
+
+PAT_GIFS = (
+    "CgACAgQAAxkBAALRX19Xs7tBdOH1gQwS_rglVRkTbgVYAAKEAgACmQn9UWlyGa_xy9_aGwQ",
+    "CgACAgEAAxkBAALRYF9Xs8EnhsDfDpld3ILoqTbzDmwxAAJFAAOJxjlHECanwn69E5QbBA")
+
+PAT_STICKERS = (
+    "CAACAgQAAxkBAALRWV9Xs4HH0XaXfhZe-jWaZoXfs-IsAAJYAwACdDgSEHYOt4KvL02oGwQ",
+    "CAACAgQAAxkBAALRXF9Xs6XmIeDbnoL1wiDky0TdX-CvAAKKAQAC1TMzC9A3CtiT2rqVGwQ")
 
 PING_STRING = (
     "PONG!!",

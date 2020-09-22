@@ -1,5 +1,10 @@
 import html
 
+from telegram import ParseMode, Update
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
+from telegram.utils.helpers import mention_html
+
 from SaitamaRobot import SUDO_USERS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin, can_pin,
@@ -9,10 +14,6 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin, can_pin,
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
                                                           extract_user_and_text)
 from SaitamaRobot.modules.log_channel import loggable
-from telegram import ParseMode, Update
-from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
-from telegram.utils.helpers import mention_html
 
 
 @run_async
@@ -28,14 +29,13 @@ def promote(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
-    log_message = ""
 
     promoter = chat.get_member(user.id)
 
     if not (promoter.can_promote_members or
             promoter.status == "creator") and not user.id in SUDO_USERS:
         message.reply_text("You don't have the necessary rights to do that!")
-        return log_message
+        return
 
     user_id = extract_user(message, args)
 
@@ -43,22 +43,22 @@ def promote(update: Update, context: CallbackContext) -> str:
         message.reply_text(
             "You don't seem to be referring to a user or the ID specified is incorrect.."
         )
-        return log_message
+        return
 
     try:
         user_member = chat.get_member(user_id)
     except:
-        return log_message
+        return
 
     if user_member.status == 'administrator' or user_member.status == 'creator':
         message.reply_text(
             "How am I meant to promote someone that's already an admin?")
-        return log_message
+        return
 
     if user_id == bot.id:
         message.reply_text(
             "I can't promote myself! Get an admin to do it for me.")
-        return log_message
+        return
 
     # set same perms as bot - bot can't assign higher perms than itself!
     bot_member = chat.get_member(bot.id)
@@ -79,19 +79,18 @@ def promote(update: Update, context: CallbackContext) -> str:
         if err.message == "User_not_mutual_contact":
             message.reply_text(
                 "I can't promote someone who isn't in the group.")
-            return log_message
         else:
             message.reply_text("An error occured while promoting.")
-            return log_message
+        return
 
     bot.sendMessage(
         chat.id,
         f"Sucessfully promoted <b>{user_member.user.first_name or user_id}</b>!",
         parse_mode=ParseMode.HTML)
 
-    log_message += (
+    log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
-        "#PROMOTED\n"
+        f"#PROMOTED\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
         f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
     )
@@ -112,33 +111,32 @@ def demote(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     message = update.effective_message
     user = update.effective_user
-    log_message = ""
 
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
             "You don't seem to be referring to a user or the ID specified is incorrect.."
         )
-        return log_message
+        return
 
     try:
         user_member = chat.get_member(user_id)
     except:
-        return log_message
+        return
 
     if user_member.status == 'creator':
         message.reply_text(
             "This person CREATED the chat, how would I demote them?")
-        return log_message
+        return
 
     if not user_member.status == 'administrator':
         message.reply_text("Can't demote what wasn't promoted!")
-        return log_message
+        return
 
     if user_id == bot.id:
         message.reply_text(
             "I can't demote myself! Get an admin to do it for me.")
-        return log_message
+        return
 
     try:
         bot.promoteChatMember(
@@ -158,7 +156,7 @@ def demote(update: Update, context: CallbackContext) -> str:
             f"Sucessfully demoted <b>{user_member.user.first_name or user_id}</b>!",
             parse_mode=ParseMode.HTML)
 
-        log_message += (
+        log_message = (
             f"<b>{html.escape(chat.title)}:</b>\n"
             f"#DEMOTED\n"
             f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
@@ -170,10 +168,9 @@ def demote(update: Update, context: CallbackContext) -> str:
         message.reply_text(
             "Could not demote. I might not be admin, or the admin status was appointed by another"
             " user, so I can't act upon them!")
-        return log_message
+        return
 
 
-# Until the library releases the method
 @run_async
 @connection_status
 @bot_admin
