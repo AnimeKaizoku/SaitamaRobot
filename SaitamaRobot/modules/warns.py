@@ -93,9 +93,10 @@ def warn(user: User,
                 "🔘 Remove warn", callback_data="rm_warn({})".format(user.id))
         }])
 
-        reply = (f"<code>❕</code><b>Warn Event</b>\n"
-                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
-                 f"<code> </code><b>•  Count:</b> {num_warns}/{limit}")
+        reply = (
+            f"<code>❕</code><b>Warn Event</b>\n"
+            f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
+            f"<code> </code><b>•  Count:</b> {num_warns}/{limit}")
         if reason:
             reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
 
@@ -170,7 +171,8 @@ def warn_user(update: Update, context: CallbackContext) -> str:
             return warn(message.reply_to_message.from_user, chat, reason,
                         message.reply_to_message, warner)
         else:
-            return warn(chat.get_member(user_id).user, chat, reason, message, warner)
+            return warn(
+                chat.get_member(user_id).user, chat, reason, message, warner)
     else:
         message.reply_text("That looks like an invalid User ID to me.")
     return ""
