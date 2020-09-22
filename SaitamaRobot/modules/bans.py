@@ -90,13 +90,14 @@ def ban(update: Update, context: CallbackContext) -> str:
     try:
         chat.kick_member(user_id)
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
-        reply = (f"<code>❕</code><b>Ban Event</b>\n"
-                 f"<code> </code><b>•  User:</b> {mention_html(member.user.id, member.user.first_name)}")
+        reply = (
+            f"<code>❕</code><b>Ban Event</b>\n"
+            f"<code> </code><b>•  User:</b> {mention_html(member.user.id, member.user.first_name)}"
+        )
         if reason:
-          reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
+            reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
         bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML, quote=False)
         return log
-
 
     except BadRequest as excp:
         if excp.message == "Reply message not found":

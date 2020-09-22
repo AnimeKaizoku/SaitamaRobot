@@ -15,6 +15,7 @@ from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
                                                           extract_user_and_text)
 from SaitamaRobot.modules.log_channel import loggable
 
+
 @run_async
 @connection_status
 @bot_admin
