@@ -9,7 +9,7 @@ Zero Two is based on Saitama which is originally based on Marie.
 
 Zero Two can be found on Telegram as [Zero Two](https://t.me/@MissZeroTwoRobot).
 
-The Support group can be reached out to at [Franxx Association](https://t.me/Zero2support), where you can ask for help about @Zero2Robot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [Franxx Association](https://t.me/Zero2support), where you can ask for help about @MissZeroTwoBot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 News channel as at [Franxx Updates](https://https://t.me/zero2updates) 
 
