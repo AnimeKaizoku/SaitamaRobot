@@ -263,7 +263,7 @@ def info(update: Update, context: CallbackContext):
             result = result.json()["result"]
             if "custom_title" in result.keys():
                 custom_title = result['custom_title']
-                text += f"\n\nEarned title: <b>{custom_title}</b>"
+                text += f"\n\nTitle:\n<b>{custom_title}</b>"
     except BadRequest:
         pass
 
