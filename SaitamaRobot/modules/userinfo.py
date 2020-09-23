@@ -250,7 +250,7 @@ Appraising...
         disaster_level_present = True
 
     if disaster_level_present:
-        text += ' [<a href="https://t.me/{}?start=disasters">?</a>]'.format(
+        text += ' [<a href="https://t.me/OnePunchUpdates/155">?</a>]'.format(
             bot.username)
 
     try:
