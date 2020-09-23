@@ -180,7 +180,11 @@ def info(update: Update, context: CallbackContext):
     else:
         return
 
-    rep = message.reply_text("Appraising ● ● ○")
+    rep = message.reply_text("""<code>
+                             ╭              ╮
+                             │ Appraising...│
+                             ╰              ╯
+                             </code>""", parse_mode=ParseMode.HTML)
 
     text = (f"<b>• Appraisal results:</b>\n"
             f"ID: <code>{user.id}</code>\n"
@@ -210,8 +214,8 @@ def info(update: Update, context: CallbackContext):
                 elif status in {"administrator", "creator"}:
                     text += _stext.format("Admin")
     if user_id != bot.id:
-        userhp = hpmanager(user)
-        text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
+        userhp = hpmanager(user)  
+        text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n【<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%】"
 
     try:
         spamwtc = sw.get_ban(int(user.id))
