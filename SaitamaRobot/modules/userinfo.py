@@ -181,12 +181,10 @@ def info(update: Update, context: CallbackContext):
         return
 
     rep = message.reply_text(
-"""
-<code>
+"""<code>
 ╭              ╮
 │ Appraising...│
-╰              ╯
-</code>
+╰              ╯</code>
 """, parse_mode=ParseMode.HTML)
 
     text = (f"<b>• Appraisal results:</b>\n"
