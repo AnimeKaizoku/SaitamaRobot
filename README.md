@@ -38,7 +38,7 @@ Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.co
 <details>
   <summary>Steps to self Host!! </summary>
 
-Note: This instruction set is just a copy-paste from Marie, note that [Asuna Support](https://t.me/AsunaYuukiRobotSupport) aims to handle support for @SaitamaRobot and not how to set up your own fork. If you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to set up the bot instance in the support chat, it aims to help our own instance of the bot and not the forks.
+ Note: This instruction set is just a copy-paste from Marie, note that [Asuna Support](https://t.me/AsunaYuukiRobotSupport) aims to handle support for @AsunaYuukiRobot and not how to set up your own fork. If you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to set up the bot instance in the support chat, it aims to help our own instance of the bot and not the forks.
 
   ## Setting up the bot (Read this before trying to use!):
 Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older Python versions!
