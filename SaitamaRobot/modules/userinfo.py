@@ -3,7 +3,7 @@ import re
 import os
 import requests
 
-from telethon.tl.types ChannelParticipantsAdmins
+from telethon.tl.types import ChannelParticipantsAdmins
 from telethon import events
 
 from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update
