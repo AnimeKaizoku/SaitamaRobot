@@ -204,7 +204,7 @@ For starters click on this button
 </details>  
 
 ## Credits
-The bot is based on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars) and [SaitamaRobot](https://github.com/AnimeKaizoku/SaitamaRobot)
+The bot is based on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars) and [AnimeKaizoku](https://github.com/AnimeKaizoku)
 
 
 Should any be missing kindly let us know at [Asuna Support](https://t.me/AsunaYuukiRobotSupport) or simply submit a pull request on the readme.
