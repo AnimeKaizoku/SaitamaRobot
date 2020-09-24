@@ -4,7 +4,7 @@
 
 A modular Telegram Python bot running on python3 with a sqlalchemy database.
 
-A [Saitama](https://t.me/AnimeKaizoku/SaitamaRobot) Fork, therefore, all the credits of this bot go to their devs.
+A [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot) Fork, therefore, all the credits of this bot go to their devs.
 
 Can be found on telegram as [AsunaYuukiRobot](https://t.me/AsunaYuukiRobot).
 
