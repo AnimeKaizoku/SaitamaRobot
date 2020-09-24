@@ -3,6 +3,7 @@ import re
 import os
 import requests
 
+from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import ChannelParticipantsAdmins
 from telethon import events
 
@@ -171,6 +172,8 @@ async def group_info(event) -> None:
     msg += "\n\n**Admins List:**"
     for x in totallist:
         msg += f"\n• [{x.id}](tg://user?id={x.id})"
+    ch_full = await event.client(GetFullChannelRequest(channel=entity))
+    msg += f"\n\n**Description**:\n{ch_full.full_chat.about}"
     await event.reply(msg)
     
     
