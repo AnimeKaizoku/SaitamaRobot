@@ -4,7 +4,7 @@
 
 A modular Telegram Python bot running on python3 with a sqlalchemy database.
 
-Originally a Saitama fork, Asuna evolved further and was built to be more robust and more dedicated to Anime Chats. 
+A [Saitama](https://t.me/AnimeKaizoku/SaitamaRobot) Fork, therefore, all the credits of this bot go to their devs.
 
 Can be found on telegram as [AsunaYuukiRobot](https://t.me/AsunaYuukiRobot).
 
