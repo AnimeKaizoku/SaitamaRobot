@@ -151,10 +151,10 @@ async def group_info(event) -> None:
     chat = event.text.split(' ', 1)[1]
     try:
         entity = await event.client.get_entity(chat)
+            totallist = await event.client.get_participants(chat, filter=ChannelParticipantsAdmins)
     except:
-        await event.reply('Format: /ginfo Chat ID/Username')
+        await event.reply('The channel specified is private and I lack permission to access it. Another reason may be that I am banned from it')
         return
-    totallist = await event.client.get_participants(chat, filter=ChannelParticipantsAdmins)
     msg = f"**ID**: `{entity.id}`"
     msg += f"\n**Title**: `{entity.title}`"
     msg += f"\n**Datacenter**: `{entity.photo.dc_id}`"
