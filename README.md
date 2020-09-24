@@ -11,6 +11,7 @@ Can be found on telegram as [AsunaYuukiRobot](https://t.me/AsunaYuukiRobot).
 The Support group can be reached out to at [Asuna Support/RCT Progress](https://t.me/AsunaYuukiRobotSupport), where you can ask for help about @AsunaYuukiRobot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 News channel as at [AsunaLogs](https://t.me/AsunaBotLogs) 
+[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 
 ## How to setup/deploy.
 
