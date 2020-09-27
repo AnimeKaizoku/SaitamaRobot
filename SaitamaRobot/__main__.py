@@ -187,14 +187,30 @@ def start(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [
-                    [InlineKeyboardButton(text="☑️ Add Saitama to your group", url="t.me/{}?startgroup=true".format(context.bot.username))],
-                    [InlineKeyboardButton(text="🚑 Support Group", url=f"https://t.me/{SUPPORT_CHAT}"), InlineKeyboardButton(text="🔔 Updates Channel", url="https://t.me/OnePunchUpdates")],
-                    [InlineKeyboardButton(text="🧾 Getting started guide", url="https://t.me/OnePunchUpdates/29")],
-                    [InlineKeyboardButton(text="🗄 Source code", url="https://github.com/AnimeKaizoku/SaitamaRobot")]
-                    ]
-                    )
-            )
+                    [[
+                        InlineKeyboardButton(
+                            text="☑️ Add Saitama to your group",
+                            url="t.me/{}?startgroup=true".format(
+                                context.bot.username))
+                    ],
+                     [
+                         InlineKeyboardButton(
+                             text="🚑 Support Group",
+                             url=f"https://t.me/{SUPPORT_CHAT}"),
+                         InlineKeyboardButton(
+                             text="🔔 Updates Channel",
+                             url="https://t.me/OnePunchUpdates")
+                     ],
+                     [
+                         InlineKeyboardButton(
+                             text="🧾 Getting started guide",
+                             url="https://t.me/OnePunchUpdates/29")
+                     ],
+                     [
+                         InlineKeyboardButton(
+                             text="🗄 Source code",
+                             url="https://github.com/AnimeKaizoku/SaitamaRobot")
+                     ]]))
     else:
         update.effective_message.reply_text(
             "I'm online!\n<b>Up since:</b> <code>{}</code>".format(uptime),
