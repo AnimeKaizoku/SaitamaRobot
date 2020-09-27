@@ -92,10 +92,10 @@ def dbcleanup(update: Update, context: CallbackContext):
     msg = update.effective_message
 
     msg.reply_text("Getting invalid chat count ...")
-    invalid_chat_count = get_invalid_chats(context, update)
+    invalid_chat_count = get_invalid_chats(update, context)
 
     msg.reply_text("Getting invalid gbanned count ...")
-    invalid_gban_count = get_invalid_gban(context, update)
+    invalid_gban_count = get_invalid_gban(update, context)
 
     reply = f"Total invalid chats - {invalid_chat_count}\n"
     reply += f"Total invalid gbanned users - {invalid_gban_count}"
