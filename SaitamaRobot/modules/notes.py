@@ -160,7 +160,7 @@ def get(update, context, notename, show_none=True, no_format=False):
                 else:
                     message.reply_text(
                         "This note could not be sent, as it is incorrectly formatted. Ask in "
-                        f"{SUPPORT_CHAT} if you can't figure out why!")
+                        f"@{SUPPORT_CHAT} if you can't figure out why!")
                     LOGGER.exception("Could not parse message #%s in chat %s",
                                      notename, str(chat_id))
                     LOGGER.warning("Message was: %s", str(note.value))

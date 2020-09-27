@@ -580,7 +580,7 @@ Group admins/group owners do not need these commands.
  ╔ *Chatbot:* 
  ╚ `/listaichats`*:* Lists the chats the chatmode is enabled in
 
-Visit {SUPPORT_CHAT} if you want details on these.
+Visit @{SUPPORT_CHAT} if you want details on these.
 """
 
 SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo)
