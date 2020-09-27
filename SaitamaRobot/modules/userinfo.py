@@ -1,8 +1,12 @@
 import html
 import re
 import os
-
 import requests
+
+from telethon.tl.functions.channels import GetFullChannelRequest
+from telethon.tl.types import ChannelParticipantsAdmins
+from telethon import events
+
 from telegram import MAX_MESSAGE_LENGTH, ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler
 from telegram.ext.dispatcher import run_async
@@ -20,7 +24,7 @@ from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
 from SaitamaRobot.modules.sql.feds_sql import get_user_fbanlist
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-
+from SaitamaRobot import telethn as SaitamaTelethonClient, TIGER_USERS, SUDO_USERS, SUPPORT_USERS
 
 def no_by_per(totalhp, percentage):
     """
@@ -143,6 +147,36 @@ def get_id(update: Update, context: CallbackContext):
                 f"This group's id is <code>{chat.id}</code>.",
                 parse_mode=ParseMode.HTML)
 
+@SaitamaTelethonClient.on(events.NewMessage(pattern='/ginfo ', from_users= (TIGER_USERS or []) + (SUDO_USERS or []) + (SUPPORT_USERS or [])))
+async def group_info(event) -> None:
+    chat = event.text.split(' ', 1)[1]
+    try:
+        entity = await event.client.get_entity(chat)
+        totallist = await event.client.get_participants(chat, filter=ChannelParticipantsAdmins)
+    except:
+        await event.reply('The channel specified is private and **I lack permission to access it**. Another reason may be that **I am banned from it**')
+        return
+    msg = f"**ID**: `{entity.id}`"
+    msg += f"\n**Title**: `{entity.title}`"
+    msg += f"\n**Datacenter**: `{entity.photo.dc_id}`"
+    msg += f"\n**Video PFP**: `{entity.photo.has_video}`"
+    msg += f"\n**Supergroup**: `{entity.megagroup}`"
+    msg += f"\n**Restricted**: `{entity.restricted}`"
+    msg += f"\n**Scam**: `{entity.scam}`"
+    msg += f"\n**Slowmode**: `{entity.slowmode_enabled}`"
+    if entity.username:
+        msg += f"\n**Username**: {entity.username}"
+    msg += "\n\n**Member Stats:**"
+    msg += f"\n`Admins:` `{len(totallist)}`"
+    msg += f"\n`Users`: `{totallist.total}`"
+    msg += "\n\n**Admins List:**"
+    for x in totallist:
+        msg += f"\n• [{x.id}](tg://user?id={x.id})"
+    ch_full = await event.client(GetFullChannelRequest(channel=entity))
+    msg += f"\n\n**Description**:\n`{ch_full.full_chat.about}`"
+    await event.reply(msg)
+    
+    
 
 @run_async
 def gifid(update: Update, context: CallbackContext):
@@ -180,9 +214,9 @@ def info(update: Update, context: CallbackContext):
     else:
         return
 
-    rep = message.reply_text("Appraising.....")
+    rep = message.reply_text("<code>Appraising...</code>", parse_mode=ParseMode.HTML)
 
-    text = (f"<b>• Appraisal results:</b>\n"
+    text = (f"╒═══「<b> Appraisal results:</b>」\n\n"
             f"ID: <code>{user.id}</code>\n"
             f"First Name: {html.escape(user.first_name)}")
 
@@ -210,7 +244,7 @@ def info(update: Update, context: CallbackContext):
                 elif status in {"administrator", "creator"}:
                     text += _stext.format("Admin")
     if user_id != bot.id:
-        userhp = hpmanager(user)
+        userhp = hpmanager(user)  
         text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
 
     try:
@@ -246,7 +280,7 @@ def info(update: Update, context: CallbackContext):
         disaster_level_present = True
 
     if disaster_level_present:
-        text += ' [<a href="https://t.me/{}?start=disasters">?</a>]'.format(
+        text += ' [<a href="https://t.me/OnePunchUpdates/155">?</a>]'.format(
             bot.username)
 
     try:
@@ -258,7 +292,7 @@ def info(update: Update, context: CallbackContext):
             result = result.json()["result"]
             if "custom_title" in result.keys():
                 custom_title = result['custom_title']
-                text += f"\n\nEarned title: <b>{custom_title}</b>"
+                text += f"\n\nTitle:\n<b>{custom_title}</b>"
     except BadRequest:
         pass
 

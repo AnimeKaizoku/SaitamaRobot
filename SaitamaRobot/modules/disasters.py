@@ -31,25 +31,16 @@ def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
     return reply
 
 
-#I added extra new lines
-disasters = """ Saitama has bot access levels we call as *"Disaster Levels"*
-\n*Heroes Association* - Devs who can access the bots server and can execute, edit, modify bot code. Can also manage other Disasters
-\n*God* - Only one exists, bot owner. 
-Owner has complete bot access, including bot adminship in chats Saitama is at.
-\n*Dragons* - Have super user access, can gban, manage disasters lower than them and are admins in Saitama.
-\n*Demons* - Have access go globally ban users across Saitama.
-\n*Tigers* - Same as wolves but can unban themselves if banned.
-\n*Wolves* - Cannot be banned, muted flood kicked but can be manually banned by admins.
-\n*Disclaimer*: The disaster levels in Saitama are there for troubleshooting, support, banning potential scammers.
-Report abuse or ask us more on these at [Heroes Association](https://t.me/OnePunchSupport).
-"""
-
+# This can serve as a deeplink example. 
+#disasters = 
+# """ Text here """
 
 # do not async, not a handler
-def send_disasters(update):
-    update.effective_message.reply_text(
-        disasters, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+#def send_disasters(update):
+#    update.effective_message.reply_text(
+#        disasters, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
+### Deep link example ends
 
 @run_async
 @dev_plus
@@ -589,7 +580,7 @@ Group admins/group owners do not need these commands.
  ╔ *Chatbot:* 
  ╚ `/listaichats`*:* Lists the chats the chatmode is enabled in
 
-Visit {SUPPORT_CHAT} if you want details on these.
+Visit @{SUPPORT_CHAT} if you want details on these.
 """
 
 SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo)
