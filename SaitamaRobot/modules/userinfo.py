@@ -461,8 +461,6 @@ def set_about_bio(update: Update, context: CallbackContext):
 def __user_info__(user_id):
     bio = html.escape(sql.get_user_bio(user_id) or "")
     me = html.escape(sql.get_user_me_info(user_id) or "")
-    print(f"Me : {me}")
-    print(f"Bio : {bio}")
     result = ""
     if me:
         result += f"<b>About user:</b>\n{me}\n"
