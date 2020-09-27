@@ -26,6 +26,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from SaitamaRobot import telethn as SaitamaTelethonClient, TIGER_USERS, SUDO_USERS, SUPPORT_USERS
 
+
 def no_by_per(totalhp, percentage):
     """
     rtype: num of `percentage` from total
@@ -147,14 +148,22 @@ def get_id(update: Update, context: CallbackContext):
                 f"This group's id is <code>{chat.id}</code>.",
                 parse_mode=ParseMode.HTML)
 
-@SaitamaTelethonClient.on(events.NewMessage(pattern='/ginfo ', from_users= (TIGER_USERS or []) + (SUDO_USERS or []) + (SUPPORT_USERS or [])))
+
+@SaitamaTelethonClient.on(
+    events.NewMessage(
+        pattern='/ginfo ',
+        from_users=(TIGER_USERS or []) + (SUDO_USERS or []) +
+        (SUPPORT_USERS or [])))
 async def group_info(event) -> None:
     chat = event.text.split(' ', 1)[1]
     try:
         entity = await event.client.get_entity(chat)
-        totallist = await event.client.get_participants(chat, filter=ChannelParticipantsAdmins)
+        totallist = await event.client.get_participants(
+            chat, filter=ChannelParticipantsAdmins)
     except:
-        await event.reply('The channel specified is private and **I lack permission to access it**. Another reason may be that **I am banned from it**')
+        await event.reply(
+            'The channel specified is private and **I lack permission to access it**. Another reason may be that **I am banned from it**'
+        )
         return
     msg = f"**ID**: `{entity.id}`"
     msg += f"\n**Title**: `{entity.title}`"
@@ -175,8 +184,7 @@ async def group_info(event) -> None:
     ch_full = await event.client(GetFullChannelRequest(channel=entity))
     msg += f"\n\n**Description**:\n`{ch_full.full_chat.about}`"
     await event.reply(msg)
-    
-    
+
 
 @run_async
 def gifid(update: Update, context: CallbackContext):
@@ -214,7 +222,8 @@ def info(update: Update, context: CallbackContext):
     else:
         return
 
-    rep = message.reply_text("<code>Appraising...</code>", parse_mode=ParseMode.HTML)
+    rep = message.reply_text(
+        "<code>Appraising...</code>", parse_mode=ParseMode.HTML)
 
     text = (f"╒═══「<b> Appraisal results:</b>」\n\n"
             f"ID: <code>{user.id}</code>\n"
@@ -244,7 +253,7 @@ def info(update: Update, context: CallbackContext):
                 elif status in {"administrator", "creator"}:
                     text += _stext.format("Admin")
     if user_id != bot.id:
-        userhp = hpmanager(user)  
+        userhp = hpmanager(user)
         text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
 
     try:
@@ -461,8 +470,6 @@ def set_about_bio(update: Update, context: CallbackContext):
 def __user_info__(user_id):
     bio = html.escape(sql.get_user_bio(user_id) or "")
     me = html.escape(sql.get_user_me_info(user_id) or "")
-    print(f"Me : {me}")
-    print(f"Bio : {bio}")
     result = ""
     if me:
         result += f"<b>About user:</b>\n{me}\n"
