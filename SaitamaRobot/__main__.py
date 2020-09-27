@@ -53,11 +53,8 @@ def get_readable_time(seconds: int) -> str:
 PM_START_TEXT = """
 Hi {}, my name is {}! 
 I am an Anime themed group management bot.
+Build by weebs for weebs, I specialize in managing anime and similar themed groups.
 You can find my list of available commands with /help.
-
-[Saitama's Repo](github.com/AnimeKaizoku/SaitamaRobot) 
-See [Basic Configuration Checklist](t.me/OnePunchUpdates/29) on how to secure your group.
-The support group chat is at {}.
 """
 
 HELP_STRINGS = """
@@ -94,7 +91,6 @@ STATS = []
 USER_INFO = []
 DATA_IMPORT = []
 DATA_EXPORT = []
-
 CHAT_SETTINGS = {}
 USER_SETTINGS = {}
 
@@ -187,15 +183,18 @@ def start(update: Update, context: CallbackContext):
                 SAITAMA_IMG,
                 PM_START_TEXT.format(
                     escape_markdown(first_name),
-                    escape_markdown(context.bot.first_name), SUPPORT_CHAT),
+                    escape_markdown(context.bot.first_name)),
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup([[
-                    InlineKeyboardButton(
-                        text="Add Saitama to your group",
-                        url="t.me/{}?startgroup=true".format(
-                            context.bot.username))
-                ]]))
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                    [InlineKeyboardButton(text="☑️ Add Saitama to your group", url="t.me/{}?startgroup=true".format(context.bot.username))],
+                    [InlineKeyboardButton(text="🚑 Support Group", url=f"https://t.me/{SUPPORT_CHAT}"), InlineKeyboardButton(text="🔔 Update Channel", url="https://t.me/OnePunchUpdates")],
+                    [InlineKeyboardButton(text="🧾 Getting started guide", url="t.me/{}?startgroup=true".format(context.bot.username))],
+                    [InlineKeyboardButton(text="🗄 Source code", url="https://github.com/AnimeKaizoku/SaitamaRobot")],
+                    ]
+                    )
+            )
     else:
         update.effective_message.reply_text(
             "I'm online!\n<b>Up since:</b> <code>{}</code>".format(uptime),
