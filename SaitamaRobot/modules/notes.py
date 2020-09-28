@@ -5,7 +5,7 @@ from typing import Optional
 import SaitamaRobot.modules.sql.notes_sql as sql
 from SaitamaRobot import LOGGER, MESSAGE_DUMP, SUPPORT_CHAT, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, connection_status
 from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
                                                     revert_buttons)
 from SaitamaRobot.modules.helper_funcs.msg_types import get_note_type
@@ -41,6 +41,7 @@ ENUM_FUNC_MAP = {
 
 
 # Do not async
+@connection_status
 def get(update, context, notename, show_none=True, no_format=False):
     bot = context.bot
     chat_id = update.effective_chat.id
@@ -170,6 +171,7 @@ def get(update, context, notename, show_none=True, no_format=False):
 
 
 @run_async
+@connection_status
 def cmd_get(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     if len(args) >= 2 and args[1].lower() == "noformat":
@@ -181,6 +183,7 @@ def cmd_get(update: Update, context: CallbackContext):
 
 
 @run_async
+@connection_status
 def hash_get(update: Update, context: CallbackContext):
     message = update.effective_message.text
     fst_word = message.split()[0]
@@ -189,6 +192,7 @@ def hash_get(update: Update, context: CallbackContext):
 
 
 @run_async
+@connection_status
 def slash_get(update: Update, context: CallbackContext):
     message, chat_id = update.effective_message.text, update.effective_chat.id
     no_slash = message[1:]
@@ -204,6 +208,7 @@ def slash_get(update: Update, context: CallbackContext):
 
 @run_async
 @user_admin
+@connection_status
 def save(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     msg = update.effective_message  # type: Optional[Message]
@@ -239,6 +244,7 @@ def save(update: Update, context: CallbackContext):
 
 @run_async
 @user_admin
+@connection_status
 def clear(update: Update, context: CallbackContext):
     args = context.args
     chat_id = update.effective_chat.id
@@ -253,6 +259,7 @@ def clear(update: Update, context: CallbackContext):
 
 
 @run_async
+@connection_status
 def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
