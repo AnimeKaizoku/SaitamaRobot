@@ -159,7 +159,8 @@ async def group_info(event) -> None:
     try:
         entity = await event.client.get_entity(chat)
         totallist = await event.client.get_participants(
-            chat, filter=ChannelParticipantsAdmins)
+            entity, filter=ChannelParticipantsAdmins)
+        ch_full = await event.client(GetFullChannelRequest(channel=entity))
     except:
         await event.reply(
             'The channel specified is private and **I lack permission to access it**. Another reason may be that **I am banned from it**'
@@ -181,7 +182,6 @@ async def group_info(event) -> None:
     msg += "\n\n**Admins List:**"
     for x in totallist:
         msg += f"\n• [{x.id}](tg://user?id={x.id})"
-    ch_full = await event.client(GetFullChannelRequest(channel=entity))
     msg += f"\n\n**Description**:\n`{ch_full.full_chat.about}`"
     await event.reply(msg)
 
