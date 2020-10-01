@@ -9,7 +9,7 @@ Originally a Marie fork, Saitama evolved further and was built to be more robust
 
 Can be found on telegram as [SaitamaRobot](https://t.me/SaitamaRobot).
 
-The Support group can be reached out to at [One Punch Support](https://t.me/OnePunchSupport), where you can ask for help about @SaitamaRobot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [One Punch Support](https://t.me/OnePunchSupport), where you can ask for help about [SaitamaRobot](https://t.me/SaitamaRobot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 News channel as at [One Punch Updates](https://t.me/OnePunchUpdates) 
 
@@ -200,7 +200,8 @@ Note: the restart bat requires that User account control be disabled.
 For queries or any issues regarding the bot please open an issue ticket or visit us at [One Punch Support](https://t.me/OnePunchSupport)
 ## How to setup on Heroku 
 For starters click on this button 
-</details>  
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git) 
 
 ## Credits
 The bot is based on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
