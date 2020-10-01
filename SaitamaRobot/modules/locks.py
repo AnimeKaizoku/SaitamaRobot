@@ -10,7 +10,7 @@ from telegram.utils.helpers import mention_html
 from alphabet_detector import AlphabetDetector
 
 import SaitamaRobot.modules.sql.locks_sql as sql
-from SaitamaRobot import dispatcher, SUDO_USERS, LOGGER
+from SaitamaRobot import dispatcher, LOGGER
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     can_delete,
@@ -20,7 +20,6 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     user_admin,
 )
 from SaitamaRobot.modules.log_channel import loggable
-from SaitamaRobot.modules.connection import connected
 
 from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
 
@@ -215,26 +214,10 @@ def lock(update, context) -> str:
         if len(args) >= 1:
             ltype = args[0].lower()
             if ltype in LOCK_TYPES:
-                # Connection check
-                conn = connected(
-                    context.bot, update, chat, user.id, need_admin=True)
-                if conn:
-                    chat = dispatcher.bot.getChat(conn)
-                    chat_id = conn
-                    chat_name = chat.title
-                    text = "Locked {} for non-admins in {}!".format(
-                        ltype, chat_name)
-                else:
-                    if update.effective_message.chat.type == "private":
-                        send_message(
-                            update.effective_message,
-                            "This command is meant to use in group not in PM",
-                        )
-                        return ""
-                    chat = update.effective_chat
-                    chat_id = update.effective_chat.id
-                    chat_name = update.effective_message.chat.title
-                    text = "Locked {} for non-admins!".format(ltype)
+                chat = update.effective_chat
+                chat_id = update.effective_chat.id
+                chat_name = update.effective_message.chat.title
+                text = "Locked {} for non-admins!".format(ltype)
                 sql.update_lock(chat.id, ltype, locked=True)
                 send_message(
                     update.effective_message, text, parse_mode="markdown")
@@ -249,26 +232,10 @@ def lock(update, context) -> str:
                         ))
 
             elif ltype in LOCK_CHAT_RESTRICTION:
-                # Connection check
-                conn = connected(
-                    context.bot, update, chat, user.id, need_admin=True)
-                if conn:
-                    chat = dispatcher.bot.getChat(conn)
-                    chat_id = conn
-                    chat_name = chat.title
-                    text = "Locked {} for all non-admins in {}!".format(
-                        ltype, chat_name)
-                else:
-                    if update.effective_message.chat.type == "private":
-                        send_message(
-                            update.effective_message,
-                            "This command is meant to use in group not in PM",
-                        )
-                        return ""
-                    chat = update.effective_chat
-                    chat_id = update.effective_chat.id
-                    chat_name = update.effective_message.chat.title
-                    text = "Locked {} for all non-admins!".format(ltype)
+                chat = update.effective_chat
+                chat_id = update.effective_chat.id
+                chat_name = update.effective_message.chat.title
+                text = "Locked {} for all non-admins!".format(ltype)
 
                 current_permission = context.bot.getChat(chat_id).permissions
                 context.bot.set_chat_permissions(
@@ -321,26 +288,10 @@ def unlock(update, context) -> str:
         if len(args) >= 1:
             ltype = args[0].lower()
             if ltype in LOCK_TYPES:
-                # Connection check
-                conn = connected(
-                    context.bot, update, chat, user.id, need_admin=True)
-                if conn:
-                    chat = dispatcher.bot.getChat(conn)
-                    chat_id = conn
-                    chat_name = chat.title
-                    text = "Unlocked {} for everyone in {}!".format(
-                        ltype, chat_name)
-                else:
-                    if update.effective_message.chat.type == "private":
-                        send_message(
-                            update.effective_message,
-                            "This command is meant to use in group not in PM",
-                        )
-                        return ""
-                    chat = update.effective_chat
-                    chat_id = update.effective_chat.id
-                    chat_name = update.effective_message.chat.title
-                    text = "Unlocked {} for everyone!".format(ltype)
+                chat = update.effective_chat
+                chat_id = update.effective_chat.id
+                chat_name = update.effective_message.chat.title
+                text = "Unlocked {} for everyone!".format(ltype)
                 sql.update_lock(chat.id, ltype, locked=False)
                 send_message(
                     update.effective_message, text, parse_mode="markdown")
@@ -554,24 +505,11 @@ def list_locks(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user
 
-    # Connection check
-    conn = connected(context.bot, update, chat, user.id, need_admin=True)
-    if conn:
-        chat = dispatcher.bot.getChat(conn)
-        chat_name = chat.title
-    else:
-        if update.effective_message.chat.type == "private":
-            send_message(
-                update.effective_message,
-                "This command is meant to use in group not in PM",
-            )
-            return ""
-        chat = update.effective_chat
-        chat_name = update.effective_message.chat.title
+    chat = update.effective_chat
+    chat_name = update.effective_message.chat.title
 
-    res = build_lock_message(chat.id)
-    if conn:
-        res = res.replace("Locks in", "*{}*".format(chat_name))
+    res = build_lock_message(chat.id)  
+    res = res.replace("Locks in", "*{}*".format(chat_name))
 
     send_message(update.effective_message, res, parse_mode=ParseMode.MARKDOWN)
 
