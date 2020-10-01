@@ -3,7 +3,7 @@ import re
 from typing import Optional
 
 import telegram
-from SaitamaRobot import BAN_STICKER, TIGER_USERS, WHITELIST_USERS, dispatcher
+from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
                                                            can_restrict,
@@ -37,26 +37,9 @@ def warn(user: User,
          message: Message,
          warner: User = None) -> str:
     if is_user_admin(chat, user.id):
-        # message.reply_text("Damn admins, They are too far to be One Punched!")
+        message.reply_text("Damn admins, can't be warned")
         return
 
-    if user.id in TIGER_USERS:
-        if warner:
-            message.reply_text("Tigers cant be warned.")
-        else:
-            message.reply_text(
-                "Tiger triggered an auto warn filter!\n I can't warn tigers but they should avoid abusing this."
-            )
-        return
-
-    if user.id in WHITELIST_USERS:
-        if warner:
-            message.reply_text("Wolf disasters are warn immune.")
-        else:
-            message.reply_text(
-                "Wolf Disaster triggered an auto warn filter!\nI can't warn wolves but they should avoid abusing this."
-            )
-        return
 
     if warner:
         warner_tag = mention_html(warner.id, warner.first_name)
@@ -237,128 +220,6 @@ def warns(update: Update, context: CallbackContext):
         update.effective_message.reply_text("This user doesn't have any warns!")
 
 
-# Dispatcher handler stop - do not async
-@user_admin
-def add_warn_filter(update: Update, context: CallbackContext):
-    chat: Optional[Chat] = update.effective_chat
-    msg: Optional[Message] = update.effective_message
-
-    args = msg.text.split(
-        None,
-        1)  # use python's maxsplit to separate Cmd, keyword, and reply_text
-
-    if len(args) < 2:
-        return
-
-    extracted = split_quotes(args[1])
-
-    if len(extracted) >= 2:
-        # set trigger -> lower, so as to avoid adding duplicate filters with different cases
-        keyword = extracted[0].lower()
-        content = extracted[1]
-
-    else:
-        return
-
-    # Note: perhaps handlers can be removed somehow using sql.get_chat_filters
-    for handler in dispatcher.handlers.get(WARN_HANDLER_GROUP, []):
-        if handler.filters == (keyword, chat.id):
-            dispatcher.remove_handler(handler, WARN_HANDLER_GROUP)
-
-    sql.add_warn_filter(chat.id, keyword, content)
-
-    update.effective_message.reply_text(f"Warn handler added for '{keyword}'!")
-    raise DispatcherHandlerStop
-
-
-@user_admin
-def remove_warn_filter(update: Update, context: CallbackContext):
-    chat: Optional[Chat] = update.effective_chat
-    msg: Optional[Message] = update.effective_message
-
-    args = msg.text.split(
-        None,
-        1)  # use python's maxsplit to separate Cmd, keyword, and reply_text
-
-    if len(args) < 2:
-        return
-
-    extracted = split_quotes(args[1])
-
-    if len(extracted) < 1:
-        return
-
-    to_remove = extracted[0]
-
-    chat_filters = sql.get_chat_warn_triggers(chat.id)
-
-    if not chat_filters:
-        msg.reply_text("No warning filters are active here!")
-        return
-
-    for filt in chat_filters:
-        if filt == to_remove:
-            sql.remove_warn_filter(chat.id, to_remove)
-            msg.reply_text("Okay, I'll stop warning people for that.")
-            raise DispatcherHandlerStop
-
-    msg.reply_text(
-        "That's not a current warning filter - run /warnlist for all active warning filters."
-    )
-
-
-@run_async
-def list_warn_filters(update: Update, context: CallbackContext):
-    chat: Optional[Chat] = update.effective_chat
-    all_handlers = sql.get_chat_warn_triggers(chat.id)
-
-    if not all_handlers:
-        update.effective_message.reply_text(
-            "No warning filters are active here!")
-        return
-
-    filter_list = CURRENT_WARNING_FILTER_STRING
-    for keyword in all_handlers:
-        entry = f" - {html.escape(keyword)}\n"
-        if len(entry) + len(filter_list) > telegram.MAX_MESSAGE_LENGTH:
-            update.effective_message.reply_text(
-                filter_list, parse_mode=ParseMode.HTML)
-            filter_list = entry
-        else:
-            filter_list += entry
-
-    if filter_list != CURRENT_WARNING_FILTER_STRING:
-        update.effective_message.reply_text(
-            filter_list, parse_mode=ParseMode.HTML)
-
-
-@run_async
-@loggable
-def reply_filter(update: Update, context: CallbackContext) -> str:
-    chat: Optional[Chat] = update.effective_chat
-    message: Optional[Message] = update.effective_message
-    user: Optional[User] = update.effective_user
-
-    if not user:  #Ignore channel
-        return
-
-    if user.id == 777000:
-        return
-
-    chat_warn_filters = sql.get_chat_warn_triggers(chat.id)
-    to_match = extract_text(message)
-    if not to_match:
-        return ""
-
-    for keyword in chat_warn_filters:
-        pattern = r"( |^|[^\w])" + re.escape(keyword) + r"( |$|[^\w])"
-        if re.search(pattern, to_match, flags=re.IGNORECASE):
-            user: Optional[User] = update.effective_user
-            warn_filter = sql.get_warn_filter(chat.id, keyword)
-            return warn(user, chat, warn_filter.reply, message)
-    return ""
-
-
 @run_async
 @user_admin
 @loggable
@@ -433,13 +294,6 @@ def set_warn_strength(update: Update, context: CallbackContext):
     return ""
 
 
-def __stats__():
-    return (
-        f"• {sql.num_warns()} overall warns, across {sql.num_warn_chats()} chats.\n"
-        f"• {sql.num_warn_filters()} warn filters, across {sql.num_warn_filter_chats()} chats."
-    )
-
-
 def __import_data__(chat_id, data):
     for user_id, count in data.get('warns', {}).items():
         for x in range(int(count)):
@@ -466,9 +320,6 @@ __help__ = """
 *Admins only:*
  • `/warn <userhandle>`*:* warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
  • `/resetwarn <userhandle>`*:* reset the warns for a user. Can also be used as a reply.
- • `/addwarn <keyword> <reply message>`*:* set a warning filter on a certain keyword. If you want your keyword to \
-be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`. 
- • `/nowarn <keyword>`*:* stop a warning filter
  • `/warnlimit <num>`*:* set the warning limit
  • `/strongwarn <on/yes/off/no>`*:* If set to on, exceeding the warn limit will result in a ban. Else, will just punch.
 """
@@ -482,17 +333,10 @@ RESET_WARN_HANDLER = CommandHandler(["resetwarn", "resetwarns"],
 CALLBACK_QUERY_HANDLER = CallbackQueryHandler(button, pattern=r"rm_warn")
 MYWARNS_HANDLER = DisableAbleCommandHandler(
     "warns", warns, filters=Filters.group)
-ADD_WARN_HANDLER = CommandHandler(
-    "addwarn", add_warn_filter, filters=Filters.group)
-RM_WARN_HANDLER = CommandHandler(["nowarn", "stopwarn"],
-                                 remove_warn_filter,
-                                 filters=Filters.group)
 LIST_WARN_HANDLER = DisableAbleCommandHandler(["warnlist", "warnfilters"],
                                               list_warn_filters,
                                               filters=Filters.group,
                                               admin_ok=True)
-WARN_FILTER_HANDLER = MessageHandler(CustomFilters.has_text & Filters.group,
-                                     reply_filter)
 WARN_LIMIT_HANDLER = CommandHandler(
     "warnlimit", set_warn_limit, filters=Filters.group)
 WARN_STRENGTH_HANDLER = CommandHandler(
@@ -502,9 +346,6 @@ dispatcher.add_handler(WARN_HANDLER)
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)
 dispatcher.add_handler(RESET_WARN_HANDLER)
 dispatcher.add_handler(MYWARNS_HANDLER)
-dispatcher.add_handler(ADD_WARN_HANDLER)
-dispatcher.add_handler(RM_WARN_HANDLER)
 dispatcher.add_handler(LIST_WARN_HANDLER)
 dispatcher.add_handler(WARN_LIMIT_HANDLER)
 dispatcher.add_handler(WARN_STRENGTH_HANDLER)
-dispatcher.add_handler(WARN_FILTER_HANDLER, WARN_HANDLER_GROUP)
