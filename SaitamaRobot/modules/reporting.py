@@ -1,7 +1,6 @@
 import html
 
-from SaitamaRobot import (LOGGER, SUDO_USERS, TIGER_USERS, WHITELIST_USERS,
-                          dispatcher)
+from SaitamaRobot import (LOGGER, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (user_admin,
                                                            user_not_admin)
 from SaitamaRobot.modules.log_channel import loggable
@@ -14,8 +13,6 @@ from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
 from telegram.utils.helpers import mention_html
 
 REPORT_GROUP = 12
-REPORT_IMMUNE_USERS = SUDO_USERS + TIGER_USERS + WHITELIST_USERS
-
 
 @run_async
 @user_admin
@@ -86,10 +83,6 @@ def report(update: Update, context: CallbackContext) -> str:
 
         if user.id == bot.id:
             message.reply_text("Nice try.")
-            return ""
-
-        if reported_user.id in REPORT_IMMUNE_USERS:
-            message.reply_text("Uh? You reporting whitelisted users?")
             return ""
 
         if chat.username and chat.type == Chat.SUPERGROUP:
