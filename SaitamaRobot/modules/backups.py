@@ -30,21 +30,8 @@ from SaitamaRobot.modules.connection import connected
 def import_data(update, context):
     msg = update.effective_message
     chat = update.effective_chat
-    user = update.effective_user
-    # TODO: allow uploading doc with command, not just as reply
-    # only work with a doc
-
-    conn = connected(context.bot, update, chat, user.id, need_admin=True)
-    if conn:
-        chat = dispatcher.bot.getChat(conn)
-        chat_name = dispatcher.bot.getChat(conn).title
-    else:
-        if update.effective_message.chat.type == "private":
-            update.effective_message.reply_text("This is a group only command!")
-            return ""
-
-        chat = update.effective_chat
-        chat_name = update.effective_message.chat.title
+    user = update.effective_user    
+    chat_name = update.effective_message.chat.title
 
     if msg.reply_to_message and msg.reply_to_message.document:
         try:
@@ -99,7 +86,7 @@ def import_data(update, context):
                 mod.__import_data__(str(chat.id), data)
         except Exception:
             msg.reply_text(
-                "An error occurred while recovering your data. The process failed. If you experience a problem with this, please take it to @OnePunchSupport"
+                "An error occurred while recovering your data. The process failed. If you experience a problem with this, please take it to @kingkiid"
             )
 
             LOGGER.exception(
@@ -128,18 +115,9 @@ def export_data(update, context):
     chat_id = update.effective_chat.id
     chat = update.effective_chat
     current_chat_id = update.effective_chat.id
-    conn = connected(context.bot, update, chat, user.id, need_admin=True)
-    if conn:
-        chat = dispatcher.bot.getChat(conn)
-        chat_id = conn
-        # chat_name = dispatcher.bot.getChat(conn).title
-    else:
-        if update.effective_message.chat.type == "private":
-            update.effective_message.reply_text("This is a group only command!")
-            return ""
-        chat = update.effective_chat
-        chat_id = update.effective_chat.id
-        # chat_name = update.effective_message.chat.title
+
+    chat_id = update.effective_chat.id
+    chat_name = update.effective_message.chat.title
 
     jam = time.time()
     new_jam = jam + 10800
@@ -318,7 +296,7 @@ def export_data(update, context):
         },
     }
     baccinfo = json.dumps(backup, indent=4)
-    f = open("SaitamaRobot{}.backup".format(chat_id), "w")
+    f = open("Midasbot{}.backup".format(chat_id), "w")
     f.write(str(baccinfo))
     f.close()
     context.bot.sendChatAction(current_chat_id, "upload_document")
@@ -334,14 +312,14 @@ def export_data(update, context):
         pass
     context.bot.sendDocument(
         current_chat_id,
-        document=open("SaitamaRobot{}.backup".format(chat_id), "rb"),
-        caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `SaitamaRobot-Backup` was specially made for notes."
+        document=open("Midasbot{}.backup".format(chat_id), "rb"),
+        caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `Midasbot-Backup` was specially made for notes."
         .format(chat.title, chat_id, tgl),
         timeout=360,
         reply_to_message_id=msg.message_id,
         parse_mode=ParseMode.MARKDOWN,
     )
-    os.remove("SaitamaRobot{}.backup".format(chat_id))  # Cleaning file
+    os.remove("Midasbot{}.backup".format(chat_id))  # Cleaning file
 
 
 # Temporary data
