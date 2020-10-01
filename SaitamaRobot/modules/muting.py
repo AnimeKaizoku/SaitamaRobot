@@ -1,10 +1,9 @@
 import html
 from typing import Optional
 
-from SaitamaRobot import LOGGER, TIGER_USERS, dispatcher
+from SaitamaRobot import LOGGER, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
                                                            can_restrict,
-                                                           connection_status,
                                                            is_user_admin,
                                                            user_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
@@ -35,7 +34,7 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
         reply = "I'm not gonna MUTE myself, How high are you?"
         return reply
 
-    if is_user_admin(chat, user_id, member) or user_id in TIGER_USERS:
+    if is_user_admin(chat, user_id, member):
         reply = "I really wish I could mute admins...Perhaps a Punch?"
         return reply
 
@@ -43,7 +42,6 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
 
 
 @run_async
-@connection_status
 @bot_admin
 @user_admin
 @loggable
@@ -89,7 +87,6 @@ def mute(update: Update, context: CallbackContext) -> str:
 
 
 @run_async
-@connection_status
 @bot_admin
 @user_admin
 @loggable
@@ -147,7 +144,6 @@ def unmute(update: Update, context: CallbackContext) -> str:
 
 
 @run_async
-@connection_status
 @bot_admin
 @can_restrict
 @user_admin
