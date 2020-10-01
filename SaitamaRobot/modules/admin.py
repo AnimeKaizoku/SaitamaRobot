@@ -9,7 +9,6 @@ from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin, can_pin,
                                                            can_promote,
-                                                           connection_status,
                                                            user_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
                                                           extract_user_and_text)
@@ -17,7 +16,6 @@ from SaitamaRobot.modules.log_channel import loggable
 
 
 @run_async
-@connection_status
 @bot_admin
 @can_promote
 @user_admin
@@ -99,7 +97,6 @@ def promote(update: Update, context: CallbackContext) -> str:
 
 
 @run_async
-@connection_status
 @bot_admin
 @can_promote
 @user_admin
@@ -172,7 +169,6 @@ def demote(update: Update, context: CallbackContext) -> str:
 
 
 @run_async
-@connection_status
 @bot_admin
 @can_promote
 @user_admin
@@ -324,7 +320,6 @@ def invite(update: Update, context: CallbackContext):
 
 
 @run_async
-@connection_status
 def adminlist(update: Update, context: CallbackContext):
     bot = context.bot
     chat = update.effective_chat
