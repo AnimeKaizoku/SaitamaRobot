@@ -248,37 +248,3 @@ def user_can_ban(func):
         return func(update, context, *args, **kwargs)
 
     return user_is_banhammer
-
-
-def connection_status(func):
-
-    @wraps(func)
-    def connected_status(update: Update, context: CallbackContext, *args,
-                         **kwargs):
-        conn = connected(
-            context.bot,
-            update,
-            update.effective_chat,
-            update.effective_user.id,
-            need_admin=False)
-
-        if conn:
-            chat = dispatcher.bot.getChat(conn)
-            update.__setattr__("_effective_chat", chat)
-            return func(update, context, *args, **kwargs)
-        else:
-            if update.effective_message.chat.type == "private":
-                update.effective_message.reply_text(
-                    "Send /connect in a group that you and I have in common first."
-                )
-                return connected_status
-
-            return func(update, context, *args, **kwargs)
-
-    return connected_status
-
-
-# Workaround for circular import with connection.py
-from SaitamaRobot.modules import connection
-
-connected = connection.connected
