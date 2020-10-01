@@ -53,19 +53,9 @@ def list_handlers(update, context):
     chat = update.effective_chat
     user = update.effective_user
 
-    conn = connected(context.bot, update, chat, user.id, need_admin=False)
-    if not conn is False:
-        chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
-        filter_list = "*Filter in {}:*\n"
-    else:
-        chat_id = update.effective_chat.id
-        if chat.type == "private":
-            chat_name = "Local filters"
-            filter_list = "*local filters:*\n"
-        else:
-            chat_name = chat.title
-            filter_list = "*Filters in {}*:\n"
+    chat_id = update.effective_chat.id
+    chat_name = chat.title
+    filter_list = "*Filters in {}*:\n"
 
     all_handlers = sql.get_chat_triggers(chat_id)
 
@@ -102,18 +92,9 @@ def filters(update, context):
     msg = update.effective_message
     args = msg.text.split(
         None,
-        1)  # use python's maxsplit to separate Cmd, keyword, and reply_text
 
-    conn = connected(context.bot, update, chat, user.id)
-    if not conn is False:
-        chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
-    else:
-        chat_id = update.effective_chat.id
-        if chat.type == "private":
-            chat_name = "local filters"
-        else:
-            chat_name = chat.title
+    chat_id = update.effective_chat.id
+    chat_name = chat.title
 
     if not msg.reply_to_message and len(args) < 2:
         send_message(
@@ -222,16 +203,8 @@ def stop_filter(update, context):
     user = update.effective_user
     args = update.effective_message.text.split(None, 1)
 
-    conn = connected(context.bot, update, chat, user.id)
-    if not conn is False:
-        chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
-    else:
-        chat_id = update.effective_chat.id
-        if chat.type == "private":
-            chat_name = "Local filters"
-        else:
-            chat_name = chat.title
+    chat_id = update.effective_chat.id
+    chat_name = chat.title
 
     if len(args) < 2:
         send_message(update.effective_message, "What should i stop?")
