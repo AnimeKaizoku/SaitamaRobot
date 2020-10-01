@@ -27,20 +27,10 @@
          "description": "ID of the sticker you want to use when banning people.",
          "required": false,
          "value": "CAACAgQAAx0CU_rCTAABAczQXyBOv1TsVK4EfwnkCUT1H0GCkPQAAtwAAwEgTQaYsMtAltpEwhoE"
-      },
-      "sw_api": {
-         "description": "Spamwatch API Token, Get one from @SpamWatchBot.",
-         "required": true,
-         "value": ""
-      },     
+      },   
       "DEL_CMDS": {
          "description": "Set this to True if you want to delete command messages from users who don't have the perms to run that command.",
          "value": "True"
-      },
-      "DONATION_LINK": {
-         "description": "Optional: link where you would like to receive donations. If you are a noob, better leave it linking to paul",
-         "required": false,
-         "value": "https://www.paypal.me/PaulSonOfLars"
       },
       "ENV": {
          "description": "Setting this to ANYTHING will enable environment variables. Leave it as it is",
@@ -60,47 +50,8 @@
          "description": "Your username without the @",
          "value": "Sawada"
       },
-      "DEV_USERS": {
-         "description": "ID of users who are Devs of your bot (can use /py etc.)",
-         "required": false,
-         "value": "660565862 459034222 189005567 346981140 367222759"
-      },
-      "GBAN_LOGS": {
-         "description": "Gban log channel where your bot is admin, include the hyphen too: ex: '-123456'",
-         "required": true,
-         "value": "-123456798"
-      },
-      "CASH_API_KEY": {
-         "description": "Required for currency converter. Get yours from https://www.alphavantage.co/support/#api-key",
-         "required": true,
-         "value": "-xyz"
-      },
-      "TIME_API_KEY": {
-         "description": "Required for timezone information. Get yours from https://timezonedb.com/api",
-         "required": true,
-         "value": "-xyz"
-      },
       "PORT": {
          "description": "Port to use for your webhooks. Better leave this as it is on heroku",
-         "required": false,
-         "value": ""
-      },
-      "STRICT_GBAN": {
-         "description": "Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.",
-         "value": "True"
-      },
-      "SUDO_USERS": {
-         "description": "A space separated list of user IDs who you want to assign as sudo users.",
-         "required": false,
-         "value": "459034222 189005567 660565862 346981140 367222759"
-      },
-      "SUPPORT_USERS": {
-         "description": "A space separated list of user IDs who you wanna assign as support users(gban perms only).",
-         "required": false,
-         "value": "615304572"
-      },
-      "TIGER_USERS": {
-         "description": "A space separated list of user IDs who you wanna assign as tiger users.",
          "required": false,
          "value": ""
       },
@@ -133,12 +84,8 @@
          "description": "List of chats you want blacklisted.",
          "required": false,
          "value": ""
-      },      
-      "WHITELIST_USERS": {
-         "description": "A space separated list of user IDs who you want to assign as whitelisted - can't be banned with your bot.",
-         "required": false,
-         "value": ""
       }
+      
    },
    "keywords": [
       "telegram",
