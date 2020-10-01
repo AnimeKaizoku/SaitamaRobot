@@ -5,8 +5,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, SUDO_USERS,
-                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
+from SaitamaRobot import (LOGGER, OWNER_ID,
                           dispatcher)
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
@@ -50,30 +49,10 @@ def ban(update: Update, context: CallbackContext) -> str:
         message.reply_text("Oh yeah, ban myself, noob!")
         return log_message
 
-    if is_user_ban_protected(chat, user_id, member) and user not in DEV_USERS:
+    if is_user_ban_protected(chat, user_id, member):
         if user_id == OWNER_ID:
             message.reply_text(
-                "Trying to put me against a God level disaster huh?")
-            return log_message
-        elif user_id in DEV_USERS:
-            message.reply_text("I can't act against our own.")
-            return log_message
-        elif user_id in SUDO_USERS:
-            message.reply_text(
-                "Fighting this Dragon here will put civilian lives at risk.")
-            return log_message
-        elif user_id in SUPPORT_USERS:
-            message.reply_text(
-                "Bring an order from Heroes association to fight a Demon disaster."
-            )
-            return log_message
-        elif user_id in TIGER_USERS:
-            message.reply_text(
-                "Bring an order from Heroes association to fight a Tiger disaster."
-            )
-            return log_message
-        elif user_id in WHITELIST_USERS:
-            message.reply_text("Wolf abilities make them ban immune!")
+                "I won't ban my owner.")
             return log_message
         else:
             message.reply_text("This user has immunity and cannot be banned.")
@@ -89,7 +68,6 @@ def ban(update: Update, context: CallbackContext) -> str:
 
     try:
         chat.kick_member(user_id)
-        # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         reply = (
             f"<code>❕</code><b>Ban Event</b>\n"
             f"<code> </code><b>•  User:</b> {mention_html(member.user.id, member.user.first_name)}"
@@ -328,50 +306,6 @@ def unban(update: Update, context: CallbackContext) -> str:
     return log
 
 
-@run_async
-@connection_status
-@bot_admin
-@can_restrict
-@gloggable
-def selfunban(context: CallbackContext, update: Update) -> str:
-    message = update.effective_message
-    user = update.effective_user
-    bot, args = context.bot, context.args
-    if user.id not in SUDO_USERS or user.id not in TIGER_USERS:
-        return
-
-    try:
-        chat_id = int(args[0])
-    except:
-        message.reply_text("Give a valid chat ID.")
-        return
-
-    chat = bot.getChat(chat_id)
-
-    try:
-        member = chat.get_member(user.id)
-    except BadRequest as excp:
-        if excp.message == "User not found":
-            message.reply_text("I can't seem to find this user.")
-            return
-        else:
-            raise
-
-    if is_user_in_chat(chat, user.id):
-        message.reply_text("Aren't you already in the chat??")
-        return
-
-    chat.unban_member(user.id)
-    message.reply_text("Yep, I have unbanned you.")
-
-    log = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#UNBANNED\n"
-        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}")
-
-    return log
-
-
 __help__ = """
  • `/punchme`*:* punchs the user who issued the command
 
@@ -386,7 +320,6 @@ BAN_HANDLER = CommandHandler("ban", ban)
 TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
 PUNCH_HANDLER = CommandHandler("punch", punch)
 UNBAN_HANDLER = CommandHandler("unban", unban)
-ROAR_HANDLER = CommandHandler("roar", selfunban)
 PUNCHME_HANDLER = DisableAbleCommandHandler(
     "punchme", punchme, filters=Filters.group)
 
@@ -394,7 +327,6 @@ dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(TEMPBAN_HANDLER)
 dispatcher.add_handler(PUNCH_HANDLER)
 dispatcher.add_handler(UNBAN_HANDLER)
-dispatcher.add_handler(ROAR_HANDLER)
 dispatcher.add_handler(PUNCHME_HANDLER)
 
 __mod_name__ = "Bans"
