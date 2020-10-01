@@ -307,7 +307,7 @@ NOOBSTR = (
     "`Ah! you don't me, stay away Noob`",
     "`I only talk with Pros. You better go away!`",
     "`Itna bada Noobda dekhlia ab to marna hoga`",
-    "`You're a Noob and You won't get that !`", 
+    "`You're a Noob and You won't get that !`"
 )
 
 INSULT_STRINGS = (
@@ -351,7 +351,7 @@ INSULT_STRINGS = (
     "Try this: if you hold your breath underwater for an hour, you can then hold it forever.",
     "Go Green! Stop inhaling Oxygen.",
     "God was searching for you. You should leave to meet him.",
-    "Give your 100%. Now, go donate blood.",
+    "Give your 100%. Now, go donate blood."
     "Try jumping from a hundred story building but you can do it only once.",
     "You should donate your brain seeing that you never used it.",
     "Volunteer for target in an firing range.",
@@ -372,5 +372,5 @@ INSULT_STRINGS = (
     "You should try hot bath in a volcano.",
     "Try to spend one day in a coffin and it will be yours forever.",
     "Hit Uranium with a slow moving neutron in your presence. It will be a worthwhile experience.",
-    "You can be the first person to step on sun. Have a try.",
+    "You can be the first person to step on sun. Have a try."
 )
