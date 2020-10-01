@@ -1,4 +1,3 @@
-from SaitamaRobot import DEV_USERS, SUDO_USERS, SUPPORT_USERS
 from telegram import Message
 from telegram.ext import BaseFilter
 
@@ -8,23 +7,21 @@ class CustomFilters(object):
     class _Supporters(BaseFilter):
 
         def filter(self, message: Message):
-            return bool(message.from_user and
-                        message.from_user.id in SUPPORT_USERS)
+            return bool(message.from_user)
 
     support_filter = _Supporters()
 
     class _Sudoers(BaseFilter):
 
         def filter(self, message: Message):
-            return bool(message.from_user and
-                        message.from_user.id in SUDO_USERS)
+            return bool(message.from_user)
 
     sudo_filter = _Sudoers()
 
     class _Developers(BaseFilter):
 
         def filter(self, message: Message):
-            return bool(message.from_user and message.from_user.id in DEV_USERS)
+            return bool(message.from_user)
 
     dev_filter = _Developers()
 
