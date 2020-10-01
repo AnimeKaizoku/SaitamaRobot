@@ -19,6 +19,13 @@ GIF_ID = 'CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr
 def runs(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
 
+@run_async
+def noob(bot: Bot, update: CallbackContext):
+    update.effective_message.reply_text(random.choice(fun_string.NOOBSTR))
+
+@run_async
+def harsh(bot: Bot, update: CallbackContext):
+    update.effective_message.reply_text(random.choice(fun_string.INSULT_STRINGS))
 
 @run_async
 def sanitize(update: Update, context: CallbackContext):
@@ -195,6 +202,8 @@ __help__ = """
  • `/weebify <text>`*:* returns a weebified text
  • `/sanitize`*:* always use this before /pat or any contact
  • `/pat`*:* pats a user, or get patted
+ • `/noob`*:* replies for noobs
+ • `/insult`*:* insults the other person
 """
 
 SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)
@@ -208,6 +217,8 @@ BLUETEXT_HANDLER = DisableAbleCommandHandler("bluetext", bluetext)
 RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg)
 DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
+NOOB_HANDLER = DisableAbleCommandHandler("noob", noob)
+INSULT_HANDLER = DisableAbleCommandHandler("insult", insult)
 
 dispatcher.add_handler(SANITIZE_HANDLER)
 dispatcher.add_handler(RUNS_HANDLER)
@@ -220,14 +231,16 @@ dispatcher.add_handler(BLUETEXT_HANDLER)
 dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
+dispatcher.add_handler(NOOB_HANDLER)
+dispatcher.add_handler(INSULT_HANDLER)
 
 __mod_name__ = "Fun"
 __command_list__ = [
     "runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide",
-    "table", "pat", "sanitize"
+    "table", "pat", "sanitize","noob","insult"
 ]
 __handlers__ = [
     RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER,
     SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER,
-    SANITIZE_HANDLER
+    SANITIZE_HANDLER, NOOB_HANDLER, INSULT_HANDLER
 ]
