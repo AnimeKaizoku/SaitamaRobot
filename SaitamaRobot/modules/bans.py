@@ -9,7 +9,7 @@ from SaitamaRobot import (LOGGER, OWNER_ID,
                           dispatcher)
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
-    bot_admin, can_restrict, connection_status, is_user_admin,
+    bot_admin, can_restrict, is_user_admin,
     is_user_ban_protected, is_user_in_chat, user_admin, user_can_ban)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user_and_text
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
@@ -17,7 +17,6 @@ from SaitamaRobot.modules.log_channel import gloggable, loggable
 
 
 @run_async
-@connection_status
 @bot_admin
 @can_restrict
 @user_admin
@@ -92,7 +91,6 @@ def ban(update: Update, context: CallbackContext) -> str:
 
 
 @run_async
-@connection_status
 @bot_admin
 @can_restrict
 @user_admin
@@ -179,7 +177,6 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
 
 
 @run_async
-@connection_status
 @bot_admin
 @can_restrict
 @user_admin
@@ -257,7 +254,6 @@ def punchme(update: Update, context: CallbackContext):
 
 
 @run_async
-@connection_status
 @bot_admin
 @can_restrict
 @user_admin
