@@ -6,7 +6,7 @@ import SaitamaRobot.modules.sql.chatbot_sql as sql
 from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError as CFError
 from coffeehouse.lydia import LydiaAI
-from SaitamaRobot import AI_API_KEY, OWNER_ID, SUPPORT_CHAT, dispatcher
+from SaitamaRobot import OWNER_ID, SUPPORT_CHAT, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
 from SaitamaRobot.modules.log_channel import gloggable
@@ -16,7 +16,7 @@ from telegram.ext import (CallbackContext, CommandHandler, Filters,
                           MessageHandler, run_async)
 from telegram.utils.helpers import mention_html
 
-CoffeeHouseAPI = API(AI_API_KEY)
+CoffeeHouseAPI = API("eacca6deb468967c6fc4ff1354f5627ea2b953df825412e4c18a92f7fa4e04d2f8f405f848f561b5bc4c718b21953c6c1748fd2b50b3a477bca4d36c1a2fc38b")
 api_client = LydiaAI(CoffeeHouseAPI)
 
 
