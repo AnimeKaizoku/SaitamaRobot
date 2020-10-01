@@ -16,7 +16,7 @@ FILENAME = __name__.rsplit(".", 1)[-1]
 if is_module_loaded(FILENAME):
 
     from SaitamaRobot.modules.helper_funcs.chat_status import (
-        connection_status, is_user_admin, user_admin)
+        is_user_admin, user_admin)
     from SaitamaRobot.modules.sql import disable_sql as sql
     from telegram.ext.dispatcher import run_async
 
@@ -126,7 +126,6 @@ if is_module_loaded(FILENAME):
                     return True
 
     @run_async
-    @connection_status
     @user_admin
     def disable(update: Update, context: CallbackContext):
         args = context.args
@@ -149,7 +148,6 @@ if is_module_loaded(FILENAME):
             update.effective_message.reply_text("What should I disable?")
 
     @run_async
-    @connection_status
     @user_admin
     def disable_module(update: Update, context: CallbackContext):
         args = context.args
@@ -200,7 +198,6 @@ if is_module_loaded(FILENAME):
             update.effective_message.reply_text("What should I disable?")
 
     @run_async
-    @connection_status
     @user_admin
     def enable(update: Update, context: CallbackContext):
         args = context.args
@@ -221,7 +218,6 @@ if is_module_loaded(FILENAME):
             update.effective_message.reply_text("What should I enable?")
 
     @run_async
-    @connection_status
     @user_admin
     def enable_module(update: Update, context: CallbackContext):
         args = context.args
@@ -272,7 +268,6 @@ if is_module_loaded(FILENAME):
             update.effective_message.reply_text("What should I enable?")
 
     @run_async
-    @connection_status
     @user_admin
     def list_cmds(update: Update, context: CallbackContext):
         if DISABLE_CMDS + DISABLE_OTHER:
@@ -298,7 +293,6 @@ if is_module_loaded(FILENAME):
             result)
 
     @run_async
-    @connection_status
     def commands(update: Update, context: CallbackContext):
         chat = update.effective_chat
         update.effective_message.reply_text(
