@@ -6,14 +6,8 @@ from functools import partial
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
 from SaitamaRobot import (
-    DEV_USERS,
     LOGGER,
     OWNER_ID,
-    SUDO_USERS,
-    SUPPORT_USERS,
-    TIGER_USERS,
-    WHITELIST_USERS,
-    sw,
     dispatcher,
 )
 from SaitamaRobot.modules.helper_funcs.chat_status import (
@@ -27,7 +21,6 @@ from SaitamaRobot.modules.helper_funcs.string_handling import (
     markdown_parser,
 )
 from SaitamaRobot.modules.log_channel import loggable
-from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
 from telegram import (
     ChatPermissions,
     InlineKeyboardButton,
@@ -158,11 +151,6 @@ def new_member(update: Update, context: CallbackContext):
         welcome_bool = True
         media_wel = False
 
-        if sw != None:
-            sw_ban = sw.get_ban(new_mem.id)
-            if sw_ban:
-                return
-
         if should_welc:
 
             reply = update.message.message_id
@@ -179,55 +167,17 @@ def new_member(update: Update, context: CallbackContext):
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
-                    "Oh, Genos? Let's get this moving.",
+                    "Midas is the chat guy!",
                     reply_to_message_id=reply)
                 welcome_log = (f"{html.escape(chat.title)}\n"
                                f"#USER_JOINED\n"
                                f"Bot Owner just joined the chat")
                 continue
 
-            # Welcome Devs
-            elif new_mem.id in DEV_USERS:
-                update.effective_message.reply_text(
-                    "Whoa! A member of the Heroes Association just joined!",
-                    reply_to_message_id=reply,
-                )
-                continue
-
-            # Welcome Sudos
-            elif new_mem.id in SUDO_USERS:
-                update.effective_message.reply_text(
-                    "Huh! A Dragon disaster just joined! Stay Alert!",
-                    reply_to_message_id=reply,
-                )
-                continue
-
-            # Welcome Support
-            elif new_mem.id in SUPPORT_USERS:
-                update.effective_message.reply_text(
-                    "Huh! Someone with a Demon disaster level just joined!",
-                    reply_to_message_id=reply,
-                )
-                continue
-
-            # Welcome Whitelisted
-            elif new_mem.id in TIGER_USERS:
-                update.effective_message.reply_text(
-                    "Oof! A Tiger disaster just joined!",
-                    reply_to_message_id=reply)
-                continue
-
-            # Welcome Tigers
-            elif new_mem.id in WHITELIST_USERS:
-                update.effective_message.reply_text(
-                    "Oof! A Wolf disaster just joined!",
-                    reply_to_message_id=reply)
-                continue
-
             # Welcome yourself
             elif new_mem.id == bot.id:
                 update.effective_message.reply_text(
-                    "Watashi ga kita!", reply_to_message_id=reply)
+                    "Heya...! Nice to meet you geys.", reply_to_message_id=reply)
                 continue
 
             else:
@@ -453,17 +403,6 @@ def left_member(update: Update, context: CallbackContext):
 
         left_mem = update.effective_message.left_chat_member
         if left_mem:
-
-            # Thingy for spamwatched users
-            if sw != None:
-                sw_ban = sw.get_ban(left_mem.id)
-                if sw_ban:
-                    return
-
-            # Dont say goodbyes to gbanned users
-            if is_user_gbanned(left_mem.id):
-                return
-
             # Ignore bot being kicked
             if left_mem.id == bot.id:
                 return
@@ -472,14 +411,6 @@ def left_member(update: Update, context: CallbackContext):
             if left_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
                     "Oi! Genos! He left..", reply_to_message_id=reply)
-                return
-
-            # Give the devs a special goodbye
-            elif left_mem.id in DEV_USERS:
-                update.effective_message.reply_text(
-                    "See you later at the Hero's Association!",
-                    reply_to_message_id=reply,
-                )
                 return
 
             # if media goodbye, use appropriate function for it
