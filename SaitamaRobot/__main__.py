@@ -53,7 +53,7 @@ def get_readable_time(seconds: int) -> str:
 PM_START_TEXT = """
 Hi {}, my name is {}! 
 I am an Midas Group Help Bot . My master is @Kiingkid .
-And thanks to @Saprativ004 and @GodDrick for giving a life in mweBuild by weebs for weebs, I specialize in groups.
+And thanks to @Saprativ004 and @GodDrick for giving a life . I specialize in hosting groups.
 You can find my list of available commands with /help.
 """
 
