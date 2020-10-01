@@ -21,7 +21,6 @@ from SaitamaRobot.modules.sql import disable_sql as disabledsql
 # from SaitamaRobot.modules.sql import cust_filters_sql as filtersql
 # import SaitamaRobot.modules.sql.welcome_sql as welcsql
 import SaitamaRobot.modules.sql.locks_sql as locksql
-from SaitamaRobot.modules.connection import connected
 
 
 @run_async
