@@ -98,10 +98,7 @@ def filters(update, context):
         None,
 
     chat_id = update.effective_chat.id
-    if chat.type == "private":
-        chat_name = "local filters"
-    else:
-        chat_name = chat.title
+    chat_name = "chat"
 
     if not msg.reply_to_message and len(args) < 2:
         send_message(
