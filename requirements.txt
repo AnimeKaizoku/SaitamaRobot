@@ -3,6 +3,7 @@ emoji
 lxml
 beautifulsoup4
 requests
+AlphabetDetector
 sqlalchemy
 python-telegram-bot
 psycopg2-binary
