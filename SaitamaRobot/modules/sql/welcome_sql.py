@@ -130,14 +130,14 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first} just warped into the group!",
     "I..it's..it's just {first}.",
     "Sugoi, Dekai. {first} Joined!",
-    "{first}, do you know Gods of death love apples?", #Death Note owo
-    "I'll take a potato chip.... and eat it", #Death Note owo
-    "Oshiete oshiete yo sono shikumi wo!", #Tokyo Ghoul
-    "Kaizoku ou ni...nvm wrong anime.", #op
-    "{first} just joined! Gear.....second!", #Op
+    "{first}, do you know Gods of death love apples?",  #Death Note owo
+    "I'll take a potato chip.... and eat it",  #Death Note owo
+    "Oshiete oshiete yo sono shikumi wo!",  #Tokyo Ghoul
+    "Kaizoku ou ni...nvm wrong anime.",  #op
+    "{first} just joined! Gear.....second!",  #Op
     "Omae wa mou....shindeiru",
-    "Hey {first}, the leaf village lotus blooms twice!", #Naruto stuff begins from here
-    "{first} Joined! Omote renge!", 
+    "Hey {first}, the leaf village lotus blooms twice!",  #Naruto stuff begins from here
+    "{first} Joined! Omote renge!",
     "{first} joined!, Gate of Opening...open!",
     "{first} joined!, Gate of Healing...open!",
     "{first} joined!, Gate of Life...open!",
@@ -147,11 +147,11 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first} joined!, Gate of Shock...open!",
     "{first} joined!, Gate of Death...open!",
     "{first}! I, Madara! declare you the strongest",
-    "{first}, this time I'll lend you my power. ", #Kyuubi to naruto
-    "{first}, welcome to the hidden leaf village!", # Naruto thingies end here
-    "In the jungle you must wait...until the dice read five or eight.", #Jumanji stuff
+    "{first}, this time I'll lend you my power. ",  #Kyuubi to naruto
+    "{first}, welcome to the hidden leaf village!",  # Naruto thingies end here
+    "In the jungle you must wait...until the dice read five or eight.",  #Jumanji stuff
     "Dr.{first} Famed archeologist and international explorer,\nWelcome to Jumanji!\nJumanji's Fate is up to you now.",
-    "{first}, this will not be an easy mission - monkeys slow the expedition.", #End of jumanji stuff
+    "{first}, this will not be an easy mission - monkeys slow the expedition.",  #End of jumanji stuff
 ]
 DEFAULT_GOODBYE_MESSAGES = [
     "{first} will be missed.",
