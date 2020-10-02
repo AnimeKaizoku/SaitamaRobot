@@ -333,9 +333,7 @@ RESET_WARN_HANDLER = CommandHandler(["resetwarn", "resetwarns"],
 CALLBACK_QUERY_HANDLER = CallbackQueryHandler(button, pattern=r"rm_warn")
 MYWARNS_HANDLER = DisableAbleCommandHandler(
     "warns", warns, filters=Filters.group)
-LIST_WARN_HANDLER = DisableAbleCommandHandler(["warnlist", "warnfilters"],
-                                              filters=Filters.group,
-                                              admin_ok=True)
+
 WARN_LIMIT_HANDLER = CommandHandler(
     "warnlimit", set_warn_limit, filters=Filters.group)
 WARN_STRENGTH_HANDLER = CommandHandler(
@@ -345,6 +343,5 @@ dispatcher.add_handler(WARN_HANDLER)
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)
 dispatcher.add_handler(RESET_WARN_HANDLER)
 dispatcher.add_handler(MYWARNS_HANDLER)
-dispatcher.add_handler(LIST_WARN_HANDLER)
 dispatcher.add_handler(WARN_LIMIT_HANDLER)
 dispatcher.add_handler(WARN_STRENGTH_HANDLER)
