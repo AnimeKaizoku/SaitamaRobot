@@ -98,8 +98,6 @@ def filters(update, context):
         None,
 
     chat_id = update.effective_chat.id
-    chat_name = "chat"
-
     if not msg.reply_to_message and len(args) < 2:
         send_message(
             update.effective_message,
@@ -193,7 +191,7 @@ def filters(update, context):
 
     send_message(
         update.effective_message,
-        "Saved filter '{}' in *{}*!".format(keyword, chat_name),
+        "Saved filter '{}' in *chat*!".format(keyword),
         parse_mode=telegram.ParseMode.MARKDOWN,
     )
     raise DispatcherHandlerStop
