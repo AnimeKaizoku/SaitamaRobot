@@ -13,7 +13,7 @@ if is_module_loaded(FILENAME):
     from telegram.ext import CommandHandler, JobQueue, run_async
     from telegram.utils.helpers import escape_markdown
 
-    from SaitamaRobot import GBAN_LOGS, LOGGER, dispatcher
+    from SaitamaRobot import LOGGER, dispatcher
     from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
     from SaitamaRobot.modules.sql import log_channel_sql as sql
 
@@ -46,30 +46,6 @@ if is_module_loaded(FILENAME):
             return result
 
         return log_action
-
-    def gloggable(func):
-
-        @wraps(func)
-        def glog_action(update: Update, context: CallbackContext, *args,
-                        **kwargs):
-            result = func(update, context, *args, **kwargs)
-            chat = update.effective_chat
-            message = update.effective_message
-
-            if result:
-                datetime_fmt = "%H:%M - %d-%m-%Y"
-                result += "\n<b>Event Stamp</b>: <code>{}</code>".format(
-                    datetime.utcnow().strftime(datetime_fmt))
-
-                if message.chat.type == chat.SUPERGROUP and message.chat.username:
-                    result += f'\n<b>Link:</b> <a href="https://t.me/{chat.username}/{message.message_id}">click here</a>'
-                log_chat = str(GBAN_LOGS)
-                if log_chat:
-                    send_log(context, log_chat, chat.id, result)
-
-            return result
-
-        return glog_action
 
     def send_log(context: CallbackContext, log_chat_id: str, orig_chat_id: str,
                  result: str):
@@ -212,5 +188,3 @@ else:
     def loggable(func):
         return func
 
-    def gloggable(func):
-        return func
