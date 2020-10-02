@@ -54,8 +54,12 @@ def list_handlers(update, context):
     user = update.effective_user
 
     chat_id = update.effective_chat.id
-    chat_name = chat.title
-    filter_list = "*Filters in {}*:\n"
+    if chat.type == "private":
+        chat_name = "Local filters"
+        filter_list = "*local filters:*\n"
+    else:
+        chat_name = chat.title
+        filter_list = "*Filters in {}*:\n"
 
     all_handlers = sql.get_chat_triggers(chat_id)
 
@@ -94,7 +98,12 @@ def filters(update, context):
         None,
 
     chat_id = update.effective_chat.id
-    chat_name = chat.title
+    if chat.type == "private":
+        chat_name = "Local filters"
+        filter_list = "*local filters:*\n"
+    else:
+        chat_name = chat.title
+        filter_list = "*Filters in {}*:\n"
 
     if not msg.reply_to_message and len(args) < 2:
         send_message(
@@ -204,7 +213,10 @@ def stop_filter(update, context):
     args = update.effective_message.text.split(None, 1)
 
     chat_id = update.effective_chat.id
-    chat_name = chat.title
+    if chat.type == "private":
+        chat_name = "Local filters"
+    else:
+        chat_name = chat.title
 
     if len(args) < 2:
         send_message(update.effective_message, "What should i stop?")
