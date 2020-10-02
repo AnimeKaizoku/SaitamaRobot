@@ -1,4 +1,3 @@
-import SaitamaRobot.modules.sql.blacklistusers_sql as sql
 from SaitamaRobot import ALLOW_EXCL
 from telegram import MessageEntity, Update
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler, Filters
@@ -33,10 +32,6 @@ class CustomCommandHandler(CommandHandler):
                 user_id = update.effective_user.id
             except:
                 user_id = None
-
-            if user_id:
-                if sql.is_user_blacklisted(user_id):
-                    return False
 
             if (message.entities and
                     message.entities[0].type == MessageEntity.BOT_COMMAND and
