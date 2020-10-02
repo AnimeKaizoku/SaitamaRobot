@@ -32,7 +32,7 @@ def check_flood(update, context) -> str:
         return ""
 
     # ignore admins and whitelists
-    if (is_user_admin(chat, user.id):
+    if is_user_admin(chat, user.id):
         sql.update_flood(chat.id, None)
         return ""
 
