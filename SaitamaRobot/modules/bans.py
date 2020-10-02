@@ -94,8 +94,8 @@ def ban(update: Update, context: CallbackContext) -> str:
             f"<code>❕</code><b>Ban Event</b>\n"
             f"<code> </code><b>•  User:</b> {mention_html(member.user.id, member.user.first_name)}"
         )
-        if reason:
-            reply += f"\n<code> </code><b>•  Reasons:</b> \n\n{html.escape(reason)}"
+        #if reason:
+        #    reply += f"\n<code> </code><b>•  Reasons:</b> \n\n{html.escape(reason)}"
         bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML, quote=False)
         return log
 
