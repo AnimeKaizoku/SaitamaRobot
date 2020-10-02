@@ -334,7 +334,6 @@ CALLBACK_QUERY_HANDLER = CallbackQueryHandler(button, pattern=r"rm_warn")
 MYWARNS_HANDLER = DisableAbleCommandHandler(
     "warns", warns, filters=Filters.group)
 LIST_WARN_HANDLER = DisableAbleCommandHandler(["warnlist", "warnfilters"],
-                                              list_warn_filters,
                                               filters=Filters.group,
                                               admin_ok=True)
 WARN_LIMIT_HANDLER = CommandHandler(
