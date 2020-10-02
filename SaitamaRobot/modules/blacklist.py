@@ -15,7 +15,6 @@ from SaitamaRobot.modules.helper_funcs.misc import split_message
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.warns import warn
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
-from SaitamaRobot.modules.connection import connected
 
 from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
 
@@ -30,16 +29,11 @@ def blacklist(update, context):
     user = update.effective_user
     args = context.args
 
-    conn = connected(context.bot, update, chat, user.id, need_admin=False)
-    if conn:
-        chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
+    if chat.type == "private":
+        return
     else:
-        if chat.type == "private":
-            return
-        else:
-            chat_id = update.effective_chat.id
-            chat_name = chat.title
+        chat_id = update.effective_chat.id
+        chat_name = chat.title
 
     filter_list = "Current blacklisted words in <b>{}</b>:\n".format(chat_name)
 
@@ -77,16 +71,11 @@ def add_blacklist(update, context):
     user = update.effective_user
     words = msg.text.split(None, 1)
 
-    conn = connected(context.bot, update, chat, user.id)
-    if conn:
-        chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
+    chat_id = update.effective_chat.id
+    if chat.type == "private":
+        return
     else:
-        chat_id = update.effective_chat.id
-        if chat.type == "private":
-            return
-        else:
-            chat_name = chat.title
+        chat_name = chat.title
 
     if len(words) > 1:
         text = words[1]
@@ -129,16 +118,11 @@ def unblacklist(update, context):
     user = update.effective_user
     words = msg.text.split(None, 1)
 
-    conn = connected(context.bot, update, chat, user.id)
-    if conn:
-        chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
+    chat_id = update.effective_chat.id
+    if chat.type == "private":
+        return
     else:
-        chat_id = update.effective_chat.id
-        if chat.type == "private":
-            return
-        else:
-            chat_name = chat.title
+        chat_name = chat.title
 
     if len(words) > 1:
         text = words[1]
@@ -206,21 +190,15 @@ def blacklist_mode(update, context):
     msg = update.effective_message
     args = context.args
 
-    conn = connected(context.bot, update, chat, user.id, need_admin=True)
-    if conn:
-        chat = dispatcher.bot.getChat(conn)
-        chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
-    else:
-        if update.effective_message.chat.type == "private":
-            send_message(
-                update.effective_message,
-                "This command can be only used in group not in PM",
-            )
-            return ""
-        chat = update.effective_chat
-        chat_id = update.effective_chat.id
-        chat_name = update.effective_message.chat.title
+    if update.effective_message.chat.type == "private":
+        send_message(
+            update.effective_message,
+            "This command can be only used in group not in PM",
+        )
+        return ""
+    chat = update.effective_chat
+    chat_id = update.effective_chat.id
+    chat_name = update.effective_message.chat.title
 
     if args:
         if (args[0].lower() == "off" or args[0].lower() == "nothing" or
