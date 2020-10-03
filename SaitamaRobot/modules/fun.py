@@ -86,7 +86,7 @@ def slap(update: Update, context: CallbackContext):
     if user_id is 1096215023:
         temp = "@NeoTheKitty scratches {user2}"
         
-   reply = temp.format(
+    reply = temp.format(
         user1=user1, user2=user2, item=item, hits=hit, throws=throw)
 
     reply_text(reply, parse_mode=ParseMode.HTML)
