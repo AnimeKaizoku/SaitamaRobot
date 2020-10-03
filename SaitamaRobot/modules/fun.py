@@ -83,7 +83,7 @@ def slap(update: Update, context: CallbackContext):
     hit = random.choice(fun_strings.HIT)
     throw = random.choice(fun_strings.THROW)
     
-    if user_id is 1096215023:
+    if user_id == 1096215023:
         temp = "@NeoTheKitty scratches {user2}"
         
     reply = temp.format(
