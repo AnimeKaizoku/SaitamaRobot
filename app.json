@@ -65,7 +65,7 @@
          "required": false,
          "value": "660565862 459034222 189005567 346981140 367222759"
       },
-      "GBAN_LOGS": {
+      "EVENT_LOGS": {
          "description": "Gban log channel where your bot is admin, include the hyphen too: ex: '-123456'",
          "required": true,
          "value": "-123456798"
@@ -105,7 +105,7 @@
          "value": ""
       },
       "TOKEN": {
-         "description": "Your bot token.",
+         "description": "Your bot token. Get one from @BotFather duh",
          "required": true,
          "value": ""
       },
@@ -120,7 +120,7 @@
          "value": ""
       },
       "WEBHOOK": {
-         "description": "Setting this to ANYTHING will enable webhooks.",
+         "description": "Setting this to ANYTHING will enable webhooks. If you dont know how this works leave it as it is",
          "required": false,
          "value": ""
       },
