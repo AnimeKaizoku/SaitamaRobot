@@ -3,7 +3,7 @@ from io import BytesIO
 from typing import Optional
 
 import SaitamaRobot.modules.sql.notes_sql as sql
-from SaitamaRobot import LOGGER, MESSAGE_DUMP, SUPPORT_CHAT, dispatcher
+from SaitamaRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, connection_status
 from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
@@ -56,11 +56,11 @@ def get(update, context, notename, show_none=True, no_format=False):
             reply_id = message.message_id
 
         if note.is_reply:
-            if MESSAGE_DUMP:
+            if JOIN_LOGGER:
                 try:
                     bot.forward_message(
                         chat_id=chat_id,
-                        from_chat_id=MESSAGE_DUMP,
+                        from_chat_id=JOIN_LOGGER,
                         message_id=note.value)
                 except BadRequest as excp:
                     if excp.message == "Message to forward not found":

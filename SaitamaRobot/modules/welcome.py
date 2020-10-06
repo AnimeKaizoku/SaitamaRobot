@@ -15,6 +15,7 @@ from SaitamaRobot import (
     WHITELIST_USERS,
     sw,
     dispatcher,
+    JOIN_LOGGER
 )
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
@@ -228,6 +229,7 @@ def new_member(update: Update, context: CallbackContext):
             elif new_mem.id == bot.id:
                 update.effective_message.reply_text(
                     "Watashi ga kita!", reply_to_message_id=reply)
+                bot.send_message(JOIN_LOGGER, "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <pre>{}</pre>".format(chat.title, chat.id), parse_mode=ParseMode.HTML)
                 continue
 
             else:
