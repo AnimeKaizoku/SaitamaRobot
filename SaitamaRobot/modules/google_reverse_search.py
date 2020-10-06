@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import os
 from datetime import datetime
 
@@ -80,3 +81,6 @@ API
 Training
 Blog
 About
+=======
+
+>>>>>>> d82293024701fcf84702a105f1e6498aad3c022e
