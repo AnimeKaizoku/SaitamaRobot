@@ -375,7 +375,8 @@ def set_about_me(update: Update, context: CallbackContext):
     if message.reply_to_message:
         repl_message = message.reply_to_message
         repl_user_id = repl_message.from_user.id
-        if repl_user_id in [bot.id, 777000, 1087968824] and (user_id in DEV_USERS):
+        if repl_user_id in [bot.id, 777000, 1087968824] and (user_id
+                                                             in DEV_USERS):
             user_id = repl_user_id
     text = message.text
     info = text.split(None, 1)
@@ -385,7 +386,8 @@ def set_about_me(update: Update, context: CallbackContext):
             if user_id in [777000, 1087968824]:
                 message.reply_text("Authorized...Information updated!")
             elif user_id == bot.id:
-                message.reply_text("I have updated my info with the one you provided!")
+                message.reply_text(
+                    "I have updated my info with the one you provided!")
             else:
                 message.reply_text("Information updated!")
         else:
@@ -446,8 +448,7 @@ def set_about_bio(update: Update, context: CallbackContext):
             return
 
         if user_id in [777000, 1087968824] and sender_id not in DEV_USERS:
-            message.reply_text(
-                "You are not authorised")
+            message.reply_text("You are not authorised")
             return
 
         if user_id == bot.id and sender_id not in DEV_USERS:
