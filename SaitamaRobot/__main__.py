@@ -203,8 +203,8 @@ def start(update: Update, context: CallbackContext):
                      ],
                      [
                          InlineKeyboardButton(
-                             text="🧾 Getting started guide",
-                             url="https://t.me/OnePunchUpdates/29")
+                             text="To know who I am!!!",
+                             url="https://t.me/bunny_girl_senpai_sub")
                      ],
                      [
                          InlineKeyboardButton(
