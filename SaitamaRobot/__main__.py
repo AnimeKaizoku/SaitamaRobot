@@ -203,7 +203,7 @@ def start(update: Update, context: CallbackContext):
                      ],
                      [
                          InlineKeyboardButton(
-                             text="To know who I am!!!",
+                             text="Wanna know who I am? Click Here 😊",
                              url="https://t.me/bunny_girl_senpai_sub")
                      ],
                      [
