@@ -225,7 +225,7 @@ def info(update: Update, context: CallbackContext):
     rep = message.reply_text(
         "<code>Appraising...</code>", parse_mode=ParseMode.HTML)
 
-    text = (f"╒═══「<b> Appraisal results:</b>」\n"
+    text = (f"╒═══「<b> Appraisal results:</b> 」\n"
             f"ID: <code>{user.id}</code>\n"
             f"First Name: {html.escape(user.first_name)}")
 
@@ -377,18 +377,15 @@ def set_about_me(update: Update, context: CallbackContext):
         repl_user_id = repl_message.from_user.id
         if repl_user_id in [bot.id, 777000, 1087968824] and (user_id in DEV_USERS):
             user_id = repl_user_id
-
     text = message.text
     info = text.split(None, 1)
-
     if len(info) == 2:
         if len(info[1]) < MAX_MESSAGE_LENGTH // 4:
             sql.set_user_me_info(user_id, info[1])
             if user_id in [777000, 1087968824]:
-                    message.reply_text("Authorized...Information updated!")
-            if user_id == bot.id:
-                message.reply_text(
-                    "I have updated my info with the one you provided!")
+                message.reply_text("Authorized...Information updated!")
+            elif user_id == bot.id:
+                message.reply_text("I have updated my info with the one you provided!")
             else:
                 message.reply_text("Information updated!")
         else:
