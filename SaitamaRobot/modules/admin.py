@@ -302,6 +302,7 @@ def unpin(update: Update, context: CallbackContext) -> str:
 @run_async
 @bot_admin
 @user_admin
+@connection_status
 def invite(update: Update, context: CallbackContext):
     bot = context.bot
     chat = update.effective_chat
@@ -375,8 +376,7 @@ ADMINLIST_HANDLER = DisableAbleCommandHandler(["adminlist", "admins"],
 PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.group)
 UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
 
-INVITE_HANDLER = DisableAbleCommandHandler(
-    "invitelink", invite, filters=Filters.group)
+INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
 
 PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)

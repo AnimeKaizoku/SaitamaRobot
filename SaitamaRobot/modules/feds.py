@@ -7,7 +7,7 @@ import uuid
 from io import BytesIO
 
 import SaitamaRobot.modules.sql.feds_sql as sql
-from SaitamaRobot import (GBAN_LOGS, LOGGER, OWNER_ID, SUDO_USERS, TIGER_USERS,
+from SaitamaRobot import (EVENT_LOGS, LOGGER, OWNER_ID, SUDO_USERS, TIGER_USERS,
                           WHITELIST_USERS, dispatcher)
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
@@ -90,12 +90,12 @@ def new_fed(update: Update, context: CallbackContext):
                  "\n`/joinfed {}`".format(fed_name, fed_id, fed_id), parse_mode=ParseMode.MARKDOWN)
         try:
             bot.send_message(
-                GBAN_LOGS,
+                EVENT_LOGS,
                 "New Federation: <b>{}</b>\nID: <pre>{}</pre>".format(
                     fed_name, fed_id),
                 parse_mode=ParseMode.HTML)
         except:
-            LOGGER.warning("Cannot send a message to GBAN_LOGS")
+            LOGGER.warning("Cannot send a message to EVENT_LOGS")
     else:
         update.effective_message.reply_text(
             "Please write down the name of the federation")
