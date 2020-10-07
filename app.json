@@ -44,10 +44,15 @@
          "value": "MyAwesomeSupportGroupGoesHere"
       },
       "EVENT_LOGS": {
-         "description": "Gban log channel where your bot is admin, include the hyphen too: ex: '-123456'",
+         "description": "Event logs channel to note down important bot level events, recommend to make this public. ex: '-123456'",
          "required": true,
          "value": "-123456798"
       },
+      "JOIN_LOGGER": {
+         "description": "A channel where bot will print who added it to what group, useful during debugging or spam handling.",
+         "required": true,
+         "value": "-123456798"
+      },      
       "CASH_API_KEY": {
          "description": "Required for currency converter. Get yours from https://www.alphavantage.co/support/#api-key",
          "required": true,
