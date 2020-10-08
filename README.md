@@ -9,7 +9,7 @@ Originally a Marie fork, Saitama evolved further and was built to be more robust
 
 Can be found on telegram as [SaitamaRobot](https://t.me/SaitamaRobot).
 
-The Support group can be reached out to at [One Punch Support](https://t.me/OnePunchSupport), where you can ask for help about @SaitamaRobot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [One Punch Support](https://t.me/OnePunchSupport), where you can ask for help about [SaitamaRobot](https://t.me/SaitamaRobot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 News channel as at [One Punch Updates](https://t.me/OnePunchUpdates) 
 
@@ -64,8 +64,8 @@ class Development(Config):
     OWNER_USERNAME = "SonOfLars"  # your telegram username
     API_KEY = "your bot api key"  # your api key, as provided by the @botfather
     SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@localhost:5432/database'  # sample db credentials
-    MESSAGE_DUMP = '-1234567890' # some group chat that your bot is a member of
-    USE_MESSAGE_DUMP = True
+    JOIN_LOGGER = '-1234567890' # some group chat that your bot is a member of
+    USE_JOIN_LOGGER = True
     SUDO_USERS = [18673980, 83489514]  # List of id's for users which have sudo access to the bot.
     LOAD = []
     NO_LOAD = ['translation']
@@ -80,7 +80,7 @@ The following env variables are supported:
  - `OWNER_USERNAME`: Your username
 
  - `DATABASE_URL`: Your database URL
- - `MESSAGE_DUMP`: optional: a chat where your replied saved messages are stored, to stop people deleting their old 
+ - `JOIN_LOGGER`: optional: a chat where your replied saved messages are stored, to stop people deleting their old 
  - `LOAD`: Space-separated list of modules you would like to load
  - `NO_LOAD`: Space-separated list of modules you would like NOT to load
  - `WEBHOOK`: Setting this to ANYTHING will enable webhooks when in env mode
@@ -200,7 +200,9 @@ Note: the restart bat requires that User account control be disabled.
 For queries or any issues regarding the bot please open an issue ticket or visit us at [One Punch Support](https://t.me/OnePunchSupport)
 ## How to setup on Heroku 
 For starters click on this button 
-</details>  
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git) 
+
 
 ## Credits
 The bot is based on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)

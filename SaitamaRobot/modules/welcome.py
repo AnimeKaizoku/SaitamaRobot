@@ -5,17 +5,9 @@ import time
 from functools import partial
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
-from SaitamaRobot import (
-    DEV_USERS,
-    LOGGER,
-    OWNER_ID,
-    SUDO_USERS,
-    SUPPORT_USERS,
-    TIGER_USERS,
-    WHITELIST_USERS,
-    sw,
-    dispatcher,
-)
+from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, SUDO_USERS,
+                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, sw,
+                          dispatcher, JOIN_LOGGER)
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
     user_admin,
@@ -226,6 +218,11 @@ def new_member(update: Update, context: CallbackContext):
 
             # Welcome yourself
             elif new_mem.id == bot.id:
+                bot.send_message(
+                    JOIN_LOGGER,
+                    "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>"
+                    .format(chat.title, chat.id),
+                    parse_mode=ParseMode.HTML)
                 update.effective_message.reply_text(
                     "Watashi ga kita!", reply_to_message_id=reply)
                 continue

@@ -159,7 +159,8 @@ async def group_info(event) -> None:
     try:
         entity = await event.client.get_entity(chat)
         totallist = await event.client.get_participants(
-            chat, filter=ChannelParticipantsAdmins)
+            entity, filter=ChannelParticipantsAdmins)
+        ch_full = await event.client(GetFullChannelRequest(channel=entity))
     except:
         await event.reply(
             'The channel specified is private and **I lack permission to access it**. Another reason may be that **I am banned from it**'
@@ -181,7 +182,6 @@ async def group_info(event) -> None:
     msg += "\n\n**Admins List:**"
     for x in totallist:
         msg += f"\n• [{x.id}](tg://user?id={x.id})"
-    ch_full = await event.client(GetFullChannelRequest(channel=entity))
     msg += f"\n\n**Description**:\n`{ch_full.full_chat.about}`"
     await event.reply(msg)
 
@@ -225,7 +225,7 @@ def info(update: Update, context: CallbackContext):
     rep = message.reply_text(
         "<code>Appraising...</code>", parse_mode=ParseMode.HTML)
 
-    text = (f"╒═══「<b> Appraisal results:</b>」\n\n"
+    text = (f"╒═══「<b> Appraisal results:</b> 」\n"
             f"ID: <code>{user.id}</code>\n"
             f"First Name: {html.escape(user.first_name)}")
 
@@ -252,7 +252,7 @@ def info(update: Update, context: CallbackContext):
                     text += _stext.format("Detected")
                 elif status in {"administrator", "creator"}:
                     text += _stext.format("Admin")
-    if user_id != bot.id:
+    if user_id not in [bot.id, 777000, 1087968824]:
         userhp = hpmanager(user)
         text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
 
@@ -368,21 +368,24 @@ def about_me(update: Update, context: CallbackContext):
 def set_about_me(update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = message.from_user.id
+    if user_id in [777000, 1087968824]:
+        message.reply_text("Error! Unauthorized")
+        return
     bot = context.bot
     if message.reply_to_message:
         repl_message = message.reply_to_message
         repl_user_id = repl_message.from_user.id
-        if repl_user_id == bot.id and (user_id in SUDO_USERS or
-                                       user_id in DEV_USERS):
+        if repl_user_id in [bot.id, 777000, 1087968824] and (user_id
+                                                             in DEV_USERS):
             user_id = repl_user_id
-
     text = message.text
     info = text.split(None, 1)
-
     if len(info) == 2:
         if len(info[1]) < MAX_MESSAGE_LENGTH // 4:
             sql.set_user_me_info(user_id, info[1])
-            if user_id == bot.id:
+            if user_id in [777000, 1087968824]:
+                message.reply_text("Authorized...Information updated!")
+            elif user_id == bot.id:
                 message.reply_text(
                     "I have updated my info with the one you provided!")
             else:
@@ -444,7 +447,11 @@ def set_about_bio(update: Update, context: CallbackContext):
             )
             return
 
-        if user_id == bot.id and sender_id not in SUDO_USERS and sender_id not in DEV_USERS:
+        if user_id in [777000, 1087968824] and sender_id not in DEV_USERS:
+            message.reply_text("You are not authorised")
+            return
+
+        if user_id == bot.id and sender_id not in DEV_USERS:
             message.reply_text(
                 "Erm... yeah, I only trust Heroes Association to set my bio.")
             return

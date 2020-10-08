@@ -58,8 +58,8 @@ You can find my list of available commands with /help.
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.😊
-I help admins manage their groups with Bunny Girl Charm 😋! Have a look at the following for an idea of some of \
+Hey there! My name is *{}*.
+I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
 the things I can help you with.
 
 *Main* commands available:
@@ -77,7 +77,7 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://telegra.ph/file/3991b1088807a2268853b.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Saitama is hosted on one of Kaizoku's Servers and doesn't require any donations as of now but \
@@ -189,7 +189,7 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text="☑️ Add Mai Sakarajima to your group",
+                            text="☑️ Add Saitama to your group",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username))
                     ],
@@ -203,13 +203,13 @@ def start(update: Update, context: CallbackContext):
                      ],
                      [
                          InlineKeyboardButton(
-                             text="Wanna know who I am? Click Here 😊",
-                             url="https://t.me/bunny_girl_senpai_sub")
+                             text="🧾 Getting started guide",
+                             url="https://t.me/OnePunchUpdates/29")
                      ],
                      [
                          InlineKeyboardButton(
                              text="🗄 Source code",
-                             url="https://github.com/Raki-12/SaitamaRobot")
+                             url="https://github.com/AnimeKaizoku/SaitamaRobot")
                      ]]))
     else:
         update.effective_message.reply_text(
@@ -544,7 +544,7 @@ def main():
 
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
-        updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
+        updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:
             updater.bot.set_webhook(
