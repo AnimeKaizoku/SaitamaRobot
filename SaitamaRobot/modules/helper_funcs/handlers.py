@@ -1,5 +1,13 @@
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
 from SaitamaRobot import ALLOW_EXCL
+from SaitamaRobot import (
+    DEV_USERS,
+    SUDO_USERS,
+    SUPPORT_USERS,
+    TIGER_USERS,
+    WHITELIST_USERS
+)
+
 from telegram import MessageEntity, Update
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler, Filters
 from time import sleep
@@ -18,6 +26,7 @@ else:
 
 class AntiSpam:
     def __init__(self):
+        self.whitelist = (DEV_USERS or []) + (SUDO_USERS or []) + (WHITELIST_USERS or []) + (SUPPORT_USERS or []) + (TIGER_USERS or [])
         Duration.CUSTOM = 15 # Custom duration, 15 seconds
         self.sec_limit = RequestRate(4, Duration.CUSTOM) # 8 / Per 15 Seconds
         self.min_limit = RequestRate(15, Duration.MINUTE) # 20 / Per minute
@@ -33,6 +42,8 @@ class AntiSpam:
         """
         Return True if user is to be ignored else False
         """
+        if user in self.whitelist:
+            return False
         try:
             self.limiter.try_acquire(user)
             return False
