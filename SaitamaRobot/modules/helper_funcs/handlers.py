@@ -19,9 +19,9 @@ else:
 class AntiSpam:
     def __init__(self):
         Duration.CUSTOM = 15 # Custom duration, 15 seconds
-        self.sec_limit = RequestRate(8, Duration.CUSTOM) # 8 / Per 15 Seconds
-        self.min_limit = RequestRate(20, Duration.MINUTE) # 20 / Per minute
-        self.hour_limit = RequestRate(200, Duration.HOUR) # 200 / Per hour
+        self.sec_limit = RequestRate(4, Duration.CUSTOM) # 8 / Per 15 Seconds
+        self.min_limit = RequestRate(15, Duration.MINUTE) # 20 / Per minute
+        self.hour_limit = RequestRate(100, Duration.HOUR) # 200 / Per hour
         self.daily_limit = RequestRate(1000, Duration.DAY) # 1000 / Per day
         self.limiter = Limiter(
                                self.sec_limit,
