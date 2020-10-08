@@ -224,13 +224,13 @@ def new_member(update: Update, context: CallbackContext):
                             creator = x.user
                             break
                 if creator:
-                bot.send_message(
+                    bot.send_message(
                     JOIN_LOGGER,
                     "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>\n<b>Creator:</b> <code>{}</code>"
                     .format(chat.title, chat.id, creator),
                     parse_mode=ParseMode.HTML)
                 else:
-                bot.send_message(
+                    bot.send_message(
                     JOIN_LOGGER,
                     "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>"
                     .format(chat.title, chat.id),
