@@ -55,7 +55,7 @@ if is_module_loaded(FILENAME):
                                 command[1].lower()
                                 == message.bot.username.lower()):
                             return None
-                        if SpamChecker.check_user(user_id):
+                        if SpamChecker.check_user(update.effective_user.id):
                             return None
                         filter_result = self.filters(update)
                         if filter_result:
