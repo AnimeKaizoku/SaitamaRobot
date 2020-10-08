@@ -35,7 +35,7 @@ class AntiSpam:
         """
         try:
             self.limiter.try_acquire(user)
-            return True
+            return False
         except BucketFullException:
             return True
         
