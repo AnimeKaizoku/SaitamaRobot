@@ -381,7 +381,7 @@ def check_and_ban(update, user_id, should_message=True):
     try:
         sw_ban = sw.get_ban(int(user_id))
     except AttributeError:
-        pass
+        sw_ban = None
 
     if sw_ban:
         update.effective_chat.kick_member(user_id)
