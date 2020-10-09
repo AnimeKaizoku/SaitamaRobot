@@ -31,7 +31,8 @@ def is_sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
 def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
     if (chat.type == 'private' or user_id in SUDO_USERS or
             user_id in DEV_USERS or chat.all_members_are_administrators or
-            user_id == 777000):
+            user_id in [777000, 1087968824
+                       ]):  # Count telegram and Group Anonymous as admin
         return True
 
     if not member:
@@ -61,7 +62,9 @@ def is_user_ban_protected(chat: Chat,
                           member: ChatMember = None) -> bool:
     if (chat.type == 'private' or user_id in SUDO_USERS or
             user_id in DEV_USERS or user_id in WHITELIST_USERS or
-            user_id in TIGER_USERS or chat.all_members_are_administrators):
+            user_id in TIGER_USERS or chat.all_members_are_administrators or
+            user_id in [777000, 1087968824
+                       ]):  # Count telegram and Group Anonymous as admin
         return True
 
     if not member:

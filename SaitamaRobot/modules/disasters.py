@@ -565,14 +565,12 @@ Group admins/group owners do not need these commands.
  ╚   memory without restarting.memory without restarting the bot 
 
  ╔ *Remote commands:*
- ╠ `/runban user group`*:*
- ╠ `/rpunch user group`*:*
- ╠ `/rmute user group`*:*
- ╚ `/runmute user group`*:*
-
- ╔ *Shell commands:* 
- ╠ `/eval`*:* Self explanatory
- ╚ `/py`*:* Self explanatory
+ ╠ `/rban user group`*:* Remote ban
+ ╠ `/runban user group`*:* Remote un-ban
+ ╠ `/rpunch user group`*:* Remote punch
+ ╠ `/rmute user group`*:* Remote mute
+ ╠ `/runmute user group`*:* Remote un-mute
+ ╚ `/ginfo username/link/ID`*:* Pulls info panel for entire group
 
  ╔ *Windows self hosted only:*
  ╠ `/restart`*:* Restarts the bots service
@@ -580,8 +578,14 @@ Group admins/group owners do not need these commands.
 
  ╔ *Chatbot:* 
  ╚ `/listaichats`*:* Lists the chats the chatmode is enabled in
+ 
+ ╔ *Debugging and Shell:* 
+ ╠ `/debug <on/off>`*:* Logs commands to updates.txt
+ ╠ `/eval`*:* Self explanatory
+ ╠ `/sh`*:* Self explanator
+ ╚ `/py`*:* Self explanatory
 
-Visit @{SUPPORT_CHAT} if you want details on these.
+Visit @{SUPPORT_CHAT} for more information.
 """
 
 SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo)

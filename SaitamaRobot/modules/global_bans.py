@@ -232,9 +232,10 @@ def gban(update: Update, context: CallbackContext):
     try:
         bot.send_message(
             user_id,
-            "You have been globally banned from all groups where I have administrative permissions."
-            "To see the reason click on /info."
-            f" If you think that this was a mistake, you may appeal your ban here: @{SUPPORT_CHAT}",
+            "#EVENT"
+            "You have been marked as Malicious and as such have been banned from any future groups we manage."
+            f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
+            f"</b>Appeal Chat:</b> @{SUPPORT_CHAT}",
             parse_mode=ParseMode.HTML)
     except:
         pass  # bot probably blocked by user
@@ -381,7 +382,7 @@ def check_and_ban(update, user_id, should_message=True):
     try:
         sw_ban = sw.get_ban(int(user_id))
     except AttributeError:
-        pass
+        sw_ban = None
 
     if sw_ban:
         update.effective_chat.kick_member(user_id)
@@ -465,7 +466,7 @@ def __stats__():
 
 def __user_info__(user_id):
     is_gbanned = sql.is_user_gbanned(user_id)
-    text = "Globally banned: <b>{}</b>"
+    text = "Malicious: <b>{}</b>"
     if user_id in [777000, 1087968824]:
         return ""
     if user_id == dispatcher.bot.id:
@@ -479,7 +480,7 @@ def __user_info__(user_id):
             text += f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
         text += f"\n<b>Appeal Chat:</b> @{SUPPORT_CHAT}"
     else:
-        text = text.format("No")
+        text = text.format("???")
     return text
 
 
@@ -493,25 +494,24 @@ def __chat_settings__(chat_id, user_id):
 
 __help__ = f"""
 *Admins only:*
- • `/gbanstat <on/off/yes/no>`*:* Will disable the effect of global bans on your group, or return your current settings.
+ • `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
 
-Gbans, also known as global bans, are used by the bot owners to ban spammers across all groups. This helps protect \
-you and your groups by removing spam flooders as quickly as possible. They can be disabled for your group by calling \
-`/gbanstat`
+Anti-Spam, used by bot devs to ban spammers across all groups. This helps protect \
+you and your groups by removing spam flooders as quickly as possible.
 *Note:* Users can appeal gbans or report spammers at @{SUPPORT_CHAT}
 
-Saitama also integrates @Spamwatch API into gbans to remove Spammers as much as possible from your chatroom!
+This also integrates @Spamwatch API to remove Spammers as much as possible from your chatroom!
 *What is SpamWatch?*
 SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
 Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
-*Note:* Users can appeal spamwatch bans or report spammers at @SpamwatchSupport
+*Note:* Users can appeal spamwatch bans at @SpamwatchSupport
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban)
 UNGBAN_HANDLER = CommandHandler("ungban", ungban)
 GBAN_LIST = CommandHandler("gbanlist", gbanlist)
 
-GBAN_STATUS = CommandHandler("gbanstat", gbanstat, filters=Filters.group)
+GBAN_STATUS = CommandHandler("antispam", gbanstat, filters=Filters.group)
 
 GBAN_ENFORCER = MessageHandler(Filters.all & Filters.group, enforce_gban)
 

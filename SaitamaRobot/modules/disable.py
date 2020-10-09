@@ -3,7 +3,8 @@ from typing import Union
 
 from future.utils import string_types
 from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.helper_funcs.handlers import (CMD_STARTERS)
+from SaitamaRobot.modules.helper_funcs.handlers import (CMD_STARTERS,
+                                                        SpamChecker)
 from SaitamaRobot.modules.helper_funcs.misc import is_module_loaded
 from telegram import ParseMode, Update
 from telegram.ext import (CallbackContext, CommandHandler, Filters,
@@ -55,7 +56,8 @@ if is_module_loaded(FILENAME):
                                 command[1].lower()
                                 == message.bot.username.lower()):
                             return None
-
+                        if SpamChecker.check_user(update.effective_user.id):
+                            return None
                         filter_result = self.filters(update)
                         if filter_result:
                             chat = update.effective_chat
