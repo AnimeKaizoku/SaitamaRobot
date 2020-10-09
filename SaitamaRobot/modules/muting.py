@@ -36,7 +36,7 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
         return reply
 
     if is_user_admin(chat, user_id, member) or user_id in TIGER_USERS:
-        reply = "I really wish I could mute admins...Perhaps a Punch?"
+        reply = "Can't. Find someone else to mute but not this one."
         return reply
 
     return None
