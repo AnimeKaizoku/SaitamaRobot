@@ -231,8 +231,7 @@ def gban(update: Update, context: CallbackContext):
 
     try:
         bot.send_message(
-            user_id,
-            "#EVENT"
+            user_id, "#EVENT"
             "You have been marked as Malicious and as such have been banned from any future groups we manage."
             f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
             f"</b>Appeal Chat:</b> @{SUPPORT_CHAT}",
