@@ -572,19 +572,20 @@ Group admins/group owners do not need these commands.
  ╠ `/runmute user group`*:* Remote un-mute
  ╚ `/ginfo username/link/ID`*:* Pulls info panel for entire group
 
- ╔ *Shell commands:* 
- ╠ `/eval`*:* Self explanatory
- ╠ `/sh`*:* Self explanator
- ╚ `/py`*:* Self explanatory
-
  ╔ *Windows self hosted only:*
  ╠ `/restart`*:* Restarts the bots service
  ╚ `/gitpull`*:* Pulls the repo and then restarts the bots service
 
  ╔ *Chatbot:* 
  ╚ `/listaichats`*:* Lists the chats the chatmode is enabled in
+ 
+ ╔ *Debugging and Shell:* 
+ ╠ `/debug <on/off>`*:* Logs commands to updates.txt
+ ╠ `/eval`*:* Self explanatory
+ ╠ `/sh`*:* Self explanator
+ ╚ `/py`*:* Self explanatory
 
-Visit @{SUPPORT_CHAT} if you want details on these.
+Visit @{SUPPORT_CHAT} for more information.
 """
 
 SUDO_HANDLER = CommandHandler(("addsudo", "adddragon"), addsudo)
