@@ -163,7 +163,7 @@ async def group_info(event) -> None:
         ch_full = await event.client(GetFullChannelRequest(channel=entity))
     except:
         await event.reply(
-            'The channel specified is private and **I lack permission to access it**. Another reason may be that **I am banned from it**'
+            "Can't for some reason, maybe it is a private one or that I am banned there."
         )
         return
     msg = f"**ID**: `{entity.id}`"
