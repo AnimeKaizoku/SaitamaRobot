@@ -3,9 +3,8 @@ import json
 import os
 from typing import Optional
 
-from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, SUPPORT_CHAT,
-                          DEMONS, TIGERS, WOLVES,
-                          dispatcher)
+from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, SUPPORT_CHAT, DEMONS,
+                          TIGERS, WOLVES, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (dev_plus, sudo_plus,
                                                            whitelist_plus)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user

@@ -1,7 +1,6 @@
 import html
 
-from SaitamaRobot import (LOGGER, DRAGONS, TIGERS, WOLVES,
-                          dispatcher)
+from SaitamaRobot import (LOGGER, DRAGONS, TIGERS, WOLVES, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (user_admin,
                                                            user_not_admin)
 from SaitamaRobot.modules.log_channel import loggable

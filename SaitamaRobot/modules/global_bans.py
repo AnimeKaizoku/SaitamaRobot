@@ -4,10 +4,9 @@ from datetime import datetime
 from io import BytesIO
 from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
 import SaitamaRobot.modules.sql.global_bans_sql as sql
-from SaitamaRobot import (DEV_USERS, EVENT_LOGS, OWNER_ID, STRICT_GBAN,
-                          DRAGONS, SUPPORT_CHAT, SPAMWATCH_SUPPORT_CHAT,
-                          DEMONS, TIGERS, WOLVES, sw,
-                          dispatcher)
+from SaitamaRobot import (DEV_USERS, EVENT_LOGS, OWNER_ID, STRICT_GBAN, DRAGONS,
+                          SUPPORT_CHAT, SPAMWATCH_SUPPORT_CHAT, DEMONS, TIGERS,
+                          WOLVES, sw, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
                                                            support_plus,
                                                            user_admin)
@@ -99,11 +98,9 @@ def gban(update: Update, context: CallbackContext):
         return
 
     if user_id in [777000, 1087968824]:
-        message.reply_text(
-            "Fool! You can't attack Telegram's native tech!"
-        )
+        message.reply_text("Fool! You can't attack Telegram's native tech!")
         return
-    
+
     try:
         user_chat = bot.get_chat(user_id)
     except BadRequest as excp:
@@ -237,8 +234,7 @@ def gban(update: Update, context: CallbackContext):
 
     try:
         bot.send_message(
-            user_id,
-            "#EVENT"
+            user_id, "#EVENT"
             "You have been marked as Malicious and as such have been banned from any future groups we manage."
             f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
             f"</b>Appeal Chat:</b> @{SUPPORT_CHAT}",

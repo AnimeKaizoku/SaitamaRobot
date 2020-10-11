@@ -1,8 +1,7 @@
 from functools import wraps
 
-from SaitamaRobot import (DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT,
-                          DEMONS, TIGERS, WOLVES,
-                          dispatcher)
+from SaitamaRobot import (DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT, DEMONS,
+                          TIGERS, WOLVES, dispatcher)
 from SaitamaRobot.mwt import MWT
 from telegram import Chat, ChatMember, ParseMode, Update
 from telegram.ext import CallbackContext
@@ -11,9 +10,8 @@ from telegram.ext import CallbackContext
 def is_whitelist_plus(chat: Chat,
                       user_id: int,
                       member: ChatMember = None) -> bool:
-    return any(
-        user_id in user for user in
-        [WOLVES, TIGERS, DEMONS, DRAGONS, DEV_USERS])
+    return any(user_id in user
+               for user in [WOLVES, TIGERS, DEMONS, DRAGONS, DEV_USERS])
 
 
 def is_support_plus(chat: Chat,
@@ -29,8 +27,8 @@ def is_sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
 @MWT(timeout=60 * 10
     )  # Cache admin status for 10 mins to avoid extra API requests.
 def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
-    if (chat.type == 'private' or user_id in DRAGONS or
-            user_id in DEV_USERS or chat.all_members_are_administrators or
+    if (chat.type == 'private' or user_id in DRAGONS or user_id in DEV_USERS or
+            chat.all_members_are_administrators or
             user_id in [777000, 1087968824
                        ]):  # Count telegram and Group Anonymous as admin
         return True
@@ -60,9 +58,9 @@ def can_delete(chat: Chat, bot_id: int) -> bool:
 def is_user_ban_protected(chat: Chat,
                           user_id: int,
                           member: ChatMember = None) -> bool:
-    if (chat.type == 'private' or user_id in DRAGONS or
-            user_id in DEV_USERS or user_id in WOLVES or
-            user_id in TIGERS or chat.all_members_are_administrators or
+    if (chat.type == 'private' or user_id in DRAGONS or user_id in DEV_USERS or
+            user_id in WOLVES or user_id in TIGERS or
+            chat.all_members_are_administrators or
             user_id in [777000, 1087968824
                        ]):  # Count telegram and Group Anonymous as admin
         return True

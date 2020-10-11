@@ -7,8 +7,8 @@ import uuid
 from io import BytesIO
 
 import SaitamaRobot.modules.sql.feds_sql as sql
-from SaitamaRobot import (EVENT_LOGS, LOGGER, OWNER_ID, DRAGONS, TIGERS,
-                          WOLVES, dispatcher)
+from SaitamaRobot import (EVENT_LOGS, LOGGER, OWNER_ID, DRAGONS, TIGERS, WOLVES,
+                          dispatcher)
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
