@@ -6,7 +6,7 @@ from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
 from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, DRAGONS,
-                          DEMONS, TIGER_USERS, WOLVES,
+                          DEMONS, TIGERS, WOLVES,
                           dispatcher)
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
@@ -67,7 +67,7 @@ def ban(update: Update, context: CallbackContext) -> str:
                 "Bring an order from Heroes association to fight a Demon disaster."
             )
             return log_message
-        elif user_id in TIGER_USERS:
+        elif user_id in TIGERS:
             message.reply_text(
                 "Bring an order from Heroes association to fight a Tiger disaster."
             )
@@ -337,7 +337,7 @@ def selfunban(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
     bot, args = context.bot, context.args
-    if user.id not in DRAGONS or user.id not in TIGER_USERS:
+    if user.id not in DRAGONS or user.id not in TIGERS:
         return
 
     try:

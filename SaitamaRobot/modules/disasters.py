@@ -4,7 +4,7 @@ import os
 from typing import Optional
 
 from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, SUPPORT_CHAT,
-                          DEMONS, TIGER_USERS, WOLVES,
+                          DEMONS, TIGERS, WOLVES,
                           dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (dev_plus, sudo_plus,
                                                            whitelist_plus)
@@ -245,12 +245,12 @@ def addtiger(update: Update, context: CallbackContext) -> str:
         data['whitelists'].remove(user_id)
         WOLVES.remove(user_id)
 
-    if user_id in TIGER_USERS:
+    if user_id in TIGERS:
         message.reply_text("This user is already a Tiger.")
         return ""
 
     data['tigers'].append(user_id)
-    TIGER_USERS.append(user_id)
+    TIGERS.append(user_id)
 
     with open(ELEVATED_USERS_FILE, 'w') as outfile:
         json.dump(data, outfile, indent=4)
@@ -419,9 +419,9 @@ def removetiger(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in TIGER_USERS:
+    if user_id in TIGERS:
         message.reply_text("Demoting to normal user")
-        TIGER_USERS.remove(user_id)
+        TIGERS.remove(user_id)
         data['tigers'].remove(user_id)
 
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
@@ -463,7 +463,7 @@ def whitelistlist(update: Update, context: CallbackContext):
 def tigerlist(update: Update, context: CallbackContext):
     reply = "<b>Known Tiger Disasters 🐯:</b>\n"
     bot = context.bot
-    for each_user in TIGER_USERS:
+    for each_user in TIGERS:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)

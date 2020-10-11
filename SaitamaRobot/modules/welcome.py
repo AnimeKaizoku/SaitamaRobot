@@ -6,7 +6,7 @@ from functools import partial
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
 from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, DRAGONS,
-                          DEMONS, TIGER_USERS, WOLVES, sw,
+                          DEMONS, TIGERS, WOLVES, sw,
                           dispatcher, JOIN_LOGGER)
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
@@ -203,7 +203,7 @@ def new_member(update: Update, context: CallbackContext):
                 continue
 
             # Welcome Whitelisted
-            elif new_mem.id in TIGER_USERS:
+            elif new_mem.id in TIGERS:
                 update.effective_message.reply_text(
                     "Oof! A Tiger disaster just joined!",
                     reply_to_message_id=reply)

@@ -1,7 +1,7 @@
 from functools import wraps
 
 from SaitamaRobot import (DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT,
-                          DEMONS, TIGER_USERS, WOLVES,
+                          DEMONS, TIGERS, WOLVES,
                           dispatcher)
 from SaitamaRobot.mwt import MWT
 from telegram import Chat, ChatMember, ParseMode, Update
@@ -13,7 +13,7 @@ def is_whitelist_plus(chat: Chat,
                       member: ChatMember = None) -> bool:
     return any(
         user_id in user for user in
-        [WOLVES, TIGER_USERS, DEMONS, DRAGONS, DEV_USERS])
+        [WOLVES, TIGERS, DEMONS, DRAGONS, DEV_USERS])
 
 
 def is_support_plus(chat: Chat,
@@ -62,7 +62,7 @@ def is_user_ban_protected(chat: Chat,
                           member: ChatMember = None) -> bool:
     if (chat.type == 'private' or user_id in DRAGONS or
             user_id in DEV_USERS or user_id in WOLVES or
-            user_id in TIGER_USERS or chat.all_members_are_administrators or
+            user_id in TIGERS or chat.all_members_are_administrators or
             user_id in [777000, 1087968824
                        ]):  # Count telegram and Group Anonymous as admin
         return True

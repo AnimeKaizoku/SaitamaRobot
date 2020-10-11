@@ -3,7 +3,7 @@ from typing import Optional, List
 
 from telegram import Message, Chat, Update, Bot, User, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ChatPermissions
 
-from SaitamaRobot import TIGER_USERS, WOLVES, dispatcher
+from SaitamaRobot import TIGERS, WOLVES, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin, can_restrict, connection_status, is_user_admin, user_admin,
     user_admin_no_reply)
@@ -33,7 +33,7 @@ def check_flood(update, context) -> str:
 
     # ignore admins and whitelists
     if (is_user_admin(chat, user.id) or user.id in WOLVES or
-            user.id in TIGER_USERS):
+            user.id in TIGERS):
         sql.update_flood(chat.id, None)
         return ""
 

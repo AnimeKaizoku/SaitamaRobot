@@ -87,7 +87,7 @@
          "required": false,
          "value": "615304572"
       },
-      "TIGER_USERS": {
+      "TIGERS": {
          "description": "A space separated list of user IDs who you wanna assign as tiger users.",
          "required": false,
          "value": ""

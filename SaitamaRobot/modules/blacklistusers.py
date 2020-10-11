@@ -2,7 +2,7 @@
 
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
 from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS,
-                          TIGER_USERS, WOLVES, dispatcher)
+                          TIGERS, WOLVES, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
                                                           extract_user_and_text)
@@ -136,7 +136,7 @@ def __user_info__(user_id):
         return ""
     if user_id == dispatcher.bot.id:
         return ""
-    if int(user_id) in DRAGONS + TIGER_USERS + WOLVES:
+    if int(user_id) in DRAGONS + TIGERS + WOLVES:
         return ""
     if is_blacklisted:
         text = text.format("Yes")

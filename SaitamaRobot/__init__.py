@@ -61,8 +61,8 @@ if ENV:
             "Your whitelisted users list does not contain valid integers.")
 
     try:
-        TIGER_USERS = set(
-            int(x) for x in os.environ.get("TIGER_USERS", "").split())
+        TIGERS = set(
+            int(x) for x in os.environ.get("TIGERS", "").split())
     except ValueError:
         raise Exception(
             "Your tiger users list does not contain valid integers.")
@@ -131,7 +131,7 @@ else:
             "Your whitelisted users list does not contain valid integers.")
 
     try:
-        TIGER_USERS = set(int(x) for x in Config.TIGER_USERS or [])
+        TIGERS = set(int(x) for x in Config.TIGERS or [])
     except ValueError:
         raise Exception(
             "Your tiger users list does not contain valid integers.")
@@ -185,7 +185,7 @@ DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
 WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
-TIGER_USERS = list(TIGER_USERS)
+TIGERS = list(TIGERS)
 
 # Load at end to ensure all prev variables have been set
 from SaitamaRobot.modules.helper_funcs.handlers import (CustomCommandHandler,
