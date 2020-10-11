@@ -13,7 +13,7 @@ from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
+from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, SUPPORT_USERS,
                           TIGER_USERS, WHITELIST_USERS, INFOPIC, dispatcher, sw)
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 import SaitamaRobot.modules.sql.userinfo_sql as sql
@@ -24,7 +24,7 @@ from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
 from SaitamaRobot.modules.sql.feds_sql import get_user_fbanlist
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from SaitamaRobot import telethn as SaitamaTelethonClient, TIGER_USERS, SUDO_USERS, SUPPORT_USERS
+from SaitamaRobot import telethn as SaitamaTelethonClient, TIGER_USERS, DRAGONS, SUPPORT_USERS
 
 
 def no_by_per(totalhp, percentage):
@@ -152,7 +152,7 @@ def get_id(update: Update, context: CallbackContext):
 @SaitamaTelethonClient.on(
     events.NewMessage(
         pattern='/ginfo ',
-        from_users=(TIGER_USERS or []) + (SUDO_USERS or []) +
+        from_users=(TIGER_USERS or []) + (DRAGONS or []) +
         (SUPPORT_USERS or [])))
 async def group_info(event) -> None:
     chat = event.text.split(' ', 1)[1]
@@ -275,7 +275,7 @@ def info(update: Update, context: CallbackContext):
     elif user.id in DEV_USERS:
         text += "\n\nThis user is member of 'Hero Association'."
         disaster_level_present = True
-    elif user.id in SUDO_USERS:
+    elif user.id in DRAGONS:
         text += "\n\nThe Disaster level of this person is 'Dragon'."
         disaster_level_present = True
     elif user.id in SUPPORT_USERS:

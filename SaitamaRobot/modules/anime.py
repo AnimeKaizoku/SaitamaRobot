@@ -5,7 +5,7 @@ import textwrap
 import bs4
 import jikanpy
 import requests
-from SaitamaRobot import DEV_USERS, OWNER_ID, SUDO_USERS, dispatcher
+from SaitamaRobot import DEV_USERS, OWNER_ID, DRAGONS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
                       Update)
@@ -458,7 +458,7 @@ def button(update: Update, context: CallbackContext):
     query_type = data[0]
     original_user_id = int(data[1])
 
-    user_and_admin_list = [original_user_id, OWNER_ID] + SUDO_USERS + DEV_USERS
+    user_and_admin_list = [original_user_id, OWNER_ID] + DRAGONS + DEV_USERS
 
     bot.answer_callback_query(query.id)
     if query_type == "anime_close":

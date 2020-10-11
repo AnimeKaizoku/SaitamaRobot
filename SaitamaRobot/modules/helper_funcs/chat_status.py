@@ -1,6 +1,6 @@
 from functools import wraps
 
-from SaitamaRobot import (DEL_CMDS, DEV_USERS, SUDO_USERS, SUPPORT_CHAT,
+from SaitamaRobot import (DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT,
                           SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
                           dispatcher)
 from SaitamaRobot.mwt import MWT
@@ -13,23 +13,23 @@ def is_whitelist_plus(chat: Chat,
                       member: ChatMember = None) -> bool:
     return any(
         user_id in user for user in
-        [WHITELIST_USERS, TIGER_USERS, SUPPORT_USERS, SUDO_USERS, DEV_USERS])
+        [WHITELIST_USERS, TIGER_USERS, SUPPORT_USERS, DRAGONS, DEV_USERS])
 
 
 def is_support_plus(chat: Chat,
                     user_id: int,
                     member: ChatMember = None) -> bool:
-    return user_id in SUPPORT_USERS or user_id in SUDO_USERS or user_id in DEV_USERS
+    return user_id in SUPPORT_USERS or user_id in DRAGONS or user_id in DEV_USERS
 
 
 def is_sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
-    return user_id in SUDO_USERS or user_id in DEV_USERS
+    return user_id in DRAGONS or user_id in DEV_USERS
 
 
 @MWT(timeout=60 * 10
     )  # Cache admin status for 10 mins to avoid extra API requests.
 def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
-    if (chat.type == 'private' or user_id in SUDO_USERS or
+    if (chat.type == 'private' or user_id in DRAGONS or
             user_id in DEV_USERS or chat.all_members_are_administrators or
             user_id in [777000, 1087968824
                        ]):  # Count telegram and Group Anonymous as admin
@@ -60,7 +60,7 @@ def can_delete(chat: Chat, bot_id: int) -> bool:
 def is_user_ban_protected(chat: Chat,
                           user_id: int,
                           member: ChatMember = None) -> bool:
-    if (chat.type == 'private' or user_id in SUDO_USERS or
+    if (chat.type == 'private' or user_id in DRAGONS or
             user_id in DEV_USERS or user_id in WHITELIST_USERS or
             user_id in TIGER_USERS or chat.all_members_are_administrators or
             user_id in [777000, 1087968824
@@ -343,7 +343,7 @@ def user_can_ban(func):
         member = update.effective_chat.get_member(user)
 
         if not (member.can_restrict_members or
-                member.status == "creator") and not user in SUDO_USERS:
+                member.status == "creator") and not user in DRAGONS:
             update.effective_message.reply_text(
                 "Sorry son, but you're not worthy to wield the banhammer.")
             return ""

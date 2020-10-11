@@ -5,7 +5,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
-from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, SUDO_USERS,
+from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, DRAGONS,
                           SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
                           dispatcher)
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -58,7 +58,7 @@ def ban(update: Update, context: CallbackContext) -> str:
         elif user_id in DEV_USERS:
             message.reply_text("I can't act against our own.")
             return log_message
-        elif user_id in SUDO_USERS:
+        elif user_id in DRAGONS:
             message.reply_text(
                 "Fighting this Dragon here will put civilian lives at risk.")
             return log_message
@@ -337,7 +337,7 @@ def selfunban(context: CallbackContext, update: Update) -> str:
     message = update.effective_message
     user = update.effective_user
     bot, args = context.bot, context.args
-    if user.id not in SUDO_USERS or user.id not in TIGER_USERS:
+    if user.id not in DRAGONS or user.id not in TIGER_USERS:
         return
 
     try:

@@ -62,7 +62,7 @@ class Development(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql://username:password@localhost:5432/database'  # sample db credentials
     JOIN_LOGGER = '-1234567890' # some group chat that your bot is a member of
     USE_JOIN_LOGGER = True
-    SUDO_USERS = [18673980, 83489514]  # List of id's for users which have sudo access to the bot.
+    DRAGONS = [18673980, 83489514]  # List of id's for users which have sudo access to the bot.
     LOAD = []
     NO_LOAD = ['translation']
 ```
@@ -83,7 +83,7 @@ The following env variables are supported:
  messages
  - `URL`: The URL your webhook should connect to (only needed for webhook mode)
 
- - `SUDO_USERS`: A space-separated list of user_ids which should be considered sudo users
+ - `DRAGONS`: A space-separated list of user_ids which should be considered sudo users
  - `SUPPORT_USERS`: A space-separated list of user_ids which should be considered support users (can gban/ungban,
  nothing else)
  - `WHITELIST_USERS`: A space-separated list of user_ids which should be considered whitelisted - they can't be banned.

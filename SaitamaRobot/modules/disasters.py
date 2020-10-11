@@ -3,7 +3,7 @@ import json
 import os
 from typing import Optional
 
-from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_CHAT,
+from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, SUPPORT_CHAT,
                           SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
                           dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (dev_plus, sudo_plus,
@@ -63,7 +63,7 @@ def addsudo(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in SUDO_USERS:
+    if user_id in DRAGONS:
         message.reply_text("This member is already a Dragon Disaster")
         return ""
 
@@ -78,7 +78,7 @@ def addsudo(update: Update, context: CallbackContext) -> str:
         WHITELIST_USERS.remove(user_id)
 
     data['sudos'].append(user_id)
-    SUDO_USERS.append(user_id)
+    DRAGONS.append(user_id)
 
     with open(ELEVATED_USERS_FILE, 'w') as outfile:
         json.dump(data, outfile, indent=4)
@@ -121,10 +121,10 @@ def addsupport(
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in SUDO_USERS:
+    if user_id in DRAGONS:
         rt += "Requested HA to deomote this Dragon to Demon"
         data['sudos'].remove(user_id)
-        SUDO_USERS.remove(user_id)
+        DRAGONS.remove(user_id)
 
     if user_id in SUPPORT_USERS:
         message.reply_text("This user is already a Demon Disaster.")
@@ -175,10 +175,10 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in SUDO_USERS:
+    if user_id in DRAGONS:
         rt += "This member is a Dragon Disaster, Demoting to Wolf."
         data['sudos'].remove(user_id)
-        SUDO_USERS.remove(user_id)
+        DRAGONS.remove(user_id)
 
     if user_id in SUPPORT_USERS:
         rt += "This user is already a Demon Disaster, Demoting to Wolf."
@@ -230,10 +230,10 @@ def addtiger(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in SUDO_USERS:
+    if user_id in DRAGONS:
         rt += "This member is a Dragon Disaster, Demoting to Tiger."
         data['sudos'].remove(user_id)
-        SUDO_USERS.remove(user_id)
+        DRAGONS.remove(user_id)
 
     if user_id in SUPPORT_USERS:
         rt += "This user is already a Demon Disaster, Demoting to Tiger."
@@ -290,9 +290,9 @@ def removesudo(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in SUDO_USERS:
+    if user_id in DRAGONS:
         message.reply_text("Requested HA to demote this user to Civilian")
-        SUDO_USERS.remove(user_id)
+        DRAGONS.remove(user_id)
         data['sudos'].remove(user_id)
 
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
@@ -492,7 +492,7 @@ def supportlist(update: Update, context: CallbackContext):
 @whitelist_plus
 def sudolist(update: Update, context: CallbackContext):
     bot = context.bot
-    true_sudo = list(set(SUDO_USERS) - set(DEV_USERS))
+    true_sudo = list(set(DRAGONS) - set(DEV_USERS))
     reply = "<b>Known Dragon Disasters 🐉:</b>\n"
     for each_user in true_sudo:
         user_id = int(each_user)

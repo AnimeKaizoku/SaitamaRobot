@@ -5,7 +5,7 @@ import time
 from functools import partial
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
-from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, SUDO_USERS,
+from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, DRAGONS,
                           SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, sw,
                           dispatcher, JOIN_LOGGER)
 from SaitamaRobot.modules.helper_funcs.chat_status import (
@@ -187,7 +187,7 @@ def new_member(update: Update, context: CallbackContext):
                 continue
 
             # Welcome Sudos
-            elif new_mem.id in SUDO_USERS:
+            elif new_mem.id in DRAGONS:
                 update.effective_message.reply_text(
                     "Huh! A Dragon disaster just joined! Stay Alert!",
                     reply_to_message_id=reply,

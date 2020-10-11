@@ -77,7 +77,7 @@
          "description": "Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.",
          "value": "True"
       },
-      "SUDO_USERS": {
+      "DRAGONS": {
          "description": "A space separated list of user IDs who you want to assign as sudo users.",
          "required": false,
          "value": "459034222 189005567 660565862 346981140 367222759"

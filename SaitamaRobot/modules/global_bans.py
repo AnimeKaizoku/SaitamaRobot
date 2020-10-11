@@ -5,7 +5,7 @@ from io import BytesIO
 from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
 import SaitamaRobot.modules.sql.global_bans_sql as sql
 from SaitamaRobot import (DEV_USERS, EVENT_LOGS, OWNER_ID, STRICT_GBAN,
-                          SUDO_USERS, SUPPORT_CHAT, SPAMWATCH_SUPPORT_CHAT,
+                          DRAGONS, SUPPORT_CHAT, SPAMWATCH_SUPPORT_CHAT,
                           SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, sw,
                           dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
@@ -75,7 +75,7 @@ def gban(update: Update, context: CallbackContext):
         )
         return
 
-    if int(user_id) in SUDO_USERS:
+    if int(user_id) in DRAGONS:
         message.reply_text(
             "I spy, with my little eye... a disaster! Why are you guys turning on each other?"
         )
@@ -172,7 +172,7 @@ def gban(update: Update, context: CallbackContext):
                 "\n\nFormatting has been disabled due to an unexpected error.")
 
     else:
-        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, log_message, html=True)
+        send_to_list(bot, DRAGONS + SUPPORT_USERS, log_message, html=True)
 
     sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
 
@@ -201,7 +201,7 @@ def gban(update: Update, context: CallbackContext):
                         f"Could not gban due to {excp.message}",
                         parse_mode=ParseMode.HTML)
                 else:
-                    send_to_list(bot, SUDO_USERS + SUPPORT_USERS,
+                    send_to_list(bot, DRAGONS + SUPPORT_USERS,
                                  f"Could not gban due to: {excp.message}")
                 sql.ungban_user(user_id)
                 return
@@ -216,7 +216,7 @@ def gban(update: Update, context: CallbackContext):
     else:
         send_to_list(
             bot,
-            SUDO_USERS + SUPPORT_USERS,
+            DRAGONS + SUPPORT_USERS,
             f"Gban complete! (User banned in <code>{gbanned_chats}</code> chats)",
             html=True)
 
@@ -296,7 +296,7 @@ def ungban(update: Update, context: CallbackContext):
                 EVENT_LOGS, log_message +
                 "\n\nFormatting has been disabled due to an unexpected error.")
     else:
-        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, log_message, html=True)
+        send_to_list(bot, DRAGONS + SUPPORT_USERS, log_message, html=True)
 
     chats = get_user_com_chats(user_id)
     ungbanned_chats = 0
@@ -338,7 +338,7 @@ def ungban(update: Update, context: CallbackContext):
             log_message + f"\n<b>Chats affected:</b> {ungbanned_chats}",
             parse_mode=ParseMode.HTML)
     else:
-        send_to_list(bot, SUDO_USERS + SUPPORT_USERS, "un-gban complete!")
+        send_to_list(bot, DRAGONS + SUPPORT_USERS, "un-gban complete!")
 
     end_time = time.time()
     ungban_time = round((end_time - start_time), 2)
@@ -471,7 +471,7 @@ def __user_info__(user_id):
         return ""
     if user_id == dispatcher.bot.id:
         return ""
-    if int(user_id) in SUDO_USERS + TIGER_USERS + WHITELIST_USERS:
+    if int(user_id) in DRAGONS + TIGER_USERS + WHITELIST_USERS:
         return ""
     if is_gbanned:
         text = text.format("Yes")
