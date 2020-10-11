@@ -40,7 +40,7 @@ class Config(object):
     ##List of id's - (not usernames) for developers who will have the same perms as the owner
     DEV_USERS = get_user_list('elevated_users.json', 'devs')
     ##List of id's (not usernames) for users which are allowed to gban, but can also be banned.
-    SUPPORT_USERS = get_user_list('elevated_users.json', 'supports')
+    DEMONS = get_user_list('elevated_users.json', 'supports')
     #List of id's (not usernames) for users which WONT be banned/kicked by the bot.
     TIGER_USERS = get_user_list('elevated_users.json', 'tigers')
     WHITELIST_USERS = get_user_list('elevated_users.json', 'whitelists')

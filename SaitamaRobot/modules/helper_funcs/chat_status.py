@@ -1,7 +1,7 @@
 from functools import wraps
 
 from SaitamaRobot import (DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT,
-                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
+                          DEMONS, TIGER_USERS, WHITELIST_USERS,
                           dispatcher)
 from SaitamaRobot.mwt import MWT
 from telegram import Chat, ChatMember, ParseMode, Update
@@ -13,13 +13,13 @@ def is_whitelist_plus(chat: Chat,
                       member: ChatMember = None) -> bool:
     return any(
         user_id in user for user in
-        [WHITELIST_USERS, TIGER_USERS, SUPPORT_USERS, DRAGONS, DEV_USERS])
+        [WHITELIST_USERS, TIGER_USERS, DEMONS, DRAGONS, DEV_USERS])
 
 
 def is_support_plus(chat: Chat,
                     user_id: int,
                     member: ChatMember = None) -> bool:
-    return user_id in SUPPORT_USERS or user_id in DRAGONS or user_id in DEV_USERS
+    return user_id in DEMONS or user_id in DRAGONS or user_id in DEV_USERS
 
 
 def is_sudo_plus(chat: Chat, user_id: int, member: ChatMember = None) -> bool:

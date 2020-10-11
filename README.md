@@ -84,7 +84,7 @@ The following env variables are supported:
  - `URL`: The URL your webhook should connect to (only needed for webhook mode)
 
  - `DRAGONS`: A space-separated list of user_ids which should be considered sudo users
- - `SUPPORT_USERS`: A space-separated list of user_ids which should be considered support users (can gban/ungban,
+ - `DEMONS`: A space-separated list of user_ids which should be considered support users (can gban/ungban,
  nothing else)
  - `WHITELIST_USERS`: A space-separated list of user_ids which should be considered whitelisted - they can't be banned.
  - `DONATION_LINK`: Optional: link where you would like to receive donations.

@@ -6,7 +6,7 @@ from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
 from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, DRAGONS,
-                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS,
+                          DEMONS, TIGER_USERS, WHITELIST_USERS,
                           dispatcher)
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
@@ -62,7 +62,7 @@ def ban(update: Update, context: CallbackContext) -> str:
             message.reply_text(
                 "Fighting this Dragon here will put civilian lives at risk.")
             return log_message
-        elif user_id in SUPPORT_USERS:
+        elif user_id in DEMONS:
             message.reply_text(
                 "Bring an order from Heroes association to fight a Demon disaster."
             )

@@ -47,8 +47,8 @@ if ENV:
             "Your sudo or dev users list does not contain valid integers.")
 
     try:
-        SUPPORT_USERS = set(
-            int(x) for x in os.environ.get("SUPPORT_USERS", "").split())
+        DEMONS = set(
+            int(x) for x in os.environ.get("DEMONS", "").split())
     except ValueError:
         raise Exception(
             "Your support users list does not contain valid integers.")
@@ -119,7 +119,7 @@ else:
             "Your sudo or dev users list does not contain valid integers.")
 
     try:
-        SUPPORT_USERS = set(int(x) for x in Config.SUPPORT_USERS or [])
+        DEMONS = set(int(x) for x in Config.DEMONS or [])
     except ValueError:
         raise Exception(
             "Your support users list does not contain valid integers.")
@@ -184,7 +184,7 @@ dispatcher = updater.dispatcher
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
 WHITELIST_USERS = list(WHITELIST_USERS)
-SUPPORT_USERS = list(SUPPORT_USERS)
+DEMONS = list(DEMONS)
 TIGER_USERS = list(TIGER_USERS)
 
 # Load at end to ensure all prev variables have been set

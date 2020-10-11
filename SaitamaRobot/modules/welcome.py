@@ -6,7 +6,7 @@ from functools import partial
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
 from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, DRAGONS,
-                          SUPPORT_USERS, TIGER_USERS, WHITELIST_USERS, sw,
+                          DEMONS, TIGER_USERS, WHITELIST_USERS, sw,
                           dispatcher, JOIN_LOGGER)
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
@@ -195,7 +195,7 @@ def new_member(update: Update, context: CallbackContext):
                 continue
 
             # Welcome Support
-            elif new_mem.id in SUPPORT_USERS:
+            elif new_mem.id in DEMONS:
                 update.effective_message.reply_text(
                     "Huh! Someone with a Demon disaster level just joined!",
                     reply_to_message_id=reply,
