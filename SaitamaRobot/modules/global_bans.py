@@ -6,7 +6,7 @@ from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
 import SaitamaRobot.modules.sql.global_bans_sql as sql
 from SaitamaRobot import (DEV_USERS, EVENT_LOGS, OWNER_ID, STRICT_GBAN,
                           DRAGONS, SUPPORT_CHAT, SPAMWATCH_SUPPORT_CHAT,
-                          DEMONS, TIGER_USERS, WHITELIST_USERS, sw,
+                          DEMONS, TIGER_USERS, WOLVES, sw,
                           dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
                                                            support_plus,
@@ -90,7 +90,7 @@ def gban(update: Update, context: CallbackContext):
         message.reply_text("That's a Tiger! They cannot be banned!")
         return
 
-    if int(user_id) in WHITELIST_USERS:
+    if int(user_id) in WOLVES:
         message.reply_text("That's a Wolf! They cannot be banned!")
         return
 
@@ -471,7 +471,7 @@ def __user_info__(user_id):
         return ""
     if user_id == dispatcher.bot.id:
         return ""
-    if int(user_id) in DRAGONS + TIGER_USERS + WHITELIST_USERS:
+    if int(user_id) in DRAGONS + TIGER_USERS + WOLVES:
         return ""
     if is_gbanned:
         text = text.format("Yes")

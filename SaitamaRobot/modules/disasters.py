@@ -4,7 +4,7 @@ import os
 from typing import Optional
 
 from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, SUPPORT_CHAT,
-                          DEMONS, TIGER_USERS, WHITELIST_USERS,
+                          DEMONS, TIGER_USERS, WOLVES,
                           dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (dev_plus, sudo_plus,
                                                            whitelist_plus)
@@ -72,10 +72,10 @@ def addsudo(update: Update, context: CallbackContext) -> str:
         data['supports'].remove(user_id)
         DEMONS.remove(user_id)
 
-    if user_id in WHITELIST_USERS:
+    if user_id in WOLVES:
         rt += "Requested HA to promote a Wolf Disaster to Dragon."
         data['whitelists'].remove(user_id)
-        WHITELIST_USERS.remove(user_id)
+        WOLVES.remove(user_id)
 
     data['sudos'].append(user_id)
     DRAGONS.append(user_id)
@@ -130,10 +130,10 @@ def addsupport(
         message.reply_text("This user is already a Demon Disaster.")
         return ""
 
-    if user_id in WHITELIST_USERS:
+    if user_id in WOLVES:
         rt += "Requested HA to promote this Wolf Disaster to Demon"
         data['whitelists'].remove(user_id)
-        WHITELIST_USERS.remove(user_id)
+        WOLVES.remove(user_id)
 
     data['supports'].append(user_id)
     DEMONS.append(user_id)
@@ -185,12 +185,12 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
         data['supports'].remove(user_id)
         DEMONS.remove(user_id)
 
-    if user_id in WHITELIST_USERS:
+    if user_id in WOLVES:
         message.reply_text("This user is already a Wolf Disaster.")
         return ""
 
     data['whitelists'].append(user_id)
-    WHITELIST_USERS.append(user_id)
+    WOLVES.append(user_id)
 
     with open(ELEVATED_USERS_FILE, 'w') as outfile:
         json.dump(data, outfile, indent=4)
@@ -240,10 +240,10 @@ def addtiger(update: Update, context: CallbackContext) -> str:
         data['supports'].remove(user_id)
         DEMONS.remove(user_id)
 
-    if user_id in WHITELIST_USERS:
+    if user_id in WOLVES:
         rt += "This user is already a Wolf Disaster, Demoting to Tiger."
         data['whitelists'].remove(user_id)
-        WHITELIST_USERS.remove(user_id)
+        WOLVES.remove(user_id)
 
     if user_id in TIGER_USERS:
         message.reply_text("This user is already a Tiger.")
@@ -377,9 +377,9 @@ def removewhitelist(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in WHITELIST_USERS:
+    if user_id in WOLVES:
         message.reply_text("Demoting to normal user")
-        WHITELIST_USERS.remove(user_id)
+        WOLVES.remove(user_id)
         data['whitelists'].remove(user_id)
 
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
@@ -447,7 +447,7 @@ def removetiger(update: Update, context: CallbackContext) -> str:
 def whitelistlist(update: Update, context: CallbackContext):
     reply = "<b>Known Wolf Disasters 🐺:</b>\n"
     bot = context.bot
-    for each_user in WHITELIST_USERS:
+    for each_user in WOLVES:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)

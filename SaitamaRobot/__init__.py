@@ -54,8 +54,8 @@ if ENV:
             "Your support users list does not contain valid integers.")
 
     try:
-        WHITELIST_USERS = set(
-            int(x) for x in os.environ.get("WHITELIST_USERS", "").split())
+        WOLVES = set(
+            int(x) for x in os.environ.get("WOLVES", "").split())
     except ValueError:
         raise Exception(
             "Your whitelisted users list does not contain valid integers.")
@@ -125,7 +125,7 @@ else:
             "Your support users list does not contain valid integers.")
 
     try:
-        WHITELIST_USERS = set(int(x) for x in Config.WHITELIST_USERS or [])
+        WOLVES = set(int(x) for x in Config.WOLVES or [])
     except ValueError:
         raise Exception(
             "Your whitelisted users list does not contain valid integers.")
@@ -183,7 +183,7 @@ dispatcher = updater.dispatcher
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
-WHITELIST_USERS = list(WHITELIST_USERS)
+WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGER_USERS = list(TIGER_USERS)
 

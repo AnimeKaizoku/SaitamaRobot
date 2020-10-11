@@ -14,7 +14,7 @@ from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
 from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS,
-                          TIGER_USERS, WHITELIST_USERS, INFOPIC, dispatcher, sw)
+                          TIGER_USERS, WOLVES, INFOPIC, dispatcher, sw)
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 import SaitamaRobot.modules.sql.userinfo_sql as sql
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -284,7 +284,7 @@ def info(update: Update, context: CallbackContext):
     elif user.id in TIGER_USERS:
         text += "\n\nThe Disaster level of this person is 'Tiger'."
         disaster_level_present = True
-    elif user.id in WHITELIST_USERS:
+    elif user.id in WOLVES:
         text += "\n\nThe Disaster level of this person is 'Wolf'."
         disaster_level_present = True
 

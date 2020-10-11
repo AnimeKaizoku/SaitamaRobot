@@ -8,7 +8,7 @@ from io import BytesIO
 
 import SaitamaRobot.modules.sql.feds_sql as sql
 from SaitamaRobot import (EVENT_LOGS, LOGGER, OWNER_ID, DRAGONS, TIGER_USERS,
-                          WHITELIST_USERS, dispatcher)
+                          WOLVES, dispatcher)
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
 from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
@@ -556,7 +556,7 @@ def fed_ban(update: Update, context: CallbackContext):
         message.reply_text("Tigers cannot be fed banned!")
         return
 
-    if int(user_id) in WHITELIST_USERS:
+    if int(user_id) in WOLVES:
         message.reply_text("Wolves cannot be fed banned!")
         return
 
@@ -1500,7 +1500,7 @@ def fed_import_bans(update: Update, context: CallbackContext):
                     if int(import_userid) in TIGER_USERS:
                         failed += 1
                         continue
-                    if int(import_userid) in WHITELIST_USERS:
+                    if int(import_userid) in WOLVES:
                         failed += 1
                         continue
                     multi_fed_id.append(fed_id)
@@ -1569,7 +1569,7 @@ def fed_import_bans(update: Update, context: CallbackContext):
                     if int(import_userid) in TIGER_USERS:
                         failed += 1
                         continue
-                    if int(import_userid) in WHITELIST_USERS:
+                    if int(import_userid) in WOLVES:
                         failed += 1
                         continue
                     multi_fed_id.append(fed_id)
