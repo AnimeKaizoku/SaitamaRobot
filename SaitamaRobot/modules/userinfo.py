@@ -13,8 +13,8 @@ from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS,
-                          TIGERS, WOLVES, INFOPIC, dispatcher, sw)
+from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS, TIGERS, WOLVES,
+                          INFOPIC, dispatcher, sw)
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 import SaitamaRobot.modules.sql.userinfo_sql as sql
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -152,8 +152,7 @@ def get_id(update: Update, context: CallbackContext):
 @SaitamaTelethonClient.on(
     events.NewMessage(
         pattern='/ginfo ',
-        from_users=(TIGERS or []) + (DRAGONS or []) +
-        (DEMONS or [])))
+        from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])))
 async def group_info(event) -> None:
     chat = event.text.split(' ', 1)[1]
     try:
