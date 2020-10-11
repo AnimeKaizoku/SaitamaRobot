@@ -98,6 +98,12 @@ def gban(update: Update, context: CallbackContext):
         message.reply_text("You uhh...want me to punch myself?")
         return
 
+    if user_id in [777000, 1087968824]:
+        message.reply_text(
+            "Fool! You can't attack Telegram's native tech!"
+        )
+        return
+    
     try:
         user_chat = bot.get_chat(user_id)
     except BadRequest as excp:
