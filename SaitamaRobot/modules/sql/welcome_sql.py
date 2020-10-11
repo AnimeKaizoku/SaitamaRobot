@@ -48,13 +48,13 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first} has arrived. Party's over.",
     "{first} is here to kick butt and chew bubblegum. And {first} is all out of gum.",
     "Hello. Is it {first} you're looking for?",
-    "{first} has joined. Stay a while and listen!",
+    "{first} has joined. Stay awhile and listen!",
     "Roses are red, violets are blue, {first} joined this chat with you",
     "Welcome {first}, Avoid Punches if you can!",
     "It's a bird! It's a plane! - Nope, its {first}!",
     "{first} Joined! - Ok.",  #Discord welcome messages end.
     "All Hail {first}!",
-    "Hi, {first}. Don't lurk, Only Villans do that.",
+    "Hi, {first}. Don't lurk, only Villans do that.",
     "{first} has joined the battle bus.",
     "A new Challenger enters!",  #Tekken
     "Ok!",
@@ -63,13 +63,13 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first} Just teleported into the chat!",
     "Hi, {first}, show me your Hunter License!",  #Hunter Hunter
     "I'm looking for Garo, oh wait nvm it's {first}.",  #One Punch man s2
-    "Welcome {first}, Leaving is not an option!",
+    "Welcome {first}, leaving is not an option!",
     "Run Forest! ..I mean...{first}.",
     "{first} do 100 push-ups, 100 sit-ups, 100 squats, and 10km running EVERY SINGLE DAY!!!",  #One Punch ma
     "Huh?\nDid someone with a disaster level just join?\nOh wait, it's just {first}.",  #One Punch ma 
     "Hey, {first}, ever heard the King Engine?",  #One Punch ma
-    "Hey, {first}, Empty your pockets.",
-    "Hey, {first}!, Are you strong?",
+    "Hey, {first}, empty your pockets.",
+    "Hey, {first}!, are you strong?",
     "Call the Avengers! - {first} just joined the chat.",
     "{first} joined. You must construct additional pylons.",
     "Ermagherd. {first} is here.",
@@ -87,9 +87,9 @@ DEFAULT_WELCOME_MESSAGES = [
     "Hey {first}, I know what we're gonna do today",
     "{first} just joined, be at alert they could be a spy.",
     "{first} joined the group, read by Mark Zuckerberg, CIA and 35 others.",
-    "Welcome {first}, Watch out for falling monkeys.",
+    "Welcome {first}, watch out for falling monkeys.",
     "Everyone stop what you’re doing, We are now in the presence of {first}.",
-    "Hey {first}, Do you wanna know how I got these scars?",
+    "Hey {first}, do you wanna know how I got these scars?",
     "Welcome {first}, drop your weapons and proceed to the spy scanner.",
     "Stay safe {first}, Keep 3 meters social distances between your messages.",  #Corona memes lmao
     "Hey {first}, Do you know I once One-punched a meteorite?",
@@ -102,10 +102,10 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first}, I have a feeling we’re not in Kansas anymore.",
     "They may take our lives, but they’ll never take our {first}.",
     "Coast is clear! You can come out guys, it’s just {first}.",
-    "Welcome {first}, Pay no attention to that guy lurking.",
-    "Welcome {first}, May the force be with you.",
+    "Welcome {first}, pay no attention to that guy lurking.",
+    "Welcome {first}, may the force be with you.",
     "May the {first} be with you.",
-    "{first} just joined.Hey, where's Perry?",
+    "{first} just joined. Hey, where's Perry?",
     "{first} just joined. Oh, there you are, Perry.",
     "Ladies and gentlemen, I give you ...  {first}.",
     "Behold my new evil scheme, the {first}-Inator.",
@@ -115,22 +115,22 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first} just arrived. Diable Jamble!",  #One Piece Sanji
     "{first} just arrived. Aschente!",  #No Game No Life
     "{first} say Aschente to swear by the pledges.",  #No Game No Life
-    "{first} just joined. El psy congroo!",  #Steins Gate
+    "{first} just joined. El Psy congroo!",  #Steins Gate
     "Irasshaimase {first}!",  #weeabo shit
-    "Hi {first}, What is 1000-7?",  #tokyo ghoul
+    "Hi {first}, what is 1000-7?",  #tokyo ghoul
     "Come. I don't want to destroy this place",  #hunter x hunter
     "I... am... Whitebeard!...wait..wrong anime.",  #one Piece
     "Hey {first}...have you ever heard these words?",  #BNHA
     "Can't a guy get a little sleep around here?",  #Kamina Falls – Gurren Lagann
     "It's time someone put you in your place, {first}.",  #Hellsing
     "Unit-01's reactivated..",  #Neon Genesis: Evangelion
-    "Prepare for trouble....And make it double",  #Pokemon
-    "Hey {first}, Are You Challenging Me?",  #Shaggy
+    "Prepare for trouble...And make it double",  #Pokemon
+    "Hey {first}, are You Challenging Me?",  #Shaggy
     "Oh? You're Approaching Me?",  #jojo
     "{first} just warped into the group!",
     "I..it's..it's just {first}.",
     "Sugoi, Dekai. {first} Joined!",
-    "{first}, do you know Gods of death love apples?",  #Death Note owo
+    "{first}, do you know gods of death love apples?",  #Death Note owo
     "I'll take a potato chip.... and eat it",  #Death Note owo
     "Oshiete oshiete yo sono shikumi wo!",  #Tokyo Ghoul
     "Kaizoku ou ni...nvm wrong anime.",  #op
@@ -149,9 +149,9 @@ DEFAULT_WELCOME_MESSAGES = [
     "{first}! I, Madara! declare you the strongest",
     "{first}, this time I'll lend you my power. ",  #Kyuubi to naruto
     "{first}, welcome to the hidden leaf village!",  # Naruto thingies end here
-    "In the jungle you must wait...until the dice read five or eight.",  #Jumanji stuff
+    "In the jungle, you must wait...until the dice read five or eight.",  #Jumanji stuff
     "Dr.{first} Famed archeologist and international explorer,\nWelcome to Jumanji!\nJumanji's Fate is up to you now.",
-    "{first}, this will not be an easy mission - monkeys slow the expedition.",  #End of jumanji stuff
+    "{first}, this will not be an easy mission - monkeys slow the expedition.",  #End of Jumanji stuff
 ]
 DEFAULT_GOODBYE_MESSAGES = [
     "{first} will be missed.",
@@ -168,7 +168,7 @@ DEFAULT_GOODBYE_MESSAGES = [
     "Goodbye {first}! Guess who's gonna miss you :')",
     "Goodbye {first}! It's gonna be lonely without ya.",
     "Please don't leave me alone in this place, {first}!",
-    "Good luck finding better shitposters than us, {first}!",
+    "Good luck finding better shit-posters than us, {first}!",
     "You know we're gonna miss you {first}. Right? Right? Right?",
     "Congratulations, {first}! You're officially free of this mess.",
     "{first}. You were an opponent worth fighting.",
@@ -197,8 +197,8 @@ DEFAULT_GOODBYE_MESSAGES = [
     "Trust good people",
     "Live to die.",
     "When life gives you lemons reroll!",
-    "Well that was worthless",
-    "I feel asleep!",
+    "Well, that was worthless",
+    "I fell asleep!",
     "May your troubles be many",
     "Your old life lies in ruin",
     "Always look on the bright side",
