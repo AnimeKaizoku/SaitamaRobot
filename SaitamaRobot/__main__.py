@@ -159,11 +159,11 @@ def start(update: Update, context: CallbackContext):
         if len(args) >= 1:
             if args[0].lower() == "help":
                 send_help(update.effective_chat.id, HELP_STRINGS)
-            elif re.match('ghelp_.*', args[0].lower()):
+            elif args[0].lower().startswith("ghelp_"):
                 mod = args[0].lower().split('_', 1)[1]
                 if not HELPABLE.get(mod, False):
                     return
-                send_help(update.effective_chat.id, HELPABLE[module].__help__, InlineKeyboardMarkup([[InlineKeyboardButton(text="Back", callback_data="help_back")]]))
+                send_help(update.effective_chat.id, HELPABLE[mod].__help__, InlineKeyboardMarkup([[InlineKeyboardButton(text="Back", callback_data="help_back")]]))
             elif args[0].lower() == "markdownhelp":
                 IMPORTED["extras"].markdown_help_sender(update)
             elif args[0].lower() == "disasters":
