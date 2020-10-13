@@ -994,8 +994,6 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = """
-{}
-
 *Admins only:*
  • `/welcome <on/off>`*:* enable/disable welcome messages.
  • `/welcome`*:* shows current welcome settings.
@@ -1007,10 +1005,13 @@ __help__ = """
  • `/resetgoodbye`*:* reset to the default goodbye message.
  • `/cleanwelcome <on/off>`*:* On new member, try to delete the previous welcome message to avoid spamming the chat.
  • `/welcomemutehelp`*:* gives information about welcome mutes.
- • `/welcomehelp`*:* view more formatting information for custom welcome/goodbye messages.
  • `/cleanservice <on/off`*:* deletes telegrams welcome/left service messages. 
- *Example:* user joined chat, user left chat.
-""".format(WELC_HELP_TXT)
+ *Example:*
+user joined chat, user left chat.
+
+*Welcome markdown:* 
+ • `/welcomehelp`*:* view more formatting information for custom welcome/goodbye messages.
+"""
 
 NEW_MEM_HANDLER = MessageHandler(Filters.status_update.new_chat_members,
                                  new_member)
