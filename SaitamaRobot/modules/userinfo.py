@@ -84,9 +84,10 @@ def hpmanager(user):
         # Example: if HP is 100 but user has 5 diff fbans
         # Available HP is (2*5) = 10% less than Max HP
         # So.. 10% of 100HP = 90HP
-
-        _, fbanlist = get_user_fbanlist(user.id)
-        new_hp -= no_by_per(total_hp, 2 * len(fbanlist))
+        
+# Commenting out fban health decrease cause it wasnt working and isnt needed ig.
+        #_, fbanlist = get_user_fbanlist(user.id)
+        #new_hp -= no_by_per(total_hp, 2 * len(fbanlist))
 
     # Bad status effects:
     # gbanned users will always have 5% HP from max HP
