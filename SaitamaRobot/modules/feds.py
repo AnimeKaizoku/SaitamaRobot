@@ -895,8 +895,7 @@ def unfban(update: Update, context: CallbackContext):
 
     banner = update.effective_user
 
-    message.reply_text("I'll give {} another chance in this federation".format(
-        user_chat.first_name))
+    #message.reply_text("I'll give {} another chance in this federation".format(user_chat.first_name))
 
     chat_list = sql.all_fed_chats(fed_id)
     # Will send to current chat
