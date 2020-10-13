@@ -139,7 +139,8 @@ def send_help(chat_id, text, keyboard=None):
     dispatcher.bot.send_message(
         chat_id=chat_id,
         text=text,
-        parse_mode=ParseMode.MARKDOWN,
+        parse_mode=ParseMode.MARKDOWN, 
+        disable_web_page_preview = True,
         reply_markup=keyboard)
 
 
