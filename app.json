@@ -1,4 +1,6 @@
 {
+   "name": "SaitamaRobot",
+   "repository": "https://github.com/AnimeKaizoku/SaitamaRobot",
    "addons": [
       {
          "options": {
@@ -152,6 +154,4 @@
       "manager",
       "Saitama"
    ],
-   "name": "Saitama Robot",
-   "repository": "https://github.com/AnimeKaizoku/SaitamaRobot"
 }
