@@ -9,7 +9,7 @@ async def ud(c, m):
     try:
         async with aiohttp.ClientSession() as sess:
             async with sess.get(
-                    f"https://api.urbandictionary.com/v0/define?term={m.text.split('!ud',1)[1]}"
+                    f"https://api.urbandictionary.com/v0/define?term={m.text.split('/ud',1)[1]}"
             ) as response:
                 resp = await response.json()
                 try:
