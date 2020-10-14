@@ -7,7 +7,7 @@ async def user_can_purge(_, c, m):
     mem = await c.get_chat_member(chat_id=m.chat.id, user_id=m.from_user.id)
     if mem.can_delete_messages or mem.status in ("creator"):
         return True
-    await m.reply("Only Admins are allowed to use this command")
+    await m.reply("You Don't Have Permission To Delete Messages")
    
 can_purge = filters.create(user_can_purge)
 
