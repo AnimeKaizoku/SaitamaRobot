@@ -3,10 +3,11 @@ import time
 import re
 from sys import argv
 from typing import Optional
+from pyrogram import idle, Client
 
 from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
                           OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
-                          dispatcher, StartTime, telethn, updater)
+                          dispatcher, StartTime, telethn, updater, app)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
@@ -580,6 +581,8 @@ def main():
 
 
 if __name__ == '__main__':
+    app.start()
     LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     main()
+    idle()

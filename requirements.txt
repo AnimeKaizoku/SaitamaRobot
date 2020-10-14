@@ -1,6 +1,8 @@
 future
 emoji
 lxml
+pyrogram
+tgcrypto
 beautifulsoup4
 requests
 sqlalchemy
