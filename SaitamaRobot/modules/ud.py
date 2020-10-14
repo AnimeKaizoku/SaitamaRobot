@@ -4,7 +4,7 @@ import aiohttp
 import os
 
 
-@app.on_message(filters.command("ud")
+@app.on_message(filters.command("ud"))
 async def ud(c, m):
     try:
         async with aiohttp.ClientSession() as sess:
