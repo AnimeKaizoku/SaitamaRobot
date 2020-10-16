@@ -561,9 +561,7 @@ def fed_ban(update: Update, context: CallbackContext):
         return
 
     if user_id in [777000, 1087968824]:
-        message.reply_text(
-            "Fool! You can't attack Telegram's native tech!"
-        )
+        message.reply_text("Fool! You can't attack Telegram's native tech!")
         return
 
     try:
