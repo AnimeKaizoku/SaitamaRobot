@@ -331,21 +331,18 @@ def can_restrict(func):
     return restrict_rights
 
 
-def user_can_ban(func):
-
+def user_can_ban(func): 
     @wraps(func)
     def user_is_banhammer(update: Update, context: CallbackContext, *args,
                           **kwargs):
         bot = context.bot
         user = update.effective_user.id
         member = update.effective_chat.get_member(user)
-
         if not (member.can_restrict_members or
-                member.status == "creator") and not user in DRAGONS:
+                member.status == "creator") and not user in DRAGONS and user not in [777000, 1087968824]:
             update.effective_message.reply_text(
                 "Sorry son, but you're not worthy to wield the banhammer.")
             return ""
-
         return func(update, context, *args, **kwargs)
 
     return user_is_banhammer
