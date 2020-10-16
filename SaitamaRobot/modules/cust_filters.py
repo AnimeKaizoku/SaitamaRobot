@@ -202,7 +202,8 @@ def filters(update, context):
         send_message(update.effective_message, "Invalid filter!")
         return
 
-    add = addnew_filter(update, chat_id, keyword, text, file_type, file_id, buttons)
+    add = addnew_filter(update, chat_id, keyword, text, file_type, file_id,
+                        buttons)
     # This is an old method
     # sql.add_filter(chat_id, keyword, content, is_sticker, is_document, is_image, is_audio, is_voice, is_video, buttons)
 
@@ -499,9 +500,7 @@ def addnew_filter(update, chat_id, keyword, text, file_type, file_id, buttons):
     msg = update.effective_message
     totalfilt = sql.get_chat_triggers(chat_id)
     if len(totalfilt) >= 150:  # Idk why i made this like function....
-        msg.reply_text(
-            "This group has reached its max filters limit of 150."
-        )
+        msg.reply_text("This group has reached its max filters limit of 150.")
         return False
     else:
         sql.new_add_filter(chat_id, keyword, text, file_type, file_id, buttons)
