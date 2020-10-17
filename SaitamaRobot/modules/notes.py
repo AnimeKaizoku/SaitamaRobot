@@ -10,8 +10,8 @@ from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
                                                     revert_buttons)
 from SaitamaRobot.modules.helper_funcs.msg_types import get_note_type
 from SaitamaRobot.modules.helper_funcs.string_handling import escape_invalid_curly_brackets
-from telegram import (MAX_MESSAGE_LENGTH, InlineKeyboardMarkup, Message,
-                      ParseMode, Update)
+from telegram import (MAX_MESSAGE_LENGTH, InlineKeyboardMarkup, Message, 
+                      ParseMode, Update, InlineKeyboardButton)
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_markdown
 from telegram.ext import (CallbackContext, CommandHandler, CallbackQueryHandler, Filters,
@@ -286,7 +286,7 @@ def clearall_btn(update: Update, context: CallbackContext):
                     note = notename.name.lower()
                     sql.rm_note(chat.id, note)
                 message.edit_text("Deleted all notes.")
-            except:
+            except BadRequest:
                 return
 
         if member.status == "administrator":
