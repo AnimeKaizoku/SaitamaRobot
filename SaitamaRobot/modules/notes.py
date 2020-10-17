@@ -3,7 +3,7 @@ from io import BytesIO
 from typing import Optional
 
 import SaitamaRobot.modules.sql.notes_sql as sql
-from SaitamaRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher
+from SaitamaRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher, DRAGONS
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, connection_status
 from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
@@ -14,7 +14,7 @@ from telegram import (MAX_MESSAGE_LENGTH, InlineKeyboardMarkup, Message,
                       ParseMode, Update)
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_markdown
-from telegram.ext import (CallbackContext, CommandHandler, Filters,
+from telegram.ext import (CallbackContext, CommandHandler, CallbackQueryHandler, Filters,
                           MessageHandler)
 from telegram.ext.dispatcher import run_async
 
@@ -257,6 +257,56 @@ def clear(update: Update, context: CallbackContext):
             update.effective_message.reply_text(
                 "That's not a note in my database!")
 
+@run_async
+def clearall(update: Update, context: CallbackContext):
+    chat = update.effective_chat
+    user = update.effective_user
+    member = chat.get_member(user.id)
+    if member.status != "creator" and user.id not in DRAGONS:
+        update.effective_message.reply_text(
+            "Only the chat owner can clear all notes at once.")
+    else:
+        buttons = InlineKeyboardMarkup([[InlineKeyboardButton(text="Delete all notes", callback_data="rmall")], [
+                                       InlineKeyboardButton(text="Cancel", callback_data="cancel")]])
+        update.effective_message.reply_text(
+            f"Are you sure you would like to clear ALL notes in {chat.title}? This action cannot be undone.", reply_markup=buttons, parse_mode=ParseMode.MARKDOWN)
+
+
+@run_async
+def clearall_btn(update: Update, context: CallbackContext):
+    query = update.callback_query
+    chat = update.effective_chat
+    message = update.effective_message
+    member = chat.get_member(query.from_user.id)
+    if query.data == 'rmall':
+        if member.status == "creator" or query.from_user.id in DRAGONS:
+            note_list = sql.get_all_chat_notes(chat.id)
+            try:
+                for notename in note_list:
+                    note = notename.name.lower()
+                    sql.rm_note(chat.id, note)
+                message.edit_text("Deleted all notes.")
+            except:
+                return
+
+        if member.status == "administrator":
+            query.answer(
+                "Only owner of the chat can do this.")
+
+        if member.status == "member":
+            query.answer(
+                "You need to be admin to do this.")
+    if query.data == 'cancel':
+        if member.status == "creator" or query.from_user.id in DRAGONS:
+            message.edit_text("Clearing of all notes has been cancelled.")
+            return
+        if member.status == "administrator":
+            query.answer(
+                "Only owner of the chat can do this.")
+        if member.status == "member":
+            query.answer(
+                "You need to be admin to do this.")
+
 
 @run_async
 @connection_status
@@ -454,9 +504,14 @@ LIST_HANDLER = DisableAbleCommandHandler(["notes", "saved"],
                                          list_notes,
                                          admin_ok=True)
 
+CLEARALL = DisableAbleCommandHandler("clearall", clearall)
+CLEARALL_BTN = CallbackQueryHandler(clearall_btn)
+
 dispatcher.add_handler(GET_HANDLER)
 dispatcher.add_handler(SAVE_HANDLER)
 dispatcher.add_handler(LIST_HANDLER)
 dispatcher.add_handler(DELETE_HANDLER)
 dispatcher.add_handler(HASH_GET_HANDLER)
 dispatcher.add_handler(SLASH_GET_HANDLER)
+dispatcher.add_handler(CLEARALL)
+dispatcher.add_handler(CLEARALL_BTN)
