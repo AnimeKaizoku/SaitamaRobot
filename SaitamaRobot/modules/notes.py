@@ -504,7 +504,7 @@ LIST_HANDLER = DisableAbleCommandHandler(["notes", "saved"],
                                          list_notes,
                                          admin_ok=True)
 
-CLEARALL = DisableAbleCommandHandler("clearall", clearall)
+CLEARALL = DisableAbleCommandHandler("removeallnotes", clearall)
 CLEARALL_BTN = CallbackQueryHandler(clearall_btn)
 
 dispatcher.add_handler(GET_HANDLER)
