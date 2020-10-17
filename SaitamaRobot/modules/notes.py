@@ -3,15 +3,15 @@ from io import BytesIO
 from typing import Optional
 
 import SaitamaRobot.modules.sql.notes_sql as sql
-from SaitamaRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher, DRAGONS
+from SaitamaRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher, SUDO_USERS
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, connection_status
 from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
                                                     revert_buttons)
 from SaitamaRobot.modules.helper_funcs.msg_types import get_note_type
 from SaitamaRobot.modules.helper_funcs.string_handling import escape_invalid_curly_brackets
-from telegram import (MAX_MESSAGE_LENGTH, InlineKeyboardMarkup, Message,
-                      ParseMode, Update)
+from telegram import (MAX_MESSAGE_LENGTH, InlineKeyboardMarkup, Message, 
+                      ParseMode, Update, InlineKeyboardButton)
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_markdown
 from telegram.ext import (CallbackContext, CommandHandler, CallbackQueryHandler, Filters,
@@ -262,7 +262,7 @@ def clearall(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
     member = chat.get_member(user.id)
-    if member.status != "creator" and user.id not in DRAGONS:
+    if member.status != "creator" and user.id not in SUDO_USERS:
         update.effective_message.reply_text(
             "Only the chat owner can clear all notes at once.")
     else:
@@ -279,14 +279,14 @@ def clearall_btn(update: Update, context: CallbackContext):
     message = update.effective_message
     member = chat.get_member(query.from_user.id)
     if query.data == 'rmall':
-        if member.status == "creator" or query.from_user.id in DRAGONS:
+        if member.status == "creator" or query.from_user.id in SUDO_USERS:
             note_list = sql.get_all_chat_notes(chat.id)
             try:
                 for notename in note_list:
                     note = notename.name.lower()
                     sql.rm_note(chat.id, note)
                 message.edit_text("Deleted all notes.")
-            except:
+            except BadRequest:
                 return
 
         if member.status == "administrator":
@@ -297,7 +297,7 @@ def clearall_btn(update: Update, context: CallbackContext):
             query.answer(
                 "You need to be admin to do this.")
     if query.data == 'cancel':
-        if member.status == "creator" or query.from_user.id in DRAGONS:
+        if member.status == "creator" or query.from_user.id in SUDO_USERS:
             message.edit_text("Clearing of all notes has been cancelled.")
             return
         if member.status == "administrator":
