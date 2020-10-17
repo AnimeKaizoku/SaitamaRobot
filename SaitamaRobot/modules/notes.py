@@ -286,8 +286,7 @@ def clearall_btn(update: Update, context: CallbackContext):
                     note = notename.name.lower()
                     sql.rm_note(chat.id, note)
                 message.edit_text("Deleted all notes.")
-            except :
-                pass #Some error IDK
+            except:
                 return
 
         if member.status == "administrator":
@@ -307,6 +306,7 @@ def clearall_btn(update: Update, context: CallbackContext):
         if member.status == "member":
             query.answer(
                 "You need to be admin to do this.")
+
 
 @run_async
 @connection_status
