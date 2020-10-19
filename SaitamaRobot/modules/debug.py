@@ -59,7 +59,7 @@ def logs(update: Update, context: CallbackContext):
     chat_username = update.effective_chat.username
     if not chat_username:
         return
-    if chat_username not in support_chat:
+    if chat_username != support_chat:
         return
     user = update.effective_user
     with open('log.txt', 'rb') as f:
