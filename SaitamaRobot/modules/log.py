@@ -6,7 +6,11 @@ from SaitamaRobot import dispatcher
 
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
-SUPPORT_CHATS=(-1001230319386,-1001408942668,)
+SUPPORT_CHATS = (
+    -1001230319386,
+    -1001408942668,
+)
+
 
 @run_async
 @dev_plus

@@ -167,7 +167,7 @@ def filters(update, context):
         else:
             text_to_parsing = ""
         offset = len(text_to_parsing
-                     )  # set correct offset relative to command + notename
+                    )  # set correct offset relative to command + notename
         text, buttons = button_markdown_parser(
             text_to_parsing, entities=msg.parse_entities(), offset=offset)
         text = text.strip()
@@ -187,7 +187,7 @@ def filters(update, context):
         else:
             text_to_parsing = ""
         offset = len(text_to_parsing
-                     )  # set correct offset relative to command + notename
+                    )  # set correct offset relative to command + notename
         text, buttons = button_markdown_parser(
             text_to_parsing, entities=msg.parse_entities(), offset=offset)
         text = text.strip()
@@ -461,10 +461,14 @@ def rmall_filters(update, context):
         update.effective_message.reply_text(
             "Only the chat owner can clear all notes at once.")
     else:
-        buttons = InlineKeyboardMarkup([[InlineKeyboardButton(text="Stop all filters", callback_data="rmall")], [
-                                       InlineKeyboardButton(text="Cancel", callback_data="cancel")]])
+        buttons = InlineKeyboardMarkup([[
+            InlineKeyboardButton(
+                text="Stop all filters", callback_data="rmall")
+        ], [InlineKeyboardButton(text="Cancel", callback_data="cancel")]])
         update.effective_message.reply_text(
-            f"Are you sure you would like to stop ALL filters in {chat.title}? This action cannot be undone.", reply_markup=buttons, parse_mode=ParseMode.MARKDOWN)
+            f"Are you sure you would like to stop ALL filters in {chat.title}? This action cannot be undone.",
+            reply_markup=buttons,
+            parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
@@ -492,22 +496,18 @@ def rmall_callback(update, context):
             msg.edit_text(f"Cleaned {count} filters in {chat.title}")
 
         if member.status == "administrator":
-            query.answer(
-                "Only owner of the chat can do this.")
+            query.answer("Only owner of the chat can do this.")
 
         if member.status == "member":
-            query.answer(
-                "You need to be admin to do this.")
+            query.answer("You need to be admin to do this.")
     if query.data == 'cancel':
         if member.status == "creator" or query.from_user.id in DRAGONS:
             msg.edit_text("Clearing of all filters has been cancelled.")
             return
         if member.status == "administrator":
-            query.answer(
-                "Only owner of the chat can do this.")
+            query.answer("Only owner of the chat can do this.")
         if member.status == "member":
-            query.answer(
-                "You need to be admin to do this.")
+            query.answer("You need to be admin to do this.")
 
 
 # NOT ASYNC NOT A HANDLER
