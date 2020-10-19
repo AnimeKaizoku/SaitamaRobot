@@ -6,18 +6,15 @@ from SaitamaRobot import dispatcher
 
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
-SUPPORT_CHATS = (
-    -1001230319386,
-    -1001408942668,
-)
+import os
 
+support_chat=os.getenv('SUPPORT_CHAT')
 
 @run_async
 @dev_plus
 def logs(update: Update, context: CallbackContext):
-    message = update.effective_message
-    chat_id = message.chat_id
-    if chat_id not in SUPPORT_CHATS:
+    chat_username = update.effective_chat.username
+    if chat_username not in support_chat:
         return
     user = update.effective_user
     with open('log.txt', 'rb') as f:
