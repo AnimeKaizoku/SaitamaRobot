@@ -10,12 +10,12 @@ from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
                                                     revert_buttons)
 from SaitamaRobot.modules.helper_funcs.msg_types import get_note_type
 from SaitamaRobot.modules.helper_funcs.string_handling import escape_invalid_curly_brackets
-from telegram import (MAX_MESSAGE_LENGTH, InlineKeyboardMarkup, Message, 
+from telegram import (MAX_MESSAGE_LENGTH, InlineKeyboardMarkup, Message,
                       ParseMode, Update, InlineKeyboardButton)
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_markdown
-from telegram.ext import (CallbackContext, CommandHandler, CallbackQueryHandler, Filters,
-                          MessageHandler)
+from telegram.ext import (CallbackContext, CommandHandler, CallbackQueryHandler,
+                          Filters, MessageHandler)
 from telegram.ext.dispatcher import run_async
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
@@ -257,6 +257,7 @@ def clear(update: Update, context: CallbackContext):
             update.effective_message.reply_text(
                 "That's not a note in my database!")
 
+
 @run_async
 def clearall(update: Update, context: CallbackContext):
     chat = update.effective_chat
@@ -266,10 +267,14 @@ def clearall(update: Update, context: CallbackContext):
         update.effective_message.reply_text(
             "Only the chat owner can clear all notes at once.")
     else:
-        buttons = InlineKeyboardMarkup([[InlineKeyboardButton(text="Delete all notes", callback_data="rmall")], [
-                                       InlineKeyboardButton(text="Cancel", callback_data="cancel")]])
+        buttons = InlineKeyboardMarkup([[
+            InlineKeyboardButton(
+                text="Delete all notes", callback_data="rmall")
+        ], [InlineKeyboardButton(text="Cancel", callback_data="cancel")]])
         update.effective_message.reply_text(
-            f"Are you sure you would like to clear ALL notes in {chat.title}? This action cannot be undone.", reply_markup=buttons, parse_mode=ParseMode.MARKDOWN)
+            f"Are you sure you would like to clear ALL notes in {chat.title}? This action cannot be undone.",
+            reply_markup=buttons,
+            parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
@@ -290,22 +295,18 @@ def clearall_btn(update: Update, context: CallbackContext):
                 return
 
         if member.status == "administrator":
-            query.answer(
-                "Only owner of the chat can do this.")
+            query.answer("Only owner of the chat can do this.")
 
         if member.status == "member":
-            query.answer(
-                "You need to be admin to do this.")
+            query.answer("You need to be admin to do this.")
     if query.data == 'cancel':
         if member.status == "creator" or query.from_user.id in DRAGONS:
             message.edit_text("Clearing of all notes has been cancelled.")
             return
         if member.status == "administrator":
-            query.answer(
-                "Only owner of the chat can do this.")
+            query.answer("Only owner of the chat can do this.")
         if member.status == "member":
-            query.answer(
-                "You need to be admin to do this.")
+            query.answer("You need to be admin to do this.")
 
 
 @run_async
