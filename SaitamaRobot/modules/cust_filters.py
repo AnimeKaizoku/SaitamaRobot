@@ -477,7 +477,7 @@ def rmall_callback(update, context):
         if member.status == "creator" or query.from_user.id in DRAGONS:
             allfilters = sql.get_chat_triggers(chat.id)
             if not allfilters:
-                msg.reply_text("No filters in this chat, nothing to stop!")
+                msg.edit_text("No filters in this chat, nothing to stop!")
                 return
 
             count = 0
@@ -489,7 +489,7 @@ def rmall_callback(update, context):
             for i in filterlist:
                 sql.remove_filter(chat.id, i)
 
-            msg.reply_text(f"Cleaned {count} filters in {chat.title}")
+            msg.edit_text(f"Cleaned {count} filters in {chat.title}")
 
         if member.status == "administrator":
             query.answer(
@@ -500,7 +500,7 @@ def rmall_callback(update, context):
                 "You need to be admin to do this.")
     if query.data == 'cancel':
         if member.status == "creator" or query.from_user.id in DRAGONS:
-            message.edit_text("Clearing of all filters has been cancelled.")
+            msg.edit_text("Clearing of all filters has been cancelled.")
             return
         if member.status == "administrator":
             query.answer(
