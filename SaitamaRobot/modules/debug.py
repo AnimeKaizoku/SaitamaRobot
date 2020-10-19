@@ -57,6 +57,8 @@ support_chat=os.getenv('SUPPORT_CHAT')
 @dev_plus
 def logs(update: Update, context: CallbackContext):
     chat_username = update.effective_chat.username
+    if not chat_username:
+        return
     if chat_username not in support_chat:
         return
     user = update.effective_user
