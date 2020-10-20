@@ -88,8 +88,8 @@ def addsudo(update: Update, context: CallbackContext) -> str:
 
     log_message = (
         f"#SUDO\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -145,8 +145,8 @@ def addsupport(
 
     log_message = (
         f"#SUPPORT\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -200,8 +200,8 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
 
     log_message = (
         f"#WHITELIST\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
-        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))} \n"
+        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -261,8 +261,8 @@ def addtiger(update: Update, context: CallbackContext) -> str:
 
     log_message = (
         f"#TIGER\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)} \n"
-        f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}")
+        f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))} \n"
+        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}")
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -299,8 +299,8 @@ def removesudo(update: Update, context: CallbackContext) -> str:
 
         log_message = (
             f"#UNSUDO\n"
-            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+            f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
         )
 
         if chat.type != 'private':
@@ -343,8 +343,8 @@ def removesupport(update: Update, context: CallbackContext) -> str:
 
         log_message = (
             f"#UNSUPPORT\n"
-            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+            f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
         )
 
         if chat.type != 'private':
@@ -386,8 +386,8 @@ def removewhitelist(update: Update, context: CallbackContext) -> str:
 
         log_message = (
             f"#UNWHITELIST\n"
-            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+            f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
         )
 
         if chat.type != 'private':
@@ -428,8 +428,8 @@ def removetiger(update: Update, context: CallbackContext) -> str:
 
         log_message = (
             f"#UNTIGER\n"
-            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"<b>User:</b> {mention_html(user_member.id, user_member.first_name)}"
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+            f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
         )
 
         if chat.type != 'private':
@@ -451,7 +451,7 @@ def whitelistlist(update: Update, context: CallbackContext):
         try:
             user = bot.get_chat(user_id)
 
-            reply += f"• {mention_html(user_id, user.first_name)}\n"
+            reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
     update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
@@ -466,7 +466,7 @@ def tigerlist(update: Update, context: CallbackContext):
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
-            reply += f"• {mention_html(user_id, user.first_name)}\n"
+            reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
     update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
@@ -481,7 +481,7 @@ def supportlist(update: Update, context: CallbackContext):
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
-            reply += f"• {mention_html(user_id, user.first_name)}\n"
+            reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
     update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
@@ -497,7 +497,7 @@ def sudolist(update: Update, context: CallbackContext):
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
-            reply += f"• {mention_html(user_id, user.first_name)}\n"
+            reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
     update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
@@ -513,7 +513,7 @@ def devlist(update: Update, context: CallbackContext):
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
-            reply += f"• {mention_html(user_id, user.first_name)}\n"
+            reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
     update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)

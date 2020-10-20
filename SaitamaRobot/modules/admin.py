@@ -232,7 +232,7 @@ def set_title(update: Update, context: CallbackContext):
     bot.sendMessage(
         chat.id,
         f"Sucessfully set title for <code>{user_member.user.first_name or user_id}</code> "
-        f"to <code>{title[:16]}</code>!",
+        f"to <code>{html.escape(title[:16])}</code>!",
         parse_mode=ParseMode.HTML)
 
 
@@ -270,7 +270,7 @@ def pin(update: Update, context: CallbackContext) -> str:
         log_message = (
             f"<b>{html.escape(chat.title)}:</b>\n"
             f"#PINNED\n"
-            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}")
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}")
 
         return log_message
 
@@ -295,7 +295,7 @@ def unpin(update: Update, context: CallbackContext) -> str:
 
     log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
                    f"#UNPINNED\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}")
+                   f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}")
 
     return log_message
 

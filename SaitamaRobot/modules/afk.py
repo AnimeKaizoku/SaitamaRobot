@@ -1,4 +1,4 @@
-import random
+import random, html
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import (DisableAbleCommandHandler,
@@ -129,8 +129,7 @@ def check_afk(update, context, user_id, fst_name, userc_id):
         else:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} is afk.\nReason: <code>{}</code>".format(
-                fst_name, user.reason)
+            res = "{} is afk.\nReason: <code>{}</code>".format(html.escape(fst_name), html.escape(user.reason))
             update.effective_message.reply_text(res, parse_mode="html")
 
 

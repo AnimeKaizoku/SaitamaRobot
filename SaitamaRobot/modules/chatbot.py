@@ -37,7 +37,7 @@ def add_chat(update: Update, context: CallbackContext):
         msg.reply_text("AI successfully enabled for this chat!")
         message = (f"<b>{html.escape(chat.title)}:</b>\n"
                    f"#AI_ENABLED\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
+                   f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n")
         return message
     else:
         msg.reply_text("AI is already enabled for this chat!")
@@ -60,7 +60,7 @@ def remove_chat(update: Update, context: CallbackContext):
         msg.reply_text("AI disabled successfully!")
         message = (f"<b>{html.escape(chat.title)}:</b>\n"
                    f"#AI_DISABLED\n"
-                   f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n")
+                   f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n")
         return message
 
 
