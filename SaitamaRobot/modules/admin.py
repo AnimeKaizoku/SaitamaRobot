@@ -331,18 +331,12 @@ def adminlist(update, context):
 	user = update.effective_user  # type: Optional[User]
 	args = context.args
 
-	conn = connected(context.bot, update, chat, user.id, need_admin=False)
-	if conn:
-		chat = dispatcher.bot.getChat(conn)
-		chat_id = conn
-		chat_name = dispatcher.bot.getChat(conn).title
-	else:
-		if update.effective_message.chat.type == "private":
-			send_message(update.effective_message, "This command only works in Groups.")
-			return ""
-		chat = update.effective_chat
-		chat_id = update.effective_chat.id
-		chat_name = update.effective_message.chat.title
+	if update.effective_message.chat.type == "private":
+		send_message(update.effective_message, "This command only works in Groups.")
+		return ""
+	chat = update.effective_chat
+	chat_id = update.effective_chat.id
+	chat_name = update.effective_message.chat.title
 
 	administrators = context.bot.getChatAdministrators(chat_id)
 	text = tl(update.effective_message, "Admins in *{}*:").format(update.effective_chat.title)
