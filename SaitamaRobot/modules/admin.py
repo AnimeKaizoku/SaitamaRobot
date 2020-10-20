@@ -14,6 +14,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin, can_pin,
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
                                                           extract_user_and_text)
 from SaitamaRobot.modules.log_channel import loggable
+from SaitamaRobot.modules.helper_funcs.alternate import send_message
 
 
 @run_async
