@@ -339,7 +339,7 @@ def adminlist(update, context):
 	chat_name = update.effective_message.chat.title
 
 	administrators = context.bot.getChatAdministrators(chat_id)
-	text = tl(update.effective_message, "Admins in *{}*:").format(update.effective_chat.title)
+	text = "Admins in *{}*:".format(update.effective_chat.title)
 	for admin in administrators:
 		user = admin.user
 		status = admin.status
