@@ -112,6 +112,8 @@ def send(update, message, keyboard, backup_message):
             LOGGER.warning(message)
             LOGGER.warning(keyboard)
             LOGGER.exception("Could not parse! got invalid url host errors")
+        elif excp.message == "Have no rights to send a message":
+                return    
         else:
             msg = update.effective_message.reply_text(
                 markdown_parser(backup_message +
@@ -121,7 +123,6 @@ def send(update, message, keyboard, backup_message):
                 reply_to_message_id=reply,
             )
             LOGGER.exception()
-
     return msg
 
 
