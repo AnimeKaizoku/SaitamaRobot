@@ -326,36 +326,54 @@ def invite(update: Update, context: CallbackContext):
 
 @run_async
 @connection_status
-def adminlist(update: Update, context: CallbackContext):
-    bot = context.bot
-    chat = update.effective_chat
-    user = update.effective_user
+def adminlist(update, context):
+	chat = update.effective_chat  # type: Optional[Chat]
+	user = update.effective_user  # type: Optional[User]
+	args = context.args
 
-    chat_id = chat.id
-    update_chat_title = chat.title
-    message_chat_title = update.effective_message.chat.title
+	conn = connected(context.bot, update, chat, user.id, need_admin=False)
+	if conn:
+		chat = dispatcher.bot.getChat(conn)
+		chat_id = conn
+		chat_name = dispatcher.bot.getChat(conn).title
+	else:
+		if update.effective_message.chat.type == "private":
+			send_message(update.effective_message, "This command only works in Groups.")
+			return ""
+		chat = update.effective_chat
+		chat_id = update.effective_chat.id
+		chat_name = update.effective_message.chat.title
 
-    administrators = bot.getChatAdministrators(chat_id)
+	administrators = context.bot.getChatAdministrators(chat_id)
+	text = tl(update.effective_message, "Admins in *{}*:").format(update.effective_chat.title)
+	for admin in administrators:
+		user = admin.user
+		status = admin.status
+		if user.first_name == '':
+			name = "☠ Deleted Account"
+		else:
+			name = "{}".format(mention_markdown(user.id, user.first_name + " " + (user.last_name or "")))
+		#if user.username:
+		#    name = escape_markdown("@" + user.username)
+		if status == "creator":
+			text += "\n 👑 Creator:"
+			text += "\n` • `{} \n\n 🔱 Admins:".format(name)
+	for admin in administrators:
+		user = admin.user
+		status = admin.status
+		if user.first_name == '':
+			name = "☠ Deleted Account"
+		else:
+			name = "{}".format(mention_markdown(user.id, user.first_name + " " + (user.last_name or "")))
+		#if user.username:
+		#    name = escape_markdown("@" + user.username)
+		if status == "administrator":
+			text += "\n` • `{}".format(name)
 
-    if update_chat_title == message_chat_title:
-        chat_name = "this chat"
-    else:
-        chat_name = update_chat_title
-
-    text = f"Admins in *{chat_name}*:"
-
-    for admin in administrators:
-        user = admin.user
-        name = f"[{user.first_name+' '+(user.last_name or '')}](tg://user?id={user.id})"
-        text += f"\n - {name}"
-
-    update.effective_message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
-
-
-def __chat_settings__(chat_id, user_id):
-    return "You are *admin*: `{}`".format(
-        dispatcher.bot.get_chat_member(chat_id, user_id).status in (
-            "administrator", "creator"))
+	try:
+		send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN)
+	except BadRequest:
+		send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN, quote=False)
 
 
 __help__ = """
