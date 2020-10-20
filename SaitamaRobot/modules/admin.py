@@ -3,7 +3,7 @@ import html
 from telegram import ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
-from telegram.utils.helpers import mention_html
+from telegram.utils.helpers import mention_html, mention_markdown
 
 from SaitamaRobot import DRAGONS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
