@@ -61,7 +61,8 @@ def blacklist(update, context):
                 html.escape(chat_name)):
             send_message(
                 update.effective_message,
-                "No blacklisted words in <b>{}</b>!".format(html.escape(chat_name)),
+                "No blacklisted words in <b>{}</b>!".format(
+                    html.escape(chat_name)),
                 parse_mode=ParseMode.HTML,
             )
             return
@@ -157,7 +158,8 @@ def unblacklist(update, context):
                 send_message(
                     update.effective_message,
                     "Removed <code>{}</code> from blacklist in <b>{}</b>!"
-                    .format(html.escape(to_unblacklist[0]), html.escape(chat_name)),
+                    .format(
+                        html.escape(to_unblacklist[0]), html.escape(chat_name)),
                     parse_mode=ParseMode.HTML,
                 )
             else:

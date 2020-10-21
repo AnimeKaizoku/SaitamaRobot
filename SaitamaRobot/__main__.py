@@ -224,7 +224,8 @@ def start(update: Update, context: CallbackContext):
                      ]]))
     else:
         update.effective_message.reply_text(
-            "I'm online!\n<b>Up since:</b> <code>{}</code>".format(html.escape(uptime)),
+            "I'm online!\n<b>Up since:</b> <code>{}</code>".format(
+                html.escape(uptime)),
             parse_mode=ParseMode.HTML)
 
 

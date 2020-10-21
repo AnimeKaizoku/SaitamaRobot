@@ -8,7 +8,6 @@ from telegram.ext import CallbackContext, CommandHandler, run_async
 from SaitamaRobot import telethn, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 
-
 DEBUG_MODE = False
 
 
@@ -51,7 +50,8 @@ async def i_do_nothing_yes(event):
                 )
 
 
-support_chat=os.getenv('SUPPORT_CHAT')
+support_chat = os.getenv('SUPPORT_CHAT')
+
 
 @run_async
 @dev_plus
@@ -65,8 +65,6 @@ def logs(update: Update, context: CallbackContext):
     with open('log.txt', 'rb') as f:
 
         context.bot.send_document(document=f, filename=f.name, chat_id=user.id)
-
-
 
 
 LOG_HANDLER = CommandHandler('logs', logs)
