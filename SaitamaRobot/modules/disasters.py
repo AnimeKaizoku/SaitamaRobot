@@ -580,6 +580,7 @@ Group admins/group owners do not need these commands.
  
  ╔ *Debugging and Shell:* 
  ╠ `/debug <on/off>`*:* Logs commands to updates.txt
+ ╠ `/logs`*:* Run this in support group to get logs in pm
  ╠ `/eval`*:* Self explanatory
  ╠ `/sh`*:* Self explanator
  ╚ `/py`*:* Self explanatory
