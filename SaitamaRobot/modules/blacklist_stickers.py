@@ -182,7 +182,8 @@ def unblackliststicker(update: Update, context: CallbackContext):
                 send_message(
                     update.effective_message,
                     "Sticker <code>{}</code> deleted from blacklist in <b>{}</b>!"
-                    .format(html.escape(to_unblacklist[0]), html.escape(chat_name)),
+                    .format(
+                        html.escape(to_unblacklist[0]), html.escape(chat_name)),
                     parse_mode=ParseMode.HTML)
             else:
                 send_message(update.effective_message,

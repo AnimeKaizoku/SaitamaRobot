@@ -89,7 +89,8 @@ def addsudo(update: Update, context: CallbackContext) -> str:
     log_message = (
         f"#SUDO\n"
         f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}")
+        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
+    )
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -146,7 +147,8 @@ def addsupport(
     log_message = (
         f"#SUPPORT\n"
         f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}")
+        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
+    )
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -201,7 +203,8 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
     log_message = (
         f"#WHITELIST\n"
         f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))} \n"
-        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}")
+        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
+    )
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -262,7 +265,8 @@ def addtiger(update: Update, context: CallbackContext) -> str:
     log_message = (
         f"#TIGER\n"
         f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))} \n"
-        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}")
+        f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
+    )
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message

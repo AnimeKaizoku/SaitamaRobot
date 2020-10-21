@@ -52,7 +52,8 @@ def bl_user(update: Update, context: CallbackContext) -> str:
     log_message = (
         f"#BLACKLIST\n"
         f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        f"<b>User:</b> {mention_html(target_user.id, html.escape(target_user.first_name))}")
+        f"<b>User:</b> {mention_html(target_user.id, html.escape(target_user.first_name))}"
+    )
     if reason:
         log_message += f"\n<b>Reason:</b> {reason}"
 
@@ -113,9 +114,11 @@ def bl_users(update: Update, context: CallbackContext):
 
         if reason:
             users.append(
-                f"• {mention_html(user.id, html.escape(user.first_name))} :- {reason}")
+                f"• {mention_html(user.id, html.escape(user.first_name))} :- {reason}"
+            )
         else:
-            users.append(f"• {mention_html(user.id, html.escape(user.first_name))}")
+            users.append(
+                f"• {mention_html(user.id, html.escape(user.first_name))}")
 
     message = "<b>Blacklisted Users</b>\n"
     if not users:

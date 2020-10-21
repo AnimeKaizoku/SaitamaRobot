@@ -270,7 +270,8 @@ def pin(update: Update, context: CallbackContext) -> str:
         log_message = (
             f"<b>{html.escape(chat.title)}:</b>\n"
             f"#PINNED\n"
-            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}")
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}"
+        )
 
         return log_message
 
@@ -293,9 +294,10 @@ def unpin(update: Update, context: CallbackContext) -> str:
         else:
             raise
 
-    log_message = (f"<b>{html.escape(chat.title)}:</b>\n"
-                   f"#UNPINNED\n"
-                   f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}")
+    log_message = (
+        f"<b>{html.escape(chat.title)}:</b>\n"
+        f"#UNPINNED\n"
+        f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}")
 
     return log_message
 
@@ -328,47 +330,57 @@ def invite(update: Update, context: CallbackContext):
 @run_async
 @connection_status
 def adminlist(update, context):
-	chat = update.effective_chat  # type: Optional[Chat]
-	user = update.effective_user  # type: Optional[User]
-	args = context.args
+    chat = update.effective_chat  # type: Optional[Chat]
+    user = update.effective_user  # type: Optional[User]
+    args = context.args
 
-	if update.effective_message.chat.type == "private":
-		send_message(update.effective_message, "This command only works in Groups.")
-		return ""
-	chat = update.effective_chat
-	chat_id = update.effective_chat.id
-	chat_name = update.effective_message.chat.title
+    if update.effective_message.chat.type == "private":
+        send_message(update.effective_message,
+                     "This command only works in Groups.")
+        return ""
+    chat = update.effective_chat
+    chat_id = update.effective_chat.id
+    chat_name = update.effective_message.chat.title
 
-	administrators = context.bot.getChatAdministrators(chat_id)
-	text = "Admins in *{}*:".format(update.effective_chat.title)
-	for admin in administrators:
-		user = admin.user
-		status = admin.status
-		if user.first_name == '':
-			name = "☠ Deleted Account"
-		else:
-			name = "{}".format(mention_markdown(user.id, user.first_name + " " + (user.last_name or "")))
-		#if user.username:
-		#    name = escape_markdown("@" + user.username)
-		if status == "creator":
-			text += "\n 👑 Creator:"
-			text += "\n` • `{} \n\n 🔱 Admins:".format(name)
-	for admin in administrators:
-		user = admin.user
-		status = admin.status
-		if user.first_name == '':
-			name = "☠ Deleted Account"
-		else:
-			name = "{}".format(mention_markdown(user.id, user.first_name + " " + (user.last_name or "")))
-		#if user.username:
-		#    name = escape_markdown("@" + user.username)
-		if status == "administrator":
-			text += "\n` • `{}".format(name)
+    administrators = context.bot.getChatAdministrators(chat_id)
+    text = "Admins in *{}*:".format(update.effective_chat.title)
+    for admin in administrators:
+        user = admin.user
+        status = admin.status
+        if user.first_name == '':
+            name = "☠ Deleted Account"
+        else:
+            name = "{}".format(
+                mention_markdown(user.id, user.first_name + " " +
+                                 (user.last_name or "")))
+        #if user.username:
+        #    name = escape_markdown("@" + user.username)
+        if status == "creator":
+            text += "\n 👑 Creator:"
+            text += "\n` • `{} \n\n 🔱 Admins:".format(name)
+    for admin in administrators:
+        user = admin.user
+        status = admin.status
+        if user.first_name == '':
+            name = "☠ Deleted Account"
+        else:
+            name = "{}".format(
+                mention_markdown(user.id, user.first_name + " " +
+                                 (user.last_name or "")))
+        #if user.username:
+        #    name = escape_markdown("@" + user.username)
+        if status == "administrator":
+            text += "\n` • `{}".format(name)
 
-	try:
-		send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN)
-	except BadRequest:
-		send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN, quote=False)
+    try:
+        send_message(
+            update.effective_message, text, parse_mode=ParseMode.MARKDOWN)
+    except BadRequest:
+        send_message(
+            update.effective_message,
+            text,
+            parse_mode=ParseMode.MARKDOWN,
+            quote=False)
 
 
 __help__ = """

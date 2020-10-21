@@ -82,7 +82,8 @@ def ban(update: Update, context: CallbackContext) -> str:
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#BANNED\n"
         f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}")
+        f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}"
+    )
     if reason:
         log += "\n<b>Reason:</b> {}".format(reason)
 
@@ -320,7 +321,8 @@ def unban(update: Update, context: CallbackContext) -> str:
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#UNBANNED\n"
         f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}")
+        f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}"
+    )
     if reason:
         log += f"\n<b>Reason:</b> {reason}"
 
@@ -366,7 +368,8 @@ def selfunban(context: CallbackContext, update: Update) -> str:
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#UNBANNED\n"
-        f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}")
+        f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}"
+    )
 
     return log
 
