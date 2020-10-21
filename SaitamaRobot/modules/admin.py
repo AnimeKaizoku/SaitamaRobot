@@ -376,7 +376,7 @@ def adminlist(update, context):
             text += "\n` • `{}".format(name)
 
     try:
-        msg.edit_text(text)
+        msg.edit_text(text, parse_mode=ParseMode.MARKDOWN)
     except BadRequest: # if original message is deleted
         return ""
 
