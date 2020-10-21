@@ -2094,11 +2094,10 @@ def fed_admin_help(update: Update, context: CallbackContext):
  • `/joinfed <fed_id>`*:* Join the current chat to the Federation. Only chat owners can do this. Every chat can only be in one Federation
  • `/leavefed <fed_id>`*:* Leave the Federation given. Only chat owners can do this
  • `/setfrules <rules>`*:* Arrange Federation rules
- • `/fednotif <on/off>`*:* Federation settings not in PM when there are users who are fbaned/unfbanned
- • `/frules`*:* See Federation regulations
  • `/fedadmins`*:* Show Federation admin
  • `/fbanlist`*:* Displays all users who are victimized at the Federation at this time
- • `/fedchats`*:* Get all the chats that are connected in the Federation\n""",
+ • `/fedchats`*:* Get all the chats that are connected in the Federation
+ • `/chatfed `*:* See the Federation in the current chat\n""",
         parse_mode=ParseMode.MARKDOWN)
 
 
@@ -2106,8 +2105,9 @@ def fed_admin_help(update: Update, context: CallbackContext):
 def fed_user_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
         """*🎩 Any user:*
-• `/fbanstat`*:* Shows if you/or the user you are replying to or their username is fbanned somewhere or not
-• `/chatfed `*:* See the Federation in the current chat\n""",
+ • `/fbanstat`*:* Shows if you/or the user you are replying to or their username is fbanned somewhere or not
+ • `/fednotif <on/off>`*:* Federation settings not in PM when there are users who are fbaned/unfbanned
+ • `/frules`*:* See Federation regulations\n""",
         parse_mode=ParseMode.MARKDOWN)
 
 
