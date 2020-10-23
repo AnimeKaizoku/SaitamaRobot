@@ -393,8 +393,8 @@ def check_and_ban(update, user_id, should_message=True):
                 f"<b>Alert</b>: this user is globally banned.\n"
                 f"<code>*bans them from here*</code>.\n"
                 f"<b>Appeal chat</b>: {SPAMWATCH_SUPPORT_CHAT}\n"
-                f"<b>User ID</b>: <code>{sw_ban['id']}</code>\n"
-                f"<b>Ban Reason</b>: <code>{html.escape(sw_ban['reason'])}</code>",
+                f"<b>User ID</b>: <code>{sw_ban.id}</code>\n"
+                f"<b>Ban Reason</b>: <code>{html.escape(sw_ban.reason)}</code>",
                 parse_mode=ParseMode.HTML)
         return
 
