@@ -463,8 +463,8 @@ def rmall_filters(update, context):
     else:
         buttons = InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                text="Stop all filters", callback_data="rmall")
-        ], [InlineKeyboardButton(text="Cancel", callback_data="cancel")]])
+                text="Stop all filters", callback_data="filters_rmall")
+        ], [InlineKeyboardButton(text="Cancel", callback_data="filters_cancel")]])
         update.effective_message.reply_text(
             f"Are you sure you would like to stop ALL filters in {chat.title}? This action cannot be undone.",
             reply_markup=buttons,
@@ -477,7 +477,7 @@ def rmall_callback(update, context):
     chat = update.effective_chat
     msg = update.effective_message
     member = chat.get_member(query.from_user.id)
-    if query.data == 'rmall':
+    if query.data == 'filters_rmall':
         if member.status == "creator" or query.from_user.id in DRAGONS:
             allfilters = sql.get_chat_triggers(chat.id)
             if not allfilters:
@@ -500,7 +500,7 @@ def rmall_callback(update, context):
 
         if member.status == "member":
             query.answer("You need to be admin to do this.")
-    if query.data == 'cancel':
+    elif query.data == 'filters_cancel':
         if member.status == "creator" or query.from_user.id in DRAGONS:
             msg.edit_text("Clearing of all filters has been cancelled.")
             return
@@ -580,7 +580,7 @@ FILTER_HANDLER = CommandHandler("filter", filters)
 STOP_HANDLER = CommandHandler("stop", stop_filter)
 RMALLFILTER_HANDLER = CommandHandler(
     "removeallfilters", rmall_filters, filters=Filters.group)
-RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback)
+RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback, pattern=r"filters_.*")
 LIST_HANDLER = DisableAbleCommandHandler(
     "filters", list_handlers, admin_ok=True)
 CUST_FILTER_HANDLER = MessageHandler(

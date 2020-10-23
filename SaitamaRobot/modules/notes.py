@@ -269,8 +269,8 @@ def clearall(update: Update, context: CallbackContext):
     else:
         buttons = InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                text="Delete all notes", callback_data="rmall")
-        ], [InlineKeyboardButton(text="Cancel", callback_data="cancel")]])
+                text="Delete all notes", callback_data="notes_rmall")
+        ], [InlineKeyboardButton(text="Cancel", callback_data="notes_cancel")]])
         update.effective_message.reply_text(
             f"Are you sure you would like to clear ALL notes in {chat.title}? This action cannot be undone.",
             reply_markup=buttons,
@@ -283,7 +283,7 @@ def clearall_btn(update: Update, context: CallbackContext):
     chat = update.effective_chat
     message = update.effective_message
     member = chat.get_member(query.from_user.id)
-    if query.data == 'rmall':
+    if query.data == 'notes_rmall':
         if member.status == "creator" or query.from_user.id in DRAGONS:
             note_list = sql.get_all_chat_notes(chat.id)
             try:
@@ -299,7 +299,7 @@ def clearall_btn(update: Update, context: CallbackContext):
 
         if member.status == "member":
             query.answer("You need to be admin to do this.")
-    if query.data == 'cancel':
+    elif query.data == 'notes_cancel':
         if member.status == "creator" or query.from_user.id in DRAGONS:
             message.edit_text("Clearing of all notes has been cancelled.")
             return
@@ -508,7 +508,7 @@ LIST_HANDLER = DisableAbleCommandHandler(["notes", "saved"],
                                          admin_ok=True)
 
 CLEARALL = DisableAbleCommandHandler("removeallnotes", clearall)
-CLEARALL_BTN = CallbackQueryHandler(clearall_btn)
+CLEARALL_BTN = CallbackQueryHandler(clearall_btn, pattern=r"notes_.*")
 
 dispatcher.add_handler(GET_HANDLER)
 dispatcher.add_handler(SAVE_HANDLER)
