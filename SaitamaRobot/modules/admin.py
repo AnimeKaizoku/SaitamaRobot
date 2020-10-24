@@ -342,9 +342,13 @@ def adminlist(update, context):
     chat_id = update.effective_chat.id
     chat_name = update.effective_message.chat.title
     try:
-        msg = update.effective_message.reply_text('Getting admins list...', parse_mode=ParseMode.MARKDOWN )
+        msg = update.effective_message.reply_text(
+            'Getting admins list...', parse_mode=ParseMode.MARKDOWN)
     except BadRequest:
-        msg = update.effective_message.reply_text('Getting admins list...', quote = False, parse_mode=ParseMode.MARKDOWN)
+        msg = update.effective_message.reply_text(
+            'Getting admins list...',
+            quote=False,
+            parse_mode=ParseMode.MARKDOWN)
     administrators = context.bot.getChatAdministrators(chat_id)
     text = "Admins in *{}*:".format(update.effective_chat.title)
     for admin in administrators:
@@ -377,8 +381,9 @@ def adminlist(update, context):
 
     try:
         msg.edit_text(text, parse_mode=ParseMode.MARKDOWN)
-    except BadRequest: # if original message is deleted
+    except BadRequest:  # if original message is deleted
         return ""
+
 
 __help__ = """
  • `/adminlist`*:* list of admins in the chat

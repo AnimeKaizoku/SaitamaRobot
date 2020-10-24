@@ -464,7 +464,9 @@ def rmall_filters(update, context):
         buttons = InlineKeyboardMarkup([[
             InlineKeyboardButton(
                 text="Stop all filters", callback_data="filters_rmall")
-        ], [InlineKeyboardButton(text="Cancel", callback_data="filters_cancel")]])
+        ], [
+            InlineKeyboardButton(text="Cancel", callback_data="filters_cancel")
+        ]])
         update.effective_message.reply_text(
             f"Are you sure you would like to stop ALL filters in {chat.title}? This action cannot be undone.",
             reply_markup=buttons,
@@ -580,7 +582,8 @@ FILTER_HANDLER = CommandHandler("filter", filters)
 STOP_HANDLER = CommandHandler("stop", stop_filter)
 RMALLFILTER_HANDLER = CommandHandler(
     "removeallfilters", rmall_filters, filters=Filters.group)
-RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback, pattern=r"filters_.*")
+RMALLFILTER_CALLBACK = CallbackQueryHandler(
+    rmall_callback, pattern=r"filters_.*")
 LIST_HANDLER = DisableAbleCommandHandler(
     "filters", list_handlers, admin_ok=True)
 CUST_FILTER_HANDLER = MessageHandler(
