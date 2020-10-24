@@ -96,7 +96,6 @@ def kang(update: Update, context: CallbackContext):
             if e.message == "Stickerset_invalid":
                 packname_found = 1
     kangsticker = "kangsticker.png"
-    sticker_handler = open("kangsticker.png", "rb")
     is_animated = False
     file_id = ""
 
@@ -152,7 +151,7 @@ def kang(update: Update, context: CallbackContext):
                 context.bot.add_sticker_to_set(
                     user_id=user.id,
                     name=packname,
-                    png_sticker=sticker_handler,
+                    png_sticker=open("kangsticker.png", "rb"),
                     emojis=sticker_emoji,
                 )
                 msg.reply_text(
@@ -176,14 +175,14 @@ def kang(update: Update, context: CallbackContext):
                         sticker_emoji,
                         packname,
                         packnum,
-                        png_sticker=sticker_handler,
+                        png_sticker=open("kangsticker.png", "rb"),
                     )
                 elif e.message == "Sticker_png_dimensions":
                     im.save(kangsticker, "PNG")
                     context.bot.add_sticker_to_set(
                         user_id=user.id,
                         name=packname,
-                        png_sticker=sticker_handler,
+                        png_sticker=open("kangsticker.png", "rb"),
                         emojis=sticker_emoji,
                     )
                     msg.reply_text(
@@ -290,7 +289,7 @@ def kang(update: Update, context: CallbackContext):
             context.bot.add_sticker_to_set(
                 user_id=user.id,
                 name=packname,
-                png_sticker=sticker_handler,
+                png_sticker=open("kangsticker.png", "rb"),
                 emojis=sticker_emoji,
             )
             msg.reply_text(
@@ -312,14 +311,14 @@ def kang(update: Update, context: CallbackContext):
                     sticker_emoji,
                     packname,
                     packnum,
-                    png_sticker=sticker_handler,
+                    png_sticker=open("kangsticker.png", "rb"),
                 )
             elif e.message == "Sticker_png_dimensions":
                 im.save(kangsticker, "PNG")
                 context.bot.add_sticker_to_set(
                     user_id=user.id,
                     name=packname,
-                    png_sticker=sticker_handler,
+                    png_sticker=open("kangsticker.png", "rb"),
                     emojis=sticker_emoji,
                 )
                 msg.reply_text(
@@ -352,7 +351,6 @@ def kang(update: Update, context: CallbackContext):
             packs += f"[pack](t.me/addstickers/{packname})"
         msg.reply_text(packs, parse_mode=ParseMode.MARKDOWN)
     if os.path.isfile("kangsticker.png"):
-        sticker_handler.close()
         os.remove("kangsticker.png")
     elif os.path.isfile("kangsticker.tgs"):
         os.remove("kangsticker.tgs")
