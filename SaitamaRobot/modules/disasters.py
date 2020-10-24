@@ -576,7 +576,7 @@ Group admins/group owners do not need these commands.
  ╚ `/ginfo username/link/ID`*:* Pulls info panel for entire group
 
  ╔ *Windows self hosted only:*
- ╠ `/restart`*:* Restarts the bots service
+ ╠ `/reboot`*:* Restarts the bots service
  ╚ `/gitpull`*:* Pulls the repo and then restarts the bots service
 
  ╔ *Chatbot:* 
