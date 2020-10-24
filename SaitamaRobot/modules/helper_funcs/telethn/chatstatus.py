@@ -1,4 +1,5 @@
 from SaitamaRobot.modules.helper_funcs.telethn import IMMUNE_USERS, telethn
+from SaitamaRobot import DRAGONS
 from telethon.tl.types import ChannelParticipantsAdmins
 
 
@@ -22,7 +23,7 @@ async def user_is_admin(user_id: int, message):
 
     async for user in telethn.iter_participants(
             message.chat_id, filter=ChannelParticipantsAdmins):
-        if user_id == user.id or user_id in IMMUNE_USERS:
+        if user_id == user.id or user_id in DRAGONS:
             status = True
             break
     return status
@@ -32,18 +33,18 @@ async def is_user_admin(user_id: int, chat_id):
     status = False
     async for user in telethn.iter_participants(
             chat_id, filter=ChannelParticipantsAdmins):
-        if user_id == user.id or user_id in IMMUNE_USERS:
+        if user_id == user.id or user_id in DRAGONS:
             status = True
             break
     return status
 
 
-async def haruka_is_admin(chat_id: int):
+async def saitama_is_admin(chat_id: int):
     status = False
-    haruka = await telethn.get_me()
+    saitama = await telethn.get_me()
     async for user in telethn.iter_participants(
             chat_id, filter=ChannelParticipantsAdmins):
-        if haruka.id == user.id:
+        if saitama.id == user.id:
             status = True
             break
     return status

@@ -87,7 +87,7 @@ def set_blue_text_must_click(update: Update, context: CallbackContext):
         else:
             clean_status = "Disabled"
         reply = "Bluetext cleaning for <b>{}</b> : <b>{}</b>".format(
-            chat.title, clean_status)
+            html.escape(chat.title), clean_status)
         message.reply_text(reply, parse_mode=ParseMode.HTML)
 
 

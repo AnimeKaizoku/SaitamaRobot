@@ -50,6 +50,26 @@ async def i_do_nothing_yes(event):
                 )
 
 
+support_chat = os.getenv('SUPPORT_CHAT')
+
+
+@run_async
+@dev_plus
+def logs(update: Update, context: CallbackContext):
+    chat_username = update.effective_chat.username
+    if not chat_username:
+        return
+    if chat_username != support_chat:
+        return
+    user = update.effective_user
+    with open('log.txt', 'rb') as f:
+
+        context.bot.send_document(document=f, filename=f.name, chat_id=user.id)
+
+
+LOG_HANDLER = CommandHandler('logs', logs)
+dispatcher.add_handler(LOG_HANDLER)
+
 DEBUG_HANDLER = CommandHandler("debug", debug)
 dispatcher.add_handler(DEBUG_HANDLER)
 

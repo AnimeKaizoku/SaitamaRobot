@@ -3,7 +3,7 @@ from io import BytesIO
 from typing import Optional
 
 import SaitamaRobot.modules.sql.notes_sql as sql
-from SaitamaRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher
+from SaitamaRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher, DRAGONS
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, connection_status
 from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
@@ -11,11 +11,11 @@ from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
 from SaitamaRobot.modules.helper_funcs.msg_types import get_note_type
 from SaitamaRobot.modules.helper_funcs.string_handling import escape_invalid_curly_brackets
 from telegram import (MAX_MESSAGE_LENGTH, InlineKeyboardMarkup, Message,
-                      ParseMode, Update)
+                      ParseMode, Update, InlineKeyboardButton)
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_markdown
-from telegram.ext import (CallbackContext, CommandHandler, Filters,
-                          MessageHandler)
+from telegram.ext import (CallbackContext, CommandHandler, CallbackQueryHandler,
+                          Filters, MessageHandler)
 from telegram.ext.dispatcher import run_async
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
@@ -259,6 +259,57 @@ def clear(update: Update, context: CallbackContext):
 
 
 @run_async
+def clearall(update: Update, context: CallbackContext):
+    chat = update.effective_chat
+    user = update.effective_user
+    member = chat.get_member(user.id)
+    if member.status != "creator" and user.id not in DRAGONS:
+        update.effective_message.reply_text(
+            "Only the chat owner can clear all notes at once.")
+    else:
+        buttons = InlineKeyboardMarkup([[
+            InlineKeyboardButton(
+                text="Delete all notes", callback_data="notes_rmall")
+        ], [InlineKeyboardButton(text="Cancel", callback_data="notes_cancel")]])
+        update.effective_message.reply_text(
+            f"Are you sure you would like to clear ALL notes in {chat.title}? This action cannot be undone.",
+            reply_markup=buttons,
+            parse_mode=ParseMode.MARKDOWN)
+
+
+@run_async
+def clearall_btn(update: Update, context: CallbackContext):
+    query = update.callback_query
+    chat = update.effective_chat
+    message = update.effective_message
+    member = chat.get_member(query.from_user.id)
+    if query.data == 'notes_rmall':
+        if member.status == "creator" or query.from_user.id in DRAGONS:
+            note_list = sql.get_all_chat_notes(chat.id)
+            try:
+                for notename in note_list:
+                    note = notename.name.lower()
+                    sql.rm_note(chat.id, note)
+                message.edit_text("Deleted all notes.")
+            except BadRequest:
+                return
+
+        if member.status == "administrator":
+            query.answer("Only owner of the chat can do this.")
+
+        if member.status == "member":
+            query.answer("You need to be admin to do this.")
+    elif query.data == 'notes_cancel':
+        if member.status == "creator" or query.from_user.id in DRAGONS:
+            message.edit_text("Clearing of all notes has been cancelled.")
+            return
+        if member.status == "administrator":
+            query.answer("Only owner of the chat can do this.")
+        if member.status == "member":
+            query.answer("You need to be admin to do this.")
+
+
+@run_async
 @connection_status
 def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -439,7 +490,9 @@ A button can be added to a note by using standard markdown link syntax - the lin
 `buttonurl:` section, as such: `[somelink](buttonurl:example.com)`. Check `/markdownhelp` for more info.
  • `/save <notename>`*:* save the replied message as a note with name notename
  • `/clear <notename>`*:* clear note with this name
+ • `/removeallnotes`*:* removes all notes from the group
  *Note:* Note names are case-insensitive, and they are automatically converted to lowercase before getting saved.
+ 
 """
 
 __mod_name__ = "Notes"
@@ -454,9 +507,14 @@ LIST_HANDLER = DisableAbleCommandHandler(["notes", "saved"],
                                          list_notes,
                                          admin_ok=True)
 
+CLEARALL = DisableAbleCommandHandler("removeallnotes", clearall)
+CLEARALL_BTN = CallbackQueryHandler(clearall_btn, pattern=r"notes_.*")
+
 dispatcher.add_handler(GET_HANDLER)
 dispatcher.add_handler(SAVE_HANDLER)
 dispatcher.add_handler(LIST_HANDLER)
 dispatcher.add_handler(DELETE_HANDLER)
 dispatcher.add_handler(HASH_GET_HANDLER)
 dispatcher.add_handler(SLASH_GET_HANDLER)
+dispatcher.add_handler(CLEARALL)
+dispatcher.add_handler(CLEARALL_BTN)

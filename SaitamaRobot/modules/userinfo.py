@@ -2,6 +2,7 @@ import html
 import re
 import os
 import requests
+import subprocess
 
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import ChannelParticipantsAdmins
@@ -13,8 +14,8 @@ from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from SaitamaRobot import (DEV_USERS, OWNER_ID, SUDO_USERS, SUPPORT_USERS,
-                          TIGER_USERS, WHITELIST_USERS, INFOPIC, dispatcher, sw)
+from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS, TIGERS, WOLVES,
+                          INFOPIC, dispatcher, sw)
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 import SaitamaRobot.modules.sql.userinfo_sql as sql
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -24,7 +25,7 @@ from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
 from SaitamaRobot.modules.sql.feds_sql import get_user_fbanlist
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from SaitamaRobot import telethn as SaitamaTelethonClient, TIGER_USERS, SUDO_USERS, SUPPORT_USERS
+from SaitamaRobot import telethn as SaitamaTelethonClient, TIGERS, DRAGONS, DEMONS
 
 
 def no_by_per(totalhp, percentage):
@@ -85,13 +86,15 @@ def hpmanager(user):
         # Available HP is (2*5) = 10% less than Max HP
         # So.. 10% of 100HP = 90HP
 
-        _, fbanlist = get_user_fbanlist(user.id)
-        new_hp -= no_by_per(total_hp, 2 * len(fbanlist))
 
-    # Bad status effects:
-    # gbanned users will always have 5% HP from max HP
-    # Example: If HP is 100 but gbanned
-    # Available HP is 5% of 100 = 5HP
+# Commenting out fban health decrease cause it wasnt working and isnt needed ig.
+#_, fbanlist = get_user_fbanlist(user.id)
+#new_hp -= no_by_per(total_hp, 2 * len(fbanlist))
+
+# Bad status effects:
+# gbanned users will always have 5% HP from max HP
+# Example: If HP is 100 but gbanned
+# Available HP is 5% of 100 = 5HP
 
     else:
         new_hp = no_by_per(total_hp, 5)
@@ -152,8 +155,7 @@ def get_id(update: Update, context: CallbackContext):
 @SaitamaTelethonClient.on(
     events.NewMessage(
         pattern='/ginfo ',
-        from_users=(TIGER_USERS or []) + (SUDO_USERS or []) +
-        (SUPPORT_USERS or [])))
+        from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])))
 async def group_info(event) -> None:
     chat = event.text.split(' ', 1)[1]
     try:
@@ -275,16 +277,16 @@ def info(update: Update, context: CallbackContext):
     elif user.id in DEV_USERS:
         text += "\n\nThis user is member of 'Hero Association'."
         disaster_level_present = True
-    elif user.id in SUDO_USERS:
+    elif user.id in DRAGONS:
         text += "\n\nThe Disaster level of this person is 'Dragon'."
         disaster_level_present = True
-    elif user.id in SUPPORT_USERS:
+    elif user.id in DEMONS:
         text += "\n\nThe Disaster level of this person is 'Demon'."
         disaster_level_present = True
-    elif user.id in TIGER_USERS:
+    elif user.id in TIGERS:
         text += "\n\nThe Disaster level of this person is 'Tiger'."
         disaster_level_present = True
-    elif user.id in WHITELIST_USERS:
+    elif user.id in WOLVES:
         text += "\n\nThe Disaster level of this person is 'Wolf'."
         disaster_level_present = True
 
@@ -354,7 +356,8 @@ def about_me(update: Update, context: CallbackContext):
     if info:
         update.effective_message.reply_text(
             f"*{user.first_name}*:\n{escape_markdown(info)}",
-            parse_mode=ParseMode.MARKDOWN)
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True)
     elif message.reply_to_message:
         username = message.reply_to_message.from_user.first_name
         update.effective_message.reply_text(
@@ -399,7 +402,11 @@ def set_about_me(update: Update, context: CallbackContext):
 @run_async
 @sudo_plus
 def stats(update: Update, context: CallbackContext):
-    stats = "Current stats:\n" + "\n".join([mod.__stats__() for mod in STATS])
+    process = subprocess.Popen(
+        "neofetch --stdout", shell=True, text=True, stdout=subprocess.PIPE)
+    output = process.communicate()[0]
+    stats = "<b>Current stats:</b>\n" + "\n" + output + "\n".join(
+        [mod.__stats__() for mod in STATS])
     result = re.sub(r'(\d+)', r'<code>\1</code>', stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
 
@@ -420,7 +427,8 @@ def about_bio(update: Update, context: CallbackContext):
     if info:
         update.effective_message.reply_text(
             "*{}*:\n{}".format(user.first_name, escape_markdown(info)),
-            parse_mode=ParseMode.MARKDOWN)
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True)
     elif message.reply_to_message:
         username = user.first_name
         update.effective_message.reply_text(
@@ -507,6 +515,9 @@ Examples:
 
 *Overall Information about you:*
  • `/info`*:* get information about a user. 
+ 
+*What is that health thingy?*
+ Come and see [HP System explained](https://t.me/OnePunchUpdates/192)
 """
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)
