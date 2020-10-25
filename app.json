@@ -1,5 +1,13 @@
 {
-   "name": "SaitamaRobot",
+      "name": "SaitamaRobot",
+      "description": "An Anime themed Telegram group management bot.",
+      "keywords": [
+         "telegram",
+         "anime",
+         "group",
+         "manager",
+         "Saitama"
+      ],   
    "repository": "https://github.com/AnimeKaizoku/SaitamaRobot",
    "addons": [
       {
@@ -9,7 +17,6 @@
          "plan": "heroku-postgresql"
       }
    ],
-   "description": "An Anime themed Telegram group management bot.",
    "env": {
       "TOKEN": {
          "description": "Your bot token. Get one from @BotFather duh",
@@ -152,12 +159,5 @@
          "value": "CAACAgQAAx0CU_rCTAABAczQXyBOv1TsVK4EfwnkCUT1H0GCkPQAAtwAAwEgTQaYsMtAltpEwhoE"
       }
       
-   },
-   "keywords": [
-      "telegram",
-      "anime",
-      "group",
-      "manager",
-      "Saitama"
-   ],
+   }
 }
