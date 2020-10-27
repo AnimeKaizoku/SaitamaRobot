@@ -7,11 +7,11 @@ A modular Telegram Python bot running on python3 with a sqlalchemy database.
 
 Originally a Marie fork, Saitama evolved further and was built to be more robust and more dedicated to Anime Chats. 
 
-Can be found on telegram as [SaitamaRobot](https://t.me/SaitamaRobot).
+Can be found on telegram as [Rias Chan](https://t.me/RiasChanBot).
 
 The Support group can be reached out to at [One Punch Support](https://t.me/OnePunchSupport), where you can ask for help about @SaitamaRobot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
-News channel as at [One Punch Updates](https://t.me/OnePunchUpdates) 
+News channel as at [Rias Chan Support](https://t.me/RiasChanSupport) 
 
 ## How to setup/deploy.
 
@@ -33,13 +33,13 @@ Turn on worker dyno (Don't worry It's free :D) & Webhook
 Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.com/apps/(app-name)/settings and remove webhook and port.
 ```
 
-  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
+  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/MrBhavya/RiasChan.git)
 
 </details>  
 <details>
   <summary>Steps to self Host!! </summary>
 
-Note: This instruction set is just a copy-paste from Marie, note that [One Punch Support](https://t.me/OnePunchSupport) aims to handle support for @SaitamaRobot and not how to set up your own fork. If you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to set up the bot instance in the support chat, it aims to help our own instance of the bot and not the forks.
+Note: This instruction set is just a copy-paste from Marie, note that [Rias Chan Support](https://t.me/RiasChanSupport) aims to handle support for @SaitamaRobot and not how to set up your own fork. If you find this bit confusing/tough to understand then we recommend you ask a dev, kindly avoid asking how to set up the bot instance in the support chat, it aims to help our own instance of the bot and not the forks.
 
   ## Setting up the bot (Read this before trying to use!):
 Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older Python versions!
@@ -212,4 +212,4 @@ Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (wil
 
 Any other authorship/credits can be seen through the commits.
 
-Should any be missing kindly let us know at [One Punch Support](https://t.me/OnePunchSupport) or simply submit a pull request on the readme.
+Should any be missing kindly let us know at [Rias Chan Support](https://t.me/RiasChanSupport) or simply submit a pull request on the readme.
