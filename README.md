@@ -9,14 +9,14 @@ Originally a Marie fork, Saitama evolved further and was built to be more robust
 
 Can be found on telegram as [Rias Chan](https://t.me/RiasChanBot).
 
-The Support group can be reached out to at [One Punch Support](https://t.me/OnePunchSupport), where you can ask for help about @SaitamaRobot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [Rias Chan Support](https://t.me/RiasChanSupport), where you can ask for help about @SaitamaRobot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 News channel as at [Rias Chan Support](https://t.me/RiasChanSupport) 
 
 ## How to setup/deploy.
 
 ### Read these notes carefully before proceeding 
- - Edit any mentions of @OnePunchSupport to your own support chat. 
+ - Edit any mentions of @RiasChanSupport to your own support chat. 
  - We do not support forks, once you fork the bot and deploy the headache of bugs and support is your own, please do not come to our support chat asking technical help.
  - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot. [See this](https://github.com/AnimeKaizoku/SaitamaRobot/blob/shiken/SaitamaRobot/__main__.py#L25)
  - If you come to our support chat on Telegram asking help about a "fork" or a technical issue with a module, you will end up getting ignored or banned. 
