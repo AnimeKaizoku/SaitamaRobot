@@ -26,8 +26,7 @@ I am an Anime themed group management bot.
 You can find my list of available commands with /help.
 
 [Rias's Repo](github.com/MrBhavya/RiasChan) 
-See [Basic Configuration Checklist](t.me/OnePunchUpdates/29) on how to secure your group.
-The support group chat is at {}.
+The support group chat is at [Rias Chan Support](t.me/RiasChanSupport)
 """
 
 HELP_STRINGS = """
