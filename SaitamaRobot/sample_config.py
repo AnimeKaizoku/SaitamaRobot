@@ -25,7 +25,7 @@ class Config(object):
     #RECOMMENDED
 
     SQLALCHEMY_DATABASE_URI = 'something://somewhat:user@hosturl:port/databasename'  # needed for any database modules
-    MESSAGE_DUMP = -1001253661229  # needed to make sure 'save from' messages persist
+    MESSAGE_DUMP = -1001163178725  # needed to make sure 'save from' messages persist
     GBAN_LOGS = -1001190806654
     LOAD = []
     NO_LOAD = ['rss', 'cleaner', 'connection', 'math']
