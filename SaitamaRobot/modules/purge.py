@@ -5,7 +5,7 @@ import time
 from telethon import events
 
 
-@telethn.on(events.NewMessage(pattern="^[!/]purge$"))
+@telethn.on(events.NewMessage(pattern="/purge$"))
 async def purge_messages(event):
     start = time.perf_counter()
     if event.from_id is None:
