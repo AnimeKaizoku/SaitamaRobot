@@ -1,42 +1,73 @@
-import requests
-from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from telegram import ParseMode, Update
-from telegram.ext import CallbackContext, run_async
+from SaitamaRobot.modules.helper_funcs.telethn.chatstatus import (
+    can_delete_messages, user_is_admin)
+from SaitamaRobot import telethn
+import time
+from telethon import events
 
 
-@run_async
-def paste(update: Update, context: CallbackContext):
-    args = context.args
-    message = update.effective_message
-
-    if message.reply_to_message:
-        data = message.reply_to_message.text
-
-    elif len(args) >= 1:
-        data = message.text.split(None, 1)[1]
-
-    else:
-        message.reply_text("What am I supposed to do with this?")
+@telethn.on(events.NewMessage(pattern="^[!/]purge$"))
+async def purge_messages(event):
+    start = time.perf_counter()
+    if event.from_id is None:
         return
 
-    key = requests.post(
-        'https://nekobin.com/api/documents', json={
-            "content": data
-        }).json().get('result').get('key')
+    if not await user_is_admin(user_id=event.from_id, message=event):
+        await event.reply("Only Admins are allowed to use this command")
+        return
 
-    url = f'https://nekobin.com/{key}'
+    if not await can_delete_messages(message=event):
+        await event.reply("Can't seem to purge the message")
+        return
 
-    reply_text = f'Nekofied to *Nekobin* : {url}'
+    reply_msg = await event.get_reply_message()
+    if not reply_msg:
+        await event.reply(
+            "Reply to a message to select where to start purging from.")
+        return
+    messages = []
+    message_id = reply_msg.id
+    delete_to = event.message.id
 
-    message.reply_text(
-        reply_text,
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=True)
+    messages.append(event.reply_to_msg_id)
+    for msg_id in range(message_id, delete_to + 1):
+        messages.append(msg_id)
+        if len(messages) == 100:
+            await event.client.delete_messages(event.chat_id, messages)
+            messages = []
+
+    await event.client.delete_messages(event.chat_id, messages)
+    time_ = time.perf_counter() - start
+    text = f"Purged Successfully in {time_:0.2f} Second(s)"
+    await event.respond(text, parse_mode='markdown')
 
 
-PASTE_HANDLER = DisableAbleCommandHandler("paste", paste)
-dispatcher.add_handler(PASTE_HANDLER)
+@telethn.on(events.NewMessage(pattern="^[!/]del$"))
+async def delete_messages(event):
+    if event.from_id is None:
+        return
 
-__command_list__ = ["paste"]
-__handlers__ = [PASTE_HANDLER]
+    if not await user_is_admin(user_id=event.from_id, message=event):
+        await event.reply("Only Admins are allowed to use this command")
+        return
+
+    if not await can_delete_messages(message=event):
+        await event.reply("Can't seem to delete this?")
+        return
+
+    message = await event.get_reply_message()
+    if not message:
+        await event.reply("Whadya want to delete?")
+        return
+    chat = await event.get_input_chat()
+    del_message = [message, event.message]
+    await event.client.delete_messages(chat, del_message)
+
+
+__help__ = """
+*Admin only:*
+ - /del: deletes the message you replied to
+ - /purge: deletes all messages between this and the replied to message.
+ - /purge <integer X>: deletes the replied message, and X messages following it if replied to a message.
+"""
+
+__mod_name__ = "Purges"
