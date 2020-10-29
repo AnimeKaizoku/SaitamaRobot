@@ -78,9 +78,9 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/04c51a35243f1b2d4ab14.jpg"
 
-DONATE_STRING = """ Currently i'm running on free server so no need of donations @nidhisupportchat """
+DONATE_STRING = """Currently i'm running on free server so no need of donations @nidhisupportchat"""
 
 IMPORTED = {}
 MIGRATEABLE = []
