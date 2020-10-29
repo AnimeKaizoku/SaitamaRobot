@@ -75,7 +75,7 @@ the things I can help you with.
 {}
 And the following:
 """.format(
-    dispatcher.bot.first_name, ""
+    dispatcher.bot.first_name, """
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
 SAITAMA_IMG = "https://telegra.ph/file/04c51a35243f1b2d4ab14.jpg"
