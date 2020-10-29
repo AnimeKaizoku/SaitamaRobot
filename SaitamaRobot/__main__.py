@@ -80,7 +80,7 @@ And the following:
 
 SAITAMA_IMG = "https://telegra.ph/file/04c51a35243f1b2d4ab14.jpg"
 
-DONATE_STRING = "Currently i'm running on free server so no need of donations @nidhisupportchat"
+DONATE_STRING = """Currently i am running on free server so no need of donations @nidhisupportchat"""
 
 IMPORTED = {}
 MIGRATEABLE = []
