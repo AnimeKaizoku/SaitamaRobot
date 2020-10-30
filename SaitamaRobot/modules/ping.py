@@ -11,9 +11,9 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 sites_list = {
     "Telegram": "https://api.telegram.org",
-    "Kaizoku": "https://animekaizoku.com",
-    "Kayo": "https://animekayo.com",
-    "Jikan": "https://api.jikan.moe/v3"
+    "google": "https://google.com/",
+    "bing": "https://bing.com",
+    "@nidhirobot": "https://t.me/nidhiirobot"
 }
 
 
@@ -69,7 +69,6 @@ def ping_func(to_ping: List[str]) -> List[str]:
 
 
 @run_async
-@sudo_plus
 def ping(update: Update, context: CallbackContext):
     msg = update.effective_message
 
@@ -87,9 +86,8 @@ def ping(update: Update, context: CallbackContext):
 
 
 @run_async
-@sudo_plus
 def pingall(update: Update, context: CallbackContext):
-    to_ping = ["Kaizoku", "Kayo", "Telegram", "Jikan"]
+    to_ping = ["google", "bing", "Telegram", "@nidhirobot"]
     pinged_list = ping_func(to_ping)
     pinged_list.insert(2, '')
     uptime = get_readable_time((time.time() - StartTime))
