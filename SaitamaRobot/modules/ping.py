@@ -69,7 +69,11 @@ def ping_func(to_ping: List[str]) -> List[str]:
 
 
 @run_async
-@sudo_plus
+@connection_status
+@bot_admin
+@can_promote
+@user_admin
+@loggable
 def ping(update: Update, context: CallbackContext):
     msg = update.effective_message
 
@@ -87,7 +91,11 @@ def ping(update: Update, context: CallbackContext):
 
 
 @run_async
-@sudo_plus
+@connection_status
+@bot_admin
+@can_promote
+@user_admin
+@loggable
 def pingall(update: Update, context: CallbackContext):
     to_ping = ["Kaizoku", "Kayo", "Telegram", "Jikan"]
     pinged_list = ping_func(to_ping)
