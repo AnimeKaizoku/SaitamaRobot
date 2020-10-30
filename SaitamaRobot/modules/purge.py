@@ -9,6 +9,10 @@ async def purge_messages(event):
     start = time.perf_counter()
     if event.from_id is None:
         return
+    if await event.client.delete_messages(event.chat_id, messages)
+    time_ = time.perf_counter() - start
+    text = f"Purged Successfully in {time_:0.2f} Second(s)"
+    await event.respond(text, parse_mode='markdown')
 
     if not await user_is_admin(user_id=event.from_id, message=event):
         await event.reply("Only Admins are allowed to use this command")
