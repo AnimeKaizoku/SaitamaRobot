@@ -69,7 +69,6 @@ def ping_func(to_ping: List[str]) -> List[str]:
 
 
 @run_async
-@bot_admin
 @can_promote
 @user_admin
 @loggable
@@ -90,7 +89,6 @@ def ping(update: Update, context: CallbackContext):
 
 
 @run_async
-@bot_admin
 @can_promote
 @user_admin
 @loggable
