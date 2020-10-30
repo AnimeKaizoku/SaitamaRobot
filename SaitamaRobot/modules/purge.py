@@ -4,7 +4,9 @@ from SaitamaRobot import telethn
 import time
 from telethon import events
 
-
+@run_async
+@user_admin
+@loggable
 @telethn.on(events.NewMessage(pattern="^[!/]purge$"))
 async def purge_messages(event):
     start = time.perf_counter()
@@ -40,7 +42,9 @@ async def purge_messages(event):
     text = f"Purged Successfully in {time_:0.2f} Second(s)"
     await event.respond(text, parse_mode='markdown')
 
-
+@run_async
+@user_admin
+@loggable
 @telethn.on(events.NewMessage(pattern="^[!/]del$"))
 async def delete_messages(event):
     if event.from_id is None:
