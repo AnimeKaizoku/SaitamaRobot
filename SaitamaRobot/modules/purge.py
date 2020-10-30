@@ -12,7 +12,7 @@ async def purge_messages(event):
         return
 
     if not await user_is_admin(user_id=event.from_id, message=event):
-        await event.reply("Purge not working, trying to fix join @nidhisupportchat for more")
+        await event.reply("Only Admins are allowed to use this command")
         return
 
     if not await can_delete_messages(message=event):
@@ -47,7 +47,7 @@ async def delete_messages(event):
         return
 
     if not await user_is_admin(user_id=event.from_id, message=event):
-        await event.reply("del not working, trying to fix join @nidhisupportchat for more")
+        await event.reply("Only Admins are allowed to use this command")
         return
 
     if not await can_delete_messages(message=event):
