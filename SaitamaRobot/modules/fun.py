@@ -35,56 +35,6 @@ def sanitize(update: Update, context: CallbackContext):
     reply_animation = message.reply_to_message.reply_animation if message.reply_to_message else message.reply_animation
     reply_animation(
         random.choice(fun_strings.GIFS), caption=f'*Sanitizes {name}*')
-    
- @run_async
- def loveu(admin_cmd(pattern="loveu", outgoing=True))
-           async def _(event):
-           if event.fwd_from:
-           return
-           animation_interval = 0.5
-           animation_ttl = range(0, 70)
-           await event.edit("loveu")
-           animation_chars = [
-            "😀",
-            "👩‍🎨",
-            "😁",    
-            "😂",
-            "🤣",
-            "😃",
-            "😄",
-            "😅",
-            "😊",
-            "☺",
-            "🙂",    
-            "🤔",
-            "🤨",
-            "😐",
-            "😑",
-            "😶",
-            "😣",
-            "😥",
-            "😮",    
-            "🤐",
-            "😯",
-            "😴",
-            "😔",
-            "😕",
-            "☹",
-            "🙁",
-            "😖",    
-            "😞",
-            "😟",
-            "😢",
-            "😭",
-            "🤯",
-            "💔",
-            "❤",
-            "i Love You❤",   
-        ]
-    for i in animation_ttl:
-            await asyncio.sleep(animation_interval)
-            await event.edit(animation_chars[i % 35])
-
 
 @run_async
 def slap(update: Update, context: CallbackContext):
