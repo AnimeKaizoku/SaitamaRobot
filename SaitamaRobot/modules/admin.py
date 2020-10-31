@@ -407,7 +407,7 @@ def adminlist(update, context):
                 try:
                     custom_admin_list[custom_title].append(name)
                 except KeyError:
-                    custom_admin_list.update({custom_title:[name]})
+                    custom_admin_list.update({custom_title: [name]})
             else:
                 normal_admin_list.append(name)
 
@@ -416,7 +416,8 @@ def adminlist(update, context):
 
     for admin_group in custom_admin_list.copy():
         if len(custom_admin_list[admin_group]) == 1:
-            text += "\n` • `{} | `{}`".format(custom_admin_list[admin_group][0], escape_markdown(admin_group))
+            text += "\n` • `{} | `{}`".format(custom_admin_list[admin_group][0],
+                                              escape_markdown(admin_group))
             custom_admin_list.pop(admin_group)
 
     text += "\n"
