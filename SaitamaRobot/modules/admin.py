@@ -367,8 +367,8 @@ def adminlist(update, context):
             name = "☠ Deleted Account"
         else:
             name = "{}".format(
-                mention_html(user.id, html.escape(user.first_name) + " " +
-                                 (html.escape(user.last_name) or "")))
+                mention_html(user.id, html.escape(user.first_name + " "
+                                 (user.last_name or ""))))
 
         if user.is_bot:
             bot_admin_list.append(name)
