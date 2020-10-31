@@ -3,7 +3,7 @@ import html
 from telegram import ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
-from telegram.utils.helpers import mention_html, mention_markdown, escape_markdown
+from telegram.utils.helpers import mention_html, mention_markdown
 
 from SaitamaRobot import DRAGONS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -346,15 +346,15 @@ def adminlist(update, context):
 
     try:
         msg = update.effective_message.reply_text(
-            'Fetching group admins...', parse_mode=ParseMode.MARKDOWN)
+            'Fetching group admins...', parse_mode=ParseMode.HTML)
     except BadRequest:
         msg = update.effective_message.reply_text(
             'Fetching group admins...',
             quote=False,
-            parse_mode=ParseMode.MARKDOWN)
+            parse_mode=ParseMode.HTML)
 
     administrators = bot.getChatAdministrators(chat_id)
-    text = "Admins in *{}*:".format(update.effective_chat.title)
+    text = "Admins in <b>{}</b>:".format(update.effective_chat.title)
 
     bot_admin_list = []
 
@@ -367,8 +367,8 @@ def adminlist(update, context):
             name = "☠ Deleted Account"
         else:
             name = "{}".format(
-                mention_markdown(user.id, user.first_name + " " +
-                                 (user.last_name or "")))
+                mention_html(user.id, html.escape(user.first_name) + " " +
+                                 (html.escape(user.last_name) or "")))
 
         if user.is_bot:
             bot_admin_list.append(name)
@@ -379,10 +379,10 @@ def adminlist(update, context):
         #    name = escape_markdown("@" + user.username)
         if status == "creator":
             text += "\n 👑 Creator:"
-            text += "\n` • `{}\n".format(name)
+            text += "\n<code> • </code>{}\n".format(name)
 
             if custom_title:
-                text += f"` ┗━ {escape_markdown(custom_title)}`\n"
+                text += f"` ┗━ {html.escape(custom_title)}`\n"
 
     text += "\n🔱 Admins:"
 
@@ -398,8 +398,8 @@ def adminlist(update, context):
             name = "☠ Deleted Account"
         else:
             name = "{}".format(
-                mention_markdown(user.id, user.first_name + " " +
-                                 (user.last_name or "")))
+                mention_html(user.id, html.escape(user.first_name) + " " +
+                                 (html.escape(user.last_name) or "")))
         #if user.username:
         #    name = escape_markdown("@" + user.username)
         if status == "administrator":
@@ -412,27 +412,28 @@ def adminlist(update, context):
                 normal_admin_list.append(name)
 
     for admin in normal_admin_list:
-        text += "\n` • `{}".format(admin)
+        text += "\n<code> • </code>{}".format(admin)
 
     for admin_group in custom_admin_list.copy():
         if len(custom_admin_list[admin_group]) == 1:
-            text += "\n` • `{} | `{}`".format(custom_admin_list[admin_group][0],
-                                              escape_markdown(admin_group))
+            text += "\n<code> • </code>{} | <code>{}</code>".format(
+                                            custom_admin_list[admin_group][0],
+                                            html.escape(admin_group))
             custom_admin_list.pop(admin_group)
 
     text += "\n"
     for admin_group in custom_admin_list:
-        text += "\n🚨 `{}`".format(admin_group)
+        text += "\n🚨 <code>{}</code>".format(admin_group)
         for admin in custom_admin_list[admin_group]:
-            text += "\n` • `{}".format(admin)
+            text += "\n<code> • </code>{}".format(admin)
         text += "\n"
 
     text += "\n🤖 Bots:"
     for each_bot in bot_admin_list:
-        text += "\n` • `{}".format(each_bot)
+        text += "\n<code> • </code>{}".format(each_bot)
 
     try:
-        msg.edit_text(text, parse_mode=ParseMode.MARKDOWN)
+        msg.edit_text(text, parse_mode=ParseMode.HTML)
     except BadRequest:  # if original message is deleted
         return
 
