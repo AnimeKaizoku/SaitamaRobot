@@ -382,7 +382,7 @@ def adminlist(update, context):
             text += "\n` • `{}\n".format(name)
 
             if custom_title:
-                text += f"┗━ `{escape_markdown(custom_title)}`\n"
+                text += f"` ┗━ {escape_markdown(custom_title)}`\n"
 
     text += "\n🔱 Admins:"
 
@@ -422,7 +422,7 @@ def adminlist(update, context):
 
     text += "\n"
     for admin_group in custom_admin_list:
-        text += "\n🔘 `{}`".format(admin_group)
+        text += "\n🚨 `{}`".format(admin_group)
         for admin in custom_admin_list[admin_group]:
             text += "\n` • `{}".format(admin)
         text += "\n"
