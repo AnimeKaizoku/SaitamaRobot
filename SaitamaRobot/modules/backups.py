@@ -318,7 +318,7 @@ def export_data(update, context):
         },
     }
     baccinfo = json.dumps(backup, indent=4)
-    f = open("SaitamaRobot{}.backup".format(chat_id), "w")
+    f = open("{}.backup".format(chat_id), "w")
     f.write(str(baccinfo))
     f.close()
     context.bot.sendChatAction(current_chat_id, "upload_document")
@@ -334,7 +334,7 @@ def export_data(update, context):
         pass
     context.bot.sendDocument(
         current_chat_id,
-        document=open("SaitamaRobot{}.backup".format(chat_id), "rb"),
+        document=open("{}.backup".format(chat_id), "rb"),
         caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: *Your data backup successfully😇, join @nidhisupportchat.*\n"
         .format(chat.title, chat_id, tgl),
         timeout=360,
