@@ -448,8 +448,7 @@ __help__ = """
  • `/settitle`*:* sets a custom title for an admin that the bot promoted
 """
 
-ADMINLIST_HANDLER = DisableAbleCommandHandler(["admins"],
-                                              adminlist)
+ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
 
 PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.group)
 UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
