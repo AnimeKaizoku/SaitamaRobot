@@ -59,9 +59,9 @@ You can find my list of available commands with /help.
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.
-I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
-the things I can help you with.
+I'm The Official Group Managing Bot Of The BlackHatZ Network! 
+I specialise in managing all types of discussion groups. 
+You can find my list of available commands with /help
 
 *Main* commands available:
  • /help: PM's you this message.
