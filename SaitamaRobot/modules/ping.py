@@ -77,7 +77,6 @@ def ping(update: Update, context: CallbackContext):
     end_time = time.time()
     telegram_ping = str(round((end_time - start_time) * 1000, 3)) + " ms"
     uptime = get_readable_time((time.time() - StartTime))
-    reply_msg += '\n<b><a href="https://t.me/nidhisupportchat">Ping Results<b>'.format(uptime)
 
     message.edit_text(
         "PONG!!\n"
@@ -96,8 +95,7 @@ def pingall(update: Update, context: CallbackContext):
     reply_msg = "⏱Ping results are:\n"
     reply_msg += "\n".join(pinged_list)
     reply_msg += '\n<b>Service uptime:</b> <code>{}</code>'.format(uptime)
-    reply_msg += '\n<b><a href="https://t.me/nidhisupportchat">Ping Results<b>'.format(uptime)
-
+    
     update.effective_message.reply_text(
         reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
