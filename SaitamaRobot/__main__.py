@@ -53,9 +53,9 @@ def get_readable_time(seconds: int) -> str:
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am a specialised group management bot.
-Build by the team of Blackhatz, I specialize in managing every type of groups.
-You can find my list of available commands with /help.
+I'm The Official Group Managing Bot Of The BlackHatZ Network! 
+I specialise in managing all types of discussion groups. 
+You can find my list of available commands with /help
 """
 
 HELP_STRINGS = """
@@ -81,9 +81,8 @@ And the following:
 SAITAMA_IMG = "https://telegra.ph/file/fc9d2c95a876db0b6d80a.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
-Saitama is hosted on one of Kaizoku's Servers and doesn't require any donations as of now but \
-You can donate to the original writer of the Base code, Paul
-There are two ways of supporting him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
+But currently we are not accepting any donations.
+But you always leave a thanks in the support group"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -216,7 +215,7 @@ def start(update: Update, context: CallbackContext):
                      [
                          InlineKeyboardButton(
                              text="🧾 Getting started guide",
-                             url="https://t.me/TheBlackHatZFederation")
+                             url="https://telegra.ph/S-10-31")
                      ],
                      [
                          InlineKeyboardButton(
