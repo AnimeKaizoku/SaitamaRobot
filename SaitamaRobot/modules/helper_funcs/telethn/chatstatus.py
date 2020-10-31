@@ -16,17 +16,23 @@ async def user_is_ban_protected(user_id: int, message):
     return status
 
 
-async def user_is_admin(user_id: int, message):
-    status = False
-    if message.is_private:
-        return True
+async def user_is_admin(func):
+    @wraps(func)
+    def is_admin(bot: Bot, update: Update, *args, **kwargs):
+        user = update.effective_user  # type: Optional[User]
+        if user and is_user_admin(update.effective_chat, user.id):
+            return func(bot, update, *args, **kwargs)
 
-    async for user in telethn.iter_participants(
-            message.chat_id, filter=ChannelParticipantsAdmins):
-        if user_id == user.id or user_id in DRAGONS:
-            status = True
-            break
-    return status
+        elif not user:
+            pass
+
+        elif DEL_CMDS and " " not in update.effective_message.text:
+            update.effective_message.delete()
+
+        else:
+            update.effective_message.reply_text("Who dis non-admin telling me what to do?")
+
+    return is_admin
 
 
 async def is_user_admin(user_id: int, chat_id):
