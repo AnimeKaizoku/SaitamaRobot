@@ -346,10 +346,10 @@ def adminlist(update, context):
 
     try:
         msg = update.effective_message.reply_text(
-            'Getting admins list...', parse_mode=ParseMode.MARKDOWN)
+            'Fetching group admins...', parse_mode=ParseMode.MARKDOWN)
     except BadRequest:
         msg = update.effective_message.reply_text(
-            'Getting admins list...',
+            'Fetching group admins...',
             quote=False,
             parse_mode=ParseMode.MARKDOWN)
 
@@ -437,7 +437,7 @@ def adminlist(update, context):
 
 
 __help__ = """
- • `/adminlist`*:* list of admins in the chat
+ • `/admins`*:* list of admins in the chat
 
 *Admins only:*
  • `/pin`*:* silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users.
@@ -448,7 +448,7 @@ __help__ = """
  • `/settitle`*:* sets a custom title for an admin that the bot promoted
 """
 
-ADMINLIST_HANDLER = DisableAbleCommandHandler(["adminlist", "admins"],
+ADMINLIST_HANDLER = DisableAbleCommandHandler(["admins"],
                                               adminlist)
 
 PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.group)
