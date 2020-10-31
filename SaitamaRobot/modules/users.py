@@ -127,10 +127,10 @@ def chats(update: Update, context: CallbackContext):
             pass
 
     with BytesIO(str.encode(chatfile)) as output:
-        output.name = "chatlist.txt"
+        output.name = "chatslist.txt"
         update.effective_message.reply_document(
             document=output,
-            filename="chatlist.txt",
+            filename="chatslist.txt",
             caption="Here is the list of chats in my database.")
 
 
@@ -165,7 +165,7 @@ BROADCAST_HANDLER = CommandHandler(
     ["broadcastall", "broadcastusers", "broadcastgroups"], broadcast)
 USER_HANDLER = MessageHandler(Filters.all & Filters.group, log_user)
 CHAT_CHECKER_HANDLER = MessageHandler(Filters.all & Filters.group, chat_checker)
-CHATLIST_HANDLER = CommandHandler("chatlist", chats)
+CHATLIST_HANDLER = CommandHandler("groups", chats)
 
 dispatcher.add_handler(USER_HANDLER, USERS_GROUP)
 dispatcher.add_handler(BROADCAST_HANDLER)
