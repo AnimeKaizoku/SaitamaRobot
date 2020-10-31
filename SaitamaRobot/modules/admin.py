@@ -414,7 +414,7 @@ def adminlist(update, context):
     for admin in normal_admin_list:
         text += "\n` • `{}".format(admin)
 
-    for admin_group in custom_admin_list:
+    for admin_group in custom_admin_list.copy():
         if len(custom_admin_list[admin_group]) == 1:
             text += "\n` • `{} | `{}`".format(custom_admin_list[admin_group][0], escape_markdown(admin_group))
             custom_admin_list.pop(admin_group)
