@@ -372,7 +372,7 @@ def adminlist(update, context):
 
         if user.is_bot:
             bot_admin_list.append(name)
-            administrators.pop(admin)
+            administrators.remove(admin)
             continue
 
         #if user.username:
