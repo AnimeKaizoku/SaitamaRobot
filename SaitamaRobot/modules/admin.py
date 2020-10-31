@@ -3,7 +3,7 @@ import html
 from telegram import ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
-from telegram.utils.helpers import mention_html, mention_markdown
+from telegram.utils.helpers import mention_html, mention_markdown, escape_markdown
 
 from SaitamaRobot import DRAGONS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
@@ -333,14 +333,17 @@ def adminlist(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     args = context.args
+    bot = context.bot
 
     if update.effective_message.chat.type == "private":
         send_message(update.effective_message,
                      "This command only works in Groups.")
-        return ""
+        return
+
     chat = update.effective_chat
     chat_id = update.effective_chat.id
     chat_name = update.effective_message.chat.title
+
     try:
         msg = update.effective_message.reply_text(
             'Getting admins list...', parse_mode=ParseMode.MARKDOWN)
@@ -349,25 +352,48 @@ def adminlist(update, context):
             'Getting admins list...',
             quote=False,
             parse_mode=ParseMode.MARKDOWN)
-    administrators = context.bot.getChatAdministrators(chat_id)
+
+    administrators = bot.getChatAdministrators(chat_id)
     text = "Admins in *{}*:".format(update.effective_chat.title)
+
+    bot_admin_list = []
+
     for admin in administrators:
         user = admin.user
         status = admin.status
+        custom_title = admin.custom_title
+
         if user.first_name == '':
             name = "☠ Deleted Account"
         else:
             name = "{}".format(
                 mention_markdown(user.id, user.first_name + " " +
                                  (user.last_name or "")))
+
+        if user.is_bot:
+            bot_admin_list.append(name)
+            administrators.pop(admin)
+            continue
+
         #if user.username:
         #    name = escape_markdown("@" + user.username)
         if status == "creator":
             text += "\n 👑 Creator:"
-            text += "\n` • `{} \n\n 🔱 Admins:".format(name)
+            text += "\n` • `{}\n".format(name)
+
+            if custom_title:
+                text += f"┗━ {custom_title}\n"
+
+    text += "\n🔱 Admins:"
+
+    custom_admin_list = {}
+    normal_admin_list = []
+
     for admin in administrators:
         user = admin.user
         status = admin.status
+        custom_title = admin.custom_title
+
         if user.first_name == '':
             name = "☠ Deleted Account"
         else:
@@ -377,12 +403,37 @@ def adminlist(update, context):
         #if user.username:
         #    name = escape_markdown("@" + user.username)
         if status == "administrator":
-            text += "\n` • `{}".format(name)
+            if custom_title:
+                try:
+                    custom_admin_list[custom_title].append(name)
+                except KeyError:
+                    custom_admin_list.update({custom_title:[name]})
+            else:
+                normal_admin_list.append(name)
+
+    for admin in normal_admin_list:
+        text += "\n` • `{}".format(admin)
+
+    for admin_group in custom_admin_list:
+        if len(custom_admin_list[admin_group]) == 1:
+            text += "\n` • `{} | `{}`".format(custom_admin_list[admin_group][0], escape_markdown(admin_group))
+            custom_admin_list.pop(admin_group)
+
+    text += "\n"
+    for admin_group in custom_admin_list:
+        text += "🔘 `{}`\n".format(admin_group)
+        for admin in custom_admin_list[admin_group]:
+            text += "\n` • `{}".format(admin)
+        text += "\n"
+
+    text += "\n🤖 Bots:"
+    for each_bot in bot_admin_list:
+        text += "\n` • `{}".format(each_bot)
 
     try:
         msg.edit_text(text, parse_mode=ParseMode.MARKDOWN)
     except BadRequest:  # if original message is deleted
-        return ""
+        return
 
 
 __help__ = """
