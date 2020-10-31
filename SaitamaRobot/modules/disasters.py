@@ -545,8 +545,9 @@ Group admins/group owners do not need these commands.
  ╠ `/broadcastusers`*:* Broadcasts too all users
  ╚ `/broadcastgroups`*:* Broadcasts too all groups
 
- ╔ *Getchats:*
- ╚ `/getchats ID`*:* Gets a list of group names the user has been seen in. Bot owner only
+ ╔ *Groups Info:*
+ ╠ `/groups`*:* List the groups with Name, ID, members count as a txt
+ ╚ `/getchats`*:* Gets a list of group names the user has been seen in. Bot owner only
 
  ╔ *Blacklist:* 
  ╠ `/ignore`*:* Blacklists a user from 
