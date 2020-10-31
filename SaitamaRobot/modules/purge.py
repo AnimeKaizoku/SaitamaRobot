@@ -12,7 +12,7 @@ async def purge_messages(event):
         return
 
     if not await user_is_admin(user_id=event.from_id, message=event):
-        await event.reply("Only Admins are allowed to use this command")
+        await event.reply("")
         return
 
     if not await can_delete_messages(message=event):
