@@ -21,7 +21,7 @@ RUN_STRINGS = (
 )
 
 TRUTH_STRINGS = (
-    "Have you ever been caught checking someone out?",
+    "Have you ever been caught checking something out?",
     "When’s the last time you lied to your parents and why?",
     "Have you ever picked your nose and eaten it?",
     "If you had to choose between going naked or having your thoughts appear in thought bubbles above your head for everyone to read, which would you choose?",
