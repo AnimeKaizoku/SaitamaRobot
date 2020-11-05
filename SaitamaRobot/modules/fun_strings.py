@@ -113,7 +113,7 @@ SLAP_SAITAMA_TEMPLATES = (
     "Slap me one more time and I'll mute you.",
     "Stop slapping me. REEEEEEEEEEEEEE.",
     [
-        "I am muting you for a minute.",  # normal reply
+        "Very Good, Now I am muting you for a minute. (^-^)",  # normal reply
         "Stop slapping me just because I can't mute you. REEEEEEEEEE.",  # reply to admin
         "tmute",  # command
         "Shut up!",
@@ -379,7 +379,7 @@ TOSS = (
     "Tails",
 )
 
-DECIDE = ("Yes.", "No.", "Maybe.")
+DECIDE = ("Yes.", "No. ", "Maybe. (^_^)", "Idk. (-_-!)")
 
-TABLE = ("(╯°□°）╯彡 ┻━┻", "I ran out of tables, will order more.",
+TABLE = ("(╯°□°）╯彡 ┻━┻", "I ran out of tables, will order more soon.", "Why do you need tables btw. (*^_^*)",
          "Go do some work instead of flippin tables.")
