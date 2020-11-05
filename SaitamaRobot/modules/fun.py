@@ -21,11 +21,11 @@ def runs(update: Update, context: CallbackContext):
 
 @run_async
 def runs(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(fun_strings.TRUTH_STRINGS ))
+    update.effective_message.reply_text(random.choice(fun_strings.TRUTH_STRINGS))
 
 @run_async
 def runs(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(fun_strings.DARE_STRINGS ))
+    update.effective_message.reply_text(random.choice(fun_strings.DARE_STRINGS))
     
 @run_async
 def sanitize(update: Update, context: CallbackContext):
