@@ -20,11 +20,11 @@ def runs(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
 
 @run_async
-def runs(update: Update, context: CallbackContext):
+def truth(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.TRUTH_STRINGS))
 
 @run_async
-def runs(update: Update, context: CallbackContext):
+def dare(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.DARE_STRINGS))
     
 @run_async
