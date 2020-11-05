@@ -93,10 +93,10 @@ TRUTH_STRINGS = (
 DARE_STRINGS = (
     "Keep three ice cubes in your mouth until they melt"
     "Make up a story about any item that comes in your mind *right now*",
-    "Think about a word startes with T and it must be longer then 6 letters. After that Write that word *backward* in 17 seconds",
-    "Think about a word startes with A and it must be longer then 5 letters. After that Write that word *backward* in 17 seconds",
-    "Think about a word startes with S and it must be longer then 6 letters. After that Write that word *backward* in 17 seconds",
-    "Think about a word startes with V and it must be longer then 6 letters. After that Write that word *backward* in 17 seconds",
+    "Think about a word starts with T and it must be longer then 6 letters. After that Write that word *backward* in 17 seconds",
+    "Think about a word starts with A and it must be longer then 5 letters. After that Write that word *backward* in 17 seconds",
+    "Think about a word starts with S and it must be longer then 6 letters. After that Write that word *backward* in 17 seconds",
+    "Think about a word starts with V and it must be longer then 6 letters. After that Write that word *backward* in 17 seconds",
 
      )
 
