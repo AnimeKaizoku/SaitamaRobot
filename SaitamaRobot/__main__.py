@@ -52,18 +52,19 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {}, my name is {}! 
-I am an Anime themed group management bot.
-Build by weebs for weebs, I specialize in managing anime and similar themed groups.
-You can find my list of available commands with /help.
+ʜɪ {}, ᴍʏ ɴᴀᴍᴇ ɪs {}!
+ι αм αи αиιмє тнємє∂ gяσυρ мαиαgємєит вσт вυт уσυ ¢αи υѕє мє нσωєνєя уσυ ωαит!
+ʙᴜɪʟᴅ ʙʏ ᴡᴇᴇʙs ғᴏʀ ᴡᴇᴇʙs, ɪ sᴘᴇᴄɪᴀʟɪᴢᴇ ɪɴ ᴍᴀɴᴀɢɪɴɢ ᴀɴɪᴍᴇ ᴀɴᴅ sɪᴍɪʟᴀʀ ᴛʜᴇᴍᴇᴅ ɢʀᴏᴜᴘs.
+уσυ ¢αи fιи∂ му ℓιѕт σf αναιℓαвℓє ¢σммαи∂ѕ ωιтн  :
+👉 /help
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.
-I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
-the things I can help you with.
+ʜᴇʏ ᴛʜᴇʀᴇ! ᴍʏ ɴᴀᴍᴇ ɪs *{}*.
+𝘐'𝘮 Dr Stone 𝘢𝘯𝘥 𝘮𝘺 𝘸𝘰𝘳𝘬 𝘪𝘴 𝘩𝘦𝘭𝘱 𝘢𝘥𝘮𝘪𝘯𝘴 𝘵𝘰 𝘮𝘢𝘯𝘢𝘨𝘦 𝘵𝘩𝘦𝘪𝘳 𝘨𝘳𝘰𝘶𝘱𝘴!
+нανє α ℓσσк αт тнє ƒσℓℓσωιηg ƒσя αη ι∂єα σƒ ѕσмє σƒ тнє тнιηgѕ ι ¢αη ¢αη нєℓρ уσυ ωιтн.
 
-*Main* commands available:
+*ᴍᴀɪɴ* ᴄᴏᴍᴍᴀɴᴅs ᴀᴠᴀɪʟᴀʙʟᴇ:
  • /help: PM's you this message.
  • /help <module name>: PM's you info about that module.
  • /donate: information on how to donate!
