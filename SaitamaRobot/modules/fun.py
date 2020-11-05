@@ -193,9 +193,9 @@ def table(update: Update, context: CallbackContext):
 
 __help__ = """
  • `/runs`*:* reply a random string from an array of replies
- • `/truth`*:* for random truth *game*
- • `/dare`*:* for random dare *game*
- • `/slap`*:* slap a user, or get slapped if not a reply
+ • `/truth`*:* Get ready to reveal a surprising truth🤫 *Game🎲*
+ • `/dare`*:* A dare is on way 😈 *Game🎲*
+ • `/slap`*:* slap a user, or get slapped if not a reply 🌝
  • `/shrug`*:* get shrug XD
  • `/table`*:* get flip/unflip :v
  • `/decide`*:* Randomly answers yes/no/maybe
