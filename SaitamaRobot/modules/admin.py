@@ -349,9 +349,7 @@ def adminlist(update, context):
             'Fetching group admins...', parse_mode=ParseMode.HTML)
     except BadRequest:
         msg = update.effective_message.reply_text(
-            'Fetching group admins...',
-            quote=False,
-            parse_mode=ParseMode.HTML)
+            'Fetching group admins...', quote=False, parse_mode=ParseMode.HTML)
 
     administrators = bot.getChatAdministrators(chat_id)
     text = "Admins in <b>{}</b>:".format(update.effective_chat.title)
@@ -367,8 +365,10 @@ def adminlist(update, context):
             name = "☠ Deleted Account"
         else:
             name = "{}".format(
-                mention_html(user.id, html.escape(user.first_name + " " +
-                                 (user.last_name or ""))))
+                mention_html(
+                    user.id,
+                    html.escape(user.first_name + " " +
+                                (user.last_name or ""))))
 
         if user.is_bot:
             bot_admin_list.append(name)
@@ -398,8 +398,10 @@ def adminlist(update, context):
             name = "☠ Deleted Account"
         else:
             name = "{}".format(
-                mention_html(user.id, html.escape(user.first_name + " " +
-                                 (user.last_name or ""))))
+                mention_html(
+                    user.id,
+                    html.escape(user.first_name + " " +
+                                (user.last_name or ""))))
         #if user.username:
         #    name = escape_markdown("@" + user.username)
         if status == "administrator":
@@ -417,8 +419,7 @@ def adminlist(update, context):
     for admin_group in custom_admin_list.copy():
         if len(custom_admin_list[admin_group]) == 1:
             text += "\n<code> • </code>{} | <code>{}</code>".format(
-                                            custom_admin_list[admin_group][0],
-                                            html.escape(admin_group))
+                custom_admin_list[admin_group][0], html.escape(admin_group))
             custom_admin_list.pop(admin_group)
 
     text += "\n"
