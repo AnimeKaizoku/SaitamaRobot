@@ -67,7 +67,7 @@ TRUTH_STRINGS = (
     "Do you have any silly nicknames?",
     "When was the last time you wet the bed? \o/",
     "How many pancakes have you eaten in a single sitting?",
-    "Have you ever accidentally hit something with your car or cycle?",
+    "Have you ever intentionally hit someone with your car or bicycle? If yes then why? (6_9)",
     "If you had to make out with any Disney character, who would it be?",
     "Have you ever watched a movie you knew you shouldn’t?",
     "Have you ever wanted to try LARP (Live Action Role-Play)?",
