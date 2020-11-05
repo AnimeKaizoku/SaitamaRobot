@@ -11,10 +11,10 @@ from telegram import InputMediaPhoto, TelegramError
 from telegram import Update
 from telegram.ext import CallbackContext, run_async
 
-from CutiepiiRobot import dispatcher
+from SaitamaRobot import dispatcher
 
-from CutiepiiRobot.modules.disable import DisableAbleCommandHandler
-from CutiepiiRobot.modules.helper_funcs.alternate import typing_action
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.alternate import typing_action
 
 opener = urllib.request.build_opener()
 useragent = 'Mozilla/5.0 (Linux; Android 6.0.1; SM-G920V Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.98 Mobile Safari/537.36'
