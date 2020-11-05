@@ -202,14 +202,13 @@ __help__ = """
  • `/weebify <text>`*:* returns a weebified text
  • `/sanitize`*:* always use this before `/pat` or any contact
  • `/pat`*:* pats a user, or get patted (^-^)
- 
- - - - - - - - - -
- • *Games* 🎲 *:*
-  • `/truth`*:* Get ready to reveal a surprising truth🤫
-  • `/dare`*:* A dare is on way 😈
-  • `/decide`*:* Randomly answers yes/no/maybe/idk
-  • `/toss`*:* Tosses A coin
-  • `/roll`*:* Roll a dice & get you a number
+  - - - - - - - - - -
+• *Games* 🎲 *:*
+ • `/truth`*:* Get ready to reveal a surprising truth🤫
+ • `/dare`*:* A dare is on way 😈
+ • `/decide`*:* Randomly answers yes/no/maybe/idk
+ • `/toss`*:* Tosses A coin
+ • `/roll`*:* Roll a dice & get you a number
 
 """
 TRUTH_HANDLER = DisableAbleCommandHandler("truth", truth)
