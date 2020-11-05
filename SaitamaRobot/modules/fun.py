@@ -19,7 +19,14 @@ GIF_ID = 'CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr
 def runs(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
 
+@run_async
+def runs(update: Update, context: CallbackContext):
+    update.effective_message.reply_text(random.choice(fun_strings.TRUTH_STRINGS ))
 
+@run_async
+def runs(update: Update, context: CallbackContext):
+    update.effective_message.reply_text(random.choice(fun_strings.DARE_STRINGS ))
+    
 @run_async
 def sanitize(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -186,6 +193,8 @@ def table(update: Update, context: CallbackContext):
 
 __help__ = """
  • `/runs`*:* reply a random string from an array of replies
+ • `/truth`*:* for random truth *game*
+ • `/dare`*:* for random dare *game*
  • `/slap`*:* slap a user, or get slapped if not a reply
  • `/shrug`*:* get shrug XD
  • `/table`*:* get flip/unflip :v
