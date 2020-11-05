@@ -1,6 +1,5 @@
 future
 emoji
-fontTools
 lxml
 beautifulsoup4
 requests
@@ -29,4 +28,3 @@ telethon==1.16.4
 spamwatch
 alphabet_detector
 pyrate-limiter
-events
