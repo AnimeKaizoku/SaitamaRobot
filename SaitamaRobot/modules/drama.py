@@ -66,7 +66,7 @@ airing_query = '''
 
 fav_query = """
 query ($id: Int) { 
-      Media (id: $id, type: ANIME) { 
+      Media (id: $id, type: DRAMA) { 
         id
         title {
           romaji
@@ -79,7 +79,7 @@ query ($id: Int) {
 
 anime_query = '''
    query ($id: Int,$search: String) { 
-      Media (id: $id, type: search: $search) { 
+      Media (id: $id, type: DRAMA,search: $search) { 
         id
         title {
           romaji
@@ -140,7 +140,7 @@ def diring(update: Update, context: CallbackContext):
     search_str = message.text.split(' ', 1)
     if len(search_str) == 1:
         update.effective_message.reply_text(
-            'Tell Drama Name :) ( /airing <drama name>)')
+            'Tell Drama Name :) ( /diring <drama name>)')
         return
     variables = {'search': search_str[1]}
     response = requests.post(
@@ -163,7 +163,7 @@ def drama(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
-        update.effective_message.reply_text('Format : /anime < drama name >')
+        update.effective_message.reply_text('Format : /drama < drama name >')
         return
     else:
         search = search[1]
