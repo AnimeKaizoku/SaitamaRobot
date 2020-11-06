@@ -37,7 +37,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
                 post_link = "https://mydramalist.com/" + entry.a['href']
                 post_name = html.escape(entry.text)
                 result += f"• <a href='{post_link}'>{post_name}</a>\n"
-        else:
+   else:
             more_results = False
             result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>"
 
