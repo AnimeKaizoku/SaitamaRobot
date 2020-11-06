@@ -441,7 +441,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
 
 
 @run_async
-def mdl(update: Update, context: CallbackContext):
+def dramas(update: Update, context: CallbackContext):
     site_search(update, context, "mdl")
 
 
@@ -458,7 +458,7 @@ Get information about anime, manga or characters from [MDL](mydramalist.com).
  • `/drama <drama>`*:* returns information about the anime.
  • `/artist <artist>`*:* returns information about the character.
  • `/fren <user>`*:* returns information about a MyAnimeList user.
- • `/mdl <drama>`*:* search an drama on MDL
+ • `/dramas <drama>`*:* search an drama on MDL
  • `/mydl <drama>`*:* search an drama on MDL
  • `/diring <drama>`*:* returns drama airing info.
 
@@ -468,7 +468,7 @@ DRAMA_HANDLER = DisableAbleCommandHandler("drama", drama)
 ARTIST_HANDLER = DisableAbleCommandHandler("artist", artist)
 FREN_HANDLER = DisableAbleCommandHandler("fren", fren)
 DIRING_HANDLER = DisableAbleCommandHandler("diring", diring)
-MDL_SEARCH_HANDLER = DisableAbleCommandHandler("mdl", mdl)
+DRAMAS_SEARCH_HANDLER = DisableAbleCommandHandler("dramas", dramas)
 MYDL_SEARCH_HANDLER = DisableAbleCommandHandler("mydl", mydl)
 BUTTON_HANDLER = CallbackQueryHandler(button, pattern='anime_.*')
 
@@ -477,16 +477,16 @@ dispatcher.add_handler(DRAMA_HANDLER)
 dispatcher.add_handler(DIRING_HANDLER)
 dispatcher.add_handler(ARTIST_HANDLER)
 dispatcher.add_handler(FREN_HANDLER)
-dispatcher.add_handler(MDL_HANDLER)
+dispatcher.add_handler(DRAMAS_HANDLER)
 dispatcher.add_handler(MYDL_HANDLER)
 
 __mod_name__ = "Drama"
 __command_list__ = [
-    "drama", "artist", "user", "mdl", "mydl", "fren", "diring",
+    "drama", "artist", "user", "dramas", "mydl", "fren", "diring",
    ]
    
 __handlers__ = [
     DRAMA_HANDLER, ARTIST_HANDLER, FREN_HANDLER,
-    MDL_SEARCH_HANDLER, MyDL_SEARCH_HANDLER,
+    DRAMAS_SEARCH_HANDLER, MYDL_SEARCH_HANDLER,
     BUTTON_HANDLER, DAIRING_HANDLER
 ]
