@@ -25,28 +25,33 @@ def site_search(update: Update, context: CallbackContext, site: str):
         message.reply_text("Give something to search")
         return
 
-      if search_result:
-            result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>: \n"
-            for entry in search_result:
-                post_link = "https://mydramalist.com/" + entry.a['href']
-                post_name = html.escape(entry.text)
-                result += f"• <a href='{post_link}'>{post_name}</a>\n"
-                
-   elif site == "mydl":
-        search_url = f"https://mydramalist.com/search?q={search_query}"
+    if site == "kaizoku":
+        search_url = f"https://animekaizoku.com/?s={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h1", {'class': "title"})
-        
-   else: more_results = False
-         result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>"
-        
-   
-        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>: \n"
+        search_result = soup.find_all("h2", {'class': "post-title"})
+
+        if search_result:
+            result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>: \n"
+            for entry in search_result:
+                post_link = "https://animekaizoku.com/" + entry.a['href']
+                post_name = html.escape(entry.text)
+                result += f"• <a href='{post_link}'>{post_name}</a>\n"
+        else:
+            more_results = False
+            result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>"
+
+    elif site == "kayo":
+        search_url = f"https://animekayo.com/?s={search_query}"
+        html_text = requests.get(search_url).text
+        soup = bs4.BeautifulSoup(html_text, "html.parser")
+        search_result = soup.find_all("h2", {'class': "title"})
+
+        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>: \n"
         for entry in search_result:
 
             if entry.text.strip() == "Nothing Found":
-                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>"
+                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>"
                 more_results = False
                 break
 
@@ -69,12 +74,13 @@ def site_search(update: Update, context: CallbackContext, site: str):
 
 @run_async
 def drama(update: Update, context: CallbackContext):
-    site_search(update, context, "mdl")
+    site_search(update, context, "kaizoku")
 
 
 @run_async
 def mydl(update: Update, context: CallbackContext):
-    site_search(update, context, "mydl")
+    site_search(update, context, "kayo")
+
 
 
 __help__ = """
