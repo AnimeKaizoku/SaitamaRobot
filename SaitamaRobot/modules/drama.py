@@ -100,7 +100,7 @@ Get information about anime, manga or characters from [MDL](mydramalist.com).
 
 DRAMA_HANDLER = DisableAbleCommandHandler("drama", drama)
 MYDL_SEARCH_HANDLER = DisableAbleCommandHandler("mydl", mydl)
-BUTTON_HANDLER = CallbackQueryHandler(button, pattern='drama_.*')
+BUTTON_HANDLER = CallbackQueryHandler(buttons, pattern='drama_.*')
 
 dispatcher.add_handler(BUTTON_HANDLER)
 dispatcher.add_handler(DRAMA_SEARCH_HANDLER)
