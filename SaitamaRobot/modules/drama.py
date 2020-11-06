@@ -441,7 +441,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
 
 
 @run_async
-def mla(update: Update, context: CallbackContext):
+def mdl(update: Update, context: CallbackContext):
     site_search(update, context, "mdl")
 
 
