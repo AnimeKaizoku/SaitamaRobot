@@ -25,25 +25,23 @@ def site_search(update: Update, context: CallbackContext, site: str):
         message.reply_text("Give something to search")
         return
 
-    if site == "MyDramaList":
-        search_url = f"https://mydramalist.com/search?q=={search_query}"
-        html_text = requests.get(search_url).text
-        soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h1", {'class':"title"})
-
-    if search_result:
+      if search_result:
             result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>: \n"
             for entry in search_result:
                 post_link = "https://mydramalist.com/" + entry.a['href']
                 post_name = html.escape(entry.text)
                 result += f"• <a href='{post_link}'>{post_name}</a>\n"
-  
-    elif site == "mydl":
+                
+   elif site == "mydl":
         search_url = f"https://mydramalist.com/search?q={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
         search_result = soup.find_all("h1", {'class': "title"})
-
+        
+   else: more_results = False
+         result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>"
+        
+   
         result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>: \n"
         for entry in search_result:
 
