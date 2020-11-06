@@ -41,7 +41,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
             more_results = False
             result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>"
 
-    elif site == "mydl":
+   elif site == "mydl":
         search_url = f"https://mydramalist.com/search?q={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
