@@ -477,8 +477,8 @@ dispatcher.add_handler(DRAMA_HANDLER)
 dispatcher.add_handler(DIRING_HANDLER)
 dispatcher.add_handler(ARTIST_HANDLER)
 dispatcher.add_handler(FREN_HANDLER)
-dispatcher.add_handler(DRAMAS_HANDLER)
-dispatcher.add_handler(MYDL_HANDLER)
+dispatcher.add_handler(DRAMAS_SEARCH_HANDLER)
+dispatcher.add_handler(MYDL_SEARCH_HANDLER)
 
 __mod_name__ = "Drama"
 __command_list__ = [
