@@ -131,7 +131,7 @@ character_query = """
     }
 """
 
-url = 'https://graphql.mydramalist.com'
+url = 'https://i.mydramalist.com'
 
 
 @run_async
