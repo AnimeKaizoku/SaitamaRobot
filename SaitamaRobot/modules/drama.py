@@ -131,7 +131,7 @@ character_query = """
     }
 """
 
-url = 'https://i.mydramalist.com'
+url = 'https://mydramalist.com'
 
 
 @run_async
@@ -397,7 +397,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
         search_url = f"https://mydramalist.com/search?q=={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h6", {'class': "text-primary title"})
+        search_result = soup.find_all("h6", {'class':"text-primary title"})
 
     if search_result:
             result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>: \n"
@@ -413,7 +413,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
         search_url = f"https://mydramalist.com/search?q={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h2", {'class': "title"})
+        search_result = soup.find_all("h6", {'class': "text-primary title"})
 
         result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MyDramaList</code>: \n"
         for entry in search_result:
