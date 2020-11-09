@@ -2,7 +2,6 @@ future
 emoji
 lxml
 beautifulsoup4
-requests
 sqlalchemy
 python-telegram-bot==12.8
 psycopg2-binary
@@ -29,3 +28,7 @@ spamwatch
 alphabet_detector
 pyrate-limiter
 pyrogram
+tgcrypto
+pymoe
+telegraph==1.4.1
+requests==2.24.0
