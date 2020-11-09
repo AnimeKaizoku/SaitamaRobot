@@ -92,7 +92,7 @@ TRUTH_STRINGS = (
 
 DARE_STRINGS = (
     "Make up a story about any item that comes in your mind *right now*",
-    "Tell us about an incident that happened in your life recently!\nP.S. It can be anything -> like funny, surprising story, tragedy etc.",
+    "Tell us about an incident or story that happened in your life recently!\nP.S. It can be anything :D\nFor example -> funny XD, surprising story, tragedy : sed lyf, lewd \o/ etc.",
     "Think about a word starts with T and it must be longer then 6 letters. After that Write that word *backwards* in 17 seconds",
     "Think about a word starts with A and it must be longer then 5 letters. After that Write that word *backwards* in 17 seconds",
     "Think about a word starts with S and it must be longer then 6 letters. After that Write that word *backwards* in 17 seconds",
