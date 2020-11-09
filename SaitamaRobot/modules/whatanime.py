@@ -8,7 +8,8 @@ import tempfile
 from decimal import Decimal
 from urllib.parse import quote as urlencode
 from pyrogram import Client, filters
-from SaitamaRobot import dankbot
+from SaitamaRobot import DEV_USERS, OWNER_ID, DRAGONS, dispatcher
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 session = aiohttp.ClientSession()
 @dankbot.on_message(~filters.me & filters.command('wa', prefixes='/'), group=8)
