@@ -8,11 +8,13 @@ import tempfile
 from decimal import Decimal
 from urllib.parse import quote as urlencode
 from pyrogram import Client, filters
+from telegram.ext import CallbackContext, run_async
 from SaitamaRobot import DEV_USERS, OWNER_ID, DRAGONS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 session = aiohttp.ClientSession()
-@dankbot.on_message(~filters.me & filters.command('wa', prefixes='/'), group=8)
+
+@run_async.on_message(~filters.me & filters.command('wa', prefixes='/'), group=8)
 async def whatanime(client, message):
     media = message.photo or message.animation or message.video or message.document
     if not media:
