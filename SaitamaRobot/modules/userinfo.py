@@ -324,8 +324,7 @@ def info(update: Update, context: CallbackContext):
             message.reply_document(
                 document=open(f"{user.id}.png", "rb"),
                 caption=(text),
-                parse_mode=ParseMode.HTML,
-                disable_web_page_preview=True)
+                parse_mode=ParseMode.HTML)
 
             os.remove(f"{user.id}.png")
         # Incase user don't have profile pic, send normal text
