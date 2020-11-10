@@ -9,7 +9,7 @@ from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler, run_async
 
 
-@run_async
+
 @dev_plus
 def load(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -75,7 +75,7 @@ def load(update: Update, context: CallbackContext):
         parse_mode=ParseMode.HTML)
 
 
-@run_async
+
 @dev_plus
 def unload(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -143,7 +143,7 @@ def unload(update: Update, context: CallbackContext):
         parse_mode=ParseMode.HTML)
 
 
-@run_async
+
 @sudo_plus
 def listmodules(update: Update, context: CallbackContext):
     message = update.effective_message

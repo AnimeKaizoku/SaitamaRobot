@@ -4,7 +4,7 @@ from telegram import Update, ParseMode
 from telegram.ext import CallbackContext, CommandHandler, run_async
 
 
-@run_async
+
 def convert(update: Update, context: CallbackContext):
     args = update.effective_message.text.split(" ")
 

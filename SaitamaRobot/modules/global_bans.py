@@ -51,7 +51,7 @@ UNGBAN_ERRORS = {
 }
 
 
-@run_async
+
 @support_plus
 def gban(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -243,7 +243,7 @@ def gban(update: Update, context: CallbackContext):
         pass  # bot probably blocked by user
 
 
-@run_async
+
 @support_plus
 def ungban(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -354,7 +354,7 @@ def ungban(update: Update, context: CallbackContext):
             f"Person has been un-gbanned. Took {ungban_time} sec")
 
 
-@run_async
+
 @support_plus
 def gbanlist(update: Update, context: CallbackContext):
     banned_users = sql.get_gban_list()
@@ -411,7 +411,7 @@ def check_and_ban(update, user_id, should_message=True):
             update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
-@run_async
+
 def enforce_gban(update: Update, context: CallbackContext):
     # Not using @restrict handler to avoid spamming - just ignore if cant gban.
     bot = context.bot
@@ -437,7 +437,7 @@ def enforce_gban(update: Update, context: CallbackContext):
                 check_and_ban(update, user.id, should_message=False)
 
 
-@run_async
+
 @user_admin
 def gbanstat(update: Update, context: CallbackContext):
     args = context.args

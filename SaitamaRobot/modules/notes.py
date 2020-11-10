@@ -170,7 +170,7 @@ def get(update, context, notename, show_none=True, no_format=False):
         message.reply_text("This note doesn't exist")
 
 
-@run_async
+
 @connection_status
 def cmd_get(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -182,7 +182,7 @@ def cmd_get(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Get rekt")
 
 
-@run_async
+
 @connection_status
 def hash_get(update: Update, context: CallbackContext):
     message = update.effective_message.text
@@ -191,7 +191,7 @@ def hash_get(update: Update, context: CallbackContext):
     get(update, context, no_hash, show_none=False)
 
 
-@run_async
+
 @connection_status
 def slash_get(update: Update, context: CallbackContext):
     message, chat_id = update.effective_message.text, update.effective_chat.id
@@ -206,7 +206,7 @@ def slash_get(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Wrong Note ID 😾")
 
 
-@run_async
+
 @user_admin
 @connection_status
 def save(update: Update, context: CallbackContext):
@@ -242,7 +242,7 @@ def save(update: Update, context: CallbackContext):
         return
 
 
-@run_async
+
 @user_admin
 @connection_status
 def clear(update: Update, context: CallbackContext):
@@ -258,7 +258,7 @@ def clear(update: Update, context: CallbackContext):
                 "That's not a note in my database!")
 
 
-@run_async
+
 def clearall(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
@@ -277,7 +277,7 @@ def clearall(update: Update, context: CallbackContext):
             parse_mode=ParseMode.MARKDOWN)
 
 
-@run_async
+
 def clearall_btn(update: Update, context: CallbackContext):
     query = update.callback_query
     chat = update.effective_chat
@@ -309,7 +309,7 @@ def clearall_btn(update: Update, context: CallbackContext):
             query.answer("You need to be admin to do this.")
 
 
-@run_async
+
 @connection_status
 def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id

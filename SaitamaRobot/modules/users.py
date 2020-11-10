@@ -47,7 +47,7 @@ def get_user_id(username):
     return None
 
 
-@run_async
+
 @dev_plus
 def broadcast(update: Update, context: CallbackContext):
     to_send = update.effective_message.text.split(None, 1)
@@ -92,7 +92,7 @@ def broadcast(update: Update, context: CallbackContext):
         )
 
 
-@run_async
+
 def log_user(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
@@ -109,7 +109,7 @@ def log_user(update: Update, context: CallbackContext):
         sql.update_user(msg.forward_from.id, msg.forward_from.username)
 
 
-@run_async
+
 @sudo_plus
 def chats(update: Update, context: CallbackContext):
     all_chats = sql.get_all_chats() or []
@@ -134,7 +134,7 @@ def chats(update: Update, context: CallbackContext):
             caption="Here be the list of groups in my database.")
 
 
-@run_async
+
 def chat_checker(update: Update, context: CallbackContext):
     bot = context.bot
     if update.effective_message.chat.get_member(

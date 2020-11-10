@@ -194,14 +194,14 @@ def unrestr_members(bot,
             pass
 
 
-@run_async
+
 def locktypes(update, context):
     update.effective_message.reply_text(
         "\n • ".join(["Locks available: "] +
                      sorted(list(LOCK_TYPES) + list(LOCK_CHAT_RESTRICTION))))
 
 
-@run_async
+
 @user_admin
 @loggable
 @typing_action
@@ -308,7 +308,7 @@ def lock(update, context) -> str:
     return ""
 
 
-@run_async
+
 @user_admin
 @loggable
 @typing_action
@@ -408,7 +408,7 @@ def unlock(update, context) -> str:
     return ""
 
 
-@run_async
+
 @user_not_admin
 def del_lockables(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -547,7 +547,7 @@ def build_lock_message(chat_id):
     return res
 
 
-@run_async
+
 @user_admin
 @typing_action
 def list_locks(update, context):

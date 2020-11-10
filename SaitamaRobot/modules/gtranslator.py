@@ -6,7 +6,7 @@ from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, run_async
 
 
-@run_async
+
 def totranslate(update: Update, context: CallbackContext):
     msg = update.effective_message
     problem_lang_code = []

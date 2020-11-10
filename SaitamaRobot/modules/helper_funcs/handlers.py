@@ -76,9 +76,10 @@ class CustomCommandHandler(CommandHandler):
                  command,
                  callback,
                  admin_ok=False,
+                 run_async=True,
                  allow_edit=False,
                  **kwargs):
-        super().__init__(command, callback, **kwargs)
+        super().__init__(command, callback, run_async=run_async, **kwargs)
 
         if allow_edit is False:
             self.filters &= ~(
@@ -150,9 +151,10 @@ class CustomMessageHandler(MessageHandler):
                  filters,
                  callback,
                  friendly="",
+                 run_async=True,
                  allow_edit=False,
                  **kwargs):
-        super().__init__(filters, callback, **kwargs)
+        super().__init__(filters, callback, run_async=run_async, **kwargs)
         if allow_edit is False:
             self.filters &= ~(
                 Filters.update.edited_message

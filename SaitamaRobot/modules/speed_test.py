@@ -12,7 +12,7 @@ def convert(speed):
 
 
 @dev_plus
-@run_async
+
 def speedtestxyz(update: Update, context: CallbackContext):
     buttons = [[
         InlineKeyboardButton("Image", callback_data="speedtest_image"),
@@ -22,7 +22,7 @@ def speedtestxyz(update: Update, context: CallbackContext):
         "Select SpeedTest Mode", reply_markup=InlineKeyboardMarkup(buttons))
 
 
-@run_async
+
 def speedtestxyz_callback(update: Update, context: CallbackContext):
     query = update.callback_query
 

@@ -13,7 +13,7 @@ weebyfont = [
 ]
 
 
-@run_async
+
 def weebify(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message

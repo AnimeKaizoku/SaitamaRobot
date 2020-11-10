@@ -16,7 +16,7 @@ REPORT_GROUP = 12
 REPORT_IMMUNE_USERS = DRAGONS + TIGERS + WOLVES
 
 
-@run_async
+
 @user_admin
 def report_setting(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -59,7 +59,7 @@ def report_setting(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN)
 
 
-@run_async
+
 @user_not_admin
 @loggable
 def report(update: Update, context: CallbackContext) -> str:

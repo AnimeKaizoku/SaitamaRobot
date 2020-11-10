@@ -4,7 +4,7 @@ from telegram import Update
 from telegram.ext import CallbackContext, run_async
 
 
-@run_async
+
 def shout(update: Update, context: CallbackContext):
     args = context.args
     text = " ".join(args)

@@ -58,7 +58,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
     return result
 
 
-@run_async
+
 def gettime(update: Update, context: CallbackContext):
     message = update.effective_message
 

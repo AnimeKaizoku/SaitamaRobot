@@ -111,7 +111,7 @@ def make_bar(per):
     return "■" * done + "□" * (10 - done)
 
 
-@run_async
+
 def get_id(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -188,7 +188,7 @@ async def group_info(event) -> None:
     await event.reply(msg)
 
 
-@run_async
+
 def gifid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
@@ -200,7 +200,7 @@ def gifid(update: Update, context: CallbackContext):
             "Please reply to a gif to get its ID.")
 
 
-@run_async
+
 def info(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -340,7 +340,7 @@ def info(update: Update, context: CallbackContext):
     rep.delete()
 
 
-@run_async
+
 def about_me(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -367,7 +367,7 @@ def about_me(update: Update, context: CallbackContext):
             "There isnt one, use /setme to set one.")
 
 
-@run_async
+
 def set_about_me(update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = message.from_user.id
@@ -399,7 +399,7 @@ def set_about_me(update: Update, context: CallbackContext):
                     MAX_MESSAGE_LENGTH // 4, len(info[1])))
 
 
-@run_async
+
 @sudo_plus
 def stats(update: Update, context: CallbackContext):
     process = subprocess.Popen(
@@ -411,7 +411,7 @@ def stats(update: Update, context: CallbackContext):
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
 
 
-@run_async
+
 def about_bio(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -439,7 +439,7 @@ def about_bio(update: Update, context: CallbackContext):
             "You haven't had a bio set about yourself yet!")
 
 
-@run_async
+
 def set_about_bio(update: Update, context: CallbackContext):
     message = update.effective_message
     sender_id = update.effective_user.id

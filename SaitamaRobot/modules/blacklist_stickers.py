@@ -21,7 +21,7 @@ from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import mention_html, mention_markdown
 
 
-@run_async
+
 def blackliststicker(update: Update, context: CallbackContext):
     msg = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat  # type: Optional[Chat]
@@ -63,7 +63,7 @@ def blackliststicker(update: Update, context: CallbackContext):
     send_message(update.effective_message, text, parse_mode=ParseMode.HTML)
 
 
-@run_async
+
 @user_admin
 def add_blackliststicker(update: Update, context: CallbackContext):
     bot = context.bot
@@ -145,7 +145,7 @@ def add_blackliststicker(update: Update, context: CallbackContext):
                      "Tell me what stickers you want to add to the blacklist.")
 
 
-@run_async
+
 @user_admin
 def unblackliststicker(update: Update, context: CallbackContext):
     bot = context.bot
@@ -233,7 +233,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
                      "Tell me what stickers you want to add to the blacklist.")
 
 
-@run_async
+
 @loggable
 @user_admin
 def blacklist_mode(update: Update, context: CallbackContext):
@@ -338,7 +338,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
     return ""
 
 
-@run_async
+
 @user_not_admin
 def del_blackliststicker(update: Update, context: CallbackContext):
     bot = context.bot

@@ -15,12 +15,12 @@ from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 GIF_ID = 'CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr5nGxsE'
 
 
-@run_async
+
 def runs(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
 
 
-@run_async
+
 def sanitize(update: Update, context: CallbackContext):
     message = update.effective_message
     name = message.reply_to_message.from_user.first_name if message.reply_to_message else message.from_user.first_name
@@ -28,7 +28,7 @@ def sanitize(update: Update, context: CallbackContext):
     reply_animation(GIF_ID, caption=f'*Sanitizes {name}*')
 
 
-@run_async
+
 def sanitize(update: Update, context: CallbackContext):
     message = update.effective_message
     name = message.reply_to_message.from_user.first_name if message.reply_to_message else message.from_user.first_name
@@ -37,7 +37,7 @@ def sanitize(update: Update, context: CallbackContext):
         random.choice(fun_strings.GIFS), caption=f'*Sanitizes {name}*')
 
 
-@run_async
+
 def slap(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -92,7 +92,7 @@ def slap(update: Update, context: CallbackContext):
     reply_text(reply, parse_mode=ParseMode.HTML)
 
 
-@run_async
+
 def pat(update: Update, context: CallbackContext):
     bot = context.bot
     args = context.args
@@ -133,24 +133,24 @@ def pat(update: Update, context: CallbackContext):
         reply_to.reply_text(reply, parse_mode=ParseMode.HTML)
 
 
-@run_async
+
 def roll(update: Update, context: CallbackContext):
     update.message.reply_text(random.choice(range(1, 7)))
 
 
-@run_async
+
 def toss(update: Update, context: CallbackContext):
     update.message.reply_text(random.choice(fun_strings.TOSS))
 
 
-@run_async
+
 def shrug(update: Update, context: CallbackContext):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     reply_text(r"¯\_(ツ)_/¯")
 
 
-@run_async
+
 def bluetext(update: Update, context: CallbackContext):
     msg = update.effective_message
     reply_text = msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
@@ -159,7 +159,7 @@ def bluetext(update: Update, context: CallbackContext):
     )
 
 
-@run_async
+
 def rlg(update: Update, context: CallbackContext):
     eyes = random.choice(fun_strings.EYES)
     mouth = random.choice(fun_strings.MOUTHS)
@@ -172,13 +172,13 @@ def rlg(update: Update, context: CallbackContext):
     update.message.reply_text(repl)
 
 
-@run_async
+
 def decide(update: Update, context: CallbackContext):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.DECIDE))
 
 
-@run_async
+
 def table(update: Update, context: CallbackContext):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.TABLE))

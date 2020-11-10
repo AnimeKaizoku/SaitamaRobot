@@ -68,7 +68,7 @@ def ping_func(to_ping: List[str]) -> List[str]:
     return ping_result
 
 
-@run_async
+
 @sudo_plus
 def ping(update: Update, context: CallbackContext):
     msg = update.effective_message
@@ -86,7 +86,7 @@ def ping(update: Update, context: CallbackContext):
         parse_mode=ParseMode.HTML)
 
 
-@run_async
+
 @sudo_plus
 def pingall(update: Update, context: CallbackContext):
     to_ping = ["Kaizoku", "Kayo", "Telegram", "Jikan"]
