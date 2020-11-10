@@ -56,6 +56,8 @@ if is_module_loaded(FILENAME):
                                 command[1].lower()
                                 == message.bot.username.lower()):
                             return None
+                        if user_id == 1087968824:
+                            user_id = update.effective_chat.id
                         if SpamChecker.check_user(update.effective_user.id):
                             return None
                         filter_result = self.filters(update)
