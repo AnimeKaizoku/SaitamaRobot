@@ -542,9 +542,11 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(SUPPORT_CHAT, "I'm online!")
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I'm online!")
         except Unauthorized:
             LOGGER.warning("Bot is not part of support chat!")
+        except BadRequest as e:
+            LOGGER.warning(e.message)
 
     test_handler = CommandHandler("test", test)
     start_handler = CommandHandler("start", start)
