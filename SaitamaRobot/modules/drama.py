@@ -302,7 +302,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
           post_name = html.escape(entry.text)
           result += f"• <a href='{post_link}'>{post_name}</a>"
 
-    buttons = [[InlineKeyboardButton("See full list", url=search_url)]]
+    buttons = [[InlineKeyboardButton("See all results", url=search_url)]]
 
     if more_results:
         message.reply_text(
