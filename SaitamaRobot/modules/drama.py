@@ -288,16 +288,16 @@ def site_search(update: Update, context: CallbackContext, site: str):
             more_results = False
             result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MDL</code>"
 
-    elif site == "kdrama":
-        search_url = f"https://mydramalist.com/search?q={search_query}"
+    elif site == "topdrama":
+        search_url = f"https://mydramalist.com/shows/popular"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h6", {'class': "title"})
+        search_result = soup.find_all("h6", {'class':"title"})
 
-        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MDL</code>: \n"
+        result = f"<b>Top kDrama </b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MDL</code>: \n"
         for entry in search_result:
 
-            if entry.text.strip() == "Nothing Found":
+            if entry.text.strip() == "Nothing Found :P":
                 result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MDL</code>"
                 more_results = False
                 break
@@ -325,8 +325,8 @@ def drama(update: Update, context: CallbackContext):
 
 
 @run_async
-def kdrama(update: Update, context: CallbackContext):
-    site_search(update, context, "kdrama")
+def topdrama(update: Update, context: CallbackContext):
+    site_search(update, context, "topdrama")
 
 
 __help__ = """
@@ -335,23 +335,23 @@ Get information about anime, manga or characters from [MLA](mydramalist.com).
 *Available commands:*
 
  • `/drama <drama>`*:* search an drama on MDL.
- • `/kdrama <kdrama>`*:* search an kdrama on MDL.
+ • `/topdrama <kdrama>`*:* Top kdrama on MDL.
 
  """
 
 DRAMA_SEARCH_HANDLER = DisableAbleCommandHandler("drama", drama)
-KDRAMA_SEARCH_HANDLER = DisableAbleCommandHandler("kdrama", kdrama)
+TOPDRAMA_SEARCH_HANDLER = DisableAbleCommandHandler("topdrama", topdrama)
 BUTTON_HANDLER = CallbackQueryHandler(button, pattern='anime_.*')
 
 dispatcher.add_handler(BUTTON_HANDLER)
 dispatcher.add_handler(DRAMA_SEARCH_HANDLER)
-dispatcher.add_handler(KDRAMA_SEARCH_HANDLER)
+dispatcher.add_handler(TOPDRAMA_SEARCH_HANDLER)
 
 __mod_name__ = "Drama"
 __command_list__ = [
-   "drama", "kdrama"
+   "drama", "topdrama"
 ]
 __handlers__ = [
-    DRAMA_SEARCH_HANDLER, KDRAMA_SEARCH_HANDLER,
+    DRAMA_SEARCH_HANDLER, TOPDRAMA_SEARCH_HANDLER,
     BUTTON_HANDLER
     ]
