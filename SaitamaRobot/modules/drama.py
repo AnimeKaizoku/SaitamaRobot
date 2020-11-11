@@ -163,7 +163,7 @@ def animex(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
-        update.effective_message.reply_text('Format : /anime < anime name >')
+        update.effective_message.reply_text('Format : /drama < drama name >')
         return
     else:
         search = search[1]
@@ -286,18 +286,17 @@ def site_search(update: Update, context: CallbackContext, site: str):
                 result += f"• <a href='{post_link}'>{post_name}</a>"
         else:
             more_results = False
-            result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MDL</code>"
+            result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MDL.</code>"
 
-    elif site == "topdrama":
-        search_url = f"https://mydramalist.com/shows/popular"
-        html_text = requests.get(search_url).text
-        soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h6", {'class':"title"})
+        elif site == "topdrama":
+           search_url = f"https://mydramalist.com/shows/popular"
+           html_text = requests.get(search_url).text
+           soup = bs4.BeautifulSoup(html_text, "html.parser")
+           search_result = soup.find_all("h6", {'class':"title"})
 
-       result = f"<b>Popular kDramas or Shows on </b> <code>MDL</code>: \n"
+           result = f"<b>Popular kDramas or Shows on</b> <code> MDL</code>:\n"
       
-        for entry in search_result:
-
+       for entry in search_result:
           post_link = "https://mydramalist.com/" + entry.a['href']
           post_name = html.escape(entry.text)
           result += f"• <a href='{post_link}'>{post_name}</a>"
