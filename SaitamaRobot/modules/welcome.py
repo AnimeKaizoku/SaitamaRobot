@@ -150,7 +150,7 @@ def new_member(update: Update, context: CallbackContext):
         welcome_bool = True
         media_wel = False
 
-        if sw != None:
+        if sw is not None:
             sw_ban = sw.get_ban(new_mem.id)
             if sw_ban:
                 return
