@@ -283,7 +283,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
             for entry in search_result:
                 post_link = "https://mydramalist.com/" + entry.a['href']
                 post_name = html.escape(entry.text)
-                result += f"• <a href='{post_link}'>{post_name}</a>\n"
+                result += f"• <a href='{post_link}'>{post_name}</a>"
         else:
             more_results = False
             result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MDL</code>"
@@ -300,7 +300,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
 
           post_link = "https://mydramalist.com/" + entry.a['href']
           post_name = html.escape(entry.text)
-          result += f"• <a href='{post_link}'>{post_name}</a>\n"
+          result += f"• <a href='{post_link}'>{post_name}</a>"
 
     buttons = [[InlineKeyboardButton("See full list", url=search_url)]]
 
