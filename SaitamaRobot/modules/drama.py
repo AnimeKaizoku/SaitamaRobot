@@ -273,15 +273,15 @@ def site_search(update: Update, context: CallbackContext, site: str):
         return
 
     if site == "drama":
-        search_url = f"https://dramacool.so/search?type=movies&keyword={search_query}"
+        search_url = f"https://mydramalist.com/search?q={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h3", {'class':"title"})
+        search_result = soup.find_all("h6", {'class':"text-primary-title"})
 
         if search_result:
             result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>DramaCool</code>: \n"
             for entry in search_result:
-                post_link = "https://dramacool.so/" + entry.a['href']
+                post_link = "https://mydramalist.com/" + entry.a['href']
                 post_name = html.escape(entry.text)
                 result += f"• <a href='{post_link}'>{post_name}</a>\n"
         else:
@@ -289,10 +289,10 @@ def site_search(update: Update, context: CallbackContext, site: str):
             result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>DramaCool</code>"
 
     elif site == "kdrama":
-        search_url = f"https://dramacool.so/search?type=movies&keyword={search_query}"
+        search_url = f"https://mydramalist.com/search?q={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h1", {'class': "title"})
+        search_result = soup.find_all("h6", {'class': "text-primary-title"})
 
         result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>DramaCool</code>: \n"
         for entry in search_result:
