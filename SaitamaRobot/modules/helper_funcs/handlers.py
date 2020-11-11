@@ -2,9 +2,8 @@ import SaitamaRobot.modules.sql.blacklistusers_sql as sql
 from SaitamaRobot import ALLOW_EXCL
 from SaitamaRobot import (DEV_USERS, DRAGONS, DEMONS, TIGERS, WOLVES)
 
-from telegram import MessageEntity, Update
+from telegram import Update
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler, Filters
-from time import sleep
 from pyrate_limiter import (BucketFullException, Duration, RequestRate, Limiter,
                             MemoryListBucket)
 
