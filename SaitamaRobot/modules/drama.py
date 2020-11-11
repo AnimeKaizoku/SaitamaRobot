@@ -224,107 +224,6 @@ def animex(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(buttons))
 
-
-@run_async
-def character(update: Update, context: CallbackContext):
-    message = update.effective_message
-    search = message.text.split(' ', 1)
-    if len(search) == 1:
-        update.effective_message.reply_text(
-            'Format : /character < character name >')
-        return
-    search = search[1]
-    variables = {'query': search}
-    json = requests.post(
-        url, json={
-            'query': character_query,
-            'variables': variables
-        }).json()
-    if 'errors' in json.keys():
-        update.effective_message.reply_text('Character not found')
-        return
-    if json:
-        json = json['data']['Character']
-        msg = f"*{json.get('name').get('full')}*(`{json.get('name').get('native')}`)\n"
-        description = f"{json['description']}"
-        site_url = json.get('siteUrl')
-        msg += shorten(description, site_url)
-        image = json.get('image', None)
-        if image:
-            image = image.get('large')
-            update.effective_message.reply_photo(
-                photo=image,
-                caption=msg.replace('<b>', '</b>'),
-                parse_mode=ParseMode.MARKDOWN)
-        else:
-            update.effective_message.reply_text(
-                msg.replace('<b>', '</b>'), parse_mode=ParseMode.MARKDOWN)
-
-
-@run_async
-def manga(update: Update, context: CallbackContext):
-    message = update.effective_message
-    search = message.text.split(' ', 1)
-    if len(search) == 1:
-        update.effective_message.reply_text('Format : /manga < manga name >')
-        return
-    search = search[1]
-    variables = {'search': search}
-    json = requests.post(
-        url, json={
-            'query': manga_query,
-            'variables': variables
-        }).json()
-    msg = ''
-    if 'errors' in json.keys():
-        update.effective_message.reply_text('Manga not found')
-        return
-    if json:
-        json = json['data']['Media']
-        title, title_native = json['title'].get('romaji',
-                                                False), json['title'].get(
-                                                    'native', False)
-        start_date, status, score = json['startDate'].get(
-            'year', False), json.get('status',
-                                     False), json.get('averageScore', False)
-        if title:
-            msg += f"*{title}*"
-            if title_native:
-                msg += f"(`{title_native}`)"
-        if start_date:
-            msg += f"\n*Start Date* - `{start_date}`"
-        if status:
-            msg += f"\n*Status* - `{status}`"
-        if score:
-            msg += f"\n*Score* - `{score}`"
-        msg += '\n*Genres* - '
-        for x in json.get('genres', []):
-            msg += f"{x}, "
-        msg = msg[:-2]
-        info = json['siteUrl']
-        buttons = [[InlineKeyboardButton("More Info", url=info)]]
-        image = json.get("bannerImage", False)
-        msg += f"_{json.get('description', None)}_"
-        if image:
-            try:
-                update.effective_message.reply_photo(
-                    photo=image,
-                    caption=msg,
-                    parse_mode=ParseMode.MARKDOWN,
-                    reply_markup=InlineKeyboardMarkup(buttons))
-            except:
-                msg += f" [〽️]({image})"
-                update.effective_message.reply_text(
-                    msg,
-                    parse_mode=ParseMode.MARKDOWN,
-                    reply_markup=InlineKeyboardMarkup(buttons))
-        else:
-            update.effective_message.reply_text(
-                msg,
-                parse_mode=ParseMode.MARKDOWN,
-                reply_markup=InlineKeyboardMarkup(buttons))
-
-
 @run_async
 def user(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -507,12 +406,12 @@ def site_search(update: Update, context: CallbackContext, site: str):
 
 @run_async
 def drama(update: Update, context: CallbackContext):
-    site_search(update, context, "kaizoku")
+    site_search(update, context, "drama")
 
 
 @run_async
 def kdrama(update: Update, context: CallbackContext):
-    site_search(update, context, "kayo")
+    site_search(update, context, "kdrama")
 
 
 __help__ = """
@@ -525,12 +424,11 @@ Get information about anime, manga or characters from [MLA](mydramalist.com).
 
  """
 
-KAIZOKU_SEARCH_HANDLER = DisableAbleCommandHandler("drama", drama)
-KAYO_SEARCH_HANDLER = DisableAbleCommandHandler("kdrama", kdrama)
+DRAMA_SEARCH_HANDLER = DisableAbleCommandHandler("drama", drama)
+KDRAMA_SEARCH_HANDLER = DisableAbleCommandHandler("kdrama", kdrama)
 BUTTON_HANDLER = CallbackQueryHandler(button, pattern='anime_.*')
 
 dispatcher.add_handler(BUTTON_HANDLER)
-
 dispatcher.add_handler(DRAMA_SEARCH_HANDLER)
 dispatcher.add_handler(KDRAMA_SEARCH_HANDLER)
 
