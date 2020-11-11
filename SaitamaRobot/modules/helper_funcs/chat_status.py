@@ -1,6 +1,6 @@
 from functools import wraps
 from cachetools import TTLCache
-
+from threading import RLock
 from SaitamaRobot import (DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT, DEMONS,
                           TIGERS, WOLVES, dispatcher)
 
@@ -9,7 +9,7 @@ from telegram.ext import CallbackContext
 
 # stores admemes in memory for 10 min.
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10)
-
+THREAD_LOCK = RLock()
 
 def is_whitelist_plus(chat: Chat,
                       user_id: int,
@@ -36,20 +36,21 @@ def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
         return True
 
     if not member:
-        # try to fetch from cache first.
-        try:
-            return user_id in ADMIN_CACHE[chat.id]
-        except KeyError:
-            # keyerror happend means cache is deleted,
-            # so query bot api again and return user status
-            # while saving it in cache for future useage...
-            chat_admins = dispatcher.bot.getChatAdministrators(chat.id)
-            admin_list = [x.user.id for x in chat_admins]
-            ADMIN_CACHE[chat.id] = admin_list
+        with THREAD_LOCK:
+           # try to fetch from cache first.
+           try:
+               return user_id in ADMIN_CACHE[chat.id]
+           except KeyError:
+               # keyerror happend means cache is deleted,
+               # so query bot api again and return user status
+               # while saving it in cache for future useage...
+               chat_admins = dispatcher.bot.getChatAdministrators(chat.id)
+               admin_list = [x.user.id for x in chat_admins]
+               ADMIN_CACHE[chat.id] = admin_list
 
-            if user_id in admin_list:
-                return True
-            return False
+               if user_id in admin_list:
+                   return True
+               return False
 
 
 def is_bot_admin(chat: Chat,
