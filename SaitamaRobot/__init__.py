@@ -183,14 +183,16 @@ WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
 
+from SaitamaRobot.modules.helper_funcs.handlers import CustomHandler
+tg.handler.Handler = CustomHandler 
+
 # Load at end to ensure all prev variables have been set
-from SaitamaRobot.modules.helper_funcs.handlers import (CustomHandler,
+from SaitamaRobot.modules.helper_funcs.handlers import (
                                                         CustomCommandHandler,
                                                         CustomMessageHandler,
                                                         CustomRegexHandler)
 
 # make sure the regex handler can take extra kwargs
-tg.handler.Handler = CustomHandler
 tg.RegexHandler = CustomRegexHandler
 tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler
