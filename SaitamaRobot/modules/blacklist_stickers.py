@@ -425,8 +425,8 @@ def del_blackliststicker(update: Update, context: CallbackContext):
                     bot.restrict_chat_member(
                         chat.id,
                         user.id,
-                        permissions=ChatPermissions(
-                            can_send_messages=False), until_date=mutetime)
+                        permissions=ChatPermissions(can_send_messages=False),
+                        until_date=mutetime)
                     bot.sendMessage(
                         chat.id,
                         "{} muted for {} because using '{}' which in blacklist stickers"
