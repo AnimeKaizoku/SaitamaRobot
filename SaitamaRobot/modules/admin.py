@@ -177,7 +177,11 @@ def demote(update: Update, context: CallbackContext) -> str:
 @run_async
 @user_admin
 def refresh_admin(update, _):
-    ADMIN_CACHE.pop(update.effective_chat.id)
+    try:
+       ADMIN_CACHE.pop(update.effective_chat.id)
+    except KeyError:
+       pass
+
     update.effective_message.reply_text("Admins cache refreshed!")
 
 
@@ -471,7 +475,7 @@ PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
 
 SET_TITLE_HANDLER = CommandHandler("title", set_title)
-ADMIN_REFRESH_HANDLER = CommandHandler("admincache", refresh_admin)
+ADMIN_REFRESH_HANDLER = CommandHandler("admincache", refresh_admin, filters=Filters.group)
 
 dispatcher.add_handler(ADMINLIST_HANDLER)
 dispatcher.add_handler(PIN_HANDLER)
