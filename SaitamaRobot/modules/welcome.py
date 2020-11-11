@@ -228,13 +228,13 @@ def new_member(update: Update, context: CallbackContext):
                     bot.send_message(
                         JOIN_LOGGER,
                         "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>\n<b>Creator:</b> <code>{}</code>"
-                        .format(chat.title, chat.id, creator),
+                        .format(html.escape(chat.title), chat.id, html.escape(creator)),
                         parse_mode=ParseMode.HTML)
                 else:
                     bot.send_message(
                         JOIN_LOGGER,
                         "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>"
-                        .format(chat.title, chat.id),
+                        .format(html.escape(chat.title), chat.id),
                         parse_mode=ParseMode.HTML)
                 update.effective_message.reply_text(
                     "Watashi ga kita!", reply_to_message_id=reply)
