@@ -60,7 +60,9 @@ if is_module_loaded(FILENAME):
                         user = update.effective_user
                         if user.id == 1087968824:
                             user_id = chat.id
-                        if SpamChecker.check_user(user.id):
+                        else:
+                            user_id = user.id
+                        if SpamChecker.check_user(user_id):
                             return None
                         filter_result = self.filters(update)
                         if filter_result:
