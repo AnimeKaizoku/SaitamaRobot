@@ -5,7 +5,7 @@ from sys import argv
 from typing import Optional
 
 from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
-                          OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
+                          OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK, SUPPORT_CHAT,
                           dispatcher, StartTime, telethn, updater)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
@@ -539,6 +539,13 @@ def migrate_chats(update: Update, context: CallbackContext):
 
 
 def main():
+
+    if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
+        try:
+            dispatcher.bot.sendMessage(SUPPORT_CHAT, "I'm online!")
+        except Unauthorized:
+            LOGGER.warning("Bot is not part of support chat!")
+
     test_handler = CommandHandler("test", test)
     start_handler = CommandHandler("start", start)
 
