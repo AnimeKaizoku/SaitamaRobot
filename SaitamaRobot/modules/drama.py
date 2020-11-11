@@ -294,19 +294,15 @@ def site_search(update: Update, context: CallbackContext, site: str):
         soup = bs4.BeautifulSoup(html_text, "html.parser")
         search_result = soup.find_all("h6", {'class':"title"})
 
-        result = f"<b>Top kDrama </b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MDL</code>: \n"
+        result = f"<b>Popular kDramas or Shows on </b> <code>MDL</code>: \n"
+      
         for entry in search_result:
 
-            if entry.text.strip() == "Nothing Found :P":
-                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>MDL</code>"
-                more_results = False
-                break
+          post_link = "https://mydramalist.com/" + entry.a['href']
+          post_name = html.escape(entry.text)
+          result += f"• <a href='{post_link}'>{post_name}</a>\n"
 
-            post_link = entry.a['href']
-            post_name = html.escape(entry.text.strip())
-            result += f"• <a href='{post_link}'>{post_name}</a>\n"
-
-    buttons = [[InlineKeyboardButton("See all results", url=search_url)]]
+    buttons = [[InlineKeyboardButton("See full list", url=search_url)]]
 
     if more_results:
         message.reply_text(
