@@ -240,7 +240,7 @@ def button(update: Update, context: CallbackContext):
         if query.from_user.id in user_and_admin_list:
             message.delete()
         else:
-            query.answer("You are not allowed to use this.")
+            query.answer("You are not allowed to use this :P")
     elif query_type in ('anime_anime', 'anime_manga'):
         mal_id = data[2]
         if query.from_user.id == original_user_id:
