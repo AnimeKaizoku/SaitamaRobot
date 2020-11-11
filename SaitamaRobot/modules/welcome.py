@@ -228,7 +228,9 @@ def new_member(update: Update, context: CallbackContext):
                     bot.send_message(
                         JOIN_LOGGER,
                         "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>\n<b>Creator:</b> <code>{}</code>"
-                        .format(html.escape(chat.title), chat.id, html.escape(creator)),
+                        .format(
+                            html.escape(chat.title), chat.id,
+                            html.escape(creator)),
                         parse_mode=ParseMode.HTML)
                 else:
                     bot.send_message(
@@ -849,15 +851,18 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
                     "Invalid option", parse_mode=ParseMode.HTML)
         else:
             update.effective_message.reply_text(
-                "Usage is <code>on</code>/<code>yes</code> or <code>off</code>/<code>no</code>", parse_mode=ParseMode.HTML)
+                "Usage is <code>on</code>/<code>yes</code> or <code>off</code>/<code>no</code>",
+                parse_mode=ParseMode.HTML)
     else:
         curr = sql.clean_service(chat.id)
         if curr:
             update.effective_message.reply_text(
-                "Welcome clean service is : <code>on</code>", parse_mode=ParseMode.HTML)
+                "Welcome clean service is : <code>on</code>",
+                parse_mode=ParseMode.HTML)
         else:
             update.effective_message.reply_text(
-                "Welcome clean service is : <code>off</code>", parse_mode=ParseMode.HTML)
+                "Welcome clean service is : <code>off</code>",
+                parse_mode=ParseMode.HTML)
 
 
 @run_async
