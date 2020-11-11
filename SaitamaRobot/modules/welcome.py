@@ -876,6 +876,7 @@ def user_button(update: Update, context: CallbackContext):
     join_user = int(match.group(1))
 
     if join_user == user.id:
+        sql.set_human_checks(user.id, chat.id)
         member_dict = VERIFIED_USER_WAITLIST.pop(user.id)
         member_dict["status"] = True
         VERIFIED_USER_WAITLIST.update({user.id: member_dict})
