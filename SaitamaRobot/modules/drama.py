@@ -159,7 +159,7 @@ url = 'https://graphql.anilist.co'
 
 
 @run_async
-def animex(update: Update, context: CallbackContext):
+def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
@@ -224,91 +224,6 @@ def animex(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(buttons))
 
-@run_async
-def user(update: Update, context: CallbackContext):
-    message = update.effective_message
-    args = message.text.strip().split(" ", 1)
-
-    try:
-        search_query = args[1]
-    except:
-        if message.reply_to_message:
-            search_query = message.reply_to_message.text
-        else:
-            update.effective_message.reply_text("Format : /user <username>")
-            return
-
-    jikan = jikanpy.jikan.Jikan()
-
-    try:
-        user = jikan.user(search_query)
-    except jikanpy.APIException:
-        update.effective_message.reply_text("Username not found.")
-        return
-
-    progress_message = update.effective_message.reply_text("Searching.... ")
-
-    date_format = "%Y-%m-%d"
-    if user['image_url'] is None:
-        img = "https://cdn.myanimelist.net/images/questionmark_50.gif"
-    else:
-        img = user['image_url']
-
-    try:
-        user_birthday = datetime.datetime.fromisoformat(user['birthday'])
-        user_birthday_formatted = user_birthday.strftime(date_format)
-    except:
-        user_birthday_formatted = "Unknown"
-
-    user_joined_date = datetime.datetime.fromisoformat(user['joined'])
-    user_joined_date_formatted = user_joined_date.strftime(date_format)
-
-    for entity in user:
-        if user[entity] is None:
-            user[entity] = "Unknown"
-
-    about = user['about'].split(" ", 60)
-
-    try:
-        about.pop(60)
-    except IndexError:
-        pass
-
-    about_string = ' '.join(about)
-    about_string = about_string.replace("<br>",
-                                        "").strip().replace("\r\n", "\n")
-
-    caption = ""
-
-    caption += textwrap.dedent(f"""
-    *Username*: [{user['username']}]({user['url']})
-
-    *Gender*: `{user['gender']}`
-    *Birthday*: `{user_birthday_formatted}`
-    *Joined*: `{user_joined_date_formatted}`
-    *Days wasted watching anime*: `{user['anime_stats']['days_watched']}`
-    *Days wasted reading manga*: `{user['manga_stats']['days_read']}`
-
-    """)
-
-    caption += f"*About*: {about_string}"
-
-    buttons = [[InlineKeyboardButton(info_btn, url=user['url'])],
-               [
-                   InlineKeyboardButton(
-                       close_btn,
-                       callback_data=f"anime_close, {message.from_user.id}")
-               ]]
-
-    update.effective_message.reply_photo(
-        photo=img,
-        caption=caption,
-        parse_mode=ParseMode.MARKDOWN,
-        reply_markup=InlineKeyboardMarkup(buttons),
-        disable_web_page_preview=False)
-    progress_message.delete()
-
-
 
 def button(update: Update, context: CallbackContext):
     bot = context.bot
@@ -357,7 +272,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
         message.reply_text("Give something to search")
         return
 
-    if site == "kaizoku":
+    if site == "drama":
         search_url = f"https://animekaizoku.com/?s={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
@@ -373,7 +288,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
             more_results = False
             result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>"
 
-    elif site == "kayo":
+    elif site == "kdrama":
         search_url = f"https://animekayo.com/?s={search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
