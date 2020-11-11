@@ -353,7 +353,7 @@ def new_member(update: Update, context: CallbackContext):
                                 "keyboard": keyboard,
                             }
                         })
-                    new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
+                    new_join_mem = f'<a href="tg://user?id={user.id}">{html.escape(new_mem.first_name)}</a>'
                     message = msg.reply_text(
                         f"{new_join_mem}, click the button below to prove you're human.\nYou have 120 seconds.",
                         reply_markup=InlineKeyboardMarkup([{
@@ -362,7 +362,7 @@ def new_member(update: Update, context: CallbackContext):
                                 callback_data=f"user_join_({new_mem.id})",
                             )
                         }]),
-                        parse_mode=ParseMode.MARKDOWN,
+                        parse_mode=ParseMode.HTML,
                         reply_to_message_id=reply,
                     )
                     bot.restrict_chat_member(
@@ -775,16 +775,16 @@ def welcomemute(update: Update, context: CallbackContext) -> str:
                 f"Has toggled welcome mute to <b>STRONG</b>.")
         else:
             msg.reply_text(
-                "Please enter `off`/`no`/`soft`/`strong`!",
-                parse_mode=ParseMode.MARKDOWN,
+                "Please enter <code>off</code>/<code>no</code>/<code>soft</code>/<code>strong</code>!",
+                parse_mode=ParseMode.HTML,
             )
             return ""
     else:
         curr_setting = sql.welcome_mutes(chat.id)
         reply = (
-            f"\n Give me a setting!\nChoose one out of: `off`/`no` or `soft` or `strong` only! \n"
-            f"Current setting: `{curr_setting}`")
-        msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
+            f"\n Give me a setting!\nChoose one out of: <code>off</code>/<code>no</code> or <code>soft</code> or <code>strong</code> only! \n"
+            f"Current setting: <code>{curr_setting}</code>")
+        msg.reply_text(reply, parse_mode=ParseMode.HTML)
         return ""
 
 
@@ -846,18 +846,18 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
                     "Welcome clean service is : on")
             else:
                 update.effective_message.reply_text(
-                    "Invalid option", parse_mode=ParseMode.MARKDOWN)
+                    "Invalid option", parse_mode=ParseMode.HTML)
         else:
             update.effective_message.reply_text(
-                "Usage is on/yes or off/no", parse_mode=ParseMode.MARKDOWN)
+                "Usage is <code>on</code>/<code>yes</code> or <code>off</code>/<code>no</code>", parse_mode=ParseMode.HTML)
     else:
         curr = sql.clean_service(chat.id)
         if curr:
             update.effective_message.reply_text(
-                "Welcome clean service is : on", parse_mode=ParseMode.MARKDOWN)
+                "Welcome clean service is : <code>on</code>", parse_mode=ParseMode.HTML)
         else:
             update.effective_message.reply_text(
-                "Welcome clean service is : off", parse_mode=ParseMode.MARKDOWN)
+                "Welcome clean service is : <code>off</code>", parse_mode=ParseMode.HTML)
 
 
 @run_async
