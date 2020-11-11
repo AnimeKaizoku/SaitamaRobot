@@ -159,7 +159,7 @@ url = 'https://graphql.anilist.co'
 
 
 @run_async
-def anime(update: Update, context: CallbackContext):
+def animex(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
@@ -273,13 +273,13 @@ def site_search(update: Update, context: CallbackContext, site: str):
         return
 
     if site == "drama":
-        search_url = f"https://animekaizoku.com/?s={search_query}"
+        search_url = f"https://dramacool.so/search?type=movies&keyword{search_query}"
         html_text = requests.get(search_url).text
         soup = bs4.BeautifulSoup(html_text, "html.parser")
-        search_result = soup.find_all("h2", {'class': "post-title"})
+        search_result = soup.find_all("h3", {'class': "title"})
 
         if search_result:
-            result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>: \n"
+            result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>DramaCool</code>: \n"
             for entry in search_result:
                 post_link = "https://animekaizoku.com/" + entry.a['href']
                 post_name = html.escape(entry.text)
