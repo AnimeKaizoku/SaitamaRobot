@@ -37,10 +37,11 @@ def warn(user: User,
          message: Message,
          warner: User = None) -> str:
     if is_user_admin(chat, user.id):
-        # message.reply_text("Damn admins, They are too far to be One Punched!")
-        return
+          message.reply_text("Damn admins, Can't Be Warned!")
+          
+          return
 
-    if user.id in TIGERS:
+    if user.id in TIGER_USERS:
         if warner:
             message.reply_text("Tigers cant be warned.")
         else:
@@ -49,7 +50,7 @@ def warn(user: User,
             )
         return
 
-    if user.id in WOLVES:
+    if user.id in WHITELIST_USERS:
         if warner:
             message.reply_text("Wolf disasters are warn immune.")
         else:
@@ -127,7 +128,6 @@ def warn(user: User,
         else:
             raise
     return log_reason
-
 
 @run_async
 @user_admin_no_reply
