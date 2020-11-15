@@ -28,3 +28,4 @@ telethon
 spamwatch
 alphabet_detector
 pyrate-limiter
+gtts
