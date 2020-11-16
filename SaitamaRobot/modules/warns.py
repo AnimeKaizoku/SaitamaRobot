@@ -37,11 +37,10 @@ def warn(user: User,
          message: Message,
          warner: User = None) -> str:
     if is_user_admin(chat, user.id):
-          message.reply_text("Damn admins, Can't Be Warned!")
-          
-          return
+        # message.reply_text("Damn admins, They are too far to be One Punched!")
+        return
 
-    if user.id in TIGER_USERS:
+    if user.id in TIGERS:
         if warner:
             message.reply_text("Tigers cant be warned.")
         else:
@@ -50,7 +49,7 @@ def warn(user: User,
             )
         return
 
-    if user.id in WHITELIST_USERS:
+    if user.id in WOLVES:
         if warner:
             message.reply_text("Wolf disasters are warn immune.")
         else:
@@ -463,6 +462,7 @@ def __chat_settings__(chat_id, user_id):
 __help__ = """
  • `/warns <userhandle>`*:* get a user's number, and reason, of warns.
  • `/warnlist`*:* list of all current warning filters
+
 *Admins only:*
  • `/warn <userhandle>`*:* warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
  • `/resetwarn <userhandle>`*:* reset the warns for a user. Can also be used as a reply.
