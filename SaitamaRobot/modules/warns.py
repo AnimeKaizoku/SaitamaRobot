@@ -129,6 +129,7 @@ def warn(user: User,
             raise
     return log_reason
 
+
 @run_async
 @user_admin_no_reply
 @bot_admin
@@ -462,7 +463,6 @@ def __chat_settings__(chat_id, user_id):
 __help__ = """
  • `/warns <userhandle>`*:* get a user's number, and reason, of warns.
  • `/warnlist`*:* list of all current warning filters
-
 *Admins only:*
  • `/warn <userhandle>`*:* warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
  • `/resetwarn <userhandle>`*:* reset the warns for a user. Can also be used as a reply.
