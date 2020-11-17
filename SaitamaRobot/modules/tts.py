@@ -36,10 +36,16 @@ def tts(update, context):
         tts.save("k.mp3")
     with open("k.mp3", "rb") as speech:
         update.message.reply_voice(speech, quote=False)
+       
+TTS_HANDLER = DisableAbleCommandHandler("tts", tts)
+
+dispatcher.add_handler(TTS_HANDLER)
 
 __help__ = """ Text to speech
 - /tts <your text>
 """
 __mod_name__ = "TEXT TO SPEECH"
 
-dispatcher.add_handler(CommandHandler('tts', tts, pass_args=True))
+__handlers__ = [
+    TTS_HANDLER
+]
