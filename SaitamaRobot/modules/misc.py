@@ -88,6 +88,8 @@ __help__ = """
  • `/ud <word>`*:* Type the word or expression you want to search use
 *Wikipedia:*
  • `/wiki <query>`*:* wikipedia your query
+*Wallpapers:*
+ • `/wall <query>`*:* get a wallpaper from wall.alphacoders.com
 *Currency converter:* 
  • `/cash`*:* currency converter
 Example:
