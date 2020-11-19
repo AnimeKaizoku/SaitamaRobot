@@ -157,6 +157,11 @@
          "description": "ID of the sticker you want to use when banning people.",
          "required": false,
          "value": "CAACAgQAAx0CU_rCTAABAczQXyBOv1TsVK4EfwnkCUT1H0GCkPQAAtwAAwEgTQaYsMtAltpEwhoE"
+      },
+      "WALL_API": {
+         "description": "Required for wallpaper. Get your's from https://wall.alphacoders.com/",
+         "required": false,
+         "value": ""
       }
       
    }
