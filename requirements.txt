@@ -28,3 +28,6 @@ telethon==1.16.4
 spamwatch
 alphabet_detector
 pyrate-limiter
+covid
+datetime
+pytz
