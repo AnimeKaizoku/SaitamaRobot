@@ -14,18 +14,18 @@ from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS, TIGERS, WOLVES,
+from AstrakoBot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS, TIGERS, WOLVES,
                           INFOPIC, dispatcher, sw)
-from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
-import SaitamaRobot.modules.sql.userinfo_sql as sql
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.sql.global_bans_sql import is_user_gbanned
-from SaitamaRobot.modules.sql.afk_sql import is_afk, check_afk_status
-from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
-from SaitamaRobot.modules.sql.feds_sql import get_user_fbanlist
-from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from SaitamaRobot import telethn as SaitamaTelethonClient, TIGERS, DRAGONS, DEMONS
+from AstrakoBot.__main__ import STATS, TOKEN, USER_INFO
+import AstrakoBot.modules.sql.userinfo_sql as sql
+from AstrakoBot.modules.disable import DisableAbleCommandHandler
+from AstrakoBot.modules.sql.global_bans_sql import is_user_gbanned
+from AstrakoBot.modules.sql.afk_sql import is_afk, check_afk_status
+from AstrakoBot.modules.sql.users_sql import get_user_num_chats
+from AstrakoBot.modules.sql.feds_sql import get_user_fbanlist
+from AstrakoBot.modules.helper_funcs.chat_status import sudo_plus
+from AstrakoBot.modules.helper_funcs.extraction import extract_user
+from AstrakoBot import telethn as AstrakoBotTelethonClient, TIGERS, DRAGONS, DEMONS
 
 
 def no_by_per(totalhp, percentage):
@@ -152,7 +152,7 @@ def get_id(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.HTML)
 
 
-@SaitamaTelethonClient.on(
+@AstrakoBotTelethonClient.on(
     events.NewMessage(
         pattern='/ginfo ',
         from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])))

@@ -5,23 +5,23 @@ from telegram import ParseMode, Message
 from telegram.error import BadRequest
 from telegram.ext import CommandHandler, run_async
 
-import SaitamaRobot.modules.sql.notes_sql as sql
-from SaitamaRobot import dispatcher, LOGGER, OWNER_ID, JOIN_LOGGER
-from SaitamaRobot.__main__ import DATA_IMPORT
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
-from SaitamaRobot.modules.helper_funcs.alternate import typing_action
+import AstrakoBot.modules.sql.notes_sql as sql
+from AstrakoBot import dispatcher, LOGGER, OWNER_ID, JOIN_LOGGER
+from AstrakoBot.__main__ import DATA_IMPORT
+from AstrakoBot.modules.helper_funcs.chat_status import user_admin
+from AstrakoBot.modules.helper_funcs.alternate import typing_action
 
-# from SaitamaRobot.modules.rules import get_rules
-import SaitamaRobot.modules.sql.rules_sql as rulessql
+# from AstrakoBot.modules.rules import get_rules
+import AstrakoBot.modules.sql.rules_sql as rulessql
 
-# from SaitamaRobot.modules.sql import warns_sql as warnssql
-import SaitamaRobot.modules.sql.blacklist_sql as blacklistsql
-from SaitamaRobot.modules.sql import disable_sql as disabledsql
+# from AstrakoBot.modules.sql import warns_sql as warnssql
+import AstrakoBot.modules.sql.blacklist_sql as blacklistsql
+from AstrakoBot.modules.sql import disable_sql as disabledsql
 
-# from SaitamaRobot.modules.sql import cust_filters_sql as filtersql
-# import SaitamaRobot.modules.sql.welcome_sql as welcsql
-import SaitamaRobot.modules.sql.locks_sql as locksql
-from SaitamaRobot.modules.connection import connected
+# from AstrakoBot.modules.sql import cust_filters_sql as filtersql
+# import AstrakoBot.modules.sql.welcome_sql as welcsql
+import AstrakoBot.modules.sql.locks_sql as locksql
+from AstrakoBot.modules.connection import connected
 
 
 @run_async
@@ -99,7 +99,7 @@ def import_data(update, context):
                 mod.__import_data__(str(chat.id), data)
         except Exception:
             msg.reply_text(
-                "An error occurred while recovering your data. The process failed. If you experience a problem with this, please take it to @OnePunchSupport"
+                "An error occurred while recovering your data. The process failed. If you experience a problem with this, please take it to @AstrakoBotSupport"
             )
 
             LOGGER.exception(
@@ -318,7 +318,7 @@ def export_data(update, context):
         },
     }
     baccinfo = json.dumps(backup, indent=4)
-    f = open("SaitamaRobot{}.backup".format(chat_id), "w")
+    f = open("AstrakoBot{}.backup".format(chat_id), "w")
     f.write(str(baccinfo))
     f.close()
     context.bot.sendChatAction(current_chat_id, "upload_document")
@@ -334,14 +334,14 @@ def export_data(update, context):
         pass
     context.bot.sendDocument(
         current_chat_id,
-        document=open("SaitamaRobot{}.backup".format(chat_id), "rb"),
-        caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `SaitamaRobot-Backup` was specially made for notes."
+        document=open("AstrakoBot{}.backup".format(chat_id), "rb"),
+        caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `AstrakoBot-Backup` was specially made for notes."
         .format(chat.title, chat_id, tgl),
         timeout=360,
         reply_to_message_id=msg.message_id,
         parse_mode=ParseMode.MARKDOWN,
     )
-    os.remove("SaitamaRobot{}.backup".format(chat_id))  # Cleaning file
+    os.remove("AstrakoBot{}.backup".format(chat_id))  # Cleaning file
 
 
 # Temporary data

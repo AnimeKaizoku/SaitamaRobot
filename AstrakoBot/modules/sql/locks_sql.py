@@ -3,7 +3,7 @@ import threading
 
 from sqlalchemy import Column, String, Boolean
 
-from SaitamaRobot.modules.sql import SESSION, BASE
+from AstrakoBot.modules.sql import SESSION, BASE
 
 
 class Permissions(BASE):

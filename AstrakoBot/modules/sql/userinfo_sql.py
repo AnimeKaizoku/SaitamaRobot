@@ -1,6 +1,6 @@
 import threading
 
-from SaitamaRobot.modules.sql import BASE, SESSION
+from AstrakoBot.modules.sql import BASE, SESSION
 from sqlalchemy import Column, Integer, UnicodeText
 
 

@@ -2,9 +2,9 @@ import html
 import re
 
 from feedparser import parse
-from SaitamaRobot import dispatcher, updater
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
-from SaitamaRobot.modules.sql import rss_sql as sql
+from AstrakoBot import dispatcher, updater
+from AstrakoBot.modules.helper_funcs.chat_status import user_admin
+from AstrakoBot.modules.sql import rss_sql as sql
 from telegram import ParseMode, Update, constants
 from telegram.ext import CallbackContext, CommandHandler
 

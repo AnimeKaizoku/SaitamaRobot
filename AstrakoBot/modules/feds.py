@@ -7,16 +7,16 @@ import uuid
 from io import BytesIO
 import html
 
-import SaitamaRobot.modules.sql.feds_sql as sql
-from SaitamaRobot import (EVENT_LOGS, LOGGER, OWNER_ID, DRAGONS, TIGERS, WOLVES,
+import AstrakoBot.modules.sql.feds_sql as sql
+from AstrakoBot import (EVENT_LOGS, LOGGER, OWNER_ID, DRAGONS, TIGERS, WOLVES,
                           dispatcher)
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.alternate import send_message
-from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
-from SaitamaRobot.modules.helper_funcs.extraction import (extract_unt_fedban,
+from AstrakoBot.modules.disable import DisableAbleCommandHandler
+from AstrakoBot.modules.helper_funcs.alternate import send_message
+from AstrakoBot.modules.helper_funcs.chat_status import is_user_admin
+from AstrakoBot.modules.helper_funcs.extraction import (extract_unt_fedban,
                                                           extract_user,
                                                           extract_user_fban)
-from SaitamaRobot.modules.helper_funcs.string_handling import markdown_parser
+from AstrakoBot.modules.helper_funcs.string_handling import markdown_parser
 from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, MessageEntity,
                       ParseMode, Update)
 from telegram.error import BadRequest, TelegramError, Unauthorized
@@ -80,7 +80,7 @@ def new_fed(update: Update, context: CallbackContext):
         x = sql.new_fed(user.id, fed_name, fed_id)
         if not x:
             update.effective_message.reply_text(
-                "Can't federate! Please contact @OnePunchSupport if the problem persist."
+                "Can't federate! Please contact @AstrakoBotSupport if the problem persist."
             )
             return
 
@@ -234,7 +234,7 @@ def join_fed(update: Update, context: CallbackContext):
         x = sql.chat_join_fed(args[0], chat.title, chat.id)
         if not x:
             message.reply_text(
-                "Failed to join federation! Please contact @OnePunchSupport should this problem persist!"
+                "Failed to join federation! Please contact @AstrakoBotSupport should this problem persist!"
             )
             return
 
@@ -596,7 +596,7 @@ def fed_ban(update: Update, context: CallbackContext):
 
     if fban:
         fed_name = info['fname']
-        #https://t.me/OnePunchSupport/41606 // https://t.me/OnePunchSupport/41619
+        #https://t.me/AstrakoBotSupport/41606 // https://t.me/AstrakoBotSupport/41619
         #starting = "The reason fban is replaced for {} in the Federation <b>{}</b>.".format(user_target, fed_name)
         #send_message(update.effective_message, starting, parse_mode=ParseMode.HTML)
 
@@ -611,7 +611,7 @@ def fed_ban(update: Update, context: CallbackContext):
                           fban_user_uname, reason, int(time.time()))
         if not x:
             message.reply_text(
-                "Failed to ban from the federation! If this problem continues, contact @OnePunchSupport."
+                "Failed to ban from the federation! If this problem continues, contact @AstrakoBotSupport."
             )
             return
 
@@ -725,7 +725,7 @@ def fed_ban(update: Update, context: CallbackContext):
                       fban_user_uname, reason, int(time.time()))
     if not x:
         message.reply_text(
-            "Failed to ban from the federation! If this problem continues, contact @OnePunchSupport."
+            "Failed to ban from the federation! If this problem continues, contact @AstrakoBotSupport."
         )
         return
 
@@ -1046,7 +1046,7 @@ def set_frules(update: Update, context: CallbackContext):
         x = sql.set_frules(fed_id, markdown_rules)
         if not x:
             update.effective_message.reply_text(
-                "Whoa! There was an error while setting federation rules! If you wondered why please ask it in @OnePunchSupport !"
+                "Whoa! There was an error while setting federation rules! If you wondered why please ask it in @AstrakoBotSupport !"
             )
             return
 

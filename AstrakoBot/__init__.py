@@ -96,7 +96,7 @@ if ENV:
             "Your blacklisted chats list does not contain valid integers.")
 
 else:
-    from SaitamaRobot.config import Development as Config
+    from AstrakoBot.config import Development as Config
     TOKEN = Config.TOKEN
 
     try:
@@ -174,7 +174,7 @@ else:
     sw = spamwatch.Client(SPAMWATCH_API)
 
 updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
-telethn = TelegramClient("saitama", API_ID, API_HASH)
+telethn = TelegramClient("AstrakoBot", API_ID, API_HASH)
 dispatcher = updater.dispatcher
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
@@ -184,7 +184,7 @@ DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
 
 # Load at end to ensure all prev variables have been set
-from SaitamaRobot.modules.helper_funcs.handlers import (CustomCommandHandler,
+from AstrakoBot.modules.helper_funcs.handlers import (CustomCommandHandler,
                                                         CustomMessageHandler,
                                                         CustomRegexHandler)
 
