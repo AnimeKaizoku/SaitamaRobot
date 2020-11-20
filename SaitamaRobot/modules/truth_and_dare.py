@@ -7,12 +7,12 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram.ext import CallbackContext, run_async
 
 @run_async
-def truth(bot: Bot, update: Update):
+def truth(update: Update, context: CallbackContext):
     args = context.args
     update.effective_message.reply_text(random.choice(truth_and_dare_string.TRUTH))
 
 @run_async
-def dare(bot: Bot, update: Update):
+def dare(update: Update, context: CallbackContext):
     args = context.args
     update.effective_message.reply_text(random.choice(truth_and_dare_string.DARE))
 
