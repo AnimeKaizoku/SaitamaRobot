@@ -78,6 +78,10 @@ def markdown_help(update: Update, context: CallbackContext):
 
 __help__ = """
 *Available commands:*
+*Covid:*
+ • `/covid <country>`: provides lastest covid information
+*Weather:*
+ • `/weather <city>`: gives weather information about a specific location or country
 *Markdown:*
  • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
 *Paste:*
@@ -104,7 +108,7 @@ dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 
 __mod_name__ = "Extras"
-__command_list__ = ["id", "echo"]
+__command_list__ = ["id", "echo", "covid", "weather"]
 __handlers__ = [
     ECHO_HANDLER,
     MD_HELP_HANDLER,
