@@ -466,7 +466,7 @@ def __stats__():
 
 def __user_info__(user_id):
     is_gbanned = sql.is_user_gbanned(user_id)
-    text = "Malicious: <b>{}</b>"
+    text = "Globally banned: <b>{}</b>"
     if user_id in [777000, 1087968824]:
         return ""
     if user_id == dispatcher.bot.id:
@@ -480,7 +480,7 @@ def __user_info__(user_id):
             text += f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
         text += f"\n<b>Appeal Chat:</b> @{SUPPORT_CHAT}"
     else:
-        text = text.format("???")
+        text = text.format("No")
     return text
 
 
