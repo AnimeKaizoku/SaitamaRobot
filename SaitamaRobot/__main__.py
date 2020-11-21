@@ -159,12 +159,12 @@ def start(update: Update, context: CallbackContext):
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
-                        text="Add Saitama to your group",
+                        text="Add Rias to your group",
                         url="t.me/{}?startgroup=true".format(
                             context.bot.username))
                 ]]))
     else:
-        update.effective_message.reply_text("Bol be kya h?")
+        update.effective_message.reply_text("Hello:) Whassup,\nPm me /help to know available commands;)")
 
 
 # for test purposes
