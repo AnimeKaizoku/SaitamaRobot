@@ -5,6 +5,7 @@ from typing import Optional
 import SaitamaRobot.modules.sql.notes_sql as sql
 from SaitamaRobot import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher, DRAGONS
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.handlers import MessageHandlerChecker
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin, connection_status
 from SaitamaRobot.modules.helper_funcs.misc import (build_keyboard,
                                                     revert_buttons)
@@ -49,12 +50,13 @@ def get(update, context, notename, show_none=True, no_format=False):
     message = update.effective_message  # type: Optional[Message]
 
     if note:
+        if MessageHandlerChecker.check_user(update.effective_user.id):
+            return
         # If we're replying to a message, reply to that message (unless it's an error)
         if message.reply_to_message:
             reply_id = message.reply_to_message.message_id
         else:
             reply_id = message.message_id
-
         if note.is_reply:
             if JOIN_LOGGER:
                 try:
@@ -480,7 +482,7 @@ __help__ = """
  • `/get <notename>`*:* get the note with this notename
  • `#<notename>`*:* same as /get
  • `/notes` or `/saved`*:* list all saved notes in this chat
- • `/number` *:* Will pull the note of that number in the list. 
+ • `/number` *:* Will pull the note of that number in the list.
 If you would like to retrieve the contents of a note without any formatting, use `/get <notename> noformat`. This can \
 be useful when updating a current note.
 
@@ -492,7 +494,7 @@ A button can be added to a note by using standard markdown link syntax - the lin
  • `/clear <notename>`*:* clear note with this name
  • `/removeallnotes`*:* removes all notes from the group
  *Note:* Note names are case-insensitive, and they are automatically converted to lowercase before getting saved.
- 
+
 """
 
 __mod_name__ = "Notes"

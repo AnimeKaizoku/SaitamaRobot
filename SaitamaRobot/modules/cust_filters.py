@@ -1,4 +1,5 @@
 import re
+import random
 from html import escape
 
 import telegram
@@ -16,6 +17,7 @@ from telegram.utils.helpers import mention_html, escape_markdown
 
 from SaitamaRobot import dispatcher, LOGGER, DRAGONS
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.handlers import MessageHandlerChecker
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.helper_funcs.extraction import extract_text
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
@@ -278,6 +280,8 @@ def reply_filter(update, context):
     for keyword in chat_filters:
         pattern = r"( |^|[^\w])" + re.escape(keyword) + r"( |$|[^\w])"
         if re.search(pattern, to_match, flags=re.IGNORECASE):
+            if MessageHandlerChecker.check_user(update.effective_user.id):
+                return
             filt = sql.get_filter(chat.id, keyword)
             if filt.reply == "there is should be a new reply":
                 buttons = sql.get_buttons(chat.id, filt.keyword)
@@ -294,8 +298,12 @@ def reply_filter(update, context):
                     "mention",
                 ]
                 if filt.reply_text:
+                    if '%%%' in filt.reply_text:
+                        text = random.choice(filt.reply_text.split('%%%'))
+                    else:
+                        text = filt.reply_text
                     valid_format = escape_invalid_curly_brackets(
-                        filt.reply_text, VALID_WELCOME_FORMATTERS)
+                        text, VALID_WELCOME_FORMATTERS)
                     if valid_format:
                         filtext = valid_format.format(
                             first=escape(message.from_user.first_name),
