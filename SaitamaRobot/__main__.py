@@ -5,8 +5,8 @@ from sys import argv
 from typing import Optional
 
 from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
-                          OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK, SUPPORT_CHAT,
-                          dispatcher, StartTime, telethn, updater)
+                          OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
+                          SUPPORT_CHAT, dispatcher, StartTime, telethn, updater)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
@@ -544,7 +544,8 @@ def main():
         try:
             dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I am now online!")
         except Unauthorized:
-            LOGGER.warning("Bot isnt able to send message to support_chat, go and check!")
+            LOGGER.warning(
+                "Bot isnt able to send message to support_chat, go and check!")
         except BadRequest as e:
             LOGGER.warning(e.message)
 

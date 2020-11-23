@@ -151,6 +151,7 @@ def shout(update: Update, context: CallbackContext):
     msg = "```\n" + result + "```"
     return update.effective_message.reply_text(msg, parse_mode="MARKDOWN")
 
+
 @run_async
 def toss(update: Update, context: CallbackContext):
     update.message.reply_text(random.choice(fun_strings.TOSS))
@@ -196,6 +197,7 @@ def table(update: Update, context: CallbackContext):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.TABLE))
 
+
 normiefont = [
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
     'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
@@ -204,6 +206,7 @@ weebyfont = [
     '卂', '乃', '匚', '刀', '乇', '下', '厶', '卄', '工', '丁', '长', '乚', '从', '𠘨', '口',
     '尸', '㔿', '尺', '丂', '丅', '凵', 'リ', '山', '乂', '丫', '乙'
 ]
+
 
 @run_async
 def weebify(update: Update, context: CallbackContext):
@@ -262,7 +265,6 @@ DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout)
 WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify)
-
 
 dispatcher.add_handler(WEEBIFY_HANDLER)
 dispatcher.add_handler(SHOUT_HANDLER)
