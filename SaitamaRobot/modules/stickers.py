@@ -1,5 +1,4 @@
 import os
-import re
 import math
 import requests
 import urllib.request as urllib

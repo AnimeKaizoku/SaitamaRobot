@@ -127,11 +127,11 @@ def chats(update: Update, context: CallbackContext):
             pass
 
     with BytesIO(str.encode(chatfile)) as output:
-        output.name = "chatslist.txt"
+        output.name = "groups_list.txt"
         update.effective_message.reply_document(
             document=output,
-            filename="chatslist.txt",
-            caption="Here is the list of chats in my database.")
+            filename="groups_list.txt",
+            caption="Here be the list of groups in my database.")
 
 
 @run_async

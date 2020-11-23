@@ -3,7 +3,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import dispatcher
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram import MessageEntity, ParseMode, Update
+from telegram import ParseMode, Update
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
 
@@ -88,6 +88,8 @@ __help__ = """
  • `/ud <word>`*:* Type the word or expression you want to search use
 *Wikipedia:*
  • `/wiki <query>`*:* wikipedia your query
+*Wallpapers:*
+ • `/wall <query>`*:* get a wallpaper from wall.alphacoders.com
 *Currency converter:* 
  • `/cash`*:* currency converter
 Example:

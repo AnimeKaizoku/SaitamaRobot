@@ -150,7 +150,7 @@ def new_member(update: Update, context: CallbackContext):
         welcome_bool = True
         media_wel = False
 
-        if sw != None:
+        if sw is not None:
             sw_ban = sw.get_ban(new_mem.id)
             if sw_ban:
                 return
@@ -228,13 +228,15 @@ def new_member(update: Update, context: CallbackContext):
                     bot.send_message(
                         JOIN_LOGGER,
                         "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>\n<b>Creator:</b> <code>{}</code>"
-                        .format(chat.title, chat.id, creator),
+                        .format(
+                            html.escape(chat.title), chat.id,
+                            html.escape(creator)),
                         parse_mode=ParseMode.HTML)
                 else:
                     bot.send_message(
                         JOIN_LOGGER,
                         "#NEW_GROUP\n<b>Group name:</b> {}\n<b>ID:</b> <code>{}</code>"
-                        .format(chat.title, chat.id),
+                        .format(html.escape(chat.title), chat.id),
                         parse_mode=ParseMode.HTML)
                 update.effective_message.reply_text(
                     "Watashi ga kita!", reply_to_message_id=reply)
@@ -353,7 +355,7 @@ def new_member(update: Update, context: CallbackContext):
                                 "keyboard": keyboard,
                             }
                         })
-                    new_join_mem = f"[{escape_markdown(new_mem.first_name)}](tg://user?id={user.id})"
+                    new_join_mem = f'<a href="tg://user?id={user.id}">{html.escape(new_mem.first_name)}</a>'
                     message = msg.reply_text(
                         f"{new_join_mem}, click the button below to prove you're human.\nYou have 120 seconds.",
                         reply_markup=InlineKeyboardMarkup([{
@@ -362,7 +364,7 @@ def new_member(update: Update, context: CallbackContext):
                                 callback_data=f"user_join_({new_mem.id})",
                             )
                         }]),
-                        parse_mode=ParseMode.MARKDOWN,
+                        parse_mode=ParseMode.HTML,
                         reply_to_message_id=reply,
                     )
                     bot.restrict_chat_member(
@@ -465,7 +467,7 @@ def left_member(update: Update, context: CallbackContext):
         if left_mem:
 
             # Thingy for spamwatched users
-            if sw != None:
+            if sw is not None:
                 sw_ban = sw.get_ban(left_mem.id)
                 if sw_ban:
                     return
@@ -775,16 +777,16 @@ def welcomemute(update: Update, context: CallbackContext) -> str:
                 f"Has toggled welcome mute to <b>STRONG</b>.")
         else:
             msg.reply_text(
-                "Please enter `off`/`no`/`soft`/`strong`!",
-                parse_mode=ParseMode.MARKDOWN,
+                "Please enter <code>off</code>/<code>no</code>/<code>soft</code>/<code>strong</code>!",
+                parse_mode=ParseMode.HTML,
             )
             return ""
     else:
         curr_setting = sql.welcome_mutes(chat.id)
         reply = (
-            f"\n Give me a setting!\nChoose one out of: `off`/`no` or `soft` or `strong` only! \n"
-            f"Current setting: `{curr_setting}`")
-        msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
+            f"\n Give me a setting!\nChoose one out of: <code>off</code>/<code>no</code> or <code>soft</code> or <code>strong</code> only! \n"
+            f"Current setting: <code>{curr_setting}</code>")
+        msg.reply_text(reply, parse_mode=ParseMode.HTML)
         return ""
 
 
@@ -846,18 +848,21 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
                     "Welcome clean service is : on")
             else:
                 update.effective_message.reply_text(
-                    "Invalid option", parse_mode=ParseMode.MARKDOWN)
+                    "Invalid option", parse_mode=ParseMode.HTML)
         else:
             update.effective_message.reply_text(
-                "Usage is on/yes or off/no", parse_mode=ParseMode.MARKDOWN)
+                "Usage is <code>on</code>/<code>yes</code> or <code>off</code>/<code>no</code>",
+                parse_mode=ParseMode.HTML)
     else:
         curr = sql.clean_service(chat.id)
         if curr:
             update.effective_message.reply_text(
-                "Welcome clean service is : on", parse_mode=ParseMode.MARKDOWN)
+                "Welcome clean service is : <code>on</code>",
+                parse_mode=ParseMode.HTML)
         else:
             update.effective_message.reply_text(
-                "Welcome clean service is : off", parse_mode=ParseMode.MARKDOWN)
+                "Welcome clean service is : <code>off</code>",
+                parse_mode=ParseMode.HTML)
 
 
 @run_async
@@ -871,6 +876,7 @@ def user_button(update: Update, context: CallbackContext):
     join_user = int(match.group(1))
 
     if join_user == user.id:
+        sql.set_human_checks(user.id, chat.id)
         member_dict = VERIFIED_USER_WAITLIST.pop(user.id)
         member_dict["status"] = True
         VERIFIED_USER_WAITLIST.update({user.id: member_dict})
@@ -987,8 +993,8 @@ def __migrate__(old_chat_id, new_chat_id):
 
 
 def __chat_settings__(chat_id, user_id):
-    welcome_pref, _, _ = sql.get_welc_pref(chat_id)
-    goodbye_pref, _, _ = sql.get_gdbye_pref(chat_id)
+    welcome_pref = sql.get_welc_pref(chat_id)[0]
+    goodbye_pref = sql.get_gdbye_pref(chat_id)[0]
     return ("This chat has it's welcome preference set to `{}`.\n"
             "It's goodbye preference is `{}`.".format(welcome_pref,
                                                       goodbye_pref))
@@ -1051,7 +1057,7 @@ dispatcher.add_handler(CLEAN_SERVICE_HANDLER)
 dispatcher.add_handler(BUTTON_VERIFY_HANDLER)
 dispatcher.add_handler(WELCOME_MUTE_HELP)
 
-__mod_name__ = "Welcomes/Goodbyes"
+__mod_name__ = "Greetings"
 __command_list__ = []
 __handlers__ = [
     NEW_MEM_HANDLER,

@@ -3,7 +3,7 @@ import re
 
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update, Bot
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, CallbackQueryHandler, run_async, CallbackContext
+from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
 
 import SaitamaRobot.modules.sql.connection_sql as sql
 from SaitamaRobot import dispatcher, DRAGONS, DEV_USERS
