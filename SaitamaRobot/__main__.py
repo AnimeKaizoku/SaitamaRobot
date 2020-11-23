@@ -52,19 +52,21 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {}, my name is {}! 
-I am a character from Darling in the Franxx.  I am here to assist The Nines [Admins], to help Parasytes [Members] and to provide fun in the groups 😄😄
-You can find my list of available commands with /help.
+*Welcome user:* {}, *002 Online Codename: {}!* 
 
-[Zero Two's Repo](https://github.com/ninja007-bot/ZeroTwoRepo) 
-See [Basic Configuration Checklist](t.me/ZeroTwoUpdates/13) on how to secure your group.
-The support group chat is at {}.
+*〔Status〕*
+*Classification*: _Parasite_
+*Affiliation*: _APE's Special Forces Unit_
+*Occupation*: _FRANXX Pilot (Pistil)_
+*Partner*: _Hiro_
+*FRANXX*: _Strelizia_ 
+
+Use /help to know my abilities.
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.
-I am Pilot of Strelizia with my partner Hiro! I am here to help The Nines [Admins] and to help Parasytes [Members]. Have a look at the following for an idea of some of \
-the things I can help you with.
+Codename *{}* at your service.
+I can help you with following functions in managing group.
 
 *Main* commands available:
  • /help: PM's you this message.
@@ -210,8 +212,18 @@ def start(update: Update, context: CallbackContext):
                     ],
                      [
                          InlineKeyboardButton(
-                             text="🚑 Support Group",
+                             text="Franxx Health System",
                              url=f"https://t.me/{SUPPORT_CHAT}"),
+                     ],
+                     [
+                         InlineKeyboardButton(
+                             text="🧾 Setup Protocol",
+                             url="https://t.me/ZeroTwoUpdates/13")
+                     ],
+                     [
+                         InlineKeyboardButton(
+                             text="🗄 Source code",
+                             url="https://github.com/ninja7-bot/ZeroTwoRepo")
 
                      ]]))
     else:
