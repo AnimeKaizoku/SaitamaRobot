@@ -48,6 +48,7 @@ class AntiSpam:
 SpamChecker = AntiSpam()
 MessageHandlerChecker = AntiSpam()
 
+
 class CustomCommandHandler(CommandHandler):
 
     def __init__(self,
