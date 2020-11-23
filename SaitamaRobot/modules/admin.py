@@ -378,8 +378,8 @@ def adminlist(update, context):
         #if user.username:
         #    name = escape_markdown("@" + user.username)
         if status == "creator":
-            text += "\n 👑 Creator:"
-            text += "\n` • `{}\n".format(name)
+            text += "\n 👑 Ape:"
+            text += "\n` ❖ `{}\n".format(name)
 
             if custom_title:
                 text += f"┗━ `{escape_markdown(custom_title)}`\n"
@@ -412,7 +412,7 @@ def adminlist(update, context):
                 normal_admin_list.append(name)
 
     for admin in normal_admin_list:
-        text += "\n` • `{}".format(admin)
+        text += "\n` ◈ `{}".format(admin)
 
     for admin_group in custom_admin_list.copy():
         if len(custom_admin_list[admin_group]) == 1:
