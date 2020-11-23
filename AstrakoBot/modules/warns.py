@@ -3,7 +3,7 @@ import re
 from typing import Optional
 
 import telegram
-from AstrakoBot import BAN_STICKER, TIGERS, WOLVES, dispatcher
+from AstrakoBot import TIGERS, WOLVES, dispatcher
 from AstrakoBot.modules.disable import DisableAbleCommandHandler
 from AstrakoBot.modules.helper_funcs.chat_status import (bot_admin,
                                                            can_restrict,

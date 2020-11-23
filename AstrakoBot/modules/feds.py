@@ -5,7 +5,6 @@ import re
 import time
 import uuid
 from io import BytesIO
-import html
 
 import AstrakoBot.modules.sql.feds_sql as sql
 from AstrakoBot import (EVENT_LOGS, LOGGER, OWNER_ID, DRAGONS, TIGERS, WOLVES,

@@ -22,7 +22,6 @@ from AstrakoBot.modules.disable import DisableAbleCommandHandler
 from AstrakoBot.modules.sql.global_bans_sql import is_user_gbanned
 from AstrakoBot.modules.sql.afk_sql import is_afk, check_afk_status
 from AstrakoBot.modules.sql.users_sql import get_user_num_chats
-from AstrakoBot.modules.sql.feds_sql import get_user_fbanlist
 from AstrakoBot.modules.helper_funcs.chat_status import sudo_plus
 from AstrakoBot.modules.helper_funcs.extraction import extract_user
 from AstrakoBot import telethn as AstrakoBotTelethonClient, TIGERS, DRAGONS, DEMONS
