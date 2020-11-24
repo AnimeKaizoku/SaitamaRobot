@@ -187,27 +187,24 @@ def info(update: Update, context: CallbackContext):
     disaster_level_present = False
 
     if user.id == OWNER_ID:
-        text += "\n\nThe Disaster level of this person is 'God'."
+        text += "\n\nUser level: god"
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nThis user is member of 'Hero Association'."
+        text += "\n\nUser level: developer"
         disaster_level_present = True
     elif user.id in DRAGONS:
-        text += "\n\nThe Disaster level of this person is 'Dragon'."
+        text += "\n\nUser level: sudo"
         disaster_level_present = True
     elif user.id in DEMONS:
-        text += "\n\nThe Disaster level of this person is 'Demon'."
-        disaster_level_present = True
-    elif user.id in TIGERS:
-        text += "\n\nThe Disaster level of this person is 'Tiger'."
+        text += "\n\nUser level: support"
         disaster_level_present = True
     elif user.id in WOLVES:
-        text += "\n\nThe Disaster level of this person is 'Wolf'."
+        text += "\n\nUser level: whitelist"
         disaster_level_present = True
 
-    if disaster_level_present:
-        text += ' [<a href="https://t.me/OnePunchUpdates/155">?</a>]'.format(
-            bot.username)
+    # if disaster_level_present:
+    #     text += ' [<a href="https://t.me/OnePunchUpdates/155">?</a>]'.format(
+    #         bot.username)
 
     try:
         user_member = chat.get_member(user.id)
