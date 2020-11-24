@@ -5,7 +5,7 @@ from io import BytesIO
 from AstrakoBot.modules.sql.users_sql import get_user_com_chats
 import AstrakoBot.modules.sql.global_bans_sql as sql
 from AstrakoBot import (DEV_USERS, EVENT_LOGS, OWNER_ID, STRICT_GBAN, DRAGONS,
-                          SUPPORT_CHAT, SPAMWATCH_SUPPORT_CHAT, DEMONS, TIGERS,
+                          SUPPORT_CHAT, SPAMWATCH_SUPPORT_CHAT, DEMONS,
                           WOLVES, sw, dispatcher)
 from AstrakoBot.modules.helper_funcs.chat_status import (is_user_admin,
                                                            support_plus,
@@ -82,10 +82,6 @@ def gban(update: Update, context: CallbackContext):
     if int(user_id) in DEMONS:
         message.reply_text(
             "OOOH someone's trying to gban a support user! *grabs popcorn*")
-        return
-
-    if int(user_id) in TIGERS:
-        message.reply_text("That's a Tiger! They cannot be banned!")
         return
 
     if int(user_id) in WOLVES:
@@ -470,7 +466,7 @@ def __user_info__(user_id):
         return ""
     if user_id == dispatcher.bot.id:
         return ""
-    if int(user_id) in DRAGONS + TIGERS + WOLVES:
+    if int(user_id) in DRAGONS + WOLVES:
         return ""
     if is_gbanned:
         text = text.format("Yes")

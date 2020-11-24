@@ -4,7 +4,7 @@ import os
 from typing import Optional
 
 from AstrakoBot import (DEV_USERS, OWNER_ID, DRAGONS, SUPPORT_CHAT, DEMONS,
-                          TIGERS, WOLVES, dispatcher)
+                          WOLVES, dispatcher)
 from AstrakoBot.modules.helper_funcs.chat_status import (dev_plus, sudo_plus,
                                                            whitelist_plus)
 from AstrakoBot.modules.helper_funcs.extraction import extract_user

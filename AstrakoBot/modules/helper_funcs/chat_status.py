@@ -2,7 +2,7 @@ from functools import wraps
 from cachetools import TTLCache
 from threading import RLock
 from AstrakoBot import (DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT, DEMONS,
-                          TIGERS, WOLVES, dispatcher)
+                          WOLVES, dispatcher)
 
 from telegram import Chat, ChatMember, ParseMode, Update
 from telegram.ext import CallbackContext
@@ -15,7 +15,7 @@ def is_whitelist_plus(chat: Chat,
                       user_id: int,
                       member: ChatMember = None) -> bool:
     return any(user_id in user
-               for user in [WOLVES, TIGERS, DEMONS, DRAGONS, DEV_USERS])
+               for user in [WOLVES, DEMONS, DRAGONS, DEV_USERS])
 
 
 def is_support_plus(chat: Chat,
@@ -73,7 +73,7 @@ def is_user_ban_protected(chat: Chat,
                           user_id: int,
                           member: ChatMember = None) -> bool:
     if (chat.type == 'private' or user_id in DRAGONS or user_id in DEV_USERS or
-            user_id in WOLVES or user_id in TIGERS or
+            user_id in WOLVES or
             chat.all_members_are_administrators or
             user_id in [777000, 1087968824
                        ]):  # Count telegram and Group Anonymous as admin

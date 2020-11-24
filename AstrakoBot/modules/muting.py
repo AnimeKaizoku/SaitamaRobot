@@ -1,7 +1,7 @@
 import html
 from typing import Optional
 
-from AstrakoBot import LOGGER, TIGERS, dispatcher
+from AstrakoBot import LOGGER, dispatcher
 from AstrakoBot.modules.helper_funcs.chat_status import (bot_admin,
                                                            can_restrict,
                                                            connection_status,
@@ -35,7 +35,7 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
         reply = "I'm not gonna MUTE myself, How high are you?"
         return reply
 
-    if is_user_admin(chat, user_id, member) or user_id in TIGERS:
+    if is_user_admin(chat, user_id, member):
         reply = "Can't. Find someone else to mute but not this one."
         return reply
 

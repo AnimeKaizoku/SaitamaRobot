@@ -1,7 +1,7 @@
 # Module to blacklist users and prevent them from using commands by @TheRealPhoenix
 import html
 import AstrakoBot.modules.sql.blacklistusers_sql as sql
-from AstrakoBot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS, TIGERS, WOLVES,
+from AstrakoBot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS, WOLVES,
                           dispatcher)
 from AstrakoBot.modules.helper_funcs.chat_status import dev_plus
 from AstrakoBot.modules.helper_funcs.extraction import (extract_user,
@@ -137,7 +137,7 @@ def __user_info__(user_id):
         return ""
     if user_id == dispatcher.bot.id:
         return ""
-    if int(user_id) in DRAGONS + TIGERS + WOLVES:
+    if int(user_id) in DRAGONS:
         return ""
     if is_blacklisted:
         text = text.format("Yes")

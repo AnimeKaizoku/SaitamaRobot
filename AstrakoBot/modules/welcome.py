@@ -5,7 +5,7 @@ import time
 from functools import partial
 
 import AstrakoBot.modules.sql.welcome_sql as sql
-from AstrakoBot import (DEV_USERS, LOGGER, OWNER_ID, DRAGONS, DEMONS, TIGERS,
+from AstrakoBot import (DEV_USERS, LOGGER, OWNER_ID, DRAGONS, DEMONS,
                           WOLVES, sw, dispatcher, JOIN_LOGGER)
 from AstrakoBot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
@@ -203,13 +203,6 @@ def new_member(update: Update, context: CallbackContext):
                 continue
 
             # Welcome Whitelisted
-            elif new_mem.id in TIGERS:
-                update.effective_message.reply_text(
-                    "Oof! A Tiger disaster just joined!",
-                    reply_to_message_id=reply)
-                continue
-
-            # Welcome Tigers
             elif new_mem.id in WOLVES:
                 update.effective_message.reply_text(
                     "Oof! A whitelist user just joined!",

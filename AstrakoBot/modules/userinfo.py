@@ -14,7 +14,7 @@ from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from AstrakoBot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS, TIGERS, WOLVES,
+from AstrakoBot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS, WOLVES,
                           INFOPIC, dispatcher, sw)
 from AstrakoBot.__main__ import STATS, TOKEN, USER_INFO
 import AstrakoBot.modules.sql.userinfo_sql as sql
@@ -24,7 +24,7 @@ from AstrakoBot.modules.sql.afk_sql import is_afk, check_afk_status
 from AstrakoBot.modules.sql.users_sql import get_user_num_chats
 from AstrakoBot.modules.helper_funcs.chat_status import sudo_plus
 from AstrakoBot.modules.helper_funcs.extraction import extract_user
-from AstrakoBot import telethn as AstrakoBotTelethonClient, TIGERS, DRAGONS, DEMONS
+from AstrakoBot import telethn as AstrakoBotTelethonClient, DRAGONS, DEMONS
 
 
 @run_async
@@ -71,7 +71,7 @@ def get_id(update: Update, context: CallbackContext):
 @AstrakoBotTelethonClient.on(
     events.NewMessage(
         pattern='/ginfo ',
-        from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])))
+        from_users=(DRAGONS or []) + (DEMONS or [])))
 async def group_info(event) -> None:
     chat = event.text.split(' ', 1)[1]
     try:

@@ -7,7 +7,7 @@ import uuid
 from io import BytesIO
 
 import AstrakoBot.modules.sql.feds_sql as sql
-from AstrakoBot import (EVENT_LOGS, LOGGER, OWNER_ID, DRAGONS, TIGERS, WOLVES,
+from AstrakoBot import (EVENT_LOGS, LOGGER, OWNER_ID, DRAGONS, WOLVES,
                           dispatcher)
 from AstrakoBot.modules.disable import DisableAbleCommandHandler
 from AstrakoBot.modules.helper_funcs.alternate import send_message
@@ -550,10 +550,6 @@ def fed_ban(update: Update, context: CallbackContext):
 
     if int(user_id) in DRAGONS:
         message.reply_text("Sudo users cannot be fed banned!")
-        return
-
-    if int(user_id) in TIGERS:
-        message.reply_text("Tigers cannot be fed banned!")
         return
 
     if int(user_id) in WOLVES:
@@ -1500,9 +1496,6 @@ def fed_import_bans(update: Update, context: CallbackContext):
                     if int(import_userid) in DRAGONS:
                         failed += 1
                         continue
-                    if int(import_userid) in TIGERS:
-                        failed += 1
-                        continue
                     if int(import_userid) in WOLVES:
                         failed += 1
                         continue
@@ -1567,9 +1560,6 @@ def fed_import_bans(update: Update, context: CallbackContext):
                         failed += 1
                         continue
                     if int(import_userid) in DRAGONS:
-                        failed += 1
-                        continue
-                    if int(import_userid) in TIGERS:
                         failed += 1
                         continue
                     if int(import_userid) in WOLVES:

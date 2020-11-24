@@ -57,12 +57,6 @@ if ENV:
         raise Exception(
             "Your whitelisted users list does not contain valid integers.")
 
-    try:
-        TIGERS = set(int(x) for x in os.environ.get("TIGERS", "").split())
-    except ValueError:
-        raise Exception(
-            "Your tiger users list does not contain valid integers.")
-
     INFOPIC = bool(os.environ.get('INFOPIC', False))
     EVENT_LOGS = os.environ.get('EVENT_LOGS', None)
     WEBHOOK = bool(os.environ.get('WEBHOOK', False))
@@ -127,12 +121,6 @@ else:
         raise Exception(
             "Your whitelisted users list does not contain valid integers.")
 
-    try:
-        TIGERS = set(int(x) for x in Config.TIGERS or [])
-    except ValueError:
-        raise Exception(
-            "Your tiger users list does not contain valid integers.")
-
     EVENT_LOGS = Config.EVENT_LOGS
     WEBHOOK = Config.WEBHOOK
     URL = Config.URL
@@ -183,7 +171,6 @@ DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
 WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
-TIGERS = list(TIGERS)
 
 # Load at end to ensure all prev variables have been set
 from AstrakoBot.modules.helper_funcs.handlers import (CustomCommandHandler,

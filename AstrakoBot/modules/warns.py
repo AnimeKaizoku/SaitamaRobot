@@ -3,7 +3,7 @@ import re
 from typing import Optional
 
 import telegram
-from AstrakoBot import TIGERS, WOLVES, dispatcher
+from AstrakoBot import WOLVES, dispatcher
 from AstrakoBot.modules.disable import DisableAbleCommandHandler
 from AstrakoBot.modules.helper_funcs.chat_status import (bot_admin,
                                                            can_restrict,
@@ -38,15 +38,6 @@ def warn(user: User,
          warner: User = None) -> str:
     if is_user_admin(chat, user.id):
         # message.reply_text("Damn admins, They are too far to be One Punched!")
-        return
-
-    if user.id in TIGERS:
-        if warner:
-            message.reply_text("Tigers cant be warned.")
-        else:
-            message.reply_text(
-                "Tiger triggered an auto warn filter!\n I can't warn tigers but they should avoid abusing this."
-            )
         return
 
     if user.id in WOLVES:

@@ -96,11 +96,6 @@
          "required": false,
          "value": "615304572"
       },
-      "TIGERS": {
-         "description": "A space separated list of user IDs who you wanna assign as tiger users.",
-         "required": false,
-         "value": ""
-      },
       "WOLVES": {
          "description": "A space separated list of user IDs who you want to assign as whitelisted - can't be banned with your bot.",
          "required": false,
