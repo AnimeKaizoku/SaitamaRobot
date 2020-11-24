@@ -1,5 +1,6 @@
 import re, ast
 from io import BytesIO
+import random
 from typing import Optional
 
 import AstrakoBot.modules.sql.notes_sql as sql
@@ -96,7 +97,18 @@ def get(update, context, notename, show_none=True, no_format=False):
             valid_format = escape_invalid_curly_brackets(
                 note.value, VALID_NOTE_FORMATTERS)
             if valid_format:
-                text = valid_format.format(
+                if not no_format:
+                    if '%%%' in valid_format:
+                        split = valid_format.split('%%%')
+                        if all(split):
+                            text = random.choice(split)
+                        else:
+                            text = valid_format
+                    else:
+                        text = valid_format
+                else:
+                    text = valid_format
+                text = text.format(
                     first=escape_markdown(message.from_user.first_name),
                     last=escape_markdown(message.from_user.last_name or
                                          message.from_user.first_name),
