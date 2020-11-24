@@ -299,7 +299,11 @@ def reply_filter(update, context):
                 ]
                 if filt.reply_text:
                     if '%%%' in filt.reply_text:
-                        text = random.choice(filt.reply_text.split('%%%'))
+                        split = filt.reply_text.split('%%%')
+                        if all(split):
+                            text = random.choice(split)
+                        else:
+                            text = filt.reply_text
                     else:
                         text = filt.reply_text
                     valid_format = escape_invalid_curly_brackets(
