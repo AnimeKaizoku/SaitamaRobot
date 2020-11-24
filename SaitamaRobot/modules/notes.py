@@ -106,6 +106,8 @@ def get(update, context, notename, show_none=True, no_format=False):
                           text = valid_format
                   else:
                       text = valid_format
+                else:
+                  text = valid_format
                 text = text.format(
                     first=escape_markdown(message.from_user.first_name),
                     last=escape_markdown(message.from_user.last_name or
