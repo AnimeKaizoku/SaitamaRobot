@@ -1,5 +1,6 @@
 import re, ast
 from io import BytesIO
+import random
 from typing import Optional
 
 import SaitamaRobot.modules.sql.notes_sql as sql
