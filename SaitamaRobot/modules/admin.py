@@ -365,7 +365,8 @@ def adminlist(update, context):
             'Fetching group admins...', quote=False, parse_mode=ParseMode.HTML)
 
     administrators = bot.getChatAdministrators(chat_id)
-    text = "Admins in <b>{}</b>:".format(html.escape(update.effective_chat.title))
+    text = "Admins in <b>{}</b>:".format(
+        html.escape(update.effective_chat.title))
 
     bot_admin_list = []
 
@@ -456,12 +457,13 @@ __help__ = """
  • `/admins`*:* list of admins in the chat
 
 *Admins only:*
- • `/pin`*:* silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users.
+ • `/pin`*:* silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users
  • `/unpin`*:* unpins the currently pinned message
  • `/invitelink`*:* gets invitelink
  • `/promote`*:* promotes the user replied to
  • `/demote`*:* demotes the user replied to
  • `/title <title here>`*:* sets a custom title for an admin that the bot promoted
+ • `/admincache`*:* force refresh the admins list
 """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
