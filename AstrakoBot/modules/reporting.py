@@ -88,7 +88,7 @@ def report(update: Update, context: CallbackContext) -> str:
             return ""
 
         if reported_user.id in REPORT_IMMUNE_USERS:
-            message.reply_text("Uh? You reporting a disaster?")
+            message.reply_text("Uh? You reporting a super user?")
             return ""
 
         if chat.username and chat.type == Chat.SUPERGROUP:
