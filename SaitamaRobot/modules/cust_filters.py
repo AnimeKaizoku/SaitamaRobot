@@ -314,6 +314,7 @@ def reply_filter(update, context):
                                 sticker_id,
                                 reply_to_message_id=message.message_id
                             )
+                            return
                         except BadRequest as excp:
                             if excp.message == 'Wrong remote file identifier specified: wrong padding in the string':
                                 context.bot.send_message("Message couldn't be sent, Is the sticker id valid?")
