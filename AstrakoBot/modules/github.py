@@ -1,15 +1,16 @@
 import html
 from typing import Optional, List
 
-import tg_bot.modules.helper_funcs.git_api as api
-import tg_bot.modules.sql.github_sql as sql
+import AstrakoBot.modules.helper_funcs.git_api as api
+import AstrakoBot.modules.sql.github_sql as sql
 
-from tg_bot import dispatcher, OWNER_ID, LOGGER, SUDO_USERS, SUPPORT_USERS
-from tg_bot.modules.helper_funcs.filters import CustomFilters
-from tg_bot.modules.helper_funcs.chat_status import user_admin
-from tg_bot.modules.disable import DisableAbleCommandHandler
+from AstrakoBot import dispatcher, OWNER_ID, EVENT_LOGS, DRAGONS, DEMONS
+from AstrakoBot.modules.helper_funcs.filters import CustomFilters
+from AstrakoBot.modules.helper_funcs.chat_status import user_admin
+from AstrakoBot.modules.disable import DisableAbleCommandHandler
 
-from telegram.ext import CommandHandler, run_async, Filters, RegexHandler
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, RegexHandler, run_async)
 
 from telegram import Message, Chat, Update, Bot, User, ParseMode, InlineKeyboardMarkup, MAX_MESSAGE_LENGTH
 
@@ -25,8 +26,8 @@ def getData(url, index):
     name = api.getReleaseName(recentRelease)
     assets = api.getAssets(recentRelease)
     releaseName = api.getReleaseName(recentRelease)
-    message = "Author: [{}]({})\n".format(author, authorUrl)
-    message += "Release Name: "+releaseName+"\n\n"
+    message = "*Author:* [{}]({})\n".format(author, authorUrl)
+    message += "*Release Name:* "+releaseName+"\n\n"
     for asset in assets:
         message += "*Asset:* \n"
         fileName = api.getReleaseFileName(asset)
@@ -49,7 +50,8 @@ def getRepo(bot, update, reponame):
     return None, None
 
 @run_async
-def getRelease(bot: Bot, update: Update, args: List[str]):
+def getRelease(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     msg = update.effective_message
     if len(args) == 0:
         msg.reply_text("Please use some arguments!")
@@ -66,7 +68,8 @@ def getRelease(bot: Bot, update: Update, args: List[str]):
     return
 
 @run_async
-def hashFetch(bot: Bot, update: Update): #kanged from notes
+def hashFetch(update: Update, context: CallbackContext): #kanged from notes
+    bot, args = context.bot, context.args
     message = update.effective_message.text
     msg = update.effective_message
     fst_word = message.split()[0]
@@ -80,7 +83,8 @@ def hashFetch(bot: Bot, update: Update): #kanged from notes
     return
     
 @run_async
-def cmdFetch(bot: Bot, update: Update, args: List[str]):
+def cmdFetch(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     msg = update.effective_message
     if(len(args) != 1):
         msg.reply_text("Invalid repo name")
@@ -94,7 +98,8 @@ def cmdFetch(bot: Bot, update: Update, args: List[str]):
     return
     
 @run_async
-def changelog(bot: Bot, update: Update, args: List[str]):
+def changelog(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     msg = update.effective_message
     if(len(args) != 1):
         msg.reply_text("Invalid repo name")
@@ -112,7 +117,8 @@ def changelog(bot: Bot, update: Update, args: List[str]):
     
 @run_async
 @user_admin
-def saveRepo(bot: Bot, update: Update, args: List[str]):
+def saveRepo(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     chat_id = update.effective_chat.id
     msg = update.effective_message
     if(len(args) != 2 and (len(args) != 3 and not args[2].isdigit()) or not ("/" in args[1])):
@@ -127,7 +133,8 @@ def saveRepo(bot: Bot, update: Update, args: List[str]):
     
 @run_async
 @user_admin
-def delRepo(bot: Bot, update: Update, args: List[str]):
+def delRepo(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
     chat_id = update.effective_chat.id
     msg = update.effective_message
     if(len(args)!=1):
@@ -138,7 +145,7 @@ def delRepo(bot: Bot, update: Update, args: List[str]):
     return
     
 @run_async
-def listRepo(bot: Bot, update: Update):
+def listRepo(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     chat = update.effective_chat
     chat_name = chat.title or chat.first or chat.username
@@ -156,7 +163,7 @@ def listRepo(bot: Bot, update: Update):
     elif len(msg) != 0:
         update.effective_message.reply_text(msg.format(chat_name) + des, parse_mode=ParseMode.MARKDOWN)
         
-def getVer(bot: Bot, update: Update):
+def getVer(update: Update, context: CallbackContext):
     msg = update.effective_message
     ver = api.vercheck()
     msg.reply_text("GitHub API version: "+ver)

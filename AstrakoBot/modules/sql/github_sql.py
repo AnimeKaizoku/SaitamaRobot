@@ -2,8 +2,8 @@ import threading
 
 from sqlalchemy import Column, String, UnicodeText, func, distinct, Integer
 
-from tg_bot.modules.helper_funcs.msg_types import Types
-from tg_bot.modules.sql import SESSION, BASE
+from AstrakoBot.modules.helper_funcs.msg_types import Types
+from AstrakoBot.modules.sql import SESSION, BASE
 
 class GitHub(BASE):
     __tablename__ = "github"
