@@ -204,23 +204,12 @@ def __chat_settings__(chat_id, _):
     return f"This chat is setup to send user reports to admins, via /report and @admin: `{sql.chat_should_report(chat_id)}`"
 
 
-def __user_settings__(update, context, user):
-    if sql.user_should_report(user.id) is True:
+def __user_settings__(user_id):
+    if sql.user_should_report(user_id) is True:
         text = "You will receive reports from chats you're admin."
-        keyboard = [[
-            InlineKeyboardButton(
-                text="Disable reporting",
-                callback_data="panel_reporting_U_disable")
-        ]]
     else:
         text = "You will *not* receive reports from chats you're admin."
-        keyboard = [[
-            InlineKeyboardButton(
-                text="Enable reporting",
-                callback_data="panel_reporting_U_enable")
-        ]]
-
-    return text, keyboard
+    return text
 
 
 def buttons(update: Update, context: CallbackContext):
