@@ -16,10 +16,10 @@ News channel as at [Senku Updates](https://t.me/SenkuUpdates)
 ## How to setup/deploy.
 
 ### Read these notes carefully before proceeding 
- - Edit any mentions of @SenkuSupport to your own support chat. 
- - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot. [See this](https://github.com/AnimeKaizoku/SaitamaRobot/blob/shiken/SaitamaRobot/__main__.py#L25)
- - Lastly, if you are found to run this repo without the code being open sourced or the repository link not mentioned in the bot, we will push a gban for you in our network because of being in violation of the license, you are free to be a dick and not respect the open source code (we do not mind) but we will not be having you around our chats.
-
+ - Edit any mentions of @SenkuSupport to your own support chat
+ - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot [See this](https://github.com/FtSasaki/SaitamaRobot/blob/shiken/SaitamaRobot/__main__.py#L25)
+ - Lastly, if you are found to run this repo without the code being open sourced or the repository link not mentioned in the bot, we will push a gban for you in our network because of being in violation of the license, you are free to be a dick and not respect the open source code (we do not mind) but we will not be having you around our chats
+ - This repo does not come with technical support, so DO NOT come to us asking help about deploy/console errors
 
 <details>
   <summary>Steps to deploy on Heroku !! </summary>
@@ -99,6 +99,8 @@ The following env variables are supported:
  accesses, and the way python asynchronous calls work.
  - `BAN_STICKER`: Which sticker to use when banning people.
  - `ALLOW_EXCL`: Whether to allow using exclamation marks ! for commands as well as /.
+
+-> So just go and read the config sample file.
 
   ### Python dependencies
 
