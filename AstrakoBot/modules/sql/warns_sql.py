@@ -285,8 +285,10 @@ def migrate_chat(old_chat_id, new_chat_id):
         for filt in chat_filters:
             filt.chat_id = str(new_chat_id)
         SESSION.commit()
-        WARN_FILTERS[str(new_chat_id)] = WARN_FILTERS[str(old_chat_id)]
-        del WARN_FILTERS[str(old_chat_id)]
+        old_warn_filt = WARN_FILTERS.get(str(old_chat_id))
+        if old_warn_filt is not None:
+            WARN_FILTERS[str(new_chat_id)] = old_warn_filt
+            del WARN_FILTERS[str(old_chat_id)]
 
     with WARN_SETTINGS_LOCK:
         chat_settings = SESSION.query(WarnSettings).filter(
