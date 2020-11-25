@@ -350,7 +350,7 @@ def new_member(update: Update, context: CallbackContext):
                         })
                     new_join_mem = f'<a href="tg://user?id={user.id}">{html.escape(new_mem.first_name)}</a>'
                     message = msg.reply_text(
-                        f"{new_join_mem}, click the button below to prove you're human.\nYou have 120 seconds.",
+                        f"{new_join_mem}, click the button below to prove you're human.\nYou have 60 seconds.",
                         reply_markup=InlineKeyboardMarkup([{
                             InlineKeyboardButton(
                                 text="Yes, I'm human.",
@@ -377,7 +377,7 @@ def new_member(update: Update, context: CallbackContext):
                     job_queue.run_once(
                         partial(check_not_bot, new_mem, chat.id,
                                 message.message_id),
-                        120,
+                        60,
                         name="welcomemute",
                     )
 
@@ -761,7 +761,7 @@ def welcomemute(update: Update, context: CallbackContext) -> str:
         elif args[0].lower() in ["strong"]:
             sql.set_welcome_mutes(chat.id, "strong")
             msg.reply_text(
-                "I will now mute people when they join until they prove they're not a bot.\nThey will have 120seconds before they get kicked."
+                "I will now mute people when they join until they prove they're not a bot.\nThey will have 60 seconds before they get kicked."
             )
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
@@ -951,7 +951,7 @@ WELC_MUTE_HELP_TXT = (
     "• `/welcomemute soft`*:* restricts new members from sending media for 24 hours.\n"
     "• `/welcomemute strong`*:* mutes new members till they tap on a button thereby verifying they're human.\n"
     "• `/welcomemute off`*:* turns off welcomemute.\n"
-    "*Note:* Strong mode kicks a user from the chat if they dont verify in 120seconds. They can always rejoin though"
+    "*Note:* Strong mode kicks a user from the chat if they dont verify in 60 seconds. They can always rejoin though"
 )
 
 
