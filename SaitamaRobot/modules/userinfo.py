@@ -251,9 +251,9 @@ def info(update: Update, context: CallbackContext):
                 if status in {"left", "kicked"}:
                     text += _stext.format("Not here")
                 elif status == "member":
-                    text += _stext.format("Parasite")
+                    text += _stext.format("Parasite [?](https://t.me/ZeroTwoSupport/963)")
                 elif status in {"administrator", "creator"}:
-                    text += _stext.format("Member of Nines")
+                    text += _stext.format("Member of Nines [?](https://t.me/ZeroTwoSupport/963)")
     if user_id not in [bot.id, 777000, 1087968824]:
         userhp = hpmanager(user)
         text += f"\n\n<b>Health Status:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
@@ -291,7 +291,7 @@ def info(update: Update, context: CallbackContext):
         disaster_level_present = True
 
     if disaster_level_present:
-        text += ' [<a href="https://t.me/OnePunchUpdates/155">?</a>]'.format(
+        text += ' [<a href="https://t.me/ZeroTwoUpdates/23">?</a>]'.format(
             bot.username)
 
     try:
