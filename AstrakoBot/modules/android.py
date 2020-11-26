@@ -23,20 +23,22 @@ def magisk(update, context):
             canary = ""
         data = get(link + release_url).json()
         releases += f'{magisk_type}:\n' \
-                    f'• *Installer* - [{data["magisk"]["version"]} ({data["magisk"]["versionCode"]})]({canary + data["magisk"]["link"]}) \n' \
-                    f'• *Manager* - [{data["app"]["version"]} ({data["app"]["versionCode"]})]({canary + data["app"]["link"]}) \n' \
-                    f'• *Uninstaller* - [Uninstaller {data["magisk"]["version"]} ({data["magisk"]["versionCode"]})]({canary + data["uninstaller"]["link"]}) \n'
+                    f'• Installer - [{data["magisk"]["version"]} ({data["magisk"]["versionCode"]})]({canary + data["magisk"]["link"]}) \n' \
+                    f'• Manager - [{data["app"]["version"]} ({data["app"]["versionCode"]})]({canary + data["app"]["link"]}) \n' \
+                    f'• Uninstaller - [Uninstaller {data["magisk"]["version"]} ({data["magisk"]["versionCode"]})]({canary + data["uninstaller"]["link"]}) \n'
     bot.send_message(chat_id = update.effective_chat.id,
                              text=releases,
                              parse_mode=ParseMode.MARKDOWN,
                              disable_web_page_preview=True)
                              
 __help__ = """
- - /magisk, /su, /root: fetches latest magisk.
+*Available commands:*\n
+*Magisk:* 
+• /magisk, /su, /root: fetches latest magisk
 """
 magisk_handler = CommandHandler(['magisk', 'root', 'su'], magisk)
 dispatcher.add_handler(magisk_handler)
 
-__mod_name__ = "Magisk"
+__mod_name__ = "Android"
 __command_list__ = ["magisk", 'root', 'su']
 __handlers__ = [magisk_handler]
