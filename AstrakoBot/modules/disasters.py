@@ -430,8 +430,7 @@ Group admins/group owners do not need these commands.
 • `/getchats`*:* Gets a list of group names the user has been seen in. Bot owner only
 
 *Blacklist:* 
-• `/ignore`*:* Blacklists a user from 
-•  using the bot entirely
+• `/ignore`*:* Blacklists a user from using the bot entirely
 • `/notice`*:* Whitelists the user to allow bot usage
 
 *Speedtest:*
@@ -443,10 +442,8 @@ Group admins/group owners do not need these commands.
 
 *Module loading:*
 • `/listmodules`*:* Lists names of all modules
-• `/load modulename`*:* Loads the said module to 
-•   memory without restarting.
-• `/unload modulename`*:* Loads the said module from
-•   memory without restarting.memory without restarting the bot 
+• `/load modulename`*:* Loads the said module to memory without restarting
+• `/unload modulename`*:* Loads the said module from memory without restarting.memory without restarting the bot 
 
 *Remote commands:*
 • `/rban user group`*:* Remote ban
