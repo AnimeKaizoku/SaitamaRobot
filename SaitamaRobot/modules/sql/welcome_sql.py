@@ -152,6 +152,26 @@ DEFAULT_WELCOME_MESSAGES = [
     "In the jungle, you must wait...until the dice read five or eight.",  #Jumanji stuff
     "Dr.{first} Famed archeologist and international explorer,\nWelcome to Jumanji!\nJumanji's Fate is up to you now.",
     "{first}, this will not be an easy mission - monkeys slow the expedition.",  #End of Jumanji stuff
+    "*Summoning Jutsu, Pakun has been summoned,... oh wait it's just {first}*",  #Naruto
+    "{first} has joined, stay on guard they can be from FBI!",  #FBI
+    "SRG. {last}, get the arms ready we have to join our forces at front.",
+    "Call the FBI, {first} can be a loli hunter.",
+    "{first}, soldier show no mercy.",
+    "And then {last} joined the game.",
+    "All Might to {first}: Eat this",  #My Hero Academia 
+    "Behold citizens, {first} has arrived.",
+    "{first} can be extra, calamities might begin.",   #Another
+    "{first} get your Franxx ready, let's slay some Klaxosaurs.",  #Darling in the Franxx
+    "{fullname} your chat stats are zero chat more to level up.",
+    "Did you know, {first} just slid in!",
+    "And it's just {first}",
+    "Have some {first}",
+    "Someone fell?",
+    "Someone noticed, {first} entered the place",
+    "Player Name: {fullname} | Player ID: {id} | Player Username: {username} | Level: 001",
+    "Loading game, welcome Player {first}",
+    "User Signing in, user not verified. It's a new entry by {first}",
+    "Show me your Group License {first}",
 ]
 DEFAULT_GOODBYE_MESSAGES = [
     "{first} will be missed.",
