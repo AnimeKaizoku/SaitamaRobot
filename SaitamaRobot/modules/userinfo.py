@@ -251,9 +251,15 @@ def info(update: Update, context: CallbackContext):
                 if status in {"left", "kicked"}:
                     text += _stext.format("Not here")
                 elif status == "member":
-                    text += _stext.format("Parasite [?](https://t.me/ZeroTwoSupport/963)")
+                    text += _stext.format("Parasite")
                 elif status in {"administrator", "creator"}:
-                    text += _stext.format("Member of Nines [?](https://t.me/ZeroTwoSupport/963)")
+                    text += _stext.format("Member of Nines")
+    if status == "member":
+        text += ' [<a href="https://t.me/ZeroTwoUpdates/24">?</a>]'.format(
+            bot.username)
+    if status == "member":
+        text += ' [<a href="https://t.me/ZeroTwoUpdates/24">?</a>]'.format(
+            bot.username)
     if user_id not in [bot.id, 777000, 1087968824]:
         userhp = hpmanager(user)
         text += f"\n\n<b>Health Status:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
