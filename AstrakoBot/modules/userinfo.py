@@ -186,19 +186,19 @@ def info(update: Update, context: CallbackContext):
     disaster_level_present = False
 
     if user.id == OWNER_ID:
-        text += "\n\nUser level: god"
+        text += "\n\nUser level: <b>god</b>"
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nUser level: developer"
+        text += "\n\nUser level: <b>developer</b>"
         disaster_level_present = True
     elif user.id in DRAGONS:
-        text += "\n\nUser level: sudo"
+        text += "\n\nUser level: <b>sudo</b>"
         disaster_level_present = True
     elif user.id in DEMONS:
-        text += "\n\nUser level: support"
+        text += "\n\nUser level: <b>support</b>"
         disaster_level_present = True
     elif user.id in WOLVES:
-        text += "\n\nUser level: whitelist"
+        text += "\n\nUser level: <b>whitelist</b>"
         disaster_level_present = True
 
     # if disaster_level_present:
