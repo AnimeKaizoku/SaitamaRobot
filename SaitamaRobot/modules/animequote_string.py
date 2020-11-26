@@ -21,7 +21,7 @@ ANIMEQUOTE = (
     "Whether a fish lives in a clear stream or a water ditch, so long as it continues swimming forward, it will grow up beautifully. – Koro-sensei (Assassination Classroom)",
     " If you feel yourself hitting up against your limit, remember for what cause you clench your fists! Remember why you started down this path, and let that memory carry you beyond your limit. – All Might (My Hero Academia)",
     "Fear is not evil. It tells you what your weakness is. And once you know your weakness, you can become stronger, as well as kinder. – Gildarts Clive (Fairy Tail)",
-    "How can you move forward if you keep regretting the past? – Edward Elric (Fullmetal Alchemist)"
+    "How can you move forward if you keep regretting the past? – Edward Elric (Fullmetal Alchemist)",
     "I envy you because you can easily forget your troubles and sadness. – Kanzaki Urumi (Great Teacher Onizuka:GTO)",
     "The only thing we're allowed to believe is that we won't regret the choice we made. – Levi Ackerman (Attack On Titan: Shinkeji No Kyojin)",
     "Maybe there’s only a dark road up ahead. But you still have to believe and keep going. Believe that the stars will light your path, even a little bit. Come on, let’s go on a journey! – Kaori Miyazono (Shigatsu Wa Kimi No Uso)",
