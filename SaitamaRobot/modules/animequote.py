@@ -20,4 +20,4 @@ AQ_HANDLER = DisableAbleCommandHandler("aq", aq)
 
 dispatcher.add_handler(AQ_HANDLER)
 
-__mod_name__ = "Animequote"
+__mod_name__ = "AnimeQuote"
