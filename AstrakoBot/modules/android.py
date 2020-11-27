@@ -34,7 +34,7 @@ def magisk(update, context):
 __help__ = """
 *Available commands:*\n
 *Magisk:* 
-• /magisk, /su, /root: fetches latest magisk
+• `/magisk`, `/su`, `/root` fetches latest magisk
 """
 magisk_handler = CommandHandler(['magisk', 'root', 'su'], magisk)
 dispatcher.add_handler(magisk_handler)
