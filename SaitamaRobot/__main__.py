@@ -61,7 +61,7 @@ PM_START_TEXT = """
 *Partner*: _Hiro_
 *FRANXX*: _Strelizia_ 
 
-Use /help to know my abilities.
+Use /help to know my abilities [^_^](https://images.alphacoders.com/901/901812.png).
 """
 
 HELP_STRINGS = """
