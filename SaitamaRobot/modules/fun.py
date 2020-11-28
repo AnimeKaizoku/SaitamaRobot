@@ -196,8 +196,14 @@ __help__ = """
  • `/rlg`*:* Join ears,nose,mouth and create an emo ;-;
  • `/shout <keyword>`*:* write anything you want to give loud shout
  • `/weebify <text>`*:* returns a weebified text
+ • `/truth `*:* for random truth
+ • `/dare `*:* for random dare
  • `/sanitize`*:* always use this before /pat or any contact
  • `/pat`*:* pats a user, or get patted
+ • `/fun`*:* funny text,stricker and gif send
+ • `/aq`*:* get random anime quote
+ • `/plet <text> `*:* text get funny emojify
+ • `/tts <text> `*:* text to voice
 """
 
 SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)
