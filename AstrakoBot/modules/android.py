@@ -4,12 +4,16 @@
 from requests import get
 from telegram import Bot, Update, ParseMode
 from telegram.ext import Updater, CommandHandler
+from telegram.ext import CallbackContext, run_async
 from AstrakoBot import dispatcher
 
 link = "https://raw.githubusercontent.com/topjohnwu/magisk_files/"
 
-def magisk(update, context):
-    bot=context.bot
+
+@run_async
+def magisk(update: Update, context: CallbackContext):
+    link = "https://raw.githubusercontent.com/topjohnwu/magisk_files/"
+    bot = context.bot
     magisk_dict = {
             "*Stable*": "master/stable.json", "\n"
             "*Beta*": "master/beta.json", "\n"
@@ -34,7 +38,7 @@ def magisk(update, context):
 __help__ = """
 *Available commands:*\n
 *Magisk:* 
-• `/magisk`, `/su`, `/root` fetches latest magisk
+• `/magisk`, `/su`, `/root`: fetches latest magisk
 """
 magisk_handler = CommandHandler(['magisk', 'root', 'su'], magisk)
 dispatcher.add_handler(magisk_handler)
