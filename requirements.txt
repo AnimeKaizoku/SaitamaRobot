@@ -33,3 +33,4 @@ datetime
 pytz
 cachetools
 ujson
+bs4
