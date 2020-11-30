@@ -122,7 +122,7 @@ def addsupport(
         data = json.load(infile)
 
     if user_id in DRAGONS:
-        rt += "Requested HA to deomote this Dragon to Demon"
+        rt += "Requested HA to demote this Dragon to Demon"
         data['sudos'].remove(user_id)
         DRAGONS.remove(user_id)
 
