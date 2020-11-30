@@ -32,3 +32,4 @@ covid
 datetime
 pytz
 cachetools
+ujson
