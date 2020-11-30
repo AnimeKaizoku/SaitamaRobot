@@ -5,6 +5,7 @@ from requests import get
 from telegram import Bot, Update, ParseMode
 from telegram.ext import Updater, CommandHandler
 from telegram.ext import CallbackContext, run_async
+from ujson import loads
 from AstrakoBot import dispatcher
 
 link = "https://raw.githubusercontent.com/topjohnwu/magisk_files/"
@@ -34,15 +35,59 @@ def magisk(update: Update, context: CallbackContext):
                              text=releases,
                              parse_mode=ParseMode.MARKDOWN,
                              disable_web_page_preview=True)
+
+
+@run_async
+def orangefox(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
+    message = update.effective_message
+    device = (args[0])
+    link = get(f'https://api.orangefox.download/v2/device/{device}/releases/last')
+
+    if link.status_code == 404:
+        message = f"OrangeFox currently is not avaliable for {device}"
+
+    else:
+        page = loads(link.content)
+        dl_file = page['file_name']
+        build_type = page['build_type']
+        version = page['version']
+        changelog = page['changelog']
+        size = page['size_human']
+        dl_link = page['url']
+        date = page['date']
+        md5 = page['md5']
+        message = f'<b>Latest OrangeFox Recovery for the {device}</b>\n\n'
+        message += f'• Release type: official\n'
+        message += f'• Build type: {build_type}\n'        
+        message += f'• Version: {version}\n'
+        message += f'• Changelog: {changelog}\n'
+        message += f'• Size: {size}\n'
+        message += f'• Date: {date}\n'
+        message += f'• File: {dl_file}\n'
+        message += f'• MD5: {md5}\n\n'
+        message += f'• <b>Download:</b> {dl_link}\n'
+
+    bot.send_message(chat_id = update.effective_chat.id,
+                        text = message,
+                        parse_mode = ParseMode.HTML,
+                        disable_web_page_preview = True)
                              
 __help__ = """
 *Available commands:*\n
 *Magisk:* 
-• `/magisk`, `/su`, `/root`: fetches latest magisk
+• `/magisk`, `/su`, `/root`: fetches latest magisk\n
+*OrangeFox Recovery Project:* 
+• `/ofox`, `/orangefox` `<devicecodename>`: fetches lastest OrangeFox Recovery available for a given device codename
 """
 magisk_handler = CommandHandler(['magisk', 'root', 'su'], magisk)
+orangefox_handler = CommandHandler(['ofox', 'orangefox'], orangefox)
 dispatcher.add_handler(magisk_handler)
+dispatcher.add_handler(orangefox_handler)
 
 __mod_name__ = "Android"
-__command_list__ = ["magisk", 'root', 'su']
-__handlers__ = [magisk_handler]
+__command_list__ = ["magisk", "root", "su", "ofox", "orangefox"]
+__handlers__ = [
+    magisk_handler,
+    orangefox_handler
+]
