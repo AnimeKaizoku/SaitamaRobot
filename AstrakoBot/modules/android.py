@@ -1,6 +1,8 @@
 # Magisk Module- Module from AstrakoBot
 # Inspired from RaphaelGang's android.py
 # By DAvinash97
+
+from bs4 import BeautifulSoup
 from requests import get
 from telegram import Bot, Update, ParseMode
 from telegram.ext import Updater, CommandHandler
@@ -72,22 +74,60 @@ def orangefox(update: Update, context: CallbackContext):
                         text = message,
                         parse_mode = ParseMode.HTML,
                         disable_web_page_preview = True)
+
+
+@run_async
+def twrp(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
+    message = update.effective_message
+    device = (args[0])
+    link = get(f'https://eu.dl.twrp.me/{device}')
+
+    if link.status_code == 404:
+        message = f"TWRP currently is not avaliable for {device}"
+
+    else:
+
+        page = BeautifulSoup(link.content, 'lxml')
+        download = page.find('table').find('tr').find('a')
+        dl_link = f"https://eu.dl.twrp.me{download['href']}"
+        dl_file = download.text
+        size = page.find("span", {"class": "filesize"}).text
+        date = page.find("em").text.strip()
+        message = f'<b>Latest TWRP for the {device}</b>\n\n'
+        message += f'• Release type: official\n'
+        message += f'• Size: {size}\n'
+        message += f'• Date: {date}\n'
+        message += f'• File: {dl_file}\n\n'
+        message += f'• <b>Download:</b> {dl_link}\n'
+    
+    bot.send_message(chat_id = update.effective_chat.id,
+
+                        text = message,
+                        parse_mode = ParseMode.HTML,
+                        disable_web_page_preview = True)
                              
 __help__ = """
 *Available commands:*\n
 *Magisk:* 
 • `/magisk`, `/su`, `/root`: fetches latest magisk\n
 *OrangeFox Recovery Project:* 
-• `/ofox`, `/orangefox` `<devicecodename>`: fetches lastest OrangeFox Recovery available for a given device codename
+• `/ofox`, `/orangefox` `<devicecodename>`: fetches lastest OrangeFox Recovery available for a given device codename\n
+*TWRP:* 
+• `/twrp <devicecodename>`: fetches lastest TWRP available for a given device codename
 """
 magisk_handler = CommandHandler(['magisk', 'root', 'su'], magisk)
 orangefox_handler = CommandHandler(['ofox', 'orangefox'], orangefox)
+twrp_handler = CommandHandler('twrp', twrp)
+
 dispatcher.add_handler(magisk_handler)
 dispatcher.add_handler(orangefox_handler)
+dispatcher.add_handler(twrp_handler)
 
 __mod_name__ = "Android"
-__command_list__ = ["magisk", "root", "su", "ofox", "orangefox"]
+__command_list__ = ["magisk", "root", "su", "ofox", "orangefox", "twrp"]
 __handlers__ = [
     magisk_handler,
-    orangefox_handler
+    orangefox_handler,
+    twrp_handler
 ]
