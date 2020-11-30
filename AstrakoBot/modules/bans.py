@@ -381,11 +381,11 @@ __help__ = """
  • `/kick <userhandle>`*:* same as punch
 """
 
-BAN_HANDLER = CommandHandler("ban", ban)
-TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
-PUNCH_HANDLER = CommandHandler(["punch", "kick"], punch)
-UNBAN_HANDLER = CommandHandler("unban", unban)
-ROAR_HANDLER = CommandHandler("roar", selfunban)
+BAN_HANDLER = DisableAbleCommandHandler("ban", ban)
+TEMPBAN_HANDLER = DisableAbleCommandHandler(["tban"], temp_ban)
+PUNCH_HANDLER = DisableAbleCommandHandler(["punch", "kick"], punch)
+UNBAN_HANDLER = DisableAbleCommandHandler("unban", unban)
+ROAR_HANDLER = DisableAbleCommandHandler("roar", selfunban)
 PUNCHME_HANDLER = DisableAbleCommandHandler(
     ["punchme", "kickme"], punchme, filters=Filters.group)
 
