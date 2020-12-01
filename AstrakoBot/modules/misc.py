@@ -77,17 +77,19 @@ def markdown_help(update: Update, context: CallbackContext):
 
 
 __help__ = """
-*Available commands:*
+*Available commands:*\n
 *Covid:*
  • `/covid <country>`: provides lastest covid information
 *Weather:*
  • `/weather <city>`: gives weather information about a specific location or country
+*Quotly:*
+ • `/quotly`: reply to a message to get a quoted message
 *Markdown:*
  • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
 *Paste:*
  • `/paste`*:* Saves replied content to `nekobin.com` and replies with a url
 *React:*
- • `/react`*:* Reacts with a random reaction 
+ • `/react`*:* Reacts with a random reaction
 *Urban Dictonary:*
  • `/ud <word>`*:* Type the word or expression you want to search use
 *Wikipedia:*
@@ -110,7 +112,7 @@ dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 
 __mod_name__ = "Extras"
-__command_list__ = ["id", "echo", "covid", "weather"]
+__command_list__ = ["id", "echo", "covid", "weather", "quotly"]
 __handlers__ = [
     ECHO_HANDLER,
     MD_HELP_HANDLER,
