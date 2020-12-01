@@ -34,3 +34,4 @@ pytz
 cachetools
 ujson
 bs4
+fontTools
