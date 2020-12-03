@@ -427,6 +427,7 @@ Group admins/group owners do not need these commands.
 *Groups Info:*
 • `/groups`*:* List the groups with Name, ID, members count as a txt
 • `/chatlist`*:* same as groups
+• `/leave <ID>`*:* Leave the group, ID must have hyphen
 • `/getchats`*:* Gets a list of group names the user has been seen in. Bot owner only
 
 *Blacklist:* 
