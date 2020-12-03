@@ -551,10 +551,10 @@ Group admins/group owners do not need these commands.
  ╠ `/stats`*:* Shows overall bot stats
  ╚ `/getchats`*:* Gets a list of group names the user has been seen in. Bot owner only
 
- ╔ *Blacklist:* 
+ ╔ *Access control:* 
  ╠ `/ignore`*:* Blacklists a user from 
  ╠  using the bot entirely
- ╚ `/notice`*:* Whitelists the user to allow bot usage
+ ╚ `/notice`*:* Removes user from blacklist
 
  ╔ *Speedtest:*
  ╚ `/speedtest`*:* Runs a speedtest and gives you 2 options to choose from, text or image output
