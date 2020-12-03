@@ -430,6 +430,7 @@ Group admins/group owners do not need these commands.
 • `/leave <ID>`*:* Leave the group, ID must have hyphen
 • `/stats`*:* Shows overall bot stats
 • `/getchats`*:* Gets a list of group names the user has been seen in. Bot owner only
+• `/ginfo username/link/ID`*:* Pulls info panel for entire group
 
 *Access control:* 
 • `/ignore`*:* Blacklists a user from using the bot entirely
