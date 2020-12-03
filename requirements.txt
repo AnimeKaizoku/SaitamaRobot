@@ -16,7 +16,7 @@ psutil
 aiohttp>=2.2.5
 Pillow>=4.2.0
 CurrencyConverter
-googletrans
+googletrans==3.1.0a0
 jikanpy
 speedtest-cli
 coffeehouse
