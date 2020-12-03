@@ -589,8 +589,9 @@ Group admins/group owners do not need these commands.
  ╠ `/debug <on/off>`*:* Logs commands to updates.txt
  ╠ `/logs`*:* Run this in support group to get logs in pm
  ╠ `/eval`*:* Self explanatory
- ╠ `/sh`*:* Self explanator
- ╚ `/py`*:* Self explanatory
+ ╠ `/sh`*:* Runs shell command
+ ╠ `/shell`*:* Runs shell command
+ ╚ `/py`*:* Runs python code
 
 Visit @{SUPPORT_CHAT} for more information.
 """
