@@ -43,7 +43,6 @@ ENUM_FUNC_MAP = {
 
 
 # Do not async
-@connection_status
 def get(update, context, notename, show_none=True, no_format=False):
     bot = context.bot
     chat_id = update.effective_chat.id
