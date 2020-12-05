@@ -379,6 +379,7 @@ def connection_status(func):
         if conn:
             chat = dispatcher.bot.getChat(conn)
             update.__setattr__("_effective_chat", chat)
+            update.__setattr__("_effective_message", update.effective_message)
             return func(update, context, *args, **kwargs)
         else:
             if update.effective_message.chat.type == "private":
