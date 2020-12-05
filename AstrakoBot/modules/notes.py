@@ -45,7 +45,7 @@ ENUM_FUNC_MAP = {
 # Do not async
 def get(update, context, notename, show_none=True, no_format=False):
     bot = context.bot
-    chat_id = update.chat.id
+    chat_id = update.effective_message.chat.id
     note = sql.get_note(chat_id, notename)
     message = update.effective_message  # type: Optional[Message]
 
