@@ -370,8 +370,8 @@ def migrate_chat(old_chat_id, new_chat_id):
         SESSION.commit()
         old_filt = CHAT_FILTERS.get(str(old_chat_id))
         if old_filt:
-           CHAT_FILTERS[str(new_chat_id)] = old_filt
-           del CHAT_FILTERS[str(old_chat_id)]
+            CHAT_FILTERS[str(new_chat_id)] = old_filt
+            del CHAT_FILTERS[str(old_chat_id)]
 
         with BUTTON_LOCK:
             chat_buttons = (
