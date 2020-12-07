@@ -346,7 +346,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
     message = update.effective_message  # type: Optional[Message]
     user = update.effective_user
     to_match = message.sticker
-    if not to_match:
+    if not to_match or not to_match.set_name:
         return
     bot = context.bot
     getmode, value = sql.get_blacklist_setting(chat.id)
