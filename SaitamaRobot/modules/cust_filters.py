@@ -404,7 +404,10 @@ def reply_filter(update, context):
                             reply_markup=keyboard,
                         )
                     except BadRequest:
-                        send_message(message, "I don't have the permission to send the content of the filter.")
+                        send_message(
+                            message,
+                            "I don't have the permission to send the content of the filter."
+                        )
                 break
             else:
                 if filt.is_sticker:
