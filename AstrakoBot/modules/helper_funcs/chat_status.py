@@ -105,7 +105,10 @@ def dev_plus(func):
         elif not user:
             pass
         elif DEL_CMDS and " " not in update.effective_message.text:
-            update.effective_message.delete()
+            try:
+                update.effective_message.delete()
+            except:
+                pass
         else:
             update.effective_message.reply_text(
                 "This is a developer restricted command."
@@ -128,7 +131,10 @@ def sudo_plus(func):
         elif not user:
             pass
         elif DEL_CMDS and " " not in update.effective_message.text:
-            update.effective_message.delete()
+            try:
+                update.effective_message.delete()
+            except:
+                pass
         else:
             update.effective_message.reply_text(
                 "Who dis non-admin telling me what to do? You want a punch?")
@@ -148,7 +154,10 @@ def support_plus(func):
         if user and is_support_plus(chat, user.id):
             return func(update, context, *args, **kwargs)
         elif DEL_CMDS and " " not in update.effective_message.text:
-            update.effective_message.delete()
+            try:
+                update.effective_message.delete()
+            except:
+                pass
 
     return is_support_plus_func
 
@@ -184,7 +193,10 @@ def user_admin(func):
         elif not user:
             pass
         elif DEL_CMDS and " " not in update.effective_message.text:
-            update.effective_message.delete()
+            try:
+                update.effective_message.delete()
+            except:
+                pass
         else:
             update.effective_message.reply_text(
                 "Who dis non-admin telling me what to do? You want a punch?")
@@ -206,7 +218,10 @@ def user_admin_no_reply(func):
         elif not user:
             pass
         elif DEL_CMDS and " " not in update.effective_message.text:
-            update.effective_message.delete()
+            try:
+                update.effective_message.delete()
+            except:
+                pass
 
     return is_not_admin_no_reply
 
