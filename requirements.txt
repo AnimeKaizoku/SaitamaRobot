@@ -4,7 +4,7 @@ lxml
 beautifulsoup4
 requests
 sqlalchemy
-python-telegram-bot==13.0
+python-telegram-bot==13.1
 psycopg2-binary
 feedparser
 pynewtonmath
