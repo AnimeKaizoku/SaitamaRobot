@@ -6,6 +6,7 @@ from telegram.ext import CallbackContext, run_async
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
+
 @run_async
 def totranslate(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -67,7 +68,8 @@ def totranslate(update: Update, context: CallbackContext):
                 f"Translated from `{detection[0]}` to `{dest_lang}`:\n`{trans_str}`",
                 parse_mode=ParseMode.MARKDOWN)
         else:
-            trans_str = trl.translate(text, lang_tgt=dest_lang, lang_src=source_lang)
+            trans_str = trl.translate(
+                text, lang_tgt=dest_lang, lang_src=source_lang)
             message.reply_text(
                 f"Translated from `{source_lang}` to `{dest_lang}`:\n`{trans_str}`",
                 parse_mode=ParseMode.MARKDOWN)
