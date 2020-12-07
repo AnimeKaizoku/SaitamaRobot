@@ -1,3 +1,4 @@
+from time import perf_counter
 from functools import wraps
 from cachetools import TTLCache
 from threading import RLock
@@ -8,7 +9,7 @@ from telegram import Chat, ChatMember, ParseMode, Update
 from telegram.ext import CallbackContext
 
 # stores admemes in memory for 10 min.
-ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10)
+ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
 THREAD_LOCK = RLock()
 
 
@@ -41,7 +42,7 @@ def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
             # try to fetch from cache first.
             try:
                 return user_id in ADMIN_CACHE[chat.id]
-            except BaseException:
+            except KeyError:
                 # keyerror happend means cache is deleted,
                 # so query bot api again and return user status
                 # while saving it in cache for future useage...
