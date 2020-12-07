@@ -345,7 +345,8 @@ def list_notes(update: Update, context: CallbackContext):
         try:
             update.effective_message.reply_text("No notes in this chat!")
         except BadRequest:
-            update.effective_message.reply_text("No notes in this chat!", quote=False)
+            update.effective_message.reply_text(
+                "No notes in this chat!", quote=False)
 
     elif len(msg) != 0:
         update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
