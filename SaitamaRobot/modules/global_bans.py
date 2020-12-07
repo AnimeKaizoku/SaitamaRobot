@@ -2,8 +2,15 @@ import html
 import time
 from datetime import datetime
 from io import BytesIO
-from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
+
+from telegram import ParseMode, Update
+from telegram.error import BadRequest, TelegramError, Unauthorized
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, run_async)
+from telegram.utils.helpers import mention_html
+
 import SaitamaRobot.modules.sql.global_bans_sql as sql
+from SaitamaRobot.modules.sql.users_sql import get_user_com_chats
 from SaitamaRobot import (DEV_USERS, EVENT_LOGS, OWNER_ID, STRICT_GBAN, DRAGONS,
                           SUPPORT_CHAT, SPAMWATCH_SUPPORT_CHAT, DEMONS, TIGERS,
                           WOLVES, sw, dispatcher)
@@ -13,11 +20,6 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin,
 from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
                                                           extract_user_and_text)
 from SaitamaRobot.modules.helper_funcs.misc import send_to_list
-from telegram import ParseMode, Update
-from telegram.error import BadRequest, TelegramError
-from telegram.ext import (CallbackContext, CommandHandler, Filters,
-                          MessageHandler, run_async)
-from telegram.utils.helpers import mention_html
 
 GBAN_ENFORCE_GROUP = 6
 
@@ -382,7 +384,7 @@ def check_and_ban(update, user_id, should_message=True):
     chat = update.effective_chat  # type: Optional[Chat]
     try:
         sw_ban = sw.get_ban(int(user_id))
-    except AttributeError:
+    except:
         sw_ban = None
 
     if sw_ban:
@@ -414,9 +416,12 @@ def check_and_ban(update, user_id, should_message=True):
 def enforce_gban(update: Update, context: CallbackContext):
     # Not using @restrict handler to avoid spamming - just ignore if cant gban.
     bot = context.bot
-    if sql.does_chat_gban(
-            update.effective_chat.id) and update.effective_chat.get_member(
-                bot.id).can_restrict_members:
+    try:
+        restrict_permission = update.effective_chat.get_member(
+            bot.id).can_restrict_members
+    except Unauthorized:
+        return
+    if sql.does_chat_gban(update.effective_chat.id) and restrict_permission:
         user = update.effective_user
         chat = update.effective_chat
         msg = update.effective_message

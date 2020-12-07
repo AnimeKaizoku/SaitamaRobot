@@ -82,7 +82,13 @@ def send(update, message, keyboard, backup_message):
             reply_to_message_id=reply,
         )
     except BadRequest as excp:
-        if excp.message == "Button_url_invalid":
+        if excp.message == "Reply message not found":
+            msg = update.effective_message.reply_text(
+                message,
+                parse_mode=ParseMode.MARKDOWN,
+                reply_markup=keyboard,
+                quote=False)
+        elif excp.message == "Button_url_invalid":
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     backup_message +
@@ -895,7 +901,10 @@ def user_button(update: Update, context: CallbackContext):
                 can_add_web_page_previews=True,
             ),
         )
-        bot.deleteMessage(chat.id, message.message_id)
+        try:
+            bot.deleteMessage(chat.id, message.message_id)
+        except:
+            pass
         if member_dict["should_welc"]:
             if member_dict["media_wel"]:
                 sent = ENUM_FUNC_MAP[member_dict["welc_type"]](

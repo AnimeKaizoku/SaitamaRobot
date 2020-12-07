@@ -29,6 +29,10 @@ def add_chat(update: Update, context: CallbackContext):
     msg = update.effective_message
     user = update.effective_user
     is_chat = sql.is_chat(chat.id)
+    if chat.type == "private":
+        msg.reply_text("You can't enable AI in PM.")
+        return
+
     if not is_chat:
         ses = api_client.create_session()
         ses_id = str(ses.id)
@@ -108,8 +112,9 @@ def chatbot(update: Update, context: CallbackContext):
             sleep(0.3)
             msg.reply_text(rep, timeout=60)
         except CFError as e:
-            bot.send_message(OWNER_ID,
-                             f"Chatbot error: {e} occurred in {chat_id}!")
+            pass
+            #bot.send_message(OWNER_ID,
+            #                 f"Chatbot error: {e} occurred in {chat_id}!")
 
 
 @run_async

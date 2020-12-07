@@ -1,14 +1,15 @@
 from io import BytesIO
 from time import sleep
 
+from telegram import TelegramError, Update
+from telegram.error import BadRequest, Unauthorized
+from telegram.ext import (CallbackContext, CommandHandler, Filters,
+                          MessageHandler, run_async)
+
 import SaitamaRobot.modules.sql.users_sql as sql
 from SaitamaRobot import DEV_USERS, LOGGER, OWNER_ID, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus, sudo_plus
 from SaitamaRobot.modules.sql.users_sql import get_all_users
-from telegram import TelegramError, Update
-from telegram.error import BadRequest
-from telegram.ext import (CallbackContext, CommandHandler, Filters,
-                          MessageHandler, run_async)
 
 USERS_GROUP = 4
 CHAT_GROUP = 5
@@ -137,9 +138,12 @@ def chats(update: Update, context: CallbackContext):
 @run_async
 def chat_checker(update: Update, context: CallbackContext):
     bot = context.bot
-    if update.effective_message.chat.get_member(
-            bot.id).can_send_messages is False:
-        bot.leaveChat(update.effective_message.chat.id)
+    try:
+        if update.effective_message.chat.get_member(
+                bot.id).can_send_messages is False:
+            bot.leaveChat(update.effective_message.chat.id)
+    except Unauthorized:
+        pass
 
 
 def __user_info__(user_id):
