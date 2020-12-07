@@ -29,6 +29,10 @@ def add_chat(update: Update, context: CallbackContext):
     msg = update.effective_message
     user = update.effective_user
     is_chat = sql.is_chat(chat.id)
+    if chat.type == "private":
+        msg.reply_text("You can't enable AI in PM.")
+        return 
+
     if not is_chat:
         ses = api_client.create_session()
         ses_id = str(ses.id)
