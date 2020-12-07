@@ -108,8 +108,9 @@ def chatbot(update: Update, context: CallbackContext):
             sleep(0.3)
             msg.reply_text(rep, timeout=60)
         except CFError as e:
-            bot.send_message(OWNER_ID,
-                             f"Chatbot error: {e} occurred in {chat_id}!")
+            pass
+            #bot.send_message(OWNER_ID,
+            #                 f"Chatbot error: {e} occurred in {chat_id}!")
 
 
 @run_async
