@@ -20,6 +20,7 @@ googletrans
 jikanpy
 speedtest-cli
 coffeehouse
+google_trans_new
 regex
 bleach
 git+https://github.com/starry69/python-markdown2.git
