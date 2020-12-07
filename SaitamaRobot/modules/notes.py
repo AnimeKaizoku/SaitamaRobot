@@ -43,11 +43,11 @@ ENUM_FUNC_MAP = {
 
 
 # Do not async
-@connection_status
 def get(update, context, notename, show_none=True, no_format=False):
     bot = context.bot
-    chat_id = update.effective_chat.id
-    note = sql.get_note(chat_id, notename)
+    chat_id = update.effective_message.chat.id
+    note_chat_id = update.effective_chat.id
+    note = sql.get_note(note_chat_id, notename)
     message = update.effective_message  # type: Optional[Message]
 
     if note:
@@ -70,7 +70,7 @@ def get(update, context, notename, show_none=True, no_format=False):
                         message.reply_text(
                             "This message seems to have been lost - I'll remove it "
                             "from your notes list.")
-                        sql.rm_note(chat_id, notename)
+                        sql.rm_note(note_chat_id, notename)
                     else:
                         raise
             else:
@@ -86,7 +86,7 @@ def get(update, context, notename, show_none=True, no_format=False):
                             "their message - sorry! Get your bot admin to start using a "
                             "message dump to avoid this. I'll remove this note from "
                             "your saved notes.")
-                        sql.rm_note(chat_id, notename)
+                        sql.rm_note(note_chat_id, notename)
                     else:
                         raise
         else:
@@ -132,7 +132,7 @@ def get(update, context, notename, show_none=True, no_format=False):
 
             keyb = []
             parseMode = ParseMode.MARKDOWN
-            buttons = sql.get_buttons(chat_id, notename)
+            buttons = sql.get_buttons(note_chat_id, notename)
             if no_format:
                 parseMode = None
                 text += revert_buttons(buttons)
@@ -171,13 +171,13 @@ def get(update, context, notename, show_none=True, no_format=False):
                         "This note was an incorrectly imported file from another bot - I can't use "
                         "it. If you really need it, you'll have to save it again. In "
                         "the meantime, I'll remove it from your notes list.")
-                    sql.rm_note(chat_id, notename)
+                    sql.rm_note(note_chat_id, notename)
                 else:
                     message.reply_text(
                         "This note could not be sent, as it is incorrectly formatted. Ask in "
                         f"@{SUPPORT_CHAT} if you can't figure out why!")
                     LOGGER.exception("Could not parse message #%s in chat %s",
-                                     notename, str(chat_id))
+                                     notename, str(note_chat_id))
                     LOGGER.warning("Message was: %s", str(note.value))
         return
     elif show_none:
