@@ -384,7 +384,7 @@ def check_and_ban(update, user_id, should_message=True):
     chat = update.effective_chat  # type: Optional[Chat]
     try:
         sw_ban = sw.get_ban(int(user_id))
-    except AttributeError:
+    except:
         sw_ban = None
 
     if sw_ban:
