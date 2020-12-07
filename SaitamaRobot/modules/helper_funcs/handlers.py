@@ -1,7 +1,6 @@
 import SaitamaRobot.modules.sql.blacklistusers_sql as sql
 from SaitamaRobot import ALLOW_EXCL
 from SaitamaRobot import (DEV_USERS, DRAGONS, DEMONS, TIGERS, WOLVES)
-from telegram.ext.handler import Handler
 from telegram import MessageEntity, Update
 from telegram.ext import CommandHandler, MessageHandler, RegexHandler, Filters
 from time import sleep
@@ -47,28 +46,6 @@ class AntiSpam:
 
 
 SpamChecker = AntiSpam()
-
-class CustomHandler(Handler):
-    def __init__(
-        self,
-        callback,
-        pass_update_queue: bool = False,
-        pass_job_queue: bool = False,
-        pass_user_data: bool = False,
-        pass_chat_data: bool = False,
-        run_async: bool = True,
-    ):
-
-        super().__init__(
-            callback,
-            pass_update_queue=pass_update_queue,
-            pass_job_queue=pass_job_queue,
-            pass_user_data=pass_user_data,
-            pass_chat_data=pass_chat_data,
-            run_async = True,
-        )
-
-
 
 class CustomCommandHandler(CommandHandler):
 

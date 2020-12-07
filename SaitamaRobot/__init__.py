@@ -173,7 +173,8 @@ if not SPAMWATCH_API:
 else:
     sw = spamwatch.Client(SPAMWATCH_API)
 
-updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
+defaults = tg.Defaults(run_async = True)
+updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True, defaults = defaults)
 telethn = TelegramClient("saitama", API_ID, API_HASH)
 dispatcher = updater.dispatcher
 
@@ -183,8 +184,6 @@ WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
 
-from SaitamaRobot.modules.helper_funcs.handlers import CustomHandler
-tg.handler.Handler = CustomHandler 
 
 # Load at end to ensure all prev variables have been set
 from SaitamaRobot.modules.helper_funcs.handlers import (
