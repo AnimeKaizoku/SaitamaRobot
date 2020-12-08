@@ -83,7 +83,7 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://youtu.be/hYTL3QU8JEk" #"https://telegra.ph/file/8c296c357ed79b0509af3.mp4"
+SAITAMA_IMG = "https://telegra.ph/file/8c296c357ed79b0509af3.mp4" #"https://images.alphacoders.com/901/901812.png" #"https://telegra.ph/file/ff21a6f2a29ac89932368.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Zero Two is basically a forked version of Saitama, so there is no needs of funding for me right now. But\
