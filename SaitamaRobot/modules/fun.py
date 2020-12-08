@@ -227,7 +227,7 @@ def dare(update: Update, context: CallbackContext):
 
 
 @run_async
-def random(update: Update, context: CallbackContext):
+def tord(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.RAN_STRINGS))
 
 
