@@ -187,7 +187,8 @@ def table(update: Update, context: CallbackContext):
 @run_async
 def dyk(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.DYK_STRINGS))
-    
+
+"""
 @run_async
 def truth(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.TRUTH_STRINGS))
@@ -202,7 +203,7 @@ def dare(update: Update, context: CallbackContext):
 def tord(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.TORD_STRINGS))
 
-
+"""
 
 __help__ = """
  • `/runs`*:* reply a random string from an array of replies
