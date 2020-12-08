@@ -32,8 +32,7 @@ def tord(update: Update, context: CallbackContext):
  • `/truth`*:* asks you a question
  • `/dare`*:* gives you a dare
  • `/tord`*:* can be a truth or a dare
- 
- """
+"""
 
 TRUTH_HANDLER = DisableAbleCommandHandler("truth", truth)
 DARE_HANDLER = DisableAbleCommandHandler("dare", dare)
