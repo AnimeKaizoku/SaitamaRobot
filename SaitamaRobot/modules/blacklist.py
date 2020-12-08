@@ -353,9 +353,15 @@ def del_blacklist(update, context):
                 if getmode == 0:
                     return
                 elif getmode == 1:
-                    message.delete()
+                    try:
+                        message.delete()
+                    except BadRequest:
+                        pass
                 elif getmode == 2:
-                    message.delete()
+                    try:
+                        message.delete()
+                    except BadRequest:
+                        pass
                     warn(
                         update.effective_user,
                         chat,
