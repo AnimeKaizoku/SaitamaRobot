@@ -237,9 +237,9 @@ RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg)
 DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 DYK_HANDLER = DisableAbleCommandHandler("dyk", dyk)
-TRUTH_HANDLER = DisableAbleCommandHandler("truth", truth)
-DARE_HANDLER = DisableAbleCommandHandler("dare", dare)
-TORD_HANDLER = DisableAbleCommandHandler("tord", tord)
+#TRUTH_HANDLER = DisableAbleCommandHandler("truth", truth)
+#DARE_HANDLER = DisableAbleCommandHandler("dare", dare)
+#TORD_HANDLER = DisableAbleCommandHandler("tord", tord)
 
 dispatcher.add_handler(SANITIZE_HANDLER)
 dispatcher.add_handler(RUNS_HANDLER)
@@ -253,18 +253,20 @@ dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
 dispatcher.add_handler(DYK_HANDLER)
-dispatcher.add_handler(TRUTH_HANDLER)
-dispatcher.add_handler(DARE_HANDLER)
-dispatcher.add_handler(TORD_HANDLER)
+#dispatcher.add_handler(TRUTH_HANDLER)
+#dispatcher.add_handler(DARE_HANDLER)
+#dispatcher.add_handler(TORD_HANDLER)
 
 
 __mod_name__ = "Fun"
 __command_list__ = [
     "runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide",
-    "table", "pat", "sanitize", "dyk", "truth", "dare", "tord",
+    "table", "pat", "sanitize", "dyk",
 ]
 __handlers__ = [
     RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER,
     SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER,
-    SANITIZE_HANDLER, DYK_HANDLER, TRUTH_HANDLER, DARE_HANDLER, TORD_HANDLER,
+    SANITIZE_HANDLER, DYK_HANDLER,
 ]
+# TRUTH_HANDLER, DARE_HANDLER, TORD_HANDLER,
+# "truth", "dare", "tord",
