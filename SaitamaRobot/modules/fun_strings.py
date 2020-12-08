@@ -833,7 +833,7 @@ Related: 101 Pick Up Lines
 
 250. If you were rescuing people from a burning building and you had to leave one person behind from this room, who would it be?
 """
-   )
+)
 
 
 
@@ -850,7 +850,7 @@ DARE_STRINGS = (
    "Make your phone number public for 3 minutes.",
    "Set your bio as, 'I am gay and I want to sleep with the person reading this right now' for 2 days.",
    "Suggest more dares to @MaiSakurajima7",
-   )
+)
 
 
 
@@ -917,4 +917,4 @@ TORD_STRINGS = (
    "What’s the longest you’ve gone without showering?",
    "Have you ever used a fake ID?",
    "Who’s your hall pass?",
-   )
+)
