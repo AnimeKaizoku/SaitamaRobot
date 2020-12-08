@@ -45,5 +45,5 @@ __command_list__ = [
 ]
 
 __handlers__ = [
-    TRUTH_HANDLER, DARE_HANDLER, TORD_HANDLER
+    TRUTH_HANDLER, DARE_HANDLER, TORD_HANDLER,
 ]
