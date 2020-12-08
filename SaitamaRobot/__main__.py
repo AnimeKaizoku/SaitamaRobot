@@ -83,7 +83,7 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://telegra.ph/file/8c296c357ed79b0509af3.mp4" #"https://images.alphacoders.com/901/901812.png" "https://telegra.ph/file/ff21a6f2a29ac89932368.jpg"
+SAITAMA_IMG =  "https://images.alphacoders.com/901/901812.png" #"https://telegra.ph/file/8c296c357ed79b0509af3.mp4" "https://telegra.ph/file/ff21a6f2a29ac89932368.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Zero Two is basically a forked version of Saitama, so there is no needs of funding for me right now. But\
@@ -196,7 +196,7 @@ def start(update: Update, context: CallbackContext):
 
         else:
             first_name = update.effective_user.first_name
-            update.effective_message.reply_video(
+            update.effective_message.reply_photo(
                 SAITAMA_IMG,
                 PM_START_TEXT.format(
                     escape_markdown(first_name),
