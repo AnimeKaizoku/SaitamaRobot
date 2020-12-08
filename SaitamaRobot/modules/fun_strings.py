@@ -260,6 +260,16 @@ DYK_STRINGS = (
 )
 #Format: "〔〕\n\n｢｣", Change it as per your style.
 
+WYR_STRINGS = (
+	"Would you rather go into the past and meet your ancestors or go into the future and meet your great-great grandchildren?",
+	" Would you rather have more time or more money?",
+	"Would you rather have a rewind button or a pause button on your life?",
+	"Would you rather be able to talk with the animals or speak all foreign languages?",
+	"Would you rather win the lottery or live twice as long?",
+	"Would you feel worse if no one showed up to your wedding or to your funeral?",
+	"Would you rather be without internet for a week, or without your phone?",
+	"Would you rather meet George Washington, or the current President?"
+)
 
 PING_STRING = (
     "PONG!!",
