@@ -215,6 +215,21 @@ def dyk(update: Update, context: CallbackContext):
         user1=user1, item=item, hits=hit, throws=throw)
 
     reply_text(reply, parse_mode=ParseMode.HTML)
+    
+@run_async
+def truth(update: Update, context: CallbackContext):
+    update.effective_message.reply_text(random.choice(fun_strings.TRUTH_STRINGS))
+
+
+@run_async
+def dare(update: Update, context: CallbackContext):
+    update.effective_message.reply_text(random.choice(fun_strings.DARE_STRINGS))
+
+
+@run_async
+def random(update: Update, context: CallbackContext):
+    update.effective_message.reply_text(random.choice(fun_strings.RAN_STRINGS))
+
 
 
 __help__ = """
@@ -231,7 +246,10 @@ __help__ = """
  • `/weebify <text>`*:* returns a weebified text
  • `/sanitize`*:* always use this before /pat or any contact
  • `/pat`*:* pats a user, or get patted
-  • `/dyk`*:* gives you a anime related fact. NOTE: These facts may contain spoilers
+ • `/dyk`*:* gives you a anime related fact. NOTE: These facts may contain spoilers
+ • `/truth`*:* asks you a question
+ • `/dare`*:* gives you a dare
+ • `/tord`*:* can be a truth or a dare
 """
 
 SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)
@@ -246,6 +264,9 @@ RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg)
 DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 DYK_HANDLER = DisableAbleCommandHandler("dyk", dyk)
+TRUTH_HANDLER = DisableAbleCommandHandler("truth", truth)
+DARE_HANDLER = DisableAbleCommandHandler("dare", dare)
+TORD_HANDLER = DisableAbleCommandHandler("tord", tord)
 
 dispatcher.add_handler(SANITIZE_HANDLER)
 dispatcher.add_handler(RUNS_HANDLER)
@@ -259,14 +280,18 @@ dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
 dispatcher.add_handler(DYK_HANDLER)
+dispatcher.add_handler(TRUTH_HANDLER)
+dispatcher.add_handler(DARE_HANDLER)
+dispatcher.add_handler(TORD_HANDLER)
+
 
 __mod_name__ = "Fun"
 __command_list__ = [
     "runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide",
-    "table", "pat", "sanitize", "dyk"
+    "table", "pat", "sanitize", "dyk", "truth", "dare", "tord",
 ]
 __handlers__ = [
     RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER,
     SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER,
-    SANITIZE_HANDLER, DYK_HANDLER
+    SANITIZE_HANDLER, DYK_HANDLER, TRUTH_HANDLER, DARE_HANDLER, TORD_HANDLER,
 ]
