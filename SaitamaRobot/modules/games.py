@@ -27,7 +27,13 @@ def dare(update: Update, context: CallbackContext):
 def tord(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.TORD_STRINGS))
 
-
+"""
+ __help__ = 
+ • `/truth`*:* asks you a question
+ • `/dare`*:* gives you a dare
+ • `/tord`*:* can be a truth or a dare
+ 
+ """
 
 TRUTH_HANDLER = DisableAbleCommandHandler("truth", truth)
 DARE_HANDLER = DisableAbleCommandHandler("dare", dare)
