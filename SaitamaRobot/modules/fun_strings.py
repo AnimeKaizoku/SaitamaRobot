@@ -204,7 +204,7 @@ PAT_STICKERS = (
     "CAACAgQAAxkBAALRXF9Xs6XmIeDbnoL1wiDky0TdX-CvAAKKAQAC1TMzC9A3CtiT2rqVGwQ")
 
 
-DYK_TEMPLATES = (
+DYK_STRINGS = (
 	"〔ANIME IS HUGE, ESPECIALLY IN JAPAN.〕 \n\n｢According to a 2004 document from the Japan External Trade Organization, anime films and television shows account for 60% of the world’s animation-based entertainment. Almost 40 schools in Japan have declared anime as an individual subject on its own. Anime voice acting is also huge, as Japan has around 130 voice-acting schools. In Japan, more paper is used to print manga than toilet paper.｣", #Facts from https://newslanded.com/2020/07/03/12-shocking-facts-about-anime-you-need-to-know/
 	"〔THE HIGHEST-GROSSING ANIME FILM OF ALL TIME IS KIMI NO NA WA (YOUR NAME).〕\n\n｢The critical and commercial success of Makoto Shinkai’s Your Name can’t be understated. This film brought in more than $355 million worldwide. \nA unique and fictional storyline really makes this anime movie stand out from the others. Amazingly, most of the places shown in this anime are real! Here is one of them!｣",
 	"〔ANIME IS NOT THE SAME AS “CARTOON,” CONTRARY TO POPULAR BELIEF.〕\n\n｢With complicated stories and in-depth character development, anime avoids the cartoon label and makes claims on being a higher art form.｣",
