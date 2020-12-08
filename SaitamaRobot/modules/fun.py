@@ -186,35 +186,7 @@ def table(update: Update, context: CallbackContext):
     
 @run_async
 def dyk(update: Update, context: CallbackContext):
-    bot, args = context.bot, context.args
-    message = update.effective_message
-    chat = update.effective_chat
-
-    reply_text = message.reply_to_message.reply_text if message.reply_to_message else message.reply_text
-
-    curr_user = html.escape(message.from_user.first_name)
-    user_id = extract_user(message, args)
-
-
-    if user_id:
-
-        slapped_user = bot.get_chat(user_id)
-        user1 = curr_user
-        user2 = html.escape(slapped_user.first_name)
-
-    else:
-        user1 = bot.first_name
-        user2 = curr_user
-
-    temp = random.choice(fun_strings.DYK_TEMPLATES)
-    item = random.choice(fun_strings.ITEMS)
-    hit = random.choice(fun_strings.HIT)
-    throw = random.choice(fun_strings.THROW)
-
-    reply = temp.format(
-        user1=user1, item=item, hits=hit, throws=throw)
-
-    reply_text(reply, parse_mode=ParseMode.HTML)
+    update.effective_message.reply_text(random.choice(fun_strings.DYK_STRINGS))
     
 @run_async
 def truth(update: Update, context: CallbackContext):
