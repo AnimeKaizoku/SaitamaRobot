@@ -1,6 +1,7 @@
 import importlib
+import collections
 
-from SaitamaRobot import dispatcher
+from SaitamaRobot import dispatcher, telethn
 from SaitamaRobot.__main__ import (CHAT_SETTINGS, DATA_EXPORT, DATA_IMPORT,
                                    HELPABLE, IMPORTED, MIGRATEABLE, STATS,
                                    USER_INFO, USER_SETTINGS)
@@ -35,11 +36,15 @@ def load(update: Update, context: CallbackContext):
     if "__handlers__" in dir(imported_module):
         handlers = imported_module.__handlers__
         for handler in handlers:
-            if type(handler) != tuple:
+            if not isinstance(handler, tuple):
                 dispatcher.add_handler(handler)
             else:
-                handler_name, priority = handler
-                dispatcher.add_handler(handler_name, priority)
+                if isinstance(handler[0], collections.Callable):
+                    callback, telethon_event = handler
+                    telethn.add_event_handler(callback, telethon_event)
+                else:
+                    handler_name, priority = handler
+                    dispatcher.add_handler(handler_name, priority)
     else:
         IMPORTED.pop(imported_module.__mod_name__.lower())
         load_messasge.edit_text("The module cannot be loaded.")
@@ -101,14 +106,18 @@ def unload(update: Update, context: CallbackContext):
     if "__handlers__" in dir(imported_module):
         handlers = imported_module.__handlers__
         for handler in handlers:
-            if type(handler) == bool:
+            if isinstance(handler, bool):
                 unload_messasge.edit_text("This module can't be unloaded!")
                 return
-            elif type(handler) != tuple:
+            elif not isinstance(handler, tuple):
                 dispatcher.remove_handler(handler)
             else:
-                handler_name, priority = handler
-                dispatcher.remove_handler(handler_name, priority)
+                if isinstance(handler[0], collections.Callable):
+                    callback, telethon_event = handler
+                    telethn.remove_event_handler(callback, telethon_event)
+                else:
+                    handler_name, priority = handler
+                    dispatcher.remove_handler(handler_name, priority)
     else:
         unload_messasge.edit_text("The module cannot be unloaded.")
         return
