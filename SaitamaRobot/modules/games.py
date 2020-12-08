@@ -41,7 +41,7 @@ __help__ = """
 TRUTH_HANDLER = DisableAbleCommandHandler("truth", truth)
 DARE_HANDLER = DisableAbleCommandHandler("dare", dare)
 TORD_HANDLER = DisableAbleCommandHandler("tord", tord)
-WYR_HANDLER = DisableAbleCommandHandler("wyr", tord)
+WYR_HANDLER = DisableAbleCommandHandler("wyr", wyr)
 
 dispatcher.add_handler(TRUTH_HANDLER)
 dispatcher.add_handler(DARE_HANDLER)
