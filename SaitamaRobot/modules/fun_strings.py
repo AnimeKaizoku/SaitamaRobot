@@ -288,15 +288,15 @@ EARS = {
     ['⎝', '⎠'],
     ['ლ(', 'ლ)'],
     ['ᕕ(', ')ᕗ'],
-    ['(∩', ')⊃━☆ﾟ.*'],
+    ['(∩', ')⊃━☆ﾟ.*']
 }
 
 TOSS = (
     "Heads",
-    "Tails",
+    "Tails"
 )
 
-DECIDE = [
+EIGHTBALL = (
     "🟢 As I see it, yes.",
     "🟡 Ask again later.",
     "🟡 Better not tell you now.",
@@ -316,10 +316,10 @@ DECIDE = [
     "🟢 Without a doubt.",
     "🟢 Yes.",
     "🟢 Yes – definitely.",
-    "🟢 You may rely on it.",
-]
+    "🟢 You may rely on it."
+)
 
-EIGHTBALL = ("Yes.", "No.", "Maybe.")
+DECIDE = ("Yes.", "No.", "Maybe.")
 
 TABLE = ("(╯°□°）╯彡 ┻━┻", "I ran out of tables, will order more.",
          "Go do some work instead of flippin tables.")
