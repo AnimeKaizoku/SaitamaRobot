@@ -79,23 +79,23 @@ def markdown_help(update: Update, context: CallbackContext):
 __help__ = """
 *Available commands:*\n
 *Covid:*
- • `/covid <country>`: provides lastest covid information
+ • `/covid <country>`: provides lastest covid information\n
 *Weather:*
- • `/weather <city>`: gives weather information about a specific location or country
+ • `/weather <city>`: gives weather information about a specific location or country\n
 *Quotly:*
- • `/quotly`: reply to a message to get a quoted message
+ • `/quotly`: reply to a message to get a quoted message\n
 *Markdown:*
- • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats
+ • `/markdownhelp`*:* quick summary of how markdown works in telegram - can only be called in private chats\n
 *Paste:*
- • `/paste`*:* Saves replied content to `nekobin.com` and replies with a url
+ • `/paste`*:* saves replied content to `nekobin.com` and replies with a url\n
 *React:*
- • `/react`*:* Reacts with a random reaction
+ • `/react`*:* reacts with a random reaction\n
 *Urban Dictonary:*
- • `/ud <word>`*:* Type the word or expression you want to search use
+ • `/ud <word>`*:* type the word or expression you want to search use\n
 *Wikipedia:*
- • `/wiki <query>`*:* wikipedia your query
+ • `/wiki <query>`*:* wikipedia your query\n
 *Wallpapers:*
- • `/wall <query>`*:* get a wallpaper from wall.alphacoders.com
+ • `/wall <query>`*:* get a wallpaper from wall.alphacoders.com\n
 *Currency converter:* 
  • `/cash`*:* currency converter
 Example:
