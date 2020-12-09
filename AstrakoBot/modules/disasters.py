@@ -413,6 +413,10 @@ Group admins/group owners do not need these commands.
 • `/supportlist`*:* Lists all users which are allowed to gban, but can also be banned
 • `/whitelistlist`*:* Lists all users which cannot be banned, muted flood or kicked but can be manually banned by admins
 • `/devlist`*:* Lists all developer users who will have the same perms as the owner
+• `/addsudo`*:* Adds a user as sudo
+• `/addsupport`*:* Adds a user as support
+• `/addwhitelist`*:* Adds a user as whitelist
+• `Add dev doesnt exist, devs should know how to add themselves`
 
 *Ping:*
 • `/ping`*:* gets ping time of bot to telegram server
@@ -435,18 +439,20 @@ Group admins/group owners do not need these commands.
 *Access control:* 
 • `/ignore`*:* Blacklists a user from using the bot entirely
 • `/notice`*:* Removes user from blacklist
+• `/ignoredlist`*:* Lists ignored users
 
 *Speedtest:*
 • `/speedtest`*:* Runs a speedtest and gives you 2 options to choose from, text or image output
 
 *Global Bans:*
-• `/gban user reason`*:* Globally bans a user
-• `/ungban user reason`*:* Unbans the user from the global bans list
+• `/gban <id> <reason>`*:* Gbans the user, works by reply too
+• `/ungban`*:* Ungbans the user, same usage as gban
+• `/gbanlist`*:* Outputs a list of gbanned users
 
 *Module loading:*
-• `/listmodules`*:* Lists names of all modules
-• `/load modulename`*:* Loads the said module to memory without restarting
-• `/unload modulename`*:* Loads the said module from memory without restarting.memory without restarting the bot 
+• `/listmodules`*:* Prints modules and their names
+• `/unload <name>`*:* Unloads module dynamically
+• `/load <name>`*:* Loads module
 
 *Remote commands:*
 • `/rban user group`*:* Remote ban
@@ -470,6 +476,8 @@ Group admins/group owners do not need these commands.
 • `/sh`*:* Runs shell command
 • `/shell`*:* Runs shell command
 • `/py`*:* Runs python code
+• `/clearlocals`*:* As the name goes
+• `/dbcleanup`*:* Removes deleted accs and groups from db
 
 Visit @{SUPPORT_CHAT} for more information.
 """
