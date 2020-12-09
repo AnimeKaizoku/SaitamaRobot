@@ -375,13 +375,13 @@ def unlock(update, context) -> str:
                     chat_name = update.effective_message.chat.title
                     text = "Unlocked {} for everyone!".format(ltype)
 
-                can_change_info = chat.get_member(context.bot.id).can_change_info
+                can_change_info = chat.get_member(
+                    context.bot.id).can_change_info
                 if not can_change_info:
                     send_message(
                         update.effective_message,
                         "I don't have permission to change group info.",
-                        parse_mode="markdown"
-                    )
+                        parse_mode="markdown")
                     return
 
                 current_permission = context.bot.getChat(chat_id).permissions
