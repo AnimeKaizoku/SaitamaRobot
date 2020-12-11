@@ -6,7 +6,7 @@ from telegram import ParseMode, Update, ChatPermissions
 from telegram.ext import CallbackContext, run_async
 from telegram.error import BadRequest
 
-import SaitamaRobot.modules.games_string as games_string
+import SaitamaRobot.modules.fun_string as fun_strings
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin)
@@ -15,21 +15,25 @@ from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 
 @run_async
 def truth(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(games_string.TRUTH_STRINGS))
+    update.effective_message.reply_text(random.choice(fun_strings.TRUTH_STRINGS))
 
 
 @run_async
 def dare(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(games_string.DARE_STRINGS))
+    update.effective_message.reply_text(random.choice(fun_strings.DARE_STRINGS))
 
 
 @run_async
 def tord(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(games_string.TORD_STRINGS))
+    update.effective_message.reply_text(random.choice(fun_strings.TORD_STRINGS))
 
 @run_async
 def wyr(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(games_string.WYR_STRINGS))
+    update.effective_message.reply_text(random.choice(fun_strings.WYR_STRINGS))
+    
+@run_async
+def test(update: Update, context: CallbackContext):
+    update.effective_message.reply_text(rancom.choice(fun_strings.TEST_STRINGS))
 
 __help__ = """
  • `/truth`*:* asks you a question
