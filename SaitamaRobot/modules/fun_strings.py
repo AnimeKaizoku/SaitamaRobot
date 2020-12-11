@@ -928,3 +928,12 @@ TORD_STRINGS = (
    "Have you ever used a fake ID?",
    "Who’s your hall pass?",
 )
+
+TEST_STRINGS = (
+	"<bold>THIS IS A TEST FOR BOLD TEXT.</bold>",
+	"<code>THIS IS A TEST FOR CODE/MONOSPACE TEXT.</code>",
+	"<italic>THIS IS A TEST FOR ITALIC TEXT.</italic>",
+	"_TEST ITALIC!_",
+	"`TEST MONOSPACE`",
+	"*TEST BOLD*",
+)
