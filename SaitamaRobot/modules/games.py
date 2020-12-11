@@ -46,17 +46,19 @@ TRUTH_HANDLER = DisableAbleCommandHandler("truth", truth)
 DARE_HANDLER = DisableAbleCommandHandler("dare", dare)
 TORD_HANDLER = DisableAbleCommandHandler("tord", tord)
 WYR_HANDLER = DisableAbleCommandHandler("rather", wyr)
+TEST_HANDLER = DisableAbleCommandHandler("test", test)
 
 dispatcher.add_handler(TRUTH_HANDLER)
 dispatcher.add_handler(DARE_HANDLER)
 dispatcher.add_handler(TORD_HANDLER)
 dispatcher.add_handler(WYR_HANDLER)
+dispatcher.add_handler(TEST_HANDLER)
 
 __mod_name__ = "Games"
 __command_list__ = [
-   "truth", "dare", "tord", "rather"
+   "truth", "dare", "tord", "rather", "test",
 ]
 
 __handlers__ = [
-    TRUTH_HANDLER, DARE_HANDLER, TORD_HANDLER, WYR_HANDLER
+    TRUTH_HANDLER, DARE_HANDLER, TORD_HANDLER, WYR_HANDLER, TEST_HANDLER,
 ]
