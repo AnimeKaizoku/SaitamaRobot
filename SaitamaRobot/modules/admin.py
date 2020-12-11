@@ -382,9 +382,9 @@ def adminlist(update, context):
             text += "\n` ❖ `{}\n".format(name)
 
             if custom_title:
-                text += f"┗━ `{escape_markdown(custom_title)}`\n"
+                text += f" ┗━ `{escape_markdown(custom_title)}`\n"
 
-    text += "\n Admins:"
+    text += "\n Member of Nines:"
 
     custom_admin_list = {}
     normal_admin_list = []

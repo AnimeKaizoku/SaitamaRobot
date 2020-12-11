@@ -108,7 +108,7 @@ def hpmanager(user):
 
 def make_bar(per):
     done = min(round(per / 10), 10)
-    return "◈" * done + "◇" * (10 - done)
+    return "■" * done + "□" * (10 - done)
 
 
 @run_async
@@ -516,8 +516,8 @@ Examples:
 *Overall Information about you:*
  • `/info`*:* get information about a user. 
  
-*What is that health thingy?*
- Come and see [HP System explained](https://t.me/OnePunchUpdates/192)
+#*What is that health thingy?*
+ #Come and see [HP System explained](https://t.me/OnePunchUpdates/192)
 """
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)

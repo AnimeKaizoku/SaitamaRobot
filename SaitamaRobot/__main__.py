@@ -61,7 +61,7 @@ PM_START_TEXT = """
 *Partner*: _Hiro_
 *FRANXX*: _Strelizia_ 
 
-Use /help to know my abilities.
+Use /help to know my abilities [^_^](https://images.alphacoders.com/901/901812.png).
 """
 
 HELP_STRINGS = """
@@ -83,7 +83,10 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG =  "https://images.alphacoders.com/901/901812.png" #"https://telegra.ph/file/8c296c357ed79b0509af3.mp4" "https://telegra.ph/file/ff21a6f2a29ac89932368.jpg"
+Delphinium
+SAITAMA_IMG =  "https://images.alphacoders.com/901/901812.png" #"https://telegra.ph/file/ff21a6f2a29ac89932368.jpg"
+=======
+SAITAMA_IMG = "https://images.alphacoders.com/901/901812.png" #"https://telegra.ph/file/ff21a6f2a29ac89932368.master
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Zero Two is basically a forked version of Saitama, so there is no needs of funding for me right now. But\
@@ -500,12 +503,6 @@ def donate(update: Update, context: CallbackContext):
             DONATE_STRING,
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True)
-
-        if OWNER_ID != 254318997 and DONATION_LINK:
-            update.effective_message.reply_text(
-                "You can also donate to the person currently running me "
-                "[here]({})".format(DONATION_LINK),
-                parse_mode=ParseMode.MARKDOWN)
 
     else:
         try:
