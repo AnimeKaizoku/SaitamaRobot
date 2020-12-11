@@ -33,7 +33,7 @@ def wyr(update: Update, context: CallbackContext):
     
 @run_async
 def test(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(rancom.choice(fun_strings.TEST_STRINGS))
+    update.effective_message.reply_text(random.choice(fun_strings.TEST_STRINGS))
 
 __help__ = """
  • `/truth`*:* asks you a question
