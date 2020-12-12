@@ -42,3 +42,4 @@ pySmartDL
 validators
 youtube_dl
 youtube-search-python
+gtts
