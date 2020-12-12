@@ -36,3 +36,9 @@ cachetools
 ujson
 bs4
 fontTools
+hachoir
+pybase64
+pySmartDL
+validators
+youtube_dl
+youtube-search-python
