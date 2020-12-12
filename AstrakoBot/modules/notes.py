@@ -332,9 +332,9 @@ def list_notes(update: Update, context: CallbackContext):
     msg = "Get note by `/notenumber` or `#notename` \n\n  *ID*    *Note* \n"
     for note_id, note in zip(range(1, notes), note_list):
         if note_id < 10:
-            note_name = f"`{note_id:2}.`  `#{(note.name.lower())}`\n"
+            note_name = f"`{note_id:2}.`  `{(note.name.lower())}`\n"
         else:
-            note_name = f"`{note_id}.`  `#{(note.name.lower())}`\n"
+            note_name = f"`{note_id}.`  `{(note.name.lower())}`\n"
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(
                 msg, parse_mode=ParseMode.MARKDOWN)
