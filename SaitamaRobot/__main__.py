@@ -213,7 +213,7 @@ def start(update: Update, context: CallbackContext):
                      [
                          InlineKeyboardButton(
                              text="Franxx Health System",
-                             url=f"https://t.me/{SUPPORT_CHAT}"),
+                             url=f"https://t.me/{SUPPORT_CHAT}:same"),
                      ],
                      [
                          InlineKeyboardButton(
@@ -223,7 +223,7 @@ def start(update: Update, context: CallbackContext):
                      [
                          InlineKeyboardButton(
                              text="🗄 Source code",
-                             url="https://github.com/ninja7-bot/ZeroTwoRepo")
+                             url="https://github.com/ninja7-bot/ZeroTwoRepo:same")
 
                      ]]))
     else:
