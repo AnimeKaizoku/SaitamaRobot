@@ -186,7 +186,7 @@ def __load_cleaner_list():
 
     try:
         GLOBAL_IGNORE_COMMANDS = {
-            int(x.command) for x in SESSION.query(CleanerBlueTextGlobal).all()
+            str(x.command) for x in SESSION.query(CleanerBlueTextGlobal).all() # int(x.command) for x in SESSION.query(CleanerBlueTextGlobal).all()
         }
     finally:
         SESSION.close()
