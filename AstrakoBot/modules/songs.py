@@ -1,6 +1,6 @@
 # Thanks to @p_rinc_e
 from pathlib import Path
-import asyncio, time, io, math, os, logging, asyncio, shutil, re, subprocess, json
+import asyncio, time, io, math, os, glob, logging, asyncio, shutil, re, subprocess, json
 from re import findall
 from asyncio import sleep
 from telethon.events import NewMessage
@@ -26,23 +26,14 @@ from urllib.error import HTTPError
 import bs4
 from bs4 import BeautifulSoup
 from youtube_dl import YoutubeDL
-
+from youtubesearchpython import SearchVideos
 from youtube_dl.utils import (DownloadError, ContentTooShortError,
-
                               ExtractorError, GeoRestrictedError,
                               MaxDownloadsReached, PostProcessingError,
                               UnavailableVideoError, XAttrMetadataError)
 
-try:
 
-   from youtubesearchpython import SearchVideos 
-
-except:
-	os.system("pip install pip install youtube-search-python")
-	from youtubesearchpython import SearchVideos 
-	pass
-
-async def process(v_url, dtype):
+async def process(v_url, dtype, opts):
     lazy = v_url ; sender = await lazy.get_sender() ; me = await lazy.client.get_me()
     if not sender.id == me.id:
         rkp = await lazy.reply("`processing...`")
@@ -61,59 +52,6 @@ async def process(v_url, dtype):
     	return await rkp.edit("`failed to find`")
     type = "audio"
     await rkp.edit("`Preparing to download...`")
-    if dtype == "song":
-        opts = {
-            'format':
-            'bestaudio',
-            'addmetadata':
-            True,
-            'key':
-            'FFmpegMetadata',
-            'writethumbnail':
-            True,
-            'prefer_ffmpeg':
-            True,
-            'geo_bypass':
-            True,
-            'nocheckcertificate':
-            True,
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '320',
-            }],
-            'outtmpl':
-            '%(id)s.mp3',
-            'quiet':
-            True,
-            'logtostderr':
-            False
-        }
-    else:
-        opts = {
-            'format':
-            'best',
-            'addmetadata':
-            True,
-            'key':
-            'FFmpegMetadata',
-            'prefer_ffmpeg':
-            True,
-            'geo_bypass':
-            True,
-            'nocheckcertificate':
-            True,
-            'postprocessors': [{
-                'key': 'FFmpegVideoConvertor',
-                'preferedformat': 'mp4'
-            }],
-            'outtmpl':
-            '%(id)s.mp4',
-            'logtostderr':
-            False,
-            'quiet':
-            True
-        }
   
     try:
         await rkp.edit("`Fetching data, please wait..`")
@@ -149,6 +87,7 @@ async def process(v_url, dtype):
         await rkp.edit(f"{str(type(e)): {str(e)}}")
         return
     c_time = time.time()
+
     if dtype == "song":
         await rkp.edit(f"`Preparing to upload song:`\
         \n**{rip_data['title']}**\
@@ -182,38 +121,70 @@ async def process(v_url, dtype):
                          f"{rip_data['title']}.mp4")))
 
     try:
-        os.remove(f"{rip_data['id']}.mp3")
-    except Exception:
-        pass
-    try:
-        os.remove(f"{rip_data['id']}.mp3.jpg")
-    except Exception:
-        pass
-    try:
-        os.remove(f"{rip_data['id']}.mp3.webp")
-    except Exception:
-        pass
-    try:
-        os.remove(f"{rip_data['id']}.mp4")
-    except Exception:
-        pass
-    try:
-        os.remove(f"{rip_data['id']}.mp4.jpg")
-    except Exception:
-        pass
-    try:
-        os.remove(f"{rip_data['id']}.mp4.webp")
+        for f in glob.glob("*.mp*"):
+            os.remove(f)
     except Exception:
         pass
 
 
 @telethn.on(events.NewMessage(pattern="^[!/]song(.*)"))
 async def song(v_url):
-    await process(v_url, "song")
+    opts = {
+    'format':
+    'bestaudio',
+    'addmetadata':
+    True,
+    'key':
+    'FFmpegMetadata',
+    'writethumbnail':
+    True,
+    'prefer_ffmpeg':
+    True,
+    'geo_bypass':
+    True,
+    'nocheckcertificate':
+    True,
+    'postprocessors': [{
+        'key': 'FFmpegExtractAudio',
+        'preferredcodec': 'mp3',
+        'preferredquality': '320',
+    }],
+    'outtmpl':
+    '%(id)s.mp3',
+    'quiet':
+    True,
+    'logtostderr':
+    False
+    }
+    await process(v_url, "song", opts)
 
 @telethn.on(events.NewMessage(pattern="^[!/]video(.*)"))
 async def video(v_url):
-    await process(v_url, "video")
+    opts = {
+    'format':
+    'best',
+    'addmetadata':
+    True,
+    'key':
+    'FFmpegMetadata',
+    'prefer_ffmpeg':
+    True,
+    'geo_bypass':
+    True,
+    'nocheckcertificate':
+    True,
+    'postprocessors': [{
+        'key': 'FFmpegVideoConvertor',
+        'preferedformat': 'mp4'
+    }],
+    'outtmpl':
+    '%(id)s.mp4',
+    'logtostderr':
+    False,
+    'quiet':
+    True
+    }
+    await process(v_url, "video", opts)
 
 
 SONG_HANDLER = DisableAbleCommandHandler('song', song)
