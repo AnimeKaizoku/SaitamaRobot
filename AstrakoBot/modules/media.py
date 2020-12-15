@@ -10,8 +10,8 @@ __help__ = """
 *Text to speech:*
  • `/tts <text>`: convert text to speech\n
 *Songs:*
- • `/song <songname artist(optional)>`: uploads the song in it's best quality available
- • `/video <songname artist(optional)>`: uploads the video song in it's best quality available\n
+ • `/song <songname artist(optional)>`: uploads the song as mp3
+ • `/video <songname artist(optional)>`: uploads the video song in sd quality (480p) as mp4 \n
 """
 
 __mod_name__ = "Media"
