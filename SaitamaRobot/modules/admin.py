@@ -461,8 +461,8 @@ __help__ = """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
 
-PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.group)
-UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
+PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.chat_type.groups)
+UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.chat_type.groups)
 
 INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite)
 

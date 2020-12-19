@@ -97,7 +97,7 @@ Example:
 Output: `1.0 USD = 75.505 INR`
 """
 
-ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.group)
+ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.chat_type.groups)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help)
 
 dispatcher.add_handler(ECHO_HANDLER)
