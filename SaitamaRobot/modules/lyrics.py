@@ -10,7 +10,7 @@ from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def lyrics(bot: Bot, update: Update, args):
+def lyrics(bot: Bot, update: Update, *args, **kwargs):
     msg = update.effective_message
     query = " ".join(args)
     song = ""
