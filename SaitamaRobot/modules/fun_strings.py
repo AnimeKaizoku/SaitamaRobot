@@ -1,3 +1,5 @@
+from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+
 RUN_STRINGS = (
     "Now you see me, now you don't."
     "ε=ε=ε=ε=┌(;￣▽￣)┘",
@@ -933,9 +935,6 @@ TORD_STRINGS = (
 )
 
 TEST_STRINGS = (
-	"<bold>THIS IS A TEST FOR BOLD TEXT.</bold>",
-	"<code>THIS IS A TEST FOR CODE/MONOSPACE TEXT.</code>",
-	"<italic>THIS IS A TEST FOR ITALIC TEXT.</italic>",
 	"_TEST ITALIC!_",
 	"`TEST MONOSPACE`",
 	"*TEST BOLD*",
