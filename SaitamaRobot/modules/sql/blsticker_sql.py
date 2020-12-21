@@ -18,8 +18,10 @@ class StickersFilters(BASE):
 
     def __eq__(self, other):
         return bool(
-            isinstance(other, StickersFilters) and
-            self.chat_id == other.chat_id and self.trigger == other.trigger)
+            isinstance(other, StickersFilters)
+            and self.chat_id == other.chat_id
+            and self.trigger == other.trigger
+        )
 
 
 class StickerSettings(BASE):
@@ -35,7 +37,8 @@ class StickerSettings(BASE):
 
     def __repr__(self):
         return "<{} will executing {} for blacklist trigger.>".format(
-            self.chat_id, self.blacklist_type)
+            self.chat_id, self.blacklist_type
+        )
 
 
 StickersFilters.__table__.create(checkfirst=True)
@@ -63,11 +66,9 @@ def add_to_stickers(chat_id, trigger):
 
 def rm_from_stickers(chat_id, trigger):
     with STICKERS_FILTER_INSERTION_LOCK:
-        stickers_filt = SESSION.query(StickersFilters).get(
-            (str(chat_id), trigger))
+        stickers_filt = SESSION.query(StickersFilters).get((str(chat_id), trigger))
         if stickers_filt:
-            if trigger in CHAT_STICKERS.get(str(chat_id),
-                                            set()):  # sanity check
+            if trigger in CHAT_STICKERS.get(str(chat_id), set()):  # sanity check
                 CHAT_STICKERS.get(str(chat_id), set()).remove(trigger)
 
             SESSION.delete(stickers_filt)
@@ -91,16 +92,18 @@ def num_stickers_filters():
 
 def num_stickers_chat_filters(chat_id):
     try:
-        return SESSION.query(StickersFilters.chat_id).filter(
-            StickersFilters.chat_id == str(chat_id)).count()
+        return (
+            SESSION.query(StickersFilters.chat_id)
+            .filter(StickersFilters.chat_id == str(chat_id))
+            .count()
+        )
     finally:
         SESSION.close()
 
 
 def num_stickers_filter_chats():
     try:
-        return SESSION.query(func.count(distinct(
-            StickersFilters.chat_id))).scalar()
+        return SESSION.query(func.count(distinct(StickersFilters.chat_id))).scalar()
     finally:
         SESSION.close()
 
@@ -120,13 +123,14 @@ def set_blacklist_strength(chat_id, blacklist_type, value):
         curr_setting = SESSION.query(StickerSettings).get(str(chat_id))
         if not curr_setting:
             curr_setting = StickerSettings(
-                chat_id, blacklist_type=int(blacklist_type), value=value)
+                chat_id, blacklist_type=int(blacklist_type), value=value
+            )
 
         curr_setting.blacklist_type = int(blacklist_type)
         curr_setting.value = str(value)
         CHAT_BLSTICK_BLACKLISTS[str(chat_id)] = {
-            'blacklist_type': int(blacklist_type),
-            'value': value
+            "blacklist_type": int(blacklist_type),
+            "value": value,
         }
 
         SESSION.add(curr_setting)
@@ -137,7 +141,7 @@ def get_blacklist_setting(chat_id):
     try:
         setting = CHAT_BLSTICK_BLACKLISTS.get(str(chat_id))
         if setting:
-            return setting['blacklist_type'], setting['value']
+            return setting["blacklist_type"], setting["value"]
         else:
             return 1, "0"
 
@@ -168,8 +172,8 @@ def __load_chat_stickerset_blacklists():
         chats_settings = SESSION.query(StickerSettings).all()
         for x in chats_settings:  # remove tuple by ( ,)
             CHAT_BLSTICK_BLACKLISTS[x.chat_id] = {
-                'blacklist_type': x.blacklist_type,
-                'value': x.value
+                "blacklist_type": x.blacklist_type,
+                "value": x.value,
             }
 
     finally:
@@ -178,8 +182,11 @@ def __load_chat_stickerset_blacklists():
 
 def migrate_chat(old_chat_id, new_chat_id):
     with STICKERS_FILTER_INSERTION_LOCK:
-        chat_filters = SESSION.query(StickersFilters).filter(
-            StickersFilters.chat_id == str(old_chat_id)).all()
+        chat_filters = (
+            SESSION.query(StickersFilters)
+            .filter(StickersFilters.chat_id == str(old_chat_id))
+            .all()
+        )
         for filt in chat_filters:
             filt.chat_id = str(new_chat_id)
         SESSION.commit()

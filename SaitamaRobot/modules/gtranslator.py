@@ -33,7 +33,7 @@ def totranslate(update: Update, context: CallbackContext):
             text = args[2]
             source_lang = args[1]
 
-        if source_lang.count('-') == 2:
+        if source_lang.count("-") == 2:
             for lang in problem_lang_code:
                 if lang in source_lang:
                     if source_lang.startswith(lang):
@@ -42,7 +42,7 @@ def totranslate(update: Update, context: CallbackContext):
                     else:
                         dest_lang = source_lang.split("-", 1)[1]
                         source_lang = source_lang.split("-", 1)[0]
-        elif source_lang.count('-') == 1:
+        elif source_lang.count("-") == 1:
             for lang in problem_lang_code:
                 if lang in source_lang:
                     dest_lang = source_lang
@@ -58,7 +58,7 @@ def totranslate(update: Update, context: CallbackContext):
         exclude_list = UNICODE_EMOJI.keys()
         for emoji in exclude_list:
             if emoji in text:
-                text = text.replace(emoji, '')
+                text = text.replace(emoji, "")
 
         trl = google_translator()
         if source_lang is None:
@@ -66,13 +66,14 @@ def totranslate(update: Update, context: CallbackContext):
             trans_str = trl.translate(text, lang_tgt=dest_lang)
             return message.reply_text(
                 f"Translated from `{detection[0]}` to `{dest_lang}`:\n`{trans_str}`",
-                parse_mode=ParseMode.MARKDOWN)
+                parse_mode=ParseMode.MARKDOWN,
+            )
         else:
-            trans_str = trl.translate(
-                text, lang_tgt=dest_lang, lang_src=source_lang)
+            trans_str = trl.translate(text, lang_tgt=dest_lang, lang_src=source_lang)
             message.reply_text(
                 f"Translated from `{source_lang}` to `{dest_lang}`:\n`{trans_str}`",
-                parse_mode=ParseMode.MARKDOWN)
+                parse_mode=ParseMode.MARKDOWN,
+            )
 
     except IndexError:
         update.effective_message.reply_text(
@@ -81,10 +82,10 @@ def totranslate(update: Update, context: CallbackContext):
             "Or use: `/tr ml` for automatic detection and translating it into Malayalam.\n"
             "See [List of Language Codes](t.me/OnePunchSupport/12823) for a list of language codes.",
             parse_mode="markdown",
-            disable_web_page_preview=True)
+            disable_web_page_preview=True,
+        )
     except ValueError:
-        update.effective_message.reply_text(
-            "The intended language is not found!")
+        update.effective_message.reply_text("The intended language is not found!")
     else:
         return
 
