@@ -129,6 +129,11 @@ def test(update: Update, context: CallbackContext):
 @run_async
 def start(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
+    chat = update.effective_chat
+    user = update.effective_user
+    log_message = ""
+    bot = context.bot
+    args = context.bot
     user_id, reason = extract_user_and_text(message, args)
     
     args = context.args
