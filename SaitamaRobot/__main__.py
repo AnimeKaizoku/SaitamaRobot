@@ -126,7 +126,7 @@ def test(update: Update, context: CallbackContext):
 
 
 @run_async
-def start(update: Update, context: CallbackContext):
+def start(update: Update, context: CallbackContext, user_id, user=False):
     args = context.args
     if update.effective_chat.type == "private":
         if len(args) >= 1:
