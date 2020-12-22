@@ -175,7 +175,6 @@ def start(update: Update, context: CallbackContext) -> str:
            
     elif user_id == OWNER_ID:
         update.effective_message.reply_text("Hello Dragon Sama :),\nWant Wakeup Kiss?;)")
-        return log_message
       
     else:
         update.effective_message.reply_text("Hello:) Whassup,\nPm me /help to know available commands;)")
