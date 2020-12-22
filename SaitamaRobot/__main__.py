@@ -163,6 +163,11 @@ def start(update: Update, context: CallbackContext):
                         url="t.me/{}?startgroup=true".format(
                             context.bot.username))
                 ]]))
+           
+    elif user_id == OWNER_ID:
+        update.effective_message.reply_text("Hello Dragon Sama :),\nWant Wakeup Kiss?;)")
+        return log_message
+      
     else:
         update.effective_message.reply_text("Hello:) Whassup,\nPm me /help to know available commands;)")
 
