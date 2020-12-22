@@ -9,7 +9,7 @@ Can be found on telegram as [Karma Akabane](https://t.me/KarmaAkabaneRobot).
 
 The Support group can be reached out to at [Karma Support Chat](https://t.me/KarmaSupportChat), where you can ask for help about [Karma Akabane](https://t.me/KarmaAkabaneRobot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
-News channel as at [Karma•Updates](https://t.me/KarmaUpdates) 
+News channel as at [Karma•Updates](https://t.me/KarmaBotUpdates)
 
 ## How to setup/deploy.
 
