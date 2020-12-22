@@ -41,8 +41,7 @@ Owner has complete bot access, including bot adminship in chats Saitama is at.
 \n*Tigers* - Same as wolves but can unban themselves if banned.
 \n*Wolves* - Cannot be banned, muted flood kicked but can be manually banned by admins.
 \n*Disclaimer*: The disaster levels in Saitama are there for troubleshooting, support, banning potential scammers.
-Report abuse or ask us more on these at [Heroes Association](https://t.me/OnePunchSupport).
-"""
+Report abuse or ask us more on these at [Devil Family](https://t.me/joinchat/RPvm91FyZKTt5iTUilCBWg).
 
 
 # do not async, not a handler
