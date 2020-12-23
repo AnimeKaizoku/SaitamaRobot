@@ -200,8 +200,8 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text="☑️ Add Saitama to your group",
-                            url="t.me/{}?startgroup=true".format(
+                            text="☑️ Add Shadow to your group",
+                            url="t.me/Shadow_xbot?startgroup=true".format(
                                 context.bot.username))
                     ],
                      [
