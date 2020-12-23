@@ -53,7 +53,7 @@ def get_readable_time(seconds: int) -> str:
 PM_START_TEXT = """
 Why ping me up while I'm asleep you little brat! 
 Well if you had, just listen now!
-My name is Karma Akabane! Build by weebs for weebs, I specialize in managing anime and similar themed groups.
+My name is Karma Akabane! I specialize in managing anime and similar themed groups.
 You can find my list of available commands with /help.
 """
 
