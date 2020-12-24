@@ -16,6 +16,7 @@ from telegram.utils.helpers import mention_html, escape_markdown
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.connection import connected
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
+from SaitamaRobot.modules.sql.approve_sql import is_approved
 FLOOD_GROUP = 3
 
 
@@ -32,7 +33,10 @@ def check_flood(update, context) -> str:
     if (is_user_admin(chat, user.id) or user.id in WOLVES or user.id in TIGERS):
         sql.update_flood(chat.id, None)
         return ""
-
+     # ignore approved users
+     if is_approved(chat.id, user.id):
+        sql.update_flood(chat.id, None)
+        return
     should_ban = sql.update_flood(chat.id, user.id)
     if not should_ban:
         return ""
