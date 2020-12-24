@@ -34,7 +34,7 @@ def check_flood(update, context) -> str:
         sql.update_flood(chat.id, None)
         return ""
      # ignore approved users
-     if is_approved(chat.id, user.id):
+    if is_approved(chat.id, user.id):
         sql.update_flood(chat.id, None)
         return
     should_ban = sql.update_flood(chat.id, user.id)
@@ -269,7 +269,6 @@ def set_flood_mode(update, context):
         elif args[0].lower() == 'tban':
             if len(args) == 1:
                 teks = """It looks like you tried to set time value for antiflood but you didn't specified time; Try, `/setfloodmode tban <timevalue>`.
-
 Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
                 send_message(
                     update.effective_message, teks, parse_mode="markdown")
@@ -279,7 +278,6 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
         elif args[0].lower() == 'tmute':
             if len(args) == 1:
                 teks = update.effective_message, """It looks like you tried to set time value for antiflood but you didn't specified time; Try, `/setfloodmode tmute <timevalue>`.
-
 Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
                 send_message(
                     update.effective_message, teks, parse_mode="markdown")
@@ -340,15 +338,12 @@ def __chat_settings__(chat_id, user_id):
 __help__ = """
 Antiflood allows you to take action on users that send more than x messages in a row. Exceeding the set flood \
 will result in restricting that user.
-
  This will mute users if they send more than 10 messages in a row, bots are ignored.
  • `/flood`*:* Get the current flood control setting
-
 • *Admins only:*
  • `/setflood <int/'no'/'off'>`*:* enables or disables flood control
  *Example:* `/setflood 10`
  • `/setfloodmode <ban/kick/mute/tban/tmute> <value>`*:* Action to perform when user have exceeded flood limit. ban/kick/mute/tmute/tban
-
 • *Note:*
  • Value must be filled for tban and tmute!!
  It can be:
