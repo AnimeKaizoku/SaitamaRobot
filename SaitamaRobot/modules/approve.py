@@ -1,3 +1,4 @@
+import html
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import dispatcher, DRAGONS
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
@@ -6,6 +7,7 @@ import SaitamaRobot.modules.sql.approve_sql as sql
 from SaitamaRobot.modules.helper_funcs.chat_status import bot_admin, user_admin
 from SaitamaRobot.modules.log_channel import loggable
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.utils.helpers import mention_html
 
 
 @loggable
@@ -16,12 +18,17 @@ def approve(update, context):
     chat_title = message.chat.title
     chat = update.effective_chat
     args = context.args
+    user = update.effective_user
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
             "I don't know who you're talking about, you're going to need to specify a user!"
         )
         return ""
+    try:
+        user_member = chat.get_member(user_id)
+    except:
+        return
     member = chat.get_member(int(user_id))
     if member.status == "administrator" or member.status == "creator":
         message.reply_text(
@@ -57,12 +64,17 @@ def disapprove(update, context):
     chat_title = message.chat.title
     chat = update.effective_chat
     args = context.args
+    user = update.effective_user
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
             "I don't know who you're talking about, you're going to need to specify a user!"
         )
         return ""
+    try:
+        user_member = chat.get_member(user_id)
+    except:
+        return
     member = chat.get_member(int(user_id))
     if member.status == "administrator" or member.status == "creator":
         message.reply_text("This user is an admin, they can't be unapproved.")
