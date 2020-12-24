@@ -26,10 +26,9 @@ def approve(update, context):
         )
         return ""
     try:
-        user_member = chat.get_member(user_id)
+        member = chat.get_member(user_id)
     except:
         return
-    member = chat.get_member(int(user_id))
     if member.status == "administrator" or member.status == "creator":
         message.reply_text(
             f"User is already admin - locks, blocklists, and antiflood already don't apply to them."
@@ -50,7 +49,7 @@ def approve(update, context):
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#APPROVED\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
+        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
     )
 
     return log_message
@@ -72,10 +71,9 @@ def disapprove(update, context):
         )
         return ""
     try:
-        user_member = chat.get_member(user_id)
+        member = chat.get_member(user_id)
     except:
         return
-    member = chat.get_member(int(user_id))
     if member.status == "administrator" or member.status == "creator":
         message.reply_text("This user is an admin, they can't be unapproved.")
         return
@@ -90,7 +88,7 @@ def disapprove(update, context):
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#UNAPPROVED\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
+        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
     )
 
     return log_message
