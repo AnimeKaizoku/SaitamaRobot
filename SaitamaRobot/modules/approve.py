@@ -5,9 +5,11 @@ from telegram.ext import CallbackContext, run_async, Update, CallbackQueryHandle
 import SaitamaRobot.modules.sql.approve_sql as sql
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin, user_admin)
+from SaitamaRobot.modules.log_channel import loggable
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 
 
+@loggable
 @user_admin
 @run_async
 def approve(update, context):
@@ -33,6 +35,7 @@ def approve(update, context):
     message.reply_text(f"[{member.user['first_name']}](tg://user?id={member.user['id']}) has been approved in {chat_title}! They will now be ignored by automated admin actions like locks, blocklists, and antiflood.", parse_mode=ParseMode.MARKDOWN)
 
 
+@loggable
 @user_admin
 @run_async
 def disapprove(update, context):
