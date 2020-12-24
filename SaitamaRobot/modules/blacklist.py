@@ -16,7 +16,7 @@ from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.warns import warn
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.connection import connected
-
+from SaitamaRobot.modules.sql.approve_sql import is_approved
 from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
 
 BLACKLIST_GROUP = 11
@@ -342,7 +342,8 @@ def del_blacklist(update, context):
     to_match = extract_text(message)
     if not to_match:
         return
-
+    if is_approved(chat.id, user.id):
+        return
     getmode, value = sql.get_blacklist_setting(chat.id)
 
     chat_filters = sql.get_chat_blacklist(chat.id)
