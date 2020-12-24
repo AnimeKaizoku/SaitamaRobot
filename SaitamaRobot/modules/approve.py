@@ -4,10 +4,11 @@ from SaitamaRobot import dispatcher, DRAGONS
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
 from telegram.ext import CallbackContext, run_async, Update, CallbackQueryHandler
 import SaitamaRobot.modules.sql.approve_sql as sql
-from SaitamaRobot.modules.helper_funcs.chat_status import bot_admin, user_admin
+from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.log_channel import loggable
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.utils.helpers import mention_html
+from telegram.error import BadRequest
 
 
 @loggable
@@ -27,19 +28,19 @@ def approve(update, context):
         return ""
     try:
         member = chat.get_member(user_id)
-    except:
-        return
+    except BadRequest:
+        return ""
     if member.status == "administrator" or member.status == "creator":
         message.reply_text(
-            f"User is already admin - locks, blocklists, and antiflood already don't apply to them."
+            "User is already admin - locks, blocklists, and antiflood already don't apply to them."
         )
-        return
+        return ""
     if sql.is_approved(message.chat_id, user_id):
         message.reply_text(
             f"[{member.user['first_name']}](tg://user?id={member.user['id']}) is already approved in {chat_title}",
             parse_mode=ParseMode.MARKDOWN,
         )
-        return
+        return ""
     sql.approve(message.chat_id, user_id)
     message.reply_text(
         f"[{member.user['first_name']}](tg://user?id={member.user['id']}) has been approved in {chat_title}! They will now be ignored by automated admin actions like locks, blocklists, and antiflood.",
@@ -72,14 +73,14 @@ def disapprove(update, context):
         return ""
     try:
         member = chat.get_member(user_id)
-    except:
-        return
+    except BadRequest:
+        return ""
     if member.status == "administrator" or member.status == "creator":
         message.reply_text("This user is an admin, they can't be unapproved.")
-        return
+        return ""
     if not sql.is_approved(message.chat_id, user_id):
         message.reply_text(f"{member.user['first_name']} isn't approved yet!")
-        return
+        return ""
     sql.disapprove(message.chat_id, user_id)
     message.reply_text(
         f"{member.user['first_name']} is no longer approved in {chat_title}."
@@ -107,7 +108,7 @@ def approved(update, context):
         msg += f"- `{i.user_id}`: {member.user['first_name']}\n"
     if msg.endswith("approved.\n"):
         message.reply_text(f"No users are approved in {chat_title}.")
-        return
+        return ""
     else:
         message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
@@ -189,7 +190,7 @@ def unapproveall_btn(update: Update, context: CallbackContext):
     elif query.data == "unapproveall_cancel":
         if member.status == "creator" or query.from_user.id in DRAGONS:
             message.edit_text("Removing of all approved users has been cancelled.")
-            return
+            return ""
         if member.status == "administrator":
             query.answer("Only owner of the chat can do this.")
         if member.status == "member":
