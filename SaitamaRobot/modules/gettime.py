@@ -33,8 +33,8 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
                 day_fmt = r"%A"
                 gmt_offset = zone["gmtOffset"]
                 timestamp = datetime.datetime.now(
-                    datetime.timezone.utc
-                ) + datetime.timedelta(seconds=gmt_offset)
+                    datetime.timezone.utc) + datetime.timedelta(
+                        seconds=gmt_offset)
                 current_date = timestamp.strftime(date_fmt)
                 current_time = timestamp.strftime(time_fmt)
                 current_day = timestamp.strftime(day_fmt)
@@ -65,11 +65,11 @@ def gettime(update: Update, context: CallbackContext):
     try:
         query = message.text.strip().split(" ", 1)[1]
     except:
-        message.reply_text("Provide a country name/abbreviation/timezone to find.")
+        message.reply_text(
+            "Provide a country name/abbreviation/timezone to find.")
         return
     send_message = message.reply_text(
-        f"Finding timezone info for <b>{query}</b>", parse_mode=ParseMode.HTML
-    )
+        f"Finding timezone info for <b>{query}</b>", parse_mode=ParseMode.HTML)
 
     query_timezone = query.lower()
     if len(query_timezone) == 2:
@@ -87,8 +87,7 @@ def gettime(update: Update, context: CallbackContext):
         return
 
     send_message.edit_text(
-        result, parse_mode=ParseMode.HTML, disable_web_page_preview=True
-    )
+        result, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
 
 __help__ = """

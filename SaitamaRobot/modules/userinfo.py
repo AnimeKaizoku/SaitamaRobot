@@ -152,27 +152,25 @@ def get_id(update: Update, context: CallbackContext):
 
         if chat.type == "private":
             msg.reply_text(
-                f"Your id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
-            )
+                f"Your id is <code>{chat.id}</code>.",
+                parse_mode=ParseMode.HTML)
 
         else:
             msg.reply_text(
-                f"This group's id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
-            )
+                f"This group's id is <code>{chat.id}</code>.",
+                parse_mode=ParseMode.HTML)
 
 
 @SaitamaTelethonClient.on(
     events.NewMessage(
-        pattern="/ginfo ", from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])
-    )
-)
+        pattern="/ginfo ",
+        from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])))
 async def group_info(event) -> None:
     chat = event.text.split(" ", 1)[1]
     try:
         entity = await event.client.get_entity(chat)
         totallist = await event.client.get_participants(
-            entity, filter=ChannelParticipantsAdmins
-        )
+            entity, filter=ChannelParticipantsAdmins)
         ch_full = await event.client(GetFullChannelRequest(channel=entity))
     except:
         await event.reply(
@@ -208,7 +206,8 @@ def gifid(update: Update, context: CallbackContext):
             parse_mode=ParseMode.HTML,
         )
     else:
-        update.effective_message.reply_text("Please reply to a gif to get its ID.")
+        update.effective_message.reply_text(
+            "Please reply to a gif to get its ID.")
 
 
 @run_async
@@ -225,27 +224,22 @@ def info(update: Update, context: CallbackContext):
         user = message.from_user
 
     elif not message.reply_to_message and (
-        not args
-        or (
-            len(args) >= 1
-            and not args[0].startswith("@")
-            and not args[0].isdigit()
-            and not message.parse_entities([MessageEntity.TEXT_MENTION])
-        )
-    ):
+            not args or
+        (len(args) >= 1 and not args[0].startswith("@") and
+         not args[0].isdigit() and
+         not message.parse_entities([MessageEntity.TEXT_MENTION]))):
         message.reply_text("I can't extract a user from this.")
         return
 
     else:
         return
 
-    rep = message.reply_text("<code>Appraising...</code>", parse_mode=ParseMode.HTML)
+    rep = message.reply_text(
+        "<code>Appraising...</code>", parse_mode=ParseMode.HTML)
 
-    text = (
-        f"╒═══「<b> Appraisal results:</b> 」\n"
-        f"ID: <code>{user.id}</code>\n"
-        f"First Name: {html.escape(user.first_name)}"
-    )
+    text = (f"╒═══「<b> Appraisal results:</b> 」\n"
+            f"ID: <code>{user.id}</code>\n"
+            f"First Name: {html.escape(user.first_name)}")
 
     if user.last_name:
         text += f"\nLast Name: {html.escape(user.last_name)}"
@@ -308,8 +302,7 @@ def info(update: Update, context: CallbackContext):
 
     if disaster_level_present:
         text += ' [<a href="https://t.me/OnePunchUpdates/155">?</a>]'.format(
-            bot.username
-        )
+            bot.username)
 
     try:
         user_member = chat.get_member(user.id)
@@ -349,13 +342,11 @@ def info(update: Update, context: CallbackContext):
         # Incase user don't have profile pic, send normal text
         except IndexError:
             message.reply_text(
-                text, parse_mode=ParseMode.HTML, disable_web_page_preview=True
-            )
+                text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
     else:
         message.reply_text(
-            text, parse_mode=ParseMode.HTML, disable_web_page_preview=True
-        )
+            text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
     rep.delete()
 
@@ -382,10 +373,10 @@ def about_me(update: Update, context: CallbackContext):
     elif message.reply_to_message:
         username = message.reply_to_message.from_user.first_name
         update.effective_message.reply_text(
-            f"{username} hasn't set an info message about themselves yet!"
-        )
+            f"{username} hasn't set an info message about themselves yet!")
     else:
-        update.effective_message.reply_text("There isnt one, use /setme to set one.")
+        update.effective_message.reply_text(
+            "There isnt one, use /setme to set one.")
 
 
 @run_async
@@ -399,7 +390,8 @@ def set_about_me(update: Update, context: CallbackContext):
     if message.reply_to_message:
         repl_message = message.reply_to_message
         repl_user_id = repl_message.from_user.id
-        if repl_user_id in [bot.id, 777000, 1087968824] and (user_id in DEV_USERS):
+        if repl_user_id in [bot.id, 777000, 1087968824] and (user_id
+                                                             in DEV_USERS):
             user_id = repl_user_id
     text = message.text
     info = text.split(None, 1)
@@ -409,30 +401,24 @@ def set_about_me(update: Update, context: CallbackContext):
             if user_id in [777000, 1087968824]:
                 message.reply_text("Authorized...Information updated!")
             elif user_id == bot.id:
-                message.reply_text("I have updated my info with the one you provided!")
+                message.reply_text(
+                    "I have updated my info with the one you provided!")
             else:
                 message.reply_text("Information updated!")
         else:
             message.reply_text(
                 "The info needs to be under {} characters! You have {}.".format(
-                    MAX_MESSAGE_LENGTH // 4, len(info[1])
-                )
-            )
+                    MAX_MESSAGE_LENGTH // 4, len(info[1])))
 
 
 @run_async
 @sudo_plus
 def stats(update: Update, context: CallbackContext):
     process = subprocess.Popen(
-        "neofetch --stdout", shell=True, text=True, stdout=subprocess.PIPE
-    )
+        "neofetch --stdout", shell=True, text=True, stdout=subprocess.PIPE)
     output = process.communicate()[0]
-    stats = (
-        "<b>Current stats:</b>\n"
-        + "\n"
-        + output
-        + "\n".join([mod.__stats__() for mod in STATS])
-    )
+    stats = ("<b>Current stats:</b>\n" + "\n" + output +
+             "\n".join([mod.__stats__() for mod in STATS]))
     result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
 
@@ -463,8 +449,7 @@ def about_bio(update: Update, context: CallbackContext):
         )
     else:
         update.effective_message.reply_text(
-            "You haven't had a bio set about yourself yet!"
-        )
+            "You haven't had a bio set about yourself yet!")
 
 
 @run_async
@@ -489,8 +474,7 @@ def set_about_bio(update: Update, context: CallbackContext):
 
         if user_id == bot.id and sender_id not in DEV_USERS:
             message.reply_text(
-                "Erm... yeah, I only trust Heroes Association to set my bio."
-            )
+                "Erm... yeah, I only trust Heroes Association to set my bio.")
             return
 
         text = message.text
@@ -501,15 +485,12 @@ def set_about_bio(update: Update, context: CallbackContext):
         if len(bio) == 2:
             if len(bio[1]) < MAX_MESSAGE_LENGTH // 4:
                 sql.set_user_bio(user_id, bio[1])
-                message.reply_text(
-                    "Updated {}'s bio!".format(repl_message.from_user.first_name)
-                )
+                message.reply_text("Updated {}'s bio!".format(
+                    repl_message.from_user.first_name))
             else:
                 message.reply_text(
-                    "Bio needs to be under {} characters! You tried to set {}.".format(
-                        MAX_MESSAGE_LENGTH // 4, len(bio[1])
-                    )
-                )
+                    "Bio needs to be under {} characters! You tried to set {}."
+                    .format(MAX_MESSAGE_LENGTH // 4, len(bio[1])))
     else:
         message.reply_text("Reply to someone to set their bio!")
 

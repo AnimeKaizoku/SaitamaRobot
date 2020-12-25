@@ -31,14 +31,16 @@ def namespace_of(chat, update, bot):
 def log_input(update):
     user = update.effective_user.id
     chat = update.effective_chat.id
-    LOGGER.info(f"IN: {update.effective_message.text} (user={user}, chat={chat})")
+    LOGGER.info(
+        f"IN: {update.effective_message.text} (user={user}, chat={chat})")
 
 
 def send(msg, bot, update):
     if len(str(msg)) > 2000:
         with io.BytesIO(str.encode(msg)) as out_file:
             out_file.name = "output.txt"
-            bot.send_document(chat_id=update.effective_chat.id, document=out_file)
+            bot.send_document(
+                chat_id=update.effective_chat.id, document=out_file)
     else:
         LOGGER.info(f"OUT: '{msg}'")
         bot.send_message(
@@ -76,8 +78,9 @@ def do(func, bot, update):
 
     os.chdir(os.getcwd())
     with open(
-        os.path.join(os.getcwd(), "SaitamaRobot/modules/helper_funcs/temp.txt"), "w"
-    ) as temp:
+            os.path.join(os.getcwd(),
+                         "SaitamaRobot/modules/helper_funcs/temp.txt"),
+            "w") as temp:
         temp.write(body)
 
     stdout = io.StringIO()

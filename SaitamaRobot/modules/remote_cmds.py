@@ -118,10 +118,8 @@ def rban(update: Update, context: CallbackContext):
         message.reply_text("I'm sorry, but that's a private chat!")
         return
 
-    if (
-        not is_bot_admin(chat, bot.id)
-        or not chat.get_member(bot.id).can_restrict_members
-    ):
+    if (not is_bot_admin(chat, bot.id) or
+            not chat.get_member(bot.id).can_restrict_members):
         message.reply_text(
             "I can't restrict people there! Make sure I'm admin and can ban users."
         )
@@ -201,10 +199,8 @@ def runban(update: Update, context: CallbackContext):
         message.reply_text("I'm sorry, but that's a private chat!")
         return
 
-    if (
-        not is_bot_admin(chat, bot.id)
-        or not chat.get_member(bot.id).can_restrict_members
-    ):
+    if (not is_bot_admin(chat, bot.id) or
+            not chat.get_member(bot.id).can_restrict_members):
         message.reply_text(
             "I can't unrestrict people there! Make sure I'm admin and can unban users."
         )
@@ -286,10 +282,8 @@ def rkick(update: Update, context: CallbackContext):
         message.reply_text("I'm sorry, but that's a private chat!")
         return
 
-    if (
-        not is_bot_admin(chat, bot.id)
-        or not chat.get_member(bot.id).can_restrict_members
-    ):
+    if (not is_bot_admin(chat, bot.id) or
+            not chat.get_member(bot.id).can_restrict_members):
         message.reply_text(
             "I can't restrict people there! Make sure I'm admin and can punch users."
         )
@@ -369,10 +363,8 @@ def rmute(update: Update, context: CallbackContext):
         message.reply_text("I'm sorry, but that's a private chat!")
         return
 
-    if (
-        not is_bot_admin(chat, bot.id)
-        or not chat.get_member(bot.id).can_restrict_members
-    ):
+    if (not is_bot_admin(chat, bot.id) or
+            not chat.get_member(bot.id).can_restrict_members):
         message.reply_text(
             "I can't restrict people there! Make sure I'm admin and can mute users."
         )
@@ -397,8 +389,9 @@ def rmute(update: Update, context: CallbackContext):
 
     try:
         bot.restrict_chat_member(
-            chat.id, user_id, permissions=ChatPermissions(can_send_messages=False)
-        )
+            chat.id,
+            user_id,
+            permissions=ChatPermissions(can_send_messages=False))
         message.reply_text("Muted from the chat!")
     except BadRequest as excp:
         if excp.message == "Reply message not found":
@@ -454,10 +447,8 @@ def runmute(update: Update, context: CallbackContext):
         message.reply_text("I'm sorry, but that's a private chat!")
         return
 
-    if (
-        not is_bot_admin(chat, bot.id)
-        or not chat.get_member(bot.id).can_restrict_members
-    ):
+    if (not is_bot_admin(chat, bot.id) or
+            not chat.get_member(bot.id).can_restrict_members):
         message.reply_text(
             "I can't unrestrict people there! Make sure I'm admin and can unban users."
         )
@@ -473,13 +464,11 @@ def runmute(update: Update, context: CallbackContext):
             raise
 
     if is_user_in_chat(chat, user_id):
-        if (
-            member.can_send_messages
-            and member.can_send_media_messages
-            and member.can_send_other_messages
-            and member.can_add_web_page_previews
-        ):
-            message.reply_text("This user already has the right to speak in that chat.")
+        if (member.can_send_messages and member.can_send_media_messages and
+                member.can_send_other_messages and
+                member.can_add_web_page_previews):
+            message.reply_text(
+                "This user already has the right to speak in that chat.")
             return
 
     if user_id == bot.id:
@@ -517,10 +506,14 @@ def runmute(update: Update, context: CallbackContext):
 
 
 RBAN_HANDLER = CommandHandler("rban", rban, filters=CustomFilters.sudo_filter)
-RUNBAN_HANDLER = CommandHandler("runban", runban, filters=CustomFilters.sudo_filter)
-RKICK_HANDLER = CommandHandler("rpunch", rkick, filters=CustomFilters.sudo_filter)
-RMUTE_HANDLER = CommandHandler("rmute", rmute, filters=CustomFilters.sudo_filter)
-RUNMUTE_HANDLER = CommandHandler("runmute", runmute, filters=CustomFilters.sudo_filter)
+RUNBAN_HANDLER = CommandHandler(
+    "runban", runban, filters=CustomFilters.sudo_filter)
+RKICK_HANDLER = CommandHandler(
+    "rpunch", rkick, filters=CustomFilters.sudo_filter)
+RMUTE_HANDLER = CommandHandler(
+    "rmute", rmute, filters=CustomFilters.sudo_filter)
+RUNMUTE_HANDLER = CommandHandler(
+    "runmute", runmute, filters=CustomFilters.sudo_filter)
 
 dispatcher.add_handler(RBAN_HANDLER)
 dispatcher.add_handler(RUNBAN_HANDLER)
