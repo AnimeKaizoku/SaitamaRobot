@@ -110,7 +110,6 @@ DEFAULT_WELCOME_MESSAGES = [
     "Behold my new evil scheme, the {first}-Inator.",
     "Ah, {first} the Platypus, you're just in time... to be trapped.",
     "*snaps fingers and teleports {first} here*",
-    "{first}! What is a fish and a rabbit combined?",  # Lifereload - kaizoku member.
     "{first} just arrived. Diable Jamble!",  # One Piece Sanji
     "{first} just arrived. Aschente!",  # No Game No Life
     "{first} say Aschente to swear by the pledges.",  # No Game No Life
@@ -146,14 +145,6 @@ DEFAULT_WELCOME_MESSAGES = [
     "Omae wa mou....shindeiru",
     "Hey {first}, the leaf village lotus blooms twice!",  # Naruto stuff begins from here
     "{first} Joined! Omote renge!",
-    "{first} joined!, Gate of Opening...open!",
-    "{first} joined!, Gate of Healing...open!",
-    "{first} joined!, Gate of Life...open!",
-    "{first} joined!, Gate of Pain...open!",
-    "{first} joined!, Gate of Limit...open!",
-    "{first} joined!, Gate of View...open!",
-    "{first} joined!, Gate of Shock...open!",
-    "{first} joined!, Gate of Death...open!",
     "{first}! I, Madara! declare you the strongest",
     "{first}, this time I'll lend you my power. ",  # Kyuubi to naruto
     "{first}, welcome to the hidden leaf village!",  # Naruto thingies end here
