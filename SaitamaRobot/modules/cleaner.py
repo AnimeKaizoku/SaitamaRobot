@@ -18,11 +18,7 @@ from telegram.ext import (
     run_async,
 )
 
-if ALLOW_EXCL:
-    CMD_STARTERS = ("/", "!")
-else:
-    CMD_STARTERS = "/"
-
+CMD_STARTERS = ("/", "!") if ALLOW_EXCL else "/"
 BLUE_TEXT_CLEAN_GROUP = 13
 CommandHandlerList = (CommandHandler, CustomCommandHandler,
                       DisableAbleCommandHandler)
@@ -55,22 +51,21 @@ def clean_blue_text_must_click(update: Update, context: CallbackContext):
     bot = context.bot
     chat = update.effective_chat
     message = update.effective_message
-    if chat.get_member(bot.id).can_delete_messages:
-        if sql.is_enabled(chat.id):
-            fst_word = message.text.strip().split(None, 1)[0]
+    if chat.get_member(bot.id).can_delete_messages and sql.is_enabled(chat.id):
+        fst_word = message.text.strip().split(None, 1)[0]
 
-            if len(fst_word) > 1 and any(
-                    fst_word.startswith(start) for start in CMD_STARTERS):
+        if len(fst_word) > 1 and any(
+                fst_word.startswith(start) for start in CMD_STARTERS):
 
-                command = fst_word[1:].split("@")
-                chat = update.effective_chat
+            command = fst_word[1:].split("@")
+            chat = update.effective_chat
 
-                ignored = sql.is_command_ignored(chat.id, command[0])
-                if ignored:
-                    return
+            ignored = sql.is_command_ignored(chat.id, command[0])
+            if ignored:
+                return
 
-                if command[0] not in command_list:
-                    message.delete()
+            if command[0] not in command_list:
+                message.delete()
 
 
 @run_async
@@ -100,10 +95,7 @@ def set_blue_text_must_click(update: Update, context: CallbackContext):
             message.reply_text(reply)
     else:
         clean_status = sql.is_enabled(chat.id)
-        if clean_status:
-            clean_status = "Enabled"
-        else:
-            clean_status = "Disabled"
+        clean_status = "Enabled" if clean_status else "Disabled"
         reply = "Bluetext cleaning for <b>{}</b> : <b>{}</b>".format(
             html.escape(chat.title), clean_status)
         message.reply_text(reply, parse_mode=ParseMode.HTML)
