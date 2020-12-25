@@ -2,13 +2,17 @@ import html
 from typing import Optional
 
 from SaitamaRobot import LOGGER, TIGERS, dispatcher
-from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
-                                                           can_restrict,
-                                                           connection_status,
-                                                           is_user_admin,
-                                                           user_admin)
-from SaitamaRobot.modules.helper_funcs.extraction import (extract_user,
-                                                          extract_user_and_text)
+from SaitamaRobot.modules.helper_funcs.chat_status import (
+    bot_admin,
+    can_restrict,
+    connection_status,
+    is_user_admin,
+    user_admin,
+)
+from SaitamaRobot.modules.helper_funcs.extraction import (
+    extract_user,
+    extract_user_and_text,
+)
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.log_channel import loggable
 from telegram import Bot, Chat, ChatPermissions, ParseMode, Update
@@ -68,7 +72,8 @@ def mute(update: Update, context: CallbackContext) -> str:
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#MUTE\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}")
+        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
+    )
 
     if reason:
         log += f"\n<b>Reason:</b> {reason}"
@@ -79,7 +84,8 @@ def mute(update: Update, context: CallbackContext) -> str:
         bot.sendMessage(
             chat.id,
             f"Muted <b>{html.escape(member.user.first_name)}</b> with no expiration date!",
-            parse_mode=ParseMode.HTML)
+            parse_mode=ParseMode.HTML,
+        )
         return log
 
     else:
@@ -108,10 +114,13 @@ def unmute(update: Update, context: CallbackContext) -> str:
 
     member = chat.get_member(int(user_id))
 
-    if member.status != 'kicked' and member.status != 'left':
-        if (member.can_send_messages and member.can_send_media_messages and
-                member.can_send_other_messages and
-                member.can_add_web_page_previews):
+    if member.status != "kicked" and member.status != "left":
+        if (
+            member.can_send_messages
+            and member.can_send_media_messages
+            and member.can_send_other_messages
+            and member.can_add_web_page_previews
+        ):
             message.reply_text("This user already has the right to speak.")
         else:
             chat_permissions = ChatPermissions(
@@ -122,16 +131,17 @@ def unmute(update: Update, context: CallbackContext) -> str:
                 can_change_info=True,
                 can_send_media_messages=True,
                 can_send_other_messages=True,
-                can_add_web_page_previews=True)
+                can_add_web_page_previews=True,
+            )
             try:
-                bot.restrict_chat_member(chat.id, int(user_id),
-                                         chat_permissions)
+                bot.restrict_chat_member(chat.id, int(user_id), chat_permissions)
             except BadRequest:
                 pass
             bot.sendMessage(
                 chat.id,
                 f"I shall allow <b>{html.escape(member.user.first_name)}</b> to text!",
-                parse_mode=ParseMode.HTML)
+                parse_mode=ParseMode.HTML,
+            )
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
                 f"#UNMUTE\n"
@@ -141,7 +151,8 @@ def unmute(update: Update, context: CallbackContext) -> str:
     else:
         message.reply_text(
             "This user isn't even in the chat, unmuting them won't make them talk more than they "
-            "already do!")
+            "already do!"
+        )
 
     return ""
 
@@ -168,8 +179,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
     member = chat.get_member(user_id)
 
     if not reason:
-        message.reply_text(
-            "You haven't specified a time to mute this user for!")
+        message.reply_text("You haven't specified a time to mute this user for!")
         return ""
 
     split_reason = reason.split(None, 1)
@@ -190,7 +200,8 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
         f"#TEMP MUTED\n"
         f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
         f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}\n"
-        f"<b>Time:</b> {time_val}")
+        f"<b>Time:</b> {time_val}"
+    )
     if reason:
         log += f"\n<b>Reason:</b> {reason}"
 
@@ -198,11 +209,13 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
         if member.can_send_messages is None or member.can_send_messages:
             chat_permissions = ChatPermissions(can_send_messages=False)
             bot.restrict_chat_member(
-                chat.id, user_id, chat_permissions, until_date=mutetime)
+                chat.id, user_id, chat_permissions, until_date=mutetime
+            )
             bot.sendMessage(
                 chat.id,
                 f"Muted <b>{html.escape(member.user.first_name)}</b> for {time_val}!",
-                parse_mode=ParseMode.HTML)
+                parse_mode=ParseMode.HTML,
+            )
             return log
         else:
             message.reply_text("This user is already muted.")
@@ -214,8 +227,13 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
             return log
         else:
             LOGGER.warning(update)
-            LOGGER.exception("ERROR muting user %s in chat %s (%s) due to %s",
-                             user_id, chat.title, chat.id, excp.message)
+            LOGGER.exception(
+                "ERROR muting user %s in chat %s (%s) due to %s",
+                user_id,
+                chat.title,
+                chat.id,
+                excp.message,
+            )
             message.reply_text("Well damn, I can't mute that user.")
 
     return ""

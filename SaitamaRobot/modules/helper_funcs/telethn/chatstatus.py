@@ -9,7 +9,8 @@ async def user_is_ban_protected(user_id: int, message):
         return True
 
     async for user in telethn.iter_participants(
-            message.chat_id, filter=ChannelParticipantsAdmins):
+        message.chat_id, filter=ChannelParticipantsAdmins
+    ):
         if user_id == user.id:
             status = True
             break
@@ -22,7 +23,8 @@ async def user_is_admin(user_id: int, message):
         return True
 
     async for user in telethn.iter_participants(
-            message.chat_id, filter=ChannelParticipantsAdmins):
+        message.chat_id, filter=ChannelParticipantsAdmins
+    ):
         if user_id == user.id or user_id in DRAGONS:
             status = True
             break
@@ -32,7 +34,8 @@ async def user_is_admin(user_id: int, message):
 async def is_user_admin(user_id: int, chat_id):
     status = False
     async for user in telethn.iter_participants(
-            chat_id, filter=ChannelParticipantsAdmins):
+        chat_id, filter=ChannelParticipantsAdmins
+    ):
         if user_id == user.id or user_id in DRAGONS:
             status = True
             break
@@ -43,7 +46,8 @@ async def saitama_is_admin(chat_id: int):
     status = False
     saitama = await telethn.get_me()
     async for user in telethn.iter_participants(
-            chat_id, filter=ChannelParticipantsAdmins):
+        chat_id, filter=ChannelParticipantsAdmins
+    ):
         if saitama.id == user.id:
             status = True
             break

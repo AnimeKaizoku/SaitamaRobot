@@ -6,13 +6,15 @@ from SaitamaRobot import DEV_USERS, OWNER_ID, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
-                          run_async)
+from telegram.ext import (
+    CallbackContext,
+    CallbackQueryHandler,
+    CommandHandler,
+    run_async,
+)
 
 
-def get_invalid_chats(update: Update,
-                      context: CallbackContext,
-                      remove: bool = False):
+def get_invalid_chats(update: Update, context: CallbackContext, remove: bool = False):
     bot = context.bot
     chat_id = update.effective_chat.id
     chats = user_sql.get_all_chats()
@@ -26,8 +28,9 @@ def get_invalid_chats(update: Update,
             progress_bar = f"{progress}% completed in getting invalid chats."
             if progress_message:
                 try:
-                    bot.editMessageText(progress_bar, chat_id,
-                                        progress_message.message_id)
+                    bot.editMessageText(
+                        progress_bar, chat_id, progress_message.message_id
+                    )
                 except:
                     pass
             else:
@@ -58,9 +61,7 @@ def get_invalid_chats(update: Update,
         return kicked_chats
 
 
-def get_invalid_gban(update: Update,
-                     context: CallbackContext,
-                     remove: bool = False):
+def get_invalid_gban(update: Update, context: CallbackContext, remove: bool = False):
     bot = context.bot
     banned = gban_sql.get_gban_list()
     ungbanned_users = 0
@@ -103,7 +104,8 @@ def dbcleanup(update: Update, context: CallbackContext):
     buttons = [[InlineKeyboardButton("Cleanup DB", callback_data="db_cleanup")]]
 
     update.effective_message.reply_text(
-        reply, reply_markup=InlineKeyboardMarkup(buttons))
+        reply, reply_markup=InlineKeyboardMarkup(buttons)
+    )
 
 
 @run_async
@@ -120,27 +122,26 @@ def callback_button(update: Update, context: CallbackContext):
 
     if query_type == "db_leave_chat":
         if query.from_user.id in admin_list:
-            bot.editMessageText("Leaving chats ...", chat_id,
-                                message.message_id)
+            bot.editMessageText("Leaving chats ...", chat_id, message.message_id)
             chat_count = get_muted_chats(update, context, True)
             bot.sendMessage(chat_id, f"Left {chat_count} chats.")
         else:
             query.answer("You are not allowed to use this.")
     elif query_type == "db_cleanup":
         if query.from_user.id in admin_list:
-            bot.editMessageText("Cleaning up DB ...", chat_id,
-                                message.message_id)
+            bot.editMessageText("Cleaning up DB ...", chat_id, message.message_id)
             invalid_chat_count = get_invalid_chats(update, context, True)
             invalid_gban_count = get_invalid_gban(update, context, True)
             reply = "Cleaned up {} chats and {} gbanned users from db.".format(
-                invalid_chat_count, invalid_gban_count)
+                invalid_chat_count, invalid_gban_count
+            )
             bot.sendMessage(chat_id, reply)
         else:
             query.answer("You are not allowed to use this.")
 
 
 DB_CLEANUP_HANDLER = CommandHandler("dbcleanup", dbcleanup)
-BUTTON_HANDLER = CallbackQueryHandler(callback_button, pattern='db_.*')
+BUTTON_HANDLER = CallbackQueryHandler(callback_button, pattern="db_.*")
 
 dispatcher.add_handler(DB_CLEANUP_HANDLER)
 dispatcher.add_handler(BUTTON_HANDLER)

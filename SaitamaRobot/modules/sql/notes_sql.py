@@ -3,8 +3,7 @@ import threading
 
 from SaitamaRobot.modules.helper_funcs.msg_types import Types
 from SaitamaRobot.modules.sql import BASE, SESSION
-from sqlalchemy import (Boolean, Column, Integer, String, UnicodeText, distinct,
-                        func)
+from sqlalchemy import Boolean, Column, Integer, String, UnicodeText, distinct, func
 
 
 class Notes(BASE):
@@ -52,12 +51,7 @@ NOTES_INSERTION_LOCK = threading.RLock()
 BUTTONS_INSERTION_LOCK = threading.RLock()
 
 
-def add_note_to_db(chat_id,
-                   note_name,
-                   note_data,
-                   msgtype,
-                   buttons=None,
-                   file=None):
+def add_note_to_db(chat_id, note_name, note_data, msgtype, buttons=None, file=None):
     if not buttons:
         buttons = []
 
@@ -65,18 +59,19 @@ def add_note_to_db(chat_id,
         prev = SESSION.query(Notes).get((str(chat_id), note_name))
         if prev:
             with BUTTONS_INSERTION_LOCK:
-                prev_buttons = SESSION.query(Buttons).filter(
-                    Buttons.chat_id == str(chat_id),
-                    Buttons.note_name == note_name).all()
+                prev_buttons = (
+                    SESSION.query(Buttons)
+                    .filter(
+                        Buttons.chat_id == str(chat_id), Buttons.note_name == note_name
+                    )
+                    .all()
+                )
                 for btn in prev_buttons:
                     SESSION.delete(btn)
             SESSION.delete(prev)
         note = Notes(
-            str(chat_id),
-            note_name,
-            note_data or "",
-            msgtype=msgtype.value,
-            file=file)
+            str(chat_id), note_name, note_data or "", msgtype=msgtype.value, file=file
+        )
         SESSION.add(note)
         SESSION.commit()
 
@@ -86,23 +81,31 @@ def add_note_to_db(chat_id,
 
 def get_note(chat_id, note_name):
     try:
-        return SESSION.query(Notes).filter(
-            func.lower(Notes.name) == note_name,
-            Notes.chat_id == str(chat_id)).first()
+        return (
+            SESSION.query(Notes)
+            .filter(func.lower(Notes.name) == note_name, Notes.chat_id == str(chat_id))
+            .first()
+        )
     finally:
         SESSION.close()
 
 
 def rm_note(chat_id, note_name):
     with NOTES_INSERTION_LOCK:
-        note = SESSION.query(Notes).filter(
-            func.lower(Notes.name) == note_name,
-            Notes.chat_id == str(chat_id)).first()
+        note = (
+            SESSION.query(Notes)
+            .filter(func.lower(Notes.name) == note_name, Notes.chat_id == str(chat_id))
+            .first()
+        )
         if note:
             with BUTTONS_INSERTION_LOCK:
-                buttons = SESSION.query(Buttons).filter(
-                    Buttons.chat_id == str(chat_id),
-                    Buttons.note_name == note_name).all()
+                buttons = (
+                    SESSION.query(Buttons)
+                    .filter(
+                        Buttons.chat_id == str(chat_id), Buttons.note_name == note_name
+                    )
+                    .all()
+                )
                 for btn in buttons:
                     SESSION.delete(btn)
 
@@ -117,8 +120,12 @@ def rm_note(chat_id, note_name):
 
 def get_all_chat_notes(chat_id):
     try:
-        return SESSION.query(Notes).filter(
-            Notes.chat_id == str(chat_id)).order_by(Notes.name.asc()).all()
+        return (
+            SESSION.query(Notes)
+            .filter(Notes.chat_id == str(chat_id))
+            .order_by(Notes.name.asc())
+            .all()
+        )
     finally:
         SESSION.close()
 
@@ -132,9 +139,12 @@ def add_note_button_to_db(chat_id, note_name, b_name, url, same_line):
 
 def get_buttons(chat_id, note_name):
     try:
-        return SESSION.query(Buttons).filter(
-            Buttons.chat_id == str(chat_id),
-            Buttons.note_name == note_name).order_by(Buttons.id).all()
+        return (
+            SESSION.query(Buttons)
+            .filter(Buttons.chat_id == str(chat_id), Buttons.note_name == note_name)
+            .order_by(Buttons.id)
+            .all()
+        )
     finally:
         SESSION.close()
 
@@ -155,14 +165,16 @@ def num_chats():
 
 def migrate_chat(old_chat_id, new_chat_id):
     with NOTES_INSERTION_LOCK:
-        chat_notes = SESSION.query(Notes).filter(
-            Notes.chat_id == str(old_chat_id)).all()
+        chat_notes = (
+            SESSION.query(Notes).filter(Notes.chat_id == str(old_chat_id)).all()
+        )
         for note in chat_notes:
             note.chat_id = str(new_chat_id)
 
         with BUTTONS_INSERTION_LOCK:
-            chat_buttons = SESSION.query(Buttons).filter(
-                Buttons.chat_id == str(old_chat_id)).all()
+            chat_buttons = (
+                SESSION.query(Buttons).filter(Buttons.chat_id == str(old_chat_id)).all()
+            )
             for btn in chat_buttons:
                 btn.chat_id = str(new_chat_id)
 

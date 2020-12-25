@@ -21,7 +21,8 @@ def leave(update: Update, context: CallbackContext):
             update.effective_message.reply_text("Beep boop, I left that soup!.")
         except TelegramError:
             update.effective_message.reply_text(
-                "Beep boop, I could not leave that group(dunno why tho).")
+                "Beep boop, I could not leave that group(dunno why tho)."
+            )
     else:
         update.effective_message.reply_text("Send a valid chat ID")
 
@@ -30,8 +31,9 @@ def leave(update: Update, context: CallbackContext):
 @dev_plus
 def gitpull(update: Update, context: CallbackContext):
     sent_msg = update.effective_message.reply_text(
-        "Pulling all changes from remote and then attempting to restart.")
-    subprocess.Popen('git pull', stdout=subprocess.PIPE, shell=True)
+        "Pulling all changes from remote and then attempting to restart."
+    )
+    subprocess.Popen("git pull", stdout=subprocess.PIPE, shell=True)
 
     sent_msg_text = sent_msg.text + "\n\nChanges pulled...I guess.. Restarting in "
 
@@ -41,18 +43,19 @@ def gitpull(update: Update, context: CallbackContext):
 
     sent_msg.edit_text("Restarted.")
 
-    os.system('restart.bat')
-    os.execv('start.bat', sys.argv)
+    os.system("restart.bat")
+    os.execv("start.bat", sys.argv)
 
 
 @run_async
 @dev_plus
 def restart(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
-        "Starting a new instance and shutting down this one")
+        "Starting a new instance and shutting down this one"
+    )
 
-    os.system('restart.bat')
-    os.execv('start.bat', sys.argv)
+    os.system("restart.bat")
+    os.execv("start.bat", sys.argv)
 
 
 LEAVE_HANDLER = CommandHandler("leave", leave)
