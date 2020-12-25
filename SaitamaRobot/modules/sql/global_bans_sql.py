@@ -19,7 +19,11 @@ class GloballyBannedUsers(BASE):
         return "<GBanned User {} ({})>".format(self.name, self.user_id)
 
     def to_dict(self):
-        return {"user_id": self.user_id, "name": self.name, "reason": self.reason}
+        return {
+            "user_id": self.user_id,
+            "name": self.name,
+            "reason": self.reason
+        }
 
 
 class GbanSettings(BASE):
@@ -136,7 +140,9 @@ def num_gbanned_users():
 def __load_gbanned_userid_list():
     global GBANNED_LIST
     try:
-        GBANNED_LIST = {x.user_id for x in SESSION.query(GloballyBannedUsers).all()}
+        GBANNED_LIST = {
+            x.user_id for x in SESSION.query(GloballyBannedUsers).all()
+        }
     finally:
         SESSION.close()
 
@@ -145,7 +151,9 @@ def __load_gban_stat_list():
     global GBANSTAT_LIST
     try:
         GBANSTAT_LIST = {
-            x.chat_id for x in SESSION.query(GbanSettings).all() if not x.setting
+            x.chat_id
+            for x in SESSION.query(GbanSettings).all()
+            if not x.setting
         }
     finally:
         SESSION.close()

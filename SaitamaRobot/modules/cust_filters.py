@@ -73,9 +73,8 @@ def list_handlers(update, context):
     all_handlers = sql.get_chat_triggers(chat_id)
 
     if not all_handlers:
-        send_message(
-            update.effective_message, "No filters saved in {}!".format(chat_name)
-        )
+        send_message(update.effective_message,
+                     "No filters saved in {}!".format(chat_name))
         return
 
     for keyword in all_handlers:
@@ -105,8 +104,8 @@ def filters(update, context):
     user = update.effective_user
     msg = update.effective_message
     args = msg.text.split(
-        None, 1
-    )  # use python's maxsplit to separate Cmd, keyword, and reply_text
+        None,
+        1)  # use python's maxsplit to separate Cmd, keyword, and reply_text
 
     conn = connected(context.bot, update, chat, user.id)
     if not conn is False:
@@ -151,11 +150,9 @@ def filters(update, context):
     text, file_type, file_id = get_filter_type(msg)
     if not msg.reply_to_message and len(extracted) >= 2:
         offset = len(extracted[1]) - len(
-            msg.text
-        )  # set correct offset relative to command + notename
+            msg.text)  # set correct offset relative to command + notename
         text, buttons = button_markdown_parser(
-            extracted[1], entities=msg.parse_entities(), offset=offset
-        )
+            extracted[1], entities=msg.parse_entities(), offset=offset)
         text = text.strip()
         if not text:
             send_message(
@@ -171,12 +168,10 @@ def filters(update, context):
             text_to_parsing = msg.reply_to_message.caption
         else:
             text_to_parsing = ""
-        offset = len(
-            text_to_parsing
-        )  # set correct offset relative to command + notename
+        offset = len(text_to_parsing
+                    )  # set correct offset relative to command + notename
         text, buttons = button_markdown_parser(
-            text_to_parsing, entities=msg.parse_entities(), offset=offset
-        )
+            text_to_parsing, entities=msg.parse_entities(), offset=offset)
         text = text.strip()
 
     elif not text and not file_type:
@@ -193,14 +188,13 @@ def filters(update, context):
             text_to_parsing = msg.reply_to_message.caption
         else:
             text_to_parsing = ""
-        offset = len(
-            text_to_parsing
-        )  # set correct offset relative to command + notename
+        offset = len(text_to_parsing
+                    )  # set correct offset relative to command + notename
         text, buttons = button_markdown_parser(
-            text_to_parsing, entities=msg.parse_entities(), offset=offset
-        )
+            text_to_parsing, entities=msg.parse_entities(), offset=offset)
         text = text.strip()
-        if (msg.reply_to_message.text or msg.reply_to_message.caption) and not text:
+        if (msg.reply_to_message.text or
+                msg.reply_to_message.caption) and not text:
             send_message(
                 update.effective_message,
                 "There is no note message - You can't JUST have buttons, you need a message to go with it!",
@@ -211,7 +205,8 @@ def filters(update, context):
         send_message(update.effective_message, "Invalid filter!")
         return
 
-    add = addnew_filter(update, chat_id, keyword, text, file_type, file_id, buttons)
+    add = addnew_filter(update, chat_id, keyword, text, file_type, file_id,
+                        buttons)
     # This is an old method
     # sql.add_filter(chat_id, keyword, content, is_sticker, is_document, is_image, is_audio, is_voice, is_video, buttons)
 
@@ -258,7 +253,8 @@ def stop_filter(update, context):
             sql.remove_filter(chat_id, args[1])
             send_message(
                 update.effective_message,
-                "Okay, I'll stop replying to that filter in *{}*.".format(chat_name),
+                "Okay, I'll stop replying to that filter in *{}*.".format(
+                    chat_name),
                 parse_mode=telegram.ParseMode.MARKDOWN,
             )
             raise DispatcherHandlerStop
@@ -320,47 +316,40 @@ def reply_filter(update, context):
                             )
                             return
                         except BadRequest as excp:
-                            if (
-                                excp.message
-                                == "Wrong remote file identifier specified: wrong padding in the string"
-                            ):
+                            if (excp.message ==
+                                    "Wrong remote file identifier specified: wrong padding in the string"
+                               ):
                                 context.bot.send_message(
                                     chat.id,
                                     "Message couldn't be sent, Is the sticker id valid?",
                                 )
                                 return
                             else:
-                                LOGGER.exception("Error in filters: " + excp.message)
+                                LOGGER.exception("Error in filters: " +
+                                                 excp.message)
                                 return
                     valid_format = escape_invalid_curly_brackets(
-                        text, VALID_WELCOME_FORMATTERS
-                    )
+                        text, VALID_WELCOME_FORMATTERS)
                     if valid_format:
                         filtext = valid_format.format(
                             first=escape(message.from_user.first_name),
-                            last=escape(
-                                message.from_user.last_name
-                                or message.from_user.first_name
-                            ),
+                            last=escape(message.from_user.last_name or
+                                        message.from_user.first_name),
                             fullname=" ".join(
                                 [
                                     escape(message.from_user.first_name),
                                     escape(message.from_user.last_name),
-                                ]
-                                if message.from_user.last_name
-                                else [escape(message.from_user.first_name)]
-                            ),
+                                ] if message.from_user.last_name else
+                                [escape(message.from_user.first_name)]),
                             username="@" + escape(message.from_user.username)
-                            if message.from_user.username
-                            else mention_html(
-                                message.from_user.id, message.from_user.first_name
-                            ),
-                            mention=mention_html(
-                                message.from_user.id, message.from_user.first_name
-                            ),
+                            if message.from_user.username else mention_html(
+                                message.from_user.id,
+                                message.from_user.first_name),
+                            mention=mention_html(message.from_user.id,
+                                                 message.from_user.first_name),
                             chatname=escape(message.chat.title)
-                            if message.chat.type != "private"
-                            else escape(message.from_user.first_name),
+                            if message.chat.type != "private" else escape(
+                                message.from_user.first_name),
                             id=message.from_user.id,
                         )
                     else:
@@ -390,7 +379,8 @@ def reply_filter(update, context):
                                     reply_markup=keyboard,
                                 )
                             except BadRequest as excp:
-                                LOGGER.exception("Error in filters: " + excp.message)
+                                LOGGER.exception("Error in filters: " +
+                                                 excp.message)
                                 send_message(
                                     update.effective_message,
                                     get_exception(excp, filt, chat),
@@ -402,9 +392,8 @@ def reply_filter(update, context):
                                     get_exception(excp, filt, chat),
                                 )
                             except BadRequest as excp:
-                                LOGGER.exception(
-                                    "Failed to send message: " + excp.message
-                                )
+                                LOGGER.exception("Failed to send message: " +
+                                                 excp.message)
                                 pass
                 else:
                     try:
@@ -459,7 +448,8 @@ def reply_filter(update, context):
                                     "again...",
                                 )
                             except BadRequest as excp:
-                                LOGGER.exception("Error in filters: " + excp.message)
+                                LOGGER.exception("Error in filters: " +
+                                                 excp.message)
                                 pass
                         elif excp.message == "Reply message not found":
                             try:
@@ -471,7 +461,8 @@ def reply_filter(update, context):
                                     reply_markup=keyboard,
                                 )
                             except BadRequest as excp:
-                                LOGGER.exception("Error in filters: " + excp.message)
+                                LOGGER.exception("Error in filters: " +
+                                                 excp.message)
                                 pass
                         else:
                             try:
@@ -480,11 +471,11 @@ def reply_filter(update, context):
                                     "This message couldn't be sent as it's incorrectly formatted.",
                                 )
                             except BadRequest as excp:
-                                LOGGER.exception("Error in filters: " + excp.message)
+                                LOGGER.exception("Error in filters: " +
+                                                 excp.message)
                                 pass
-                            LOGGER.warning(
-                                "Message %s could not be parsed", str(filt.reply)
-                            )
+                            LOGGER.warning("Message %s could not be parsed",
+                                           str(filt.reply))
                             LOGGER.exception(
                                 "Could not parse filter %s in chat %s",
                                 str(filt.keyword),
@@ -508,19 +499,18 @@ def rmall_filters(update, context):
     member = chat.get_member(user.id)
     if member.status != "creator" and user.id not in DRAGONS:
         update.effective_message.reply_text(
-            "Only the chat owner can clear all notes at once."
-        )
+            "Only the chat owner can clear all notes at once.")
     else:
-        buttons = InlineKeyboardMarkup(
+        buttons = InlineKeyboardMarkup([
             [
-                [
-                    InlineKeyboardButton(
-                        text="Stop all filters", callback_data="filters_rmall"
-                    )
-                ],
-                [InlineKeyboardButton(text="Cancel", callback_data="filters_cancel")],
-            ]
-        )
+                InlineKeyboardButton(
+                    text="Stop all filters", callback_data="filters_rmall")
+            ],
+            [
+                InlineKeyboardButton(
+                    text="Cancel", callback_data="filters_cancel")
+            ],
+        ])
         update.effective_message.reply_text(
             f"Are you sure you would like to stop ALL filters in {chat.title}? This action cannot be undone.",
             reply_markup=buttons,
@@ -575,9 +565,8 @@ def get_exception(excp, filt, chat):
         return "noreply"
     else:
         LOGGER.warning("Message %s could not be parsed", str(filt.reply))
-        LOGGER.exception(
-            "Could not parse filter %s in chat %s", str(filt.keyword), str(chat.id)
-        )
+        LOGGER.exception("Could not parse filter %s in chat %s",
+                         str(filt.keyword), str(chat.id))
         return "This data could not be sent because it is incorrectly formatted."
 
 
@@ -594,7 +583,8 @@ def addnew_filter(update, chat_id, keyword, text, file_type, file_id, buttons):
 
 
 def __stats__():
-    return "• {} filters, across {} chats.".format(sql.num_filters(), sql.num_chats())
+    return "• {} filters, across {} chats.".format(sql.num_filters(),
+                                                   sql.num_chats())
 
 
 def __import_data__(chat_id, data):
@@ -644,13 +634,13 @@ __mod_name__ = "Filters"
 FILTER_HANDLER = CommandHandler("filter", filters)
 STOP_HANDLER = CommandHandler("stop", stop_filter)
 RMALLFILTER_HANDLER = CommandHandler(
-    "removeallfilters", rmall_filters, filters=Filters.group
-)
-RMALLFILTER_CALLBACK = CallbackQueryHandler(rmall_callback, pattern=r"filters_.*")
-LIST_HANDLER = DisableAbleCommandHandler("filters", list_handlers, admin_ok=True)
+    "removeallfilters", rmall_filters, filters=Filters.group)
+RMALLFILTER_CALLBACK = CallbackQueryHandler(
+    rmall_callback, pattern=r"filters_.*")
+LIST_HANDLER = DisableAbleCommandHandler(
+    "filters", list_handlers, admin_ok=True)
 CUST_FILTER_HANDLER = MessageHandler(
-    CustomFilters.has_text & ~Filters.update.edited_message, reply_filter
-)
+    CustomFilters.has_text & ~Filters.update.edited_message, reply_filter)
 
 dispatcher.add_handler(FILTER_HANDLER)
 dispatcher.add_handler(STOP_HANDLER)
