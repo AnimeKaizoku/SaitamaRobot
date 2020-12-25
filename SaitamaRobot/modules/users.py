@@ -105,7 +105,8 @@ def log_user(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
 
-    sql.update_user(msg.from_user.id, msg.from_user.username, chat.id, chat.title)
+    sql.update_user(msg.from_user.id, msg.from_user.username, chat.id,
+                    chat.title)
 
     if msg.reply_to_message:
         sql.update_user(
@@ -130,9 +131,8 @@ def chats(update: Update, context: CallbackContext):
             curr_chat = context.bot.getChat(chat.chat_id)
             bot_member = curr_chat.get_member(context.bot.id)
             chat_members = curr_chat.get_members_count(context.bot.id)
-            chatfile += "{}. {} | {} | {}\n".format(
-                P, chat.chat_name, chat.chat_id, chat_members
-            )
+            chatfile += "{}. {} | {} | {}\n".format(P, chat.chat_name,
+                                                    chat.chat_id, chat_members)
             P = P + 1
         except:
             pass
@@ -150,7 +150,8 @@ def chats(update: Update, context: CallbackContext):
 def chat_checker(update: Update, context: CallbackContext):
     bot = context.bot
     try:
-        if update.effective_message.chat.get_member(bot.id).can_send_messages is False:
+        if update.effective_message.chat.get_member(
+                bot.id).can_send_messages is False:
             bot.leaveChat(update.effective_message.chat.id)
     except Unauthorized:
         pass
@@ -176,8 +177,7 @@ def __migrate__(old_chat_id, new_chat_id):
 __help__ = ""  # no help string
 
 BROADCAST_HANDLER = CommandHandler(
-    ["broadcastall", "broadcastusers", "broadcastgroups"], broadcast
-)
+    ["broadcastall", "broadcastusers", "broadcastgroups"], broadcast)
 USER_HANDLER = MessageHandler(Filters.all & Filters.group, log_user)
 CHAT_CHECKER_HANDLER = MessageHandler(Filters.all & Filters.group, chat_checker)
 CHATLIST_HANDLER = CommandHandler("groups", chats)
@@ -188,4 +188,5 @@ dispatcher.add_handler(CHATLIST_HANDLER)
 dispatcher.add_handler(CHAT_CHECKER_HANDLER, CHAT_GROUP)
 
 __mod_name__ = "Users"
-__handlers__ = [(USER_HANDLER, USERS_GROUP), BROADCAST_HANDLER, CHATLIST_HANDLER]
+__handlers__ = [(USER_HANDLER, USERS_GROUP), BROADCAST_HANDLER,
+                CHATLIST_HANDLER]
