@@ -25,6 +25,7 @@ from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
                           DispatcherHandlerStop, Filters, MessageHandler,
                           run_async)
 from telegram.utils.helpers import mention_html
+from SaitamaRobot.modules.sql.approve_sql import is_approved
 
 WARN_HANDLER_GROUP = 9
 CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
@@ -344,7 +345,8 @@ def reply_filter(update: Update, context: CallbackContext) -> str:
 
     if user.id == 777000:
         return
-
+    if is_approved(chat.id, user.id):
+        return
     chat_warn_filters = sql.get_chat_warn_triggers(chat.id)
     to_match = extract_text(message)
     if not to_match:
