@@ -2,11 +2,11 @@ import html
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot import dispatcher, DRAGONS
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from telegram.ext import CallbackContext, run_async, Update, CallbackQueryHandler
+from telegram.ext import CallbackContext, run_async, CallbackQueryHandler
 import SaitamaRobot.modules.sql.approve_sql as sql
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.log_channel import loggable
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update
 from telegram.utils.helpers import mention_html
 from telegram.error import BadRequest
 
