@@ -5,10 +5,10 @@ import textwrap
 import bs4
 import jikanpy
 import requests
-from SaitamaRobot import DEV_USERS, OWNER_ID, DRAGONS, dispatcher
+from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
-from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
+from telegram.ext import CallbackContext, run_async
 
 info_btn = "More Information"
 kaizoku_btn = "Kaizoku ☠️"
@@ -45,115 +45,114 @@ def t(milliseconds: int) -> str:
     )
     return tmp[:-2]
 
-
 airing_query = """
-    query ($id: Int,$search: String) { 
-      Media (id: $id, type: ANIME,search: $search) { 
+query ($id: Int,$search: String) { 
+    Media (id: $id, type: ANIME,search: $search) { 
         id
         episodes
         title {
-          romaji
-          english
-          native
+            romaji
+            english
+            native
         }
         nextAiringEpisode {
-           airingAt
-           timeUntilAiring
-           episode
+            airingAt
+            timeUntilAiring
+            episode
         } 
-      }
     }
-    """
+}
+"""
 
 fav_query = """
 query ($id: Int) { 
-      Media (id: $id, type: ANIME) { 
+    Media (id: $id, type: ANIME) { 
         id
         title {
-          romaji
-          english
-          native
+            romaji
+            english
+            native
         }
-     }
+    }
 }
 """
 
 anime_query = """
-   query ($id: Int,$search: String) { 
-      Media (id: $id, type: ANIME,search: $search) { 
+query ($id: Int,$search: String) { 
+    Media (id: $id, type: ANIME,search: $search) { 
         id
         title {
-          romaji
-          english
-          native
+            romaji
+            english
+            native
         }
         description (asHtml: false)
         startDate{
             year
-          }
-          episodes
-          season
-          type
-          format
-          status
-          duration
-          siteUrl
-          studios{
-              nodes{
-                   name
-              }
-          }
-          trailer{
-               id
-               site 
-               thumbnail
-          }
-          averageScore
-          genres
-          bannerImage
-      }
+        }
+        episodes
+        season
+        type
+        format
+        status
+        duration
+        siteUrl
+        studios{
+            nodes{
+                name
+            }
+        }
+        trailer{
+            id
+            site 
+            thumbnail
+        }
+        averageScore
+        genres
+        bannerImage
     }
+}
 """
 character_query = """
-    query ($query: String) {
-        Character (search: $query) {
-               id
-               name {
-                     first
-                     last
-                     full
-               }
-               siteUrl
-               image {
-                        large
-               }
-               description
+query ($query: String) {
+    Character (search: $query) {
+        id
+        name {
+            first
+            last
+            full
         }
+        siteUrl
+        image {
+            large
+        }
+        description
     }
+}
 """
 
 manga_query = """
 query ($id: Int,$search: String) { 
-      Media (id: $id, type: MANGA,search: $search) { 
+    Media (id: $id, type: MANGA,search: $search) { 
         id
         title {
-          romaji
-          english
-          native
+            romaji
+            english
+            native
         }
         description (asHtml: false)
         startDate{
             year
-          }
-          type
-          format
-          status
-          siteUrl
-          averageScore
-          genres
-          bannerImage
-      }
+        }
+        type
+        format
+        status
+        siteUrl
+        averageScore
+        genres
+        bannerImage
     }
+}
 """
 
 url = "https://graphql.anilist.co"
@@ -450,9 +449,9 @@ def user(update: Update, context: CallbackContext):
 @run_async
 def upcoming(update: Update, context: CallbackContext):
     jikan = jikanpy.jikan.Jikan()
-    upcoming = jikan.top("anime", page=1, subtype="upcoming")
+    upcomin = jikan.top("anime", page=1, subtype="upcoming")
 
-    upcoming_list = [entry["title"] for entry in upcoming["top"]]
+    upcoming_list = [entry["title"] for entry in upcomin["top"]]
     upcoming_message = ""
 
     for entry_num in range(len(upcoming_list)):
