@@ -45,9 +45,10 @@ def t(milliseconds: int) -> str:
     )
     return tmp[:-2]
 
+
 airing_query = """
 query ($id: Int,$search: String) { 
-    Media (id: $id, type: ANIME,search: $search) { 
+    Media (id: $id, type: ANIME,search: $search) {
         id
         episodes
         title {
@@ -65,8 +66,8 @@ query ($id: Int,$search: String) {
 """
 
 fav_query = """
-query ($id: Int) { 
-    Media (id: $id, type: ANIME) { 
+query ($id: Int) {
+    Media (id: $id, type: ANIME) {
         id
         title {
             romaji
@@ -78,8 +79,8 @@ query ($id: Int) {
 """
 
 anime_query = """
-query ($id: Int,$search: String) { 
-    Media (id: $id, type: ANIME,search: $search) { 
+query ($id: Int,$search: String) {
+    Media (id: $id, type: ANIME,search: $search) {
         id
         title {
             romaji
@@ -104,7 +105,7 @@ query ($id: Int,$search: String) {
         }
         trailer{
             id
-            site 
+            site
             thumbnail
         }
         averageScore
@@ -113,6 +114,7 @@ query ($id: Int,$search: String) {
     }
 }
 """
+
 character_query = """
 query ($query: String) {
     Character (search: $query) {
@@ -374,7 +376,7 @@ def user(update: Update, context: CallbackContext):
     jikan = jikanpy.jikan.Jikan()
 
     try:
-        user = jikan.user(search_query)
+        us = jikan.user(search_query)
     except jikanpy.APIException:
         update.effective_message.reply_text("Username not found.")
         return
@@ -382,25 +384,25 @@ def user(update: Update, context: CallbackContext):
     progress_message = update.effective_message.reply_text("Searching.... ")
 
     date_format = "%Y-%m-%d"
-    if user["image_url"] is None:
+    if us["image_url"] is None:
         img = "https://cdn.myanimelist.net/images/questionmark_50.gif"
     else:
-        img = user["image_url"]
+        img = us["image_url"]
 
     try:
-        user_birthday = datetime.datetime.fromisoformat(user["birthday"])
+        user_birthday = datetime.datetime.fromisoformat(us["birthday"])
         user_birthday_formatted = user_birthday.strftime(date_format)
     except:
         user_birthday_formatted = "Unknown"
 
-    user_joined_date = datetime.datetime.fromisoformat(user["joined"])
+    user_joined_date = datetime.datetime.fromisoformat(us["joined"])
     user_joined_date_formatted = user_joined_date.strftime(date_format)
 
-    for entity in user:
-        if user[entity] is None:
-            user[entity] = "Unknown"
+    for entity in us:
+        if us[entity] is None:
+            us[entity] = "Unknown"
 
-    about = user["about"].split(" ", 60)
+    about = us["about"].split(" ", 60)
 
     try:
         about.pop(60)
@@ -414,13 +416,13 @@ def user(update: Update, context: CallbackContext):
 
     caption += textwrap.dedent(
         f"""
-    *Username*: [{user['username']}]({user['url']})
+    *Username*: [{us['username']}]({us['url']})
 
-    *Gender*: `{user['gender']}`
+    *Gender*: `{us['gender']}`
     *Birthday*: `{user_birthday_formatted}`
     *Joined*: `{user_joined_date_formatted}`
-    *Days wasted watching anime*: `{user['anime_stats']['days_watched']}`
-    *Days wasted reading manga*: `{user['manga_stats']['days_read']}`
+    *Days wasted watching anime*: `{us['anime_stats']['days_watched']}`
+    *Days wasted reading manga*: `{us['manga_stats']['days_read']}`
 
     """
     )
@@ -428,7 +430,7 @@ def user(update: Update, context: CallbackContext):
     caption += f"*About*: {about_string}"
 
     buttons = [
-        [InlineKeyboardButton(info_btn, url=user["url"])],
+        [InlineKeyboardButton(info_btn, url=us["url"])],
         [
             InlineKeyboardButton(
                 close_btn, callback_data=f"anime_close, {message.from_user.id}"

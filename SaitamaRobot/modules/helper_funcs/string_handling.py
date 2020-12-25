@@ -40,7 +40,7 @@ def _selective_escape(to_parse: str) -> str:
         if match.group("esc"):
             ent_start = match.start()
             to_parse = (
-                to_parse[: ent_start + offset] + "\\" + to_parse[ent_start + offset :]
+                to_parse[:ent_start + offset] + "\\" + to_parse[ent_start + offset:]
             )
             offset += 1
     return to_parse
@@ -150,7 +150,7 @@ def button_markdown_parser(
         if n_escapes % 2 == 0:
             # create a thruple with button label, url, and newline status
             buttons.append((match.group(2), match.group(3), bool(match.group(4))))
-            note_data += markdown_note[prev : match.start(1)]
+            note_data += markdown_note[prev: match.start(1)]
             prev = match.end(1)
         # if odd, escaped -> move along
         else:
@@ -178,7 +178,7 @@ def escape_invalid_curly_brackets(text: str, valids: List[str]) -> str:
                         success = True
                         break
                 if success:
-                    new_text += text[idx : idx + len(v) + 2]
+                    new_text += text[idx: idx + len(v) + 2]
                     idx += len(v) + 2
                     continue
                 else:

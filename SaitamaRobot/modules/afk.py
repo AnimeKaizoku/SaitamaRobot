@@ -96,31 +96,24 @@ def reply_afk(update: Update, context: CallbackContext):
                     return
                 chk_users.append(user_id)
 
-            if ent.type == MessageEntity.MENTION:
-                user_id = get_user_id(
-                    message.text[ent.offset : ent.offset + ent.length]
-                )
-                if not user_id:
-                    # Should never happen, since for a user to become AFK they must have spoken. Maybe changed username?
-                    return
-
-                if user_id in chk_users:
-                    return
-                chk_users.append(user_id)
-
-                try:
-                    chat = bot.get_chat(user_id)
-                except BadRequest:
-                    print(
-                        "Error: Could not fetch userid {} for AFK module".format(
-                            user_id
-                        )
-                    )
-                    return
-                fst_name = chat.first_name
-
-            else:
+            if ent.type != MessageEntity.MENTION:
                 return
+
+            user_id = get_user_id(message.text[ent.offset : ent.offset + ent.length])
+            if not user_id:
+                # Should never happen, since for a user to become AFK they must have spoken. Maybe changed username?
+                return
+
+            if user_id in chk_users:
+                return
+            chk_users.append(user_id)
+
+            try:
+                chat = bot.get_chat(user_id)
+            except BadRequest:
+                print("Error: Could not fetch userid {} for AFK module".format(user_id))
+                return
+            fst_name = chat.first_name
 
             check_afk(update, context, user_id, fst_name, userc_id)
 
@@ -133,14 +126,12 @@ def reply_afk(update: Update, context: CallbackContext):
 def check_afk(update, context, user_id, fst_name, userc_id):
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
+        if int(userc_id) == int(user_id):
+            return
         if not user.reason:
-            if int(userc_id) == int(user_id):
-                return
             res = "{} is afk".format(fst_name)
             update.effective_message.reply_text(res)
         else:
-            if int(userc_id) == int(user_id):
-                return
             res = "{} is afk.\nReason: <code>{}</code>".format(
                 html.escape(fst_name), html.escape(user.reason)
             )
