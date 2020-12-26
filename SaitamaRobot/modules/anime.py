@@ -5,10 +5,10 @@ import textwrap
 import bs4
 import jikanpy
 import requests
-from SaitamaRobot import DEV_USERS, OWNER_ID, DRAGONS, dispatcher
+from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
-from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
+from telegram.ext import CallbackContext, run_async
 
 info_btn = "More Information"
 kaizoku_btn = "Kaizoku ☠️"
@@ -36,122 +36,125 @@ def t(milliseconds: int) -> str:
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    tmp = (((str(days) + " Days, ") if days else "") +
-           ((str(hours) + " Hours, ") if hours else "") +
-           ((str(minutes) + " Minutes, ") if minutes else "") +
-           ((str(seconds) + " Seconds, ") if seconds else "") +
-           ((str(milliseconds) + " ms, ") if milliseconds else ""))
+    tmp = (
+        ((str(days) + " Days, ") if days else "")
+        + ((str(hours) + " Hours, ") if hours else "")
+        + ((str(minutes) + " Minutes, ") if minutes else "")
+        + ((str(seconds) + " Seconds, ") if seconds else "")
+        + ((str(milliseconds) + " ms, ") if milliseconds else "")
+    )
     return tmp[:-2]
 
 
 airing_query = """
-    query ($id: Int,$search: String) { 
-      Media (id: $id, type: ANIME,search: $search) { 
+query ($id: Int,$search: String) { 
+    Media (id: $id, type: ANIME,search: $search) {
         id
         episodes
         title {
-          romaji
-          english
-          native
+            romaji
+            english
+            native
         }
         nextAiringEpisode {
-           airingAt
-           timeUntilAiring
-           episode
+            airingAt
+            timeUntilAiring
+            episode
         } 
-      }
     }
-    """
+}
+"""
 
 fav_query = """
-query ($id: Int) { 
-      Media (id: $id, type: ANIME) { 
+query ($id: Int) {
+    Media (id: $id, type: ANIME) {
         id
         title {
-          romaji
-          english
-          native
+            romaji
+            english
+            native
         }
-     }
+    }
 }
 """
 
 anime_query = """
-   query ($id: Int,$search: String) { 
-      Media (id: $id, type: ANIME,search: $search) { 
+query ($id: Int,$search: String) {
+    Media (id: $id, type: ANIME,search: $search) {
         id
         title {
-          romaji
-          english
-          native
+            romaji
+            english
+            native
         }
         description (asHtml: false)
         startDate{
             year
-          }
-          episodes
-          season
-          type
-          format
-          status
-          duration
-          siteUrl
-          studios{
-              nodes{
-                   name
-              }
-          }
-          trailer{
-               id
-               site 
-               thumbnail
-          }
-          averageScore
-          genres
-          bannerImage
-      }
-    }
-"""
-character_query = """
-    query ($query: String) {
-        Character (search: $query) {
-               id
-               name {
-                     first
-                     last
-                     full
-               }
-               siteUrl
-               image {
-                        large
-               }
-               description
         }
+        episodes
+        season
+        type
+        format
+        status
+        duration
+        siteUrl
+        studios{
+            nodes{
+                name
+            }
+        }
+        trailer{
+            id
+            site
+            thumbnail
+        }
+        averageScore
+        genres
+        bannerImage
     }
+}
+"""
+
+character_query = """
+query ($query: String) {
+    Character (search: $query) {
+        id
+        name {
+            first
+            last
+            full
+        }
+        siteUrl
+        image {
+            large
+        }
+        description
+    }
+}
 """
 
 manga_query = """
 query ($id: Int,$search: String) { 
-      Media (id: $id, type: MANGA,search: $search) { 
+    Media (id: $id, type: MANGA,search: $search) { 
         id
         title {
-          romaji
-          english
-          native
+            romaji
+            english
+            native
         }
         description (asHtml: false)
         startDate{
             year
-          }
-          type
-          format
-          status
-          siteUrl
-          averageScore
-          genres
-          bannerImage
-      }
+        }
+        type
+        format
+        status
+        siteUrl
+        averageScore
+        genres
+        bannerImage
     }
+}
 """
 
 url = "https://graphql.anilist.co"
@@ -163,14 +166,13 @@ def airing(update: Update, context: CallbackContext):
     search_str = message.text.split(" ", 1)
     if len(search_str) == 1:
         update.effective_message.reply_text(
-            "Tell Anime Name :) ( /airing <anime name>)")
+            "Tell Anime Name :) ( /airing <anime name>)"
+        )
         return
     variables = {"search": search_str[1]}
     response = requests.post(
-        url, json={
-            "query": airing_query,
-            "variables": variables
-        }).json()["data"]["Media"]
+        url, json={"query": airing_query, "variables": variables}
+    ).json()["data"]["Media"]
     msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*ID*: `{response['id']}`"
     if response["nextAiringEpisode"]:
         time = response["nextAiringEpisode"]["timeUntilAiring"] * 1000
@@ -192,10 +194,8 @@ def anime(update: Update, context: CallbackContext):
         search = search[1]
     variables = {"search": search}
     json = requests.post(
-        url, json={
-            "query": anime_query,
-            "variables": variables
-        }).json()
+        url, json={"query": anime_query, "variables": variables}
+    ).json()
     if "errors" in json.keys():
         update.effective_message.reply_text("Anime not found")
         return
@@ -218,16 +218,20 @@ def anime(update: Update, context: CallbackContext):
             if site == "youtube":
                 trailer = "https://youtu.be/" + trailer_id
         description = (
-            json.get("description",
-                     "N/A").replace("<i>", "").replace("</i>",
-                                                       "").replace("<br>", ""))
+            json.get("description", "N/A")
+            .replace("<i>", "")
+            .replace("</i>", "")
+            .replace("<br>", "")
+        )
         msg += shorten(description, info)
         image = json.get("bannerImage", None)
         if trailer:
-            buttons = [[
-                InlineKeyboardButton("More Info", url=info),
-                InlineKeyboardButton("Trailer 🎬", url=trailer),
-            ]]
+            buttons = [
+                [
+                    InlineKeyboardButton("More Info", url=info),
+                    InlineKeyboardButton("Trailer 🎬", url=trailer),
+                ]
+            ]
         else:
             buttons = [[InlineKeyboardButton("More Info", url=info)]]
         if image:
@@ -258,16 +262,13 @@ def character(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(" ", 1)
     if len(search) == 1:
-        update.effective_message.reply_text(
-            "Format : /character < character name >")
+        update.effective_message.reply_text("Format : /character < character name >")
         return
     search = search[1]
     variables = {"query": search}
     json = requests.post(
-        url, json={
-            "query": character_query,
-            "variables": variables
-        }).json()
+        url, json={"query": character_query, "variables": variables}
+    ).json()
     if "errors" in json.keys():
         update.effective_message.reply_text("Character not found")
         return
@@ -287,7 +288,8 @@ def character(update: Update, context: CallbackContext):
             )
         else:
             update.effective_message.reply_text(
-                msg.replace("<b>", "</b>"), parse_mode=ParseMode.MARKDOWN)
+                msg.replace("<b>", "</b>"), parse_mode=ParseMode.MARKDOWN
+            )
 
 
 @run_async
@@ -300,19 +302,17 @@ def manga(update: Update, context: CallbackContext):
     search = search[1]
     variables = {"search": search}
     json = requests.post(
-        url, json={
-            "query": manga_query,
-            "variables": variables
-        }).json()
+        url, json={"query": manga_query, "variables": variables}
+    ).json()
     msg = ""
     if "errors" in json.keys():
         update.effective_message.reply_text("Manga not found")
         return
     if json:
         json = json["data"]["Media"]
-        title, title_native = json["title"].get("romaji",
-                                                False), json["title"].get(
-                                                    "native", False)
+        title, title_native = json["title"].get("romaji", False), json["title"].get(
+            "native", False
+        )
         start_date, status, score = (
             json["startDate"].get("year", False),
             json.get("status", False),
@@ -376,7 +376,7 @@ def user(update: Update, context: CallbackContext):
     jikan = jikanpy.jikan.Jikan()
 
     try:
-        user = jikan.user(search_query)
+        us = jikan.user(search_query)
     except jikanpy.APIException:
         update.effective_message.reply_text("Username not found.")
         return
@@ -384,25 +384,25 @@ def user(update: Update, context: CallbackContext):
     progress_message = update.effective_message.reply_text("Searching.... ")
 
     date_format = "%Y-%m-%d"
-    if user["image_url"] is None:
+    if us["image_url"] is None:
         img = "https://cdn.myanimelist.net/images/questionmark_50.gif"
     else:
-        img = user["image_url"]
+        img = us["image_url"]
 
     try:
-        user_birthday = datetime.datetime.fromisoformat(user["birthday"])
+        user_birthday = datetime.datetime.fromisoformat(us["birthday"])
         user_birthday_formatted = user_birthday.strftime(date_format)
     except:
         user_birthday_formatted = "Unknown"
 
-    user_joined_date = datetime.datetime.fromisoformat(user["joined"])
+    user_joined_date = datetime.datetime.fromisoformat(us["joined"])
     user_joined_date_formatted = user_joined_date.strftime(date_format)
 
-    for entity in user:
-        if user[entity] is None:
-            user[entity] = "Unknown"
+    for entity in us:
+        if us[entity] is None:
+            us[entity] = "Unknown"
 
-    about = user["about"].split(" ", 60)
+    about = us["about"].split(" ", 60)
 
     try:
         about.pop(60)
@@ -410,29 +410,31 @@ def user(update: Update, context: CallbackContext):
         pass
 
     about_string = " ".join(about)
-    about_string = about_string.replace("<br>",
-                                        "").strip().replace("\r\n", "\n")
+    about_string = about_string.replace("<br>", "").strip().replace("\r\n", "\n")
 
     caption = ""
 
-    caption += textwrap.dedent(f"""
-    *Username*: [{user['username']}]({user['url']})
+    caption += textwrap.dedent(
+        f"""
+    *Username*: [{us['username']}]({us['url']})
 
-    *Gender*: `{user['gender']}`
+    *Gender*: `{us['gender']}`
     *Birthday*: `{user_birthday_formatted}`
     *Joined*: `{user_joined_date_formatted}`
-    *Days wasted watching anime*: `{user['anime_stats']['days_watched']}`
-    *Days wasted reading manga*: `{user['manga_stats']['days_read']}`
+    *Days wasted watching anime*: `{us['anime_stats']['days_watched']}`
+    *Days wasted reading manga*: `{us['manga_stats']['days_read']}`
 
-    """)
+    """
+    )
 
     caption += f"*About*: {about_string}"
 
     buttons = [
-        [InlineKeyboardButton(info_btn, url=user["url"])],
+        [InlineKeyboardButton(info_btn, url=us["url"])],
         [
             InlineKeyboardButton(
-                close_btn, callback_data=f"anime_close, {message.from_user.id}")
+                close_btn, callback_data=f"anime_close, {message.from_user.id}"
+            )
         ],
     ]
 
@@ -449,9 +451,9 @@ def user(update: Update, context: CallbackContext):
 @run_async
 def upcoming(update: Update, context: CallbackContext):
     jikan = jikanpy.jikan.Jikan()
-    upcoming = jikan.top("anime", page=1, subtype="upcoming")
+    upcomin = jikan.top("anime", page=1, subtype="upcoming")
 
-    upcoming_list = [entry["title"] for entry in upcoming["top"]]
+    upcoming_list = [entry["title"] for entry in upcomin["top"]]
     upcoming_message = ""
 
     for entry_num in range(len(upcoming_list)):
@@ -460,43 +462,6 @@ def upcoming(update: Update, context: CallbackContext):
         upcoming_message += f"{entry_num + 1}. {upcoming_list[entry_num]}\n"
 
     update.effective_message.reply_text(upcoming_message)
-
-
-def button(update: Update, context: CallbackContext):
-    bot = context.bot
-    query = update.callback_query
-    message = query.message
-    data = query.data.split(", ")
-    query_type = data[0]
-    original_user_id = int(data[1])
-
-    user_and_admin_list = [original_user_id, OWNER_ID] + DRAGONS + DEV_USERS
-
-    bot.answer_callback_query(query.id)
-    if query_type == "anime_close":
-        if query.from_user.id in user_and_admin_list:
-            message.delete()
-        else:
-            query.answer("You are not allowed to use this.")
-    elif query_type in ("anime_anime", "anime_manga"):
-        mal_id = data[2]
-        if query.from_user.id == original_user_id:
-            message.delete()
-            progress_message = bot.sendMessage(message.chat.id,
-                                               "Searching.... ")
-            caption, buttons, image = get_anime_manga(mal_id, query_type,
-                                                      original_user_id)
-            bot.sendPhoto(
-                message.chat.id,
-                photo=image,
-                caption=caption,
-                parse_mode=ParseMode.HTML,
-                reply_markup=InlineKeyboardMarkup(buttons),
-                disable_web_page_preview=False,
-            )
-            progress_message.delete()
-        else:
-            query.answer("You are not allowed to use this.")
 
 
 def site_search(update: Update, context: CallbackContext, site: str):
@@ -555,7 +520,8 @@ def site_search(update: Update, context: CallbackContext, site: str):
         )
     else:
         message.reply_text(
-            result, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+            result, parse_mode=ParseMode.HTML, disable_web_page_preview=True
+        )
 
 
 @run_async
@@ -592,9 +558,7 @@ USER_HANDLER = DisableAbleCommandHandler("user", user)
 UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
 KAIZOKU_SEARCH_HANDLER = DisableAbleCommandHandler("kaizoku", kaizoku)
 KAYO_SEARCH_HANDLER = DisableAbleCommandHandler("kayo", kayo)
-BUTTON_HANDLER = CallbackQueryHandler(button, pattern="anime_.*")
 
-dispatcher.add_handler(BUTTON_HANDLER)
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
@@ -623,6 +587,5 @@ __handlers__ = [
     UPCOMING_HANDLER,
     KAIZOKU_SEARCH_HANDLER,
     KAYO_SEARCH_HANDLER,
-    BUTTON_HANDLER,
     AIRING_HANDLER,
 ]

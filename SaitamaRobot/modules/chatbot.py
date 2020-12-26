@@ -130,7 +130,7 @@ def list_chatbot_chats(update: Update, context: CallbackContext):
     for chat in chats:
         try:
             x = context.bot.get_chat(int(*chat))
-            name = x.title if x.title else x.first_name
+            name = x.title or x.first_name
             text += f"• <code>{name}</code>\n"
         except BadRequest:
             sql.rem_chat(*chat)
