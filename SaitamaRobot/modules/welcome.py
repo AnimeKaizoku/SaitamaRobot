@@ -192,31 +192,37 @@ def new_member(update: Update, context: CallbackContext):
                     reply_to_message_id=reply)
                 welcome_log = (f"{html.escape(chat.title)}\n"
                                f"#USER_JOINED\n"
-                               f"Bot Owner just joined the chat")
+                               f"Bot Owner just joined the group")
                 continue
 
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
                     "Whoa! A member of the Heroes Association just joined!",
-                    reply_to_message_id=reply,
-                )
+                    reply_to_message_id=reply)
+                welcome_log = (f"{html.escape(chat.title)}\n"
+                               f"#USER_JOINED\n"
+                               f"Bot Dev just joined the group")
                 continue
 
             # Welcome Sudos
             elif new_mem.id in DRAGONS:
                 update.effective_message.reply_text(
                     "Huh! A Dragon disaster just joined! Stay Alert!",
-                    reply_to_message_id=reply,
-                )
+                    reply_to_message_id=reply)
+                welcome_log = (f"{html.escape(chat.title)}\n"
+                               f"#USER_JOINED\n"
+                               f"Bot Sudo just joined the group")
                 continue
 
             # Welcome Support
             elif new_mem.id in DEMONS:
                 update.effective_message.reply_text(
                     "Huh! Someone with a Demon disaster level just joined!",
-                    reply_to_message_id=reply,
-                )
+                    reply_to_message_id=reply)
+                welcome_log = (f"{html.escape(chat.title)}\n"
+                               f"#USER_JOINED\n"
+                               f"Bot Support just joined the group")
                 continue
 
             # Welcome Whitelisted
@@ -224,6 +230,9 @@ def new_member(update: Update, context: CallbackContext):
                 update.effective_message.reply_text(
                     "Oof! A Tiger disaster just joined!",
                     reply_to_message_id=reply)
+                welcome_log = (f"{html.escape(chat.title)}\n"
+                               f"#USER_JOINED\n"
+                               f"A whitelisted user joined the chat")
                 continue
 
             # Welcome Tigers
@@ -231,6 +240,9 @@ def new_member(update: Update, context: CallbackContext):
                 update.effective_message.reply_text(
                     "Oof! A Wolf disaster just joined!",
                     reply_to_message_id=reply)
+                welcome_log = (f"{html.escape(chat.title)}\n"
+                               f"#USER_JOINED\n"
+                               f"A whitelisted user joined the chat")
                 continue
 
             # Welcome yourself
