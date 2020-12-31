@@ -10,9 +10,6 @@ from telegram.ext import CallbackContext, run_async
 from ujson import loads
 from AstrakoBot import dispatcher
 
-link = "https://raw.githubusercontent.com/topjohnwu/magisk_files/"
-
-
 @run_async
 def magisk(update: Update, context: CallbackContext):
     link = "https://raw.githubusercontent.com/topjohnwu/magisk_files/"
