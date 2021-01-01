@@ -201,15 +201,15 @@ def start(update: Update, context: CallbackContext):
                      [
                          InlineKeyboardButton(
                              text="🚑 Support Channel",
-                             url=f"https://t.me/Romeo1Bot_Support"),
+                             url=f"https://telegram.me/Romeo1Bot_Support"),
                          InlineKeyboardButton(
-                             text="🧑‍💻Developer🧑‍💻",
-                             url="https://t.me/Warning_MadBoy_is_Here")
+                             text="Support Chat 🚑",
+                             url="https://telegram.me/Romeo1BotSupport")
                      ],
                      [
                          InlineKeyboardButton(
-                             text="🤝HELP🤝",
-                             callback_data="help_back".format(Bot.username))
+                             text="🧑‍💻Developer🧑‍💻",
+                             url="https://telegram.me/Warning_MadBoy_is_Here")
                      ],
                      [
                          InlineKeyboardButton(
