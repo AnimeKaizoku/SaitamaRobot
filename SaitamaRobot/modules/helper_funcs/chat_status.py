@@ -137,7 +137,7 @@ def sudo_plus(func):
                 pass
         else:
             update.effective_message.reply_text(
-                "This is a Bot Devloper command, You cannot access this. Thank You 💝💝💝💝")
+                "This is a Bot Devloper command, You can't access this. Thank You 💝💝💝💝")
 
     return is_sudo_plus_func
 
@@ -199,7 +199,7 @@ def user_admin(func):
                 pass
         else:
             update.effective_message.reply_text(
-                "This is a Bot Devloper command, You cannot access this. Thank You 💝💝💝💝")
+                "This is a Bot Devloper command, You can't access this. Thank You 💝💝💝💝")
 
     return is_admin
 
