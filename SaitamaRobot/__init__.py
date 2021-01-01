@@ -33,7 +33,7 @@ if ENV:
     try:
         OWNER_ID = int(os.environ.get('OWNER_ID', None))
     except ValueError:
-        raise Exception("Your OWNER_ID env variable is not a valid integer.")
+        raise Exception("Your OWNER_ID env variable isn't a valid integer.")
 
     JOIN_LOGGER = os.environ.get('JOIN_LOGGER', None)
     OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
@@ -43,25 +43,25 @@ if ENV:
         DEV_USERS = set(int(x) for x in os.environ.get("DEV_USERS", "").split())
     except ValueError:
         raise Exception(
-            "Your sudo or dev users list does not contain valid integers.")
+            "Your Sudo or Dev users list doesn't contain valid integers.")
 
     try:
         DEMONS = set(int(x) for x in os.environ.get("DEMONS", "").split())
     except ValueError:
         raise Exception(
-            "Your support users list does not contain valid integers.")
+            "Your Support users list doesn't contain valid integers.")
 
     try:
         WOLVES = set(int(x) for x in os.environ.get("WOLVES", "").split())
     except ValueError:
         raise Exception(
-            "Your whitelisted users list does not contain valid integers.")
+            "Your Whitelisted users list doesn't contain valid integers.")
 
     try:
         TIGERS = set(int(x) for x in os.environ.get("TIGERS", "").split())
     except ValueError:
         raise Exception(
-            "Your tiger users list does not contain valid integers.")
+            "Your Tiger users list doesn't contain valid integers.")
 
     INFOPIC = bool(os.environ.get('INFOPIC', False))
     EVENT_LOGS = os.environ.get('EVENT_LOGS', None)
@@ -72,7 +72,6 @@ if ENV:
     API_ID = os.environ.get('API_ID', None)
     API_HASH = os.environ.get('API_HASH', None)
     DB_URI = os.environ.get('DATABASE_URL')
-    DONATION_LINK = os.environ.get('DONATION_LINK')
     LOAD = os.environ.get("LOAD", "").split()
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
     DEL_CMDS = bool(os.environ.get('DEL_CMDS', False))
@@ -93,7 +92,7 @@ if ENV:
         BL_CHATS = set(int(x) for x in os.environ.get('BL_CHATS', "").split())
     except ValueError:
         raise Exception(
-            "Your blacklisted chats list does not contain valid integers.")
+            "Your Blacklisted chats list doesn't contain valid integers.")
 
 else:
     from SaitamaRobot.config import Development as Config
@@ -102,7 +101,7 @@ else:
     try:
         OWNER_ID = int(Config.OWNER_ID)
     except ValueError:
-        raise Exception("Your OWNER_ID variable is not a valid integer.")
+        raise Exception("Your OWNER_ID variable isn't a valid integer.")
 
     JOIN_LOGGER = Config.JOIN_LOGGER
     OWNER_USERNAME = Config.OWNER_USERNAME
@@ -112,25 +111,25 @@ else:
         DEV_USERS = set(int(x) for x in Config.DEV_USERS or [])
     except ValueError:
         raise Exception(
-            "Your sudo or dev users list does not contain valid integers.")
+            "Your Sudo or Dev users list doesn't contain valid integers.")
 
     try:
         DEMONS = set(int(x) for x in Config.DEMONS or [])
     except ValueError:
         raise Exception(
-            "Your support users list does not contain valid integers.")
+            "Your Support users list doesn't contain valid integers.")
 
     try:
         WOLVES = set(int(x) for x in Config.WOLVES or [])
     except ValueError:
         raise Exception(
-            "Your whitelisted users list does not contain valid integers.")
+            "Your Whitelisted users list doesn't contain valid integers.")
 
     try:
         TIGERS = set(int(x) for x in Config.TIGERS or [])
     except ValueError:
         raise Exception(
-            "Your tiger users list does not contain valid integers.")
+            "Your Tiger users list doesn't contain valid integers.")
 
     EVENT_LOGS = Config.EVENT_LOGS
     WEBHOOK = Config.WEBHOOK
@@ -141,7 +140,6 @@ else:
     API_HASH = Config.API_HASH
 
     DB_URI = Config.SQLALCHEMY_DATABASE_URI
-    DONATION_LINK = Config.DONATION_LINK
     LOAD = Config.LOAD
     NO_LOAD = Config.NO_LOAD
     DEL_CMDS = Config.DEL_CMDS
@@ -162,14 +160,14 @@ else:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
     except ValueError:
         raise Exception(
-            "Your blacklisted chats list does not contain valid integers.")
+            "Your Blacklisted chats list doesn't contain valid integers.")
 
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
 if not SPAMWATCH_API:
     sw = None
-    LOGGER.warning("SpamWatch API key missing! recheck your config.")
+    LOGGER.warning("SpamWatch API key missing! Re-Check your config.")
 else:
     sw = spamwatch.Client(SPAMWATCH_API)
 
