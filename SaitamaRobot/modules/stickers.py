@@ -109,7 +109,7 @@ def kang(update: Update, context: CallbackContext):
         elif msg.reply_to_message.document:
             file_id = msg.reply_to_message.document.file_id
         else:
-            msg.reply_text("Yea, I can't kang that.")
+            msg.reply_text("Hmm, I can't kang that.")
 
         kang_file = context.bot.get_file(file_id)
         if not is_animated:
@@ -122,7 +122,7 @@ def kang(update: Update, context: CallbackContext):
         elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
             sticker_emoji = msg.reply_to_message.sticker.emoji
         else:
-            sticker_emoji = "🤔"
+            sticker_emoji = "🤓"
 
         if not is_animated:
             try:
@@ -329,7 +329,7 @@ def kang(update: Update, context: CallbackContext):
                 msg.reply_text("Invalid emoji(s).")
             elif e.message == "Stickers_too_much":
                 msg.reply_text("Max packsize reached. Press F to pay respecc.")
-            elif e.message == "Internal Server Error: sticker set not found (500)":
+            elif e.message == "Internal Server Error: sticker set not found (504)":
                 msg.reply_text(
                     "Sticker successfully added to [pack](t.me/addstickers/%s)"
                     % packname + "\n"
@@ -396,7 +396,7 @@ def makepack_internal(
                 "Your pack can be found [here](t.me/addstickers/%s)" % packname,
                 parse_mode=ParseMode.MARKDOWN,
             )
-        elif e.message in ("Peer_id_invalid", "bot was blocked by the user"):
+        elif e.message in ("Peer_id_invalid", "Bot was Blocked by the User"):
             msg.reply_text(
                 "Contact me in PM first.",
                 reply_markup=InlineKeyboardMarkup([[
@@ -404,7 +404,7 @@ def makepack_internal(
                         text="Start", url=f"t.me/{context.bot.username}")
                 ]]),
             )
-        elif e.message == "Internal Server Error: created sticker set not found (500)":
+        elif e.message == "Internal Server Error: created sticker set not found (504)":
             msg.reply_text(
                 "Sticker pack successfully created. Get it [here](t.me/addstickers/%s)"
                 % packname,
