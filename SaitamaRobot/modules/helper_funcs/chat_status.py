@@ -137,7 +137,7 @@ def sudo_plus(func):
                 pass
         else:
             update.effective_message.reply_text(
-                "Who dis non-admin telling me what to do? You want a punch?")
+                "This is a Bot Devloper command, You cannot access this. Thank You 💝💝💝💝")
 
     return is_sudo_plus_func
 
@@ -175,7 +175,7 @@ def whitelist_plus(func):
             return func(update, context, *args, **kwargs)
         else:
             update.effective_message.reply_text(
-                f"You don't have access to use this.\nVisit @{SUPPORT_CHAT}")
+                f"You don't have access to use this.\n\nVisit @Romeo1Bot_Support")
 
     return is_whitelist_plus_func
 
@@ -199,7 +199,7 @@ def user_admin(func):
                 pass
         else:
             update.effective_message.reply_text(
-                "Who dis non-admin telling me what to do? You want a punch?")
+                "This is a Bot Devloper command, You cannot access this. Thank You 💝💝💝💝")
 
     return is_admin
 
@@ -252,9 +252,9 @@ def bot_admin(func):
         message_chat_title = update.effective_message.chat.title
 
         if update_chat_title == message_chat_title:
-            not_admin = "I'm not admin! - REEEEEE"
+            not_admin = "Bruh, Me not an Admin!🥺😩 - REEEEEE"
         else:
-            not_admin = f"I'm not admin in <b>{update_chat_title}</b>! - REEEEEE"
+            not_admin = f"Bruh, Me not an Admin!🥺😩 in <b>{update_chat_title}</b>! - REEEEEE"
 
         if is_bot_admin(chat, bot.id):
             return func(update, context, *args, **kwargs)
@@ -373,7 +373,7 @@ def user_can_ban(func):
         if not (member.can_restrict_members or member.status == "creator"
                ) and not user in DRAGONS and user not in [777000, 1087968824]:
             update.effective_message.reply_text(
-                "Sorry son, but you're not worthy to wield the banhammer.")
+                "Sorry kiddo, but you're not worthy to wield the banhammer.😒😒")
             return ""
         return func(update, context, *args, **kwargs)
 
