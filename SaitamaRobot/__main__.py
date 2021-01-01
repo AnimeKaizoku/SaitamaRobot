@@ -4,14 +4,14 @@ import re
 from sys import argv
 from typing import Optional
 
-from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
+from Romeo import (ALLOW_EXCL, CERT_PATH, LOGGER,
                           OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
                           SUPPORT_CHAT, dispatcher, StartTime, telethn, updater)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
-from SaitamaRobot.modules import ALL_MODULES
-from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
-from SaitamaRobot.modules.helper_funcs.misc import paginate_modules
+from Romeo.modules import ALL_MODULES
+from Romeo.modules.helper_funcs.chat_status import is_user_admin
+from Romeo.modules.helper_funcs.misc import paginate_modules
 from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
                       Update)
 from telegram.error import (BadRequest, ChatMigrated, NetworkError,
@@ -58,7 +58,7 @@ You can find my list of available commands with /help.
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
-I'm Romeo Bot help admins/owners manage their groups an easy way! Have a look at the following for an idea of some of \
+I'm Romeo Bot, I help admins/owners manage their groups in easy way! Have a look at the following for an idea of some of \
 the things I can help you with.
 
 *Main* commands available:
@@ -75,12 +75,8 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
+ROMEO_IMG = "https://telegra.ph/file/2d2f3c510d3dc367d43eb.jpg"
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-Saitama is hosted on one of Kaizoku's Servers and doesn't require any donations as of now but \
-You can donate to the original writer of the Base code, Paul
-There are two ways of supporting him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -93,7 +89,7 @@ CHAT_SETTINGS = {}
 USER_SETTINGS = {}
 
 for module_name in ALL_MODULES:
-    imported_module = importlib.import_module("SaitamaRobot.modules." +
+    imported_module = importlib.import_module("Romeo.modules." +
                                               module_name)
     if not hasattr(imported_module, "__mod_name__"):
         imported_module.__mod_name__ = imported_module.__name__
@@ -189,7 +185,7 @@ def start(update: Update, context: CallbackContext):
         else:
             first_name = update.effective_user.first_name
             update.effective_message.reply_photo(
-                SAITAMA_IMG,
+                ROMEO_IMG,
                 PM_START_TEXT.format(
                     escape_markdown(first_name),
                     escape_markdown(context.bot.first_name)),
@@ -198,31 +194,31 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text="☑️ Add Saitama to your group",
+                            text="☑️ Add Romeo to your group",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username))
                     ],
                      [
                          InlineKeyboardButton(
-                             text="🚑 Support Group",
-                             url=f"https://t.me/{SUPPORT_CHAT}"),
+                             text="🚑 Support Channel",
+                             url=f"https://t.me/Romeo1Bot_Support"),
                          InlineKeyboardButton(
-                             text="🔔 Updates Channel",
-                             url="https://t.me/OnePunchUpdates")
+                             text="🧑‍💻Developer🧑‍💻",
+                             url="https://t.me/Warning_MadBoy_is_Here")
                      ],
                      [
                          InlineKeyboardButton(
-                             text="🧾 Getting started guide",
-                             url="https://t.me/OnePunchUpdates/29")
+                             text="🤝HELP🤝",
+                             callback_data="help_back".format(bot.username))
                      ],
                      [
                          InlineKeyboardButton(
                              text="🗄 Source code",
-                             url="https://github.com/AnimeKaizoku/SaitamaRobot")
+                             url="https://github.com/madboy482/Romeo")
                      ]]))
     else:
         update.effective_message.reply_text(
-            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
+            "I'm Already Online!😉😉\n<b>Haven't slept since 👀:</b> <code>{}</code>"
             .format(uptime),
             parse_mode=ParseMode.HTML)
 
@@ -331,7 +327,7 @@ def get_help(update: Update, context: CallbackContext):
                 ]]))
             return
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "Contact me in PM to get the list of possible commands.👀",
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton(
                     text="Help",
@@ -367,7 +363,7 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any user specific settings available :'(",
+                "Seems like there aren't any user specific settings available : 🤔'(",
                 parse_mode=ParseMode.MARKDOWN)
 
     else:
@@ -375,15 +371,15 @@ def send_settings(chat_id, user_id, user=False):
             chat_name = dispatcher.bot.getChat(chat_id).title
             dispatcher.bot.send_message(
                 user_id,
-                text="Which module would you like to check {}'s settings for?"
+                text="Which module would you like to check {}'s settings for? 👀"
                 .format(chat_name),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat_id)))
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any chat settings available :'(\nSend this "
-                "in a group chat you're admin in to find its current settings!",
+                "Seems like there aren't any chat settings available : 🤔'(\nSend this "
+                "in a group chat you're admin to find its current settings! 👀",
                 parse_mode=ParseMode.MARKDOWN)
 
 
@@ -418,7 +414,7 @@ def settings_button(update: Update, context: CallbackContext):
             curr_page = int(prev_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
+                "Hey There! There are quite a few settings for {} - go ahead and pick what "
                 "you're interested in.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
@@ -429,7 +425,7 @@ def settings_button(update: Update, context: CallbackContext):
             next_page = int(next_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
+                "Hey There! There are quite a few settings for {} - go ahead and pick what "
                 "you're interested in.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
@@ -439,7 +435,7 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = back_match.group(1)
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                text="Hi there! There are quite a few settings for {} - go ahead and pick what "
+                text="Hey There! There are quite a few settings for {} - go ahead and pick what "
                 "you're interested in.".format(escape_markdown(chat.title)),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
@@ -485,37 +481,6 @@ def get_settings(update: Update, context: CallbackContext):
         send_settings(chat.id, user.id, True)
 
 
-@run_async
-def donate(update: Update, context: CallbackContext):
-    user = update.effective_message.from_user
-    chat = update.effective_chat  # type: Optional[Chat]
-    bot = context.bot
-    if chat.type == "private":
-        update.effective_message.reply_text(
-            DONATE_STRING,
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True)
-
-        if OWNER_ID != 254318997 and DONATION_LINK:
-            update.effective_message.reply_text(
-                "You can also donate to the person currently running me "
-                "[here]({})".format(DONATION_LINK),
-                parse_mode=ParseMode.MARKDOWN)
-
-    else:
-        try:
-            bot.send_message(
-                user.id,
-                DONATE_STRING,
-                parse_mode=ParseMode.MARKDOWN,
-                disable_web_page_preview=True)
-
-            update.effective_message.reply_text(
-                "I've PM'ed you about donating to my creator!")
-        except Unauthorized:
-            update.effective_message.reply_text(
-                "Contact me in PM first to get donation information.")
-
 
 def migrate_chats(update: Update, context: CallbackContext):
     msg = update.effective_message  # type: Optional[Message]
@@ -540,10 +505,10 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I am now online!")
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I am now online!😎😎")
         except Unauthorized:
             LOGGER.warning(
-                "Bot isnt able to send message to support_chat, go and check!")
+                "Bot isn't able to send message to support_chat, Go and Check! 🥴🥴")
         except BadRequest as e:
             LOGGER.warning(e.message)
 
@@ -558,7 +523,7 @@ def main():
     settings_callback_handler = CallbackQueryHandler(
         settings_button, pattern=r"stngs_")
 
-    donate_handler = CommandHandler("donate", donate)
+    
     migrate_handler = MessageHandler(Filters.status_update.migrate,
                                      migrate_chats)
 
@@ -569,8 +534,7 @@ def main():
     dispatcher.add_handler(help_callback_handler)
     dispatcher.add_handler(settings_callback_handler)
     dispatcher.add_handler(migrate_handler)
-    dispatcher.add_handler(donate_handler)
-
+   
     dispatcher.add_error_handler(error_callback)
 
     if WEBHOOK:
