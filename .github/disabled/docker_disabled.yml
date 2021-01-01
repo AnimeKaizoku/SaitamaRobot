@@ -4,11 +4,11 @@ on:
 
   push:
 
-    branches: [ shiken ]
+    branches: [ Romeo ]
 
   pull_request:
 
-    branches: [ shiken ]
+    branches: [ Romeo ]
 
 jobs:
 
@@ -24,7 +24,7 @@ jobs:
 
         with:
 
-          name:  animekaizoku/saitamarobot
+          name:  madboy482/Romeo
 
           username: ${{ secrets.DOCKER_USERNAME }}
 
@@ -34,4 +34,4 @@ jobs:
 
           buildoptions: --force-rm --compress --no-cache --squash
 
-          tags: "shiken"
+          tags: "Romeo"
