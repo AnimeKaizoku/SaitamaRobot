@@ -18,11 +18,11 @@ class Config(object):
     API_ID = 123456  # integer value, dont use ""
     API_HASH = "awoo"
     TOKEN = "BOT_TOKEN"  #This var used to be API_KEY but it is now TOKEN, adjust accordingly.
-    OWNER_ID = 792109647  # If you dont know, run the bot and do /id in your private chat with it, also an integer
-    OWNER_USERNAME = "Sawada"
-    SUPPORT_CHAT = 'OnePunchSupport'  #Your own group for support, do not add the @
-    JOIN_LOGGER = -1001253661229  #Prints any new group the bot is added to, prints just the name and ID.
-    EVENT_LOGS = -1001190806654  #Prints information like gbans, sudo promotes, AI enabled disable states that may help in debugging and shit
+    OWNER_ID = 1078841825  # If you dont know, run the bot and do /id in your private chat with it, also an integer
+    OWNER_USERNAME = "Warning_MadBoy_is_Here"
+    SUPPORT_CHAT = 'Romeo1Bot_Support'  #Your own group for support, do not add the @
+    JOIN_LOGGER = -1001272082336  #Prints any new group the bot is added to, prints just the name and ID.
+    EVENT_LOGS = -1001355817633  #Prints information like gbans, sudo promotes, AI enabled disable states that may help in debugging and shit
 
     #RECOMMENDED
     SQLALCHEMY_DATABASE_URI = 'something://somewhat:user@hosturl:port/databasename'  # needed for any database modules
@@ -47,7 +47,7 @@ class Config(object):
     DONATION_LINK = None  # EG, paypal
     CERT_PATH = None
     PORT = 5000
-    DEL_CMDS = True  #Delete commands that users dont have access to, like delete /ban if a non admin uses it.
+    DEL_CMDS = True  #Delete commands that users dont have access to, like delete /ban if a non-admin uses it.
     STRICT_GBAN = True
     WORKERS = 8  # Number of subthreads to use. Set as number of threads your processor uses
     BAN_STICKER = ''  # banhammer marie sticker id, the bot will send this sticker before banning or kicking a user in chat.
