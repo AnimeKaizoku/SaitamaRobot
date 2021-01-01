@@ -78,10 +78,10 @@ For starters click on this button
 
 
 ## Credits
-The bot is based on the original work done by <b>[PaulSonOfLars](https://github.com/PaulSonOfLars).
+The bot is based on the original work done by <b>[PaulSonOfLars](https://github.com/PaulSonOfLars)</b>
 All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
 
-<b>Fork Developer -</b> <b><i>[MADBOY](https://github.com/madboy482)</i></b>
+<b>Fork Developer --></b> <b><i>[MADBOY](https://github.com/madboy482)</i></b>
 or <b><i>[MADBOY](https://telegram.me/Warning_MadBoy_is_Here)</i></b>
 
 Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (will add it later, this note says unless it is done)
