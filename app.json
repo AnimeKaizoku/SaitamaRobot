@@ -1,7 +1,7 @@
 {
       "name": "Romeo",
       "description": "A Superb Telegram Group Manager Bot",
-      "logo": "https://telegra.ph/file/877f0d69c80697a4416cf.jpg",
+      "logo": "https://telegra.ph/file/de271f11ee1047870050a.jpg",
       "keywords": [
          "Telegram",
          "Group",
@@ -48,9 +48,9 @@
          "value": "Warning_MadBoy_is_Here"
       },
       "SUPPORT_CHAT": {
-         "description": "Your Telegram support group chat username where your users will go and bother you with shit. But be like: Romeo1Bot_Support. If this ever points to Romeo support than consider you made an enemy.",
+         "description": "Your Telegram support group chat username where your users will go and bother you with shit. But be like: Romeo1BotSupport. If this ever points to Romeo support than consider you made an enemy.",
          "required": true,
-         "value": "Romeo1Bot_Support"
+         "value": "Romeo1BotSupport"
       },
       "EVENT_LOGS": {
          "description": "Event logs channel to note down important bot level events, recommend to make this public. ex: '-123456'",
