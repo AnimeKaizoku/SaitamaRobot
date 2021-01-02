@@ -5,19 +5,12 @@
 
 A modular Telegram Python bot running on python3 with a sqlalchemy database and an entirely themed persona to make Saitama suitable for Anime and Manga group chats. 
 
-Can be found on telegram as [SaitamaRobot](https://t.me/SaitamaRobot).
-
-The Support group can be reached out to at [One Punch Support](https://t.me/OnePunchSupport), where you can ask for help about [SaitamaRobot](https://t.me/SaitamaRobot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
-
+Can be found on telegram as [SaitamaRobot](https://t.me/SaitamaRobot)
 News channel as at [One Punch Updates](https://t.me/OnePunchUpdates) 
 
-## How to setup/deploy.
+## How to setup/deploy?
 
-### Read these notes carefully before proceeding 
- - Edit any mentions of @OnePunchSupport to your own support chat
- - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot [See this](https://github.com/AnimeKaizoku/SaitamaRobot/blob/shiken/SaitamaRobot/__main__.py#L25)
- - Lastly, if you are found to run this repo without the code being open sourced or the repository link not mentioned in the bot, we will push a gban for you in our network because of being in violation of the license, you are free to be a dick and not respect the open source code (we do not mind) but we will not be having you around our chats
- - This repo does not come with technical support, so DO NOT come to us asking help about deploy/console errors
+ -Warning: This repo does NOT come with technical support, so do NOT come to us asking help about deploy/console errors.
 
 <details>
   <summary>Steps to deploy on Heroku !! </summary>
@@ -36,8 +29,8 @@ Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.co
   <summary>Steps to self Host!! </summary>
 
   ## Setting up the bot (Read this before trying to use!):
-Please make sure to use python3.6, as I cannot guarantee everything will work as expected on older Python versions!
-This is because markdown parsing is done by iterating through a dict, which is ordered by default in 3.6.
+Please make sure to use python3.8, as I cannot guarantee everything will work as expected on older Python versions!
+This is because markdown parsing is done by iterating through a dict, which is ordered by default in 3.8
 
   ### Configuration
 
@@ -131,30 +124,6 @@ If `NO_LOAD` is not present or is an empty list, all modules selected for loadin
 
 If a module is in both `LOAD` and `NO_LOAD`, the module will not be loaded - `NO_LOAD` takes priority.
 
-   ### Creating your own modules.
-
-Creating a module has been simplified as much as possible - but do not hesitate to suggest further simplification.
-
-All that is needed is that your .py file is in the modules folder.
-
-To add commands, make sure to import the dispatcher via
-
-`from SaitamaRobot import dispatcher`.
-
-You can then add commands using the usual
-
-`dispatcher.add_handler()`.
-
-Assigning the `__help__` variable to a string describing this modules' available
-commands will allow the bot to load it and add the documentation for
-your module to the `/help` command. Setting the `__mod_name__` variable will also allow you to use a nicer, user-friendly name for a module.
-
-The `__migrate__()` function is used for migrating chats - when a chat is upgraded to a supergroup, the ID changes, so 
-it is necessary to migrate it in the DB.
-
-The `__stats__()` function is for retrieving module statistics, eg number of users, number of chats. This is accessed 
-through the `/stats` command, which is only available to the bot owner.
-
 ## Starting the bot.
 
 Once you've set up your database and your configuration is complete, simply run the bat file(if on windows) or run (Linux):
@@ -165,12 +134,7 @@ You can use [nssm](https://nssm.cc/usage) to install the bot as service on windo
 Make sure to edit the start and restart bats to your needs. 
 Note: the restart bat requires that User account control be disabled.
 
-For queries or any issues regarding the bot please open an issue ticket or visit us at [One Punch Support](https://t.me/OnePunchSupport)
-## How to setup on Heroku 
-For starters click on this button 
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git) 
-
+For queries or any issues regarding the bot please open an issue ticket.
 
 ## Credits
 The bot is based on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
@@ -180,4 +144,4 @@ Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (wil
 
 Any other authorship/credits can be seen through the commits.
 
-Should any be missing kindly let us know at [One Punch Support](https://t.me/OnePunchSupport) or simply submit a pull request on the readme.
+Should any be missing kindly let us know with an issue ticket or open a pull request on the readme.
