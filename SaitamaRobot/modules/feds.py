@@ -10,6 +10,7 @@ import SaitamaRobot.modules.sql.feds_sql as sql
 from SaitamaRobot import (
     EVENT_LOGS,
     LOGGER,
+    SUPPORT_CHAT,
     OWNER_ID,
     DRAGONS,
     TIGERS,
@@ -105,7 +106,7 @@ def new_fed(update: Update, context: CallbackContext):
         x = sql.new_fed(user.id, fed_name, fed_id)
         if not x:
             update.effective_message.reply_text(
-                "Can't federate! Please contact @OnePunchSupport if the problem persist."
+                f"Can't federate! Please contact @{SUPPORT_CHAT} if the problem persist."
             )
             return
 
@@ -269,7 +270,7 @@ def join_fed(update: Update, context: CallbackContext):
         x = sql.chat_join_fed(args[0], chat.title, chat.id)
         if not x:
             message.reply_text(
-                "Failed to join federation! Please contact @OnePunchSupport should this problem persist!"
+                f"Failed to join federation! Please contact @{SUPPORT_CHAT} should this problem persist!"
             )
             return
 
@@ -666,7 +667,7 @@ def fed_ban(update: Update, context: CallbackContext):
         )
         if not x:
             message.reply_text(
-                "Failed to ban from the federation! If this problem continues, contact @OnePunchSupport."
+                f"Failed to ban from the federation! If this problem continues, contact @{SUPPORT_CHAT}."
             )
             return
 
@@ -817,7 +818,7 @@ def fed_ban(update: Update, context: CallbackContext):
     )
     if not x:
         message.reply_text(
-            "Failed to ban from the federation! If this problem continues, contact @OnePunchSupport."
+            f"Failed to ban from the federation! If this problem continues, contact @{SUPPORT_CHAT}."
         )
         return
 
@@ -1201,7 +1202,7 @@ def set_frules(update: Update, context: CallbackContext):
         x = sql.set_frules(fed_id, markdown_rules)
         if not x:
             update.effective_message.reply_text(
-                "Whoa! There was an error while setting federation rules! If you wondered why please ask it in @OnePunchSupport !"
+                f"Whoa! There was an error while setting federation rules! If you wondered why please ask it in @{SUPPORT_CHAT}!"
             )
             return
 
