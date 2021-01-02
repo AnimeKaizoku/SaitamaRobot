@@ -64,13 +64,13 @@ def ban(update: Update, context: CallbackContext) -> str:
 
     if is_user_ban_protected(chat, user_id, member) and user not in DEV_USERS:
         if user_id == OWNER_ID:
-            message.reply_text("Trying to put me against a God level disaster huh?")
+            message.reply_text(
+                "Trying to put me against a God level disaster huh?")
         elif user_id in DEV_USERS:
             message.reply_text("I can't act against our own.")
         elif user_id in DRAGONS:
             message.reply_text(
-                "Fighting this Dragon here will put civilian lives at risk."
-            )
+                "Fighting this Dragon here will put civilian lives at risk.")
         elif user_id in DEMONS:
             message.reply_text(
                 "Bring an order from Heroes association to fight a Demon disaster."
@@ -191,8 +191,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
         "#TEMP BANNED\n"
         f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
         f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}\n"
-        f"<b>Time:</b> {time_val}"
-    )
+        f"<b>Time:</b> {time_val}")
     if reason:
         log += "\n<b>Reason:</b> {}".format(reason)
 
@@ -211,8 +210,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
         if excp.message == "Reply message not found":
             # Do not reply
             message.reply_text(
-                f"Banned! User will be banned for {time_val}.", quote=False
-            )
+                f"Banned! User will be banned for {time_val}.", quote=False)
             return log
         else:
             LOGGER.warning(update)
@@ -294,10 +292,12 @@ def punch(update: Update, context: CallbackContext) -> str:
 def punchme(update: Update, context: CallbackContext):
     user_id = update.effective_message.from_user.id
     if is_user_admin(update.effective_chat, user_id):
-        update.effective_message.reply_text("I wish I could... but you're an admin.")
+        update.effective_message.reply_text(
+            "I wish I could... but you're an admin.")
         return
 
-    res = update.effective_chat.unban_member(user_id)  # unban on current user = kick
+    res = update.effective_chat.unban_member(
+        user_id)  # unban on current user = kick
     if res:
         update.effective_message.reply_text("*punches you out of the group*")
     else:
@@ -414,7 +414,8 @@ TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban)
 PUNCH_HANDLER = CommandHandler("punch", punch)
 UNBAN_HANDLER = CommandHandler("unban", unban)
 ROAR_HANDLER = CommandHandler("roar", selfunban)
-PUNCHME_HANDLER = DisableAbleCommandHandler("punchme", punchme, filters=Filters.group)
+PUNCHME_HANDLER = DisableAbleCommandHandler(
+    "punchme", punchme, filters=Filters.group)
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(TEMPBAN_HANDLER)

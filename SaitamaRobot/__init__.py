@@ -12,7 +12,8 @@ StartTime = time.time()
 # enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
+    handlers=[logging.FileHandler("log.txt"),
+              logging.StreamHandler()],
     level=logging.INFO,
 )
 
@@ -42,22 +43,26 @@ if ENV:
         DRAGONS = set(int(x) for x in os.environ.get("DRAGONS", "").split())
         DEV_USERS = set(int(x) for x in os.environ.get("DEV_USERS", "").split())
     except ValueError:
-        raise Exception("Your sudo or dev users list does not contain valid integers.")
+        raise Exception(
+            "Your sudo or dev users list does not contain valid integers.")
 
     try:
         DEMONS = set(int(x) for x in os.environ.get("DEMONS", "").split())
     except ValueError:
-        raise Exception("Your support users list does not contain valid integers.")
+        raise Exception(
+            "Your support users list does not contain valid integers.")
 
     try:
         WOLVES = set(int(x) for x in os.environ.get("WOLVES", "").split())
     except ValueError:
-        raise Exception("Your whitelisted users list does not contain valid integers.")
+        raise Exception(
+            "Your whitelisted users list does not contain valid integers.")
 
     try:
         TIGERS = set(int(x) for x in os.environ.get("TIGERS", "").split())
     except ValueError:
-        raise Exception("Your tiger users list does not contain valid integers.")
+        raise Exception(
+            "Your tiger users list does not contain valid integers.")
 
     INFOPIC = bool(os.environ.get("INFOPIC", False))
     EVENT_LOGS = os.environ.get("EVENT_LOGS", None)
@@ -74,7 +79,8 @@ if ENV:
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
     STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
     WORKERS = int(os.environ.get("WORKERS", 8))
-    BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg")
+    BAN_STICKER = os.environ.get("BAN_STICKER",
+                                 "CAADAgADOwADPPEcAXkko5EB3YGYAg")
     ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False)
     CASH_API_KEY = os.environ.get("CASH_API_KEY", None)
     TIME_API_KEY = os.environ.get("TIME_API_KEY", None)
@@ -87,7 +93,8 @@ if ENV:
     try:
         BL_CHATS = set(int(x) for x in os.environ.get("BL_CHATS", "").split())
     except ValueError:
-        raise Exception("Your blacklisted chats list does not contain valid integers.")
+        raise Exception(
+            "Your blacklisted chats list does not contain valid integers.")
 
 else:
     from SaitamaRobot.config import Development as Config
@@ -106,22 +113,26 @@ else:
         DRAGONS = set(int(x) for x in Config.DRAGONS or [])
         DEV_USERS = set(int(x) for x in Config.DEV_USERS or [])
     except ValueError:
-        raise Exception("Your sudo or dev users list does not contain valid integers.")
+        raise Exception(
+            "Your sudo or dev users list does not contain valid integers.")
 
     try:
         DEMONS = set(int(x) for x in Config.DEMONS or [])
     except ValueError:
-        raise Exception("Your support users list does not contain valid integers.")
+        raise Exception(
+            "Your support users list does not contain valid integers.")
 
     try:
         WOLVES = set(int(x) for x in Config.WOLVES or [])
     except ValueError:
-        raise Exception("Your whitelisted users list does not contain valid integers.")
+        raise Exception(
+            "Your whitelisted users list does not contain valid integers.")
 
     try:
         TIGERS = set(int(x) for x in Config.TIGERS or [])
     except ValueError:
-        raise Exception("Your tiger users list does not contain valid integers.")
+        raise Exception(
+            "Your tiger users list does not contain valid integers.")
 
     EVENT_LOGS = Config.EVENT_LOGS
     WEBHOOK = Config.WEBHOOK
@@ -152,7 +163,8 @@ else:
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
     except ValueError:
-        raise Exception("Your blacklisted chats list does not contain valid integers.")
+        raise Exception(
+            "Your blacklisted chats list does not contain valid integers.")
 
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
