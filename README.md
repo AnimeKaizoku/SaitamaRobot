@@ -33,22 +33,27 @@
 <a href="https://makeapullrequest.com" alt="PRs Welcome"> <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" /> </a>
 </p>
 
+
+
 <p align="center">
-> “	Just a code who's a bot for fun. ”
+“	Just a code who's a bot for fun. ”
 </p>
-Saitama is a simple one-punch solution to your group management needs and has become one of the most prominently kanged bots around telegram, purely weeab themed - Saitama is built by weebs, for weebs.
+
+
+Saitama is a simple one-punch solution to your group management needs and has become one of the most prominently kanged bots around telegram, purely weeab themed.
+<p align="center">
+- x -|│  By the weebs, for the weebs. │| - x -
+</p>
+
 Can be found on telegram as <a href="https://t.me/SaitamaRobot" alt="Saitama Robot"> <img src="https://img.shields.io/badge/%F0%9F%A4%96%20-SaitamaRobot-blue" /> </a>
 News channel as at <a  href="https://t.me/OnePunchUpdates" alt="One Punch Updates"> <img  src="https://img.shields.io/badge/%F0%9F%92%A1-One%20Punch%20Updates-9cf" /> </a>
 
 If you are forking this repo then do not forget to click the <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/animekaizoku/saitamarobot?color=white&label=%F0%9F%8C%9F%20star"> button
 
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/animekaizoku/saitamarobot?color=white&label=%F0%9F%92%A1%20stars">
 ## Credits 📍
-The bot is based on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
-This repo was just revamped to suit an Anime-centric community. All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
+* Paul for the initial
+* Phoenix for chatbot and many other aids
+* Pokurt, Dank and a lot more to list
 
-Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (will add it later, this note says unless it is done)
-
-Any other authorship/credits can be seen through the commits.
-
+This listing needs work and will be revamped in future
 Should any be missing kindly let us know with an issue ticket or open a pull request on the readme.
