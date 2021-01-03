@@ -9,6 +9,3 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - uses: psf/black@stable
-
-- name: Black Code Formatter
-  uses: lgeiger/black-action@v1.0.1
