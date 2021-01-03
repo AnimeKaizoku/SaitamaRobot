@@ -16,9 +16,9 @@
 <a href="https://github.com/AnimeKaizoku/SaitamaRobot" alt="GitHub release (latest by date including pre-releases)"> <img src="https://img.shields.io/github/v/release/animekaizoku/saitamarobot?include_prereleases?style=flat&logo=github" /> </a>
 <a href="https://github.com/AnimeKaizoku/SaitamaRobot/graphs/contributors" alt="GitHub contributors"> <img src="https://img.shields.io/github/contributors/animekaizoku/saitamarobot?style=flat&logo=github" /> </a>
 <a href="https://github.com/AnimeKaizoku/SaitamaRobot/network/members" alt="GitHub forks"> <img src="https://img.shields.io/github/forks/AnimeKaizoku/SaitamaRobot?label=Forks&logo=github" /> </a>
-<a href="https://img.shields.io/github/issues-pr-closed-raw/animekaizoku/saitamarobot?color=green" alt="GitHub closed pull requests"> <img src="" /> </a>
-<a href="https://img.shields.io/github/issues-raw/animekaizoku/saitamarobot?style=flat&logo=github&color=yellow" alt="GitHub issues"> <img src="" /> </a>
-<a href="https://img.shields.io/github/repo-size/animekaizoku/saitamarobot" alt="GitHub repo size"> <img src="" /> </a>
+<a href="https://github.com/AnimeKaizoku/SaitamaRobot" alt="GitHub closed pull requests"> <img src="https://img.shields.io/github/issues-pr-closed-raw/animekaizoku/saitamarobot?color=green" /> </a>
+<a href="https://github.com/AnimeKaizoku/SaitamaRobot" alt="GitHub issues"> <img src="https://img.shields.io/github/issues-raw/animekaizoku/saitamarobot?style=flat&logo=github&color=yellow" /> </a>
+<a href="https://github.com/AnimeKaizoku/SaitamaRobot" alt="GitHub repo size"> <img src="https://img.shields.io/github/repo-size/animekaizoku/saitamarobot" /> </a>
 
 <a href="https://www.python.org/" alt="made-with-python"> <img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg?style=flat&logo=python&color=blue" /> </a>
 <a href="https://github.com/AnimeKaizoku/SaitamaRobot" alt="Docker!"> <img src="https://aleen42.github.io/badges/src/docker.svg" /> </a>
