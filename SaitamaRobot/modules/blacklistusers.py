@@ -39,7 +39,8 @@ def bl_user(update: Update, context: CallbackContext) -> str:
         return ""
 
     if user_id == bot.id:
-        message.reply_text("How am I supposed to do my work if I am ignoring myself?")
+        message.reply_text(
+            "How am I supposed to do my work if I am ignoring myself?")
         return ""
 
     if user_id in BLACKLISTWHITELIST:
@@ -125,7 +126,8 @@ def bl_users(update: Update, context: CallbackContext):
                 f"• {mention_html(user.id, html.escape(user.first_name))} :- {reason}"
             )
         else:
-            users.append(f"• {mention_html(user.id, html.escape(user.first_name))}")
+            users.append(
+                f"• {mention_html(user.id, html.escape(user.first_name))}")
 
     message = "<b>Blacklisted Users</b>\n"
     if not users:

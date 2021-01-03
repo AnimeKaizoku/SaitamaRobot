@@ -21,9 +21,8 @@ def extract_user(message: Message, args: List[str]) -> Optional[int]:
     return extract_user_and_text(message, args)[0]
 
 
-def extract_user_and_text(
-    message: Message, args: List[str]
-) -> (Optional[int], Optional[str]):
+def extract_user_and_text(message: Message,
+                          args: List[str]) -> (Optional[int], Optional[str]):
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
 
@@ -37,7 +36,8 @@ def extract_user_and_text(
     entities = list(message.parse_entities([MessageEntity.TEXT_MENTION]))
     ent = entities[0] if entities else None
     # if entity offset matches (command end/text start) then all good
-    if entities and ent and ent.offset == len(message.text) - len(text_to_parse):
+    if entities and ent and ent.offset == len(
+            message.text) - len(text_to_parse):
         ent = entities[0]
         user_id = ent.user.id
         text = message.text[ent.offset + ent.length:]
@@ -77,8 +77,7 @@ def extract_user_and_text(
             message.reply_text(
                 "I don't seem to have interacted with this user before - please forward a message from "
                 "them to give me control! (like a voodoo doll, I need a piece of them to be able "
-                "to execute certain commands...)"
-            )
+                "to execute certain commands...)")
         else:
             LOGGER.exception("Exception %s on user %s", excp.message, user_id)
 
@@ -88,16 +87,12 @@ def extract_user_and_text(
 
 
 def extract_text(message) -> str:
-    return (
-        message.text
-        or message.caption
-        or (message.sticker.emoji if message.sticker else None)
-    )
+    return (message.text or message.caption or
+            (message.sticker.emoji if message.sticker else None))
 
 
-def extract_unt_fedban(
-    message: Message, args: List[str]
-) -> (Optional[int], Optional[str]):
+def extract_unt_fedban(message: Message,
+                       args: List[str]) -> (Optional[int], Optional[str]):
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
 
@@ -111,7 +106,8 @@ def extract_unt_fedban(
     entities = list(message.parse_entities([MessageEntity.TEXT_MENTION]))
     ent = entities[0] if entities else None
     # if entity offset matches (command end/text start) then all good
-    if entities and ent and ent.offset == len(message.text) - len(text_to_parse):
+    if entities and ent and ent.offset == len(
+            message.text) - len(text_to_parse):
         ent = entities[0]
         user_id = ent.user.id
         text = message.text[ent.offset + ent.length:]
@@ -147,9 +143,8 @@ def extract_unt_fedban(
     try:
         message.bot.get_chat(user_id)
     except BadRequest as excp:
-        if excp.message in ("User_id_invalid", "Chat not found") and not isinstance(
-            user_id, int
-        ):
+        if excp.message in ("User_id_invalid",
+                            "Chat not found") and not isinstance(user_id, int):
             message.reply_text(
                 "I don't seem to have interacted with this user before "
                 "please forward a message from them to give me control! "
