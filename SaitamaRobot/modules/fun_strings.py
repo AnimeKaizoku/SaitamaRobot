@@ -1,6 +1,5 @@
 RUN_STRINGS = (
-    "Now you see me, now you don't."
-    "ε=ε=ε=ε=┌(;￣▽￣)┘",
+    "Now you see me, now you don't." "ε=ε=ε=ε=┌(;￣▽￣)┘",
     "Get back here!",
     "REEEEEEEEEEEEEEEEEE!!!!!!!",
     "Look out for the wall!",

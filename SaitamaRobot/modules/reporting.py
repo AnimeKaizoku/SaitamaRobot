@@ -37,8 +37,7 @@ def report_setting(update: Update, context: CallbackContext):
 
             elif args[0] in ("no", "off"):
                 sql.set_user_setting(chat.id, False)
-                msg.reply_text(
-                    "Turned off reporting! You wont get any reports.")
+                msg.reply_text("Turned off reporting! You wont get any reports.")
         else:
             msg.reply_text(
                 f"Your current report preference is: `{sql.user_should_report(chat.id)}`",
@@ -51,7 +50,8 @@ def report_setting(update: Update, context: CallbackContext):
                 sql.set_chat_setting(chat.id, True)
                 msg.reply_text(
                     "Turned on reporting! Admins who have turned on reports will be notified when /report "
-                    "or @admin is called.")
+                    "or @admin is called."
+                )
 
             elif args[0] in ("no", "off"):
                 sql.set_chat_setting(chat.id, False)
@@ -151,28 +151,26 @@ def report(update: Update, context: CallbackContext) -> str:
                 try:
                     if not chat.type == Chat.SUPERGROUP:
                         bot.send_message(
-                            admin.user.id,
-                            msg + link,
-                            parse_mode=ParseMode.HTML)
+                            admin.user.id, msg + link, parse_mode=ParseMode.HTML
+                        )
 
                         if should_forward:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                    len(message.text.split()) > 1
+                                len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
                     if not chat.username:
                         bot.send_message(
-                            admin.user.id,
-                            msg + link,
-                            parse_mode=ParseMode.HTML)
+                            admin.user.id, msg + link, parse_mode=ParseMode.HTML
+                        )
 
                         if should_forward:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                    len(message.text.split()) > 1
+                                len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
 
@@ -188,7 +186,7 @@ def report(update: Update, context: CallbackContext) -> str:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                    len(message.text.split()) > 1
+                                len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
 
