@@ -69,8 +69,7 @@ def totranslate(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
             )
         else:
-            trans_str = trl.translate(
-                text, lang_tgt=dest_lang, lang_src=source_lang)
+            trans_str = trl.translate(text, lang_tgt=dest_lang, lang_src=source_lang)
             message.reply_text(
                 f"Translated from `{source_lang}` to `{dest_lang}`:\n`{trans_str}`",
                 parse_mode=ParseMode.MARKDOWN,
@@ -86,8 +85,7 @@ def totranslate(update: Update, context: CallbackContext):
             disable_web_page_preview=True,
         )
     except ValueError:
-        update.effective_message.reply_text(
-            "The intended language is not found!")
+        update.effective_message.reply_text("The intended language is not found!")
     else:
         return
 

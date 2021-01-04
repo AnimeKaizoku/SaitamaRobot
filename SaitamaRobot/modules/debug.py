@@ -41,8 +41,7 @@ async def i_do_nothing_yes(event):
             with open("updates.txt", "r") as f:
                 text = f.read()
             with open("updates.txt", "w+") as f:
-                f.write(text +
-                        f"\n-{event.from_id} ({event.chat_id}) : {event.text}")
+                f.write(text + f"\n-{event.from_id} ({event.chat_id}) : {event.text}")
         else:
             with open("updates.txt", "w+") as f:
                 f.write(

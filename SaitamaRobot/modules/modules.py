@@ -24,11 +24,11 @@ def load(update: Update, context: CallbackContext):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
     load_messasge = message.reply_text(
-        f"Attempting to load module : <b>{text}</b>", parse_mode=ParseMode.HTML)
+        f"Attempting to load module : <b>{text}</b>", parse_mode=ParseMode.HTML
+    )
 
     try:
-        imported_module = importlib.import_module("SaitamaRobot.modules." +
-                                                  text)
+        imported_module = importlib.import_module("SaitamaRobot.modules." + text)
     except:
         load_messasge.edit_text("Does that module even exist?")
         return
@@ -84,8 +84,8 @@ def load(update: Update, context: CallbackContext):
         USER_SETTINGS[imported_module.__mod_name__.lower()] = imported_module
 
     load_messasge.edit_text(
-        "Successfully loaded module : <b>{}</b>".format(text),
-        parse_mode=ParseMode.HTML)
+        "Successfully loaded module : <b>{}</b>".format(text), parse_mode=ParseMode.HTML
+    )
 
 
 @run_async
@@ -94,12 +94,11 @@ def unload(update: Update, context: CallbackContext):
     message = update.effective_message
     text = message.text.split(" ", 1)[1]
     unload_messasge = message.reply_text(
-        f"Attempting to unload module : <b>{text}</b>",
-        parse_mode=ParseMode.HTML)
+        f"Attempting to unload module : <b>{text}</b>", parse_mode=ParseMode.HTML
+    )
 
     try:
-        imported_module = importlib.import_module("SaitamaRobot.modules." +
-                                                  text)
+        imported_module = importlib.import_module("SaitamaRobot.modules." + text)
     except:
         unload_messasge.edit_text("Does that module even exist?")
         return
@@ -156,8 +155,8 @@ def unload(update: Update, context: CallbackContext):
         USER_SETTINGS.pop(imported_module.__mod_name__.lower())
 
     unload_messasge.edit_text(
-        f"Successfully unloaded module : <b>{text}</b>",
-        parse_mode=ParseMode.HTML)
+        f"Successfully unloaded module : <b>{text}</b>", parse_mode=ParseMode.HTML
+    )
 
 
 @run_async
