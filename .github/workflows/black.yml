@@ -20,5 +20,5 @@ jobs:
           commit-message: Format code using black
           title: Format code.
           body: Format code using black.
-          labels: black
+          labels: ⚫️ black
           branch: autofix
