@@ -368,10 +368,13 @@ def kang(update: Update, context: CallbackContext):
         else:
             packs += f"[pack](t.me/addstickers/{packname})"
         msg.reply_text(packs, parse_mode=ParseMode.MARKDOWN)
-    if os.path.isfile("kangsticker.png"):
-        os.remove("kangsticker.png")
-    elif os.path.isfile("kangsticker.tgs"):
-        os.remove("kangsticker.tgs")
+    try:
+        if os.path.isfile("kangsticker.png"):
+            os.remove("kangsticker.png")
+        elif os.path.isfile("kangsticker.tgs"):
+            os.remove("kangsticker.tgs")
+    except:
+        pass
 
 
 def makepack_internal(
