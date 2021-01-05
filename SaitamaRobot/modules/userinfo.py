@@ -2,7 +2,6 @@ import html
 import re
 import os
 import requests
-import subprocess
 
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import ChannelParticipantsAdmins
@@ -420,20 +419,12 @@ def set_about_me(update: Update, context: CallbackContext):
             )
 
 
+
 @run_async
 @sudo_plus
 def stats(update: Update, context: CallbackContext):
-    process = subprocess.Popen(
-        "neofetch --stdout", shell=True, text=True, stdout=subprocess.PIPE
-    )
-    output = process.communicate()[0]
-    stats = (
-        "<b>Current stats:</b>\n"
-        + "\n"
-        + output
-        + "\n".join([mod.__stats__() for mod in STATS])
-    )
-    result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
+    stats = "<b>📊 Current stats:</b>\n" + "\n".join([mod.__stats__() for mod in STATS])
+    result = re.sub(r'(\d+)', r'<code>\1</code>', stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
 
 
