@@ -5,6 +5,8 @@ from telegram.ext import CallbackContext, Filters, CommandHandler
 
 __help__ = """
 *Available commands:*\n
+*Movie information:*
+ • `/imdb <movie name>`: does a movie search in Imdb site\n
 *Image reverse:*
  • `/reverse`: does a *reverse image search* of the media which it was replied to\n
 *Text to speech:*
