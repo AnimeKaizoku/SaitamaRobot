@@ -2,14 +2,18 @@ import html
 import random
 import time
 
+from typing import Optional
+from telegram import ParseMode, Update, ChatPermissions
+from telegram.ext import CallbackContext, run_async
+from tswift import Song
+from telegram.error import BadRequest
+
 import SaitamaRobot.modules.fun_strings as fun_strings
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot.modules.helper_funcs.chat_status import is_user_admin
+from SaitamaRobot.modules.helper_funcs.alternate import send_message, typing_action
+from SaitamaRobot.modules.helper_funcs.chat_status import (is_user_admin)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from telegram import ChatPermissions, ParseMode, Update
-from telegram.error import BadRequest
-from telegram.ext import CallbackContext, run_async
 
 GIF_ID = 'CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr5nGxsE'
 
@@ -190,6 +194,34 @@ def rlg(update: Update, context: CallbackContext):
 def decide(update: Update, context: CallbackContext):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.DECIDE))
+
+
+@run_async
+@typing_action
+def lyrics(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
+    msg = update.effective_message
+    query = " ".join(args)
+    song = ""
+    if not query:
+        msg.reply_text("You haven't specified which song to look for!")
+        return
+    song = Song.find_song(query)
+    if song:
+        if song.lyrics:
+            reply = song.format()
+        else:
+            reply = "Couldn't find any lyrics for that song!"
+    else:
+        reply = "Song not found!"
+    if len(reply) > 4090:
+        with open("lyrics.txt", 'w') as f:
+            f.write(f"{reply}\n\n\nOwO UwU OmO")
+        with open("lyrics.txt", 'rb') as f:
+            msg.reply_document(document=f,
+            caption="Message length exceeded max limit! Sending as a text file.")
+    else:
+        msg.reply_text(reply)
 
 
 @run_async
