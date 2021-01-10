@@ -284,6 +284,7 @@ __help__ = """
  • `/bluetext`*:* check urself :V
  • `/roll`*:* Roll a dice
  • `/rlg`*:* Join ears,nose,mouth and create an emo ;-;
+ • `/lyrics <song name> `*:* text to voice
  • `/shout <keyword>`*:* write anything you want to give loud shout
  • `/weebify <text>`*:* returns a weebified text
  • `/sanitize`*:* always use this before /pat or any contact
@@ -302,6 +303,7 @@ BLUETEXT_HANDLER = DisableAbleCommandHandler("bluetext", bluetext)
 RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg)
 DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
 EIGHTBALL_HANDLER = DisableAbleCommandHandler("8ball", eightball)
+LYRICS_HANDLER = DisableAbleCommandHandler("lyrics", lyrics)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout)
 WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify)
@@ -313,6 +315,7 @@ dispatcher.add_handler(RUNS_HANDLER)
 dispatcher.add_handler(SLAP_HANDLER)
 dispatcher.add_handler(PAT_HANDLER)
 dispatcher.add_handler(ROLL_HANDLER)
+dispatcher.add_handler(LYRICS_HANDLER)
 dispatcher.add_handler(TOSS_HANDLER)
 dispatcher.add_handler(SHRUG_HANDLER)
 dispatcher.add_handler(BLUETEXT_HANDLER)
@@ -324,10 +327,10 @@ dispatcher.add_handler(TABLE_HANDLER)
 __mod_name__ = "Fun"
 __command_list__ = [
     "runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide",
-    "table", "pat", "sanitize", "shout", "weebify", "8ball"
+    "table", "pat", "sanitize", "lyrics", "shout", "weebify", "8ball"
 ]
 __handlers__ = [
     RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER,
     SHRUG_HANDLER, BLUETEXT_HANDLER, RLG_HANDLER, DECIDE_HANDLER, TABLE_HANDLER,
-    SANITIZE_HANDLER, SHOUT_HANDLER, WEEBIFY_HANDLER, EIGHTBALL_HANDLER
+    SANITIZE_HANDLER, SHOUT_HANDLER, WEEBIFY_HANDLER, EIGHTBALL_HANDLER, LYRICS_HANDLER
 ]
