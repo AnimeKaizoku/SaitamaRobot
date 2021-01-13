@@ -55,14 +55,8 @@ support_chat = os.getenv("SUPPORT_CHAT")
 @run_async
 @dev_plus
 def logs(update: Update, context: CallbackContext):
-    chat_username = update.effective_chat.username
-    if not chat_username:
-        return
-    if chat_username != support_chat:
-        return
     user = update.effective_user
     with open("log.txt", "rb") as f:
-
         context.bot.send_document(document=f, filename=f.name, chat_id=user.id)
 
 
