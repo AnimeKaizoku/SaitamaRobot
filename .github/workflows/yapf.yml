@@ -10,14 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Auto yapf
-        uses: Accipiter7/yapf-action@master
+        uses: turquoise-giggle/yapf-action@master
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@master
         with:
           commit-message: Automated code formatting.
-          committer: Accipiter7<Accipiter7@users.noreply.github.com>
+          committer: turquoise-giggle<62775010+turquoise-giggle@users.noreply.github.com>
           title: Automated code formatting.
           body: This is an automated code formatting pull request.
           labels: Code Formatting
-          reviewers: Accipiter7 
+          reviewers: turquoise-giggle 
           branch: autofix
