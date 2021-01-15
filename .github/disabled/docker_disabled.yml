@@ -24,7 +24,7 @@ jobs:
 
         with:
 
-          name:  animekaizoku/saitamarobot
+          name:  turquoise-giggle/cat
 
           username: ${{ secrets.DOCKER_USERNAME }}
 
