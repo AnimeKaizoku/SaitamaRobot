@@ -109,7 +109,6 @@ DEFAULT_WELCOME_MESSAGES = [
     "Ladies and gentlemen, I give you ...  {first}.",
     "Behold my new evil scheme, the {first}-Inator.",
     "Ah, {first} the Platypus, you're just in time... to be trapped.",
-    "*snaps fingers and teleports {first} here*",
     "{first} just arrived. Diable Jamble!",  # One Piece Sanji
     "{first} just arrived. Aschente!",  # No Game No Life
     "{first} say Aschente to swear by the pledges.",  # No Game No Life
@@ -151,6 +150,15 @@ DEFAULT_WELCOME_MESSAGES = [
     "In the jungle, you must wait...until the dice read five or eight.",  # Jumanji stuff
     "Dr.{first} Famed archeologist and international explorer,\nWelcome to Jumanji!\nJumanji's Fate is up to you now.",
     "{first}, this will not be an easy mission - monkeys slow the expedition.",  # End of Jumanji stuff
+    "Remember, remember, the Fifth of November, the Gunpowder Treason and Plot. I know of no reason why the Gunpowder Treason should ever be forgot.", #V for Vendetta
+    "The only verdict is vengeance; a vendetta, held as a votive not in vain, for the value and veracity of such shall one day vindicate the vigilant and the virtuous.", #V for Vendetta
+    "Behind {first} there is more than just flesh. Beneath this user there is an idea... and ideas are bulletproof.", #V for Vendetta
+    "Love your rage, not your cage.", #V for Vendetta
+    "Get your stinking paws off me, you damned dirty ape!", #Planet of the apes
+    "Elementary, my dear {first}.",
+    "I'm back - {first}.",
+    "Bond. {first} Bond.",
+    "Come with me if you want to live",
 ]
 DEFAULT_GOODBYE_MESSAGES = [
     "{first} will be missed.",
