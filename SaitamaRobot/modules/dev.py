@@ -12,7 +12,7 @@ from telegram.ext import CallbackContext, CommandHandler, run_async
 
 @run_async
 @dev_plus
-def groups(update: Update, context: CallbackContext):
+def allow_groups(update: Update, context: CallbackContext):
     args = context.args
     if not args:
         update.effective_message.reply_text(f"Current state: {SaitamaRobot.ALLOW_CHATS}")
@@ -22,7 +22,7 @@ def groups(update: Update, context: CallbackContext):
     elif args[0].lower() in ["off", "no"]:
         SaitamaRobot.ALLOW_CHATS = False
     else:
-        update.effective_message.reply_text("Format: /groups Yes/No or Off/On")
+        update.effective_message.reply_text("Format: /allow_groups Yes/No or Off/On")
         return
     update.effective_message.reply_text("Done!")
 
@@ -78,7 +78,7 @@ def restart(update: Update, context: CallbackContext):
 LEAVE_HANDLER = CommandHandler("leave", leave)
 GITPULL_HANDLER = CommandHandler("gitpull", gitpull)
 RESTART_HANDLER = CommandHandler("reboot", restart)
-ALLOWGROUPS_HANDLER = CommandHandler("groups", groups)
+ALLOWGROUPS_HANDLER = CommandHandler("allow_groups", groups)
 
 dispatcher.add_handler(ALLOWGROUPS_HANDLER)
 dispatcher.add_handler(LEAVE_HANDLER)
@@ -86,4 +86,4 @@ dispatcher.add_handler(GITPULL_HANDLER)
 dispatcher.add_handler(RESTART_HANDLER)
 
 __mod_name__ = "Dev"
-__handlers__ = [LEAVE_HANDLER, GITPULL_HANDLER, RESTART_HANDLER]
+__handlers__ = [LEAVE_HANDLER, GITPULL_HANDLER, RESTART_HANDLER, ALLOWGROUPS_HANDLER]
