@@ -84,6 +84,12 @@ if ENV:
     SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None)
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
 
+    ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
+    if ALLOW_CHATS:
+        ALLOWED_CHATS = []
+    else:
+        ALLOWED_CHATS = map(int, os.environ.get("ALLOWED_CHATS", "").split())
+
     try:
         BL_CHATS = set(int(x) for x in os.environ.get("BL_CHATS", "").split())
     except ValueError:
@@ -148,7 +154,7 @@ else:
     SPAMWATCH_SUPPORT_CHAT = Config.SPAMWATCH_SUPPORT_CHAT
     SPAMWATCH_API = Config.SPAMWATCH_API
     INFOPIC = Config.INFOPIC
-
+    
     try:
         BL_CHATS = set(int(x) for x in Config.BL_CHATS or [])
     except ValueError:
