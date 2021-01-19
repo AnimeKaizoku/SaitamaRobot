@@ -272,22 +272,23 @@ def info(update: Update, context: CallbackContext):
     disaster_level_present = False
 
     if user.id == OWNER_ID:
-        text += "\n\nThe Disaster level of this person is 'God'."
+        text += "\n\nThis user is my Owner! Stay aware."
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nThis user is member of 'Harshiras'."
+        text += "\n\nThis user is one of my Dev Users. They can access me like my Owner."
         disaster_level_present = True
     elif user.id in DRAGONS:
-        text += "\n\nThe Disaster level of this person is 'Dragon'."
+        text += "\n\nThis user has super user access, can gban, manage members lower than him and are admins in Karma.."
         disaster_level_present = True
     elif user.id in DEMONS:
-        text += "\n\nThe Disaster level of this person is 'Demon'."
+        text += "\n\nThis user has access to globally banned users across me."
         disaster_level_present = True
     elif user.id in TIGERS:
-        text += "\n\nThe Disaster level of this person is 'Tiger'."
+        text += "\n\nThis user is fully immune to mute, ban, kicks etc. ."
         disaster_level_present = True
     elif user.id in WOLVES:
-        text += "\n\nThe Disaster level of this person is 'Wolf'."
+        text += "\n\nThis user cannot be banned, flood kicked but can be manually banned by admins.
+They can be muted."
         disaster_level_present = True
 
     if disaster_level_present:
