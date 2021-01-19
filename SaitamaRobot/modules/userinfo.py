@@ -287,8 +287,7 @@ def info(update: Update, context: CallbackContext):
         text += "\n\nThis user is fully immune to mute, ban, kicks etc. ."
         disaster_level_present = True
     elif user.id in WOLVES:
-        text += "\n\nThis user cannot be banned, flood kicked but can be manually banned by admins.
-They can be muted."
+        text += "\n\nThis user cannot be banned, flood kicked but can be manually banned by admins. They can be muted."
         disaster_level_present = True
 
     if disaster_level_present:
