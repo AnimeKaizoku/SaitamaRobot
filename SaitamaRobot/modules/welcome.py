@@ -3,6 +3,7 @@ import random
 import re
 import time
 from functools import partial
+from contextlib import suppress
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
 from SaitamaRobot import (
@@ -16,6 +17,7 @@ from SaitamaRobot import (
     sw,
     dispatcher,
     JOIN_LOGGER,
+    ALLOW_CHATS
 )
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
@@ -263,6 +265,11 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome yourself
             elif new_mem.id == bot.id:
                 creator = None
+                if not ALLOW_CHATS:
+                    with suppress(BadRequest):
+                         update.effective_message.reply_text(f"Groups are disabled for {bot.first_name}, I'm leaving this chat")
+                    bot.leave_chat(update.effective_chat.id)
+                    return
                 for x in bot.bot.get_chat_administrators(update.effective_chat.id):
                     if x.status == "creator":
                         creator = x.user
