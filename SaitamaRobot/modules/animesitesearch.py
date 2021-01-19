@@ -1,3 +1,21 @@
+import html
+
+import bs4
+import requests
+from SaitamaRobot import dispatcher
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
+                      Update)
+from telegram.ext import CallbackContext, run_async
+
+info_btn = "More Information"
+kaizoku_btn = "Kaizoku 💓"
+kayo_btn = "Kayo 🏴‍☠️"
+prequel_btn = "⬅️ Prequel"
+sequel_btn = "Sequel ➡️"
+close_btn = "Close ❌"
+
+
 def site_search(update: Update, context: CallbackContext, site: str):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
@@ -64,3 +82,11 @@ def kaizoku(update: Update, context: CallbackContext):
 @run_async
 def kayo(update: Update, context: CallbackContext):
     site_search(update, context, "kayo")
+
+KAIZOKU_SEARCH_HANDLER = DisableAbleCommandHandler("kaizoku", kaizoku)
+KAYO_SEARCH_HANDLER = DisableAbleCommandHandler("kayo", kayo)
+
+dispatcher.add_handler(KAIZOKU_SEARCH_HANDLER)
+dispatcher.add_handler(KAYO_SEARCH_HANDLER)
+
+__handlers__ = [KAIZOKU_SEARCH_HANDLER, KAYO_SEARCH_HANDLER]
