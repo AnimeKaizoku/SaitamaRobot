@@ -5,6 +5,7 @@ beautifulsoup4
 requests
 sqlalchemy
 python-telegram-bot==12.8
+pyrogram
 psycopg2-binary
 feedparser
 pynewtonmath
@@ -23,6 +24,7 @@ coffeehouse
 cachetools
 google_trans_new
 regex
+redis
 bleach
 git+https://github.com/starry69/python-markdown2.git
 wikipedia
@@ -33,4 +35,3 @@ spamwatch
 alphabet_detector
 pyrate-limiter
 gtts
-nekos.py
