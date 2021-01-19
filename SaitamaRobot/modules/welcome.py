@@ -6,6 +6,7 @@ from functools import partial
 from contextlib import suppress
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
+import SaitamaRobot
 from SaitamaRobot import (
     DEV_USERS,
     LOGGER,
@@ -16,8 +17,7 @@ from SaitamaRobot import (
     WOLVES,
     sw,
     dispatcher,
-    JOIN_LOGGER,
-    ALLOW_CHATS
+    JOIN_LOGGER
 )
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
@@ -265,7 +265,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome yourself
             elif new_mem.id == bot.id:
                 creator = None
-                if not ALLOW_CHATS:
+                if not SaitamaRobot.ALLOW_CHATS:
                     with suppress(BadRequest):
                          update.effective_message.reply_text(f"Groups are disabled for {bot.first_name}, I'm leaving this chat")
                     bot.leave_chat(update.effective_chat.id)
