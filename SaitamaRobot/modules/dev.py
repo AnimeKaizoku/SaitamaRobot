@@ -3,11 +3,28 @@ import subprocess
 import sys
 from time import sleep
 
+import SaitamaRobot
+
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import dev_plus
 from telegram import TelegramError, Update
 from telegram.ext import CallbackContext, CommandHandler, run_async
 
+@run_async
+@dev_plus
+def groups(update: Update, context: CallbackContext):
+    args = context.args
+    if not args:
+        update.effective_message.reply_text(f"Current state: {SaitamaRobot.ALLOW_CHATS}")
+        return
+    if args[0].lower() in ["yes", "on"]:
+        SaitamaRobot.ALLOW_CHATS = True
+    elif args[0].lower() in ["off", "no"]:
+        SaitamaRobot.ALLOW_CHATS = False
+    else:
+        update.effective_message.reply_text("Format: /groups Yes/No or Off/On")
+        return
+    update.effective_message.reply_text("Done!")
 
 @run_async
 @dev_plus
@@ -61,7 +78,9 @@ def restart(update: Update, context: CallbackContext):
 LEAVE_HANDLER = CommandHandler("leave", leave)
 GITPULL_HANDLER = CommandHandler("gitpull", gitpull)
 RESTART_HANDLER = CommandHandler("reboot", restart)
+ALLOWGROUPS_HANDLER = CommandHandler("groups", groups)
 
+dispatcher.add_handler(ALLOWGROUPS_HANDLER)
 dispatcher.add_handler(LEAVE_HANDLER)
 dispatcher.add_handler(GITPULL_HANDLER)
 dispatcher.add_handler(RESTART_HANDLER)
