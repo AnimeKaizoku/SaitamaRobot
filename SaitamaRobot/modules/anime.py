@@ -1,15 +1,17 @@
 import datetime
 import html
 import textwrap
+import json
 
 import bs4
 import jikanpy
 import requests
 from telegram.utils.helpers import mention_html
-from SaitamaRobot import OWNER_ID, DRAGONS, REDIS, dispatcher
+from telegram.error import BadRequest
+from SaitamaRobot import DEV_USERS, OWNER_ID, DRAGONS, REDIS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
-                      Update)
+                      Update ,replymarkup)
 from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
 
 info_btn = "More Information"
@@ -230,7 +232,7 @@ def anime(update, context):
             ]]
         else:
             buttons = [[InlineKeyboardButton("More Info", url=info)]]
-        buttons += [[InlineKeyboardButton("💬Add To Watchlist📝", callback_data=f"xanime_watchlist={anime_name_w}")]]
+        buttons += [[InlineKeyboardButton("💬Add To Watchlist🔴", callback_data=f"xanime_watchlist={anime_name_w}")]]
         if image:
             try:
                 update.effective_message.reply_photo(
@@ -454,6 +456,46 @@ def upcoming(update, context):
         upcoming_message += f"{entry_num + 1}. {upcoming_list[entry_num]}\n"
 
     update.effective_message.reply_text(upcoming_message)
+    
+def anime_quote():
+    url = "https://animechanapi.xyz/api/quotes/random"
+    response = requests.get(url)
+    # since text attribute returns dictionary like string
+    dic = json.loads(response.text)
+    quote = dic["data"][0]["quote"]
+    character = dic["data"][0]["character"]
+    anime = dic["data"][0]["anime"]
+    return quote, character, anime
+
+
+@run_async
+def quotes(update: Update, context: CallbackContext):
+    message = update.effective_message
+    quote, character, anime = anime_quote()
+    msg = f"<i>❝{quote}❞</i>\n\n<b>{character} from {anime}</b>"
+    keyboard = InlineKeyboardMarkup(
+        [[InlineKeyboardButton(text="Change🔁", callback_data="change_quote")]]
+    )
+    message.reply_text(
+        msg,
+        reply_markup=keyboard,
+        parse_mode=ParseMode.HTML,
+    )
+
+
+@run_async
+def change_quote(update: Update, context: CallbackContext):
+    query = update.callback_query
+    chat = update.effective_chat
+    message = update.effective_message
+    quote, character, anime = anime_quote()
+    msg = f"<i>❝{quote}❞</i>\n\n<b>{character} from {anime}</b>"
+    keyboard = InlineKeyboardMarkup(
+        [[InlineKeyboardButton(text="Change🔁", callback_data="quote_change")]]
+    )
+    message.edit_text(msg, reply_markup=keyboard, parse_mode=ParseMode.HTML)
+
+
 
 @run_async
 def watchlist(update, context):
@@ -472,7 +514,7 @@ def watchlist(update, context):
         )
     else:
         message.reply_text(
-            "Your Watchlist is Empty!"
+            "You havn't added anything in your watchlist!"
         )
 @run_async
 def removewatchlist(update, context):
@@ -494,7 +536,7 @@ def removewatchlist(update, context):
         )
     else:
         message.reply_text(
-            f"<code>{removewlist}</code> has been successfully removed from your watch list.",
+            f"<code>{removewlist}</code> has been removed from your watch list.",
             parse_mode=ParseMode.HTML
         )
         REDIS.srem(f'anime_watch_list{user.id}', removewlist)
@@ -670,6 +712,7 @@ def button(update, context):
 
 
 
+
 __help__ = """
 Get information about anime, manga or characters from [AniList](anilist.co).
 *Available commands:*
@@ -679,6 +722,7 @@ Get information about anime, manga or characters from [AniList](anilist.co).
  - /user <user>: returns information about a MyAnimeList user.
  - /upcoming: returns a list of new anime in the upcoming seasons.
  - /airing <anime>: returns anime airing info.
+ - /aq: get random anime quote
  - /kaizoku <anime>: search an anime on animekaizoku.com
  - /kayo <anime>: search an anime on animekayo.com
  - /watchlist: to get your saved watchlist.
@@ -695,6 +739,9 @@ CHARACTER_HANDLER = DisableAbleCommandHandler("character", character)
 MANGA_HANDLER = DisableAbleCommandHandler("manga", manga)
 USER_HANDLER = DisableAbleCommandHandler("user", user)
 UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
+QUOTE = DisableAbleCommandHandler("aq", quotes)
+CHANGE_QUOTE = CallbackQueryHandler(change_quote, pattern=r"change_.*")
+QUOTE_CHANGE = CallbackQueryHandler(change_quote, pattern=r"quote_.*")
 WATCHLIST_HANDLER = DisableAbleCommandHandler("watchlist", watchlist)
 MANGALIST_HANDLER = DisableAbleCommandHandler("mangalist", readmanga)
 FVRT_CHAR_HANDLER = DisableAbleCommandHandler(["characterlist","fcl"], fvrtchar)
@@ -711,6 +758,19 @@ dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
 dispatcher.add_handler(AIRING_HANDLER)
 dispatcher.add_handler(USER_HANDLER)
+dispatcher.add_handler(UPCOMING_HANDLER)
+dispatcher.add_handler(QUOTE)
+dispatcher.add_handler(CHANGE_QUOTE)
+dispatcher.add_handler(QUOTE_CHANGE)
+dispatcher.add_handler(WATCHLIST_HANDLER)
+dispatcher.add_handler(MANGALIST_HANDLER)
+dispatcher.add_handler(FVRT_CHAR_HANDLER)
+dispatcher.add_handler(REMOVE_FVRT_CHAR_HANDLER)
+dispatcher.add_handler(REMOVE_MANGA_CHAR_HANDLER)
+dispatcher.add_handler(REMOVE_WATCHLIST_HANDLER)
+
+__mod_name__ = "Anime"
+)
 dispatcher.add_handler(UPCOMING_HANDLER)
 dispatcher.add_handler(WATCHLIST_HANDLER)
 dispatcher.add_handler(MANGALIST_HANDLER)
