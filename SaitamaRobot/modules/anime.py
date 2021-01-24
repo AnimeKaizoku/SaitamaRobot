@@ -770,7 +770,7 @@ dispatcher.add_handler(REMOVE_MANGA_CHAR_HANDLER)
 dispatcher.add_handler(REMOVE_WATCHLIST_HANDLER)
 
 __mod_name__ = "Anime"
-)
+
 dispatcher.add_handler(UPCOMING_HANDLER)
 dispatcher.add_handler(WATCHLIST_HANDLER)
 dispatcher.add_handler(MANGALIST_HANDLER)
