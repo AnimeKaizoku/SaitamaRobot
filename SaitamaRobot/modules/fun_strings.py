@@ -28,6 +28,7 @@ GIFS = [
 
 SLAP_SAITAMA_TEMPLATES = (
     "Slap me one more time and I'll mute you.",
+    "enne thalliya myre neente kena njan nirthum.",
     "Stop slapping me. REEEEEEEEEEEEEE.",
     [
         "I am muting you for a minute.",  # normal reply
@@ -192,7 +193,7 @@ PAT_STICKERS = (
 
 PING_STRING = (
     "PONG!!",
-    "I am here!",
+    "njan evde und myre!",
 )
 
 ITEMS = (
