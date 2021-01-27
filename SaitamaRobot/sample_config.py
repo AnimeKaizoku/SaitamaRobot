@@ -32,7 +32,7 @@ class Config(object):
     INFOPIC = True
     URL = None
     SPAMWATCH_API = ""  # go to support.spamwat.ch to get key
-    SPAMWATCH_SUPPORT_CHAT = "@SpamWatchSupport"
+    SPAMWATCH_SUPPORT_CHAT = "@nimmi_support"
 
     #OPTIONAL
     ##List of id's -  (not usernames) for users which have sudo access to the bot.
