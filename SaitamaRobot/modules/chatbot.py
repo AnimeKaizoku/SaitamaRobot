@@ -136,7 +136,7 @@ def list_chatbot_chats(update: Update, context: CallbackContext):
 
 
 __help__ = f"""
-Chatbot utilizes the CoffeeHouse API and allows Saitama to talk and provides a more interactive group chat experience.
+Chatbot utilizes the CoffeeHouse API and allows Nimmi to talk and provides a more interactive group chat experience.
 
 *Commands:* 
 *Admins only:*
@@ -144,7 +144,7 @@ Chatbot utilizes the CoffeeHouse API and allows Saitama to talk and provides a m
  • `/rmchat`*:* Disables Chatbot mode in the chat.
 
 Reports bugs at @{SUPPORT_CHAT}
-*Powered by CoffeeHouse* (https://coffeehouse.intellivoid.net/) from @Intellivoid
+*Powered by Nimmi support* (https://t.me/nimmisupport) from @basi_mon
 """
 
 ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
