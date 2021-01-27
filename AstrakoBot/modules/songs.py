@@ -89,6 +89,11 @@ async def process(v_url, dtype, opts):
     c_time = time.time()
 
     if dtype == "song":
+
+        if int(rip_data["duration"] / 60) > 30:
+            await rkp.edit("`Song is too long for processing.`")
+            return
+
         await rkp.edit(f"`Preparing to upload song:`\
         \n**{rip_data['title']}**\
         \nby *{rip_data['uploader']}*")
@@ -107,6 +112,11 @@ async def process(v_url, dtype, opts):
                          f"{rip_data['title']}.mp3")))
 
     else:
+
+        if int(rip_data["duration"] / 60) > 10:
+            await rkp.edit("`Video is too long for processing.`")
+            return
+
         await rkp.edit(f"`Preparing to upload video:`\
         \n**{rip_data['title']}**\
         \nby *{rip_data['uploader']}*")
