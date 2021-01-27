@@ -516,7 +516,7 @@ Examples:
  • `/info`*:* get information about a user. 
  
 *What is that health thingy?*
- Come and see [HP System explained](https://t.me/OnePunchUpdates/192)
+ Come and see [Nimmi help](https://t.me/nimmisupport/192)
 """
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)
