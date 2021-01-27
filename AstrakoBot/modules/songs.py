@@ -130,12 +130,6 @@ async def process(v_url, dtype, opts):
                 progress(d, t, v_url, c_time, "Uploading..",
                          f"{rip_data['title']}.mp4")))
 
-    try:
-        for f in glob.glob("*.mp*"):
-            os.remove(f)
-    except Exception:
-        pass
-
 
 @telethn.on(events.NewMessage(pattern="^[!/]song(.*)"))
 async def song(v_url):
@@ -168,6 +162,12 @@ async def song(v_url):
     }
     await process(v_url, "song", opts)
 
+    try:
+        for f in glob.glob("*.mp*"):
+            os.remove(f)
+    except Exception:
+        pass
+
 @telethn.on(events.NewMessage(pattern="^[!/]video(.*)"))
 async def video(v_url):
     opts = {
@@ -195,6 +195,12 @@ async def video(v_url):
     True
     }
     await process(v_url, "video", opts)
+
+    try:
+        for f in glob.glob("*.mp*"):
+            os.remove(f)
+    except Exception:
+        pass
 
 
 SONG_HANDLER = DisableAbleCommandHandler('song', song)
