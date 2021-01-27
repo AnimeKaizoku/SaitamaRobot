@@ -59,12 +59,12 @@ async def delete_messages(event):
         return
 
     if not await can_delete_messages(message=event):
-        await event.reply("Can't seem to delete this?")
+        await event.reply("aiseri thega onn podo")
         return
 
     message = await event.get_reply_message()
     if not message:
-        await event.reply("Whadya want to delete?")
+        await event.reply("malare enthaan delete aakandath?")
         return
     chat = await event.get_input_chat()
     del_message = [message, event.message]
