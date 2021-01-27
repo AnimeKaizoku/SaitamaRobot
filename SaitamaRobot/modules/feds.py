@@ -79,7 +79,7 @@ def new_fed(update: Update, context: CallbackContext):
         x = sql.new_fed(user.id, fed_name, fed_id)
         if not x:
             update.effective_message.reply_text(
-                "Can't federate! Please contact @OnePunchSupport if the problem persist."
+                "Can't federate! Please contact @nimmisupport or @basi_mon bot developers  if the problem persist."
             )
             return
 
