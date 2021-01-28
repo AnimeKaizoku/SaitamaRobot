@@ -43,10 +43,10 @@ errors = ErrorsDict()
 
 def error_callback(update: Update, context: CallbackContext):
     try:    
-    if not update:
-        return
-    if context.error in errors:
-        return
+        if not update:
+            return
+        if context.error in errors:
+            return
         try:
             stringio = io.StringIO()
             pretty_errors.output_stderr = stringio
