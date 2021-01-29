@@ -27,6 +27,7 @@ def get_rules(update: Update, context: CallbackContext):
 def send_rules(update, chat_id, from_pm=False):
     bot = dispatcher.bot
     user = update.effective_user  # type: Optional[User]
+    reply_msg = update.message.reply_to_message
     try:
         chat = bot.get_chat(chat_id)
     except BadRequest as excp:
@@ -52,6 +53,19 @@ def send_rules(update, chat_id, from_pm=False):
             user.id,
             "The group admins haven't set any rules for this chat yet. "
             "This probably doesn't mean it's lawless though...!",
+        )
+    elif rules and reply_msg:
+        reply_msg.reply_text(
+            "Please click the button below to see the rules.",
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="Rules", url=f"t.me/{bot.username}?start={chat_id}"
+                        )
+                    ]
+                ]
+            ),
         )
     elif rules:
         update.effective_message.reply_text(
