@@ -22,9 +22,9 @@ def allow_groups(update: Update, context: CallbackContext):
     elif args[0].lower() in ["off", "no"]:
         SaitamaRobot.ALLOW_CHATS = False
     else:
-        update.effective_message.reply_text("Format: /allow_groups Yes/No or Off/On")
+        update.effective_message.reply_text("Format: /lockdown Yes/No or Off/On")
         return
-    update.effective_message.reply_text("Done!")
+    update.effective_message.reply_text("Done! Lockdown value toggled.")
 
 @run_async
 @dev_plus
@@ -78,7 +78,7 @@ def restart(update: Update, context: CallbackContext):
 LEAVE_HANDLER = CommandHandler("leave", leave)
 GITPULL_HANDLER = CommandHandler("gitpull", gitpull)
 RESTART_HANDLER = CommandHandler("reboot", restart)
-ALLOWGROUPS_HANDLER = CommandHandler("allow_groups", allow_groups)
+ALLOWGROUPS_HANDLER = CommandHandler("lockdown", allow_groups)
 
 dispatcher.add_handler(ALLOWGROUPS_HANDLER)
 dispatcher.add_handler(LEAVE_HANDLER)

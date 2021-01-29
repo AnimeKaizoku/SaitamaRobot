@@ -587,6 +587,7 @@ Group admins/group owners do not need these commands.
  ╔ *Access control:* 
  ╠ `/ignore`*:* Blacklists a user from 
  ╠  using the bot entirely
+ ╠ `/lockdown <off/on>`*:* Toggles bot adding to groups
  ╠ `/notice`*:* Removes user from blacklist
  ╚ `/ignoredlist`*:* Lists ignored users
 
