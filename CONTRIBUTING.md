@@ -24,4 +24,4 @@ are based off of. It allows the bot to work fine with the LOAD and NO_LOAD confi
 - Keep in mind that some things might clash; eg a regex handler could clash with a command handler - in this case, you 
 should put them in different dispatcher groups.
 
-Might seem complicated, but it'll make sense when you get into it. Feel free to ask me for a hand/advice (in `@onepunchsupport`)!
+Might seem complicated, but it'll make sense when you get into it. Feel free to ask us in issue requests if you ever need to!

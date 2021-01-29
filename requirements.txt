@@ -30,3 +30,5 @@ spamwatch
 alphabet_detector
 pyrate-limiter
 cachetools
+ujson
+pretty_errors
