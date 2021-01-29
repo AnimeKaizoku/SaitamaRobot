@@ -40,10 +40,8 @@ def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
         or user_id in DEV_USERS
         or chat.all_members_are_administrators
         or user_id in [777000, 1087968824]
-        or member.status in ("administrator", "creator")
     ):  # Count telegram and Group Anonymous as admin
         return True
-
     if not member:
         with THREAD_LOCK:
             # try to fetch from cache first.
@@ -58,6 +56,8 @@ def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
                 ADMIN_CACHE[chat.id] = admin_list
 
                 return user_id in admin_list
+    else:
+        return member.status in ("administrator", "creator")
 
 
 def is_bot_admin(chat: Chat, bot_id: int, bot_member: ChatMember = None) -> bool:
