@@ -17,9 +17,9 @@ def allow_groups(update: Update, context: CallbackContext):
     if not args:
         update.effective_message.reply_text(f"Current state: {SaitamaRobot.ALLOW_CHATS}")
         return
-    if args[0].lower() in ["yes", "on"]:
+    if args[0].lower() in ["off", "no"]:
         SaitamaRobot.ALLOW_CHATS = True
-    elif args[0].lower() in ["off", "no"]:
+    elif args[0].lower() in ["yes", "on"]:
         SaitamaRobot.ALLOW_CHATS = False
     else:
         update.effective_message.reply_text("Format: /lockdown Yes/No or Off/On")
