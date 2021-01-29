@@ -5,7 +5,7 @@
 # Saitama Robot 
 
 <p align="center">
-- x -|│  “	Just a code who's a bot for fun. ”  │| - x -
+- x -|│  “	Just some code who is a bot for fun. ”  │| - x -
 </p>
 
 <p align="center">
@@ -45,12 +45,8 @@ Saitama is a simple one-punch solution to your group management needs and has be
 * Bot Link:  <a href="https://t.me/SaitamaRobot" alt="Saitama Robot"> <img src="https://img.shields.io/badge/%F0%9F%A4%96%20-SaitamaRobot-blue" /> </a>
 * News channel: <a  href="https://t.me/OnePunchUpdates" alt="One Punch Updates"> <img  src="https://img.shields.io/badge/%F0%9F%92%A1-One%20Punch%20Updates-9cf" /> </a>
 
-If you are forking this repo then do not forget to star it - <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/animekaizoku/saitamarobot?color=white&label=%F0%9F%8C%9F%20star">
+Should you be forking this repo then do not forget to star it - <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/animekaizoku/saitamarobot?color=white&label=%F0%9F%8C%9F%20star">
 
 ## Credits 📍
-* Paul for the initial
-* Phoenix for chatbot and many other aids
-* Pokurt, Dank and a lot more to list
-
-This listing needs work and will be revamped in future
-Should any be missing kindly let us know with an issue ticket or open a pull request on the readme.
+* Well, it's all in the commit history 
+Feel free to open pull requests should any be missing.
