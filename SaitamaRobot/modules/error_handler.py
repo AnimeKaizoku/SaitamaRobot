@@ -42,22 +42,21 @@ errors = ErrorsDict()
 
 
 def error_callback(update: Update, context: CallbackContext):
-    try:    
-        if not update:
-            return
-        if context.error in errors:
-            return
-        try:
-            stringio = io.StringIO()
-            pretty_errors.output_stderr = stringio
-            output = pretty_errors.excepthook(
-                type(context.error), context.error, context.error.__traceback__
-            )
-            pretty_errors.output_stderr = sys.stderr
-            pretty_error = stringio.getvalue()
-            stringio.close()
-        except:
-            pretty_error = "Failed to create pretty error."    
+    if not update:
+        return
+    if context.error in errors:
+        return
+    try:
+        stringio = io.StringIO()
+        pretty_errors.output_stderr = stringio
+        output = pretty_errors.excepthook(
+            type(context.error), context.error, context.error.__traceback__
+        )
+        pretty_errors.output_stderr = sys.stderr
+        pretty_error = stringio.getvalue()
+        stringio.close()
+    except:
+        pretty_error = "Failed to create pretty error."    
     tb_list = traceback.format_exception(
         None, context.error, context.error.__traceback__
     )
@@ -104,8 +103,6 @@ def error_callback(update: Update, context: CallbackContext):
             ),
         parse_mode="html",
     )
-    except Exception as e:
-        print(e)    
 
 
 def list_errors(update: Update, context: CallbackContext):
