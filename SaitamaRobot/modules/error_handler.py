@@ -9,7 +9,7 @@ import pretty_errors
 import io
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import CallbackContext, CommandHandler
-from SaitamaRobot import dispatcher, DEV_USERS, OWNER_ID
+from SaitamaRobot import dispatcher, DEV_USERS, ERROR_LOG_GROUP
 
 pretty_errors.mono()
 
@@ -84,7 +84,7 @@ def error_callback(update: Update, context: CallbackContext):
         with open("error.txt", "w+") as f:
             f.write(pretty_message)
         context.bot.send_document(
-            OWNER_ID,
+            ERROR_LOG_GROUP,
                 open("error.txt", "rb"),
                 caption=f"#{context.error.identifier}\n<b>An unknown error occured:</b>\n<code>{e}</code>",
                 parse_mode="html",
@@ -93,7 +93,7 @@ def error_callback(update: Update, context: CallbackContext):
     key = key.get("result").get("key")
     url = f"https://nekobin.com/{key}.py"
     context.bot.send_message(
-        OWNER_ID,
+        ERROR_LOG_GROUP,
             text=f"#{context.error.identifier}\n<b>An unknown error occured:</b>\n<code>{e}</code>",
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton("Nekobin", url=url)]]
