@@ -44,3 +44,4 @@ youtube_dl
 youtube-search-python
 gtts
 pretty_errors
+tswift
