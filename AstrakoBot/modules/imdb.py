@@ -9,30 +9,9 @@ from telethon.tl import functions
 
 langi = "en"
 
-async def is_register_admin(chat, user):
-    if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
-
-        return isinstance(
-            (await telethn(functions.channels.GetParticipantRequest(chat, user))).participant,
-            (types.ChannelParticipantAdmin, types.ChannelParticipantCreator)
-        )
-    if isinstance(chat, types.InputPeerChat):
-
-        ui = await tetethn.get_peer_id(user)
-        ps = (await tetethn(functions.messages.GetFullChatRequest(chat.chat_id))) \
-                .full_chat.participants.participants
-        return isinstance(
-            next((p for p in ps if p.user_id == ui), None),
-            (types.ChatParticipantAdmin, types.ChatParticipantCreator)
-        )
-    return None
-
 @telethn.on(events.NewMessage(pattern="^[!/]imdb(.*)"))
 async def imdb(e):
- if e.is_group:
-  if not (await is_register_admin(e.input_chat, e.message.sender_id)):
-     await event.reply(" You are not admin. You can't use this command.. But you can use in my pm")
-     return
+
  try:
     movie_name = e.pattern_match.group(1)
     remove_space = movie_name.split(' ')
