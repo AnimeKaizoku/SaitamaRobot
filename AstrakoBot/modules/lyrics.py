@@ -2,15 +2,16 @@ from tswift import Song
 
 from telegram import Bot, Update, Message, Chat
 from telegram.ext import run_async
-
+from telegram.ext import Updater, CommandHandler, CallbackContext
 from AstrakoBot import dispatcher
 from AstrakoBot.modules.disable import DisableAbleCommandHandler
 
 
 @run_async
-def lyrics(bot: Bot, update: Update, args):
+def lyrics(update: Update, context: CallbackContext):
+    bot = context.bot
     msg = update.effective_message
-    query = " ".join(args)
+    query = msg.text[len('/lyrics '):]
     song = ""
     if not query:
         msg.reply_text("You haven't specified which song to look for!")
