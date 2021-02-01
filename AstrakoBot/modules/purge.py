@@ -4,6 +4,11 @@ from AstrakoBot import telethn
 import time
 from telethon import events
 
+from AstrakoBot import telethn
+from AstrakoBot.modules.helper_funcs.telethn.chatstatus import (
+    can_delete_messages,
+    user_is_admin,
+)
 
 @telethn.on(events.NewMessage(pattern="^[!/]purge$"))
 async def purge_messages(event):
@@ -12,9 +17,8 @@ async def purge_messages(event):
         return
 
     if not await user_is_admin(
-            user_id=event.sender_id, message=event) and event.from_id not in [
-                1087968824
-            ]:
+        user_id=event.sender_id, message=event
+    ) and event.from_id not in [1087968824]:
         await event.reply("Only Admins are allowed to use this command")
         return
 
@@ -24,8 +28,7 @@ async def purge_messages(event):
 
     reply_msg = await event.get_reply_message()
     if not reply_msg:
-        await event.reply(
-            "Reply to a message to select where to start purging from.")
+        await event.reply("Reply to a message to select where to start purging from.")
         return
     messages = []
     message_id = reply_msg.id
@@ -44,7 +47,7 @@ async def purge_messages(event):
         pass
     time_ = time.perf_counter() - start
     text = f"Purged Successfully in {time_:0.2f} Second(s)"
-    await event.respond(text, parse_mode='markdown')
+    await event.respond(text, parse_mode="markdown")
 
 
 @telethn.on(events.NewMessage(pattern="^[!/]del$"))
@@ -53,9 +56,8 @@ async def delete_messages(event):
         return
 
     if not await user_is_admin(
-            user_id=event.sender_id, message=event) and event.from_id not in [
-                1087968824
-            ]:
+        user_id=event.sender_id, message=event
+    ) and event.from_id not in [1087968824]:
         await event.reply("Only Admins are allowed to use this command")
         return
 

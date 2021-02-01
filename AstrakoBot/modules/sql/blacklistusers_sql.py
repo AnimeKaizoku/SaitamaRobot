@@ -60,9 +60,7 @@ def is_user_blacklisted(user_id):
 def __load_blacklist_userid_list():
     global BLACKLIST_USERS
     try:
-        BLACKLIST_USERS = {
-            int(x.user_id) for x in SESSION.query(BlacklistUsers).all()
-        }
+        BLACKLIST_USERS = {int(x.user_id) for x in SESSION.query(BlacklistUsers).all()}
     finally:
         SESSION.close()
 

@@ -20,19 +20,20 @@ def paste(update: Update, context: CallbackContext):
         message.reply_text("What am I supposed to do with this?")
         return
 
-    key = requests.post(
-        'https://nekobin.com/api/documents', json={
-            "content": data
-        }).json().get('result').get('key')
+    key = (
+        requests.post("https://nekobin.com/api/documents", json={"content": data})
+        .json()
+        .get("result")
+        .get("key")
+    )
 
-    url = f'https://nekobin.com/{key}'
+    url = f"https://nekobin.com/{key}"
 
-    reply_text = f'Nekofied to *Nekobin* : {url}'
+    reply_text = f"Nekofied to *Nekobin* : {url}"
 
     message.reply_text(
-        reply_text,
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=True)
+        reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
+    )
 
 
 PASTE_HANDLER = DisableAbleCommandHandler("paste", paste)

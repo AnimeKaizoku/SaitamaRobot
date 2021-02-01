@@ -3,18 +3,27 @@ import json
 import os
 from typing import Optional
 
-from AstrakoBot import (DEV_USERS, OWNER_ID, DRAGONS, SUPPORT_CHAT, DEMONS,
-                          WOLVES, dispatcher)
-from AstrakoBot.modules.helper_funcs.chat_status import (dev_plus, sudo_plus,
-                                                           whitelist_plus)
+from AstrakoBot import (
+    DEV_USERS,
+    OWNER_ID,
+    DRAGONS,
+    SUPPORT_CHAT,
+    DEMONS,
+    WOLVES,
+    dispatcher,
+)
+from AstrakoBot.modules.helper_funcs.chat_status import (
+    dev_plus,
+    sudo_plus,
+    whitelist_plus,
+)
 from AstrakoBot.modules.helper_funcs.extraction import extract_user
 from AstrakoBot.modules.log_channel import gloggable
 from telegram import ParseMode, TelegramError, Update
 from telegram.ext import CallbackContext, CommandHandler, run_async
 from telegram.utils.helpers import mention_html
 
-ELEVATED_USERS_FILE = os.path.join(os.getcwd(),
-                                   'AstrakoBot/elevated_users.json')
+ELEVATED_USERS_FILE = os.path.join(os.getcwd(), "AstrakoBot/elevated_users.json")
 
 
 def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
@@ -31,11 +40,11 @@ def check_user_id(user_id: int, context: CallbackContext) -> Optional[str]:
 
 
 # This can serve as a deeplink example.
-#disasters =
+# disasters =
 # """ Text here """
 
 # do not async, not a handler
-#def send_disasters(update):
+# def send_disasters(update):
 #    update.effective_message.reply_text(
 #        disasters, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 
@@ -59,7 +68,7 @@ def addsudo(update: Update, context: CallbackContext) -> str:
         message.reply_text(reply)
         return ""
 
-    with open(ELEVATED_USERS_FILE, 'r') as infile:
+    with open(ELEVATED_USERS_FILE, "r") as infile:
         data = json.load(infile)
 
     if user_id in DRAGONS:
@@ -76,10 +85,10 @@ def addsudo(update: Update, context: CallbackContext) -> str:
         data['whitelists'].remove(user_id)
         WOLVES.remove(user_id)
 
-    data['sudos'].append(user_id)
+    data["sudos"].append(user_id)
     DRAGONS.append(user_id)
 
-    with open(ELEVATED_USERS_FILE, 'w') as outfile:
+    with open(ELEVATED_USERS_FILE, "w") as outfile:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
@@ -92,7 +101,7 @@ def addsudo(update: Update, context: CallbackContext) -> str:
         f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
     )
 
-    if chat.type != 'private':
+    if chat.type != "private":
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
 
     return log_message
@@ -118,7 +127,7 @@ def addsupport(
         message.reply_text(reply)
         return ""
 
-    with open(ELEVATED_USERS_FILE, 'r') as infile:
+    with open(ELEVATED_USERS_FILE, "r") as infile:
         data = json.load(infile)
 
     if user_id in DRAGONS:
@@ -135,10 +144,10 @@ def addsupport(
         data['whitelists'].remove(user_id)
         WOLVES.remove(user_id)
 
-    data['supports'].append(user_id)
+    data["supports"].append(user_id)
     DEMONS.append(user_id)
 
-    with open(ELEVATED_USERS_FILE, 'w') as outfile:
+    with open(ELEVATED_USERS_FILE, "w") as outfile:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
@@ -150,7 +159,7 @@ def addsupport(
         f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
     )
 
-    if chat.type != 'private':
+    if chat.type != "private":
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
 
     return log_message
@@ -173,7 +182,7 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
         message.reply_text(reply)
         return ""
 
-    with open(ELEVATED_USERS_FILE, 'r') as infile:
+    with open(ELEVATED_USERS_FILE, "r") as infile:
         data = json.load(infile)
 
     if user_id in DRAGONS:
@@ -190,10 +199,10 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
         message.reply_text("This user is already a whitelist user")
         return ""
 
-    data['whitelists'].append(user_id)
+    data["whitelists"].append(user_id)
     WOLVES.append(user_id)
 
-    with open(ELEVATED_USERS_FILE, 'w') as outfile:
+    with open(ELEVATED_USERS_FILE, "w") as outfile:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
@@ -205,6 +214,8 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
         f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))} \n"
         f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
     )
+
+
 
     if chat.type != 'private':
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
@@ -227,15 +238,15 @@ def removesudo(update: Update, context: CallbackContext) -> str:
         message.reply_text(reply)
         return ""
 
-    with open(ELEVATED_USERS_FILE, 'r') as infile:
+    with open(ELEVATED_USERS_FILE, "r") as infile:
         data = json.load(infile)
 
     if user_id in DRAGONS:
         message.reply_text("Demoted to normal user")
         DRAGONS.remove(user_id)
-        data['sudos'].remove(user_id)
+        data["sudos"].remove(user_id)
 
-        with open(ELEVATED_USERS_FILE, 'w') as outfile:
+        with open(ELEVATED_USERS_FILE, "w") as outfile:
             json.dump(data, outfile, indent=4)
 
         log_message = (
@@ -244,9 +255,8 @@ def removesudo(update: Update, context: CallbackContext) -> str:
             f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
         )
 
-        if chat.type != 'private':
-            log_message = "<b>{}:</b>\n".format(html.escape(
-                chat.title)) + log_message
+        if chat.type != "private":
+            log_message = "<b>{}:</b>\n".format(html.escape(chat.title)) + log_message
 
         return log_message
 
@@ -271,15 +281,15 @@ def removesupport(update: Update, context: CallbackContext) -> str:
         message.reply_text(reply)
         return ""
 
-    with open(ELEVATED_USERS_FILE, 'r') as infile:
+    with open(ELEVATED_USERS_FILE, "r") as infile:
         data = json.load(infile)
 
     if user_id in DEMONS:
         message.reply_text("Demoted to normal user")
         DEMONS.remove(user_id)
-        data['supports'].remove(user_id)
+        data["supports"].remove(user_id)
 
-        with open(ELEVATED_USERS_FILE, 'w') as outfile:
+        with open(ELEVATED_USERS_FILE, "w") as outfile:
             json.dump(data, outfile, indent=4)
 
         log_message = (
@@ -288,7 +298,7 @@ def removesupport(update: Update, context: CallbackContext) -> str:
             f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
         )
 
-        if chat.type != 'private':
+        if chat.type != "private":
             log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
 
         return log_message
@@ -314,15 +324,15 @@ def removewhitelist(update: Update, context: CallbackContext) -> str:
         message.reply_text(reply)
         return ""
 
-    with open(ELEVATED_USERS_FILE, 'r') as infile:
+    with open(ELEVATED_USERS_FILE, "r") as infile:
         data = json.load(infile)
 
     if user_id in WOLVES:
         message.reply_text("Demoting to normal user")
         WOLVES.remove(user_id)
-        data['whitelists'].remove(user_id)
+        data["whitelists"].remove(user_id)
 
-        with open(ELEVATED_USERS_FILE, 'w') as outfile:
+        with open(ELEVATED_USERS_FILE, "w") as outfile:
             json.dump(data, outfile, indent=4)
 
         log_message = (
@@ -331,7 +341,7 @@ def removewhitelist(update: Update, context: CallbackContext) -> str:
             f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
         )
 
-        if chat.type != 'private':
+        if chat.type != "private":
             log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
 
         return log_message
@@ -353,7 +363,7 @@ def whitelistlist(update: Update, context: CallbackContext):
             reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
-    update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
+    m.edit_text(reply, parse_mode=ParseMode.HTML)
 
 
 @run_async
@@ -368,13 +378,16 @@ def supportlist(update: Update, context: CallbackContext):
             reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
-    update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
+    m.edit_text(reply, parse_mode=ParseMode.HTML)
 
 
 @run_async
 @whitelist_plus
 def sudolist(update: Update, context: CallbackContext):
     bot = context.bot
+    m = update.effective_message.reply_text(
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+    )
     true_sudo = list(set(DRAGONS) - set(DEV_USERS))
     reply = "<b>Sudo users:</b>\n"
     for each_user in true_sudo:
@@ -384,13 +397,16 @@ def sudolist(update: Update, context: CallbackContext):
             reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
-    update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
+    m.edit_text(reply, parse_mode=ParseMode.HTML)
 
 
 @run_async
 @whitelist_plus
 def devlist(update: Update, context: CallbackContext):
     bot = context.bot
+    m = update.effective_message.reply_text(
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+    )
     true_dev = list(set(DEV_USERS) - {OWNER_ID})
     reply = "<b>Developer users:</b>\n"
     for each_user in true_dev:
@@ -400,7 +416,7 @@ def devlist(update: Update, context: CallbackContext):
             reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
-    update.effective_message.reply_text(reply, parse_mode=ParseMode.HTML)
+    m.edit_text(reply, parse_mode=ParseMode.HTML)
 
 
 __help__ = f"""
@@ -508,8 +524,14 @@ dispatcher.add_handler(DEVLIST_HANDLER)
 
 __mod_name__ = "Super users"
 __handlers__ = [
-    SUDO_HANDLER, SUPPORT_HANDLER, WHITELIST_HANDLER,
-    UNSUDO_HANDLER, UNSUPPORT_HANDLER, UNWHITELIST_HANDLER,
-    WHITELISTLIST_HANDLER, SUPPORTLIST_HANDLER,
-    SUDOLIST_HANDLER, DEVLIST_HANDLER
+    SUDO_HANDLER,
+    SUPPORT_HANDLER,
+    WHITELIST_HANDLER,
+    UNSUDO_HANDLER,
+    UNSUPPORT_HANDLER,
+    UNWHITELIST_HANDLER,
+    WHITELISTLIST_HANDLER,
+    SUPPORTLIST_HANDLER,
+    SUDOLIST_HANDLER,
+    DEVLIST_HANDLER,
 ]

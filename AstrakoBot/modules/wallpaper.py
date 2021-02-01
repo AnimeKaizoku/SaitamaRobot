@@ -41,16 +41,18 @@ def wall(update: Update, context: CallbackContext):
                 bot.send_photo(
                     chat_id,
                     photo=wallpaper,
-                    caption='Preview',
+                    caption="Preview",
                     reply_to_message_id=msg_id,
-                    timeout=60)
+                    timeout=60,
+                )
                 bot.send_document(
                     chat_id,
                     document=wallpaper,
-                    filename='wallpaper',
+                    filename="wallpaper",
                     caption=caption,
                     reply_to_message_id=msg_id,
-                    timeout=60)
+                    timeout=60,
+                )
 
 
 WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall)

@@ -18,7 +18,8 @@ class RSS(BASE):
 
     def __repr__(self):
         return "<RSS for chatID {} at feed_link {} with old_entry_link {}>".format(
-            self.chat_id, self.feed_link, self.old_entry_link)
+            self.chat_id, self.feed_link, self.old_entry_link
+        )
 
 
 RSS.__table__.create(checkfirst=True)
@@ -27,8 +28,11 @@ INSERTION_LOCK = threading.RLock()
 
 def check_url_availability(tg_chat_id, tg_feed_link):
     try:
-        return SESSION.query(RSS).filter(RSS.feed_link == tg_feed_link,
-                                         RSS.chat_id == tg_chat_id).all()
+        return (
+            SESSION.query(RSS)
+            .filter(RSS.feed_link == tg_feed_link, RSS.chat_id == tg_chat_id)
+            .all()
+        )
     finally:
         SESSION.close()
 
