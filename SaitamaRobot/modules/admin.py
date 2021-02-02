@@ -354,9 +354,9 @@ def invite(update: Update, context: CallbackContext):
 @run_async
 @connection_status
 def adminlist(update, context):
-    chat = update.effective_chat  # type: Optional[Chat]
+    chat = update.effective_chat  # type: Optional[Chat] -> unused variable
     user = update.effective_user  # type: Optional[User]
-    args = context.args
+    args = context.args # -> unused variable
     bot = context.bot
 
     if update.effective_message.chat.type == "private":
@@ -365,7 +365,7 @@ def adminlist(update, context):
 
     chat = update.effective_chat
     chat_id = update.effective_chat.id
-    chat_name = update.effective_message.chat.title
+    chat_name = update.effective_message.chat.title # -> unused variable
 
     try:
         msg = update.effective_message.reply_text(
@@ -378,8 +378,6 @@ def adminlist(update, context):
 
     administrators = bot.getChatAdministrators(chat_id)
     text = "Admins in <b>{}</b>:".format(html.escape(update.effective_chat.title))
-
-    bot_admin_list = []
 
     for admin in administrators:
         user = admin.user
@@ -396,7 +394,6 @@ def adminlist(update, context):
             )
 
         if user.is_bot:
-            bot_admin_list.append(name)
             administrators.remove(admin)
             continue
 
@@ -454,10 +451,6 @@ def adminlist(update, context):
         for admin in value:
             text += "\n<code> • </code>{}".format(admin)
         text += "\n"
-
-    text += "\n🤖 Bots:"
-    for each_bot in bot_admin_list:
-        text += "\n<code> • </code>{}".format(each_bot)
 
     try:
         msg.edit_text(text, parse_mode=ParseMode.HTML)
