@@ -1,13 +1,11 @@
 import subprocess
 
-from AstrakoBot import LOGGER, dispatcher
-from AstrakoBot.modules.helper_funcs.chat_status import dev_plus
+from AstrakoBot import OWNER_ID, LOGGER, dispatcher
 from telegram import ParseMode, Update
-from telegram.ext import CallbackContext, CommandHandler
+from telegram.ext import CallbackContext, CommandHandler, Filters
 from telegram.ext.dispatcher import run_async
 
 
-@dev_plus
 @run_async
 def shell(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -43,7 +41,7 @@ def shell(update: Update, context: CallbackContext):
         message.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
 
-SHELL_HANDLER = CommandHandler(["sh"], shell)
+SHELL_HANDLER = CommandHandler(["sh"], shell, filters=Filters.user(OWNER_ID))
 dispatcher.add_handler(SHELL_HANDLER)
 __mod_name__ = "Shell"
 __command_list__ = ["sh"]
