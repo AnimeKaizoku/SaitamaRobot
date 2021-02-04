@@ -490,7 +490,6 @@ Group admins/group owners do not need these commands.
 • `/logs`*:* Run this in support group to get logs in pm
 • `/eval`*:* Self explanatory
 • `/sh`*:* Runs shell command
-• `/shell`*:* Runs shell command
 • `/py`*:* Runs python code
 • `/clearlocals`*:* As the name goes
 • `/dbcleanup`*:* Removes deleted accs and groups from db
