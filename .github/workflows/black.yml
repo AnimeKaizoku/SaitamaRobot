@@ -13,7 +13,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install black
       - name: Run black
-        run: black SaitamaRobot
+        run: black AstrakoBot
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
