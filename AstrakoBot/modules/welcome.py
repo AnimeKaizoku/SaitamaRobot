@@ -16,7 +16,7 @@ from AstrakoBot import (
     WOLVES,
     sw,
     dispatcher,
-    JOIN_LOGGER
+    JOIN_LOGGER,
 )
 from AstrakoBot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
@@ -240,9 +240,8 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Whitelisted
             elif new_mem.id in WOLVES:
                 update.effective_message.reply_text(
-                    "Oof! A whitelist user just joined!",
-                    reply_to_message_id=reply
-				)
+                    "Oof! A whitelist user just joined!", reply_to_message_id=reply
+                )
                 welcome_log = (
                     f"{html.escape(chat.title)}\n"
                     f"#USER_JOINED\n"
@@ -255,7 +254,9 @@ def new_member(update: Update, context: CallbackContext):
                 creator = None
                 if not AstrakoBot.ALLOW_CHATS:
                     with suppress(BadRequest):
-                         update.effective_message.reply_text(f"Groups are disabled for {bot.first_name}, I'm outta here.")
+                        update.effective_message.reply_text(
+                            f"Groups are disabled for {bot.first_name}, I'm outta here."
+                        )
                     bot.leave_chat(update.effective_chat.id)
                     return
                 for x in bot.bot.get_chat_administrators(update.effective_chat.id):
@@ -279,7 +280,8 @@ def new_member(update: Update, context: CallbackContext):
                         parse_mode=ParseMode.HTML,
                     )
                 update.effective_message.reply_text(
-                    "Hello everybody!", reply_to_message_id=reply)
+                    "Hello everybody!", reply_to_message_id=reply
+                )
                 continue
 
             else:

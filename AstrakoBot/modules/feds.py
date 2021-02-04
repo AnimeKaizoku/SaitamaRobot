@@ -653,10 +653,10 @@ def fed_ban(update: Update, context: CallbackContext):
         user_target = fban_user_name
 
     if fban:
-        fed_name = info['fname']
-        #https://t.me/AstrakoBotSupport/41606 // https://t.me/AstrakoBotSupport/41619
-        #starting = "The reason fban is replaced for {} in the Federation <b>{}</b>.".format(user_target, fed_name)
-        #send_message(update.effective_message, starting, parse_mode=ParseMode.HTML)
+        fed_name = info["fname"]
+        # https://t.me/AstrakoBotSupport/41606 // https://t.me/AstrakoBotSupport/41619
+        # starting = "The reason fban is replaced for {} in the Federation <b>{}</b>.".format(user_target, fed_name)
+        # send_message(update.effective_message, starting, parse_mode=ParseMode.HTML)
 
         # if reason == "":
         #    reason = "No reason given."

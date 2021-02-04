@@ -12,8 +12,7 @@ import json
 import urllib.request
 import urllib.parse
 import requests
-from AstrakoBot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS,
-                          WOLVES, dispatcher, updater)
+from AstrakoBot import DEV_USERS, OWNER_ID, DRAGONS, DEMONS, WOLVES, dispatcher, updater
 from AstrakoBot.__main__ import STATS, TOKEN, USER_INFO
 from AstrakoBot.modules.disable import DisableAbleCommandHandler
 from AstrakoBot.modules.helper_funcs.filters import CustomFilters
@@ -27,6 +26,7 @@ from wikipedia.exceptions import DisambiguationError, PageError
 from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
+
 @run_async
 def tts(update: Update, context: CallbackContext):
     args = context.args
@@ -36,12 +36,12 @@ def tts(update: Update, context: CallbackContext):
         reply = message.reply_to_message.text
 
     if args:
-        reply = '  '.join(args).lower()
+        reply = "  ".join(args).lower()
 
     current_time = datetime.strftime(datetime.now(), "%d.%m.%Y %H:%M:%S")
     filename = datetime.now().strftime("%d%m%y-%H%M%S%f")
     update.message.chat.send_action(ChatAction.RECORD_AUDIO)
-    lang="ml"
+    lang = "ml"
     tts = gTTS(reply, lang)
     tts.save("k.mp3")
     with open("k.mp3", "rb") as f:

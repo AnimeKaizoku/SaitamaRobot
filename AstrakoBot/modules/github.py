@@ -9,12 +9,27 @@ from AstrakoBot.modules.helper_funcs.filters import CustomFilters
 from AstrakoBot.modules.helper_funcs.chat_status import user_admin
 from AstrakoBot.modules.disable import DisableAbleCommandHandler
 
-from telegram.ext import (CallbackContext, CommandHandler, Filters,
-                          MessageHandler, RegexHandler, run_async)
+from telegram.ext import (
+    CallbackContext,
+    CommandHandler,
+    Filters,
+    MessageHandler,
+    RegexHandler,
+    run_async,
+)
 
-from telegram import Message, Chat, Update, Bot, User, ParseMode, InlineKeyboardMarkup, MAX_MESSAGE_LENGTH
+from telegram import (
+    Message,
+    Chat,
+    Update,
+    Bot,
+    User,
+    ParseMode,
+    InlineKeyboardMarkup,
+    MAX_MESSAGE_LENGTH,
+)
 
-#do not async
+# do not async
 def getData(url, index):
     if not api.getData(url):
         return "Invalid <user>/<repo> combo"
@@ -27,13 +42,13 @@ def getData(url, index):
     assets = api.getAssets(recentRelease)
     releaseName = api.getReleaseName(recentRelease)
     message = "*Author:* [{}]({})\n".format(author, authorUrl)
-    message += "*Release Name:* "+releaseName+"\n\n"
+    message += "*Release Name:* " + releaseName + "\n\n"
     for asset in assets:
         message += "*Asset:* \n"
         fileName = api.getReleaseFileName(asset)
         fileURL = api.getReleaseFileURL(asset)
         assetFile = "[{}]({})".format(fileName, fileURL)
-        sizeB = ((api.getSize(asset))/1024)/1024
+        sizeB = ((api.getSize(asset)) / 1024) / 1024
         size = "{0:.2f}".format(sizeB)
         downloadCount = api.getDownloadCount(asset)
         message += assetFile + "\n"
@@ -41,13 +56,15 @@ def getData(url, index):
         message += "\nDownload Count: " + str(downloadCount) + "\n\n"
     return message
 
-#likewise, aux function, not async
+
+# likewise, aux function, not async
 def getRepo(bot, update, reponame):
     chat_id = update.effective_chat.id
     repo = sql.get_repo(str(chat_id), reponame)
     if repo:
         return repo.value, repo.backoffset
     return None, None
+
 
 @run_async
 def getRelease(update: Update, context: CallbackContext):
@@ -56,7 +73,11 @@ def getRelease(update: Update, context: CallbackContext):
     if len(args) == 0:
         msg.reply_text("Please use some arguments!")
         return
-    if(len(args) != 1 and not (len(args) == 2 and args[1].isdigit()) and not ("/" in args[0])):
+    if (
+        len(args) != 1
+        and not (len(args) == 2 and args[1].isdigit())
+        and not ("/" in args[0])
+    ):
         msg.reply_text("Please specify a valid combination of <user>/<repo>")
         return
     index = 0
@@ -67,8 +88,9 @@ def getRelease(update: Update, context: CallbackContext):
     msg.reply_text(text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
     return
 
+
 @run_async
-def hashFetch(update: Update, context: CallbackContext): #kanged from notes
+def hashFetch(update: Update, context: CallbackContext):  # kanged from notes
     bot, args = context.bot, context.args
     message = update.effective_message.text
     msg = update.effective_message
@@ -76,32 +98,42 @@ def hashFetch(update: Update, context: CallbackContext): #kanged from notes
     no_hash = fst_word[1:]
     url, index = getRepo(bot, update, no_hash)
     if url is None and index is None:
-        msg.reply_text("There was a problem parsing your request. Likely this is not a saved repo shortcut", parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+        msg.reply_text(
+            "There was a problem parsing your request. Likely this is not a saved repo shortcut",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+        )
         return
     text = getData(url, index)
     msg.reply_text(text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
     return
-    
+
+
 @run_async
 def cmdFetch(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message
-    if(len(args) != 1):
+    if len(args) != 1:
         msg.reply_text("Invalid repo name")
         return
     url, index = getRepo(bot, update, args[0])
     if url is None and index is None:
-        msg.reply_text("There was a problem parsing your request. Likely this is not a saved repo shortcut", parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+        msg.reply_text(
+            "There was a problem parsing your request. Likely this is not a saved repo shortcut",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+        )
         return
     text = getData(url, index)
     msg.reply_text(text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
     return
-    
+
+
 @run_async
 def changelog(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message
-    if(len(args) != 1):
+    if len(args) != 1:
         msg.reply_text("Invalid repo name")
         return
     url, index = getRepo(bot, update, args[0])
@@ -113,15 +145,19 @@ def changelog(update: Update, context: CallbackContext):
     body = api.getBody(release)
     msg.reply_text(body)
     return
-    
-    
+
+
 @run_async
 @user_admin
 def saveRepo(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     chat_id = update.effective_chat.id
     msg = update.effective_message
-    if(len(args) != 2 and (len(args) != 3 and not args[2].isdigit()) or not ("/" in args[1])):
+    if (
+        len(args) != 2
+        and (len(args) != 3 and not args[2].isdigit())
+        or not ("/" in args[1])
+    ):
         msg.reply_text("Invalid data, use <reponame> <user>/<repo> <value (optional)>")
         return
     index = 0
@@ -130,20 +166,22 @@ def saveRepo(update: Update, context: CallbackContext):
     sql.add_repo_to_db(str(chat_id), args[0], args[1], index)
     msg.reply_text("Repo shortcut saved successfully!")
     return
-    
+
+
 @run_async
 @user_admin
 def delRepo(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     chat_id = update.effective_chat.id
     msg = update.effective_message
-    if(len(args)!=1):
+    if len(args) != 1:
         msg.reply_text("Invalid repo name!")
         return
     sql.rm_repo(str(chat_id), args[0])
     msg.reply_text("Repo shortcut deleted successfully!")
     return
-    
+
+
 @run_async
 def listRepo(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -153,7 +191,7 @@ def listRepo(update: Update, context: CallbackContext):
     msg = "*List of repo shotcuts in {}:*\n"
     des = "You can get repo shortcuts by using `/fetch repo`, or `&repo`.\n"
     for repo in repo_list:
-        repo_name = (" • `{}`\n".format(repo.name))
+        repo_name = " • `{}`\n".format(repo.name)
         if len(msg) + len(repo_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
             msg = ""
@@ -161,13 +199,17 @@ def listRepo(update: Update, context: CallbackContext):
     if msg == "*List of repo shotcuts in {}:*\n":
         update.effective_message.reply_text("No repo shortcuts in this chat!")
     elif len(msg) != 0:
-        update.effective_message.reply_text(msg.format(chat_name) + des, parse_mode=ParseMode.MARKDOWN)
-        
+        update.effective_message.reply_text(
+            msg.format(chat_name) + des, parse_mode=ParseMode.MARKDOWN
+        )
+
+
 def getVer(update: Update, context: CallbackContext):
     msg = update.effective_message
     ver = api.vercheck()
-    msg.reply_text("GitHub API version: "+ver)
+    msg.reply_text("GitHub API version: " + ver)
     return
+
 
 __help__ = """
 *Github module. This module will fetch github releases*\n
@@ -187,14 +229,19 @@ __help__ = """
 __mod_name__ = "GitHub"
 
 
-
-RELEASE_HANDLER = DisableAbleCommandHandler("git", getRelease, pass_args=True, admin_ok=True)
-FETCH_HANDLER = DisableAbleCommandHandler("fetch", cmdFetch, pass_args=True, admin_ok=True)
+RELEASE_HANDLER = DisableAbleCommandHandler(
+    "git", getRelease, pass_args=True, admin_ok=True
+)
+FETCH_HANDLER = DisableAbleCommandHandler(
+    "fetch", cmdFetch, pass_args=True, admin_ok=True
+)
 SAVEREPO_HANDLER = CommandHandler("saverepo", saveRepo, pass_args=True)
 DELREPO_HANDLER = CommandHandler("delrepo", delRepo, pass_args=True)
 LISTREPO_HANDLER = DisableAbleCommandHandler("listrepo", listRepo, admin_ok=True)
 VERCHECKER_HANDLER = DisableAbleCommandHandler("gitver", getVer, admin_ok=True)
-CHANGELOG_HANDLER = DisableAbleCommandHandler("changelog", changelog, pass_args=True, admin_ok=True)
+CHANGELOG_HANDLER = DisableAbleCommandHandler(
+    "changelog", changelog, pass_args=True, admin_ok=True
+)
 
 HASHFETCH_HANDLER = RegexHandler(r"^&[^\s]+", hashFetch)
 

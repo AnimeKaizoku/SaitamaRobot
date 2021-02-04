@@ -15,8 +15,7 @@ class MWT(object):
         for func in self._caches:
             cache = {}
             for key in self._caches[func]:
-                if (time.time() -
-                        self._caches[func][key][1]) < self._timeouts[func]:
+                if (time.time() - self._caches[func][key][1]) < self._timeouts[func]:
                     cache[key] = self._caches[func][key]
             self._caches[func] = cache
 

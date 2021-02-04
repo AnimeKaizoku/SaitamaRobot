@@ -1,4 +1,3 @@
-
 import asyncio
 from asyncio import sleep
 
@@ -47,7 +46,6 @@ async def is_administrator(user_id: int, message):
             admin = True
             break
     return admin
-
 
 
 @telethn.on(events.NewMessage(pattern=f"^[!/]zombies ?(.*)"))

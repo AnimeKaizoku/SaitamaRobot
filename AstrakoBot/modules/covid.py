@@ -5,11 +5,12 @@ from telegram.ext import Updater, CommandHandler
 from telegram.ext import CallbackContext, run_async
 from AstrakoBot import dispatcher
 
+
 @run_async
 def covid(update: Update, context: CallbackContext):
-    bot=context.bot
+    bot = context.bot
     message = update.effective_message
-    country = message.text[len('/covid '):]
+    country = message.text[len("/covid ") :]
     covid = Covid()
     country_data = covid.get_status_by_country_name(country)
     if country_data:
@@ -27,14 +28,15 @@ def covid(update: Update, context: CallbackContext):
     else:
         info = f"No information yet about this country!"
 
+    bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=info,
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
+    )
 
-    bot.send_message(chat_id = update.effective_chat.id,
-                             text=info,
-                             parse_mode=ParseMode.MARKDOWN,
-                             disable_web_page_preview=True)
 
-
-covid_handler = CommandHandler(['covid'], covid)
+covid_handler = CommandHandler(["covid"], covid)
 dispatcher.add_handler(covid_handler)
 
 

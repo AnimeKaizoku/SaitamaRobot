@@ -63,16 +63,15 @@ def ban(update: Update, context: CallbackContext) -> str:
 
     if is_user_ban_protected(chat, user_id, member) and user not in DEV_USERS:
         if user_id == OWNER_ID:
-            message.reply_text(
-                "Trying to put me against God huh?")
+            message.reply_text("Trying to put me against God huh?")
         elif user_id in DEV_USERS:
             message.reply_text("I can't act against our own.")
         elif user_id in DRAGONS:
             message.reply_text(
-                "Fighting this sudo user here will put users lives at risk.")
+                "Fighting this sudo user here will put users lives at risk."
+            )
         elif user_id in DEMONS:
-            message.reply_text(
-                "Bring a developer user to fight a support user.")
+            message.reply_text("Bring a developer user to fight a support user.")
         elif user_id in WOLVES:
             message.reply_text("Whitelist users cannot be banned.")
         else:
@@ -411,7 +410,8 @@ PUNCH_HANDLER = DisableAbleCommandHandler(["punch", "kick"], punch)
 UNBAN_HANDLER = DisableAbleCommandHandler("unban", unban)
 ROAR_HANDLER = DisableAbleCommandHandler("roar", selfunban)
 PUNCHME_HANDLER = DisableAbleCommandHandler(
-    ["punchme", "kickme"], punchme, filters=Filters.group)
+    ["punchme", "kickme"], punchme, filters=Filters.group
+)
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(TEMPBAN_HANDLER)

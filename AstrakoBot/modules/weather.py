@@ -1,13 +1,13 @@
 import json
 from datetime import datetime
 
-from pytz import (country_timezones as c_tz,
-                  timezone as tz, country_names as c_n)
+from pytz import country_timezones as c_tz, timezone as tz, country_names as c_n
 from requests import get
 from telegram import Bot, Update, ParseMode
 from telegram.ext import Updater, CommandHandler
 from telegram.ext import CallbackContext, run_async
-from AstrakoBot import (WEATHER_API, dispatcher)
+from AstrakoBot import WEATHER_API, dispatcher
+
 
 @run_async
 def get_tz(con):
@@ -20,17 +20,19 @@ def get_tz(con):
     except KeyError:
         return
 
+
 @run_async
 def weather(update: Update, context: CallbackContext):
-    bot=context.bot
+    bot = context.bot
     message = update.effective_message
-    city = message.text[len('/weather '):]
+    city = message.text[len("/weather ") :]
     if city:
         APPID = WEATHER_API
         result = None
         timezone_countries = {
             timezone: country
-            for country, timezones in c_tz.items() for timezone in timezones
+            for country, timezones in c_tz.items()
+            for timezone in timezones
         }
         if "," in city:
             newcity = city.split(",")
@@ -39,36 +41,38 @@ def weather(update: Update, context: CallbackContext):
             else:
                 country = get_tz((newcity[1].strip()).title())
                 try:
-                    countrycode = timezone_countries[f'{country}']
+                    countrycode = timezone_countries[f"{country}"]
                 except KeyError:
                     weather.edit("`Invalid country.`")
                     return
                 city = newcity[0].strip() + "," + countrycode.strip()
-        url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={APPID}'
+        url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={APPID}"
         request = get(url)
         result = json.loads(request.text)
         if request.status_code != 200:
             info = f"No weather information for this location!"
-            bot.send_message(chat_id = update.effective_chat.id,
-                             text=info,
-                             parse_mode=ParseMode.MARKDOWN,
-                             disable_web_page_preview=True)
+            bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=info,
+                parse_mode=ParseMode.MARKDOWN,
+                disable_web_page_preview=True,
+            )
             return
 
-        cityname = result['name']
-        curtemp = result['main']['temp']
-        humidity = result['main']['humidity']
-        min_temp = result['main']['temp_min']
-        max_temp = result['main']['temp_max']
-        country = result['sys']['country']
-        sunrise = result['sys']['sunrise']
-        sunset = result['sys']['sunset']
-        wind = result['wind']['speed']
-        weath = result['weather'][0]
-        desc = weath['main']
-        icon = weath['id']
-        condmain = weath['main']
-        conddet = weath['description']
+        cityname = result["name"]
+        curtemp = result["main"]["temp"]
+        humidity = result["main"]["humidity"]
+        min_temp = result["main"]["temp_min"]
+        max_temp = result["main"]["temp_max"]
+        country = result["sys"]["country"]
+        sunrise = result["sys"]["sunrise"]
+        sunset = result["sys"]["sunset"]
+        wind = result["wind"]["speed"]
+        weath = result["weather"][0]
+        desc = weath["main"]
+        icon = weath["id"]
+        condmain = weath["main"]
+        conddet = weath["description"]
 
         if icon <= 232:  # Rain storm
             icon = "⛈"
@@ -90,7 +94,12 @@ def weather(update: Update, context: CallbackContext):
             icon = "☁️"
 
         ctimezone = tz(c_tz[country][0])
-        time = datetime.now(ctimezone).strftime("%A %d %b, %H:%M").lstrip("0").replace(" 0", " ")
+        time = (
+            datetime.now(ctimezone)
+            .strftime("%A %d %b, %H:%M")
+            .lstrip("0")
+            .replace(" 0", " ")
+        )
         fullc_n = c_n[f"{country}"]
         dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
 
@@ -106,7 +115,12 @@ def weather(update: Update, context: CallbackContext):
             return temp[0]
 
         def sun(unix):
-            xx = datetime.fromtimestamp(unix, tz=ctimezone).strftime("%H:%M").lstrip("0").replace(" 0", " ")
+            xx = (
+                datetime.fromtimestamp(unix, tz=ctimezone)
+                .strftime("%H:%M")
+                .lstrip("0")
+                .replace(" 0", " ")
+            )
             return xx
 
         if city:
@@ -118,13 +132,15 @@ def weather(update: Update, context: CallbackContext):
             info += f"• **Wind:** `{kmph[0]} km/h`\n"
             info += f"• **Sunrise**: `{sun(sunrise)}`\n"
             info += f"• **Sunset**: `{sun(sunset)}`"
-            bot.send_message(chat_id = update.effective_chat.id,
-                             text=info,
-                             parse_mode=ParseMode.MARKDOWN,
-                             disable_web_page_preview=True)
+            bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=info,
+                parse_mode=ParseMode.MARKDOWN,
+                disable_web_page_preview=True,
+            )
 
 
-WEATHER_HANDLER = CommandHandler(['weather'], weather)
+WEATHER_HANDLER = CommandHandler(["weather"], weather)
 dispatcher.add_handler(WEATHER_HANDLER)
 
 

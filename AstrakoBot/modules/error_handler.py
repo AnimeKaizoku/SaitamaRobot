@@ -33,8 +33,8 @@ class ErrorsDict(dict):
 
     def __len__(self):
         return len(self.raw)
-    
-    
+
+
 errors = ErrorsDict()
 
 
@@ -53,7 +53,7 @@ def error_callback(update: Update, context: CallbackContext):
         pretty_error = stringio.getvalue()
         stringio.close()
     except:
-        pretty_error = "Failed to create pretty error."    
+        pretty_error = "Failed to create pretty error."
     tb_list = traceback.format_exception(
         None, context.error, context.error.__traceback__
     )
@@ -68,7 +68,7 @@ def error_callback(update: Update, context: CallbackContext):
         "Message: {}\n\n"
         "Full Traceback: {}"
     ).format(
-            pretty_error,        
+        pretty_error,
         update.effective_user.id,
         update.effective_chat.title if update.effective_chat else "",
         update.effective_chat.id if update.effective_chat else "",
@@ -85,19 +85,17 @@ def error_callback(update: Update, context: CallbackContext):
             f.write(pretty_message)
         context.bot.send_document(
             OWNER_ID,
-                open("error.txt", "rb"),
-                caption=f"#{context.error.identifier}\n<b>An unknown error occured:</b>\n<code>{e}</code>",
-                parse_mode="html",
-            )
+            open("error.txt", "rb"),
+            caption=f"#{context.error.identifier}\n<b>An unknown error occured:</b>\n<code>{e}</code>",
+            parse_mode="html",
+        )
         return
     key = key.get("result").get("key")
     url = f"https://nekobin.com/{key}.py"
     context.bot.send_message(
         OWNER_ID,
-            text=f"#{context.error.identifier}\n<b>An unknown error occured:</b>\n<code>{e}</code>",
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton("Nekobin", url=url)]]
-            ),
+        text=f"#{context.error.identifier}\n<b>An unknown error occured:</b>\n<code>{e}</code>",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Nekobin", url=url)]]),
         parse_mode="html",
     )
 
@@ -121,7 +119,7 @@ def list_errors(update: Update, context: CallbackContext):
             caption=f"Too many errors have occured..",
             parse_mode="html",
         )
-        return    
+        return
     update.effective_message.reply_text(msg, parse_mode="html")
 
 

@@ -1,5 +1,7 @@
 from AstrakoBot.modules.helper_funcs.telethn.chatstatus import (
-    can_delete_messages, user_is_admin)
+    can_delete_messages,
+    user_is_admin,
+)
 from AstrakoBot import telethn
 import time
 from telethon import events
@@ -9,6 +11,7 @@ from AstrakoBot.modules.helper_funcs.telethn.chatstatus import (
     can_delete_messages,
     user_is_admin,
 )
+
 
 @telethn.on(events.NewMessage(pattern="^[!/]purge$"))
 async def purge_messages(event):

@@ -7,7 +7,6 @@ from AstrakoBot import dispatcher
 from AstrakoBot.modules.disable import DisableAbleCommandHandler
 
 
-
 @run_async
 def totranslate(update: Update, context: CallbackContext):
     message = update.effective_message

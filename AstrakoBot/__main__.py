@@ -219,27 +219,36 @@ def start(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [[
-                        InlineKeyboardButton(
-                            text="Add AstrakoBot to your group",
-                            url="t.me/{}?startgroup=true".format(
-                                context.bot.username))
-                    ],
-                     [
-                         InlineKeyboardButton(
-                             text="Support Group",
-                             url=f"https://t.me/AstrakoBotSupport"),
-                     ],
-                     [
-                         InlineKeyboardButton(
-                             text="Getting started guide",
-                             url="https://t.me/OnePunchUpdates/29")
-                     ],
-                     [
-                         InlineKeyboardButton(
-                             text="Source code",
-                             url="https://github.com/Astrako/AstrakoBot")
-                     ]]))
+                    [
+                        [
+                            InlineKeyboardButton(
+                                text="Add AstrakoBot to your group",
+                                url="t.me/{}?startgroup=true".format(
+                                    context.bot.username
+                                ),
+                            )
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text="Support Group",
+                                url=f"https://t.me/AstrakoBotSupport",
+                            ),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text="Getting started guide",
+                                url="https://t.me/OnePunchUpdates/29",
+                            )
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text="Source code",
+                                url="https://github.com/Astrako/AstrakoBot",
+                            )
+                        ],
+                    ]
+                ),
+            )
     else:
         update.effective_message.reply_text(
             "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>".format(

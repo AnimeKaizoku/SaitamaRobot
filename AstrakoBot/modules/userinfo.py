@@ -78,9 +78,7 @@ def get_id(update: Update, context: CallbackContext):
 
 
 @AstrakoBotTelethonClient.on(
-    events.NewMessage(
-        pattern="/ginfo ", from_users=(DRAGONS or []) + (DEMONS or [])
-    )
+    events.NewMessage(pattern="/ginfo ", from_users=(DRAGONS or []) + (DEMONS or []))
 )
 async def group_info(event) -> None:
     chat = event.text.split(" ", 1)[1]
@@ -155,12 +153,13 @@ def info(update: Update, context: CallbackContext):
     else:
         return
 
-    rep = message.reply_text(
-        "<code>Appraising...</code>", parse_mode=ParseMode.HTML)
+    rep = message.reply_text("<code>Appraising...</code>", parse_mode=ParseMode.HTML)
 
-    text = (f"<b>User info:</b>\n"
-            f"ID: <code>{user.id}</code>\n"
-            f"First Name: {html.escape(user.first_name)}")
+    text = (
+        f"<b>User info:</b>\n"
+        f"ID: <code>{user.id}</code>\n"
+        f"First Name: {html.escape(user.first_name)}"
+    )
 
     if user.last_name:
         text += f"\nLast Name: {html.escape(user.last_name)}"
@@ -185,7 +184,6 @@ def info(update: Update, context: CallbackContext):
                     text += _stext.format("Detected")
                 elif status in {"administrator", "creator"}:
                     text += _stext.format("Admin")
-
 
     try:
         spamwtc = sw.get_ban(int(user.id))
@@ -389,7 +387,8 @@ def set_about_bio(update: Update, context: CallbackContext):
 
         if user_id == bot.id and sender_id not in DEV_USERS:
             message.reply_text(
-                "Erm... yeah, I only trust developer users to set my bio.")
+                "Erm... yeah, I only trust developer users to set my bio."
+            )
             return
 
         text = message.text

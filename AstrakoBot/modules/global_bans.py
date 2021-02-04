@@ -89,9 +89,7 @@ def gban(update: Update, context: CallbackContext):
         return
 
     if int(user_id) in DEV_USERS:
-        message.reply_text(
-            "This is a developer user\nI can't act against our own."
-        )
+        message.reply_text("This is a developer user\nI can't act against our own.")
         return
 
     if int(user_id) in DRAGONS:
@@ -102,7 +100,8 @@ def gban(update: Update, context: CallbackContext):
 
     if int(user_id) in DEMONS:
         message.reply_text(
-            "OOOH someone's trying to gban a support user! *grabs popcorn*")
+            "OOOH someone's trying to gban a support user! *grabs popcorn*"
+        )
         return
 
     if int(user_id) in WOLVES:

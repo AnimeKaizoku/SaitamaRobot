@@ -27,32 +27,40 @@ import bs4
 from bs4 import BeautifulSoup
 from youtube_dl import YoutubeDL
 from youtubesearchpython import SearchVideos
-from youtube_dl.utils import (DownloadError, ContentTooShortError,
-                              ExtractorError, GeoRestrictedError,
-                              MaxDownloadsReached, PostProcessingError,
-                              UnavailableVideoError, XAttrMetadataError)
+from youtube_dl.utils import (
+    DownloadError,
+    ContentTooShortError,
+    ExtractorError,
+    GeoRestrictedError,
+    MaxDownloadsReached,
+    PostProcessingError,
+    UnavailableVideoError,
+    XAttrMetadataError,
+)
 
 
 async def process(v_url, dtype, opts):
-    lazy = v_url ; sender = await lazy.get_sender() ; me = await lazy.client.get_me()
+    lazy = v_url
+    sender = await lazy.get_sender()
+    me = await lazy.client.get_me()
     if not sender.id == me.id:
         rkp = await lazy.reply("`processing...`")
     else:
-    	rkp = await lazy.edit("`processing...`")   
+        rkp = await lazy.edit("`processing...`")
     url = v_url.pattern_match.group(1)
     if not url:
-         return await rkp.edit("`Error \nusage song <song name>`")
-    search = SearchVideos(url, offset = 1, mode = "json", max_results = 1)
+        return await rkp.edit("`Error \nusage song <song name>`")
+    search = SearchVideos(url, offset=1, mode="json", max_results=1)
     test = search.result()
     p = json.loads(test)
-    q = p.get('search_result')
+    q = p.get("search_result")
     try:
-       url = q[0]['link']
+        url = q[0]["link"]
     except:
-    	return await rkp.edit("`failed to find`")
+        return await rkp.edit("`failed to find`")
     type = "audio"
     await rkp.edit("`Preparing to download...`")
-  
+
     try:
         await rkp.edit("`Fetching data, please wait..`")
         with YoutubeDL(opts) as rip:
@@ -94,22 +102,26 @@ async def process(v_url, dtype, opts):
             await rkp.edit("`Song is too long for processing.`")
             return
 
-        await rkp.edit(f"`Preparing to upload song:`\
+        await rkp.edit(
+            f"`Preparing to upload song:`\
         \n**{rip_data['title']}**\
-        \nby *{rip_data['uploader']}*")
+        \nby *{rip_data['uploader']}*"
+        )
         await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp3",
             supports_streaming=True,
             attributes=[
-                DocumentAttributeAudio(duration=int(rip_data['duration']),
-                                       title=str(rip_data['title']),
-                                       performer=str(rip_data['uploader']))
+                DocumentAttributeAudio(
+                    duration=int(rip_data["duration"]),
+                    title=str(rip_data["title"]),
+                    performer=str(rip_data["uploader"]),
+                )
             ],
-            progress_callback=lambda d, t: asyncio.get_event_loop(
-            ).create_task(
-                progress(d, t, v_url, c_time, "Uploading..",
-                         f"{rip_data['title']}.mp3")))
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress(d, t, v_url, c_time, "Uploading..", f"{rip_data['title']}.mp3")
+            ),
+        )
 
     else:
 
@@ -117,48 +129,42 @@ async def process(v_url, dtype, opts):
             await rkp.edit("`Video is too long for processing.`")
             return
 
-        await rkp.edit(f"`Preparing to upload video:`\
+        await rkp.edit(
+            f"`Preparing to upload video:`\
         \n**{rip_data['title']}**\
-        \nby *{rip_data['uploader']}*")
+        \nby *{rip_data['uploader']}*"
+        )
         await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp4",
             supports_streaming=True,
             caption=url,
-            progress_callback=lambda d, t: asyncio.get_event_loop(
-            ).create_task(
-                progress(d, t, v_url, c_time, "Uploading..",
-                         f"{rip_data['title']}.mp4")))
+            progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
+                progress(d, t, v_url, c_time, "Uploading..", f"{rip_data['title']}.mp4")
+            ),
+        )
 
 
 @telethn.on(events.NewMessage(pattern="^[!/]song(.*)"))
 async def song(v_url):
     opts = {
-    'format':
-    'bestaudio',
-    'addmetadata':
-    True,
-    'key':
-    'FFmpegMetadata',
-    'writethumbnail':
-    True,
-    'prefer_ffmpeg':
-    True,
-    'geo_bypass':
-    True,
-    'nocheckcertificate':
-    True,
-    'postprocessors': [{
-        'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
-        'preferredquality': '320',
-    }],
-    'outtmpl':
-    '%(id)s.mp3',
-    'quiet':
-    True,
-    'logtostderr':
-    False
+        "format": "bestaudio",
+        "addmetadata": True,
+        "key": "FFmpegMetadata",
+        "writethumbnail": True,
+        "prefer_ffmpeg": True,
+        "geo_bypass": True,
+        "nocheckcertificate": True,
+        "postprocessors": [
+            {
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": "320",
+            }
+        ],
+        "outtmpl": "%(id)s.mp3",
+        "quiet": True,
+        "logtostderr": False,
     }
     await process(v_url, "song", opts)
 
@@ -168,31 +174,20 @@ async def song(v_url):
     except Exception:
         pass
 
+
 @telethn.on(events.NewMessage(pattern="^[!/]video(.*)"))
 async def video(v_url):
     opts = {
-    'format':
-    'best',
-    'addmetadata':
-    True,
-    'key':
-    'FFmpegMetadata',
-    'prefer_ffmpeg':
-    True,
-    'geo_bypass':
-    True,
-    'nocheckcertificate':
-    True,
-    'postprocessors': [{
-        'key': 'FFmpegVideoConvertor',
-        'preferedformat': 'mp4'
-    }],
-    'outtmpl':
-    '%(id)s.mp4',
-    'logtostderr':
-    False,
-    'quiet':
-    True
+        "format": "best",
+        "addmetadata": True,
+        "key": "FFmpegMetadata",
+        "prefer_ffmpeg": True,
+        "geo_bypass": True,
+        "nocheckcertificate": True,
+        "postprocessors": [{"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}],
+        "outtmpl": "%(id)s.mp4",
+        "logtostderr": False,
+        "quiet": True,
     }
     await process(v_url, "video", opts)
 
@@ -203,14 +198,10 @@ async def video(v_url):
         pass
 
 
-SONG_HANDLER = DisableAbleCommandHandler('song', song)
-VIDEO_HANDLER = DisableAbleCommandHandler('video', video)
+SONG_HANDLER = DisableAbleCommandHandler("song", song)
+VIDEO_HANDLER = DisableAbleCommandHandler("video", video)
 
 dispatcher.add_handler(SONG_HANDLER)
 dispatcher.add_handler(VIDEO_HANDLER)
 
-__handlers__ = [
-    SONG_HANDLER,
-    VIDEO_HANDLER
-]
-
+__handlers__ = [SONG_HANDLER, VIDEO_HANDLER]

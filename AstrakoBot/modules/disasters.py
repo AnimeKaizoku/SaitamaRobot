@@ -77,12 +77,12 @@ def addsudo(update: Update, context: CallbackContext) -> str:
 
     if user_id in DEMONS:
         rt += "Promoted from support user to sudo"
-        data['supports'].remove(user_id)
+        data["supports"].remove(user_id)
         DEMONS.remove(user_id)
 
     if user_id in WOLVES:
         rt += "Promoted from whitelist user to sudo"
-        data['whitelists'].remove(user_id)
+        data["whitelists"].remove(user_id)
         WOLVES.remove(user_id)
 
     data["sudos"].append(user_id)
@@ -92,8 +92,8 @@ def addsudo(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + "\nSuccessfully promoted to sudo!".format(
-            user_member.first_name))
+        rt + "\nSuccessfully promoted to sudo!".format(user_member.first_name)
+    )
 
     log_message = (
         f"#SUDO\n"
@@ -132,7 +132,7 @@ def addsupport(
 
     if user_id in DRAGONS:
         rt += "Demoted from sudo to support user"
-        data['sudos'].remove(user_id)
+        data["sudos"].remove(user_id)
         DRAGONS.remove(user_id)
 
     if user_id in DEMONS:
@@ -141,7 +141,7 @@ def addsupport(
 
     if user_id in WOLVES:
         rt += "Promoted from whitelist to support user"
-        data['whitelists'].remove(user_id)
+        data["whitelists"].remove(user_id)
         WOLVES.remove(user_id)
 
     data["supports"].append(user_id)
@@ -151,7 +151,8 @@ def addsupport(
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to support user")
+        rt + f"\nSuccessfully promoted {user_member.first_name} to support user"
+    )
 
     log_message = (
         f"#SUPPORT\n"
@@ -187,12 +188,12 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
 
     if user_id in DRAGONS:
         rt += "Demoted from sudo to whitelist user"
-        data['sudos'].remove(user_id)
+        data["sudos"].remove(user_id)
         DRAGONS.remove(user_id)
 
     if user_id in DEMONS:
         rt += "Demoted from support user to whitelist user"
-        data['supports'].remove(user_id)
+        data["supports"].remove(user_id)
         DEMONS.remove(user_id)
 
     if user_id in WOLVES:
@@ -206,8 +207,8 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt +
-        f"\nSuccessfully promoted {user_member.first_name} to whitelist user!")
+        rt + f"\nSuccessfully promoted {user_member.first_name} to whitelist user!"
+    )
 
     log_message = (
         f"#WHITELIST\n"
@@ -215,12 +216,11 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
         f"<b>User:</b> {mention_html(user_member.id, html.escape(user_member.first_name))}"
     )
 
-
-
-    if chat.type != 'private':
+    if chat.type != "private":
         log_message = f"<b>{html.escape(chat.title)}:</b>\n" + log_message
 
     return log_message
+
 
 @run_async
 @dev_plus
