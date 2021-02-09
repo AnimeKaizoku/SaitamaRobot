@@ -482,7 +482,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
         search_result = soup.find_all("h2", {"class": "post-title"})
 
         if search_result:
-            result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KayoAnime: \n"
+            result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KaizokuAnime: \n"
             for entry in search_result:
                 post_link = "https://animekaizoku.com/" + entry.a["href"]
                 post_name = html.escape(entry.text)
@@ -497,11 +497,11 @@ def site_search(update: Update, context: CallbackContext, site: str):
         soup = bs4.BeautifulSoup(html_text, "html.parser")
         search_result = soup.find_all("h2", {"class": "title"})
 
-        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>: \n"
+        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KayoAnime: \n"
         for entry in search_result:
 
             if entry.text.strip() == "Nothing Found":
-                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>"
+                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KayoAnime"
                 more_results = False
                 break
 
