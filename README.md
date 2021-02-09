@@ -9,7 +9,7 @@ Zero Two is based on Saitama which is originally based on Marie.
 
 Zero Two can be found on Telegram as [Zero Two](https://t.me/@MissZeroTwoRobot).
 
-The Support group can be reached out to at [Franxx Association](https://t.me/Zerotwosupport), where you can ask for help about @MissZeroTwoBot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [Franxx Association](https://t.me/FranXXSupport), where you can ask for help about @MissZeroTwoBot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 News channel as at [Franxx Updates](https://https://t.me/zerotwoupdates) 
 
@@ -199,7 +199,7 @@ You can use [nssm](https://nssm.cc/usage) to install the bot as service on windo
 Make sure to edit the start and restart bats to your needs. 
 Note: the restart bat requires that User account control be disabled.
 
-For queries or any issues regarding the bot please open an issue ticket or visit us at [Franxx Association](https://https://t.me/zerotwosupport)
+For queries or any issues regarding the bot please open an issue ticket or visit us at [Franxx Association](https://https://t.me/FranXXSupport)
 ## How to setup on Heroku 
 For starters click on this button 
 </details>  
@@ -212,4 +212,4 @@ Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (wil
 
 Any other authorship/credits can be seen through the commits.
 
-Should any be missing kindly let us know at [Franxx Association](https://t.me/zerotwosupport) or simply submit a pull request on the readme.
+Should any be missing kindly let us know at [Franxx Association](https://t.me/FranXXSupport) or simply submit a pull request on the readme.
