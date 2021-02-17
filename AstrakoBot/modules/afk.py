@@ -1,5 +1,7 @@
 import random
 import html
+from datetime import datetime
+import humanize
 
 from AstrakoBot import dispatcher
 from AstrakoBot.modules.disable import (
@@ -8,7 +10,7 @@ from AstrakoBot.modules.disable import (
 )
 from AstrakoBot.modules.sql import afk_sql as sql
 from AstrakoBot.modules.users import get_user_id
-from telegram import MessageEntity, Update
+from telegram import MessageEntity, Update, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, Filters, MessageHandler, run_async
 
@@ -127,16 +129,31 @@ def reply_afk(update: Update, context: CallbackContext):
 def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: str, userc_id: int):
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
+
         if int(userc_id) == int(user_id):
             return
+
+        time = humanize.naturaldelta(datetime.now() - user.time)
+
         if not user.reason:
-            res = "{} is afk".format(fst_name)
-            update.effective_message.reply_text(res)
-        else:
-            res = "{} is afk.\nReason: <code>{}</code>".format(
-                html.escape(fst_name), html.escape(user.reason)
+            res = "{} is *afk*.\nLast seen: `{} ago`".format(
+                fst_name,
+                time
             )
-            update.effective_message.reply_text(res, parse_mode="html")
+            update.effective_message.reply_text(
+                res,
+                parse_mode = ParseMode.MARKDOWN,
+                )
+        else:
+            res = "{} is *afk*.\nReason: `{}`\nLast seen: `{} ago`".format(
+                html.escape(fst_name),
+                html.escape(user.reason),
+                time
+            )
+            update.effective_message.reply_text(
+            res,
+            parse_mode = ParseMode.MARKDOWN,
+            )
 
 
 __help__ = """

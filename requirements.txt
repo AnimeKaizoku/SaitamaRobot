@@ -46,3 +46,4 @@ gtts
 pretty_errors
 tswift
 PyYAML
+humanize
