@@ -1,4 +1,5 @@
-import random, html
+import random
+import html
 
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import (
@@ -38,7 +39,8 @@ def afk(update: Update, context: CallbackContext):
     sql.set_afk(update.effective_user.id, reason)
     fname = update.effective_user.first_name
     try:
-        update.effective_message.reply_text("{} is now away!{}".format(fname, notice))
+        update.effective_message.reply_text(
+            "{} is now away!{}".format(fname, notice))
     except BadRequest:
         pass
 
@@ -68,7 +70,8 @@ def no_longer_afk(update: Update, context: CallbackContext):
                 "Where is {}?\nIn the chat!",
             ]
             chosen_option = random.choice(options)
-            update.effective_message.reply_text(chosen_option.format(firstname))
+            update.effective_message.reply_text(
+                chosen_option.format(firstname))
         except:
             return
 
@@ -99,7 +102,8 @@ def reply_afk(update: Update, context: CallbackContext):
             if ent.type != MessageEntity.MENTION:
                 return
 
-            user_id = get_user_id(message.text[ent.offset : ent.offset + ent.length])
+            user_id = get_user_id(
+                message.text[ent.offset: ent.offset + ent.length])
             if not user_id:
                 # Should never happen, since for a user to become AFK they must have spoken. Maybe changed username?
                 return
@@ -123,7 +127,7 @@ def reply_afk(update: Update, context: CallbackContext):
         check_afk(update, context, user_id, fst_name, userc_id)
 
 
-def check_afk(update, context, user_id, fst_name, userc_id):
+def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: str, userc_id: int):
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
         if int(userc_id) == int(user_id):
@@ -139,7 +143,7 @@ def check_afk(update, context, user_id, fst_name, userc_id):
 
 
 __help__ = """
- • `/afk <reason>`*:* mark yourself as AFK(away from keyboard).
+ • `/afk <reason>`*:* mark yourself as AFK (away from keyboard).
  • `brb <reason>`*:* same as the afk command - but not a command.
 When marked as AFK, any mentions will be replied to with a message to say you're not available!
 """
