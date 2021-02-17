@@ -32,3 +32,4 @@ pyrate-limiter
 cachetools
 ujson
 pretty_errors
+humanize
