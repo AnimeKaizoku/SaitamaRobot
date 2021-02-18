@@ -67,7 +67,7 @@ if ENV:
     CERT_PATH = os.environ.get("CERT_PATH")
     API_ID = os.environ.get("API_ID", None)
     API_HASH = os.environ.get("API_HASH", None)
-    DB_URL = os.environ.get("DATABASE_URL")
+    DB_URI = os.environ.get("DATABASE_URL")
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
@@ -134,7 +134,7 @@ else:
     API_ID = Config.API_ID
     API_HASH = Config.API_HASH
 
-    DB_URL = Config.SQLALCHEMY_DATABASE_URI
+    DB_URI = Config.SQLALCHEMY_DATABASE_URI
     DONATION_LINK = Config.DONATION_LINK
     LOAD = Config.LOAD
     NO_LOAD = Config.NO_LOAD
