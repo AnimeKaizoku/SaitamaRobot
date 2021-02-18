@@ -225,9 +225,9 @@ def info(update: Update, context: CallbackContext):
         return
 
     rep = message.reply_text(
-        "<code>Appraising...</code>", parse_mode=ParseMode.HTML)
+        "<code>Just a sec..</code>", parse_mode=ParseMode.HTML)
 
-    text = (f"╒═══「<b> Appraisal results:</b> 」\n"
+    text = (f"╒═══「<b> Results:</b> 」\n"
             f"ID: <code>{user.id}</code>\n"
             f"First Name: {html.escape(user.first_name)}")
 
@@ -289,10 +289,6 @@ def info(update: Update, context: CallbackContext):
     elif user.id in WOLVES:
         text += "\n\nThis user cannot be banned, flood kicked but can be manually banned by admins. They can be muted."
         disaster_level_present = True
-
-    if disaster_level_present:
-        text += ' [<a href="https://t.me/TanjiroKamadoSupport/3">?</a>]'.format(
-            bot.username)
 
     try:
         user_member = chat.get_member(user.id)
@@ -451,7 +447,7 @@ def set_about_bio(update: Update, context: CallbackContext):
 
         if user_id == message.from_user.id:
             message.reply_text(
-                "Ha, you can't set your own bio! You're at the mercy of others here..."
+                "Ha-Ha-Ha, you can't set your own bio! You're at the mercy of others here..."
             )
             return
 
@@ -461,7 +457,7 @@ def set_about_bio(update: Update, context: CallbackContext):
 
         if user_id == bot.id and sender_id not in DEV_USERS:
             message.reply_text(
-                "Erm... yeah, I only trust Heroes Association to set my bio.")
+                "Erm... yeah, I only trust my DEVs to set my bio.")
             return
 
         text = message.text
@@ -479,7 +475,7 @@ def set_about_bio(update: Update, context: CallbackContext):
                     "Bio needs to be under {} characters! You tried to set {}."
                     .format(MAX_MESSAGE_LENGTH // 4, len(bio[1])))
     else:
-        message.reply_text("Reply to someone to set their bio!")
+        message.reply_text("Reply to someone to set their bio, noobie!")
 
 
 def __user_info__(user_id):
@@ -514,7 +510,7 @@ Examples:
  • `/info`*:* get information about a user. 
  
 *What is that health thingy?*
- Come and see [HP System explained](https://t.me/OnePunchUpdates/192)
+ Come and see [HP System explained](https://t.me/KarmaBotUpdates/31)
 """
 
 SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio)
