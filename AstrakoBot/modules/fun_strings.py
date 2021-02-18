@@ -125,7 +125,7 @@ SLAP_TEMPLATES = (
     "{user2} ate a bat and discovered a new disease.",
     "{user1} folded {user2} into a paper plane",
     "{user1} served {user2} some bat soup.",
-    "{user2} was sent to his home, the planet of the apes.",
+    "{user2} was sent to their home, the planet of the apes.",
     "{user1} kicked {user2} out of a moving train.",
     "{user2} just killed John Wick’s dog.",
     "{user1} performed an Avada Kedavra spell on {user2}.",
@@ -136,7 +136,7 @@ SLAP_TEMPLATES = (
     "You know what’s worse than Dad jokes? {user2}!",
     "{user1} took all of {user2}'s cookies.",
     "{user2} wa mou.......Shindeiru! - {user1}.",
-    "{user2} lost his race piece!",  # No game no life reference
+    "{user2} lost their race piece!",  # No game no life reference
     "Shut up {user2}, you are just {user2}.",  # No game no life reference
     "{user1} hits {user2} with Aka si anse!",  # No game no life reference
     "@NeoTheKitty scratches {user2}",  # Pixels pet cat - @NeoTheKitty
