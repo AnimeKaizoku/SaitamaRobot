@@ -74,15 +74,14 @@ def get_readable_time(seconds: int) -> str:
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am an Anime themed group management bot.
-Build by weebs for weebs, I specialize in managing anime and similar themed groups.
-You can find my list of available commands with /help.
+Click /help button to find out more about how to use me.
+Add me in your groups and give full right to make me function well
+
+Managed By : [L] (https://t.me/Okmbaik)
 """
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
-I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
-the things I can help you with.
 
 *Main* commands available:
  • /help: PM's you this message.
@@ -222,21 +221,11 @@ def start(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                text="☑️ Add Saitama to your group",
+                                text="☑️ Add Dazai to your group",
                                 url="t.me/{}?startgroup=true".format(
                                     context.bot.username
                                 ),
                             )
-                        ],
-                        [
-                            InlineKeyboardButton(
-                                text="🚑 Support Group",
-                                url=f"https://t.me/{SUPPORT_CHAT}",
-                            ),
-                            InlineKeyboardButton(
-                                text="🔔 Updates Channel",
-                                url="https://t.me/OnePunchUpdates",
-                            ),
                         ],
                         [
                             InlineKeyboardButton(
@@ -253,6 +242,16 @@ def start(update: Update, context: CallbackContext):
                     ]
                 ),
             )
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
     else:
         update.effective_message.reply_text(
             "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>".format(
