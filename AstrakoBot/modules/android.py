@@ -44,22 +44,33 @@ def orangefox(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
     device = args[0]
-    link = get(f"https://api.orangefox.download/v2/device/{device}/releases/last")
+    link = get(f"https://api.orangefox.download/v3/releases/?codename={device}&sort=date_desc&limit=1")
 
     if link.status_code == 404:
         message = f"OrangeFox currently is not avaliable for {device}"
 
     else:
         page = loads(link.content)
-        dl_file = page["file_name"]
-        build_type = page["build_type"]
+        file_id = page["data"][0]["_id"]
+        link = get(f"https://api.orangefox.download/v3/devices/get?codename={device}")
+        page = loads(link.content)
+        oem = page["oem_name"]
+        model = page["model_name"]
+        full_name = page["full_name"]
+        link = get(f"https://api.orangefox.download/v3/releases/get?_id={file_id}")
+        page = loads(link.content)
+        dl_file = page["filename"]
+        build_type = page["type"]
         version = page["version"]
-        changelog = page["changelog"]
-        size = page["size_human"]
-        dl_link = page["url"]
+        changelog = page["changelog"][0]
+        size = page["size"]
+        dl_link = page["mirrors"]["DL"]
         date = page["date"]
         md5 = page["md5"]
-        message = f"<b>Latest OrangeFox Recovery for the {device}</b>\n\n"
+        message = f"<b>Latest OrangeFox Recovery for the {full_name}</b>\n\n"
+        message += f"• Manufacturer: {oem}\n"
+        message += f"• Model: {model}\n"
+        message += f"• Codename: {device}\n"
         message += f"• Release type: official\n"
         message += f"• Build type: {build_type}\n"
         message += f"• Version: {version}\n"
