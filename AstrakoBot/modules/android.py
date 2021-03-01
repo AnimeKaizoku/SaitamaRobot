@@ -17,7 +17,6 @@ def magisk(update: Update, context: CallbackContext):
     bot = context.bot
     magisk_dict = {
         "*Stable*": "master/stable.json",
-        "\n" "*Beta*": "master/beta.json",
         "\n" "*Canary*": "canary/canary.json",
     }.items()
     releases = "*Latest Magisk Releases:*\n\n"
@@ -29,7 +28,6 @@ def magisk(update: Update, context: CallbackContext):
         data = get(link + release_url).json()
         releases += (
             f"{magisk_type}:\n"
-            f'• Installer - [{data["magisk"]["version"]} ({data["magisk"]["versionCode"]})]({canary + data["magisk"]["link"]}) \n'
             f'• Manager - [{data["app"]["version"]} ({data["app"]["versionCode"]})]({canary + data["app"]["link"]}) \n'
             f'• Uninstaller - [Uninstaller {data["magisk"]["version"]} ({data["magisk"]["versionCode"]})]({canary + data["uninstaller"]["link"]}) \n'
         )
