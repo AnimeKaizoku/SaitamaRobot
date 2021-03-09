@@ -5,7 +5,7 @@ from telethon import events
 from telethon.errors import ChatAdminRequiredError, UserAdminInvalidError
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights, ChannelParticipantsAdmins
-
+from AstrakoBot.modules.helper_funcs.telethn.chatstatus import user_is_admin
 from AstrakoBot import telethn, OWNER_ID, DEV_USERS, DRAGONS, DEMONS
 
 # =================== CONSTANT ===================
@@ -36,22 +36,23 @@ UNBAN_RIGHTS = ChatBannedRights(
 
 OFFICERS = [OWNER_ID] + DEV_USERS + DRAGONS + DEMONS
 
-# Check if user has admin rights
-async def is_administrator(user_id: int, message):
-    admin = False
-    async for user in telethn.iter_participants(
-        message.chat_id, filter=ChannelParticipantsAdmins
-    ):
-        if user_id == user.id or user_id in OFFICERS:
-            admin = True
-            break
-    return admin
-
-
 @telethn.on(events.NewMessage(pattern=f"^[!/]zombies ?(.*)"))
 async def zombies(event):
-    """ For .zombies command, list all the zombies in a chat. """
+    # Here laying the sanity check
+    chat = await event.get_chat()
+    admin = chat.admin_rights
+    creator = chat.creator
 
+    # Well
+    if not await user_is_admin(
+        user_id=event.sender_id, message=event
+    ):
+        await event.reply("Only Admins are allowed to use this command")
+        return
+
+    if not admin and not creator:
+        await event.respond("I am not an admin here!")
+        return
     con = event.pattern_match.group(1).lower()
     del_u = 0
     del_status = "No deleted accounts found, group is clean."
@@ -67,20 +68,6 @@ async def zombies(event):
             del_status = f"Found **{del_u}** zombies in this group.\
             \nClean them by using - `/zombies clean`"
         await find_zombies.edit(del_status)
-        return
-
-    # Here laying the sanity check
-    chat = await event.get_chat()
-    admin = chat.admin_rights
-    creator = chat.creator
-
-    # Well
-    if not await is_administrator(user_id=event.from_id, message=event):
-        await event.respond("You're not an admin!")
-        return
-
-    if not admin and not creator:
-        await event.respond("I am not an admin here!")
         return
 
     cleaning_zombies = await event.respond("Cleaning zombies...")
