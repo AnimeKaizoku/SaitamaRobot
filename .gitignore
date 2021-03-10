@@ -1,16 +1,17 @@
 # Config files, logs and stuff
-SaitamaRobot/modules/helper_funcs/temp.txt
-SaitamaRobot/elevated_users.json
-SaitamaRobot/config.py
-SaitamaRobot/config.ini
+MugiwaraRobot/modules/helper_funcs/temp.txt
+MugiwaraRobot/elevated_users.json
+MugiwaraRobot/config.py
+MugiwaraRobot/config.ini
 log.txt
 kangsticker.png
 updates.txt
 
 # Session files
-SaitamaRobot/*.session
-SaitamaRobot/*.session-journal
-saitama.session-journal
+MugiwaraRobot/*.session
+MugiwaraRobot/*.session-journal
+mugiwararobot.session-journal
+*.session-journal
 *.session
 
 # Byte-compiled / optimized / DLL files
@@ -150,3 +151,10 @@ dmypy.json
 .pydevproject
 .directory
 .vscode
+
+# Others
+*.mp3
+*.mp4
+*.otf
+*.png
+*.ttf

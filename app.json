@@ -1,14 +1,14 @@
 {
-      "name": "SaitamaRobot",
-      "description": "An Anime themed Telegram group management bot.",
+      "name": "MugiwaraRobot",
+      "description": "A modular Telegram group management bot.",
       "keywords": [
          "telegram",
          "anime",
          "group",
          "manager",
-         "Saitama"
+         "MugiwaraRobot"
       ],   
-   "repository": "https://github.com/AnimeKaizoku/SaitamaRobot",
+   "repository": "https://github.com/StrawHatLufy/MugiwaraRobot",
    "addons": [
       {
          "options": {
@@ -48,7 +48,7 @@
          "value": "Sawada"
       },
       "SUPPORT_CHAT": {
-         "description": "Your Telegram support group chat username where your users will go and bother you with shit But be like: MyGroupChatUsernameBlah. If this ever points to saitama support than consider you made an enemy.",
+         "description": "Your Telegram support group chat username where your users will go and bother you with shit But be like: MyGroupChatUsernameBlah. If this ever points to MugiwaraRobot support than consider you made an enemy.",
          "required": true,
          "value": "MyAwesomeSupportGroupGoesHere"
       },
@@ -73,7 +73,7 @@
          "value": "-xyz"
       },
       "DEV_USERS": {
-         "description": "ID of users who are Devs of your bot (can use /py etc.). If you are a noob and would come and bother Saitama support then keep the current ID's here at they are and add yours.",
+         "description": "ID of users who are Devs of your bot (can use /py etc.). If you are a noob and would come and bother AstrakoBot support then keep the current ID's here at they are and add yours.",
          "required": false,
          "value": "660565862 459034222 189005567 346981140 367222759"
       },
@@ -95,11 +95,6 @@
          "description": "A space separated list of user IDs who you wanna assign as support users(gban perms only).",
          "required": false,
          "value": "615304572"
-      },
-      "TIGERS": {
-         "description": "A space separated list of user IDs who you wanna assign as tiger users.",
-         "required": false,
-         "value": ""
       },
       "WOLVES": {
          "description": "A space separated list of user IDs who you want to assign as whitelisted - can't be banned with your bot.",
