@@ -1,8 +1,0 @@
-{
-    "devs": [],
-    "supports": [],
-    "whitelists": [],
-    "sudos": [],
-    "tigers": [],
-    "spammers": []
-}
