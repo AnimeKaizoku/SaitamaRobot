@@ -1,4 +1,4 @@
 @echo off
-TITLE Saitama Robot
-:: Enables virtual env mode and then starts saitama
-env\scripts\activate.bat && py -m SaitamaRobot
+TITLE MugiwaraRobot
+:: Enables virtual env mode and then starts MugiwaraRobot
+env\scripts\activate.bat && py -m MugiwaraRobot
