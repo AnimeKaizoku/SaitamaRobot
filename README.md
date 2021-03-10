@@ -1,4 +1,4 @@
-![MugiwaraRobot](https://)
+![MugiwaraRobot](https://images4.alphacoders.com/643/643503.jpg)
 # MugiwaraRobot
 
 A modular Telegram Python bot running on python3 with a sqlalchemy database.
