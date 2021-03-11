@@ -81,11 +81,14 @@ def mute(update: Update, context: CallbackContext) -> str:
     if member.can_send_messages is None or member.can_send_messages:
         chat_permissions = ChatPermissions(can_send_messages=False)
         bot.restrict_chat_member(chat.id, user_id, chat_permissions)
-        bot.sendMessage(
-            chat.id,
-            f"Muted <b>{html.escape(member.user.first_name)}</b> with no expiration date!",
-            parse_mode=ParseMode.HTML,
+        reply = (
+            f"<code>❕</code><b>Mute Event</b>\n"
+            f"<code> </code><b>•  User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}\n"
+            f"<code> </code><b>•  Time: no expiration date</b>"
         )
+        if reason:
+            reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
+        bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML, quote=False)
         return log
 
     else:
@@ -211,11 +214,14 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
             bot.restrict_chat_member(
                 chat.id, user_id, chat_permissions, until_date=mutetime
             )
-            bot.sendMessage(
-                chat.id,
-                f"Muted <b>{html.escape(member.user.first_name)}</b> for {time_val}!",
-                parse_mode=ParseMode.HTML,
+            reply = (
+                f"<code>❕</code><b>Mute Event</b>\n"
+                f"<code> </code><b>•  User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}\n"
+                f"<code> </code><b>•  Time: {time_val}</b>"
             )
+            if reason:
+                reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
+            bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML, quote=False)
             return log
         else:
             message.reply_text("This user is already muted.")
@@ -241,8 +247,8 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
 
 __help__ = """
 *Admins only:*
- • `/mute <userhandle>`*:* silences a user. Can also be used as a reply, muting the replied to user.
- • `/tmute <userhandle> x(m/h/d)`*:* mutes a user for x time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
+ • `/mute <userhandle> <reason>(optional)`*:* silences a user. Can also be used as a reply, muting the replied to user.
+ • `/tmute <userhandle> x(m/h/d) <reason>(optional)`*:* mutes a user for x time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
  • `/unmute <userhandle>`*:* unmutes a user. Can also be used as a reply, muting the replied to user.
 """
 
