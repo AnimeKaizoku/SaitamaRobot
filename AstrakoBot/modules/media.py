@@ -13,9 +13,8 @@ __help__ = """
  • `/reverse`: does a *reverse image search* of the media which it was replied to\n
 *Text to speech:*
  • `/tts <text>`: convert text to speech\n
-*Songs:*
- • `/song <songname artist(optional)>`: uploads the song as mp3
- • `/video <songname artist(optional)>`: uploads the video song in sd quality (480p) as mp4 \n
+*Youtube:*
+ • `/youtube`, `/yt` `<song or video name>`: download songs or videos from youtube in standar quality
 """
 
 __mod_name__ = "Media"
