@@ -4,6 +4,8 @@
 
 # Saitama Robot 
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
+
 <p align="center">
 - x -|│  “	Just some code who is a bot for fun. ”  │| - x -
 </p>
