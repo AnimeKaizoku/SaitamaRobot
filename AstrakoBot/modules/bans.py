@@ -256,10 +256,13 @@ def punch(update: Update, context: CallbackContext) -> str:
     res = chat.unban_member(user_id)  # unban on current user = kick
     if res:
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
-        bot.sendMessage(
-            chat.id,
-            f"One Punched! {mention_html(member.user.id, html.escape(member.user.first_name))}.",
-            parse_mode=ParseMode.HTML,
+        reply = (
+            f"<code>❕</code><b>Punch Event</b>\n"
+            f"<code> </code><b>•  User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}\n"
+        )
+        if reason:
+            reply += f"<code> </code><b>•  Reason:</b> {html.escape(reason)}"
+        bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML
         )
         log = (
             f"<b>{html.escape(chat.title)}:</b>\n"
@@ -394,7 +397,7 @@ __help__ = """
  • `/sban <userhandle>`*:* Silently ban a user. Deletes command, Replied message and doesn't reply. (via handle, or reply)
  • `/tban <userhandle> x(m/h/d)`*:* bans a user for `x` time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
  • `/unban <userhandle>`*:* unbans a user. (via handle, or reply)
- • `/punch <userhandle>`*:* Punches a user out of the group, (via handle, or reply)
+ • `/punch <userhandle> <reason>(optional)`*:* Punches a user out of the group, (via handle, or reply)
  • `/kick <userhandle>`*:* same as punch
 """
 
