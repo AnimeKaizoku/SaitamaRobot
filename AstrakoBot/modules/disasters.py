@@ -70,6 +70,10 @@ def addsudo(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, "r") as infile:
         data = json.load(infile)
 
+    if user_id in DEV_USERS:
+        message.reply_text("Huh? he is more than sudo!")
+        return ""
+
     if user_id in DRAGONS:
         message.reply_text("This user is already sudo")
         return ""
@@ -236,6 +240,10 @@ def removesudo(update: Update, context: CallbackContext) -> str:
 
     with open(ELEVATED_USERS_FILE, "r") as infile:
         data = json.load(infile)
+
+    if user_id in DEV_USERS:
+        message.reply_text("Huh? he is more than sudo!")
+        return ""
 
     if user_id in DRAGONS:
         message.reply_text("Demoted to normal user")
