@@ -16,7 +16,10 @@ GIF_ID = "CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr
 
 @run_async
 def runs(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
+    temp = random.choice(fun_strings.RUN_STRINGS)
+    if update.effective_user.id == 1170714920:
+        temp = "Run everyone, they just dropped a bomb 💣💣"
+    update.effective_message.reply_text(temp)
 
 
 @run_async
