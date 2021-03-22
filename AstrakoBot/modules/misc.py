@@ -105,7 +105,11 @@ Example:
  `/cash 1 USD INR`  
       _OR_
  `/cash 1 usd inr`
-Output: `1.0 USD = 75.505 INR`
+Output: `1.0 USD = 75.505 INR`\n
+*Timezones:*
+ • `/time <query>`*:* Gives information about a timezone.
+*Available queries:* Country Code/Country Name/Timezone Name
+• 🕐 [Timezones list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 """
 
 ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.chat_type.groups, run_async=True)
