@@ -246,7 +246,7 @@ def set_title(update: Update, context: CallbackContext):
     try:
         bot.setChatAdministratorCustomTitle(chat.id, user_id, title)
     except BadRequest:
-        message.reply_text("I can't set custom title for admins that I didn't promote!")
+        message.reply_text("Either they aren't promoted by me or you set a title text that is impossible to set.")
         return
 
     bot.sendMessage(
