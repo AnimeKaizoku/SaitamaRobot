@@ -109,8 +109,7 @@ def approved(update, context):
     if msg.endswith("approved.\n"):
         message.reply_text(f"No users are approved in {chat_title}.")
         return ""
-    else:
-        message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+    message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
 @user_admin

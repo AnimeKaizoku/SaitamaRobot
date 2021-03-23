@@ -32,8 +32,7 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
         if excp.message == "User not found":
             reply = "I can't seem to find this user"
             return reply
-        else:
-            raise
+        raise
 
     if user_id == bot.id:
         reply = "I'm not gonna MUTE myself, How high are you?"
@@ -87,9 +86,7 @@ def mute(update: Update, context: CallbackContext) -> str:
             parse_mode=ParseMode.HTML,
         )
         return log
-
-    else:
-        message.reply_text("This user is already muted!")
+    message.reply_text("This user is already muted!")
 
     return ""
 
@@ -217,24 +214,22 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
                 parse_mode=ParseMode.HTML,
             )
             return log
-        else:
-            message.reply_text("This user is already muted.")
+        message.reply_text("This user is already muted.")
 
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
             message.reply_text(f"Muted for {time_val}!", quote=False)
             return log
-        else:
-            LOGGER.warning(update)
-            LOGGER.exception(
-                "ERROR muting user %s in chat %s (%s) due to %s",
-                user_id,
-                chat.title,
-                chat.id,
-                excp.message,
-            )
-            message.reply_text("Well damn, I can't mute that user.")
+        LOGGER.warning(update)
+        LOGGER.exception(
+            "ERROR muting user %s in chat %s (%s) due to %s",
+            user_id,
+            chat.title,
+            chat.id,
+            excp.message,
+        )
+        message.reply_text("Well damn, I can't mute that user.")
 
     return ""
 

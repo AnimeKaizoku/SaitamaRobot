@@ -26,8 +26,7 @@ def is_chat(chat_id):
         chat = SESSION.query(ChatbotChats).get(str(chat_id))
         if chat:
             return True
-        else:
-            return False
+        return False
     finally:
         SESSION.close()
 

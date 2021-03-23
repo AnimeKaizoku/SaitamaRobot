@@ -68,12 +68,11 @@ def totranslate(update: Update, context: CallbackContext):
                 f"Translated from `{detection[0]}` to `{dest_lang}`:\n`{trans_str}`",
                 parse_mode=ParseMode.MARKDOWN,
             )
-        else:
-            trans_str = trl.translate(text, lang_tgt=dest_lang, lang_src=source_lang)
-            message.reply_text(
-                f"Translated from `{source_lang}` to `{dest_lang}`:\n`{trans_str}`",
-                parse_mode=ParseMode.MARKDOWN,
-            )
+        trans_str = trl.translate(text, lang_tgt=dest_lang, lang_src=source_lang)
+        message.reply_text(
+            f"Translated from `{source_lang}` to `{dest_lang}`:\n`{trans_str}`",
+            parse_mode=ParseMode.MARKDOWN,
+        )
 
     except IndexError:
         update.effective_message.reply_text(

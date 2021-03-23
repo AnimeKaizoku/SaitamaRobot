@@ -81,8 +81,7 @@ def add_blackliststicker(update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
         if chat.type == "private":
             return
-        else:
-            chat_name = chat.title
+        chat_name = chat.title
 
     if len(words) > 1:
         text = words[1].replace("https://t.me/addstickers/", "")
@@ -173,8 +172,7 @@ def unblackliststicker(update: Update, context: CallbackContext):
         chat_id = update.effective_chat.id
         if chat.type == "private":
             return
-        else:
-            chat_name = chat.title
+        chat_name = chat.title
 
     if len(words) > 1:
         text = words[1].replace("https://t.me/addstickers/", "")
@@ -298,7 +296,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
         elif args[0].lower() == "tban":
             if len(args) == 1:
                 teks = """It looks like you are trying to set a temporary value to blacklist, but has not determined the time; use `/blstickermode tban <timevalue>`.
-                                          Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+                                              Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
             settypeblacklist = "temporary banned for {}".format(args[1])
@@ -306,7 +304,7 @@ def blacklist_mode(update: Update, context: CallbackContext):
         elif args[0].lower() == "tmute":
             if len(args) == 1:
                 teks = """It looks like you are trying to set a temporary value to blacklist, but has not determined the time; use `/blstickermode tmute <timevalue>`.
-                                          Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
+                                              Examples of time values: 4m = 4 minute, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return
             settypeblacklist = "temporary muted for {}".format(args[1])
@@ -335,33 +333,32 @@ def blacklist_mode(update: Update, context: CallbackContext):
                 settypeblacklist,
             )
         )
+    getmode, getvalue = sql.get_blacklist_setting(chat.id)
+    if getmode == 0:
+        settypeblacklist = "not active"
+    elif getmode == 1:
+        settypeblacklist = "delete"
+    elif getmode == 2:
+        settypeblacklist = "warn"
+    elif getmode == 3:
+        settypeblacklist = "mute"
+    elif getmode == 4:
+        settypeblacklist = "kick"
+    elif getmode == 5:
+        settypeblacklist = "ban"
+    elif getmode == 6:
+        settypeblacklist = "temporarily banned for {}".format(getvalue)
+    elif getmode == 7:
+        settypeblacklist = "temporarily muted for {}".format(getvalue)
+    if conn:
+        text = "Blacklist sticker mode is currently set to *{}* in *{}*.".format(
+            settypeblacklist, chat_name
+        )
     else:
-        getmode, getvalue = sql.get_blacklist_setting(chat.id)
-        if getmode == 0:
-            settypeblacklist = "not active"
-        elif getmode == 1:
-            settypeblacklist = "delete"
-        elif getmode == 2:
-            settypeblacklist = "warn"
-        elif getmode == 3:
-            settypeblacklist = "mute"
-        elif getmode == 4:
-            settypeblacklist = "kick"
-        elif getmode == 5:
-            settypeblacklist = "ban"
-        elif getmode == 6:
-            settypeblacklist = "temporarily banned for {}".format(getvalue)
-        elif getmode == 7:
-            settypeblacklist = "temporarily muted for {}".format(getvalue)
-        if conn:
-            text = "Blacklist sticker mode is currently set to *{}* in *{}*.".format(
-                settypeblacklist, chat_name
-            )
-        else:
-            text = "Blacklist sticker mode is currently set to *{}*.".format(
-                settypeblacklist
-            )
-        send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN)
+        text = "Blacklist sticker mode is currently set to *{}*.".format(
+            settypeblacklist
+        )
+    send_message(update.effective_message, text, parse_mode=ParseMode.MARKDOWN)
     return ""
 
 
@@ -384,7 +381,7 @@ def del_blackliststicker(update: Update, context: CallbackContext):
             try:
                 if getmode == 0:
                     return
-                elif getmode == 1:
+                if getmode == 1:
                     message.delete()
                 elif getmode == 2:
                     message.delete()

@@ -44,9 +44,8 @@ def disapprove(chat_id, user_id):
             SESSION.delete(disapprove_user)
             SESSION.commit()
             return True
-        else:
-            SESSION.close()
-            return False
+        SESSION.close()
+        return False
 
 
 def list_approved(chat_id):

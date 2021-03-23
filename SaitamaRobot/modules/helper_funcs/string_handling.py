@@ -270,13 +270,12 @@ def extract_time(message, time_val):
             # how even...?
             return ""
         return bantime
-    else:
-        message.reply_text(
-            "Invalid time type specified. Expected m,h, or d, got: {}".format(
-                time_val[-1]
-            )
+    message.reply_text(
+        "Invalid time type specified. Expected m,h, or d, got: {}".format(
+            time_val[-1]
         )
-        return ""
+    )
+    return ""
 
 
 def markdown_to_html(text):

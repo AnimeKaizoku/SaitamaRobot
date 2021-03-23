@@ -214,7 +214,7 @@ def get(update, context, notename, show_none=True, no_format=False):
                     )
                     LOGGER.warning("Message was: %s", str(note.value))
         return
-    elif show_none:
+    if show_none:
         message.reply_text("This note doesn't exist")
 
 

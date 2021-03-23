@@ -116,7 +116,7 @@ def unload(update: Update, context: CallbackContext):
             if isinstance(handler, bool):
                 unload_messasge.edit_text("This module can't be unloaded!")
                 return
-            elif not isinstance(handler, tuple):
+            if not isinstance(handler, tuple):
                 dispatcher.remove_handler(handler)
             else:
                 if isinstance(handler[0], collections.Callable):

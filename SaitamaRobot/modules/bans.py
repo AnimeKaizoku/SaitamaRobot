@@ -125,16 +125,15 @@ def ban(update: Update, context: CallbackContext) -> str:
                 return log
             message.reply_text("Banned!", quote=False)
             return log
-        else:
-            LOGGER.warning(update)
-            LOGGER.exception(
-                "ERROR banning user %s in chat %s (%s) due to %s",
-                user_id,
-                chat.title,
-                chat.id,
-                excp.message,
-            )
-            message.reply_text("Uhm...that didn't work...")
+        LOGGER.warning(update)
+        LOGGER.exception(
+            "ERROR banning user %s in chat %s (%s) due to %s",
+            user_id,
+            chat.title,
+            chat.id,
+            excp.message,
+        )
+        message.reply_text("Uhm...that didn't work...")
 
     return log_message
 
@@ -214,16 +213,15 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
                 f"Banned! User will be banned for {time_val}.", quote=False
             )
             return log
-        else:
-            LOGGER.warning(update)
-            LOGGER.exception(
-                "ERROR banning user %s in chat %s (%s) due to %s",
-                user_id,
-                chat.title,
-                chat.id,
-                excp.message,
-            )
-            message.reply_text("Well damn, I can't ban that user.")
+        LOGGER.warning(update)
+        LOGGER.exception(
+            "ERROR banning user %s in chat %s (%s) due to %s",
+            user_id,
+            chat.title,
+            chat.id,
+            excp.message,
+        )
+        message.reply_text("Well damn, I can't ban that user.")
 
     return log_message
 
@@ -281,9 +279,7 @@ def punch(update: Update, context: CallbackContext) -> str:
             log += f"\n<b>Reason:</b> {reason}"
 
         return log
-
-    else:
-        message.reply_text("Well damn, I can't punch that user.")
+    message.reply_text("Well damn, I can't punch that user.")
 
     return log_message
 
@@ -379,8 +375,7 @@ def selfunban(context: CallbackContext, update: Update) -> str:
         if excp.message == "User not found":
             message.reply_text("I can't seem to find this user.")
             return
-        else:
-            raise
+        raise
 
     if is_user_in_chat(chat, user.id):
         message.reply_text("Aren't you already in the chat??")

@@ -52,8 +52,7 @@ def bl_user(update: Update, context: CallbackContext) -> str:
         if excp.message == "User not found":
             message.reply_text("I can't seem to find this user.")
             return ""
-        else:
-            raise
+        raise
 
     sql.blacklist_user(user_id, reason)
     message.reply_text("I shall ignore the existence of this user!")
@@ -91,8 +90,7 @@ def unbl_user(update: Update, context: CallbackContext) -> str:
         if excp.message == "User not found":
             message.reply_text("I can't seem to find this user.")
             return ""
-        else:
-            raise
+        raise
 
     if sql.is_user_blacklisted(user_id):
 
@@ -105,10 +103,8 @@ def unbl_user(update: Update, context: CallbackContext) -> str:
         )
 
         return log_message
-
-    else:
-        message.reply_text("I am not ignoring them at all though!")
-        return ""
+    message.reply_text("I am not ignoring them at all though!")
+    return ""
 
 
 @run_async

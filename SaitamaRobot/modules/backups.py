@@ -155,9 +155,8 @@ def export_data(update, context):
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-        else:
-            if user.id != OWNER_ID:
-                put_chat(chat_id, new_jam, chat_data)
+        if user.id != OWNER_ID:
+            put_chat(chat_id, new_jam, chat_data)
     else:
         if user.id != OWNER_ID:
             put_chat(chat_id, new_jam, chat_data)

@@ -133,8 +133,7 @@ def filters(update, context):
                 "Please provide keyword for this filter to reply with!",
             )
             return
-        else:
-            keyword = args[1]
+        keyword = args[1]
     else:
         extracted = split_quotes(args[1])
         if len(extracted) < 1:
@@ -329,9 +328,8 @@ def reply_filter(update, context):
                                     "Message couldn't be sent, Is the sticker id valid?",
                                 )
                                 return
-                            else:
-                                LOGGER.exception("Error in filters: " + excp.message)
-                                return
+                            LOGGER.exception("Error in filters: " + excp.message)
+                            return
                     valid_format = escape_invalid_curly_brackets(
                         text, VALID_WELCOME_FORMATTERS
                     )
@@ -571,14 +569,13 @@ def rmall_callback(update, context):
 def get_exception(excp, filt, chat):
     if excp.message == "Unsupported url protocol":
         return "You seem to be trying to use the URL protocol which is not supported. Telegram does not support key for multiple protocols, such as tg: //. Please try again!"
-    elif excp.message == "Reply message not found":
+    if excp.message == "Reply message not found":
         return "noreply"
-    else:
-        LOGGER.warning("Message %s could not be parsed", str(filt.reply))
-        LOGGER.exception(
-            "Could not parse filter %s in chat %s", str(filt.keyword), str(chat.id)
-        )
-        return "This data could not be sent because it is incorrectly formatted."
+    LOGGER.warning("Message %s could not be parsed", str(filt.reply))
+    LOGGER.exception(
+        "Could not parse filter %s in chat %s", str(filt.keyword), str(chat.id)
+    )
+    return "This data could not be sent because it is incorrectly formatted."
 
 
 # NOT ASYNC NOT A HANDLER
@@ -588,9 +585,8 @@ def addnew_filter(update, chat_id, keyword, text, file_type, file_id, buttons):
     if len(totalfilt) >= 150:  # Idk why i made this like function....
         msg.reply_text("This group has reached its max filters limit of 150.")
         return False
-    else:
-        sql.new_add_filter(chat_id, keyword, text, file_type, file_id, buttons)
-        return True
+    sql.new_add_filter(chat_id, keyword, text, file_type, file_id, buttons)
+    return True
 
 
 def __stats__():

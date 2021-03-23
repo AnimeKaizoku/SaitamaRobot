@@ -129,8 +129,7 @@ def gban(update: Update, context: CallbackContext):
         if excp.message == "User not found":
             message.reply_text("I can't seem to find this user.")
             return ""
-        else:
-            return
+        return
 
     if user_chat.type != "private":
         message.reply_text("That's not a user!")

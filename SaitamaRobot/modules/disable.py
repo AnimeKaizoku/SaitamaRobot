@@ -81,12 +81,10 @@ if is_module_loaded(FILENAME):
                                 ] in ADMIN_CMDS and is_user_admin(chat, user.id)
                                 if not is_disabled:
                                     return None
-                                else:
-                                    return args, filter_result
+                                return args, filter_result
 
                             return args, filter_result
-                        else:
-                            return False
+                        return False
 
     class DisableAbleMessageHandler(MessageHandler):
         def __init__(self, filters, callback, friendly, **kwargs):
@@ -113,8 +111,7 @@ if is_module_loaded(FILENAME):
             if super().check_update(update):
                 if sql.is_command_disabled(chat.id, self.friendly):
                     return False
-                else:
-                    return args, filter_result
+                return args, filter_result
 
     class DisableAbleRegexHandler(RegexHandler):
         def __init__(self, pattern, callback, friendly="", filters=None, **kwargs):
@@ -127,8 +124,7 @@ if is_module_loaded(FILENAME):
             if super().check_update(update):
                 if sql.is_command_disabled(chat.id, self.friendly):
                     return False
-                else:
-                    return True
+                return True
 
     @run_async
     @connection_status
