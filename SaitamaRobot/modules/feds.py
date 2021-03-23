@@ -2259,10 +2259,7 @@ def is_user_fed_admin(fed_id, user_id):
     fed_admins = sql.all_fed_users(fed_id)
     if fed_admins is False:
         return False
-    if int(user_id) in fed_admins or int(user_id) == OWNER_ID:
-        return True
-    else:
-        return False
+    return bool(int(user_id) in fed_admins or int(user_id) == OWNER_ID)
 
 
 def is_user_fed_owner(fed_id, user_id):
@@ -2273,10 +2270,7 @@ def is_user_fed_owner(fed_id, user_id):
     if getfedowner is None or getfedowner is False:
         return False
     getfedowner = getfedowner["owner"]
-    if str(user_id) == getfedowner or int(user_id) == OWNER_ID:
-        return True
-    else:
-        return False
+    return bool(str(user_id) == getfedowner or int(user_id) == OWNER_ID)
 
 
 # There's no handler for this yet, but updating for v12 in case its used

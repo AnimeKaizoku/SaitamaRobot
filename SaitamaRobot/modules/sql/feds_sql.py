@@ -326,10 +326,7 @@ def search_user_in_fed(fed_id, user_id):
     if getfed is None:
         return False
     getfed = eval(getfed["fusers"])["members"]
-    if user_id in eval(getfed):
-        return True
-    else:
-        return False
+    return user_id in eval(getfed)
 
 
 def user_demote_fed(fed_id, user_id):
