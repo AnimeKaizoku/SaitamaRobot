@@ -2,6 +2,7 @@
 # Inspired from RaphaelGang's android.py
 # By DAvinash97
 
+import time
 from bs4 import BeautifulSoup
 from requests import get
 from telegram import Bot, Update, ParseMode
@@ -36,6 +37,127 @@ def magisk(update: Update, context: CallbackContext):
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
+
+
+def checkfw(update: Update, context: CallbackContext):
+    bot = context.bot
+    args = context.args
+    if not len(args) == 2:
+        reply = f'Give me something to fetch, like:\n`/checkfw SM-N975F DBT`'
+        del_msg = update.effective_message.reply_text(
+            "{}".format(reply),
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True)
+        time.sleep(5)
+        try:
+            del_msg.delete()
+            update.effective_message.delete()
+            return
+        except BadRequest as err:
+            if (err.message == "Message to delete not found") or (
+                    err.message == "Message can't be deleted"):
+                return
+    temp, csc = args
+    model = f'sm-' + temp if not temp.upper().startswith('SM-') else temp
+    fota = get(
+        f'http://fota-cloud-dn.ospserver.net/firmware/{csc.upper()}/{model.upper()}/version.xml'
+    )
+    if fota.status_code != 200:
+        reply = f"Couldn't check for {temp.upper()} and {csc.upper()}, please refine your search or try again later!"
+        del_msg = update.effective_message.reply_text(
+            "{}".format(reply),
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True)
+        time.sleep(5)
+        try:
+            del_msg.delete()
+            update.effective_message.delete()
+        except BadRequest as err:
+            if (err.message == "Message to delete not found") or (
+                    err.message == "Message can't be deleted"):
+                return
+    page = BeautifulSoup(fota.content, 'lxml')
+    os = page.find("latest").get("o")
+    if page.find("latest").text.strip():
+        reply = f'*Latest released firmware for {model.upper()} and {csc.upper()} is:*\n'
+        pda, csc, phone = page.find("latest").text.strip().split('/')
+        reply += f'• PDA: `{pda}`\n• CSC: `{csc}`\n'
+        if phone:
+            reply += f'• Phone: `{phone}`\n'
+        if os:
+            reply += f'• Android: `{os}`\n'
+        reply += f''
+    else:
+        reply = f'*No public release found for {model.upper()} and {csc.upper()}.*\n\n'
+    update.message.reply_text("{}".format(reply),
+                              parse_mode=ParseMode.MARKDOWN,
+                              disable_web_page_preview=True)
+
+
+def getfw(update: Update, context: CallbackContext):
+    bot = context.bot
+    args = context.args
+    if not len(args) == 2:
+        reply = f'Give me something to fetch, like:\n`/getfw SM-N975F DBT`'
+        del_msg = update.effective_message.reply_text(
+            "{}".format(reply),
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True)
+        time.sleep(5)
+        try:
+            del_msg.delete()
+            update.effective_message.delete()
+            return
+        except BadRequest as err:
+            if (err.message == "Message to delete not found") or (
+                    err.message == "Message can't be deleted"):
+                return
+    temp, csc = args
+    model = f'sm-' + temp if not temp.upper().startswith('SM-') else temp
+    test = get(
+        f'http://fota-cloud-dn.ospserver.net/firmware/{csc.upper()}/{model.upper()}/version.test.xml'
+    )
+    if test.status_code != 200:
+        reply = f"Couldn't find any firmware downloads for {temp.upper()} and {csc.upper()}, please refine your search or try again later!"
+        del_msg = update.effective_message.reply_text(
+            "{}".format(reply),
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True)
+        time.sleep(5)
+        try:
+            del_msg.delete()
+            update.effective_message.delete()
+        except BadRequest as err:
+            if (err.message == "Message to delete not found") or (
+                    err.message == "Message can't be deleted"):
+                return
+    url1 = f'https://samfrew.com/model/{model.upper()}/region/{csc.upper()}/'
+    url2 = f'https://www.sammobile.com/samsung/firmware/{model.upper()}/{csc.upper()}/'
+    url3 = f'https://sfirmware.com/samsung-{model.lower()}/#tab=firmwares'
+    url4 = f'https://samfw.com/firmware/{model.upper()}/{csc.upper()}/'
+    fota = get(
+        f'http://fota-cloud-dn.ospserver.net/firmware/{csc.upper()}/{model.upper()}/version.xml'
+    )
+    page = BeautifulSoup(fota.content, 'lxml')
+    os = page.find("latest").get("o")
+    reply = ""
+    if page.find("latest").text.strip():
+        pda, csc2, phone = page.find("latest").text.strip().split('/')
+        reply += f'*Latest firmware for {model.upper()} and {csc.upper()} is:*\n'
+        reply += f'• PDA: `{pda}`\n• CSC: `{csc2}`\n'
+        if phone:
+            reply += f'• Phone: `{phone}`\n'
+        if os:
+            reply += f'• Android: `{os}`\n'
+    reply += f'\n'
+    reply += f'*Downloads for {model.upper()} and {csc.upper()}*\n'
+    reply += f'• [samfrew.com]({url1})\n'
+    reply += f'• [sammobile.com]({url2})\n'
+    reply += f'• [sfirmware.com]({url3})\n'
+    reply += f'• [samfw.com]({url4})\n'
+    update.message.reply_text("{}".format(reply),
+                              parse_mode=ParseMode.MARKDOWN,
+                              disable_web_page_preview=True)
 
 
 def orangefox(update: Update, context: CallbackContext):
@@ -134,16 +256,23 @@ __help__ = """
 *OrangeFox Recovery Project:* 
 • `/orangefox` `<devicecodename>`: fetches lastest OrangeFox Recovery available for a given device codename\n
 *TWRP:* 
-• `/twrp <devicecodename>`: fetches lastest TWRP available for a given device codename
+• `/twrp <devicecodename>`: fetches lastest TWRP available for a given device codename\n
+*Samsung:*
+• `/checkfw <model> <csc>` - Samsung only - shows the latest firmware info for the given device, taken from samsung servers
+• `/getfw <model> <csc>` - Samsung only - gets firmware download links from samfrew, sammobile and sfirmwares for the given device
 """
 magisk_handler = CommandHandler(["magisk", "root", "su"], magisk, run_async=True)
 orangefox_handler = CommandHandler("orangefox", orangefox, run_async=True)
 twrp_handler = CommandHandler("twrp", twrp, run_async=True)
+GETFW_HANDLER = CommandHandler("getfw", getfw, run_async=True)
+CHECKFW_HANDLER = CommandHandler("checkfw", checkfw, run_async=True)
 
 dispatcher.add_handler(magisk_handler)
 dispatcher.add_handler(orangefox_handler)
 dispatcher.add_handler(twrp_handler)
+dispatcher.add_handler(GETFW_HANDLER)
+dispatcher.add_handler(CHECKFW_HANDLER)
 
 __mod_name__ = "Android"
 __command_list__ = ["magisk", "root", "su", "orangefox", "twrp"]
-__handlers__ = [magisk_handler, orangefox_handler, twrp_handler]
+__handlers__ = [magisk_handler, orangefox_handler, twrp_handler, GETFW_HANDLER, CHECKFW_HANDLER]
