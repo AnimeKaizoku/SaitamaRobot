@@ -10,6 +10,7 @@ from telegram.ext import Updater, CommandHandler
 from telegram.ext import CallbackContext, run_async
 from ujson import loads
 from AstrakoBot import dispatcher
+from AstrakoBot.modules.github import getphh
 
 
 def magisk(update: Update, context: CallbackContext):
@@ -160,6 +161,15 @@ def getfw(update: Update, context: CallbackContext):
                               disable_web_page_preview=True)
 
 
+def phh(update: Update, context: CallbackContext):
+    bot = context.bot
+    args = context.args
+    index = int(args[0]) if len(args) > 0 and args[0].isdigit() else 0
+    text = getphh(index)
+    update.effective_message.reply_text(text, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
+    return
+
+
 def orangefox(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -257,6 +267,8 @@ __help__ = """
 • `/orangefox` `<devicecodename>`: fetches lastest OrangeFox Recovery available for a given device codename\n
 *TWRP:* 
 • `/twrp <devicecodename>`: fetches lastest TWRP available for a given device codename\n
+*Phh:* 
+• `/phh`: get lastest phh builds from github\n
 *Samsung:*
 • `/checkfw <model> <csc>` - Samsung only - shows the latest firmware info for the given device, taken from samsung servers
 • `/getfw <model> <csc>` - Samsung only - gets firmware download links from samfrew, sammobile and sfirmwares for the given device
@@ -266,13 +278,15 @@ orangefox_handler = CommandHandler("orangefox", orangefox, run_async=True)
 twrp_handler = CommandHandler("twrp", twrp, run_async=True)
 GETFW_HANDLER = CommandHandler("getfw", getfw, run_async=True)
 CHECKFW_HANDLER = CommandHandler("checkfw", checkfw, run_async=True)
+PHH_HANDLER = CommandHandler("phh", phh, run_async=True)
 
 dispatcher.add_handler(magisk_handler)
 dispatcher.add_handler(orangefox_handler)
 dispatcher.add_handler(twrp_handler)
 dispatcher.add_handler(GETFW_HANDLER)
 dispatcher.add_handler(CHECKFW_HANDLER)
+dispatcher.add_handler(PHH_HANDLER)
 
 __mod_name__ = "Android"
-__command_list__ = ["magisk", "root", "su", "orangefox", "twrp"]
-__handlers__ = [magisk_handler, orangefox_handler, twrp_handler, GETFW_HANDLER, CHECKFW_HANDLER]
+__command_list__ = ["magisk", "root", "su", "orangefox", "twrp", "phh"]
+__handlers__ = [magisk_handler, orangefox_handler, twrp_handler, GETFW_HANDLER, CHECKFW_HANDLER, PHH_HANDLER]

@@ -29,6 +29,32 @@ from telegram import (
     MAX_MESSAGE_LENGTH,
 )
 
+
+def getphh(index):
+    recentRelease = api.getReleaseData(api.getData("phhusson/treble_experimentations"), index)
+    if recentRelease is None:
+        return "The specified release could not be found"
+    author = api.getAuthor(recentRelease)
+    authorUrl = api.getAuthorUrl(recentRelease)
+    name = api.getReleaseName(recentRelease)
+    assets = api.getAssets(recentRelease)
+    releaseName = api.getReleaseName(recentRelease)
+    message = "<b>Author:</b> <a href='{}'>{}</a>\n".format(authorUrl, author)
+    message += "<b>Release Name:</b> <code>"+releaseName+"</code>\n\n"
+    message += "<b>Assets:</b>\n"
+    for asset in assets:
+        fileName = api.getReleaseFileName(asset)
+        if fileName in ("manifest.xml", "patches.zip"):
+            continue
+        fileURL = api.getReleaseFileURL(asset)
+        assetFile = "• <a href='{}'>{}</a>".format(fileURL, fileName)
+        sizeB = ((api.getSize(asset))/1024)/1024
+        size = "{0:.2f}".format(sizeB)
+        message += assetFile + "\n"
+        message += "    <code>Size: "  + size + " MB</code>\n"
+    return message
+
+
 # do not async
 def getData(url, index):
     if not api.getData(url):
