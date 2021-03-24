@@ -9,8 +9,18 @@ from telegram import Bot, Update, ParseMode
 from telegram.ext import Updater, CommandHandler
 from telegram.ext import CallbackContext, run_async
 from ujson import loads
+from yaml import load, Loader
 from AstrakoBot import dispatcher
 from AstrakoBot.modules.github import getphh
+
+
+def delete(msg, delmsg, timer):
+    sleep(timer)
+    try:
+        msg.delete()
+        delmsg.delete()
+    except:
+        return
 
 
 def magisk(update: Update, context: CallbackContext):
@@ -170,6 +180,47 @@ def phh(update: Update, context: CallbackContext):
     return
 
 
+def miui(update: Update, context: CallbackContext):
+    args = context.args
+    msg = update.effective_message
+
+    URL = "https://raw.githubusercontent.com/XiaomiFirmwareUpdater/miui-updates-tracker/master/data/latest.yml"
+    codename = args[0] if len(args) > 0 else False
+
+    if not codename:
+        delmsg = msg.reply_text("Provide a codename bruh!")
+        delete(msg, delmsg, 5)
+        return
+
+    yaml_data = load(get(URL).content, Loader=Loader)
+    data = [ i for i in yaml_data if codename in i['codename'] ]
+
+    if len(data) < 1:
+        delmsg = msg.reply_text("Provide a valid codename bruh!")
+        delete(msg, delmsg, 5)
+        return
+
+    markup = []
+    for fw in data:
+        av = fw['android']
+        branch = fw['branch']
+        method = fw['method']
+        link = fw['link']
+        fname = fw['name']
+        version = fw['version']
+
+        btn = fname + ' | ' + branch + ' | ' + method + ' | ' + version
+        markup.append([InlineKeyboardButton(text=btn, url=link)])
+
+    device = fname.split(" ")
+    device.pop()
+    device = " ".join(device)
+    delmsg = msg.reply_text(f"The latest firmwares for *{device}* are:",
+                            reply_markup=InlineKeyboardMarkup(markup),
+                            parse_mode=ParseMode.MARKDOWN)
+    delete(msg, delmsg, 60)
+
+
 def orangefox(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -267,6 +318,8 @@ __help__ = """
 • `/orangefox` `<devicecodename>`: fetches lastest OrangeFox Recovery available for a given device codename\n
 *TWRP:* 
 • `/twrp <devicecodename>`: fetches lastest TWRP available for a given device codename\n
+*MIUI:*
+• `/miui <devicecodename>`- fetches latest firmware info for a given device codename\n
 *Phh:* 
 • `/phh`: get lastest phh builds from github\n
 *Samsung:*
@@ -279,6 +332,7 @@ twrp_handler = CommandHandler("twrp", twrp, run_async=True)
 GETFW_HANDLER = CommandHandler("getfw", getfw, run_async=True)
 CHECKFW_HANDLER = CommandHandler("checkfw", checkfw, run_async=True)
 PHH_HANDLER = CommandHandler("phh", phh, run_async=True)
+MIUI_HANDLER = CommandHandler("miui", miui, run_async=True)
 
 dispatcher.add_handler(magisk_handler)
 dispatcher.add_handler(orangefox_handler)
@@ -286,7 +340,8 @@ dispatcher.add_handler(twrp_handler)
 dispatcher.add_handler(GETFW_HANDLER)
 dispatcher.add_handler(CHECKFW_HANDLER)
 dispatcher.add_handler(PHH_HANDLER)
+dispatcher.add_handler(MIUI_HANDLER)
 
 __mod_name__ = "Android"
-__command_list__ = ["magisk", "root", "su", "orangefox", "twrp", "phh"]
-__handlers__ = [magisk_handler, orangefox_handler, twrp_handler, GETFW_HANDLER, CHECKFW_HANDLER, PHH_HANDLER]
+__command_list__ = ["magisk", "root", "su", "orangefox", "twrp", "checkfw", "getfw", "phh", "miui"]
+__handlers__ = [magisk_handler, orangefox_handler, twrp_handler, GETFW_HANDLER, CHECKFW_HANDLER, PHH_HANDLER, MIUI_HANDLER]
