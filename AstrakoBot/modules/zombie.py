@@ -1,99 +1,61 @@
-import asyncio
 from asyncio import sleep
-
+from telegram import Bot, Update, ParseMode
+from telegram.ext import Updater, CommandHandler
+from telegram.ext import CallbackContext, run_async
 from telethon import events
-from telethon.errors import ChatAdminRequiredError, UserAdminInvalidError
-from telethon.tl.functions.channels import EditBannedRequest
-from telethon.tl.types import ChatBannedRights, ChannelParticipantsAdmins
+from AstrakoBot import dispatcher
+from AstrakoBot import telethn as AstrakoBotTelethonClient
 from AstrakoBot.modules.helper_funcs.telethn.chatstatus import user_is_admin
-from AstrakoBot import telethn, OWNER_ID, DEV_USERS, DRAGONS, DEMONS
-
-# =================== CONSTANT ===================
-
-BANNED_RIGHTS = ChatBannedRights(
-    until_date=None,
-    view_messages=True,
-    send_messages=True,
-    send_media=True,
-    send_stickers=True,
-    send_gifs=True,
-    send_games=True,
-    send_inline=True,
-    embed_links=True,
-)
 
 
-UNBAN_RIGHTS = ChatBannedRights(
-    until_date=None,
-    send_messages=None,
-    send_media=None,
-    send_stickers=None,
-    send_gifs=None,
-    send_games=None,
-    send_inline=None,
-    embed_links=None,
-)
-
-OFFICERS = [OWNER_ID] + DEV_USERS + DRAGONS + DEMONS
-
-@telethn.on(events.NewMessage(pattern=f"^[!/]zombies ?(.*)"))
+@AstrakoBotTelethonClient.on(events.NewMessage(pattern=f"^[!/]zombies ?(.*)"))
 async def zombies(event):
-    # Here laying the sanity check
     chat = await event.get_chat()
     admin = chat.admin_rights
     creator = chat.creator
 
-    # Well
     if not await user_is_admin(
-        user_id=event.sender_id, message=event
+        user_id = event.sender_id, message = event
     ):
-        await event.reply("Only Admins are allowed to use this command")
-        return
+        msg = f"Only Admins are allowed to use this command"
 
-    if not admin and not creator:
-        await event.respond("I am not an admin here!")
-        return
-    con = event.pattern_match.group(1).lower()
-    del_u = 0
-    del_status = "No deleted accounts found, group is clean."
+    elif not admin and not creator:
+        msg = f"I am not an admin here!"
 
-    if con != "clean":
-        find_zombies = await event.respond("Searching for zombies...")
-        async for user in event.client.iter_participants(event.chat_id):
+    else:
 
-            if user.deleted:
-                del_u += 1
-                await sleep(1)
-        if del_u > 0:
-            del_status = f"Found **{del_u}** zombies in this group.\
-            \nClean them by using - `/zombies clean`"
-        await find_zombies.edit(del_status)
-        return
+        count = 0
+        arg = event.pattern_match.group(1).lower()
 
-    cleaning_zombies = await event.respond("Cleaning zombies...")
-    del_u = 0
-    del_a = 0
+        if not arg:
+                msg = f"**Searching for zombies...**\n"
+                async for user in event.client.iter_participants(event.chat):
+                    if user.deleted:
+                        count += 1
 
-    async for user in event.client.iter_participants(event.chat_id):
-        if user.deleted:
-            try:
-                await event.client(
-                    EditBannedRequest(event.chat_id, user.id, BANNED_RIGHTS)
-                )
-            except ChatAdminRequiredError:
-                await cleaning_zombies.edit("I don't have ban rights in this group.")
-                return
-            except UserAdminInvalidError:
-                del_u -= 1
-                del_a += 1
-            await event.client(EditBannedRequest(event.chat_id, user.id, UNBAN_RIGHTS))
-            del_u += 1
+                if count == 0:
+                    msg += f"No deleted accounts found. Group is clean"
+                else:
+                    msg += f"Found **{count}** zombies in this group\n"
+                    msg += f"Clean them by using - `/zombies clean`"
+        
+        elif arg == "clean":
+            msg = f"**Cleaning zombies...**\n"
+            async for user in event.client.iter_participants(event.chat):
+                if user.deleted:
+                    count += 1
+                    await event.client.kick_participant(chat, user)
 
-    if del_u > 0:
-        del_status = f"Cleaned `{del_u}` zombies"
+            if count == 0:
+                msg += f"No zombies account found. Group is clean"
+            else:
+                msg += f"Cleaned `{count}` zombies"
+      
+        else:
+            msg = "Wrong parameter. You can use only `/zombies clean`"
 
-    if del_a > 0:
-        del_status = f"Cleaned `{del_u}` zombies \
-        \n`{del_a}` Zombie admin accounts are not removed!"
 
-    await cleaning_zombies.edit(del_status)
+    delmsg = await event.reply(msg)
+    await sleep(60)
+    await delmsg.delete()
+
