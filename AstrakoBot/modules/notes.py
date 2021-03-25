@@ -13,6 +13,7 @@ from AstrakoBot.modules.helper_funcs.msg_types import get_note_type
 from AstrakoBot.modules.helper_funcs.string_handling import (
     escape_invalid_curly_brackets,
 )
+from AstrakoBot.modules.private_notes import getprivatenotes
 from telegram import (
     MAX_MESSAGE_LENGTH,
     InlineKeyboardMarkup,
@@ -57,6 +58,7 @@ ENUM_FUNC_MAP = {
 # Do not async
 def get(update: Update, context: CallbackContext, notename, show_none=True, no_format=False):
     bot = context.bot
+    user = update.effective_user
     chat_id = update.effective_message.chat.id
     note_chat_id = update.effective_chat.id
     note = sql.get_note(note_chat_id, notename)
@@ -168,24 +170,44 @@ def get(update: Update, context: CallbackContext, notename, show_none=True, no_f
             keyboard = InlineKeyboardMarkup(keyb)
 
             try:
+                setting = getprivatenotes(chat_id)
                 if note.msgtype in (sql.Types.BUTTON_TEXT, sql.Types.TEXT):
-                    bot.send_message(
-                        chat_id,
-                        text,
-                        reply_to_message_id=reply_id,
-                        parse_mode=parseMode,
-                        disable_web_page_preview=True,
-                        reply_markup=keyboard,
-                    )
+                    if setting:
+                        bot.send_message(
+                            user.id,
+                            text,
+                            parse_mode=parseMode,
+                            disable_web_page_preview=True,
+                            reply_markup=keyboard,
+                        )
+                    else:
+                        bot.send_message(
+                            chat_id,
+                            text,
+                            reply_to_message_id=reply_id,
+                            parse_mode=parseMode,
+                            disable_web_page_preview=True,
+                            reply_markup=keyboard,
+                        )
                 else:
-                    ENUM_FUNC_MAP[note.msgtype](
-                        chat_id,
-                        note.file,
-                        caption=text,
-                        reply_to_message_id=reply_id,
-                        parse_mode=parseMode,
-                        reply_markup=keyboard,
-                    )
+                    if setting:
+                        ENUM_FUNC_MAP[note.msgtype](
+                            user.id,
+                            note.file,
+                            caption=text,
+                            reply_to_message_id=reply_id,
+                            parse_mode=parseMode,
+                            reply_markup=keyboard,
+                        )
+                    else:
+                        ENUM_FUNC_MAP[note.msgtype](
+                            chat_id,
+                            note.file,
+                            caption=text,
+                            reply_to_message_id=reply_id,
+                            parse_mode=parseMode,
+                            reply_markup=keyboard,
+                        )
 
             except BadRequest as excp:
                 if excp.message == "Entity_mention_user_invalid":
@@ -362,10 +384,13 @@ def clearall_btn(update: Update, context: CallbackContext):
 
 @connection_status
 def list_notes(update: Update, context: CallbackContext):
+    bot = dispatcher.bot
+    user = update.effective_user
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
     notes = len(note_list) + 1
     msg = "Get note by `/notenumber` or `#notename` \n\n  *ID*    *Note* \n"
+    msg_pm = f"*Notes from {update.effective_chat.title}* \nGet note by `/notenumber` or `#notename` in group \n\n  *ID*    *Note* \n"
     for note_id, note in zip(range(1, notes), note_list):
         if note_id < 10:
             note_name = f"`{note_id:2}.`  `{(note.name.lower())}`\n"
@@ -374,7 +399,9 @@ def list_notes(update: Update, context: CallbackContext):
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
             msg = ""
+            msg_pm = ""
         msg += note_name
+        msg_pm += note_name
 
     if not note_list:
         try:
@@ -383,7 +410,11 @@ def list_notes(update: Update, context: CallbackContext):
             update.effective_message.reply_text("No notes in this chat!", quote=False)
 
     elif len(msg) != 0:
-        update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+        setting = getprivatenotes(chat_id)
+        if setting == True:
+            bot.send_message(user.id, msg_pm, parse_mode=ParseMode.MARKDOWN)
+        else:
+            update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
 def __import_data__(chat_id, data):
@@ -530,7 +561,7 @@ A button can be added to a note by using standard markdown link syntax - the lin
  • `/clear <notename>`*:* clear note with this name
  • `/removeallnotes`*:* removes all notes from the group
  *Note:* Note names are case-insensitive, and they are automatically converted to lowercase before getting saved.
-
+ • `/privatenotes <on/yes/1/off/no/0>`: enable or disable private notes in chat
 """
 
 __mod_name__ = "Notes"
