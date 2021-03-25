@@ -4,6 +4,7 @@ from telegram import Bot, Update, ParseMode
 from telegram.ext import Updater, CommandHandler
 from telegram.ext import CallbackContext, run_async
 from AstrakoBot import dispatcher
+from AstrakoBot.modules.helper_funcs.misc import delete
 
 
 def covid(update: Update, context: CallbackContext):
@@ -11,28 +12,35 @@ def covid(update: Update, context: CallbackContext):
     message = update.effective_message
     country = message.text[len("/covid ") :]
     covid = Covid()
-    country_data = covid.get_status_by_country_name(country)
-    if country_data:
-        info = f"*Corona Virus Info*\n\n"
-        info += f"• Country: `{country}`\n"
-        info += f"• Confirmed: `{country_data['confirmed']}`\n"
-        info += f"• Active: `{country_data['active']}`\n"
-        info += f"• Deaths: `{country_data['deaths']}`\n"
-        info += f"• Recovered: `{country_data['recovered']}`\n"
-        info += (
+    
+    if country:
+        try:
+            country_data = covid.get_status_by_country_name(country)
+        except:
+            return message.reply_text("Wrong country name!")
+        
+        msg = f"*Corona Virus Info*\n\n"
+        msg += f"• Country: `{country}`\n"
+        msg += f"• Confirmed: `{country_data['confirmed']}`\n"
+        msg += f"• Active: `{country_data['active']}`\n"
+        msg += f"• Deaths: `{country_data['deaths']}`\n"
+        msg += f"• Recovered: `{country_data['recovered']}`\n"
+        msg += (
             "Last update: "
             f"`{datetime.utcfromtimestamp(country_data['last_update'] // 1000).strftime('%Y-%m-%d %H:%M:%S')}`\n"
         )
-        info += f"__Data provided by__ [Johns Hopkins University](https://j.mp/2xf6oxF)"
+        msg += f"__Data provided by__ [Johns Hopkins University](https://j.mp/2xf6oxF)"
+            
     else:
-        info = f"No information yet about this country!"
+        msg = "Please specify a country"
 
-    bot.send_message(
-        chat_id=update.effective_chat.id,
-        text=info,
+    delmsg = message.reply_text(
+        text=msg,
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
+
+    context.dispatcher.run_async(delete, delmsg, 60)
 
 
 covid_handler = CommandHandler(["covid"], covid, run_async=True)
