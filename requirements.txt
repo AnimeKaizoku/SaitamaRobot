@@ -45,3 +45,4 @@ youtube-search-python
 gtts
 pretty_errors
 tswift
+PyYAML
