@@ -42,7 +42,7 @@ def magisk(update: Update, context: CallbackContext):
         disable_web_page_preview = True,
     )
 
-    context.dispatcher.run_async(delete, delmsg, 60)
+    context.dispatcher.run_async(delete, delmsg, 120)
 
 
 def checkfw(update: Update, context: CallbackContext):
@@ -84,7 +84,7 @@ def checkfw(update: Update, context: CallbackContext):
         disable_web_page_preview = True,
     )
 
-    context.dispatcher.run_async(delete, delmsg, 60)
+    context.dispatcher.run_async(delete, delmsg, 120)
 
 
 def getfw(update: Update, context: CallbackContext):
@@ -137,7 +137,7 @@ def getfw(update: Update, context: CallbackContext):
         disable_web_page_preview = True,
     )
 
-    context.dispatcher.run_async(delete, delmsg, 60)
+    context.dispatcher.run_async(delete, delmsg, 120)
 
 
 def phh(update: Update, context: CallbackContext):
@@ -193,7 +193,7 @@ def miui(update: Update, context: CallbackContext):
         disable_web_page_preview = True,
     )
 
-    context.dispatcher.run_async(delete, delmsg, 60)
+    context.dispatcher.run_async(delete, delmsg, 120)
 
 
 def orangefox(update: Update, context: CallbackContext):
@@ -248,7 +248,7 @@ def orangefox(update: Update, context: CallbackContext):
         disable_web_page_preview = True,
     )
 
-    context.dispatcher.run_async(delete, delmsg, 60)
+    context.dispatcher.run_async(delete, delmsg, 120)
 
 
 def twrp(update: Update, context: CallbackContext):
@@ -283,7 +283,7 @@ def twrp(update: Update, context: CallbackContext):
         disable_web_page_preview = True,
     )
 
-    context.dispatcher.run_async(delete, delmsg, 60)
+    context.dispatcher.run_async(delete, delmsg, 120)
 
 
 __help__ = """
