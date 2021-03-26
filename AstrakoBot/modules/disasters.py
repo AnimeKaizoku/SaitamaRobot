@@ -354,67 +354,65 @@ def removewhitelist(update: Update, context: CallbackContext) -> str:
 
 @whitelist_plus
 def whitelistlist(update: Update, context: CallbackContext):
-    reply = "<b>Whitelist users:</b>\n"
     bot = context.bot
+    message = update.effective_message
+    msg = "<b>Whitelist users:</b>\n"
     for each_user in WOLVES:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
 
-            reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
+            msg += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
-    m.edit_text(reply, parse_mode=ParseMode.HTML)
+    message.reply_text(msg, parse_mode=ParseMode.HTML)
 
 
 @whitelist_plus
 def supportlist(update: Update, context: CallbackContext):
     bot = context.bot
-    reply = "<b>Support users:</b>\n"
+    message = update.effective_message
+    msg = "<b>Support users:</b>\n"
     for each_user in DEMONS:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
-            reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
+            msg += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
-    m.edit_text(reply, parse_mode=ParseMode.HTML)
+    message.reply_text(msg, parse_mode=ParseMode.HTML)
 
 
 @whitelist_plus
 def sudolist(update: Update, context: CallbackContext):
     bot = context.bot
-    m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
-    )
+    message = update.effective_message
     true_sudo = list(set(DRAGONS) - set(DEV_USERS))
-    reply = "<b>Sudo users:</b>\n"
+    msg = "<b>Sudo users:</b>\n"
     for each_user in true_sudo:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
-            reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
+            msg += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
-    m.edit_text(reply, parse_mode=ParseMode.HTML)
+    message.reply_text(msg, parse_mode=ParseMode.HTML)
 
 
 @whitelist_plus
 def devlist(update: Update, context: CallbackContext):
     bot = context.bot
-    m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
-    )
+    message = update.effective_message
     true_dev = list(set(DEV_USERS) - {OWNER_ID})
-    reply = "<b>Developer users:</b>\n"
+    msg = "<b>Developer users:</b>\n"
     for each_user in true_dev:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
-            reply += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
+            msg += f"• {mention_html(user_id, html.escape(user.first_name))}\n"
         except TelegramError:
             pass
-    m.edit_text(reply, parse_mode=ParseMode.HTML)
+    message.reply_text(msg, parse_mode=ParseMode.HTML)
 
 
 __help__ = f"""
