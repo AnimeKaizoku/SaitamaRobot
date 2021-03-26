@@ -36,7 +36,7 @@ if is_module_loaded(FILENAME):
 
             if result:
                 datetime_fmt = "%H:%M - %d-%m-%Y"
-                result = "\n<b>Event Stamp</b>: <code>{}</code>".format(
+                result += "\n<b>Event Stamp</b>: <code>{}</code>".format(
                     datetime.utcnow().strftime(datetime_fmt)
                 )
 
@@ -59,7 +59,7 @@ if is_module_loaded(FILENAME):
 
             if result:
                 datetime_fmt = "%H:%M - %d-%m-%Y"
-                result = "\n<b>Event Stamp</b>: <code>{}</code>".format(
+                result += "\n<b>Event Stamp</b>: <code>{}</code>".format(
                     datetime.utcnow().strftime(datetime_fmt)
                 )
 
