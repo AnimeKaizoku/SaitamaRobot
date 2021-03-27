@@ -258,7 +258,7 @@ def new_member(update: Update, context: CallbackContext):
                         )
                     bot.leave_chat(update.effective_chat.id)
                     return
-                for x in bot.bot.get_chat_administrators(update.effective_chat.id):
+                for x in bot.get_chat_administrators(update.effective_chat.id):
                     if x.status == "creator":
                         creator = x.user
                         break
