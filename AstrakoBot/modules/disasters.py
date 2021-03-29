@@ -417,7 +417,7 @@ def devlist(update: Update, context: CallbackContext):
 
 __help__ = f"""
 *⚠️ Notice:*
-Commands listed here only work for users with special access are mainly used for troubleshooting, debugging purposes.
+Commands listed here only work for users with special access and are mainly used for troubleshooting, debugging purposes.
 Group admins/group owners do not need these commands. 
 
 *List all special users:*
