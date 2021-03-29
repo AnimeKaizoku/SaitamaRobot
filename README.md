@@ -5,7 +5,7 @@
 # Saitama Robot
 
 <p align="center">
-- x -|│  “	Just some code who is a bot for fun. ”  │| - x -
+- x -|│  “	Just some code who is a bot for fun! ”  │| - x -
 </p>
 
 <p align="center">
