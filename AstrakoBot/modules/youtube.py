@@ -44,8 +44,7 @@ def youtube(update: Update, context: CallbackContext):
             reply_markup = InlineKeyboardMarkup(buttons)
         )
     else:
-        update.effective_message.reply_text("`Specify a song or video`",
-            parse_mode = ParseMode.MARKDOWN
+        update.effective_message.reply_text("`Specify a song or video`"
         )
 
 
@@ -84,15 +83,16 @@ def youtube_callback(update: Update, context: CallbackContext):
         with YoutubeDL(opts) as rip:
             rip_data = rip.extract_info(media_url)
             
-            if int(rip_data['duration'] / 60) > 50:
-                update.effective_message.reply_text("`Song is too long for processing.`")
-                return
-        
-            message.reply_audio(
-            audio = open(f"{rip_data['id']}.{codec}", "rb"),
-            duration = int(rip_data['duration']),
-            title = str(rip_data['title']),
-            parse_mode = ParseMode.HTML)
+            try:
+                message.reply_audio(
+                audio = open(f"{rip_data['id']}.{codec}", "rb"),
+                duration = int(rip_data['duration']),
+                title = str(rip_data['title']),
+                parse_mode = ParseMode.HTML)
+            except:
+                return update.effective_message.reply_text(
+                    "Song is too large for processing"
+                )
 
     else:
         opts = {
@@ -113,16 +113,17 @@ def youtube_callback(update: Update, context: CallbackContext):
         with YoutubeDL(opts) as rip:
             rip_data = rip.extract_info(media_url)
             
-            if int(rip_data['duration'] / 60) > 10:
-                update.effective_message.reply_text("`Video is too long for processing.`")
-                return
-        
-            message.reply_video(
-            video = open(f"{rip_data['id']}.{codec}", "rb"),
-            duration = int(rip_data['duration']),
-            caption = rip_data['title'],
-            supports_streaming = True,
-            parse_mode = ParseMode.HTML)
+            try:
+                message.reply_video(
+                video = open(f"{rip_data['id']}.{codec}", "rb"),
+                duration = int(rip_data['duration']),
+                caption = rip_data['title'],
+                supports_streaming = True,
+                parse_mode = ParseMode.HTML)
+            except:
+                return update.effective_message.reply_text(
+                    "Video is too large for processing"
+                )
 
     try:
         for f in glob.glob("*.mp*"):
