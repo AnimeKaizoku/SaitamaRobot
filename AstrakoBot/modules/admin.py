@@ -24,7 +24,6 @@ from AstrakoBot.modules.log_channel import loggable
 from AstrakoBot.modules.helper_funcs.alternate import send_message
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_promote
@@ -107,7 +106,6 @@ def promote(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_promote
@@ -181,7 +179,6 @@ def demote(update: Update, context: CallbackContext) -> str:
         return
 
 
-@run_async
 @user_admin
 def refresh_admin(update, _):
     try:
@@ -192,7 +189,6 @@ def refresh_admin(update, _):
     update.effective_message.reply_text("Admins cache refreshed!")
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_promote
@@ -257,7 +253,6 @@ def set_title(update: Update, context: CallbackContext):
     )
 
 
-@run_async
 @bot_admin
 @can_pin
 @user_admin
@@ -299,7 +294,6 @@ def pin(update: Update, context: CallbackContext) -> str:
         return log_message
 
 
-@run_async
 @bot_admin
 @can_pin
 @user_admin
@@ -326,7 +320,6 @@ def unpin(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @bot_admin
 @user_admin
 @connection_status
@@ -351,9 +344,8 @@ def invite(update: Update, context: CallbackContext):
         )
 
 
-@run_async
 @connection_status
-def adminlist(update, context):
+def adminlist(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     args = context.args
@@ -480,19 +472,19 @@ __help__ = """
  • `/zombies`*:* scan and clean zombies
 """
 
-ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
+ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist, run_async=True)
 
-PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.group)
-UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.group)
+PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.chat_type.groups, run_async=True)
+UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.chat_type.groups, run_async=True)
 
-INVITE_HANDLER = DisableAbleCommandHandler(["invitelink", "link"], invite)
+INVITE_HANDLER = DisableAbleCommandHandler(["invitelink", "link"], invite, run_async=True)
 
-PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote)
-DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote)
+PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote, run_async=True)
+DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote, run_async=True)
 
-SET_TITLE_HANDLER = CommandHandler("title", set_title)
+SET_TITLE_HANDLER = CommandHandler("title", set_title, run_async=True)
 ADMIN_REFRESH_HANDLER = CommandHandler(
-    "admincache", refresh_admin, filters=Filters.group
+    "admincache", refresh_admin, filters=Filters.chat_type.groups
 )
 
 dispatcher.add_handler(ADMINLIST_HANDLER)

@@ -1,28 +1,28 @@
 from AstrakoBot import DEV_USERS, DRAGONS, DEMONS
 from telegram import Message
-from telegram.ext import BaseFilter
+from telegram.ext import MessageFilter
 
 
 class CustomFilters(object):
-    class _Supporters(BaseFilter):
+    class _Supporters(MessageFilter):
         def filter(self, message: Message):
             return bool(message.from_user and message.from_user.id in DEMONS)
 
     support_filter = _Supporters()
 
-    class _Sudoers(BaseFilter):
+    class _Sudoers(MessageFilter):
         def filter(self, message: Message):
             return bool(message.from_user and message.from_user.id in DRAGONS)
 
     sudo_filter = _Sudoers()
 
-    class _Developers(BaseFilter):
+    class _Developers(MessageFilter):
         def filter(self, message: Message):
             return bool(message.from_user and message.from_user.id in DEV_USERS)
 
     dev_filter = _Developers()
 
-    class _MimeType(BaseFilter):
+    class _MimeType(MessageFilter):
         def __init__(self, mimetype):
             self.mime_type = mimetype
             self.name = "CustomFilters.mime_type({})".format(self.mime_type)
@@ -34,7 +34,7 @@ class CustomFilters(object):
 
     mime_type = _MimeType
 
-    class _HasText(BaseFilter):
+    class _HasText(MessageFilter):
         def filter(self, message: Message):
             return bool(
                 message.text

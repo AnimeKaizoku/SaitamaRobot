@@ -66,7 +66,6 @@ def getRepo(bot, update, reponame):
     return None, None
 
 
-@run_async
 def getRelease(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message
@@ -89,7 +88,6 @@ def getRelease(update: Update, context: CallbackContext):
     return
 
 
-@run_async
 def hashFetch(update: Update, context: CallbackContext):  # kanged from notes
     bot, args = context.bot, context.args
     message = update.effective_message.text
@@ -109,7 +107,6 @@ def hashFetch(update: Update, context: CallbackContext):  # kanged from notes
     return
 
 
-@run_async
 def cmdFetch(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message
@@ -129,7 +126,6 @@ def cmdFetch(update: Update, context: CallbackContext):
     return
 
 
-@run_async
 def changelog(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message
@@ -147,7 +143,6 @@ def changelog(update: Update, context: CallbackContext):
     return
 
 
-@run_async
 @user_admin
 def saveRepo(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -168,7 +163,6 @@ def saveRepo(update: Update, context: CallbackContext):
     return
 
 
-@run_async
 @user_admin
 def delRepo(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -182,7 +176,6 @@ def delRepo(update: Update, context: CallbackContext):
     return
 
 
-@run_async
 def listRepo(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     chat = update.effective_chat
@@ -230,17 +223,17 @@ __mod_name__ = "GitHub"
 
 
 RELEASE_HANDLER = DisableAbleCommandHandler(
-    "git", getRelease, pass_args=True, admin_ok=True
+    "git", getRelease, admin_ok=True, run_async=True
 )
 FETCH_HANDLER = DisableAbleCommandHandler(
-    "fetch", cmdFetch, pass_args=True, admin_ok=True
+    "fetch", cmdFetch, admin_ok=True, run_async=True
 )
-SAVEREPO_HANDLER = CommandHandler("saverepo", saveRepo, pass_args=True)
-DELREPO_HANDLER = CommandHandler("delrepo", delRepo, pass_args=True)
-LISTREPO_HANDLER = DisableAbleCommandHandler("listrepo", listRepo, admin_ok=True)
-VERCHECKER_HANDLER = DisableAbleCommandHandler("gitver", getVer, admin_ok=True)
+SAVEREPO_HANDLER = CommandHandler("saverepo", saveRepo, run_async=True)
+DELREPO_HANDLER = CommandHandler("delrepo", delRepo, run_async=True)
+LISTREPO_HANDLER = DisableAbleCommandHandler("listrepo", listRepo, admin_ok=True, run_async=True)
+VERCHECKER_HANDLER = DisableAbleCommandHandler("gitver", getVer, admin_ok=True, run_async=True)
 CHANGELOG_HANDLER = DisableAbleCommandHandler(
-    "changelog", changelog, pass_args=True, admin_ok=True
+    "changelog", changelog, admin_ok=True, run_async=True
 )
 
 HASHFETCH_HANDLER = RegexHandler(r"^&[^\s]+", hashFetch)

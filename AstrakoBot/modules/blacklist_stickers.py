@@ -19,7 +19,6 @@ from telegram.ext.dispatcher import run_async
 from telegram.utils.helpers import mention_html, mention_markdown
 
 
-@run_async
 def blackliststicker(update: Update, context: CallbackContext):
     msg = update.effective_message  # type: Optional[Message]
     chat = update.effective_chat  # type: Optional[Chat]
@@ -64,7 +63,6 @@ def blackliststicker(update: Update, context: CallbackContext):
     send_message(update.effective_message, text, parse_mode=ParseMode.HTML)
 
 
-@run_async
 @user_admin
 def add_blackliststicker(update: Update, context: CallbackContext):
     bot = context.bot
@@ -156,7 +154,6 @@ def add_blackliststicker(update: Update, context: CallbackContext):
         )
 
 
-@run_async
 @user_admin
 def unblackliststicker(update: Update, context: CallbackContext):
     bot = context.bot
@@ -253,7 +250,6 @@ def unblackliststicker(update: Update, context: CallbackContext):
         )
 
 
-@run_async
 @loggable
 @user_admin
 def blacklist_mode(update: Update, context: CallbackContext):
@@ -365,7 +361,6 @@ def blacklist_mode(update: Update, context: CallbackContext):
     return ""
 
 
-@run_async
 @user_not_admin
 def del_blackliststicker(update: Update, context: CallbackContext):
     bot = context.bot
@@ -510,17 +505,17 @@ Note:
 __mod_name__ = "Stickers Blacklist"
 
 BLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
-    "blsticker", blackliststicker, admin_ok=True
+    "blsticker", blackliststicker, admin_ok=True, run_async=True
 )
 ADDBLACKLIST_STICKER_HANDLER = DisableAbleCommandHandler(
-    "addblsticker", add_blackliststicker
+    "addblsticker", add_blackliststicker, run_async=True
 )
 UNBLACKLIST_STICKER_HANDLER = CommandHandler(
-    ["unblsticker", "rmblsticker"], unblackliststicker
+    ["unblsticker", "rmblsticker"], unblackliststicker, run_async=True
 )
-BLACKLISTMODE_HANDLER = CommandHandler("blstickermode", blacklist_mode)
+BLACKLISTMODE_HANDLER = CommandHandler("blstickermode", blacklist_mode, run_async=True)
 BLACKLIST_STICKER_DEL_HANDLER = MessageHandler(
-    Filters.sticker & Filters.group, del_blackliststicker
+    Filters.sticker & Filters.chat_type.groups, del_blackliststicker, run_async=True
 )
 
 dispatcher.add_handler(BLACKLIST_STICKER_HANDLER)

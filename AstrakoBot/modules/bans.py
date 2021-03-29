@@ -31,7 +31,6 @@ from AstrakoBot.modules.helper_funcs.string_handling import extract_time
 from AstrakoBot.modules.log_channel import gloggable, loggable
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -108,7 +107,7 @@ def ban(update: Update, context: CallbackContext) -> str:
         )
         if reason:
             reply += f"\n<code> </code><b>•  Reason:</b> \n{html.escape(reason)}"
-        bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML, quote=False)
+        bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML,)
         return log
 
     except BadRequest as excp:
@@ -132,7 +131,6 @@ def ban(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -221,7 +219,6 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -281,7 +278,6 @@ def punch(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@run_async
 @bot_admin
 @can_restrict
 def punchme(update: Update, context: CallbackContext):
@@ -297,7 +293,6 @@ def punchme(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Huh? I can't :/")
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -346,7 +341,6 @@ def unban(update: Update, context: CallbackContext) -> str:
     return log
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -404,13 +398,13 @@ __help__ = """
  • `/kick <userhandle>`*:* same as punch
 """
 
-BAN_HANDLER = DisableAbleCommandHandler(["ban", "sban"], ban)
-TEMPBAN_HANDLER = DisableAbleCommandHandler(["tban"], temp_ban)
-PUNCH_HANDLER = DisableAbleCommandHandler(["punch", "kick"], punch)
-UNBAN_HANDLER = DisableAbleCommandHandler("unban", unban)
-ROAR_HANDLER = DisableAbleCommandHandler("roar", selfunban)
+BAN_HANDLER = DisableAbleCommandHandler(["ban", "sban"], ban, run_async=True)
+TEMPBAN_HANDLER = DisableAbleCommandHandler(["tban"], temp_ban, run_async=True)
+PUNCH_HANDLER = DisableAbleCommandHandler(["punch", "kick"], punch, run_async=True)
+UNBAN_HANDLER = DisableAbleCommandHandler("unban", unban, run_async=True)
+ROAR_HANDLER = DisableAbleCommandHandler("roar", selfunban, run_async=True)
 PUNCHME_HANDLER = DisableAbleCommandHandler(
-    ["punchme", "kickme"], punchme, filters=Filters.group
+    ["punchme", "kickme"], punchme, filters=Filters.chat_type.groups, run_async=True
 )
 
 dispatcher.add_handler(BAN_HANDLER)

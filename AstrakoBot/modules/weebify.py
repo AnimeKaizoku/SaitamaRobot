@@ -61,7 +61,6 @@ weebyfont = [
 ]
 
 
-@run_async
 def weebify(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
@@ -88,7 +87,7 @@ def weebify(update: Update, context: CallbackContext):
         message.reply_text(string)
 
 
-WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify)
+WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify, run_async=True)
 
 dispatcher.add_handler(WEEBIFY_HANDLER)
 

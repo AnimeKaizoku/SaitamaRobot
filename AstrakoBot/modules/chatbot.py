@@ -26,7 +26,6 @@ CoffeeHouseAPI = API(AI_API_KEY)
 api_client = LydiaAI(CoffeeHouseAPI)
 
 
-@run_async
 @user_admin
 @gloggable
 def add_chat(update: Update, context: CallbackContext):
@@ -56,7 +55,6 @@ def add_chat(update: Update, context: CallbackContext):
         return ""
 
 
-@run_async
 @user_admin
 @gloggable
 def remove_chat(update: Update, context: CallbackContext):
@@ -89,7 +87,6 @@ def check_message(context: CallbackContext, message):
         return False
 
 
-@run_async
 def chatbot(update: Update, context: CallbackContext):
     global api_client
     msg = update.effective_message
@@ -123,7 +120,6 @@ def chatbot(update: Update, context: CallbackContext):
             #                 f"Chatbot error: {e} occurred in {chat_id}!")
 
 
-@run_async
 def list_chatbot_chats(update: Update, context: CallbackContext):
     chats = sql.get_all_chats()
     text = "<b>AI-Enabled Chats</b>\n"
@@ -153,15 +149,16 @@ Reports bugs at @{SUPPORT_CHAT}
 *Powered by CoffeeHouse* (https://coffeehouse.intellivoid.net/) from @Intellivoid
 """
 
-ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat)
-REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat)
+ADD_CHAT_HANDLER = CommandHandler("addchat", add_chat, run_async=True)
+REMOVE_CHAT_HANDLER = CommandHandler("rmchat", remove_chat, run_async=True)
 CHATBOT_HANDLER = MessageHandler(
     Filters.text
     & (~Filters.regex(r"^#[^\s]+") & ~Filters.regex(r"^!") & ~Filters.regex(r"^\/")),
     chatbot,
+    run_async=True
 )
 LIST_CB_CHATS_HANDLER = CommandHandler(
-    "listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter
+    "listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter, run_async=True
 )
 # Filters for ignoring #note messages, !commands and sed.
 

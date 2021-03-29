@@ -20,7 +20,6 @@ REPORT_GROUP = 12
 REPORT_IMMUNE_USERS = DRAGONS + WOLVES
 
 
-@run_async
 @user_admin
 def report_setting(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -65,7 +64,6 @@ def report_setting(update: Update, context: CallbackContext):
             )
 
 
-@run_async
 @user_not_admin
 @loggable
 def report(update: Update, context: CallbackContext) -> str:
@@ -274,8 +272,8 @@ __help__ = """
    • If in group, toggles that groups's status.
 """
 
-SETTING_HANDLER = CommandHandler("reports", report_setting)
-REPORT_HANDLER = CommandHandler("report", report, filters=Filters.group)
+SETTING_HANDLER = CommandHandler("reports", report_setting, run_async=True)
+REPORT_HANDLER = CommandHandler("report", report, filters=Filters.chat_type.groups, run_async=True)
 ADMIN_REPORT_HANDLER = MessageHandler(Filters.regex(r"(?i)@admin(s)?"), report)
 
 REPORT_BUTTON_USER_HANDLER = CallbackQueryHandler(buttons, pattern=r"report_")

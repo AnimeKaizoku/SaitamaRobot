@@ -46,7 +46,6 @@ def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
     return None
 
 
-@run_async
 @connection_status
 @bot_admin
 @user_admin
@@ -88,7 +87,7 @@ def mute(update: Update, context: CallbackContext) -> str:
         )
         if reason:
             reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
-        bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML, quote=False)
+        bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML)
         return log
 
     else:
@@ -97,7 +96,6 @@ def mute(update: Update, context: CallbackContext) -> str:
     return ""
 
 
-@run_async
 @connection_status
 @bot_admin
 @user_admin
@@ -160,7 +158,6 @@ def unmute(update: Update, context: CallbackContext) -> str:
     return ""
 
 
-@run_async
 @connection_status
 @bot_admin
 @can_restrict
@@ -221,7 +218,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
             )
             if reason:
                 reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
-            bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML, quote=False)
+            bot.sendMessage(chat.id, reply, parse_mode=ParseMode.HTML)
             return log
         else:
             message.reply_text("This user is already muted.")
@@ -252,9 +249,9 @@ __help__ = """
  • `/unmute <userhandle>`*:* unmutes a user. Can also be used as a reply, muting the replied to user.
 """
 
-MUTE_HANDLER = CommandHandler("mute", mute)
-UNMUTE_HANDLER = CommandHandler("unmute", unmute)
-TEMPMUTE_HANDLER = CommandHandler(["tmute", "tempmute"], temp_mute)
+MUTE_HANDLER = CommandHandler("mute", mute, run_async=True)
+UNMUTE_HANDLER = CommandHandler("unmute", unmute, run_async=True)
+TEMPMUTE_HANDLER = CommandHandler(["tmute", "tempmute"], temp_mute, run_async=True)
 
 dispatcher.add_handler(MUTE_HANDLER)
 dispatcher.add_handler(UNMUTE_HANDLER)

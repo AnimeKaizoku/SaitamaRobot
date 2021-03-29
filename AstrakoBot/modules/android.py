@@ -11,7 +11,6 @@ from ujson import loads
 from AstrakoBot import dispatcher
 
 
-@run_async
 def magisk(update: Update, context: CallbackContext):
     link = "https://raw.githubusercontent.com/topjohnwu/magisk_files/"
     bot = context.bot
@@ -39,7 +38,6 @@ def magisk(update: Update, context: CallbackContext):
     )
 
 
-@run_async
 def orangefox(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -89,7 +87,6 @@ def orangefox(update: Update, context: CallbackContext):
     )
 
 
-@run_async
 def twrp(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -131,9 +128,9 @@ __help__ = """
 *TWRP:* 
 • `/twrp <devicecodename>`: fetches lastest TWRP available for a given device codename
 """
-magisk_handler = CommandHandler(["magisk", "root", "su"], magisk)
-orangefox_handler = CommandHandler(["ofox", "orangefox"], orangefox)
-twrp_handler = CommandHandler("twrp", twrp)
+magisk_handler = CommandHandler(["magisk", "root", "su"], magisk, run_async=True)
+orangefox_handler = CommandHandler(["ofox", "orangefox"], orangefox, run_async=True)
+twrp_handler = CommandHandler("twrp", twrp, run_async=True)
 
 dispatcher.add_handler(magisk_handler)
 dispatcher.add_handler(orangefox_handler)

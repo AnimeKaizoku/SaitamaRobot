@@ -9,7 +9,6 @@ from telegram.ext import CallbackContext, run_async
 from AstrakoBot import WEATHER_API, dispatcher
 
 
-@run_async
 def get_tz(con):
     for c_code in c_n:
         if con == c_n[c_code]:
@@ -21,7 +20,6 @@ def get_tz(con):
         return
 
 
-@run_async
 def weather(update: Update, context: CallbackContext):
     bot = context.bot
     message = update.effective_message
@@ -140,7 +138,7 @@ def weather(update: Update, context: CallbackContext):
             )
 
 
-WEATHER_HANDLER = CommandHandler(["weather"], weather)
+WEATHER_HANDLER = CommandHandler(["weather"], weather, run_async=True)
 dispatcher.add_handler(WEATHER_HANDLER)
 
 

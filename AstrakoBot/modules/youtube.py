@@ -8,7 +8,7 @@ from youtubesearchpython import SearchVideos
 
 from youtube_dl import YoutubeDL
 
-@run_async
+
 def youtube(update: Update, context: CallbackContext):
     bot = context.bot
     message = update.effective_message
@@ -132,7 +132,7 @@ def youtube_callback(update: Update, context: CallbackContext):
 
 
 
-YOUTUBE_HANDLER = DisableAbleCommandHandler(["youtube", "yt"], youtube)
+YOUTUBE_HANDLER = DisableAbleCommandHandler(["youtube", "yt"], youtube, run_async = True)
 YOUTUBE_CALLBACKHANDLER = CallbackQueryHandler(
     youtube_callback, pattern="youtube*", run_async=True
 )

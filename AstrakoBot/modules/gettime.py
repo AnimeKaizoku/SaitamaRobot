@@ -1,7 +1,7 @@
 import datetime
 from typing import List
 
-import requests
+from requests import get
 from AstrakoBot import TIME_API_KEY, dispatcher
 from AstrakoBot.modules.disable import DisableAbleCommandHandler
 from telegram import ParseMode, Update
@@ -9,7 +9,7 @@ from telegram.ext import CallbackContext, run_async
 
 
 def generate_time(to_find: str, findtype: List[str]) -> str:
-    data = requests.get(
+    data = get(
         f"https://api.timezonedb.com/v2.1/list-time-zone"
         f"?key={TIME_API_KEY}"
         f"&format=json"
@@ -58,7 +58,6 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
     return result
 
 
-@run_async
 def gettime(update: Update, context: CallbackContext):
     message = update.effective_message
 
@@ -98,7 +97,7 @@ __help__ = """
 • 🕐 [Timezones list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 """
 
-TIME_HANDLER = DisableAbleCommandHandler("time", gettime)
+TIME_HANDLER = DisableAbleCommandHandler("time", gettime, run_async=True)
 
 dispatcher.add_handler(TIME_HANDLER)
 

@@ -4,7 +4,6 @@ from telegram import Update
 from telegram.ext import CallbackContext, run_async
 
 
-@run_async
 def shout(update: Update, context: CallbackContext):
     args = context.args
     text = " ".join(args)
@@ -19,7 +18,7 @@ def shout(update: Update, context: CallbackContext):
     return update.effective_message.reply_text(msg, parse_mode="MARKDOWN")
 
 
-SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout)
+SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout, run_async=True)
 
 dispatcher.add_handler(SHOUT_HANDLER)
 

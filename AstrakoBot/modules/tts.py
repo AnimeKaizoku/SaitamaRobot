@@ -27,7 +27,6 @@ from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import mention_html
 
 
-@run_async
 def tts(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
@@ -58,7 +57,7 @@ def tts(update: Update, context: CallbackContext):
     os.remove("k.mp3")
 
 
-TTS_HANDLER = DisableAbleCommandHandler("tts", tts, pass_args=True)
+TTS_HANDLER = DisableAbleCommandHandler("tts", tts, run_async=True)
 dispatcher.add_handler(TTS_HANDLER)
 
 __handlers__ = [TTS_HANDLER]

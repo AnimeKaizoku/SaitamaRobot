@@ -11,7 +11,6 @@ def convert(speed):
 
 
 @dev_plus
-@run_async
 def speedtestxyz(update: Update, context: CallbackContext):
     buttons = [
         [
@@ -24,7 +23,6 @@ def speedtestxyz(update: Update, context: CallbackContext):
     )
 
 
-@run_async
 def speedtestxyz_callback(update: Update, context: CallbackContext):
     query = update.callback_query
 
@@ -51,9 +49,9 @@ def speedtestxyz_callback(update: Update, context: CallbackContext):
         query.answer("You are required to be a developer user to use this command.")
 
 
-SPEED_TEST_HANDLER = DisableAbleCommandHandler("speedtest", speedtestxyz)
+SPEED_TEST_HANDLER = DisableAbleCommandHandler("speedtest", speedtestxyz, run_async=True)
 SPEED_TEST_CALLBACKHANDLER = CallbackQueryHandler(
-    speedtestxyz_callback, pattern="speedtest_.*"
+    speedtestxyz_callback, pattern="speedtest_.*", run_async=True
 )
 
 dispatcher.add_handler(SPEED_TEST_HANDLER)

@@ -3,7 +3,7 @@ import re
 
 from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update, Bot
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
+from telegram.ext import CommandHandler, CallbackQueryHandler, CallbackContext, run_async
 
 import AstrakoBot.modules.sql.connection_sql as sql
 from AstrakoBot import dispatcher, DRAGONS, DEV_USERS
@@ -14,9 +14,8 @@ user_admin = chat_status.user_admin
 
 
 @user_admin
-@run_async
 @typing_action
-def allow_connections(update, context) -> str:
+def allow_connections(update: Update, context: CallbackContext) -> str:
 
     chat = update.effective_chat
     args = context.args
@@ -62,9 +61,8 @@ def allow_connections(update, context) -> str:
         )
 
 
-@run_async
 @typing_action
-def connection_chat(update, context):
+def connection_chat(update: Update, context: CallbackContext):
 
     chat = update.effective_chat
     user = update.effective_user
@@ -87,9 +85,8 @@ def connection_chat(update, context):
     send_message(update.effective_message, message, parse_mode="markdown")
 
 
-@run_async
 @typing_action
-def connect_chat(update, context):
+def connect_chat(update: Update, context: CallbackContext):
 
     chat = update.effective_chat
     user = update.effective_user
@@ -248,7 +245,7 @@ def connect_chat(update, context):
             )
 
 
-def disconnect_chat(update, context):
+def disconnect_chat(update: Update, context: CallbackContext):
 
     if update.effective_chat.type == "private":
         disconnection_status = sql.disconnect(update.effective_message.from_user.id)
@@ -318,8 +315,7 @@ CONN_HELP = """
  • More in future!"""
 
 
-@run_async
-def help_connect_chat(update, context):
+def help_connect_chat(update: Update, context: CallbackContext):
 
     args = context.args
 
@@ -330,8 +326,7 @@ def help_connect_chat(update, context):
         send_message(update.effective_message, CONN_HELP, parse_mode="markdown")
 
 
-@run_async
-def connect_button(update, context):
+def connect_button(update: Update, context: CallbackContext):
 
     query = update.callback_query
     chat = update.effective_chat
@@ -402,14 +397,14 @@ This allows you to connect to a chat's database, and add things to it without th
  • `/allowconnect <yes/no>`: allow a user to connect to a chat
 """
 
-CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat, pass_args=True)
-CONNECTION_CHAT_HANDLER = CommandHandler("connection", connection_chat)
-DISCONNECT_CHAT_HANDLER = CommandHandler("disconnect", disconnect_chat)
+CONNECT_CHAT_HANDLER = CommandHandler("connect", connect_chat, run_async=True)
+CONNECTION_CHAT_HANDLER = CommandHandler("connection", connection_chat, run_async=True)
+DISCONNECT_CHAT_HANDLER = CommandHandler("disconnect", disconnect_chat, run_async=True)
 ALLOW_CONNECTIONS_HANDLER = CommandHandler(
-    "allowconnect", allow_connections, pass_args=True
+    "allowconnect", allow_connections, run_async=True
 )
 HELP_CONNECT_CHAT_HANDLER = CommandHandler("helpconnect", help_connect_chat)
-CONNECT_BTN_HANDLER = CallbackQueryHandler(connect_button, pattern=r"connect")
+CONNECT_BTN_HANDLER = CallbackQueryHandler(connect_button, pattern=r"connect", run_async=True)
 
 dispatcher.add_handler(CONNECT_CHAT_HANDLER)
 dispatcher.add_handler(CONNECTION_CHAT_HANDLER)

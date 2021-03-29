@@ -7,7 +7,6 @@ from AstrakoBot import dispatcher
 from AstrakoBot.modules.disable import DisableAbleCommandHandler
 
 
-@run_async
 def lyrics(update: Update, context: CallbackContext):
     bot = context.bot
     msg = update.effective_message
@@ -37,6 +36,6 @@ def lyrics(update: Update, context: CallbackContext):
             msg.reply_text(reply)
 
 
-LYRICS_HANDLER = DisableAbleCommandHandler("lyrics", lyrics, pass_args=True)
+LYRICS_HANDLER = DisableAbleCommandHandler("lyrics", lyrics, run_async=True)
 
 dispatcher.add_handler(LYRICS_HANDLER)

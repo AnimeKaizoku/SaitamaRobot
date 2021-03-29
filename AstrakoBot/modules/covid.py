@@ -6,7 +6,6 @@ from telegram.ext import CallbackContext, run_async
 from AstrakoBot import dispatcher
 
 
-@run_async
 def covid(update: Update, context: CallbackContext):
     bot = context.bot
     message = update.effective_message
@@ -36,7 +35,7 @@ def covid(update: Update, context: CallbackContext):
     )
 
 
-covid_handler = CommandHandler(["covid"], covid)
+covid_handler = CommandHandler(["covid"], covid, run_async=True)
 dispatcher.add_handler(covid_handler)
 
 
