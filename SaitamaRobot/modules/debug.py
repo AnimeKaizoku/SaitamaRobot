@@ -45,7 +45,7 @@ async def i_do_nothing_yes(event):
         else:
             with open("updates.txt", "w+") as f:
                 f.write(
-                    f"- {event.from_id} ({event.chat_id}) : {event.text} | {datetime.datetime.now()}"
+                    f"- {event.from_id} ({event.chat_id}) : {event.text} | {datetime.datetime.now()}",
                 )
 
 

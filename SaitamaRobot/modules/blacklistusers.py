@@ -122,7 +122,7 @@ def bl_users(update: Update, context: CallbackContext):
 
         if reason:
             users.append(
-                f"• {mention_html(user.id, html.escape(user.first_name))} :- {reason}"
+                f"• {mention_html(user.id, html.escape(user.first_name))} :- {reason}",
             )
         else:
             users.append(f"• {mention_html(user.id, html.escape(user.first_name))}")

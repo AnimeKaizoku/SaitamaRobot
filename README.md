@@ -2,7 +2,7 @@
   <img src="https://wallpaperscave.com/images/original/18/04-25/anime-one-punch-man-44886.jpg">
 </p>
 
-# Saitama Robot 
+# Saitama Robot
 
 <p align="center">
 - x -|│  “	Just some code who is a bot for fun. ”  │| - x -
@@ -48,5 +48,5 @@ Saitama is a simple one-punch solution to your group management needs and has be
 Should you be forking this repo then do not forget to star it - <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/animekaizoku/saitamarobot?color=white&label=%F0%9F%8C%9F%20star">
 
 ## Credits 📍
-* Well, it's all in the commit history 
+* Well, it's all in the commit history
 Feel free to open pull requests should any be missing.

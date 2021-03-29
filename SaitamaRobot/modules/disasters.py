@@ -95,8 +95,8 @@ def addsudo(update: Update, context: CallbackContext) -> str:
     update.effective_message.reply_text(
         rt
         + "\nSuccessfully set Disaster level of {} to Dragon!".format(
-            user_member.first_name
-        )
+            user_member.first_name,
+        ),
     )
 
     log_message = (
@@ -155,7 +155,7 @@ def addsupport(
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\n{user_member.first_name} was added as a Demon Disaster!"
+        rt + f"\n{user_member.first_name} was added as a Demon Disaster!",
     )
 
     log_message = (
@@ -211,7 +211,7 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to a Wolf Disaster!"
+        rt + f"\nSuccessfully promoted {user_member.first_name} to a Wolf Disaster!",
     )
 
     log_message = (
@@ -272,7 +272,7 @@ def addtiger(update: Update, context: CallbackContext) -> str:
         json.dump(data, outfile, indent=4)
 
     update.effective_message.reply_text(
-        rt + f"\nSuccessfully promoted {user_member.first_name} to a Tiger Disaster!"
+        rt + f"\nSuccessfully promoted {user_member.first_name} to a Tiger Disaster!",
     )
 
     log_message = (
@@ -462,7 +462,7 @@ def removetiger(update: Update, context: CallbackContext) -> str:
 def whitelistlist(update: Update, context: CallbackContext):
     reply = "<b>Known Wolf Disasters 🐺:</b>\n"
     m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML,
     )
     bot = context.bot
     for each_user in WOLVES:
@@ -481,7 +481,7 @@ def whitelistlist(update: Update, context: CallbackContext):
 def tigerlist(update: Update, context: CallbackContext):
     reply = "<b>Known Tiger Disasters 🐯:</b>\n"
     m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML,
     )
     bot = context.bot
     for each_user in TIGERS:
@@ -499,7 +499,7 @@ def tigerlist(update: Update, context: CallbackContext):
 def supportlist(update: Update, context: CallbackContext):
     bot = context.bot
     m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML,
     )
     reply = "<b>Known Demon Disasters 👹:</b>\n"
     for each_user in DEMONS:
@@ -517,7 +517,7 @@ def supportlist(update: Update, context: CallbackContext):
 def sudolist(update: Update, context: CallbackContext):
     bot = context.bot
     m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML,
     )
     true_sudo = list(set(DRAGONS) - set(DEV_USERS))
     reply = "<b>Known Dragon Disasters 🐉:</b>\n"
@@ -536,7 +536,7 @@ def sudolist(update: Update, context: CallbackContext):
 def devlist(update: Update, context: CallbackContext):
     bot = context.bot
     m = update.effective_message.reply_text(
-        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML
+        "<code>Gathering intel..</code>", parse_mode=ParseMode.HTML,
     )
     true_dev = list(set(DEV_USERS) - {OWNER_ID})
     reply = "<b>Hero Association Members ⚡️:</b>\n"
@@ -553,7 +553,7 @@ def devlist(update: Update, context: CallbackContext):
 __help__ = f"""
 *⚠️ Notice:*
 Commands listed here only work for users with special access are mainly used for troubleshooting, debugging purposes.
-Group admins/group owners do not need these commands. 
+Group admins/group owners do not need these commands.
 
  ╔ *List all special users:*
  ╠ `/dragons`*:* Lists all Dragon disasters
@@ -584,8 +584,8 @@ Group admins/group owners do not need these commands.
  ╠ `/getchats`*:* Gets a list of group names the user has been seen in. Bot owner only
  ╚ `/ginfo username/link/ID`*:* Pulls info panel for entire group
 
- ╔ *Access control:* 
- ╠ `/ignore`*:* Blacklists a user from 
+ ╔ *Access control:*
+ ╠ `/ignore`*:* Blacklists a user from
  ╠  using the bot entirely
  ╠ `/lockdown <off/on>`*:* Toggles bot adding to groups
  ╠ `/notice`*:* Removes user from blacklist
@@ -605,10 +605,10 @@ Group admins/group owners do not need these commands.
 
  ╔ *Module loading:*
  ╠ `/listmodules`*:* Lists names of all modules
- ╠ `/load modulename`*:* Loads the said module to 
+ ╠ `/load modulename`*:* Loads the said module to
  ╠   memory without restarting.
  ╠ `/unload modulename`*:* Loads the said module from
- ╚   memory without restarting.memory without restarting the bot 
+ ╚   memory without restarting.memory without restarting the bot
 
  ╔ *Remote commands:*
  ╠ `/rban user group`*:* Remote ban
@@ -621,10 +621,10 @@ Group admins/group owners do not need these commands.
  ╠ `/reboot`*:* Restarts the bots service
  ╚ `/gitpull`*:* Pulls the repo and then restarts the bots service
 
- ╔ *Chatbot:* 
+ ╔ *Chatbot:*
  ╚ `/listaichats`*:* Lists the chats the chatmode is enabled in
- 
- ╔ *Debugging and Shell:* 
+
+ ╔ *Debugging and Shell:*
  ╠ `/debug <on/off>`*:* Logs commands to updates.txt
  ╠ `/logs`*:* Run this in support group to get logs in pm
  ╠ `/eval`*:* Self explanatory
@@ -633,7 +633,7 @@ Group admins/group owners do not need these commands.
  ╠ `/clearlocals`*:* As the name goes
  ╠ `/dbcleanup`*:* Removes deleted accs and groups from db
  ╚ `/py`*:* Runs python code
- 
+
  ╔ *Global Bans:*
  ╠ `/gban <id> <reason>`*:* Gbans the user, works by reply too
  ╠ `/ungban`*:* Ungbans the user, same usage as gban

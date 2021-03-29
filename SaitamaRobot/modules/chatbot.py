@@ -144,7 +144,7 @@ def list_chatbot_chats(update: Update, context: CallbackContext):
 __help__ = f"""
 Chatbot utilizes the CoffeeHouse API and allows Saitama to talk and provides a more interactive group chat experience.
 
-*Commands:* 
+*Commands:*
 *Admins only:*
  • `/addchat`*:* Enables Chatbot mode in the chat.
  • `/rmchat`*:* Disables Chatbot mode in the chat.
@@ -161,7 +161,7 @@ CHATBOT_HANDLER = MessageHandler(
     chatbot,
 )
 LIST_CB_CHATS_HANDLER = CommandHandler(
-    "listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter
+    "listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter,
 )
 # Filters for ignoring #note messages, !commands and sed.
 

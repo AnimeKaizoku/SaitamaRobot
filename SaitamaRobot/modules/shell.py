@@ -17,7 +17,7 @@ def shell(update: Update, context: CallbackContext):
         return
     cmd = cmd[1]
     process = subprocess.Popen(
-        cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+        cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True,
     )
     stdout, stderr = process.communicate()
     reply = ""

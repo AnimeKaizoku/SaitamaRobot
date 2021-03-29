@@ -20,7 +20,7 @@ class StickersFilters(BASE):
         return bool(
             isinstance(other, StickersFilters)
             and self.chat_id == other.chat_id
-            and self.trigger == other.trigger
+            and self.trigger == other.trigger,
         )
 
 
@@ -37,7 +37,7 @@ class StickerSettings(BASE):
 
     def __repr__(self):
         return "<{} will executing {} for blacklist trigger.>".format(
-            self.chat_id, self.blacklist_type
+            self.chat_id, self.blacklist_type,
         )
 
 
@@ -123,7 +123,7 @@ def set_blacklist_strength(chat_id, blacklist_type, value):
         curr_setting = SESSION.query(StickerSettings).get(str(chat_id))
         if not curr_setting:
             curr_setting = StickerSettings(
-                chat_id, blacklist_type=int(blacklist_type), value=value
+                chat_id, blacklist_type=int(blacklist_type), value=value,
             )
 
         curr_setting.blacklist_type = int(blacklist_type)

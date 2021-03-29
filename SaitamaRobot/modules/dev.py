@@ -40,7 +40,7 @@ def leave(update: Update, context: CallbackContext):
             bot.leave_chat(int(chat_id))
         except TelegramError:
             update.effective_message.reply_text(
-                "Beep boop, I could not leave that group(dunno why tho)."
+                "Beep boop, I could not leave that group(dunno why tho).",
             )
             return
         with suppress(Unauthorized):
@@ -53,7 +53,7 @@ def leave(update: Update, context: CallbackContext):
 @dev_plus
 def gitpull(update: Update, context: CallbackContext):
     sent_msg = update.effective_message.reply_text(
-        "Pulling all changes from remote and then attempting to restart."
+        "Pulling all changes from remote and then attempting to restart.",
     )
     subprocess.Popen("git pull", stdout=subprocess.PIPE, shell=True)
 
@@ -73,7 +73,7 @@ def gitpull(update: Update, context: CallbackContext):
 @dev_plus
 def restart(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
-        "Starting a new instance and shutting down this one"
+        "Starting a new instance and shutting down this one",
     )
 
     os.system("restart.bat")

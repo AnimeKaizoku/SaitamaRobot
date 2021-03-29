@@ -47,7 +47,7 @@ def get_user_common_chats(update: Update, context: CallbackContext):
 
 
 COMMON_CHATS_HANDLER = CommandHandler(
-    "getchats", get_user_common_chats, filters=Filters.user(OWNER_ID)
+    "getchats", get_user_common_chats, filters=Filters.user(OWNER_ID),
 )
 
 dispatcher.add_handler(COMMON_CHATS_HANDLER)

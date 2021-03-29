@@ -29,7 +29,7 @@ class CustomFilters(object):
 
         def filter(self, message: Message):
             return bool(
-                message.document and message.document.mime_type == self.mime_type
+                message.document and message.document.mime_type == self.mime_type,
             )
 
     mime_type = _MimeType
@@ -41,7 +41,7 @@ class CustomFilters(object):
                 or message.sticker
                 or message.photo
                 or message.document
-                or message.video
+                or message.video,
             )
 
     has_text = _HasText()
