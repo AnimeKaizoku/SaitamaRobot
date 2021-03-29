@@ -1,5 +1,5 @@
 {
-      "name": "SaitamaRobot",
+      "name": "SaitamaRobotx",
       "description": "An Anime themed Telegram group management bot.",
       "keywords": [
          "telegram",
@@ -8,7 +8,7 @@
          "manager",
          "Saitama"
       ],   
-   "repository": "https://github.com/AnimeKaizoku/SaitamaRobot",
+   "repository": "https://github.com/FaridDadashzade/SaitamaRobot/tree/shiken",
    "addons": [
       {
          "options": {
