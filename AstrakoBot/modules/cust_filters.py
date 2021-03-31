@@ -369,14 +369,24 @@ def reply_filter(update: Update, context: CallbackContext):
 
                 if filt.file_type in (sql.Types.BUTTON_TEXT, sql.Types.TEXT):
                     try:
-                        context.bot.send_message(
-                            chat.id,
-                            markdown_to_html(filtext),
-                            reply_to_message_id=message.message_id,
-                            parse_mode=ParseMode.HTML,
-                            disable_web_page_preview=True,
-                            reply_markup=keyboard,
-                        )
+                        if message.reply_to_message:
+                            context.bot.send_message(
+                                chat.id,
+                                markdown_to_html(filtext),
+                                reply_to_message_id=message.reply_to_message.message_id,
+                                parse_mode=ParseMode.HTML,
+                                disable_web_page_preview=True,
+                                reply_markup=keyboard,
+                            )
+                        else:
+                            context.bot.send_message(
+                                chat.id,
+                                markdown_to_html(filtext),
+                                reply_to_message_id=message.message_id,
+                                parse_mode=ParseMode.HTML,
+                                disable_web_page_preview=True,
+                                reply_markup=keyboard,
+                            )
                     except BadRequest as excp:
                         error_catch = get_exception(excp, filt, chat)
                         if error_catch == "noreply":
@@ -407,12 +417,20 @@ def reply_filter(update: Update, context: CallbackContext):
                                 pass
                 else:
                     try:
-                        ENUM_FUNC_MAP[filt.file_type](
-                            chat.id,
-                            filt.file_id,
-                            reply_to_message_id=message.message_id,
-                            reply_markup=keyboard,
-                        )
+                        if message.reply_to_message:
+                            ENUM_FUNC_MAP[filt.file_type](
+                                chat.id,
+                                filt.file_id,
+                                reply_to_message_id=message.reply_to_message.message_id,
+                                reply_markup=keyboard,
+                            )
+                        else:
+                            ENUM_FUNC_MAP[filt.file_type](
+                                chat.id,
+                                filt.file_id,
+                                reply_to_message_id=message.message_id,
+                                reply_markup=keyboard,
+                            )
                     except BadRequest:
                         send_message(
                             message,
