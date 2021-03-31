@@ -384,7 +384,7 @@ def clearall_btn(update: Update, context: CallbackContext):
 
 @connection_status
 def list_notes(update: Update, context: CallbackContext):
-    bot = dispatcher.bot
+    bot = context.bot
     user = update.effective_user
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
