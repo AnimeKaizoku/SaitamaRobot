@@ -430,10 +430,6 @@ Group admins/group owners do not need these commands.
 • `/addwhitelist`*:* Adds a user as whitelist
 • `Add dev doesnt exist, devs should know how to add themselves`
 
-*Ping:*
-• `/ping`*:* gets ping time of bot to telegram server
-• `/pingall`*:* gets all listed ping times
-
 *Broadcast: (Bot owner only)*
 • *Note:* This supports basic markdown
 • `/broadcastall`*:* Broadcasts everywhere
@@ -453,8 +449,11 @@ Group admins/group owners do not need these commands.
 • `/notice`*:* Removes user from blacklist
 • `/ignoredlist`*:* Lists ignored users
 
-*Speedtest:*
-• `/speedtest`*:* Runs a speedtest and gives you 2 options to choose from, text or image output
+*Sys tools:* 
+• `/ip`*:* gets bot connection ip (bot owner only)
+• `/ping`*:* gets ping time of bot to telegram server
+• `/speedtest`*:* runs a speedtest and gives you 2 options to choose from, text or image output
+• `/status`*:* gets some system info
 
 *Global Bans:*
 • `/gban <id> <reason>`*:* Gbans the user, works by reply too
@@ -485,7 +484,7 @@ Group admins/group owners do not need these commands.
 • `/debug <on/off>`*:* Logs commands to updates.txt
 • `/logs`*:* Run this in support group to get logs in pm
 • `/eval`*:* Self explanatory
-• `/sh`*:* Runs shell command (Bot owner only)
+• `/sh`*:* Runs shell command (bot owner only)
 • `/py`*:* Runs python code (bot owner only)
 • `/clearlocals`*:* As the name goes
 • `/dbcleanup`*:* Removes deleted accs and groups from db
