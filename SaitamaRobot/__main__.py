@@ -11,7 +11,6 @@ from SaitamaRobot import (
     LOGGER,
     OWNER_ID,
     PORT,
-    SUPPORT_CHAT,
     TOKEN,
     URL,
     WEBHOOK,
@@ -19,8 +18,7 @@ from SaitamaRobot import (
     dispatcher,
     StartTime,
     telethn,
-    updater,
-)
+    updater)
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
