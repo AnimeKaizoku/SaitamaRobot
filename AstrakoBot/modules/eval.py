@@ -7,7 +7,7 @@ import traceback
 from contextlib import redirect_stdout
 
 from AstrakoBot import LOGGER, dispatcher
-from AstrakoBot.modules.helper_funcs.chat_status import dev_plus
+from AstrakoBot.modules.helper_funcs.chat_status import owner_plus
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler, run_async
 
@@ -48,13 +48,13 @@ def send(msg, bot, update):
         )
 
 
-@dev_plus
+@owner_plus
 def evaluate(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(eval, bot, update), bot, update)
 
 
-@dev_plus
+@owner_plus
 def execute(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(exec, bot, update), bot, update)
@@ -112,7 +112,7 @@ def do(func, bot, update):
             return result
 
 
-@dev_plus
+@owner_plus
 def clear(update: Update, context: CallbackContext):
     bot = context.bot
     log_input(update)

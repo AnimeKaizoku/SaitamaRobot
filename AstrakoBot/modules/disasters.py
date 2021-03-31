@@ -486,7 +486,7 @@ Group admins/group owners do not need these commands.
 • `/logs`*:* Run this in support group to get logs in pm
 • `/eval`*:* Self explanatory
 • `/sh`*:* Runs shell command (Bot owner only)
-• `/py`*:* Runs python code
+• `/py`*:* Runs python code (bot owner only)
 • `/clearlocals`*:* As the name goes
 • `/dbcleanup`*:* Removes deleted accs and groups from db
 
