@@ -4,6 +4,7 @@ from cachetools import TTLCache
 from threading import RLock
 from AstrakoBot import (
     DEL_CMDS,
+    OWNER_ID,
     DEV_USERS,
     DRAGONS,
     SUPPORT_CHAT,
@@ -93,6 +94,30 @@ def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -
 def is_user_in_chat(chat: Chat, user_id: int) -> bool:
     member = chat.get_member(user_id)
     return member.status not in ("left", "kicked")
+
+
+def owner_plus(func):
+    @wraps(func)
+    def is_owner_plus_func(update: Update, context: CallbackContext, *args, **kwargs):
+        bot = context.bot
+        user = update.effective_user
+
+        if user.id == OWNER_ID:
+            return func(update, context, *args, **kwargs)
+        elif not user:
+            pass
+        elif DEL_CMDS and " " not in update.effective_message.text:
+            try:
+                update.effective_message.delete()
+            except:
+                pass
+        else:
+            update.effective_message.reply_text(
+                "This is a restricted command."
+                " You do not have permissions to run this."
+            )
+
+    return is_owner_plus_func
 
 
 def dev_plus(func):
