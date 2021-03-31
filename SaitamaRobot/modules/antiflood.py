@@ -22,7 +22,7 @@ from telegram.ext import (
     MessageHandler,
     run_async,
 )
-from telegram.utils.helpers import mention_html, escape_markdown
+from telegram.utils.helpers import mention_html
 from SaitamaRobot.modules.helper_funcs.string_handling import extract_time
 from SaitamaRobot.modules.connection import connected
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
