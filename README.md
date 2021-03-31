@@ -1,39 +1,49 @@
 ![AstrakoBot](https://i.imgur.com/1oah5E2.jpg)
 # AstrakoBot 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/6141417ceaf84545bab6bd671503df51)](https://app.codacy.com/gh/AnimeKaizoku/AstrakoBot?utm_source=github.com&utm_medium=referral&utm_content=AnimeKaizoku/AstrakoBot&utm_campaign=Badge_Grade_Settings)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/Astrako/AstrakoBot/graphs/commit-activity) [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://perso.crans.org/besson/LICENSE.html) [![Open Source Love svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com) [![Updates channel!](https://img.shields.io/badge/Join%20Channel-!-red)](https://t.me/OnePunchUpdates)
-
+<p align="center">
+<a href="https://www.codacy.com/gh/Astrako/AstrakoBot/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Astrako/AstrakoBot&amp;utm_campaign=Badge_Grade" alt="Codacy Badge">
+<img src="https://app.codacy.com/project/badge/Grade/972e73015aaa4096bf109a79acae8afb" /> </a>
+<a href="https://github.com/Astrako/AstrakoBot" alt="Libraries.io dependency status for GitHub repo"> <img src="https://img.shields.io/librariesio/github/Astrako/AstrakoBot?style=flat&logo=github&color=red" /> </a>
+<a href="http://hits.dwyl.com/Astrako/AstrakoBot" alt="HitCount"> <img src="http://hits.dwyl.com/Astrako/AstrakoBot.svg" /> </a>
+<a href="https://github.com/Astrako/AstrakoBot/network/members" alt="GitHub stars"> <img src="https://img.shields.io/github/stars/Astrako/AstrakoBot?style=flat&logo=github&color=yellow" /> </a>
+<a href="https://github.com/Astrako/AstrakoBot/network/members" alt="GitHub forks"> <img src="https://img.shields.io/github/forks/Astrako/AstrakoBot" /> </a>
+</p>
+<p align="center">
+<a href="https://github.com/Astrako/AstrakoBot" alt="GitHub commit activity"> <img src="https://img.shields.io/github/commit-activity/m/Astrako/AstrakoBot" /> </a>
+<a href="https://github.com/Astrako/AstrakoBot/graphs/contributors" alt="GitHub contributors"> <img src="https://img.shields.io/github/contributors/Astrako/AstrakoBot?style=flat&logo=github" /> </a>
+<a href="https://github.com/Astrako/AstrakoBot" alt="GitHub closed pull requests"> <img src="https://img.shields.io/github/issues-pr-closed-raw/Astrako/AstrakoBot?color=success" /> </a>
+<a href="https://github.com/Astrako/AstrakoBot" alt="GitHub issues"> <img src="https://img.shields.io/github/issues-raw/Astrako/AstrakoBot?style=flat&logo=github&color=red" /> </a>
+<a href="https://github.com/Astrako/AstrakoBot" alt="GitHub closed issues"> <img src="https://img.shields.io/github/issues-closed-raw/Astrako/AstrakoBot?style=flat&logo=github&color=success" /> </a>
+</p>
+<p align="center">
+<a href="https://www.python.org/" alt="made-with-python"> <img src="https://img.shields.io/badge/made%20with-Python-1f425f.svg?style=flat&logo=python&color=blue" /> </a>
+<a href="https://github.com/Astrako/AstrakoBot" alt="GitHub repo size"> <img src="https://img.shields.io/github/repo-size/Astrako/AstrakoBot" /> </a>
+<a href="https://github.com/Astrako/AstrakoBot/blob/master/LICENSE" alt="GPLv3 license"> <img src="https://img.shields.io/github/license/Astrako/AstrakoBot?style=flat&logo=github&color=success" /> </a>
+</p>
+<p align="center">
+<a href="" alt="Astrako"> <img src="https://img.shields.io/badge/built%20by-Astrako-blue" /> </a>
+<a href="https://github.com/Astrako/AstrakoBot/graphs/commit-activity" alt="Maintenance"> <img src="https://img.shields.io/badge/maintained%3F-yes-blue.svg" /> </a>
+<a href="https://makeapullrequest.com" alt="PRs Welcome"> <img src="https://img.shields.io/badge/PRs-welcome-blue.svg" /> </a>
+</p>
 
 A modular Telegram Python bot running on python3 with a sqlalchemy database.
 
 Originally a SaitamaRobot fork, AstrakoBot evolved further and was built to be more robust. 
 
-Can be found on telegram as [AstrakoBot](https://t.me/AstrakoBot).
+* Bot link:  <a href="https://t.me/AstrakoBot" alt="AstrakoBot"> <img src="https://img.shields.io/badge/%F0%9F%A4%96%20-AstrakoBot-blue" /> </a>
 
-The Support group can be reached out to at [AstrakoBotSupport](https://t.me/AstrakoBotSupport), where you can ask for help about [AstrakoBot](https://t.me/AstrakoBot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+* Support group:  <a href="https://t.me/AstrakoBotSupport" alt="AstrakoBotSupport"> <img src="https://aleen42.github.io/badges/src/telegram.svg" /> </a>
 
-News channel as at [One Punch Updates](https://t.me/OnePunchUpdates) 
+In support group you can ask for help, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+
 
 ## How to setup/deploy.
 
 ### Read these notes carefully before proceeding 
  - Edit any mentions of @AstrakoBotSupport to your own support chat
- - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot [See this](https://github.com/AnimeKaizoku/SaitamaRobot/blob/shiken/SaitamaRobot/__main__.py#L25)
- - Lastly, if you are found to run this repo without the code being open sourced or the repository link not mentioned in the bot, we will push a gban for you in our network because of being in violation of the license, you are free to be a dick and not respect the open source code (we do not mind) but we will not be having you around our chats
+ - Your code must be open source and a link to your fork's repository must be there in the start reply of the bot
  - This repo does not come with technical support, so DO NOT come to us asking help about deploy/console errors
-
-<details>
-  <summary>Steps to deploy on Heroku !! </summary>
-
-```
-Fill in all the details, Deploy!
-Now go to https://dashboard.heroku.com/apps/(app-name)/resources ( Replace (app-name) with your app name )
-REMEMBER: Turn on worker dyno (Don't worry It's free :D) & Webhook
-Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.com/apps/(app-name)/settings and remove webhook and port.
-```
-
-  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Astrako/AstrakoBot.git)
-
-</details>  
+ 
 <details>
   <summary>Steps to self Host!! </summary>
 
@@ -168,17 +178,11 @@ Make sure to edit the start and restart bats to your needs.
 Note: the restart bat requires that User account control be disabled.
 
 For queries or any issues regarding the bot please open an issue ticket or visit us at [AstrakoBotSupport](https://t.me/AstrakoBotSupport)
-## How to setup on Heroku 
-For starters click on this button 
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Astrako/AstrakoBot.git) 
 
 
 ## Credits
-The bot is based on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
-This repo was just revamped to suit an Anime-centric community. All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
-
-Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (will add it later, this note says unless it is done)
+The bot is based on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars) and [AnimeKaizoku](https://github.com/AnimeKaizoku)
+All original credits go to Paul and AnimeKaizoku, Without their efforts, this fork would not have been possible!
 
 Any other authorship/credits can be seen through the commits.
 
