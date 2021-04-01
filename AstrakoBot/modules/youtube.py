@@ -20,8 +20,8 @@ def youtube(update: Update, context: CallbackContext):
         try:
             p = json.loads(test)
         except:
-            return update.effective_message.reply_text(
-                "`Failed to find song or video`", 
+            return message.reply_text(
+                "Failed to find song or video", 
                 parse_mode = ParseMode.MARKDOWN
             )
         
@@ -36,15 +36,15 @@ def youtube(update: Update, context: CallbackContext):
             ]
         ]
 
-        msg = f"*Preparing to upload file:*\n"
+        msg = "*Preparing to upload file:*\n"
         msg += f"`{title}`\n"
-        update.effective_message.reply_text(
+        message.reply_text(
             msg, 
             parse_mode=ParseMode.MARKDOWN,            
             reply_markup = InlineKeyboardMarkup(buttons)
         )
     else:
-        update.effective_message.reply_text("`Specify a song or video`"
+        message.reply_text("Specify a song or video"
         )
 
 
@@ -90,8 +90,8 @@ def youtube_callback(update: Update, context: CallbackContext):
                 title = str(rip_data['title']),
                 parse_mode = ParseMode.HTML)
             except:
-                return update.effective_message.reply_text(
-                    "Song is too large for processing"
+                message.reply_text(
+                    "Song is too large for processing, or any other error happened. Try again later"
                 )
 
     else:
@@ -121,8 +121,8 @@ def youtube_callback(update: Update, context: CallbackContext):
                 supports_streaming = True,
                 parse_mode = ParseMode.HTML)
             except:
-                return update.effective_message.reply_text(
-                    "Video is too large for processing"
+                message.reply_text(
+                    "Video is too large for processing, or any other error happened. Try again later"
                 )
 
     try:
