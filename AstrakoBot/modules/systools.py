@@ -148,10 +148,10 @@ def status(update: Update, context: CallbackContext):
 @owner_plus
 def get_bot_ip(update: Update, context: CallbackContext):
     message = update.effective_message
-    msg = requests.get("http://ipinfo.io/ip")
+    ip = requests.get("http://ipinfo.io/ip")
 
     delmsg = message.reply_text(
-        text = "*IP:*\n`{}`".format(msg.text),
+        text = f"*IP:* `{ip.text}`",
         parse_mode = ParseMode.MARKDOWN,
         disable_web_page_preview = True,
     )
@@ -172,8 +172,8 @@ def ping(update: Update, context: CallbackContext):
 
     delmsg = msg.edit_text(
         "*PONG!!*\n"
-        "Time Taken: `{}`\n"
-        "Service uptime: `{}`".format(telegram_ping, uptime),
+        f"Time Taken: `{telegram_ping}`\n"
+        f"Service uptime: `{uptime}`",
         parse_mode=ParseMode.MARKDOWN,
     )
 
