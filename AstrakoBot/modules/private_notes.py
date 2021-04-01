@@ -4,7 +4,6 @@ from telegram.ext import CommandHandler, CallbackContext, run_async
 import AstrakoBot.modules.sql.private_notes as sql
 from AstrakoBot import dispatcher
 from AstrakoBot.modules.helper_funcs.chat_status import user_admin
-from AstrakoBot.modules.helper_funcs.alternate import send_message
 
 
 @user_admin
@@ -12,39 +11,30 @@ def privatenotes(update: Update, context: CallbackContext):
     chat = update.effective_chat
     message = update.effective_message
     args = context.args
+    msg = ""
 
-    if update.effective_message.chat.type == "private":
-        send_message(
-            update.effective_message,
-            "This command is meant to use in group not in PM",
-        )
-        return ""
+    if message.chat.type == "private":
+        msg = "This command is meant to use in group not in PM"
 
-    if len(args) == 0:
+    elif len(args) == 0:
         setting = getprivatenotes(chat.id)
-        send_message(
-            update.effective_message, "Private notes value is {} in *{}*.".format(setting, chat.title),
-            parse_mode=ParseMode.MARKDOWN,
-        )
+        msg = f"Private notes value is *{setting}* in *{chat.title}*"
 
     elif len(args) >= 1:
         val = args[0].lower()
         if val in ["off", "no", "0", "disable", "false"]:
             setprivatenotes(chat.id, False)
-            send_message(
-                update.effective_message, "Private notes has been disabled in *{}*".format(chat.title),
-                parse_mode=ParseMode.MARKDOWN,
-            )
+            msg = f"Private notes has been disabled in *{chat.title}*"
         elif val in ["on", "yes", "1", "enable", "true"]:
             setprivatenotes(chat.id, True)
-            send_message(
-                update.effective_message, "Private notes has been enabled in *{}*".format(chat.title),
-                parse_mode=ParseMode.MARKDOWN,
-            )
+            msg = f"Private notes has been enabled in *{chat.title}*"
         else: 
-            send_message(
-                update.effective_message, "Sorry, wrong value"
-            )
+            msg = "Sorry, wrong value"
+
+    message.reply_text(
+        text = msg,
+        parse_mode = ParseMode.MARKDOWN
+    )
 
 def setprivatenotes(chat_id, setting):
     sql.set_private_notes(chat_id, setting)
