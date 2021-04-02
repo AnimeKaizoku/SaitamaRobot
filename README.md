@@ -42,6 +42,10 @@
 
 Saitama is a simple one-punch solution to your group management needs and has become one of the most prominently kanged bots around telegram, purely weeab themed.
 
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+
 * Bot Link:  <a href="https://t.me/SaitamaRobot" alt="Saitama Robot"> <img src="https://img.shields.io/badge/%F0%9F%A4%96%20-SaitamaRobot-blue" /> </a>
 * News channel: <a  href="https://t.me/OnePunchUpdates" alt="One Punch Updates"> <img  src="https://img.shields.io/badge/%F0%9F%92%A1-One%20Punch%20Updates-9cf" /> </a>
 
