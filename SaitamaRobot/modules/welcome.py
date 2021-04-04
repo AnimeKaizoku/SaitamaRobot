@@ -190,7 +190,7 @@ def new_member(update: Update, context: CallbackContext):
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
-                    "Oh, Genos? Let's get this moving.", reply_to_message_id=reply
+                    "Hey {mention}, Welcome To yar group, Sir", reply_to_message_id=reply
                 )
                 welcome_log = (
                     f"{html.escape(chat.title)}\n"
@@ -202,7 +202,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "Be cool! A member of the Heroes Association just joined.",
+                    "Hey {mention}, Welcome To yar group, Sir.",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -215,7 +215,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Sudos
             elif new_mem.id in DRAGONS:
                 update.effective_message.reply_text(
-                    "Whoa! A Dragon disaster just joined! Stay Alert!",
+                    "Hey {mention}, Welcome To yar group, Sir",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -228,7 +228,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Support
             elif new_mem.id in DEMONS:
                 update.effective_message.reply_text(
-                    "Huh! Someone with a Demon disaster level just joined!",
+                    "Hey {mention}, Welcome To yar group",
                     reply_to_message_id=reply,
                 )
                 welcome_log = (
@@ -241,7 +241,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Whitelisted
             elif new_mem.id in TIGERS:
                 update.effective_message.reply_text(
-                    "Roar! A Tiger disaster just joined!", reply_to_message_id=reply
+                    "Hey {mention}, Welcome To yar group", reply_to_message_id=reply
                 )
                 welcome_log = (
                     f"{html.escape(chat.title)}\n"
@@ -253,7 +253,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Tigers
             elif new_mem.id in WOLVES:
                 update.effective_message.reply_text(
-                    "Awoo! A Wolf disaster just joined!", reply_to_message_id=reply
+                    "Hey {mention}, Welcome To yar group", reply_to_message_id=reply
                 )
                 welcome_log = (
                     f"{html.escape(chat.title)}\n"
@@ -267,7 +267,7 @@ def new_member(update: Update, context: CallbackContext):
                 creator = None
                 if not SaitamaRobot.ALLOW_CHATS:
                     with suppress(BadRequest):
-                         update.effective_message.reply_text(f"Groups are disabled for {bot.first_name}, I'm outta here.")
+                         update.effective_message.reply_text(f"Groups are disabled for {bot.first_name}, I will be leaving.")
                     bot.leave_chat(update.effective_chat.id)
                     return
                 for x in bot.bot.get_chat_administrators(update.effective_chat.id):
@@ -291,7 +291,7 @@ def new_member(update: Update, context: CallbackContext):
                         parse_mode=ParseMode.HTML,
                     )
                 update.effective_message.reply_text(
-                    "Watashi ga kita!", reply_to_message_id=reply
+                    "Yes, How may I help you?", reply_to_message_id=reply
                 )
                 continue
 
@@ -497,7 +497,7 @@ def check_not_bot(member, chat_id, message_id, context):
 
         try:
             bot.edit_message_text(
-                "*kicks user*\nThey can always rejoin and try.",
+                "*kicks user* Rules are rules.",
                 chat_id=chat_id,
                 message_id=message_id,
             )
@@ -546,14 +546,14 @@ def left_member(update: Update, context: CallbackContext):
             # Give the owner a special goodbye
             if left_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
-                    "Oi! Genos! He left..", reply_to_message_id=reply
+                    "{mention} left the chat", reply_to_message_id=reply
                 )
                 return
 
             # Give the devs a special goodbye
             elif left_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "See you later at the Hero's Association!",
+                    "Bye {mention} Sir.",
                     reply_to_message_id=reply,
                 )
                 return
@@ -668,7 +668,7 @@ def welcome(update: Update, context: CallbackContext):
         elif args[0].lower() in ("off", "no"):
             sql.set_welc_preference(str(chat.id), False)
             update.effective_message.reply_text(
-                "I'll go loaf around and not welcome anyone then."
+                "I will not welcome anyone then."
             )
 
         else:
@@ -967,7 +967,7 @@ def user_button(update: Update, context: CallbackContext):
         member_dict = VERIFIED_USER_WAITLIST.pop(user.id)
         member_dict["status"] = True
         VERIFIED_USER_WAITLIST.update({user.id: member_dict})
-        query.answer(text="Yeet! You're a human, unmuted!")
+        query.answer(text="You're a human, unmuted!")
         bot.restrict_chat_member(
             chat.id,
             user.id,
