@@ -1,5 +1,5 @@
 RUN_STRINGS = (
-    "Now you see me, now you don't." "ε=ε=ε=ε=┌(;￣▽￣)┘",
+    "Now you see me, now you don't.",
     "Get back here!",
     "REEEEEEEEEEEEEEEEEE!!!!!!!",
     "Look out for the wall!",
@@ -93,13 +93,12 @@ SLAP_TEMPLATES = (
     "{user1} pokes {user2} with a stun gun!",
     "{user2} is secretly a Furry!",
     "Hey Everybody! {user1} is asking me to be mean!",
-    "( ･_･)ﾉ⌒●~* (･.･;) <-{user2}",
-    "Take this {user2}\n(ﾉﾟДﾟ)ﾉ ))))●~* ",
-    "Here {user2} hold this\n(｀・ω・)つ ●~＊",
-    "( ・_・)ノΞ●~*  {user2}\nDieeeee!!.",
-    "( ・∀・)ｒ鹵~<≪巛;ﾟДﾟ)ﾉ\n*Bug sprays {user2}*.",
-    "( ﾟДﾟ)ﾉ占~<巛巛巛.\n-{user2} You pest!",
-    "( う-´)づ︻╦̵̵̿╤── \(˚☐˚”)/ {user2}.",
+    "Take this {user2}",
+    "Here {user2} hold this",
+    "{user2}\nDieeeee!!.",
+    "*Bug sprays {user2}*.",
+    "-{user2} You pest!",
+    "{user2}.",
     "{user1} {hits} {user2} with a {item}.",
     "{user1} {hits} {user2} in the face with a {item}.",
     "{user1} {hits} {user2} around a bit with a {item}.",
@@ -114,7 +113,7 @@ SLAP_TEMPLATES = (
     "{user1} bullied {user2}.",
     "Nyaan ate {user2}'s leg. *nomnomnom*",
     "{user1} {throws} a master ball at {user2}, resistance is futile.",
-    "{user1} hits {user2} with an action beam...bbbbbb (ง・ω・)ง ====*",
+    "{user1} hits {user2} with an action beam...bbbbbb",
     "{user1} ara ara's {user2}.",
     "{user1} ora ora's {user2}.",
     "{user1} muda muda's {user2}.",
@@ -174,12 +173,7 @@ PAT_TEMPLATES = (
     "{user1} bellyrubs {user2}",
     "{user1} pats {user2} friendlily",
     "{user2} uses HEADPATS? O KAWAII KOTO",
-    "*headpats.gif intensifies for {user2}*",
-    "(*´ω´(*｀ω｀)",
-    "(ｏ・_・)ノ”(ᴗ_ ᴗ。)",
-    "(*￣▽￣)ノ”(- -*)",
-    "(っ´ω`)ﾉ(╥ω╥)",
-    "( ´Д｀)ﾉ(´･ω･`) ﾅﾃﾞﾅﾃﾞ",
+    "*headpats.gif intensifies for {user2}*"
 )
 
 PAT_GIFS = (
@@ -439,7 +433,6 @@ EIGHTBALL = [
 DECIDE = ("Yes.", "No.", "Maybe.")
 
 TABLE = (
-    "(╯°□°）╯彡 ┻━┻",
     "I ran out of tables, will order more.",
     "Go do some work instead of flippin tables.",
 )
