@@ -49,7 +49,7 @@ def wall(update: Update, context: CallbackContext):
                     chat_id,
                     document=wallpaper,
                     filename="wallpaper",
-                    caption=caption,
+                    caption=caption + "\nPowered by Wallpaper Abyss: https://wall.alphacoders.com/",
                     reply_to_message_id=msg_id,
                     timeout=60,
                 )
