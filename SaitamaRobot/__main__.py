@@ -74,14 +74,14 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {firstname}, my name is YAR Manager Bot! 
+Hi {}, my name is {}! 
 I am a group management bot.
-Build by Youth for Youth , I am specialized in managing groups.
+Build by Youth for Youth, I am specialized in managing groups.
 You can find my list of available commands with /help.
 """
 
 HELP_STRINGS = """
-Hey there! My name is *YAR Manager Bot*.
+Hey there! My name is *{}*.
 I'm a Pre-programmed Manager for helping admins manage their groups! Have a look at the following for an idea of some of \
 the things I can help you with.
 
