@@ -69,13 +69,13 @@ def import_data(update, context):
 
         # Check if backup is this chat
         try:
-            if data.get(str(chat.id)) is None:
+            #if data.get(str(chat.id)) is None:
                 if conn:
                     text = "Backup comes from another chat, I can't return another chat to chat *{}*".format(
                         chat_name
                     )
-                else:
-                    text = "Backup comes from another chat, I can't return another chat to this chat"
+            #    else:
+            #        text = "Backup comes from another chat, I can't return another chat to this chat"
                 return msg.reply_text(text, parse_mode="markdown")
         except Exception:
             return msg.reply_text("There was a problem while importing the data!")
