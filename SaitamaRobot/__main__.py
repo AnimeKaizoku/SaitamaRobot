@@ -20,6 +20,7 @@ from SaitamaRobot import (
     StartTime,
     telethn,
     updater,
+    DONATION_LINK,
 )
 
 # needed to dynamically load modules
@@ -73,14 +74,14 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {firstname}, my name is {}! 
+Hi {firstname}, my name is YAR Manager Bot! 
 I am a group management bot.
 Build by Youth for Youth , I am specialized in managing groups.
 You can find my list of available commands with /help.
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.
+Hey there! My name is *YAR Manager Bot*.
 I'm a Pre-programmed Manager for helping admins manage their groups! Have a look at the following for an idea of some of \
 the things I can help you with.
 
@@ -103,7 +104,7 @@ And the following:
 SAITAMA_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
- You can support the project via [-----] or by contacting @----- \
+ You can support the project via [this link](DONATION_LINK) or by contacting @yaifoundation \
  Supporting isnt always financial! \
  Those who cannot provide monetary support are welcome to Join us and Work with us."""
 
