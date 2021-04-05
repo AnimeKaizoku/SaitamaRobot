@@ -235,15 +235,8 @@ def start(update: Update, context: CallbackContext):
                             ),
                             InlineKeyboardButton(
                                 text="🔔 Updates Channel",
-                                url="https://t.me/youth_against_rape",
-                            ),
-                        ],
-                        #Getting Started guide link!
-                        [
-                            InlineKeyboardButton(
-                                text="🧾 Getting started guide",
                                 url="https://t.me/YARBotUpdates",
-                            )
+                            ),
                         ],
                         [
                             InlineKeyboardButton(
