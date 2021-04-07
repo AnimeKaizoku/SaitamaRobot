@@ -414,7 +414,7 @@ def list_notes(update: Update, context: CallbackContext):
         if setting == True:
             bot.send_message(user.id, msg_pm, parse_mode=ParseMode.HTML)
         else:
-            update.effective_message.reply_text(msg, parse_mode=ParseMod.HTML)
+            update.effective_message.reply_text(msg, parse_mode=ParseMode.HTML)
 
 
 def __import_data__(chat_id, data):
