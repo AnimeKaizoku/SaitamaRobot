@@ -389,13 +389,13 @@ def list_notes(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     note_list = sql.get_all_chat_notes(chat_id)
     notes = len(note_list) + 1
-    msg = "Get note by <code>/notenumber</code> or <code>#notename</code> \n\n  <b>ID</b>    <b>Note</b> \n"
-    msg_pm = f"<b>Notes from {update.effective_chat.title}</b> \nGet note by <code>/notenumber</code> or <code>#notename</code> in group \n\n  <b>ID</b>    <b>Note</b> \n"
+    msg = "Get note by <pre>/notenumber</pre> or <pre>#notename</pre> \n\n  <b>ID</b>    <b>Note</b> \n"
+    msg_pm = f"<b>Notes from {update.effective_chat.title}</b> \nGet note by <pre>/notenumber</pre> or <pre>#notename</pre> in group \n\n  <b>ID</b>    <b>Note</b> \n"
     for note_id, note in zip(range(1, notes), note_list):
         if note_id < 10:
-            note_name = f"<code>{note_id:2}.</code>  <code>{(note.name.lower())}</code>\n"
+            note_name = f"<pre>{note_id:2}.</pre>  <pre>{(note.name.lower())}</pre>\n"
         else:
-            note_name = f"<code>{note_id}.</code>  <code>{(note.name.lower())}</code>\n"
+            note_name = f"<pre>{note_id}.</pre>  <pre>{(note.name.lower())}</pre>\n"
         if len(msg) + len(note_name) > MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(msg, parse_mode=ParseMode.HTML)
             msg = ""
