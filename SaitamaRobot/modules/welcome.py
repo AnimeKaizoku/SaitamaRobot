@@ -181,6 +181,9 @@ def new_member(update: Update, context: CallbackContext):
             if sw_ban:
                 return
 
+        if is_user_gbanned(new_mem.id):
+            return
+
         if should_welc:
 
             reply = update.message.message_id
