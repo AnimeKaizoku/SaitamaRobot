@@ -10,9 +10,7 @@ from SaitamaRobot.modules.helper_funcs.chat_status import (
     can_restrict,
     is_user_admin,
     user_admin,
-    user_admin_no_reply,
-    can_delete,
-)
+    user_admin_no_reply)
 from SaitamaRobot.modules.helper_funcs.extraction import (
     extract_text,
     extract_user,
@@ -52,7 +50,7 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 
 # Not async
 def warn(
-    user: User, chat: Chat, reason: str, message: Message, warner: User = None
+    user: User, chat: Chat, reason: str, message: Message, warner: User = None,
 ) -> str:
     if is_user_admin(chat, user.id):
         # message.reply_text("Damn admins, They are too far to be One Punched!")
@@ -63,7 +61,7 @@ def warn(
             message.reply_text("Tigers cant be warned.")
         else:
             message.reply_text(
-                "Tiger triggered an auto warn filter!\n I can't warn tigers but they should avoid abusing this."
+                "Tiger triggered an auto warn filter!\n I can't warn tigers but they should avoid abusing this.",
             )
         return
 
@@ -72,7 +70,7 @@ def warn(
             message.reply_text("Wolf disasters are warn immune.")
         else:
             message.reply_text(
-                "Wolf Disaster triggered an auto warn filter!\nI can't warn wolves but they should avoid abusing this."
+                "Wolf Disaster triggered an auto warn filter!\nI can't warn wolves but they should avoid abusing this.",
             )
         return
 
@@ -120,10 +118,10 @@ def warn(
             [
                 [
                     InlineKeyboardButton(
-                        "🔘 Remove warn", callback_data="rm_warn({})".format(user.id)
-                    )
-                ]
-            ]
+                        "🔘 Remove warn", callback_data="rm_warn({})".format(user.id),
+                    ),
+                ],
+            ],
         )
 
         reply = (
@@ -149,7 +147,7 @@ def warn(
         if excp.message == "Reply message not found":
             # Do not reply
             message.reply_text(
-                reply, reply_markup=keyboard, parse_mode=ParseMode.HTML, quote=False
+                reply, reply_markup=keyboard, parse_mode=ParseMode.HTML, quote=False,
             )
         else:
             raise
@@ -182,7 +180,7 @@ def button(update: Update, context: CallbackContext) -> str:
             )
         else:
             update.effective_message.edit_text(
-                "User already has no warns.", parse_mode=ParseMode.HTML
+                "User already has no warns.", parse_mode=ParseMode.HTML,
             )
 
     return ""
@@ -271,7 +269,7 @@ def warns(update: Update, context: CallbackContext):
                 update.effective_message.reply_text(msg)
         else:
             update.effective_message.reply_text(
-                f"User has {num_warns}/{limit} warns, but no reasons for any of them."
+                f"User has {num_warns}/{limit} warns, but no reasons for any of them.",
             )
     else:
         update.effective_message.reply_text("This user doesn't have any warns!")
@@ -284,7 +282,7 @@ def add_warn_filter(update: Update, context: CallbackContext):
     msg: Optional[Message] = update.effective_message
 
     args = msg.text.split(
-        None, 1
+        None, 1,
     )  # use python's maxsplit to separate Cmd, keyword, and reply_text
 
     if len(args) < 2:
@@ -317,7 +315,7 @@ def remove_warn_filter(update: Update, context: CallbackContext):
     msg: Optional[Message] = update.effective_message
 
     args = msg.text.split(
-        None, 1
+        None, 1,
     )  # use python's maxsplit to separate Cmd, keyword, and reply_text
 
     if len(args) < 2:
@@ -343,7 +341,7 @@ def remove_warn_filter(update: Update, context: CallbackContext):
             raise DispatcherHandlerStop
 
     msg.reply_text(
-        "That's not a current warning filter - run /warnlist for all active warning filters."
+        "That's not a current warning filter - run /warnlist for all active warning filters.",
     )
 
 
@@ -449,7 +447,7 @@ def set_warn_strength(update: Update, context: CallbackContext):
         elif args[0].lower() in ("off", "no"):
             sql.set_warn_strength(chat.id, True)
             msg.reply_text(
-                "Too many warns will now result in a normal punch! Users will be able to join again after."
+                "Too many warns will now result in a normal punch! Users will be able to join again after.",
             )
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
@@ -519,23 +517,23 @@ __mod_name__ = "Warnings"
 
 WARN_HANDLER = CommandHandler(["warn", "dwarn"], warn_user, filters=Filters.group)
 RESET_WARN_HANDLER = CommandHandler(
-    ["resetwarn", "resetwarns"], reset_warns, filters=Filters.group
+    ["resetwarn", "resetwarns"], reset_warns, filters=Filters.group,
 )
 CALLBACK_QUERY_HANDLER = CallbackQueryHandler(button, pattern=r"rm_warn")
 MYWARNS_HANDLER = DisableAbleCommandHandler("warns", warns, filters=Filters.group)
 ADD_WARN_HANDLER = CommandHandler("addwarn", add_warn_filter, filters=Filters.group)
 RM_WARN_HANDLER = CommandHandler(
-    ["nowarn", "stopwarn"], remove_warn_filter, filters=Filters.group
+    ["nowarn", "stopwarn"], remove_warn_filter, filters=Filters.group,
 )
 LIST_WARN_HANDLER = DisableAbleCommandHandler(
-    ["warnlist", "warnfilters"], list_warn_filters, filters=Filters.group, admin_ok=True
+    ["warnlist", "warnfilters"], list_warn_filters, filters=Filters.group, admin_ok=True,
 )
 WARN_FILTER_HANDLER = MessageHandler(
-    CustomFilters.has_text & Filters.group, reply_filter
+    CustomFilters.has_text & Filters.group, reply_filter,
 )
 WARN_LIMIT_HANDLER = CommandHandler("warnlimit", set_warn_limit, filters=Filters.group)
 WARN_STRENGTH_HANDLER = CommandHandler(
-    "strongwarn", set_warn_strength, filters=Filters.group
+    "strongwarn", set_warn_strength, filters=Filters.group,
 )
 
 dispatcher.add_handler(WARN_HANDLER)

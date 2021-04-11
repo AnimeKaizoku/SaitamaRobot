@@ -100,7 +100,7 @@ def pingall(update: Update, context: CallbackContext):
     reply_msg += "\n<b>Service uptime:</b> <code>{}</code>".format(uptime)
 
     update.effective_message.reply_text(
-        reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True
+        reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True,
     )
 
 

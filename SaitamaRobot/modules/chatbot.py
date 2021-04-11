@@ -7,7 +7,7 @@ import SaitamaRobot.modules.sql.chatbot_sql as sql
 from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError as CFError
 from coffeehouse.lydia import LydiaAI
-from SaitamaRobot import AI_API_KEY, OWNER_ID, SUPPORT_CHAT, dispatcher
+from SaitamaRobot import AI_API_KEY, SUPPORT_CHAT, dispatcher
 from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
 from SaitamaRobot.modules.helper_funcs.filters import CustomFilters
 from SaitamaRobot.modules.log_channel import gloggable
@@ -28,7 +28,6 @@ api_client = LydiaAI(CoffeeHouseAPI)
 
 @run_async
 @user_admin
-@gloggable
 def add_chat(update: Update, context: CallbackContext):
     global api_client
     chat = update.effective_chat
@@ -45,20 +44,12 @@ def add_chat(update: Update, context: CallbackContext):
         expires = str(ses.expires)
         sql.set_ses(chat.id, ses_id, expires)
         msg.reply_text("AI successfully enabled for this chat!")
-        message = (
-            f"<b>{html.escape(chat.title)}:</b>\n"
-            f"#AI_ENABLED\n"
-            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        )
-        return message
     else:
         msg.reply_text("AI is already enabled for this chat!")
-        return ""
 
 
 @run_async
 @user_admin
-@gloggable
 def remove_chat(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
@@ -66,16 +57,9 @@ def remove_chat(update: Update, context: CallbackContext):
     is_chat = sql.is_chat(chat.id)
     if not is_chat:
         msg.reply_text("AI isn't enabled here in the first place!")
-        return ""
     else:
         sql.rem_chat(chat.id)
         msg.reply_text("AI disabled successfully!")
-        message = (
-            f"<b>{html.escape(chat.title)}:</b>\n"
-            f"#AI_DISABLED\n"
-            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        )
-        return message
 
 
 def check_message(context: CallbackContext, message):
@@ -144,7 +128,7 @@ def list_chatbot_chats(update: Update, context: CallbackContext):
 __help__ = f"""
 Chatbot utilizes the CoffeeHouse API and allows Saitama to talk and provides a more interactive group chat experience.
 
-*Commands:* 
+*Commands:*
 *Admins only:*
  • `/addchat`*:* Enables Chatbot mode in the chat.
  • `/rmchat`*:* Disables Chatbot mode in the chat.
@@ -161,7 +145,7 @@ CHATBOT_HANDLER = MessageHandler(
     chatbot,
 )
 LIST_CB_CHATS_HANDLER = CommandHandler(
-    "listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter
+    "listaichats", list_chatbot_chats, filters=CustomFilters.dev_filter,
 )
 # Filters for ignoring #note messages, !commands and sed.
 

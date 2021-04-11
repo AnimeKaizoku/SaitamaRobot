@@ -28,7 +28,7 @@ def get_note_type(msg: Message):
     # determine what the contents of the filter are - text, image, sticker, etc
     if len(args) >= 3:
         offset = len(args[2]) - len(
-            raw_text
+            raw_text,
         )  # set correct offset relative to command + notename
         text, buttons = button_markdown_parser(
             args[2],
@@ -96,7 +96,7 @@ def get_welcome_type(msg: Message):
                 args = msg.reply_to_message.caption
         else:
             args = msg.text.split(
-                None, 1
+                None, 1,
             )  # use python's maxsplit to separate cmd and args
     except AttributeError:
         args = False
@@ -148,11 +148,11 @@ def get_welcome_type(msg: Message):
         else:
             argumen = args[1]
             offset = len(argumen) - len(
-                msg.text
+                msg.text,
             )  # set correct offset relative to command + notename
             entities = msg.parse_entities()
         text, buttons = button_markdown_parser(
-            argumen, entities=entities, offset=offset
+            argumen, entities=entities, offset=offset,
         )
 
     if not data_type:

@@ -71,7 +71,7 @@ def sed(update: Update, context: CallbackContext):
         repl, repl_with, flags = sed_result
         if not repl:
             update.effective_message.reply_to_message.reply_text(
-                "You're trying to replace... " "nothing with something?"
+                "You're trying to replace... " "nothing with something?",
             )
             return
 
@@ -84,21 +84,21 @@ def sed(update: Update, context: CallbackContext):
                 update.effective_message.reply_to_message.reply_text(
                     "Hey everyone, {} is trying to make "
                     "me say stuff I don't wanna "
-                    "say!".format(update.effective_user.first_name)
+                    "say!".format(update.effective_user.first_name),
                 )
                 return
             if infinite_loop_check(repl):
                 update.effective_message.reply_text(
-                    "I'm afraid I can't run that regex."
+                    "I'm afraid I can't run that regex.",
                 )
                 return
             if "i" in flags and "g" in flags:
                 text = regex.sub(
-                    repl, repl_with, to_fix, flags=regex.I, timeout=3
+                    repl, repl_with, to_fix, flags=regex.I, timeout=3,
                 ).strip()
             elif "i" in flags:
                 text = regex.sub(
-                    repl, repl_with, to_fix, count=1, flags=regex.I, timeout=3
+                    repl, repl_with, to_fix, count=1, flags=regex.I, timeout=3,
                 ).strip()
             elif "g" in flags:
                 text = regex.sub(repl, repl_with, to_fix, timeout=3).strip()
@@ -117,7 +117,7 @@ def sed(update: Update, context: CallbackContext):
         if len(text) >= telegram.MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(
                 "The result of the sed command was too long for \
-                                                 telegram!"
+                                                 telegram!",
             )
         elif text:
             update.effective_message.reply_to_message.reply_text(text)
@@ -132,13 +132,13 @@ larger than {}.
 If you want to use these characters, make sure you escape them!
 *Example:* \\?.
 """.format(
-    telegram.MAX_MESSAGE_LENGTH
+    telegram.MAX_MESSAGE_LENGTH,
 )
 
 __mod_name__ = "Sed/Regex"
 
 SED_HANDLER = DisableAbleMessageHandler(
-    Filters.regex(r"s([{}]).*?\1.*".format("".join(DELIMITERS))), sed, friendly="sed"
+    Filters.regex(r"s([{}]).*?\1.*".format("".join(DELIMITERS))), sed, friendly="sed",
 )
 
 dispatcher.add_handler(SED_HANDLER)

@@ -23,7 +23,7 @@ def approve(update, context):
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
-            "I don't know who you're talking about, you're going to need to specify a user!"
+            "I don't know who you're talking about, you're going to need to specify a user!",
         )
         return ""
     try:
@@ -32,7 +32,7 @@ def approve(update, context):
         return ""
     if member.status == "administrator" or member.status == "creator":
         message.reply_text(
-            "User is already admin - locks, blocklists, and antiflood already don't apply to them."
+            "User is already admin - locks, blocklists, and antiflood already don't apply to them.",
         )
         return ""
     if sql.is_approved(message.chat_id, user_id):
@@ -68,7 +68,7 @@ def disapprove(update, context):
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
-            "I don't know who you're talking about, you're going to need to specify a user!"
+            "I don't know who you're talking about, you're going to need to specify a user!",
         )
         return ""
     try:
@@ -83,7 +83,7 @@ def disapprove(update, context):
         return ""
     sql.disapprove(message.chat_id, user_id)
     message.reply_text(
-        f"{member.user['first_name']} is no longer approved in {chat_title}."
+        f"{member.user['first_name']} is no longer approved in {chat_title}.",
     )
     log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
@@ -123,16 +123,16 @@ def approval(update, context):
     member = chat.get_member(int(user_id))
     if not user_id:
         message.reply_text(
-            "I don't know who you're talking about, you're going to need to specify a user!"
+            "I don't know who you're talking about, you're going to need to specify a user!",
         )
         return ""
     if sql.is_approved(message.chat_id, user_id):
         message.reply_text(
-            f"{member.user['first_name']} is an approved user. Locks, antiflood, and blocklists won't apply to them."
+            f"{member.user['first_name']} is an approved user. Locks, antiflood, and blocklists won't apply to them.",
         )
     else:
         message.reply_text(
-            f"{member.user['first_name']} is not an approved user. They are affected by normal commands."
+            f"{member.user['first_name']} is not an approved user. They are affected by normal commands.",
         )
 
 
@@ -143,22 +143,22 @@ def unapproveall(update: Update, context: CallbackContext):
     member = chat.get_member(user.id)
     if member.status != "creator" and user.id not in DRAGONS:
         update.effective_message.reply_text(
-            "Only the chat owner can unapprove all users at once."
+            "Only the chat owner can unapprove all users at once.",
         )
     else:
         buttons = InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        text="Unapprove all users", callback_data="unapproveall_user"
-                    )
+                        text="Unapprove all users", callback_data="unapproveall_user",
+                    ),
                 ],
                 [
                     InlineKeyboardButton(
-                        text="Cancel", callback_data="unapproveall_cancel"
-                    )
+                        text="Cancel", callback_data="unapproveall_cancel",
+                    ),
                 ],
-            ]
+            ],
         )
         update.effective_message.reply_text(
             f"Are you sure you would like to unapprove ALL users in {chat.title}? This action cannot be undone.",
@@ -199,7 +199,7 @@ __help__ = """
 Sometimes, you might trust a user not to send unwanted content.
 Maybe not enough to make them admin, but you might be ok with locks, blacklists, and antiflood not applying to them.
 
-That's what approvals are for - approve of trustworthy users to allow them to send 
+That's what approvals are for - approve of trustworthy users to allow them to send
 
 *Admin commands:*
 - `/approval`*:* Check a user's approval status in this chat.

@@ -115,7 +115,7 @@ def dev_plus(func):
         else:
             update.effective_message.reply_text(
                 "This is a developer restricted command."
-                " You do not have permissions to run this."
+                " You do not have permissions to run this.",
             )
 
     return is_dev_plus_func
@@ -139,7 +139,7 @@ def sudo_plus(func):
                 pass
         else:
             update.effective_message.reply_text(
-                "Who dis non-admin telling me what to do? You want a punch?"
+                "Who dis non-admin telling me what to do? You want a punch?",
             )
 
     return is_sudo_plus_func
@@ -166,7 +166,7 @@ def support_plus(func):
 def whitelist_plus(func):
     @wraps(func)
     def is_whitelist_plus_func(
-        update: Update, context: CallbackContext, *args, **kwargs
+        update: Update, context: CallbackContext, *args, **kwargs,
     ):
         bot = context.bot
         user = update.effective_user
@@ -176,7 +176,7 @@ def whitelist_plus(func):
             return func(update, context, *args, **kwargs)
         else:
             update.effective_message.reply_text(
-                f"You don't have access to use this.\nVisit @{SUPPORT_CHAT}"
+                f"You don't have access to use this.\nVisit @{SUPPORT_CHAT}",
             )
 
     return is_whitelist_plus_func
@@ -200,7 +200,7 @@ def user_admin(func):
                 pass
         else:
             update.effective_message.reply_text(
-                "Who dis non-admin telling me what to do? You want a punch?"
+                "Who dis non-admin telling me what to do? You want a punch?",
             )
 
     return is_admin
@@ -209,7 +209,7 @@ def user_admin(func):
 def user_admin_no_reply(func):
     @wraps(func)
     def is_not_admin_no_reply(
-        update: Update, context: CallbackContext, *args, **kwargs
+        update: Update, context: CallbackContext, *args, **kwargs,
     ):
         bot = context.bot
         user = update.effective_user
@@ -349,7 +349,7 @@ def can_restrict(func):
             return func(update, context, *args, **kwargs)
         else:
             update.effective_message.reply_text(
-                cant_restrict, parse_mode=ParseMode.HTML
+                cant_restrict, parse_mode=ParseMode.HTML,
             )
 
     return restrict_rights
@@ -367,7 +367,7 @@ def user_can_ban(func):
             and user not in [777000, 1087968824]
         ):
             update.effective_message.reply_text(
-                "Sorry son, but you're not worthy to wield the banhammer."
+                "Sorry son, but you're not worthy to wield the banhammer.",
             )
             return ""
         return func(update, context, *args, **kwargs)
@@ -393,7 +393,7 @@ def connection_status(func):
         else:
             if update.effective_message.chat.type == "private":
                 update.effective_message.reply_text(
-                    "Send /connect in a group that you and I have in common first."
+                    "Send /connect in a group that you and I have in common first.",
                 )
                 return connected_status
 

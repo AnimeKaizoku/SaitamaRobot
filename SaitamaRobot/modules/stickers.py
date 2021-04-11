@@ -71,7 +71,7 @@ def getsticker(update: Update, context: CallbackContext):
         os.remove("sticker.png")
     else:
         update.effective_message.reply_text(
-            "Please reply to a sticker for me to upload its PNG."
+            "Please reply to a sticker for me to upload its PNG.",
         )
 
 
@@ -425,10 +425,10 @@ def makepack_internal(
                     [
                         [
                             InlineKeyboardButton(
-                                text="Start", url=f"t.me/{context.bot.username}"
-                            )
-                        ]
-                    ]
+                                text="Start", url=f"t.me/{context.bot.username}",
+                            ),
+                        ],
+                    ],
                 ),
             )
         elif e.message == "Internal Server Error: created sticker set not found (500)":

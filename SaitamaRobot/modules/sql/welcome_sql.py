@@ -233,7 +233,7 @@ class Welcome(BASE):
     custom_content = Column(UnicodeText, default=None)
 
     custom_welcome = Column(
-        UnicodeText, default=random.choice(DEFAULT_WELCOME_MESSAGES)
+        UnicodeText, default=random.choice(DEFAULT_WELCOME_MESSAGES),
     )
     welcome_type = Column(Integer, default=Types.TEXT.value)
 
@@ -249,7 +249,7 @@ class Welcome(BASE):
 
     def __repr__(self):
         return "<Chat {} should Welcome new users: {}>".format(
-            self.chat_id, self.should_welcome
+            self.chat_id, self.should_welcome,
         )
 
 
@@ -460,7 +460,7 @@ def set_gdbye_preference(chat_id, should_goodbye):
 
 
 def set_custom_welcome(
-    chat_id, custom_content, custom_welcome, welcome_type, buttons=None
+    chat_id, custom_content, custom_welcome, welcome_type, buttons=None,
 ):
     if buttons is None:
         buttons = []

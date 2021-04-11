@@ -20,7 +20,7 @@ MATCH_MD = re.compile(
     r"_(.*?)_|"
     r"`(.*?)`|"
     r"(?<!\\)(\[.*?\])(\(.*?\))|"
-    r"(?P<esc>[*_`\[])"
+    r"(?P<esc>[*_`\[])",
 )
 
 # regex to find []() links -> hyperlinks/buttons
@@ -58,7 +58,7 @@ def _calc_emoji_offset(to_calc) -> int:
 
 
 def markdown_parser(
-    txt: str, entities: Dict[MessageEntity, str] = None, offset: int = 0
+    txt: str, entities: Dict[MessageEntity, str] = None, offset: int = 0,
 ) -> str:
     """
     Parse a string, escaping all invalid markdown entities.
@@ -106,7 +106,7 @@ def markdown_parser(
                 else:
                     # TODO: investigate possible offset bug when lots of emoji are present
                     res += _selective_escape(txt[prev:start] or "") + escape_markdown(
-                        ent_text
+                        ent_text,
                     )
 
             # code handling
@@ -116,7 +116,7 @@ def markdown_parser(
             # handle markdown/html links
             elif ent.type == "text_link":
                 res += _selective_escape(txt[prev:start]) + "[{}]({})".format(
-                    ent_text, ent.url
+                    ent_text, ent.url,
                 )
 
             end += 1
@@ -132,7 +132,7 @@ def markdown_parser(
 
 
 def button_markdown_parser(
-    txt: str, entities: Dict[MessageEntity, str] = None, offset: int = 0
+    txt: str, entities: Dict[MessageEntity, str] = None, offset: int = 0,
 ) -> (str, List):
     markdown_note = markdown_parser(txt, entities, offset)
     prev = 0
@@ -273,8 +273,8 @@ def extract_time(message, time_val):
     else:
         message.reply_text(
             "Invalid time type specified. Expected m,h, or d, got: {}".format(
-                time_val[-1]
-            )
+                time_val[-1],
+            ),
         )
         return ""
 
@@ -285,5 +285,5 @@ def markdown_to_html(text):
     text = text.replace("~", "~~")
     _html = markdown2.markdown(text, extras=["strike", "underline"])
     return bleach.clean(
-        _html, tags=["strong", "em", "a", "code", "pre", "strike", "u"], strip=True
+        _html, tags=["strong", "em", "a", "code", "pre", "strike", "u"], strip=True,
     )[:-1]

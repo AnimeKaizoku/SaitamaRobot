@@ -349,13 +349,13 @@ def user_demote_fed(fed_id, user_id):
         members.remove(user_id)
         # Set user
         FEDERATION_BYOWNER[str(owner_id)]["fusers"] = str(
-            {"owner": str(owner_id), "members": str(members)}
+            {"owner": str(owner_id), "members": str(members)},
         )
         FEDERATION_BYFEDID[str(fed_id)]["fusers"] = str(
-            {"owner": str(owner_id), "members": str(members)}
+            {"owner": str(owner_id), "members": str(members)},
         )
         FEDERATION_BYNAME[fed_name]["fusers"] = str(
-            {"owner": str(owner_id), "members": str(members)}
+            {"owner": str(owner_id), "members": str(members)},
         )
         # Set on database
         fed = Federations(
@@ -397,13 +397,13 @@ def user_join_fed(fed_id, user_id):
         members.append(user_id)
         # Set user
         FEDERATION_BYOWNER[str(owner_id)]["fusers"] = str(
-            {"owner": str(owner_id), "members": str(members)}
+            {"owner": str(owner_id), "members": str(members)},
         )
         FEDERATION_BYFEDID[str(fed_id)]["fusers"] = str(
-            {"owner": str(owner_id), "members": str(members)}
+            {"owner": str(owner_id), "members": str(members)},
         )
         FEDERATION_BYNAME[fed_name]["fusers"] = str(
-            {"owner": str(owner_id), "members": str(members)}
+            {"owner": str(owner_id), "members": str(members)},
         )
         # Set on database
         fed = Federations(
@@ -483,7 +483,7 @@ def set_frules(fed_id, rules):
         FEDERATION_BYNAME[fed_name]["frules"] = fed_rules
         # Set on database
         fed = Federations(
-            str(owner_id), fed_name, str(fed_id), fed_rules, fed_log, str(fed_members)
+            str(owner_id), fed_name, str(fed_id), fed_rules, fed_log, str(fed_members),
         )
         SESSION.merge(fed)
         SESSION.commit()
@@ -505,7 +505,7 @@ def fban_user(fed_id, user_id, first_name, last_name, user_name, reason, time):
                     SESSION.delete(I)
 
         r = BansF(
-            str(fed_id), str(user_id), first_name, last_name, user_name, reason, time
+            str(fed_id), str(user_id), first_name, last_name, user_name, reason, time,
         )
 
         SESSION.add(r)
@@ -712,7 +712,7 @@ def set_fed_log(fed_id, chat_id):
         FEDERATION_BYNAME[fed_name]["flog"] = fed_log
         # Set on database
         fed = Federations(
-            str(owner_id), fed_name, str(fed_id), fed_rules, fed_log, str(fed_members)
+            str(owner_id), fed_name, str(fed_id), fed_rules, fed_log, str(fed_members),
         )
         SESSION.merge(fed)
         SESSION.commit()

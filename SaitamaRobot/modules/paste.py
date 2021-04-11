@@ -32,7 +32,7 @@ def paste(update: Update, context: CallbackContext):
     reply_text = f"Nekofied to *Nekobin* : {url}"
 
     message.reply_text(
-        reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
+        reply_text, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True,
     )
 
 

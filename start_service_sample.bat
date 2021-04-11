@@ -26,6 +26,6 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 :--------------------------------------
 :: your commands begin from this point.
-:: stops the service and then starts it 
+:: stops the service and then starts it
 net stop SaitamaRobot
 net start SaitamaRobot

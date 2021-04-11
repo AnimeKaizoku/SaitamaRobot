@@ -57,7 +57,7 @@ def blacklist(update, context):
     split_text = split_message(filter_list)
     for text in split_text:
         if filter_list == "Current blacklisted words in <b>{}</b>:\n".format(
-            html.escape(chat_name)
+            html.escape(chat_name),
         ):
             send_message(
                 update.effective_message,
@@ -91,7 +91,7 @@ def add_blacklist(update, context):
     if len(words) > 1:
         text = words[1]
         to_blacklist = list(
-            {trigger.strip() for trigger in text.split("\n") if trigger.strip()}
+            {trigger.strip() for trigger in text.split("\n") if trigger.strip()},
         )
         for trigger in to_blacklist:
             sql.add_to_blacklist(chat_id, trigger.lower())
@@ -100,7 +100,7 @@ def add_blacklist(update, context):
             send_message(
                 update.effective_message,
                 "Added blacklist <code>{}</code> in chat: <b>{}</b>!".format(
-                    html.escape(to_blacklist[0]), html.escape(chat_name)
+                    html.escape(to_blacklist[0]), html.escape(chat_name),
                 ),
                 parse_mode=ParseMode.HTML,
             )
@@ -109,7 +109,7 @@ def add_blacklist(update, context):
             send_message(
                 update.effective_message,
                 "Added blacklist trigger: <code>{}</code> in <b>{}</b>!".format(
-                    len(to_blacklist), html.escape(chat_name)
+                    len(to_blacklist), html.escape(chat_name),
                 ),
                 parse_mode=ParseMode.HTML,
             )
@@ -144,7 +144,7 @@ def unblacklist(update, context):
     if len(words) > 1:
         text = words[1]
         to_unblacklist = list(
-            {trigger.strip() for trigger in text.split("\n") if trigger.strip()}
+            {trigger.strip() for trigger in text.split("\n") if trigger.strip()},
         )
         successful = 0
         for trigger in to_unblacklist:
@@ -157,20 +157,20 @@ def unblacklist(update, context):
                 send_message(
                     update.effective_message,
                     "Removed <code>{}</code> from blacklist in <b>{}</b>!".format(
-                        html.escape(to_unblacklist[0]), html.escape(chat_name)
+                        html.escape(to_unblacklist[0]), html.escape(chat_name),
                     ),
                     parse_mode=ParseMode.HTML,
                 )
             else:
                 send_message(
-                    update.effective_message, "This is not a blacklist trigger!"
+                    update.effective_message, "This is not a blacklist trigger!",
                 )
 
         elif successful == len(to_unblacklist):
             send_message(
                 update.effective_message,
                 "Removed <code>{}</code> from blacklist in <b>{}</b>!".format(
-                    successful, html.escape(chat_name)
+                    successful, html.escape(chat_name),
                 ),
                 parse_mode=ParseMode.HTML,
             )
@@ -187,7 +187,7 @@ def unblacklist(update, context):
                 update.effective_message,
                 "Removed <code>{}</code> from blacklist. {} did not exist, "
                 "so were not removed.".format(
-                    successful, len(to_unblacklist) - successful
+                    successful, len(to_unblacklist) - successful,
                 ),
                 parse_mode=ParseMode.HTML,
             )
@@ -246,7 +246,7 @@ def blacklist_mode(update, context):
         elif args[0].lower() == "tban":
             if len(args) == 1:
                 teks = """It looks like you tried to set time value for blacklist but you didn't specified time; Try, `/blacklistmode tban <timevalue>`.
-				
+
 Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks."""
                 send_message(update.effective_message, teks, parse_mode="markdown")
                 return ""
@@ -281,7 +281,7 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
             return ""
         if conn:
             text = "Changed blacklist mode: `{}` in *{}*!".format(
-                settypeblacklist, chat_name
+                settypeblacklist, chat_name,
             )
         else:
             text = "Changed blacklist mode: `{}`!".format(settypeblacklist)
@@ -315,7 +315,7 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
             settypeblacklist = "temporarily mute for {}".format(getvalue)
         if conn:
             text = "Current blacklistmode: *{}* in *{}*.".format(
-                settypeblacklist, chat_name
+                settypeblacklist, chat_name,
             )
         else:
             text = "Current blacklistmode: *{}*.".format(settypeblacklist)
@@ -445,7 +445,7 @@ def __chat_settings__(chat_id, user_id):
 
 def __stats__():
     return "• {} blacklist triggers, across {} chats.".format(
-        sql.num_blacklist_filters(), sql.num_blacklist_filter_chats()
+        sql.num_blacklist_filters(), sql.num_blacklist_filter_chats(),
     )
 
 
@@ -464,9 +464,20 @@ Admin only:
  • `/unblacklist <triggers>`*:* Remove triggers from the blacklist. Same newline logic applies here, so you can remove multiple triggers at once.
  • `/blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>`*:* Action to perform when someone sends blacklisted words.
 
+Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
+*NOTE:* Blacklist stickers do not affect the group admin
+ • `/blsticker`*:* See current blacklisted sticker
+*Only admin:*
+ • `/addblsticker <sticker link>`*:* Add the sticker trigger to the black list. Can be added via reply sticker
+ • `/unblsticker <sticker link>`*:* Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once
+ • `/rmblsticker <sticker link>`*:* Same as above
+ • `/blstickermode <delete/ban/tban/mute/tmute>`*:* sets up a default action on what to do if users use blacklisted stickers
+Note:
+ • `<sticker link>` can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message
+
 """
 BLACKLIST_HANDLER = DisableAbleCommandHandler(
-    "blacklist", blacklist, pass_args=True, admin_ok=True
+    "blacklist", blacklist, pass_args=True, admin_ok=True,
 )
 ADD_BLACKLIST_HANDLER = CommandHandler("addblacklist", add_blacklist)
 UNBLACKLIST_HANDLER = CommandHandler("unblacklist", unblacklist)

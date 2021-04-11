@@ -7,7 +7,7 @@ import jikanpy
 import requests
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, Message
 from telegram.ext import CallbackContext, run_async
 
 info_btn = "More Information"
@@ -47,7 +47,7 @@ def t(milliseconds: int) -> str:
 
 
 airing_query = """
-query ($id: Int,$search: String) { 
+query ($id: Int,$search: String) {
     Media (id: $id, type: ANIME,search: $search) {
         id
         episodes
@@ -60,7 +60,7 @@ query ($id: Int,$search: String) {
             airingAt
             timeUntilAiring
             episode
-        } 
+        }
     }
 }
 """
@@ -134,8 +134,8 @@ query ($query: String) {
 """
 
 manga_query = """
-query ($id: Int,$search: String) { 
-    Media (id: $id, type: MANGA,search: $search) { 
+query ($id: Int,$search: String) {
+    Media (id: $id, type: MANGA,search: $search) {
         id
         title {
             romaji
@@ -159,19 +159,27 @@ query ($id: Int,$search: String) {
 
 url = "https://graphql.anilist.co"
 
+def extract_arg(message: Message):
+    split = message.text.split(" ", 1)
+    if len(split) > 1:
+        return split[1]
+    reply = message.reply_to_message
+    if reply is not None:
+        return reply.text
+    return None
 
 @run_async
 def airing(update: Update, context: CallbackContext):
     message = update.effective_message
-    search_str = message.text.split(" ", 1)
-    if len(search_str) == 1:
+    search_str = extract_arg(message)
+    if not search_str:
         update.effective_message.reply_text(
-            "Tell Anime Name :) ( /airing <anime name>)"
+            "Tell Anime Name :) ( /airing <anime name>)",
         )
         return
-    variables = {"search": search_str[1]}
+    variables = {"search": search_str}
     response = requests.post(
-        url, json={"query": airing_query, "variables": variables}
+        url, json={"query": airing_query, "variables": variables},
     ).json()["data"]["Media"]
     msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*ID*: `{response['id']}`"
     if response["nextAiringEpisode"]:
@@ -186,15 +194,13 @@ def airing(update: Update, context: CallbackContext):
 @run_async
 def anime(update: Update, context: CallbackContext):
     message = update.effective_message
-    search = message.text.split(" ", 1)
-    if len(search) == 1:
+    search = extract_arg(message)
+    if not search:
         update.effective_message.reply_text("Format : /anime < anime name >")
         return
-    else:
-        search = search[1]
     variables = {"search": search}
     json = requests.post(
-        url, json={"query": anime_query, "variables": variables}
+        url, json={"query": anime_query, "variables": variables},
     ).json()
     if "errors" in json.keys():
         update.effective_message.reply_text("Anime not found")
@@ -230,7 +236,7 @@ def anime(update: Update, context: CallbackContext):
                 [
                     InlineKeyboardButton("More Info", url=info),
                     InlineKeyboardButton("Trailer 🎬", url=trailer),
-                ]
+                ],
             ]
         else:
             buttons = [[InlineKeyboardButton("More Info", url=info)]]
@@ -260,14 +266,13 @@ def anime(update: Update, context: CallbackContext):
 @run_async
 def character(update: Update, context: CallbackContext):
     message = update.effective_message
-    search = message.text.split(" ", 1)
-    if len(search) == 1:
+    search = extract_arg(message)
+    if not search:
         update.effective_message.reply_text("Format : /character < character name >")
         return
-    search = search[1]
     variables = {"query": search}
     json = requests.post(
-        url, json={"query": character_query, "variables": variables}
+        url, json={"query": character_query, "variables": variables},
     ).json()
     if "errors" in json.keys():
         update.effective_message.reply_text("Character not found")
@@ -288,21 +293,20 @@ def character(update: Update, context: CallbackContext):
             )
         else:
             update.effective_message.reply_text(
-                msg.replace("<b>", "</b>"), parse_mode=ParseMode.MARKDOWN
+                msg.replace("<b>", "</b>"), parse_mode=ParseMode.MARKDOWN,
             )
 
 
 @run_async
 def manga(update: Update, context: CallbackContext):
     message = update.effective_message
-    search = message.text.split(" ", 1)
-    if len(search) == 1:
+    search = extract_arg(message)
+    if not search:
         update.effective_message.reply_text("Format : /manga < manga name >")
         return
-    search = search[1]
     variables = {"search": search}
     json = requests.post(
-        url, json={"query": manga_query, "variables": variables}
+        url, json={"query": manga_query, "variables": variables},
     ).json()
     msg = ""
     if "errors" in json.keys():
@@ -311,7 +315,7 @@ def manga(update: Update, context: CallbackContext):
     if json:
         json = json["data"]["Media"]
         title, title_native = json["title"].get("romaji", False), json["title"].get(
-            "native", False
+            "native", False,
         )
         start_date, status, score = (
             json["startDate"].get("year", False),
@@ -362,16 +366,11 @@ def manga(update: Update, context: CallbackContext):
 @run_async
 def user(update: Update, context: CallbackContext):
     message = update.effective_message
-    args = message.text.strip().split(" ", 1)
+    search_query = extract_arg(message)
 
-    try:
-        search_query = args[1]
-    except:
-        if message.reply_to_message:
-            search_query = message.reply_to_message.text
-        else:
-            update.effective_message.reply_text("Format : /user <username>")
-            return
+    if not search_query:
+        update.effective_message.reply_text("Format : /user <username>")
+        return
 
     jikan = jikanpy.jikan.Jikan()
 
@@ -424,7 +423,7 @@ def user(update: Update, context: CallbackContext):
     *Days wasted watching anime*: `{us['anime_stats']['days_watched']}`
     *Days wasted reading manga*: `{us['manga_stats']['days_read']}`
 
-    """
+    """,
     )
 
     caption += f"*About*: {about_string}"
@@ -433,8 +432,8 @@ def user(update: Update, context: CallbackContext):
         [InlineKeyboardButton(info_btn, url=us["url"])],
         [
             InlineKeyboardButton(
-                close_btn, callback_data=f"anime_close, {message.from_user.id}"
-            )
+                close_btn, callback_data=f"anime_close, {message.from_user.id}",
+            ),
         ],
     ]
 
@@ -466,12 +465,10 @@ def upcoming(update: Update, context: CallbackContext):
 
 def site_search(update: Update, context: CallbackContext, site: str):
     message = update.effective_message
-    args = message.text.strip().split(" ", 1)
+    search_query = extract_arg(message)
     more_results = True
 
-    try:
-        search_query = args[1]
-    except IndexError:
+    if not search_query:
         message.reply_text("Give something to search")
         return
 
@@ -482,7 +479,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
         search_result = soup.find_all("h2", {"class": "post-title"})
 
         if search_result:
-            result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KayoAnime: \n"
+            result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KaizokuAnime: \n"
             for entry in search_result:
                 post_link = "https://animekaizoku.com/" + entry.a["href"]
                 post_name = html.escape(entry.text)
@@ -497,11 +494,11 @@ def site_search(update: Update, context: CallbackContext, site: str):
         soup = bs4.BeautifulSoup(html_text, "html.parser")
         search_result = soup.find_all("h2", {"class": "title"})
 
-        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>: \n"
+        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KayoAnime: \n"
         for entry in search_result:
 
             if entry.text.strip() == "Nothing Found":
-                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>"
+                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> @KayoAnime"
                 more_results = False
                 break
 
@@ -520,7 +517,7 @@ def site_search(update: Update, context: CallbackContext, site: str):
         )
     else:
         message.reply_text(
-            result, parse_mode=ParseMode.HTML, disable_web_page_preview=True
+            result, parse_mode=ParseMode.HTML, disable_web_page_preview=True,
         )
 
 

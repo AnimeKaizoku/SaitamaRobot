@@ -16,7 +16,10 @@ GIF_ID = "CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr
 
 @run_async
 def runs(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(fun_strings.RUN_STRINGS))
+    temp = random.choice(fun_strings.RUN_STRINGS)
+    if update.effective_user.id == 1170714920:
+        temp = "Run everyone, they just dropped a bomb 💣💣"
+    update.effective_message.reply_text(temp)
 
 
 @run_async
@@ -192,7 +195,7 @@ def bluetext(update: Update, context: CallbackContext):
         msg.reply_to_message.reply_text if msg.reply_to_message else msg.reply_text
     )
     reply_text(
-        "/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS"
+        "/BLUE /TEXT\n/MUST /CLICK\n/I /AM /A /STUPID /ANIMAL /THAT /IS /ATTRACTED /TO /COLORS",
     )
 
 
@@ -338,7 +341,7 @@ __help__ = """
  • `/weebify <text>`*:* returns a weebified text
  • `/sanitize`*:* always use this before /pat or any contact
  • `/pat`*:* pats a user, or get patted
- • `/8ball`*:* predicts using 8ball method 
+ • `/8ball`*:* predicts using 8ball method
 """
 
 SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)
