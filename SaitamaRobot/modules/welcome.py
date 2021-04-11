@@ -163,6 +163,12 @@ def new_member(update: Update, context: CallbackContext):
 
     for new_mem in new_members:
 
+        if new_mem.id == bot.id and not SaitamaRobot.ALLOW_CHATS:
+            with suppress(BadRequest):
+                update.effective_message.reply_text(f"Groups are disabled for {bot.first_name}, I'm outta here.")
+            bot.leave_chat(update.effective_chat.id)
+            return
+
         welcome_log = None
         res = None
         sent = None
@@ -265,11 +271,6 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome yourself
             elif new_mem.id == bot.id:
                 creator = None
-                if not SaitamaRobot.ALLOW_CHATS:
-                    with suppress(BadRequest):
-                         update.effective_message.reply_text(f"Groups are disabled for {bot.first_name}, I'm outta here.")
-                    bot.leave_chat(update.effective_chat.id)
-                    return
                 for x in bot.bot.get_chat_administrators(update.effective_chat.id):
                     if x.status == "creator":
                         creator = x.user
