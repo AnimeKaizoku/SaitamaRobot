@@ -749,6 +749,8 @@ def unsubs_fed(fed_id, my_fed):
         if getsubs:
             if my_fed in FEDS_SUBSCRIBER.get(fed_id, set()):  # sanity check
                 FEDS_SUBSCRIBER.get(fed_id, set()).remove(my_fed)
+            if fed_id in MYFEDS_SUBSCRIBER.get(my_fed, set()):  # sanity check
+                MYFEDS_SUBSCRIBER.get(my_fed, set()).remove(fed_id)
 
             SESSION.delete(getsubs)
             SESSION.commit()
