@@ -469,6 +469,11 @@ def fed_info(update: Update, context: CallbackContext):
         fed_id = args[0]
         info = sql.get_fed_info(fed_id)
     else:
+        if chat.type == 'private':
+            send_message(
+                update.effective_message, "You need to provide me a fedid to check fedinfo in my pm.",
+            )
+            return
         fed_id = sql.get_fed_id(chat.id)
         if not fed_id:
             send_message(
@@ -847,7 +852,7 @@ def fed_ban(update: Update, context: CallbackContext):
     # Will send to current chat
     bot.send_message(
         chat.id,
-        "<b>FedBan reason updated</b>"
+        "<b>New FedBan</b>"
         "\n<b>Federation:</b> {}"
         "\n<b>Federation Admin:</b> {}"
         "\n<b>User:</b> {}"
@@ -865,7 +870,7 @@ def fed_ban(update: Update, context: CallbackContext):
     if getfednotif:
         bot.send_message(
             info["owner"],
-            "<b>FedBan reason updated</b>"
+            "<b>New FedBan</b>"
             "\n<b>Federation:</b> {}"
             "\n<b>Federation Admin:</b> {}"
             "\n<b>User:</b> {}"
@@ -885,7 +890,7 @@ def fed_ban(update: Update, context: CallbackContext):
         if int(get_fedlog) != int(chat.id):
             bot.send_message(
                 get_fedlog,
-                "<b>FedBan reason updated</b>"
+                "<b>New FedBan</b>"
                 "\n<b>Federation:</b> {}"
                 "\n<b>Federation Admin:</b> {}"
                 "\n<b>User:</b> {}"
