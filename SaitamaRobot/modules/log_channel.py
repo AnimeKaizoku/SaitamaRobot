@@ -34,7 +34,7 @@ if is_module_loaded(FILENAME):
             chat = update.effective_chat
             message = update.effective_message
 
-            if result:
+            if result and isinstance(result, str):
                 datetime_fmt = "%H:%M - %d-%m-%Y"
                 result += f"\n<b>Event Stamp</b>: <code>{datetime.utcnow().strftime(datetime_fmt)}</code>"
 
