@@ -1,4 +1,3 @@
-import html
 import re
 import requests
 from time import sleep
@@ -13,7 +12,6 @@ from telegram.ext import (
     MessageHandler,
     run_async,
 )
-from telegram.utils.helpers import mention_html
 
 # This is just a temporary implementation to enable and disable chatbot as idk SQL
 CHATBOT_ENABLED_CHATS = []
@@ -22,7 +20,6 @@ CHATBOT_ENABLED_CHATS = []
 @run_async
 @user_admin
 def add_chat(update: Update, context: CallbackContext):
-    global api_client
     chat = update.effective_chat
     msg = update.effective_message
     is_chat = chat.id in CHATBOT_ENABLED_CHATS
@@ -42,7 +39,6 @@ def add_chat(update: Update, context: CallbackContext):
 def remove_chat(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
-    user = update.effective_user
     is_chat = chat.id in CHATBOT_ENABLED_CHATS
     if not is_chat:
         msg.reply_text("AI isn't enabled here in the first place!")
@@ -51,9 +47,9 @@ def remove_chat(update: Update, context: CallbackContext):
         msg.reply_text("AI disabled successfully!")
 
 
-def chatbot_response(query: str, chat_id: int)-> str:
+def chatbot_response(query: str, chat_id: int) -> str:
     data = requests.get(f"http://api.brainshop.ai/get?bid={AI_BID}&"
-                         + f"key={AI_API_KEY}&uid={chat_id}&msg={query}")
+                        + f"key={AI_API_KEY}&uid={chat_id}&msg={query}")
     response = data.json()['cnt']
     return response
 
@@ -78,7 +74,7 @@ def check_message(context: CallbackContext, message):
 def chatbot(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat_id = update.effective_chat.id
-    is_chat = chat.id in CHATBOT_ENABLED_CHATS
+    is_chat = chat_id in CHATBOT_ENABLED_CHATS
     bot = context.bot
     if not is_chat:
         return
@@ -86,13 +82,10 @@ def chatbot(update: Update, context: CallbackContext):
         if not check_message(context, msg):
             return
         query = msg.text
-        try:
-            bot.send_chat_action(chat_id, action="typing")
-            response = chatbot_response(query, chat_id)
-            sleep(0.3)
-            msg.reply_text(response, timeout=60)
-        except CFError as e:
-            pass
+        bot.send_chat_action(chat_id, action="typing")
+        response = chatbot_response(query, chat_id)
+        sleep(0.3)
+        msg.reply_text(response, timeout=60)
 
 
 @run_async
@@ -105,7 +98,7 @@ def list_chatbot_chats(update: Update, context: CallbackContext):
     update.effective_message.reply_text(text, parse_mode="HTML")
 
 
-__help__ = f"""
+__help__ = """
 Chatbot utilizes the Branshop's API and allows Saitama to talk and provides a more interactive group chat experience.
 *Commands:*
 *Admins only:*
