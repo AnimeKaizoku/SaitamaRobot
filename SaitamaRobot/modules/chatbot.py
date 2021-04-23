@@ -13,7 +13,8 @@ from telegram.ext import (
     run_async,
 )
 
-# This is just a temporary implementation to enable and disable chatbot as idk SQL
+# This is just a temporary implementation to
+# enable and disable chatbot as idk SQL
 CHATBOT_ENABLED_CHATS = []
 
 
@@ -60,10 +61,13 @@ def check_message(context: CallbackContext, message):
     if re.search("[.|\n]{0,}[s|A][a|A][i|I][t|T][a|A][m|M][a|A][.|\n]{0,}", text):
         return True
     if reply_msg:
-
-        # Calling get_me() here will slow down the bot, it was initially like this, i did no changes
-        # However, i recommend that you should call this in some other file like saitama/utils/bot_info.py
-        # So that you can use it anywhere and whenever you want without making an extra request.
+        """
+        Calling get_me() here will slow down the bot, it was initially
+        like this, i did no changes However, i recommend that you should
+        call this in some other file like saitama/utils/bot_info.py So
+        that you can use it anywhere and whenever you want without
+        making an extra request.
+        """
         if reply_msg.from_user.id == context.bot.get_me().id:
             return True
     else:
