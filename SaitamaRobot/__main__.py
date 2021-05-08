@@ -200,17 +200,17 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text="☑️ Add Saitama to your group",
+                            text=" Add Rimuru Tempest to your group",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username))
                     ],
                      [
                          InlineKeyboardButton(
-                             text="🚑 Support Group",
-                             url=f"https://t.me/{SUPPORT_CHAT}"),
+                             text=" Support Group",
+                             url=f"https://t.me/remuru_support"),
                          InlineKeyboardButton(
-                             text="🔔 Updates Channel",
-                             url="https://t.me/OnePunchUpdates")
+                             text=" Updates Channel",
+                             url="https://t.me/Rimuru_update")
                      ],
                      [
                          InlineKeyboardButton(
@@ -219,8 +219,8 @@ def start(update: Update, context: CallbackContext):
                      ],
                      [
                          InlineKeyboardButton(
-                             text="🗄 Source code",
-                             url="https://github.com/AnimeKaizoku/SaitamaRobot")
+                             text=" Source code",
+                             url="https://github.com/MOAYAZ154/SaitamaRobot")
                      ]]))
     else:
         update.effective_message.reply_text(
