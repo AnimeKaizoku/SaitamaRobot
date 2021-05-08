@@ -220,7 +220,7 @@ def start(update: Update, context: CallbackContext):
                      [
                          InlineKeyboardButton(
                              text=" Source code",
-                             url="https://github.com/MOAYAZ154/RimuruRobot")
+                             url="https://github.com/MOAYAZ154/YuriRobot")
                      ]]))
     else:
         update.effective_message.reply_text(
