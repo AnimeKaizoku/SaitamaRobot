@@ -51,8 +51,8 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {}, my name is {}!(Tensura Nikki: Tensei Shitara Slime Datta Ken(転スラ日記 転生したらスライムだった件)
-I Save You From Western Holy Church with admins to manage their groups with my commands!
+Hi {}, my name is {}(エンジェルビーツ Angle Beats)
+I am an leader of SSS I lead Your Group with admins with my Commands!
 
 Type /help to see my commands
 """
@@ -77,7 +77,7 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://telegra.ph/file/e6e20fa2f5e24b5ab7156.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/04c409519519edc4f07c0.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Saitama is hosted on one of Kaizoku's Servers and doesn't require any donations as of now but \
