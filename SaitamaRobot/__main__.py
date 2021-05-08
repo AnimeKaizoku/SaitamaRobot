@@ -51,8 +51,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {}, my name is {}! 
-(Tensura Nikki: Tensei Shitara Slime Datta Ken(転スラ日記 転生したらスライムだった件)
+Hi {}, my name is {}!(Tensura Nikki: Tensei Shitara Slime Datta Ken(転スラ日記 転生したらスライムだった件)
 I Save You From Western Holy Church with admins to manage their groups with my commands!
 
 Type /help to see my commands
