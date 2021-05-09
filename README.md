@@ -8,7 +8,7 @@ A modular Telegram Python bot running on python3 with a sqlalchemy database and 
 
 Can be found on telegram as [Yuri Nakamura](http://t.me/YuriRobot).
 
-The Support group can be reached out to at [Arterlife](https://t.me/YuriSupport), where you can ask for help about [SaitamaRobot](https://t.me/SaitamaRobot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [Arterlife](https://t.me/YuriSupport), where you can ask for help about [Yuri](http://t.me/YuriRobot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 News channel as at [Rimuru Tempeat Updates](https://t.me/Yuri_Updates) 
 
