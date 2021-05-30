@@ -1,3 +1,4 @@
+import ast
 import threading
 
 from SaitamaRobot import dispatcher
@@ -148,7 +149,7 @@ def get_user_fban(fed_id, user_id):
 def get_user_admin_fed_name(user_id):
     user_feds = []
     for f in FEDERATION_BYFEDID:
-        if int(user_id) in eval(eval(FEDERATION_BYFEDID[f]["fusers"])["members"]):
+        if int(user_id) in ast.literal_eval(ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["members"]):
             user_feds.append(FEDERATION_BYFEDID[f]["fname"])
     return user_feds
 
@@ -156,7 +157,7 @@ def get_user_admin_fed_name(user_id):
 def get_user_owner_fed_name(user_id):
     user_feds = []
     for f in FEDERATION_BYFEDID:
-        if int(user_id) == int(eval(FEDERATION_BYFEDID[f]["fusers"])["owner"]):
+        if int(user_id) == int(ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["owner"]):
             user_feds.append(FEDERATION_BYFEDID[f]["fname"])
     return user_feds
 
@@ -164,7 +165,7 @@ def get_user_owner_fed_name(user_id):
 def get_user_admin_fed_full(user_id):
     user_feds = []
     for f in FEDERATION_BYFEDID:
-        if int(user_id) in eval(eval(FEDERATION_BYFEDID[f]["fusers"])["members"]):
+        if int(user_id) in ast.literal_eval(ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["members"]):
             user_feds.append({"fed_id": f, "fed": FEDERATION_BYFEDID[f]})
     return user_feds
 
@@ -172,7 +173,7 @@ def get_user_admin_fed_full(user_id):
 def get_user_owner_fed_full(user_id):
     user_feds = []
     for f in FEDERATION_BYFEDID:
-        if int(user_id) == int(eval(FEDERATION_BYFEDID[f]["fusers"])["owner"]):
+        if int(user_id) == int(ast.literal_eval(FEDERATION_BYFEDID[f]["fusers"])["owner"]):
             user_feds.append({"fed_id": f, "fed": FEDERATION_BYFEDID[f]})
     return user_feds
 
@@ -325,8 +326,8 @@ def search_user_in_fed(fed_id, user_id):
     getfed = FEDERATION_BYFEDID.get(fed_id)
     if getfed is None:
         return False
-    getfed = eval(getfed["fusers"])["members"]
-    if user_id in eval(getfed):
+    getfed = ast.literal_eval(getfed["fusers"])["members"]
+    if user_id in ast.literal_eval(getfed):
         return True
     else:
         return False
@@ -343,7 +344,7 @@ def user_demote_fed(fed_id, user_id):
         fed_log = getfed["flog"]
         # Temp set
         try:
-            members = eval(eval(getfed["fusers"])["members"])
+            members = ast.literal_eval(ast.literal_eval(getfed["fusers"])["members"])
         except ValueError:
             return False
         members.remove(user_id)
@@ -393,7 +394,7 @@ def user_join_fed(fed_id, user_id):
         fed_rules = getfed["frules"]
         fed_log = getfed["flog"]
         # Temp set
-        members = eval(eval(getfed["fusers"])["members"])
+        members = ast.literal_eval(ast.literal_eval(getfed["fusers"])["members"])
         members.append(user_id)
         # Set user
         FEDERATION_BYOWNER[str(owner_id)]["fusers"] = str(
@@ -454,8 +455,8 @@ def all_fed_users(fed_id):
         getfed = FEDERATION_BYFEDID.get(str(fed_id))
         if getfed is None:
             return False
-        fed_owner = eval(eval(getfed["fusers"])["owner"])
-        fed_admins = eval(eval(getfed["fusers"])["members"])
+        fed_owner = ast.literal_eval(ast.literal_eval(getfed["fusers"])["owner"])
+        fed_admins = ast.literal_eval(ast.literal_eval(getfed["fusers"])["members"])
         fed_admins.append(fed_owner)
         return fed_admins
 
@@ -463,7 +464,7 @@ def all_fed_users(fed_id):
 def all_fed_members(fed_id):
     with FEDS_LOCK:
         getfed = FEDERATION_BYFEDID.get(str(fed_id))
-        fed_admins = eval(eval(getfed["fusers"])["members"])
+        fed_admins = ast.literal_eval(ast.literal_eval(getfed["fusers"])["members"])
         return fed_admins
 
 
