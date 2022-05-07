@@ -9,6 +9,7 @@ from telegram.ext.commandhandler import CommandHandler
 from telegram.ext import CallbackQueryHandler, CallbackContext
 from telegram.ext.filters import Filters
 from telegram.ext.messagehandler import MessageHandler
+from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
 from telegram.utils import helpers
 from telegram.parsemode import ParseMode
@@ -50,12 +51,11 @@ else:
         p.read("config.ini")
         SIBYL_KEY = p.get("kigconfig", "SIBYL_KEY")
     except:
-        SIBYL_KEY = None
-    try:
-        from ..config import Development as Config
-        SIBYL_KEY = Config.SIBYL_KEY
-    except:
-        SIBYL_KEY = None
+        try:
+            from ..config import Development as Config
+            SIBYL_KEY = Config.SIBYL_KEY
+        except:
+            SIBYL_KEY = None
 
 
 if SIBYL_KEY and __name__.split(".")[-1] in ALL_MODULES:
@@ -197,6 +197,7 @@ def get_sibyl_setting(chat_id):
 
 
 @loggable
+@run_async
 def sibyl_ban(update: Update, context: CallbackContext) -> Optional[str]:
     message = update.effective_message
     chat = update.effective_chat
@@ -251,6 +252,7 @@ def sibyl_ban(update: Update, context: CallbackContext) -> Optional[str]:
 
 
 @loggable
+@run_async
 def sibyl_ban_alert(update: Update, context: CallbackContext) -> Optional[str]:
     message = update.effective_message
     chat = update.effective_chat
@@ -300,6 +302,7 @@ def sibyl_ban_alert(update: Update, context: CallbackContext) -> Optional[str]:
 
 
 @loggable
+@run_async
 def handle_sibyl_banned(user, data):
     bot = dispatcher.bot
     chat = get_user_com_chats(user.id)
@@ -345,6 +348,7 @@ Connection to <a href="https://t.me/SibylSystem/2">Sibyl System</a> can be turne
 
 @connection_status
 @user_admin
+@run_async
 def sibylmain(update: Update, _: CallbackContext):
     chat = update.effective_chat
     message = update.effective_message
@@ -408,6 +412,7 @@ class SibylMode(Enum):
 
 
 @connection_status
+@run_async
 def sibyltoggle(update: Update, _: CallbackContext):
     chat: Chat = update.effective_chat
     message: Message = update.effective_message
@@ -463,6 +468,7 @@ def sibyltoggle(update: Update, _: CallbackContext):
         pass
 
 
+@run_async
 def sibyl_banned(update: Update, ctx: CallbackContext):
     chat: Chat = update.effective_chat
     args = ctx.args
@@ -487,6 +493,7 @@ def sibyl_banned(update: Update, ctx: CallbackContext):
     )
 
 
+@run_async
 def sibyl_info(update: Update, context: CallbackContext):
     bot: Bot = context.bot
     args = context.args
