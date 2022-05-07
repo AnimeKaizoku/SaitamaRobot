@@ -33,3 +33,4 @@ telethon
 ujson
 wikipedia
 zalgo-text
+SibylSystem
