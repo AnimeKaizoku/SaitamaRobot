@@ -49,6 +49,13 @@ from telegram.ext import (
 )
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
 
+try:
+    from .sibylsystem import sibylClient, does_chat_sibylban
+    from SibylSystem import GeneralException
+except Exception as err:
+    LOGGER.info(err)
+    sibylClient = None
+
 VALID_WELCOME_FORMATTERS = [
     "first",
     "last",
@@ -175,6 +182,19 @@ def new_member(update: Update, context: CallbackContext):
         should_mute = True
         welcome_bool = True
         media_wel = False
+
+        data = None
+        if sibylClient: # if no client then does_chat_sibylban mostly won't be imported
+            if does_chat_sibylban(chat.id):
+                try:
+                    data = sibylClient.get_info(user.id)
+                except GeneralException:
+                    pass
+                except BaseException as e:
+                    LOGGER.error(e)
+                    pass
+                if data and data.banned:
+                        return # all modes handle it in different ways
 
         if sw is not None:
             sw_ban = sw.get_ban(new_mem.id)
