@@ -2,6 +2,7 @@ import datetime
 from typing import List
 
 import requests
+import pycountry
 from SaitamaRobot import TIME_API_KEY, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from telegram import ParseMode, Update
@@ -72,8 +73,11 @@ def gettime(update: Update, context: CallbackContext):
     )
 
     query_timezone = query.lower()
+    py_country = pycountry.countries.search_fuzzy(query)
     if len(query_timezone) == 2:
         result = generate_time(query_timezone, ["countryCode"])
+    elif py_country:
+        result = generate_time(py_country[0].alpha_2.lower(), ["countryCode"])
     else:
         result = generate_time(query_timezone, ["zoneName", "countryName"])
 

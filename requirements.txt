@@ -33,4 +33,5 @@ telethon
 ujson
 wikipedia
 zalgo-text
+pycountry
 SibylSystem
